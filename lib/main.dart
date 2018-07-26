@@ -7,7 +7,7 @@ const String appTitle = "MyAgenda";
 void main() => runApp(new MaterialApp(
       title: appTitle,
       theme: new ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.teal
       ),
       home: new SplashScreen(),
       routes: <String, WidgetBuilder>{

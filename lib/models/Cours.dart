@@ -1,23 +1,35 @@
 import 'package:myagenda/models/NoteCours.dart';
+import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 
-class Cours {
+String twoDigits(int number) {
+  return number.toString().padLeft(2, '0');
+}
 
+abstract class BaseCours {
+  String dateForDisplay();
+}
+
+class CoursHeader implements BaseCours {
+  DateTime date;
+
+  CoursHeader(this.date);
+
+  @override
+  String dateForDisplay() {
+    return Date.dateFromNow(date);
+  }
+}
+
+class Cours implements BaseCours {
   String uid;
   String title;
   String description;
   NoteCours note;
   DateTime dateStart;
   DateTime dateEnd;
-  bool isExam;
 
-  Cours(
-      {this.uid,
-      this.title,
-      this.description,
-      this.dateStart,
-      this.dateEnd,
-      this.isExam});
+  Cours(this.uid, this.title, this.description, this.dateStart, this.dateEnd);
 
   bool hasNote() {
     return (note != null && !note.text.isNotEmpty);
@@ -36,18 +48,27 @@ class Cours {
     return minutes > 0 ? minutes : 0;
   }
 
-  bool isHeader() {
-    return (description.isEmpty && dateStart == null);
+  bool isExam() {
+    return title.contains(new RegExp('exam', caseSensitive: false));
+  }
+
+  @override
+  String dateForDisplay() {
+    final startH = twoDigits(dateStart.hour);
+    final startM = twoDigits(dateStart.minute);
+    final endH = twoDigits(dateEnd.hour);
+    final endM = twoDigits(dateEnd.minute);
+
+    return '${startH}h${startM} à ${endH}h${endM}';
   }
 
   static Cours fromIcalModel(IcalModel ical) {
     return new Cours(
-      uid: ical.uid,
-      dateStart: DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
-      dateEnd: DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)),
-      title: ical.summary,
-      description: ical.description,
-      isExam: ical.description.contains(new RegExp('exam'))
+        ical.uid,
+        ical.summary,
+        ical.description,
+        DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
+        DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2))
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:myagenda/models/Cours.dart';
+import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 
 class CoursList extends StatefulWidget {
@@ -14,114 +15,128 @@ class CoursList extends StatefulWidget {
 }
 
 class CoursListState extends State<CoursList> {
-  List<Cours> _cours = [];
+  List<BaseCours> _listElements = [];
 
   Future<String> _fetchData() async {
     final response = await http.get('https://pastebin.com/raw/Mnjd86L1');
-
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200)
       return response.body;
-    } else {
+    else
       throw Exception('Failed to load ical');
+  }
+
+  List<BaseCours> prepareList(String icalStr) {
+    List<Cours> listCours = [];
+
+    // Parse string ical to object
+    Ical.parseToIcal(icalStr).forEach((icalModel) {
+      listCours.add(Cours.fromIcalModel(icalModel));
+    });
+
+    // Sort list by date start
+    listCours.sort((Cours a, Cours b) => a.dateStart.compareTo(b.dateStart));
+
+    // List for all Cours and header
+    List<BaseCours> listElement = [];
+    listElement.addAll(listCours);
+
+    // Init variable to add headers
+    DateTime lastDate = DateTime(1970); // Init variable to 1970
+    int listSize = listElement.length;
+
+    // Add header to list
+    for (int i = 0; i < listSize; i++) {
+      if (listElement[i] is Cours) {
+        final Cours cours = listElement[i];
+
+        if (Date.notSameDay(cours.dateStart, lastDate)) {
+          listElement.insert(i, CoursHeader(cours.dateStart));
+          listSize++;
+          lastDate = cours.dateStart;
+        }
+      }
     }
+
+    return listElement;
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchData().then((response) {
-      List<Cours> cours = [];
-      Ical.parseToIcal(response).forEach((icalModel) {
-        cours.add(Cours.fromIcalModel(icalModel));
-      });
 
+    _fetchData().then((response) {
       setState(() {
-        _cours = cours;
+        _listElements = prepareList(response);
       });
     });
   }
 
   Widget _buildRow(int index) {
-    var dateStart = _cours[index].dateStart;
-    var dateEnd = _cours[index].dateEnd;
+    final Cours cours = _listElements[index];
+    return new CoursRow(cours: cours);
+  }
 
-    return new CoursRow(
-        title: _cours[index].title,
-        description: _cours[index].description,
-        date: dateStart.toString() +
-            " " +
-            dateEnd.hour.toString() +
-            "h" +
-            dateEnd.minute.toString());
+  Widget _buildRowHeader(int index) {
+    final CoursHeader header = _listElements[index];
+
+    return Container(
+        color: Colors.grey[300],
+        padding: const EdgeInsets.all(14.0),
+        child: Row(
+            children: [
+              Expanded(
+                  child: Text(
+                      header.dateForDisplay(),
+                      style: Theme.of(context).textTheme.title
+                  )
+              )
+            ]
+        )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          // Add a one-pixel-high divider widget before each row in theListView.
-          /*if (index.isOdd)
-            return new Divider(
-                color: Colors.grey); // notice color is added to style divider
-*/
-          return _buildRow(index);
+          // Add 1 pixel divider widget before each row in the ListView.
+          if (_listElements[index] is CoursHeader)
+            return _buildRowHeader(index);
+          /*else if (index.isOdd)
+            return new Divider(color: Colors.grey);*/
+          else
+            return _buildRow(index);
         },
-        itemCount: _cours.length);
+        itemCount: _listElements.length);
   }
 }
 
 class CoursRow extends StatelessWidget {
-  final String title;
-  final String description;
-  final String date;
+  final Cours cours;
 
-  const CoursRow({Key key, this.title, this.description, this.date})
-      : super(key: key);
+  const CoursRow({Key key, this.cours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(margin: EdgeInsets.all(8.0),child: ListTile(
-      leading: new Column(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.only(bottom: 6.0), child: Text("15h30")),
-          Text("16h30")
-        ],
-      ),
-      title: Text(title),
-      subtitle: Text(description),
-    ));
-
-
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
+        color: cours.isExam() ? Colors.red : Colors.white,
+        padding: const EdgeInsets.all(13.0),
+        child: Row(children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                 Container(
-                  margin: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                    margin: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(cours.title,
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.w500))),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(description),
-                ),
-                Text(
-                  date,
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+                    margin: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(cours.description, style: TextStyle(fontSize: 14.0))),
+                Text(cours.dateForDisplay(),
+                    style: TextStyle(fontSize: 14.0, color: Colors.grey[600]))
+              ]))
+        ]));
   }
 }

@@ -20,8 +20,8 @@ class Ical {
       } else if (line.startsWith('DESCRIPTION')) {
         String description = _getValue(line);
         event.description = description
-            .replaceAll(new RegExp('/\\n/g'), ' ')
-            .replaceAll(new RegExp('/\s\s+/g'), ' ')
+            .replaceAll(new RegExp(r'\\n'), ' ')
+            .replaceAll(new RegExp(r'\s\s+'), ' ')
             .split('(Exported')[0]
             .trim();
       } else if (line.startsWith('UID')) {
