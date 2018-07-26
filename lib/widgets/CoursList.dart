@@ -59,6 +59,11 @@ class CoursListState extends State<CoursList> {
   Widget build(BuildContext context) {
     return new ListView.builder(
         itemBuilder: (BuildContext context, int index) {
+          // Add a one-pixel-high divider widget before each row in theListView.
+          /*if (index.isOdd)
+            return new Divider(
+                color: Colors.grey); // notice color is added to style divider
+*/
           return _buildRow(index);
         },
         itemCount: _cours.length);
@@ -75,15 +80,48 @@ class CoursRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
-        padding: EdgeInsets.all(16.0),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text(title, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-            new Text(description),
-            new Text(date)
-          ],
-        ));
+    return Card(margin: EdgeInsets.all(8.0),child: ListTile(
+      leading: new Column(
+        children: <Widget>[
+          Padding(padding: EdgeInsets.only(bottom: 6.0), child: Text("15h30")),
+          Text("16h30")
+        ],
+      ),
+      title: Text(title),
+      subtitle: Text(description),
+    ));
+
+
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(description),
+                ),
+                Text(
+                  date,
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
