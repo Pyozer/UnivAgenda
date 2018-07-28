@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildFab() {
     return FloatingActionButton(
       onPressed: () {},
-      tooltip: 'Increment',
+      tooltip: Translations.of(context).text(Translate.ADD_EVENT),
       child: Icon(Icons.add)
     );
   }

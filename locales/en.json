@@ -8,5 +8,7 @@
   "update": "Update",
   "about": "About",
   "intro": "Introduction",
-  "logout": "Logout"
+  "logout": "Logout",
+
+  "add_event": "Add event"
 }

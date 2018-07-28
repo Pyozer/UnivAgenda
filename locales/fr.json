@@ -8,5 +8,7 @@
   "update": "Mise à jour",
   "about": "A propos",
   "introduction": "Introduction",
-  "logout": "Déconnexion"
+  "logout": "Déconnexion",
+
+  "add_event": "Ajouter un événement"
 }

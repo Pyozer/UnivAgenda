@@ -9,6 +9,8 @@ class Translate {
 
   static const DRAWER = const Translate._('drawer');
 
+  static const ADD_EVENT = const Translate._('add_event');
+
   static const FINDROOM = const Translate._('findroom');
   static const SETTINGS = const Translate._('settings');
   static const UPDATE = const Translate._('update');
