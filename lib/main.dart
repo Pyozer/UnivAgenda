@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:myagenda/customroute.dart';
-import 'package:myagenda/screens/aboutscreen.dart';
-import 'package:myagenda/screens/intro.dart';
-import 'package:myagenda/screens/settings.dart';
+import 'package:myagenda/screens/about/aboutscreen.dart';
+import 'package:myagenda/screens/introduction/intro.dart';
+import 'package:myagenda/screens/settings/settings.dart';
+import 'package:myagenda/screens/home/home.dart';
+import 'package:myagenda/screens/settings/settings_display.dart';
+import 'package:myagenda/screens/settings/settings_general.dart';
+import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/translate/translations.dart';
-import 'package:myagenda/screens/home.dart';
-import 'package:myagenda/screens/splashscreen.dart';
 
 final routes = {
   '/splashscreen': SplashScreen(),
   '/': HomeScreen(),
   '/findroom': AboutScreen(),
   '/settings': SettingsScreen(),
+  '/settings/general': SettingsGeneralScreen(),
+  '/settings/display': SettingsDisplayScreen(),
   '/update': AboutScreen(),
   '/about': AboutScreen(),
   '/intro': IntroductionScreen(),
   '/logout': AboutScreen()
 };
+
+class MyCustomRoute<T> extends MaterialPageRoute<T> {
+
+  MyCustomRoute({WidgetBuilder builder, RouteSettings settings})
+      : super(builder: builder, settings: settings);
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 125);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    if (settings.isInitialRoute)
+      return child;
+    return new FadeTransition(opacity: animation, child: child);
+  }
+}
 
 void main() => runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -39,3 +59,5 @@ void main() => runApp(MaterialApp(
             builder: (_) => routes[settings.name], settings: settings);
       assert(false);
     }));
+
+

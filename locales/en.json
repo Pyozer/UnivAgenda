@@ -4,7 +4,12 @@
   "drawer": "Navigation menu",
 
   "findroom": "Find a room",
+
   "settings": "Settings",
+  "settings_general": "General settings",
+  "settings_display": "Display settings",
+
+
   "update": "Update",
   "about": "About",
   "intro": "Introduction",

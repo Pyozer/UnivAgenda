@@ -4,7 +4,11 @@
   "drawer": "Menu de navigation",
 
   "findroom": "Trouver une salle",
+
   "settings": "Paramètres",
+  "settings_general": "Paramètres généraux",
+  "settings_display": "Paramètres d'affichages",
+
   "update": "Mise à jour",
   "about": "A propos",
   "introduction": "Introduction",

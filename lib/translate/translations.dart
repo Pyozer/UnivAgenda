@@ -13,6 +13,8 @@ class Translate {
 
   static const FINDROOM = const Translate._('findroom');
   static const SETTINGS = const Translate._('settings');
+  static const SETTINGS_GENERAL = const Translate._('settings_general');
+  static const SETTINGS_DISPLAY = const Translate._('settings_display');
   static const UPDATE = const Translate._('update');
   static const ABOUT = const Translate._('about');
   static const INTRO = const Translate._('intro');
@@ -36,7 +38,7 @@ class Translations {
     return Localizations.of<Translations>(context, Translations);
   }
 
-  String text(Translate key) {
+  String get(Translate key) {
     return _localizedValues[key.value] ?? '#${key.value} not found#';
   }
 

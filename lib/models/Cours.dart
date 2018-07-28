@@ -1,6 +1,6 @@
+import 'package:myagenda/models/IcalModel.dart';
 import 'package:myagenda/models/NoteCours.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/ical.dart';
 
 String twoDigits(int number) {
   return number.toString().padLeft(2, '0');
