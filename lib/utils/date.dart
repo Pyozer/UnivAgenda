@@ -1,62 +1,56 @@
-class Date {
+import 'dart:ui';
 
+import 'package:intl/intl.dart';
+
+class Date {
   static bool notSameDay(DateTime a, DateTime b) {
     return a.year != b.year || a.month != b.month || a.day != b.day;
   }
 
-  static String dateFromNow(DateTime tm) {
+  static String dateFromNow(DateTime date, [Locale locale]) {
+    if (locale == null) locale = Locale('en');
+
     DateTime today = new DateTime.now();
-    Duration oneDay = new Duration(days: 1);
-    Duration twoDay = new Duration(days: 2);
-    Duration oneWeek = new Duration(days: 7);
 
-    String month;
-    switch (tm.month) {
-      case DateTime.january:
-        month = "January";
-        break;
-      case DateTime.february:
-        month = "February";
-        break;
-      case DateTime.march:
-        month = "March";
-        break;
-      case DateTime.april:
-        month = "April";
-        break;
-      case DateTime.may:
-        month = "May";
-        break;
-      case DateTime.june:
-        month = "June";
-        break;
-      case DateTime.july:
-        month = "July";
-        break;
-      case DateTime.august:
-        month = "August";
-        break;
-      case DateTime.september:
-        month = "September";
-        break;
-      case DateTime.october:
-        month = "October";
-        break;
-      case DateTime.november:
-        month = "November";
-        break;
-      case DateTime.december:
-        month = "December";
-        break;
-    }
+    int differenceDays = date.difference(today).inDays;
 
-    Duration difference = today.difference(tm);
-
-    if (difference.compareTo(oneDay) < 1)
+    if (differenceDays == 0)
       return "Today";
-    else if (difference.compareTo(twoDay) < 1)
-      return "Yesterday";
-    else if (difference.compareTo(oneWeek) < 1) {
+    else if (differenceDays == 1) return "Tomorrow";
+
+    String format = 'EEEE dd MMMM';
+    if(today.year != date.year)
+      format += ' yyyy';
+
+    var formatter = new DateFormat(format, locale.languageCode);
+    return formatter.format(date);
+
+    /*String month;
+    if (date.month == DateTime.january)
+      month = "January";
+    else if (date.month == DateTime.february)
+      month = "February";
+    else if (date.month == DateTime.march)
+      month = "March";
+    else if (date.month == DateTime.april)
+      month = "April";
+    else if (date.month == DateTime.may)
+      month = "May";
+    else if (date.month == DateTime.june)
+      month = "June";
+    else if (date.month == DateTime.july)
+      month = "July";
+    else if (date.month == DateTime.august)
+      month = "August";
+    else if (date.month == DateTime.september)
+      month = "September";
+    else if (date.month == DateTime.october)
+      month = "October";
+    else if (date.month == DateTime.november)
+      month = "November";
+    else if (date.month == DateTime.december) month = "December";
+
+    if (difference.compareTo(oneWeek) < 1) {
       switch (tm.weekday) {
         case DateTime.monday:
           return "Monday";
@@ -73,10 +67,11 @@ class Date {
         case DateTime.sunday:
           return "Sunday";
       }
-    } else if (tm.year == today.year)
+    } else if (tm.year == today.year) {
       return '${tm.day} $month';
-    else
+    } else {
       return '${tm.day} $month ${tm.year}';
-    return "";
+    }
+    return "";*/
   }
 }

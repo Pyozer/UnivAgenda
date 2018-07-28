@@ -16,13 +16,25 @@ class CoursList extends StatefulWidget {
 
 class CoursListState extends State<CoursList> {
   List<BaseCours> _listElements = [];
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
 
-  Future<String> _fetchData() async {
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<Null> _fetchData() async {
+    refreshKey.currentState?.show(atTop: false);
     final response = await http.get('https://pastebin.com/raw/Mnjd86L1');
     if (response.statusCode == 200)
-      return response.body;
+      setState(() {
+        _listElements = prepareList(response.body);
+      });
     else
       throw Exception('Failed to load ical');
+
+    return null;
   }
 
   List<BaseCours> prepareList(String icalStr) {
@@ -60,17 +72,6 @@ class CoursListState extends State<CoursList> {
     return listElement;
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    _fetchData().then((response) {
-      setState(() {
-        _listElements = prepareList(response);
-      });
-    });
-  }
-
   Widget _buildRow(int index) {
     final Cours cours = _listElements[index];
     return new CoursRow(cours: cours);
@@ -97,17 +98,19 @@ class CoursListState extends State<CoursList> {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
+    return RefreshIndicator(
+      onRefresh: _fetchData,
+      child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          // Add 1 pixel divider widget before each row in the ListView.
-          if (_listElements[index] is CoursHeader)
-            return _buildRowHeader(index);
+          if (_listElements[index] is CoursHeader) return _buildRowHeader(index);
           /*else if (index.isOdd)
-            return new Divider(color: Colors.grey);*/
-          else
-            return _buildRow(index);
+            return new Divider(color: Colors.grey[300]);*/
+          else return _buildRow(index);
         },
-        itemCount: _listElements.length);
+        itemCount: _listElements.length
+      ),
+      key: refreshKey
+    );
   }
 }
 
@@ -133,7 +136,7 @@ class CoursRow extends StatelessWidget {
                             fontSize: 16.0, fontWeight: FontWeight.w500))),
                 Container(
                     margin: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(cours.description, style: TextStyle(fontSize: 14.0))),
+                    child: Text('${cours.location} - ${cours.description}', style: TextStyle(fontSize: 14.0))),
                 Text(cours.dateForDisplay(),
                     style: TextStyle(fontSize: 14.0, color: Colors.grey[600]))
               ]))

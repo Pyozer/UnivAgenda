@@ -1,10 +1,12 @@
 {
   "app_name": "MyAgenda",
 
-  "drawer_findroom": "Find a room",
-  "drawer_settings": "Settings",
-  "drawer_update": "Update",
-  "drawer_about": "About",
-  "drawer_intro": "Introduction",
-  "drawer_logout": "Logout"
+  "drawer": "Navigation menu",
+
+  "findroom": "Find a room",
+  "settings": "Settings",
+  "update": "Update",
+  "about": "About",
+  "intro": "Introduction",
+  "logout": "Logout"
 }

@@ -7,14 +7,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   startTime() async {
     var _duration = new Duration(seconds: 3);
-    return new Timer(_duration, navigationPage);
+    return new Timer(_duration, _navigationPage);
   }
 
-  void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/home');
+  void _navigationPage() {
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   @override
@@ -25,16 +24,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Center(
-          child: new Column(
+    return Scaffold(
+      body: Center(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Image.asset('images/logo.png'),
-          new Padding(padding: EdgeInsets.only(top: 100.0)),
-          new CircularProgressIndicator(
+        children: [
+          Image.asset('images/logo.png'),
+          const Padding(padding: EdgeInsets.only(top: 100.0)),
+          const CircularProgressIndicator(
               strokeWidth: 5.0,
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.red)),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.red)),
         ],
       )),
     );

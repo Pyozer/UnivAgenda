@@ -6,12 +6,15 @@ import 'package:flutter/services.dart' show rootBundle;
 class Translate {
 
   static const APP_NAME = const Translate._('app_name');
-  static const DRAWER_FINDROOM = const Translate._('drawer_findroom');
-  static const DRAWER_SETTINGS = const Translate._('drawer_settings');
-  static const DRAWER_UPDATE = const Translate._('drawer_update');
-  static const DRAWER_ABOUT = const Translate._('drawer_about');
-  static const DRAWER_INTRO = const Translate._('drawer_intro');
-  static const DRAWER_LOGOUT = const Translate._('drawer_logout');
+
+  static const DRAWER = const Translate._('drawer');
+
+  static const FINDROOM = const Translate._('findroom');
+  static const SETTINGS = const Translate._('settings');
+  static const UPDATE = const Translate._('update');
+  static const ABOUT = const Translate._('about');
+  static const INTRO = const Translate._('intro');
+  static const LOGOUT = const Translate._('logout');
 
   final String value;
 
@@ -32,7 +35,7 @@ class Translations {
   }
 
   String text(Translate key) {
-    return _localizedValues[key.value] ?? '** $key not found';
+    return _localizedValues[key.value] ?? '#${key.value} not found#';
   }
 
   static Future<Translations> load(Locale locale) async {

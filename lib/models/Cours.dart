@@ -25,11 +25,12 @@ class Cours implements BaseCours {
   String uid;
   String title;
   String description;
+  String location;
   NoteCours note;
   DateTime dateStart;
   DateTime dateEnd;
 
-  Cours(this.uid, this.title, this.description, this.dateStart, this.dateEnd);
+  Cours(this.uid, this.title, this.description, this.location, this.dateStart, this.dateEnd);
 
   bool hasNote() {
     return (note != null && !note.text.isNotEmpty);
@@ -67,6 +68,7 @@ class Cours implements BaseCours {
         ical.uid,
         ical.summary,
         ical.description,
+        ical.location,
         DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
         DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2))
     );

@@ -1,5 +1,4 @@
 class Ical {
-
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
 
@@ -19,10 +18,15 @@ class Ical {
         event.location = _getValue(line);
       } else if (line.startsWith('DESCRIPTION')) {
         String description = _getValue(line);
+
+        final remove = ['DUT', 'S1', 'S2', 'S3', 'S4'];
+        remove.forEach(
+            (value) => description = description.replaceAll(value, ''));
+
         event.description = description
             .replaceAll(new RegExp(r'\\n'), ' ')
+            .split('(Export')[0]
             .replaceAll(new RegExp(r'\s\s+'), ' ')
-            .split('(Exported')[0]
             .trim();
       } else if (line.startsWith('UID')) {
         event.uid = _getValue(line);
@@ -41,7 +45,6 @@ class Ical {
 }
 
 class IcalModel {
-
   String dtstart;
   String dtend;
   String summary;
@@ -61,5 +64,4 @@ class IcalModel {
   String toString() {
     return '{dtstart: $dtstart, dtend: $dtend, summary: $summary, location: $location, description: $description, uid: $uid}';
   }
-
 }

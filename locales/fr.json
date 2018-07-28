@@ -1,10 +1,12 @@
 {
   "app_name": "MyAgenda",
 
-  "drawer_findroom": "Trouver une salle",
-  "drawer_settings": "Paramètres",
-  "drawer_update": "Mise à jour",
-  "drawer_about": "A propos",
-  "drawer_intro": "Introduction",
-  "drawer_logout": "Déconnexion"
+  "drawer": "Menu de navigation",
+
+  "findroom": "Trouver une salle",
+  "settings": "Paramètres",
+  "update": "Mise à jour",
+  "about": "A propos",
+  "introduction": "Introduction",
+  "logout": "Déconnexion"
 }
