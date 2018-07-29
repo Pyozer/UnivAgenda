@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/KeyValue.dart';
 
 class RadioList extends StatefulWidget {
-  final List<KeyValue> values;
-  final ValueChanged<KeyValue> onChange;
-  final KeyValue selectedValue;
+  final List<String> values;
+  final ValueChanged<String> onChange;
+  final String selectedValue;
 
   const RadioList({Key key, this.values, this.onChange, this.selectedValue})
       : super(key: key);
@@ -14,7 +13,7 @@ class RadioList extends StatefulWidget {
 }
 
 class _RadioListState extends State<RadioList> {
-  KeyValue _selectedChoice;
+  String _selectedChoice;
 
   @override
   void initState() {
@@ -33,11 +32,11 @@ class _RadioListState extends State<RadioList> {
 
     return Column(
         children: List<RadioListTile>.generate(valuesSize, (int index) {
-      return RadioListTile<KeyValue>(
+      return RadioListTile<String>(
           value: widget.values[index],
           groupValue: _selectedChoice,
-          title: Text(widget.values[index].key),
-          onChanged: (KeyValue value) {
+          title: Text(widget.values[index]),
+          onChanged: (String value) {
             setState(() {
               _selectedChoice = value;
             });

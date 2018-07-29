@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/KeyValue.dart';
 import 'package:myagenda/widgets/radio_list.dart';
 
 class ListTileChoices extends StatefulWidget {
 
   final String title;
-  final List<KeyValue> values;
-  final ValueChanged<KeyValue> onChange;
-  final KeyValue selectedValue;
+  final List<String> values;
+  final ValueChanged<String> onChange;
+  final String selectedValue;
 
   const ListTileChoices(
       {Key key, this.title, this.values, this.onChange, this.selectedValue})
@@ -19,16 +18,29 @@ class ListTileChoices extends StatefulWidget {
 }
 
 class _ListTileChoicesState extends State<ListTileChoices> {
-  KeyValue _selectedChoice;
+  String _selectedChoice = "";
 
   @override
   void initState() {
     super.initState();
-    if (widget.selectedValue != null &&
-        widget.values.contains(widget.selectedValue))
-      _selectedChoice = widget.selectedValue;
-    else if (widget.selectedValue == null && widget.values.length > 0)
-      _selectedChoice = widget.values[0];
+    initSelectedValue();
+  }
+
+  @protected
+  void didUpdateWidget(covariant ListTileChoices oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    initSelectedValue();
+  }
+
+  void initSelectedValue() {
+    if (widget.selectedValue != null && widget.values.contains(widget.selectedValue))
+      setState(() {
+        _selectedChoice = widget.selectedValue;
+      });
+    else if (widget.values.length > 0)
+      setState(() {
+        _selectedChoice = widget.values[0];
+      });
   }
 
   Future<Null> _openDialog() async {
@@ -40,7 +52,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
             Column(mainAxisSize: MainAxisSize.min, children: [
               RadioList(
                   values: widget.values,
-                  selectedValue: widget.selectedValue,
+                  selectedValue: _selectedChoice,
                   onChange: (value) {
                     setState(() {
                       _selectedChoice = value;
@@ -57,7 +69,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   Widget build(BuildContext context) {
     return ListTile(
         title: Text(widget.title),
-        subtitle: Text(_selectedChoice.key),
+        subtitle: Text(_selectedChoice),
         onTap: _openDialog);
   }
 }

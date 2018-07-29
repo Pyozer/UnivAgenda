@@ -9,6 +9,15 @@
   "settings_general": "General settings",
   "settings_display": "Display settings",
 
+  "campus": "Campus",
+  "select_campus": "Select your campus",
+  "department": "Department",
+  "select_department": "Select your department",
+  "year": "Year",
+  "select_year": "Select your year",
+  "group": "Group",
+  "select_group": "Select your group",
+
 
   "update": "Update",
   "about": "About",
