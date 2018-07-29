@@ -17,7 +17,7 @@ class Translate {
   static const SETTINGS_DISPLAY = const Translate._('settings_display');
   static const UPDATE = const Translate._('update');
   static const ABOUT = const Translate._('about');
-  static const INTRO = const Translate._('intro');
+  static const INTRO = const Translate._('introduction');
   static const LOGOUT = const Translate._('logout');
 
   final String value;
