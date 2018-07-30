@@ -4,8 +4,6 @@ import 'package:myagenda/screens/about/aboutscreen.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/home/home.dart';
-import 'package:myagenda/screens/settings/settings_display.dart';
-import 'package:myagenda/screens/settings/settings_general.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/translate/translations.dart';
 
@@ -14,8 +12,6 @@ final routes = {
   '/': HomeScreen(),
   '/findroom': AboutScreen(),
   '/settings': SettingsScreen(),
-  '/settings/general': SettingsGeneralScreen(),
-  '/settings/display': SettingsDisplayScreen(),
   '/update': AboutScreen(),
   '/about': AboutScreen(),
   '/intro': IntroductionScreen(),
