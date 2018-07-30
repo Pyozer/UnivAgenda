@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/translations.dart';
