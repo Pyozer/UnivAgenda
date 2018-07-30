@@ -60,7 +60,7 @@ class Cours implements BaseCours {
     final endH = twoDigits(dateEnd.hour);
     final endM = twoDigits(dateEnd.minute);
 
-    return '${startH}h${startM} à ${endH}h${endM}';
+    return '${startH}h$startM à ${endH}h$endM';
   }
 
   static Cours fromIcalModel(IcalModel ical) {

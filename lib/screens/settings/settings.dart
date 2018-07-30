@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/widgets/list_divider.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -13,13 +14,13 @@ class SettingsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            leading: Icon(Icons.group),
+            leading: const Icon(Icons.group),
             title: Text(translations.get(Translate.SETTINGS_GENERAL)),
             onTap: () => Navigator.pushNamed(context, '/settings/general'),
           ),
-          Divider(height: 4.0),
+          const ListDivider(),
           ListTile(
-            leading: Icon(Icons.visibility),
+            leading: const Icon(Icons.visibility),
             title: Text(translations.get(Translate.SETTINGS_DISPLAY)),
             onTap: () => Navigator.pushNamed(context, '/settings/display')
           )

@@ -12,9 +12,20 @@ class Translate {
   static const ADD_EVENT = const Translate._('add_event');
 
   static const FINDROOM = const Translate._('findroom');
+
   static const SETTINGS = const Translate._('settings');
   static const SETTINGS_GENERAL = const Translate._('settings_general');
   static const SETTINGS_DISPLAY = const Translate._('settings_display');
+
+  static const CAMPUS = const Translate._('campus');
+  static const SELECT_CAMPUS = const Translate._('select_campus');
+  static const DEPARTMENT = const Translate._('department');
+  static const SELECT_DEPARTMENT = const Translate._('select_department');
+  static const YEAR = const Translate._('year');
+  static const SELECT_YEAR = const Translate._('select_year');
+  static const GROUP = const Translate._('group');
+  static const SELECT_GROUP = const Translate._('select_group');
+
   static const UPDATE = const Translate._('update');
   static const ABOUT = const Translate._('about');
   static const INTRO = const Translate._('introduction');
