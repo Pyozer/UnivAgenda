@@ -9,13 +9,12 @@ class ListTileChoices extends StatefulWidget {
   final ValueChanged<String> onChange;
   final String selectedValue;
 
-  const ListTileChoices(
-      {Key key,
-      @required this.title,
-      @required this.values,
-      this.titleDialog,
-      this.onChange,
-      this.selectedValue})
+  const ListTileChoices({Key key,
+    @required this.title,
+    @required this.values,
+    this.titleDialog,
+    this.onChange,
+    this.selectedValue})
       : super(key: key);
 
   @override
@@ -49,25 +48,47 @@ class _ListTileChoicesState extends State<ListTileChoices> {
       });
   }
 
+  void _onRadioListChange(value) {
+    setState(() {
+      _selectedChoice = value;
+    });
+    _closeDialog();
+    widget.onChange(value);
+  }
+
+  void _closeDialog() {
+    Navigator.of(context).pop();
+  }
+
   Future<Null> _openDialog() async {
+    final theme = Theme.of(context);
+    final buttonTextStyle = theme.textTheme.button.copyWith(
+        color: theme.accentColor);
     await showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return SimpleDialog(title: Text(widget.titleDialog ?? widget.title), children: [
-            Column(mainAxisSize: MainAxisSize.min, children: [
-              RadioList(
-                  values: widget.values,
-                  selectedValue: _selectedChoice,
-                  onChange: (value) {
-                    setState(() {
-                      _selectedChoice = value;
-                    });
-                    Navigator.of(context).pop();
-                    widget.onChange(value);
-                  })
-            ])
-          ]);
+          return SimpleDialog(
+              title: Text(widget.titleDialog ?? widget.title),
+              children: [
+              Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioList(
+                    values: widget.values,
+                    selectedValue: _selectedChoice,
+                    onChange: _onRadioListChange),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: FlatButton(
+                          onPressed: _closeDialog,
+                          child: Text("Cancel".toUpperCase(),
+                              style: buttonTextStyle))
+                      ])
+                ])
+              ]);
         });
   }
 

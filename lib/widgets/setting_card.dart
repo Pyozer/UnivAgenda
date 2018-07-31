@@ -6,8 +6,14 @@ class SettingCard extends StatelessWidget {
 
   const SettingCard({Key key, @required this.header, @required this.children});
 
-  List<Widget> _buildCardChildren() {
-    List<Widget> cardChildren = [Text(header)];
+  List<Widget> _buildCardChildren(BuildContext context) {
+    final theme = Theme.of(context);
+    final titleStyle = theme.textTheme.body1.copyWith(color: theme.accentColor);
+    List<Widget> cardChildren = [
+      Padding(
+          padding: EdgeInsets.only(left: 15.0, top: 16.0, bottom: 8.0),
+          child: Text(header.toUpperCase(), style: titleStyle))
+    ];
     cardChildren.addAll(children);
     return cardChildren;
   }
@@ -15,11 +21,12 @@ class SettingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.symmetric(vertical: 16.0),
+      elevation: 2.0,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: _buildCardChildren(),
+        children: _buildCardChildren(context),
       ),
     );
   }

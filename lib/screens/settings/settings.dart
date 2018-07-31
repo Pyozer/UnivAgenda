@@ -69,45 +69,87 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  Widget _buildSettingsGeneral() {
+    final translations = Translations.of(context);
+    return SettingCard(header: "Groupe", children: [
+      ListTileChoices(
+          title: translations.get(Translate.CAMPUS),
+          titleDialog: translations.get(Translate.SELECT_CAMPUS),
+          selectedValue: dataPrefs['campus'],
+          values: Data.getAllCampus(),
+          onChange: (value) => _updateGlobalPrefValue('campus', value)),
+      const ListDivider(),
+      ListTileChoices(
+          title: translations.get(Translate.DEPARTMENT),
+          titleDialog: translations.get(Translate.SELECT_DEPARTMENT),
+          selectedValue: dataPrefs['department'],
+          values: Data.getCampusDepartments(dataPrefs['campus']),
+          onChange: (value) => _updateGlobalPrefValue('department', value)),
+      const ListDivider(),
+      ListTileChoices(
+        title: translations.get(Translate.YEAR),
+        titleDialog: translations.get(Translate.SELECT_YEAR),
+        selectedValue: dataPrefs['year'],
+        values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
+        onChange: (value) => _updateGlobalPrefValue('year', value),
+      ),
+      const ListDivider(),
+      ListTileChoices(
+          title: translations.get(Translate.GROUP),
+          titleDialog: translations.get(Translate.SELECT_GROUP),
+          selectedValue: dataPrefs['group'],
+          values: Data.getGroups(
+              dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
+          onChange: (value) => _updateGlobalPrefValue('group', value))
+    ]);
+  }
+
+  Widget _buildSettingsDisplay() {
+    final translations = Translations.of(context);
+    return SettingCard(header: "Groupe", children: [
+      ListTileChoices(
+          title: translations.get(Translate.CAMPUS),
+          titleDialog: translations.get(Translate.SELECT_CAMPUS),
+          selectedValue: dataPrefs['campus'],
+          values: Data.getAllCampus(),
+          onChange: (value) => _updateGlobalPrefValue('campus', value)),
+      const ListDivider(),
+      ListTileChoices(
+          title: translations.get(Translate.DEPARTMENT),
+          titleDialog: translations.get(Translate.SELECT_DEPARTMENT),
+          selectedValue: dataPrefs['department'],
+          values: Data.getCampusDepartments(dataPrefs['campus']),
+          onChange: (value) => _updateGlobalPrefValue('department', value)),
+      const ListDivider(),
+      ListTileChoices(
+        title: translations.get(Translate.YEAR),
+        titleDialog: translations.get(Translate.SELECT_YEAR),
+        selectedValue: dataPrefs['year'],
+        values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
+        onChange: (value) => _updateGlobalPrefValue('year', value),
+      ),
+      const ListDivider(),
+      ListTileChoices(
+          title: translations.get(Translate.GROUP),
+          titleDialog: translations.get(Translate.SELECT_GROUP),
+          selectedValue: dataPrefs['group'],
+          values: Data.getGroups(
+              dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
+          onChange: (value) => _updateGlobalPrefValue('group', value))
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
     return AppbarPage(
-        title: translations.get(Translate.SETTINGS_DISPLAY),
-        body: Column(children: [
-          SettingCard(header: "Groupe", children: [
-            ListTileChoices(
-                title: translations.get(Translate.CAMPUS),
-                titleDialog: translations.get(Translate.SELECT_CAMPUS),
-                selectedValue: dataPrefs['campus'],
-                values: Data.getAllCampus(),
-                onChange: (value) => _updateGlobalPrefValue('campus', value)),
-            const ListDivider(),
-            ListTileChoices(
-                title: translations.get(Translate.DEPARTMENT),
-                titleDialog: translations.get(Translate.SELECT_DEPARTMENT),
-                selectedValue: dataPrefs['department'],
-                values: Data.getCampusDepartments(dataPrefs['campus']),
-                onChange: (value) =>
-                    _updateGlobalPrefValue('department', value)),
-            const ListDivider(),
-            ListTileChoices(
-              title: translations.get(Translate.YEAR),
-              titleDialog: translations.get(Translate.SELECT_YEAR),
-              selectedValue: dataPrefs['year'],
-              values:
-                  Data.getYears(dataPrefs['campus'], dataPrefs['department']),
-              onChange: (value) => _updateGlobalPrefValue('year', value),
-            ),
-            const ListDivider(),
-            ListTileChoices(
-                title: translations.get(Translate.GROUP),
-                titleDialog: translations.get(Translate.SELECT_GROUP),
-                selectedValue: dataPrefs['group'],
-                values: Data.getGroups(dataPrefs['campus'],
-                    dataPrefs['department'], dataPrefs['year']),
-                onChange: (value) => _updateGlobalPrefValue('group', value))
-          ])
-        ]));
+      title: translations.get(Translate.SETTINGS_DISPLAY),
+      body: ListView(
+        children: [
+          _buildSettingsGeneral(),
+          _buildSettingsDisplay()
+        ],
+      )
+    );
   }
 }
