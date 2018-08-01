@@ -24,7 +24,7 @@ class MyCustomRoute<T> extends MaterialPageRoute<T> {
       : super(builder: builder, settings: settings);
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 125);
+  Duration get transitionDuration => const Duration(milliseconds: 200);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -38,7 +38,11 @@ class MyCustomRoute<T> extends MaterialPageRoute<T> {
 void main() => runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "MyAgenda",
-    theme: ThemeData(primarySwatch: Colors.red),
+    theme: ThemeData(
+        primarySwatch: Colors.red,
+        accentColor: Colors.red,
+        brightness: Brightness.light
+    ),
     localizationsDelegates: [
       const TranslationsDelegate(),
       GlobalMaterialLocalizations.delegate,

@@ -88,7 +88,7 @@ class CoursListState extends State<CoursList> {
               Expanded(
                   child: Text(
                       header.dateForDisplay(),
-                      style: Theme.of(context).textTheme.title
+                      style: Theme.of(context).textTheme.title.copyWith(color: Colors.grey[900])
                   )
               )
             ]
@@ -98,19 +98,19 @@ class CoursListState extends State<CoursList> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _fetchData,
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          if (_listElements[index] is CoursHeader) return _buildRowHeader(index);
-          /*else if (index.isOdd)
+    return Expanded(child: RefreshIndicator(
+        onRefresh: _fetchData,
+        child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              if (_listElements[index] is CoursHeader) return _buildRowHeader(index);
+              /*else if (index.isOdd)
             return new Divider(color: Colors.grey[300]);*/
-          else return _buildRow(index);
-        },
-        itemCount: _listElements.length
-      ),
-      key: refreshKey
-    );
+              else return _buildRow(index);
+            },
+            itemCount: _listElements.length
+        ),
+        key: refreshKey
+    ));
   }
 }
 
@@ -121,8 +121,17 @@ class CoursRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color bgColorRow = Colors.white;
+    Color textColorCaption = Colors.grey[800];
+    if (cours.isExam()) {
+      bgColorRow = Colors.red;
+    } else if (Theme.of(context).brightness == Brightness.dark) {
+      bgColorRow = null;
+      textColorCaption = Colors.grey[400];
+    }
+
     return Container(
-        color: cours.isExam() ? Colors.red : Colors.white,
+        color: bgColorRow,
         padding: const EdgeInsets.all(13.0),
         child: Row(children: [
           Expanded(
@@ -138,7 +147,7 @@ class CoursRow extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 8.0),
                     child: Text('${cours.location} - ${cours.description}', style: TextStyle(fontSize: 14.0))),
                 Text(cours.dateForDisplay(),
-                    style: TextStyle(fontSize: 14.0, color: Colors.grey[600]))
+                    style: TextStyle(fontSize: 14.0, color: textColorCaption))
               ]))
         ]));
   }
