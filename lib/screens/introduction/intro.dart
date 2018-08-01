@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Center(
-          child: Text(Translations.of(context).get(Translate.INTRO))),
+          child: Text(Translations.of(context).get(StringKey.INTRO))),
     );
   }
 }

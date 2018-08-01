@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/models/PrefsCalendar.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
@@ -73,30 +74,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final translations = Translations.of(context);
     return SettingCard(header: "Groupe", children: [
       ListTileChoices(
-          title: translations.get(Translate.CAMPUS),
-          titleDialog: translations.get(Translate.SELECT_CAMPUS),
+          title: translations.get(StringKey.CAMPUS),
+          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: dataPrefs['campus'],
           values: Data.getAllCampus(),
           onChange: (value) => _updateGlobalPrefValue('campus', value)),
       const ListDivider(),
       ListTileChoices(
-          title: translations.get(Translate.DEPARTMENT),
-          titleDialog: translations.get(Translate.SELECT_DEPARTMENT),
+          title: translations.get(StringKey.DEPARTMENT),
+          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: dataPrefs['department'],
           values: Data.getCampusDepartments(dataPrefs['campus']),
           onChange: (value) => _updateGlobalPrefValue('department', value)),
       const ListDivider(),
       ListTileChoices(
-        title: translations.get(Translate.YEAR),
-        titleDialog: translations.get(Translate.SELECT_YEAR),
+        title: translations.get(StringKey.YEAR),
+        titleDialog: translations.get(StringKey.SELECT_YEAR),
         selectedValue: dataPrefs['year'],
         values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
         onChange: (value) => _updateGlobalPrefValue('year', value),
       ),
       const ListDivider(),
       ListTileChoices(
-          title: translations.get(Translate.GROUP),
-          titleDialog: translations.get(Translate.SELECT_GROUP),
+          title: translations.get(StringKey.GROUP),
+          titleDialog: translations.get(StringKey.SELECT_GROUP),
           selectedValue: dataPrefs['group'],
           values: Data.getGroups(
               dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
@@ -108,30 +109,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final translations = Translations.of(context);
     return SettingCard(header: "Groupe", children: [
       ListTileChoices(
-          title: translations.get(Translate.CAMPUS),
-          titleDialog: translations.get(Translate.SELECT_CAMPUS),
+          title: translations.get(StringKey.CAMPUS),
+          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: dataPrefs['campus'],
           values: Data.getAllCampus(),
           onChange: (value) => _updateGlobalPrefValue('campus', value)),
       const ListDivider(),
       ListTileChoices(
-          title: translations.get(Translate.DEPARTMENT),
-          titleDialog: translations.get(Translate.SELECT_DEPARTMENT),
+          title: translations.get(StringKey.DEPARTMENT),
+          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: dataPrefs['department'],
           values: Data.getCampusDepartments(dataPrefs['campus']),
           onChange: (value) => _updateGlobalPrefValue('department', value)),
       const ListDivider(),
       ListTileChoices(
-        title: translations.get(Translate.YEAR),
-        titleDialog: translations.get(Translate.SELECT_YEAR),
+        title: translations.get(StringKey.YEAR),
+        titleDialog: translations.get(StringKey.SELECT_YEAR),
         selectedValue: dataPrefs['year'],
         values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
         onChange: (value) => _updateGlobalPrefValue('year', value),
       ),
       const ListDivider(),
       ListTileChoices(
-          title: translations.get(Translate.GROUP),
-          titleDialog: translations.get(Translate.SELECT_GROUP),
+          title: translations.get(StringKey.GROUP),
+          titleDialog: translations.get(StringKey.SELECT_GROUP),
           selectedValue: dataPrefs['group'],
           values: Data.getGroups(
               dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
@@ -143,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
     return AppbarPage(
-      title: translations.get(Translate.SETTINGS_DISPLAY),
+      title: translations.get(StringKey.SETTINGS_DISPLAY),
       body: ListView(
         children: [
           _buildSettingsGeneral(),
