@@ -6,8 +6,8 @@
   "findroom": "Find a room",
 
   "settings": "Settings",
-  "settings_general": "General settings",
-  "settings_display": "Display settings",
+  "settings_general": "General",
+  "settings_display": "Display",
 
   "campus": "Campus",
   "select_campus": "Select your campus",
@@ -18,10 +18,17 @@
   "group": "Group",
   "select_group": "Select your group",
 
+  "number_week": "Number of week",
+  "select_number_week": "Number of week to display",
+
   "update": "Update",
   "about": "About",
   "introduction": "Introduction",
   "logout": "Logout",
 
-  "add_event": "Add event"
+  "add_event": "Add event",
+
+  "cancel": "Cancel",
+  "save": "Save",
+  "submit": "Submit"
 }

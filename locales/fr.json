@@ -6,8 +6,8 @@
   "findroom": "Trouver une salle",
 
   "settings": "Paramètres",
-  "settings_general": "Paramètres généraux",
-  "settings_display": "Paramètres d'affichages",
+  "settings_general": "Général",
+  "settings_display": "Affichage",
 
   "campus": "Campus",
   "select_campus": "Choisi ton campus",
@@ -18,10 +18,17 @@
   "group": "Groupe",
   "select_group": "Choisi ton groupe",
 
+  "number_week": "Nombre de semaines",
+  "select_number_week": "Nombre de semaines à afficher",
+
   "update": "Mise à jour",
   "about": "A propos",
   "introduction": "Introduction",
   "logout": "Déconnexion",
 
-  "add_event": "Ajouter un événement"
+  "add_event": "Ajouter un événement",
+
+  "cancel": "Annuler",
+  "save": "Sauvegarder",
+  "submit": "Valider"
 }

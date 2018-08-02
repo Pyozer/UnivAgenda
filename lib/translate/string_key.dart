@@ -4,8 +4,6 @@ class StringKey {
 
   static const DRAWER = const StringKey._('drawer');
 
-  static const ADD_EVENT = const StringKey._('add_event');
-
   static const FINDROOM = const StringKey._('findroom');
 
   static const SETTINGS = const StringKey._('settings');
@@ -21,10 +19,19 @@ class StringKey {
   static const GROUP = const StringKey._('group');
   static const SELECT_GROUP = const StringKey._('select_group');
 
+  static const NUMBER_WEEK = const StringKey._('number_week');
+  static const SELECT_NUMBER_WEEK = const StringKey._('select_number_week');
+
   static const UPDATE = const StringKey._('update');
   static const ABOUT = const StringKey._('about');
   static const INTRO = const StringKey._('introduction');
   static const LOGOUT = const StringKey._('logout');
+
+  static const ADD_EVENT = const StringKey._('add_event');
+
+  static const CANCEL = const StringKey._('cancel');
+  static const SAVE = const StringKey._('save');
+  static const SUBMIT = const StringKey._('submit');
 
   final String value;
 

@@ -62,9 +62,6 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   }
 
   Future<Null> _openDialog() async {
-    final theme = Theme.of(context);
-    final buttonTextStyle =
-        theme.textTheme.button.copyWith(color: theme.accentColor);
     await showDialog(
         context: context,
         barrierDismissible: true,
@@ -72,23 +69,10 @@ class _ListTileChoicesState extends State<ListTileChoices> {
           return SimpleDialog(
               title: Text(widget.titleDialog ?? widget.title),
               children: [
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      RadioList(
-                          values: widget.values,
-                          selectedValue: _selectedChoice,
-                          onChange: _onRadioListChange),
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                        Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: FlatButton(
-                                onPressed: _closeDialog,
-                                child: Text("Cancel".toUpperCase(),
-                                    style: buttonTextStyle)))
-                      ])
-                    ])
+                RadioList(
+                    values: widget.values,
+                    selectedValue: _selectedChoice,
+                    onChange: _onRadioListChange)
               ]);
         });
   }

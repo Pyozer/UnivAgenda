@@ -8,8 +8,17 @@ import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
+import 'package:myagenda/widgets/list_tile_input.dart';
 import 'package:myagenda/widgets/setting_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class PrefKey {
+  static const CAMPUS = 'campus';
+  static const DEPARTMENT = 'department';
+  static const YEAR = 'year';
+  static const GROUP = 'group';
+  static const NUMBER_WEEK = 'number_week';
+}
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -19,7 +28,13 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map dataPrefs = {};
 
-  final List<String> prefsKeys = ['campus', 'department', 'year', 'group'];
+  final List<String> prefsKeys = [
+    PrefKey.CAMPUS,
+    PrefKey.DEPARTMENT,
+    PrefKey.YEAR,
+    PrefKey.GROUP,
+    PrefKey.NUMBER_WEEK
+  ];
 
   @override
   void initState() {
@@ -30,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future _fetchSettingsValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefsKeys.forEach((key) {
-      _updateLocalPrefValue(key, prefs.getString(key));
+      _updateLocalPrefValue(key, prefs.getString(key) ?? '');
     });
   }
 
@@ -43,16 +58,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
       dataPrefs[pref] = newValue;
   }
 
-  void _updateGlobalPrefValue(String pref, String newValue) {
+  void _updateGlobalPrefGroupValue(String pref, String newValue) {
     // Update dataPrefs value with new value selected
     _updateLocalPrefValue(pref, newValue, fState: false);
 
     // Check and edit values if necessary (ex: Change campus, so change department etc..)
     PrefsCalendar values = Data.checkDataValues(
-        campus: dataPrefs['campus'],
-        department: dataPrefs['department'],
-        year: dataPrefs['year'],
-        group: dataPrefs['group']);
+        campus: dataPrefs[PrefKey.CAMPUS],
+        department: dataPrefs[PrefKey.DEPARTMENT],
+        year: dataPrefs[PrefKey.YEAR],
+        group: dataPrefs[PrefKey.GROUP]);
 
     // Reupdate dataPrefs with correct values
     values.getValues().forEach((key, value) {
@@ -60,97 +75,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
 
     // Save settings
-    _savePrefs();
+    _savePrefs(
+        [PrefKey.CAMPUS, PrefKey.DEPARTMENT, PrefKey.YEAR, PrefKey.GROUP]);
   }
 
-  Future _savePrefs() async {
+  void _updateGlobalPrefValue(String pref, String newValue) {
+    // Update dataPrefs value with new value selected
+    _updateLocalPrefValue(pref, newValue, fState: false);
+    // Save settings
+    _savePrefs([pref]);
+  }
+
+  Future _savePrefs(List keys) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefsKeys.forEach((key) {
+    keys.forEach((key) {
       prefs.setString(key, dataPrefs[key]);
     });
   }
 
   Widget _buildSettingsGeneral() {
     final translations = Translations.of(context);
-    return SettingCard(header: "Groupe", children: [
-      ListTileChoices(
-          title: translations.get(StringKey.CAMPUS),
-          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-          selectedValue: dataPrefs['campus'],
-          values: Data.getAllCampus(),
-          onChange: (value) => _updateGlobalPrefValue('campus', value)),
-      const ListDivider(),
-      ListTileChoices(
-          title: translations.get(StringKey.DEPARTMENT),
-          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-          selectedValue: dataPrefs['department'],
-          values: Data.getCampusDepartments(dataPrefs['campus']),
-          onChange: (value) => _updateGlobalPrefValue('department', value)),
-      const ListDivider(),
-      ListTileChoices(
-        title: translations.get(StringKey.YEAR),
-        titleDialog: translations.get(StringKey.SELECT_YEAR),
-        selectedValue: dataPrefs['year'],
-        values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
-        onChange: (value) => _updateGlobalPrefValue('year', value),
-      ),
-      const ListDivider(),
-      ListTileChoices(
-          title: translations.get(StringKey.GROUP),
-          titleDialog: translations.get(StringKey.SELECT_GROUP),
-          selectedValue: dataPrefs['group'],
-          values: Data.getGroups(
-              dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
-          onChange: (value) => _updateGlobalPrefValue('group', value))
-    ]);
+    return SettingCard(
+        header: translations.get(StringKey.SETTINGS_GENERAL),
+        children: [
+          ListTileChoices(
+              title: translations.get(StringKey.CAMPUS),
+              titleDialog: translations.get(StringKey.SELECT_CAMPUS),
+              selectedValue: dataPrefs[PrefKey.CAMPUS],
+              values: Data.getAllCampus(),
+              onChange: (value) =>
+                  _updateGlobalPrefGroupValue(PrefKey.CAMPUS, value)),
+          const ListDivider(),
+          ListTileChoices(
+              title: translations.get(StringKey.DEPARTMENT),
+              titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
+              selectedValue: dataPrefs[PrefKey.DEPARTMENT],
+              values: Data.getCampusDepartments(dataPrefs[PrefKey.CAMPUS]),
+              onChange: (value) =>
+                  _updateGlobalPrefGroupValue(PrefKey.DEPARTMENT, value)),
+          const ListDivider(),
+          ListTileChoices(
+            title: translations.get(StringKey.YEAR),
+            titleDialog: translations.get(StringKey.SELECT_YEAR),
+            selectedValue: dataPrefs[PrefKey.YEAR],
+            values: Data.getYears(
+                dataPrefs[PrefKey.CAMPUS], dataPrefs[PrefKey.DEPARTMENT]),
+            onChange: (value) =>
+                _updateGlobalPrefGroupValue(PrefKey.YEAR, value),
+          ),
+          const ListDivider(),
+          ListTileChoices(
+              title: translations.get(StringKey.GROUP),
+              titleDialog: translations.get(StringKey.SELECT_GROUP),
+              selectedValue: dataPrefs[PrefKey.GROUP],
+              values: Data.getGroups(dataPrefs[PrefKey.CAMPUS],
+                  dataPrefs[PrefKey.DEPARTMENT], dataPrefs[PrefKey.YEAR]),
+              onChange: (value) =>
+                  _updateGlobalPrefGroupValue(PrefKey.GROUP, value))
+        ]);
   }
 
   Widget _buildSettingsDisplay() {
     final translations = Translations.of(context);
-    return SettingCard(header: "Groupe", children: [
-      ListTileChoices(
-          title: translations.get(StringKey.CAMPUS),
-          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-          selectedValue: dataPrefs['campus'],
-          values: Data.getAllCampus(),
-          onChange: (value) => _updateGlobalPrefValue('campus', value)),
-      const ListDivider(),
-      ListTileChoices(
-          title: translations.get(StringKey.DEPARTMENT),
-          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-          selectedValue: dataPrefs['department'],
-          values: Data.getCampusDepartments(dataPrefs['campus']),
-          onChange: (value) => _updateGlobalPrefValue('department', value)),
-      const ListDivider(),
-      ListTileChoices(
-        title: translations.get(StringKey.YEAR),
-        titleDialog: translations.get(StringKey.SELECT_YEAR),
-        selectedValue: dataPrefs['year'],
-        values: Data.getYears(dataPrefs['campus'], dataPrefs['department']),
-        onChange: (value) => _updateGlobalPrefValue('year', value),
-      ),
-      const ListDivider(),
-      ListTileChoices(
-          title: translations.get(StringKey.GROUP),
-          titleDialog: translations.get(StringKey.SELECT_GROUP),
-          selectedValue: dataPrefs['group'],
-          values: Data.getGroups(
-              dataPrefs['campus'], dataPrefs['department'], dataPrefs['year']),
-          onChange: (value) => _updateGlobalPrefValue('group', value))
-    ]);
+    return SettingCard(
+        header: translations.get(StringKey.SETTINGS_DISPLAY),
+        children: [
+          ListTileInput(
+              title: translations.get(StringKey.NUMBER_WEEK),
+              titleDialog: translations.get(StringKey.SELECT_NUMBER_WEEK),
+              defaultValue: dataPrefs[PrefKey.NUMBER_WEEK],
+              inputType:
+                  TextInputType.numberWithOptions(decimal: false, signed: true),
+              onChange: (value) {
+                _updateGlobalPrefValue(PrefKey.NUMBER_WEEK, value);
+              }),
+          const ListDivider(),
+        ]);
   }
 
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
     return AppbarPage(
-      title: translations.get(StringKey.SETTINGS_DISPLAY),
-      body: ListView(
-        children: [
-          _buildSettingsGeneral(),
-          _buildSettingsDisplay()
-        ],
-      )
-    );
+        title: translations.get(StringKey.SETTINGS),
+        body: ListView(
+          children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
+        ));
   }
 }
