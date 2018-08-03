@@ -11,7 +11,10 @@ dependencies:
   http: ^0.11.3+16
   shared_preferences: ^0.4.2
   flutter_localizations:
-      sdk: flutter
+    sdk: flutter
+  material_pickers:
+    git:
+      url: https://github.com/long1eu/material_pickers.git
 
 dev_dependencies:
   flutter_test:
@@ -31,7 +34,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/
+    - images/logo.png
     - locales/en.json
     - locales/fr.json
 

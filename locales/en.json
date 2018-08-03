@@ -19,7 +19,12 @@
   "select_group": "Select your group",
 
   "number_week": "Number of week",
-  "select_number_week": "Number of week to display",
+  "select_number_week": "Number of week for the agenda to display.",
+
+  "dark_theme": "Dark theme",
+  "dark_theme_desc": "Background color will be dark, like a night mode.",
+  "appbar_color": "Application color",
+  "appbar_color_desc": "Choose the color of the app.",
 
   "update": "Update",
   "about": "About",

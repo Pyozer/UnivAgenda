@@ -2,23 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
+import 'package:myagenda/models/PrefKey.dart';
 import 'package:myagenda/models/PrefsCalendar.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/utils/DynamicTheme.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
+import 'package:myagenda/widgets/list_tile_color.dart';
 import 'package:myagenda/widgets/list_tile_input.dart';
+import 'package:myagenda/widgets/list_tile_switch.dart';
 import 'package:myagenda/widgets/setting_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class PrefKey {
-  static const CAMPUS = 'campus';
-  static const DEPARTMENT = 'department';
-  static const YEAR = 'year';
-  static const GROUP = 'group';
-  static const NUMBER_WEEK = 'number_week';
-}
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -28,14 +24,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map dataPrefs = {};
 
-  final List<String> prefsKeys = [
-    PrefKey.CAMPUS,
-    PrefKey.DEPARTMENT,
-    PrefKey.YEAR,
-    PrefKey.GROUP,
-    PrefKey.NUMBER_WEEK
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -44,12 +32,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future _fetchSettingsValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefsKeys.forEach((key) {
-      _updateLocalPrefValue(key, prefs.getString(key) ?? '');
-    });
+
+    _updateLocalPrefValue(PrefKey.CAMPUS, prefs.getString(PrefKey.CAMPUS));
+    _updateLocalPrefValue(
+        PrefKey.DEPARTMENT, prefs.getString(PrefKey.DEPARTMENT));
+    _updateLocalPrefValue(PrefKey.YEAR, prefs.getString(PrefKey.YEAR));
+    _updateLocalPrefValue(PrefKey.GROUP, prefs.getString(PrefKey.GROUP));
+    _updateLocalPrefValue(
+        PrefKey.NUMBER_WEEK, prefs.getString(PrefKey.NUMBER_WEEK));
+    _updateLocalPrefValue(
+        PrefKey.DARK_THEME, prefs.getBool(PrefKey.DARK_THEME));
+    _updateLocalPrefValue(
+        PrefKey.APPBAR_COLOR, prefs.getInt(PrefKey.APPBAR_COLOR));
   }
 
-  void _updateLocalPrefValue(String pref, String newValue, {fState = true}) {
+  void _updateLocalPrefValue(String pref, dynamic newValue, {fState = true}) {
     if (fState)
       setState(() {
         dataPrefs[pref] = newValue;
@@ -79,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         [PrefKey.CAMPUS, PrefKey.DEPARTMENT, PrefKey.YEAR, PrefKey.GROUP]);
   }
 
-  void _updateGlobalPrefValue(String pref, String newValue) {
+  void _updateGlobalPrefValue(String pref, dynamic newValue) {
     // Update dataPrefs value with new value selected
     _updateLocalPrefValue(pref, newValue, fState: false);
     // Save settings
@@ -89,7 +86,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future _savePrefs(List keys) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     keys.forEach((key) {
-      prefs.setString(key, dataPrefs[key]);
+      if (dataPrefs[key] is int)
+        prefs.setInt(key, dataPrefs[key]);
+      else if (dataPrefs[key] is double)
+        prefs.setBool(key, dataPrefs[key]);
+      else if (dataPrefs[key] is bool)
+        prefs.setBool(key, dataPrefs[key]);
+      else
+        prefs.setString(key, dataPrefs[key].toString());
     });
   }
 
@@ -146,10 +150,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
               defaultValue: dataPrefs[PrefKey.NUMBER_WEEK],
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
-              onChange: (value) {
+              onChange: (String value) {
                 _updateGlobalPrefValue(PrefKey.NUMBER_WEEK, value);
               }),
           const ListDivider(),
+          SwitchListTile(
+            title: Text(translations.get(StringKey.DARK_THEME)),
+            subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+            value: dataPrefs[PrefKey.DARK_THEME] ?? false,
+            onChanged: (bool value) {
+              _updateGlobalPrefValue(PrefKey.DARK_THEME, value);
+              DynamicTheme.of(context).changeTheme(
+                  brightness: value ? Brightness.dark : Brightness.light);
+            }
+          ),
+          /*ListTileSwitch(
+              title: translations.get(StringKey.DARK_THEME),
+              description: translations.get(StringKey.DARK_THEME_DESC),
+              defaultValue: dataPrefs[PrefKey.DARK_THEME],
+              onChange: (bool isDark) {
+                _updateGlobalPrefValue(PrefKey.DARK_THEME, isDark);
+                DynamicTheme.of(context).changeTheme(
+                    brightness: isDark ? Brightness.dark : Brightness.light);
+              }),*/
+          const ListDivider(),
+          ListTileColor(
+              title: translations.get(StringKey.APPBAR_COLOR),
+              description: translations.get(StringKey.APPBAR_COLOR_DESC),
+              defaultValue: dataPrefs[PrefKey.APPBAR_COLOR] != null
+                  ? Color(dataPrefs[PrefKey.APPBAR_COLOR])
+                  : Colors.red,
+              onChange: (Color newColor) {
+                _updateGlobalPrefValue(PrefKey.APPBAR_COLOR, newColor.value);
+                DynamicTheme.of(context).changeTheme(primaryColor: newColor);
+              })
         ]);
   }
 

@@ -22,6 +22,11 @@ class StringKey {
   static const NUMBER_WEEK = const StringKey._('number_week');
   static const SELECT_NUMBER_WEEK = const StringKey._('select_number_week');
 
+  static const DARK_THEME = const StringKey._('dark_theme');
+  static const DARK_THEME_DESC = const StringKey._('dark_theme_desc');
+  static const APPBAR_COLOR = const StringKey._('appbar_color');
+  static const APPBAR_COLOR_DESC = const StringKey._('appbar_color_desc');
+
   static const UPDATE = const StringKey._('update');
   static const ABOUT = const StringKey._('about');
   static const INTRO = const StringKey._('introduction');

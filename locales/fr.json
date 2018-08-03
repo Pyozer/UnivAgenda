@@ -21,6 +21,11 @@
   "number_week": "Nombre de semaines",
   "select_number_week": "Nombre de semaines à afficher",
 
+  "dark_theme": "Thème sombre",
+  "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
+  "appbar_color": "Couleur principale",
+  "appbar_color_desc": "Choisi la couleur principale de l'application.",
+
   "update": "Mise à jour",
   "about": "A propos",
   "introduction": "Introduction",

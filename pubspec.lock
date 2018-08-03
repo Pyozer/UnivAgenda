@@ -170,6 +170,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.2+1"
+  material_pickers:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: a5510f71977fa0f590bb16b667ba656e0c16679c
+      url: "https://github.com/long1eu/material_pickers.git"
+    source: git
+    version: "0.0.2"
   meta:
     dependency: transitive
     description:
