@@ -7,7 +7,7 @@ import 'package:myagenda/models/PrefsCalendar.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
-import 'package:myagenda/utils/DynamicTheme.dart';
+import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
 import 'package:myagenda/widgets/list_tile_color.dart';

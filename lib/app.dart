@@ -6,7 +6,7 @@ import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/translate/translations.dart';
-import 'package:myagenda/utils/DynamicTheme.dart';
+import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/custom_route.dart';
 
 final routes = {
