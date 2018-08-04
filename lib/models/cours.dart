@@ -1,5 +1,5 @@
-import 'package:myagenda/models/IcalModel.dart';
-import 'package:myagenda/models/NoteCours.dart';
+import 'package:myagenda/models/ical_model.dart';
+import 'package:myagenda/models/note_cours.dart';
 import 'package:myagenda/utils/date.dart';
 
 String twoDigits(int number) {

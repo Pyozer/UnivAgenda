@@ -1,4 +1,4 @@
-import 'package:myagenda/models/IcalModel.dart';
+import 'package:myagenda/models/ical_model.dart';
 
 class Ical {
 

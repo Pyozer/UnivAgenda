@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
-import 'package:myagenda/models/PrefKey.dart';
-import 'package:myagenda/models/PrefsCalendar.dart';
+import 'package:myagenda/models/pref_key.dart';
+import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';

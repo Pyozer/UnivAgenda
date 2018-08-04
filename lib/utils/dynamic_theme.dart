@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:myagenda/models/PrefKey.dart';
+import 'package:myagenda/models/pref_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 

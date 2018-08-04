@@ -1,4 +1,4 @@
-import 'package:myagenda/models/PrefsCalendar.dart';
+import 'package:myagenda/models/prefs_calendar.dart';
 
 class Data {
   static List<String> getAllCampus() {
