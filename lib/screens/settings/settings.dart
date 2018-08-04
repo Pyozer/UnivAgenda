@@ -12,7 +12,7 @@ import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
 import 'package:myagenda/widgets/list_tile_color.dart';
 import 'package:myagenda/widgets/list_tile_input.dart';
-import 'package:myagenda/widgets/list_tile_switch.dart';
+import 'package:myagenda/widgets/list_tile_title.dart';
 import 'package:myagenda/widgets/setting_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,15 +47,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _updateLocalPrefValue(String pref, dynamic newValue, {fState = true}) {
-    if (fState)
-      setState(() {
+    if(dataPrefs[pref] != newValue) {
+      if (fState)
+        setState(() {
+          dataPrefs[pref] = newValue;
+        });
+      else
         dataPrefs[pref] = newValue;
-      });
-    else
-      dataPrefs[pref] = newValue;
+    }
   }
 
-  void _updateGlobalPrefGroupValue(String pref, String newValue) {
+  void _updatePrefGroupValue(String pref, String newValue) {
     // Update dataPrefs value with new value selected
     _updateLocalPrefValue(pref, newValue, fState: false);
 
@@ -76,9 +78,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         [PrefKey.CAMPUS, PrefKey.DEPARTMENT, PrefKey.YEAR, PrefKey.GROUP]);
   }
 
-  void _updateGlobalPrefValue(String pref, dynamic newValue) {
+  void _updatePrefValue(String pref, dynamic newValue) {
     // Update dataPrefs value with new value selected
-    _updateLocalPrefValue(pref, newValue, fState: false);
+    _updateLocalPrefValue(pref, newValue);
     // Save settings
     _savePrefs([pref]);
   }
@@ -108,7 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               selectedValue: dataPrefs[PrefKey.CAMPUS],
               values: Data.getAllCampus(),
               onChange: (value) =>
-                  _updateGlobalPrefGroupValue(PrefKey.CAMPUS, value)),
+                  _updatePrefGroupValue(PrefKey.CAMPUS, value)),
           const ListDivider(),
           ListTileChoices(
               title: translations.get(StringKey.DEPARTMENT),
@@ -116,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               selectedValue: dataPrefs[PrefKey.DEPARTMENT],
               values: Data.getCampusDepartments(dataPrefs[PrefKey.CAMPUS]),
               onChange: (value) =>
-                  _updateGlobalPrefGroupValue(PrefKey.DEPARTMENT, value)),
+                  _updatePrefGroupValue(PrefKey.DEPARTMENT, value)),
           const ListDivider(),
           ListTileChoices(
             title: translations.get(StringKey.YEAR),
@@ -125,7 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             values: Data.getYears(
                 dataPrefs[PrefKey.CAMPUS], dataPrefs[PrefKey.DEPARTMENT]),
             onChange: (value) =>
-                _updateGlobalPrefGroupValue(PrefKey.YEAR, value),
+                _updatePrefGroupValue(PrefKey.YEAR, value),
           ),
           const ListDivider(),
           ListTileChoices(
@@ -135,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               values: Data.getGroups(dataPrefs[PrefKey.CAMPUS],
                   dataPrefs[PrefKey.DEPARTMENT], dataPrefs[PrefKey.YEAR]),
               onChange: (value) =>
-                  _updateGlobalPrefGroupValue(PrefKey.GROUP, value))
+                  _updatePrefGroupValue(PrefKey.GROUP, value))
         ]);
   }
 
@@ -151,28 +153,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
               onChange: (String value) {
-                _updateGlobalPrefValue(PrefKey.NUMBER_WEEK, value);
+                _updatePrefValue(PrefKey.NUMBER_WEEK, value);
               }),
           const ListDivider(),
           SwitchListTile(
-            title: Text(translations.get(StringKey.DARK_THEME)),
+            title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
             subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
             value: dataPrefs[PrefKey.DARK_THEME] ?? false,
+            activeColor: Theme.of(context).accentColor,
             onChanged: (bool value) {
-              _updateGlobalPrefValue(PrefKey.DARK_THEME, value);
+              _updatePrefValue(PrefKey.DARK_THEME, value);
               DynamicTheme.of(context).changeTheme(
                   brightness: value ? Brightness.dark : Brightness.light);
             }
           ),
-          /*ListTileSwitch(
-              title: translations.get(StringKey.DARK_THEME),
-              description: translations.get(StringKey.DARK_THEME_DESC),
-              defaultValue: dataPrefs[PrefKey.DARK_THEME],
-              onChange: (bool isDark) {
-                _updateGlobalPrefValue(PrefKey.DARK_THEME, isDark);
-                DynamicTheme.of(context).changeTheme(
-                    brightness: isDark ? Brightness.dark : Brightness.light);
-              }),*/
           const ListDivider(),
           ListTileColor(
               title: translations.get(StringKey.APPBAR_COLOR),
@@ -181,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ? Color(dataPrefs[PrefKey.APPBAR_COLOR])
                   : Colors.red,
               onChange: (Color newColor) {
-                _updateGlobalPrefValue(PrefKey.APPBAR_COLOR, newColor.value);
+                _updatePrefValue(PrefKey.APPBAR_COLOR, newColor.value);
                 DynamicTheme.of(context).changeTheme(primaryColor: newColor);
               })
         ]);

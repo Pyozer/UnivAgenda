@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:myagenda/models/pref_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
