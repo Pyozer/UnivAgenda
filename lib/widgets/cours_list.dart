@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:myagenda/models/cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
+import 'package:myagenda/widgets/cours_list_header.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 
 class CoursList extends StatefulWidget {
@@ -96,6 +97,8 @@ class CoursListState extends State<CoursList> {
   List<Widget> _buildListCours() {
     List<Widget> widgets = [];
 
+    widgets.add(CoursListHeader());
+
     _listElements.forEach((cours) {
       if (cours is CoursHeader)
         widgets.add(_buildRowHeader(cours));
@@ -107,15 +110,13 @@ class CoursListState extends State<CoursList> {
   @override
   Widget build(BuildContext context) {
     var dividedWidgetList = ListTile
-        .divideTiles(
-            context: context, tiles: _buildListCours())
+        .divideTiles(context: context, tiles: _buildListCours())
         .toList();
 
-    return Expanded(
-        child: RefreshIndicator(
-            onRefresh: _fetchData,
-            child: ListView(shrinkWrap: true, children: dividedWidgetList),
-            key: refreshKey));
+    return RefreshIndicator(
+        onRefresh: _fetchData,
+        child: ListView(shrinkWrap: true, children: dividedWidgetList),
+        key: refreshKey);
   }
 }
 

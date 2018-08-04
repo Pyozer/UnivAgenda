@@ -3,19 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/models/pref_key.dart';
-import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
 import 'package:myagenda/widgets/list_tile_color.dart';
 import 'package:myagenda/widgets/list_tile_input.dart';
 import 'package:myagenda/widgets/list_tile_title.dart';
 import 'package:myagenda/widgets/setting_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -23,7 +22,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  Map dataPrefs = {};
+  Map _dataPrefs = {};
 
   @override
   void initState() {
@@ -32,70 +31,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future _fetchSettingsValues() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    _updateLocalPrefValue(PrefKey.CAMPUS, prefs.getString(PrefKey.CAMPUS));
-    _updateLocalPrefValue(
-        PrefKey.DEPARTMENT, prefs.getString(PrefKey.DEPARTMENT));
-    _updateLocalPrefValue(PrefKey.YEAR, prefs.getString(PrefKey.YEAR));
-    _updateLocalPrefValue(PrefKey.GROUP, prefs.getString(PrefKey.GROUP));
-    _updateLocalPrefValue(
-        PrefKey.NUMBER_WEEK, prefs.getInt(PrefKey.NUMBER_WEEK));
-    _updateLocalPrefValue(
-        PrefKey.DARK_THEME, prefs.getBool(PrefKey.DARK_THEME));
-    _updateLocalPrefValue(
-        PrefKey.APPBAR_COLOR, prefs.getInt(PrefKey.APPBAR_COLOR));
-    _updateLocalPrefValue(PrefKey.NOTE_COLOR, prefs.getInt(PrefKey.NOTE_COLOR));
+    Map dataPrefs = await Preferences.getAllValues();
+    setState(() {
+      _dataPrefs = dataPrefs;
+    });
   }
 
-  void _updateLocalPrefValue(String pref, dynamic newValue, {fState = true}) {
+  void _editLocalPrefValue(String pref, dynamic newValue, {fState = true}) {
     if (fState)
       setState(() {
-        dataPrefs[pref] = newValue;
+        _dataPrefs[pref] = newValue;
       });
     else
-      dataPrefs[pref] = newValue;
+      _dataPrefs[pref] = newValue;
   }
 
-  void _updatePrefGroupValue(String pref, String newValue) {
+  void _updatePrefGroup(String pref, String newValue) async {
     // Update dataPrefs value with new value selected
-    _updateLocalPrefValue(pref, newValue, fState: false);
+    _editLocalPrefValue(pref, newValue, fState: false);
 
     // Check and edit values if necessary (ex: Change campus, so change department etc..)
-    PrefsCalendar values = Data.checkDataValues(
-        campus: dataPrefs[PrefKey.CAMPUS],
-        department: dataPrefs[PrefKey.DEPARTMENT],
-        year: dataPrefs[PrefKey.YEAR],
-        group: dataPrefs[PrefKey.GROUP]);
-
-    // Reupdate dataPrefs with correct values
-    values.getValues().forEach((key, value) {
-      _updateLocalPrefValue(key, value);
-    });
-
-    // Save settings
-    _savePrefs(
-        [PrefKey.CAMPUS, PrefKey.DEPARTMENT, PrefKey.YEAR, PrefKey.GROUP]);
-  }
-
-  void _updatePrefValue(String pref, dynamic newValue) {
-    // Update dataPrefs value with new value selected
-    _updateLocalPrefValue(pref, newValue);
-    // Save settings
-    _savePrefs([pref]);
-  }
-
-  Future _savePrefs(List keys) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    keys.forEach((key) {
-      if (dataPrefs[key] is int)
-        prefs.setInt(key, dataPrefs[key]);
-      else if (dataPrefs[key] is double)
-        prefs.setBool(key, dataPrefs[key]);
-      else if (dataPrefs[key] is bool)
-        prefs.setBool(key, dataPrefs[key]);
-      else
-        prefs.setString(key, dataPrefs[key].toString());
+    // Values will be save by method changeGroupPref()
+    Preferences
+        .changeGroupPref(
+            campus: _dataPrefs[PrefKey.CAMPUS],
+            department: _dataPrefs[PrefKey.DEPARTMENT],
+            year: _dataPrefs[PrefKey.YEAR],
+            group: _dataPrefs[PrefKey.GROUP])
+        .then((prefCalendar) {
+      prefCalendar.getValues().forEach((key, value) {
+        _editLocalPrefValue(key, value);
+      });
     });
   }
 
@@ -107,95 +73,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileChoices(
               title: translations.get(StringKey.CAMPUS),
               titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-              selectedValue: dataPrefs[PrefKey.CAMPUS],
+              selectedValue: _dataPrefs[PrefKey.CAMPUS],
               values: Data.getAllCampus(),
-              onChange: (value) =>
-                  _updatePrefGroupValue(PrefKey.CAMPUS, value)),
+              onChange: (value) => _updatePrefGroup(PrefKey.CAMPUS, value)),
           const ListDivider(),
           ListTileChoices(
               title: translations.get(StringKey.DEPARTMENT),
               titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-              selectedValue: dataPrefs[PrefKey.DEPARTMENT],
-              values: Data.getCampusDepartments(dataPrefs[PrefKey.CAMPUS]),
-              onChange: (value) =>
-                  _updatePrefGroupValue(PrefKey.DEPARTMENT, value)),
+              selectedValue: _dataPrefs[PrefKey.DEPARTMENT],
+              values: Data.getCampusDepartments(_dataPrefs[PrefKey.CAMPUS]),
+              onChange: (value) => _updatePrefGroup(PrefKey.DEPARTMENT, value)),
           const ListDivider(),
           ListTileChoices(
             title: translations.get(StringKey.YEAR),
             titleDialog: translations.get(StringKey.SELECT_YEAR),
-            selectedValue: dataPrefs[PrefKey.YEAR],
+            selectedValue: _dataPrefs[PrefKey.YEAR],
             values: Data.getYears(
-                dataPrefs[PrefKey.CAMPUS], dataPrefs[PrefKey.DEPARTMENT]),
-            onChange: (value) => _updatePrefGroupValue(PrefKey.YEAR, value),
+                _dataPrefs[PrefKey.CAMPUS], _dataPrefs[PrefKey.DEPARTMENT]),
+            onChange: (value) => _updatePrefGroup(PrefKey.YEAR, value),
           ),
           const ListDivider(),
           ListTileChoices(
               title: translations.get(StringKey.GROUP),
               titleDialog: translations.get(StringKey.SELECT_GROUP),
-              selectedValue: dataPrefs[PrefKey.GROUP],
-              values: Data.getGroups(dataPrefs[PrefKey.CAMPUS],
-                  dataPrefs[PrefKey.DEPARTMENT], dataPrefs[PrefKey.YEAR]),
-              onChange: (value) => _updatePrefGroupValue(PrefKey.GROUP, value))
+              selectedValue: _dataPrefs[PrefKey.GROUP],
+              values: Data.getGroups(_dataPrefs[PrefKey.CAMPUS],
+                  _dataPrefs[PrefKey.DEPARTMENT], _dataPrefs[PrefKey.YEAR]),
+              onChange: (value) => _updatePrefGroup(PrefKey.GROUP, value))
         ]);
   }
 
+  void _handleNumberWeek(String numberWeek) {
+    Preferences.setNumberWeekStr(numberWeek).then((value) {
+      _editLocalPrefValue(PrefKey.NUMBER_WEEK, value);
+    });
+  }
+
+  void _handleDarkTheme(bool isDark) {
+    Preferences.setDarkTheme(isDark).then((value) {
+      _editLocalPrefValue(PrefKey.DARK_THEME, value);
+      DynamicTheme.of(context).changeTheme(brightness: getBrightness(value));
+    });
+  }
+
+  void _handleAppbarColor(Color newColor) {
+    Preferences.setAppbarColor(newColor.value).then((value) {
+      _editLocalPrefValue(PrefKey.APPBAR_COLOR, value);
+      DynamicTheme.of(context).changeTheme(primaryColor: newColor);
+    });
+  }
+
+  void _handleNoteColor(Color newColor) {
+    Preferences.setNoteColor(newColor.value).then((value) {
+      _editLocalPrefValue(PrefKey.NOTE_COLOR, value);
+    });
+  }
+
   Widget _buildSettingsDisplay() {
-    final translations = Translations.of(context);
+    final translate = Translations.of(context);
     return SettingCard(
-        header: translations.get(StringKey.SETTINGS_DISPLAY),
+        header: translate.get(StringKey.SETTINGS_DISPLAY),
         children: [
           ListTileInput(
-              title: translations.get(StringKey.NUMBER_WEEK),
-              titleDialog: translations.get(StringKey.SELECT_NUMBER_WEEK),
-              defaultValue: dataPrefs[PrefKey.NUMBER_WEEK]?.toString(),
+              title: translate.get(StringKey.NUMBER_WEEK),
+              titleDialog: translate.get(StringKey.SELECT_NUMBER_WEEK),
+              defaultValue: _dataPrefs[PrefKey.NUMBER_WEEK]?.toString() ??
+                  PrefKey.DEFAULT_NUMBER_WEEK.toString(),
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
-              onChange: (String value) {
-                int correctValue = PrefKey.DEFAULT_NUMBER_WEEK;
-                if (isNumeric(value)) correctValue = int.parse(value);
-                _updatePrefValue(PrefKey.NUMBER_WEEK, correctValue);
-              }),
+              onChange: _handleNumberWeek),
           const ListDivider(),
           SwitchListTile(
-              title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
-              subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+              title: ListTileTitle(translate.get(StringKey.DARK_THEME)),
+              subtitle: Text(translate.get(StringKey.DARK_THEME_DESC)),
               value:
-                  dataPrefs[PrefKey.DARK_THEME] ?? PrefKey.DEFAULT_DARK_THEME,
+                  _dataPrefs[PrefKey.DARK_THEME] ?? PrefKey.DEFAULT_DARK_THEME,
               activeColor: Theme.of(context).accentColor,
-              onChanged: (bool value) {
-                _updatePrefValue(PrefKey.DARK_THEME, value);
-                DynamicTheme.of(context).changeTheme(
-                    brightness: value ? Brightness.dark : Brightness.light);
-              }),
+              onChanged: _handleDarkTheme),
           const ListDivider(),
           ListTileColor(
-              title: translations.get(StringKey.APPBAR_COLOR),
-              description: translations.get(StringKey.APPBAR_COLOR_DESC),
-              defaultValue: dataPrefs[PrefKey.APPBAR_COLOR] != null
-                  ? Color(dataPrefs[PrefKey.APPBAR_COLOR])
+              title: translate.get(StringKey.APPBAR_COLOR),
+              description: translate.get(StringKey.APPBAR_COLOR_DESC),
+              defaultValue: _dataPrefs[PrefKey.APPBAR_COLOR] != null
+                  ? Color(_dataPrefs[PrefKey.APPBAR_COLOR])
                   : const Color(PrefKey.DEFAULT_APPBAR_COLOR),
-              onChange: (Color newColor) {
-                _updatePrefValue(PrefKey.APPBAR_COLOR, newColor.value);
-                DynamicTheme.of(context).changeTheme(primaryColor: newColor);
-              }),
+              onChange: _handleAppbarColor),
           const ListDivider(),
           ListTileColor(
-              title: translations.get(StringKey.NOTE_COLOR),
-              description: translations.get(StringKey.NOTE_COLOR_DESC),
-              defaultValue: dataPrefs[PrefKey.NOTE_COLOR] != null
-                  ? Color(dataPrefs[PrefKey.NOTE_COLOR])
+              title: translate.get(StringKey.NOTE_COLOR),
+              description: translate.get(StringKey.NOTE_COLOR_DESC),
+              defaultValue: _dataPrefs[PrefKey.NOTE_COLOR] != null
+                  ? Color(_dataPrefs[PrefKey.NOTE_COLOR])
                   : const Color(PrefKey.DEFAULT_NOTE_COLOR),
-              onChange: (Color newColor) {
-                _updatePrefValue(PrefKey.NOTE_COLOR, newColor.value);
-              })
+              onChange: _handleNoteColor)
         ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
     return AppbarPage(
-        title: translations.get(StringKey.SETTINGS),
+        title: Translations.of(context).get(StringKey.SETTINGS),
         body: ListView(
           children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
         ));

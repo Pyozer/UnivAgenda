@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/pref_key.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/preferences.dart';
 
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
@@ -31,7 +31,6 @@ class DynamicThemeState extends State<DynamicTheme> {
 
     _loadTheme().then((theme) {
       _updateTheme(theme);
-      _saveTheme();
     });
   }
 
@@ -61,27 +60,22 @@ class DynamicThemeState extends State<DynamicTheme> {
   }
 
   Future<ThemeData> _loadTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     Brightness brightness = widget.defaultTheme.brightness;
     Color primaryColor = widget.defaultTheme.primaryColor;
 
-    bool isDark = prefs.getBool(PrefKey.DARK_THEME);
-    if (isDark != null)
-      brightness = isDark ? Brightness.dark : Brightness.light;
+    bool isDark = await Preferences.getDarkTheme();
+    if (isDark != null) brightness = getBrightness(isDark);
 
-    int primaryColorValue = prefs.getInt(PrefKey.APPBAR_COLOR);
-    if (primaryColorValue != null)
-      primaryColor = Color(primaryColorValue);
+    int primaryColorValue = await Preferences.getAppbarColor();
+    if (primaryColorValue != null) primaryColor = Color(primaryColorValue);
 
     return _buildTheme(brightness: brightness, primaryColor: primaryColor);
   }
 
   Future _saveTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(PrefKey.DARK_THEME,
-        _theme.brightness == Brightness.dark ? true : false);
-    //await prefs.setInt(PrefKey.APPBAR_COLOR, _theme.primaryColor.value);
+    await Preferences
+        .setDarkTheme(_theme.brightness == Brightness.dark ? true : false);
+    await Preferences.setAppbarColor(_theme.primaryColor.value);
   }
 
   ThemeData get theme => _theme;

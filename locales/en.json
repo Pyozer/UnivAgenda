@@ -26,7 +26,7 @@
   "appbar_color": "Application color",
   "appbar_color_desc": "Choose the color of the app.",
   "note_color": "Note indicator color",
-  "note_color_desc": "Color at the edge of a lesson if a note is present.",
+  "note_color_desc": "Color indicating if a note is present.",
 
   "update": "Update",
   "about": "About",

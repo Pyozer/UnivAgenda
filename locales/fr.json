@@ -26,7 +26,7 @@
   "appbar_color": "Couleur principale",
   "appbar_color_desc": "Choisi la couleur principale de l'application.",
   "note_color": "Couleur indicateur d'une note",
-  "note_color_desc": "Couleur au bord d'un cours, si une note est présente.",
+  "note_color_desc": "Couleur indiquant si une note est présente.",
 
   "update": "Mise à jour",
   "about": "A propos",
