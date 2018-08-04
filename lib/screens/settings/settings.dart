@@ -8,6 +8,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/widgets/list_divider.dart';
 import 'package:myagenda/widgets/list_tile_choices.dart';
 import 'package:myagenda/widgets/list_tile_color.dart';
@@ -39,22 +40,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _updateLocalPrefValue(PrefKey.YEAR, prefs.getString(PrefKey.YEAR));
     _updateLocalPrefValue(PrefKey.GROUP, prefs.getString(PrefKey.GROUP));
     _updateLocalPrefValue(
-        PrefKey.NUMBER_WEEK, prefs.getString(PrefKey.NUMBER_WEEK));
+        PrefKey.NUMBER_WEEK, prefs.getInt(PrefKey.NUMBER_WEEK));
     _updateLocalPrefValue(
         PrefKey.DARK_THEME, prefs.getBool(PrefKey.DARK_THEME));
     _updateLocalPrefValue(
         PrefKey.APPBAR_COLOR, prefs.getInt(PrefKey.APPBAR_COLOR));
+    _updateLocalPrefValue(PrefKey.NOTE_COLOR, prefs.getInt(PrefKey.NOTE_COLOR));
   }
 
   void _updateLocalPrefValue(String pref, dynamic newValue, {fState = true}) {
-    if(dataPrefs[pref] != newValue) {
-      if (fState)
-        setState(() {
-          dataPrefs[pref] = newValue;
-        });
-      else
+    if (fState)
+      setState(() {
         dataPrefs[pref] = newValue;
-    }
+      });
+    else
+      dataPrefs[pref] = newValue;
   }
 
   void _updatePrefGroupValue(String pref, String newValue) {
@@ -126,8 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             selectedValue: dataPrefs[PrefKey.YEAR],
             values: Data.getYears(
                 dataPrefs[PrefKey.CAMPUS], dataPrefs[PrefKey.DEPARTMENT]),
-            onChange: (value) =>
-                _updatePrefGroupValue(PrefKey.YEAR, value),
+            onChange: (value) => _updatePrefGroupValue(PrefKey.YEAR, value),
           ),
           const ListDivider(),
           ListTileChoices(
@@ -136,8 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               selectedValue: dataPrefs[PrefKey.GROUP],
               values: Data.getGroups(dataPrefs[PrefKey.CAMPUS],
                   dataPrefs[PrefKey.DEPARTMENT], dataPrefs[PrefKey.YEAR]),
-              onChange: (value) =>
-                  _updatePrefGroupValue(PrefKey.GROUP, value))
+              onChange: (value) => _updatePrefGroupValue(PrefKey.GROUP, value))
         ]);
   }
 
@@ -149,34 +147,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileInput(
               title: translations.get(StringKey.NUMBER_WEEK),
               titleDialog: translations.get(StringKey.SELECT_NUMBER_WEEK),
-              defaultValue: dataPrefs[PrefKey.NUMBER_WEEK],
+              defaultValue: dataPrefs[PrefKey.NUMBER_WEEK]?.toString(),
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
               onChange: (String value) {
-                _updatePrefValue(PrefKey.NUMBER_WEEK, value);
+                int correctValue = PrefKey.DEFAULT_NUMBER_WEEK;
+                if (isNumeric(value)) correctValue = int.parse(value);
+                _updatePrefValue(PrefKey.NUMBER_WEEK, correctValue);
               }),
           const ListDivider(),
           SwitchListTile(
-            title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
-            subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
-            value: dataPrefs[PrefKey.DARK_THEME] ?? false,
-            activeColor: Theme.of(context).accentColor,
-            onChanged: (bool value) {
-              _updatePrefValue(PrefKey.DARK_THEME, value);
-              DynamicTheme.of(context).changeTheme(
-                  brightness: value ? Brightness.dark : Brightness.light);
-            }
-          ),
+              title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
+              subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+              value:
+                  dataPrefs[PrefKey.DARK_THEME] ?? PrefKey.DEFAULT_DARK_THEME,
+              activeColor: Theme.of(context).accentColor,
+              onChanged: (bool value) {
+                _updatePrefValue(PrefKey.DARK_THEME, value);
+                DynamicTheme.of(context).changeTheme(
+                    brightness: value ? Brightness.dark : Brightness.light);
+              }),
           const ListDivider(),
           ListTileColor(
               title: translations.get(StringKey.APPBAR_COLOR),
               description: translations.get(StringKey.APPBAR_COLOR_DESC),
               defaultValue: dataPrefs[PrefKey.APPBAR_COLOR] != null
                   ? Color(dataPrefs[PrefKey.APPBAR_COLOR])
-                  : Colors.red,
+                  : const Color(PrefKey.DEFAULT_APPBAR_COLOR),
               onChange: (Color newColor) {
                 _updatePrefValue(PrefKey.APPBAR_COLOR, newColor.value);
                 DynamicTheme.of(context).changeTheme(primaryColor: newColor);
+              }),
+          const ListDivider(),
+          ListTileColor(
+              title: translations.get(StringKey.NOTE_COLOR),
+              description: translations.get(StringKey.NOTE_COLOR_DESC),
+              defaultValue: dataPrefs[PrefKey.NOTE_COLOR] != null
+                  ? Color(dataPrefs[PrefKey.NOTE_COLOR])
+                  : const Color(PrefKey.DEFAULT_NOTE_COLOR),
+              onChange: (Color newColor) {
+                _updatePrefValue(PrefKey.NOTE_COLOR, newColor.value);
               })
         ]);
   }

@@ -74,14 +74,11 @@ class CoursListState extends State<CoursList> {
     return listElement;
   }
 
-  Widget _buildRow(int index) {
-    final Cours cours = _listElements[index];
-    return new CoursRow(cours: cours);
+  Widget _buildRow(Cours cours) {
+    return CoursRow(cours: cours);
   }
 
-  Widget _buildRowHeader(int index) {
-    final CoursHeader header = _listElements[index];
-
+  Widget _buildRowHeader(CoursHeader header) {
     return Container(
         color: Colors.grey[300],
         padding: const EdgeInsets.all(14.0),
@@ -96,19 +93,28 @@ class CoursListState extends State<CoursList> {
         ]));
   }
 
+  List<Widget> _buildListCours() {
+    List<Widget> widgets = [];
+
+    _listElements.forEach((cours) {
+      if (cours is CoursHeader)
+        widgets.add(_buildRowHeader(cours));
+      else if (cours is Cours) widgets.add(_buildRow(cours));
+    });
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var dividedWidgetList = ListTile
+        .divideTiles(
+            context: context, tiles: _buildListCours())
+        .toList();
+
     return Expanded(
         child: RefreshIndicator(
             onRefresh: _fetchData,
-            child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  if (_listElements[index] is CoursHeader)
-                    return _buildRowHeader(index);
-                  else
-                    return _buildRow(index);
-                },
-                itemCount: _listElements.length),
+            child: ListView(shrinkWrap: true, children: dividedWidgetList),
             key: refreshKey));
   }
 }

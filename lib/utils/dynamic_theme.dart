@@ -27,10 +27,11 @@ class DynamicThemeState extends State<DynamicTheme> {
   @override
   void initState() {
     super.initState();
-    _theme = widget.defaultTheme;
+    _updateTheme(widget.defaultTheme);
 
     _loadTheme().then((theme) {
       _updateTheme(theme);
+      _saveTheme();
     });
   }
 
@@ -40,13 +41,13 @@ class DynamicThemeState extends State<DynamicTheme> {
   }
 
   void changeTheme({Brightness brightness, Color primaryColor}) {
-    ThemeData updatedTheme =
-        _editTheme(brightness: brightness, primaryColor: primaryColor);
+    final updatedTheme =
+        _buildTheme(brightness: brightness, primaryColor: primaryColor);
     _updateTheme(updatedTheme);
     _saveTheme();
   }
 
-  ThemeData _editTheme({Brightness brightness, Color primaryColor}) {
+  ThemeData _buildTheme({Brightness brightness, Color primaryColor}) {
     return ThemeData(
         brightness: brightness ?? _theme.brightness,
         primaryColor: primaryColor ?? _theme.primaryColor,
@@ -59,23 +60,29 @@ class DynamicThemeState extends State<DynamicTheme> {
     });
   }
 
-  ThemeData get theme => _theme;
-
   Future<ThemeData> _loadTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool isDark = prefs.getBool(PrefKey.DARK_THEME) ?? false;
-    Brightness brightness = isDark ? Brightness.dark : Brightness.light;
-    Color primaryColor =
-        Color(prefs.getInt(PrefKey.APPBAR_COLOR) ?? 0xFF000000);
+    Brightness brightness = widget.defaultTheme.brightness;
+    Color primaryColor = widget.defaultTheme.primaryColor;
 
-    return _editTheme(brightness: brightness, primaryColor: primaryColor);
+    bool isDark = prefs.getBool(PrefKey.DARK_THEME);
+    if (isDark != null)
+      brightness = isDark ? Brightness.dark : Brightness.light;
+
+    int primaryColorValue = prefs.getInt(PrefKey.APPBAR_COLOR);
+    if (primaryColorValue != null)
+      primaryColor = Color(primaryColorValue);
+
+    return _buildTheme(brightness: brightness, primaryColor: primaryColor);
   }
 
   Future _saveTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefKey.DARK_THEME,
         _theme.brightness == Brightness.dark ? true : false);
-    await prefs.setInt(PrefKey.APPBAR_COLOR, _theme.primaryColor.value);
+    //await prefs.setInt(PrefKey.APPBAR_COLOR, _theme.primaryColor.value);
   }
+
+  ThemeData get theme => _theme;
 }

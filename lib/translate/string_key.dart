@@ -26,6 +26,8 @@ class StringKey {
   static const DARK_THEME_DESC = const StringKey._('dark_theme_desc');
   static const APPBAR_COLOR = const StringKey._('appbar_color');
   static const APPBAR_COLOR_DESC = const StringKey._('appbar_color_desc');
+  static const NOTE_COLOR = const StringKey._('note_color');
+  static const NOTE_COLOR_DESC = const StringKey._('note_color_desc');
 
   static const UPDATE = const StringKey._('update');
   static const ABOUT = const StringKey._('about');

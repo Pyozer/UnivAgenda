@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:myagenda/models/pref_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
 import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
@@ -25,9 +26,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return DynamicTheme(
         defaultTheme: ThemeData(
-            accentColor: Colors.red,
-            primaryColor: Colors.red,
-            brightness: Brightness.light),
+            accentColor: const Color(PrefKey.DEFAULT_APPBAR_COLOR),
+            primaryColor: const Color(PrefKey.DEFAULT_APPBAR_COLOR),
+            brightness: PrefKey.DEFAULT_DARK_THEME == true ? Brightness.dark : Brightness.dark),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
