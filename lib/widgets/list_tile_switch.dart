@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/widgets/list_tile_title.dart';
 
 class ListTileSwitch extends StatefulWidget {
   final String title;
@@ -48,7 +49,7 @@ class _ListTileSwitchState extends State<ListTileSwitch> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(widget.title),
+        title: ListTileTitle(widget.title),
         subtitle: widget.description != null ? Text(widget.description) : null,
         trailing: Switch(value: _switchValue, onChanged: _onSwitchChange),
         onTap: () {

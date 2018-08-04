@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_pickers/material_pickers.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/widgets/list_tile_title.dart';
 
 class ListTileColor extends StatefulWidget {
   final String title;
@@ -104,7 +105,7 @@ class _ListTileColorState extends State<ListTileColor> {
   Widget build(BuildContext context) {
     final double sizeColor = widget.description != null ? kBigColorSize : kSmallColorSize;
     return ListTile(
-        title: Text(widget.title),
+        title: ListTileTitle(widget.title),
         subtitle: widget.description != null ? Text(widget.description) : null,
         trailing: Container(
           width: sizeColor,

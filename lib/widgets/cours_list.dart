@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/models/cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
+import 'package:myagenda/widgets/list_divider.dart';
 
 class CoursList extends StatefulWidget {
   final int resId;
@@ -83,34 +84,31 @@ class CoursListState extends State<CoursList> {
     return Container(
         color: Colors.grey[300],
         padding: const EdgeInsets.all(14.0),
-        child: Row(
-            children: [
-              Expanded(
-                  child: Text(
-                      header.dateForDisplay(),
-                      style: Theme.of(context).textTheme.title.copyWith(color: Colors.grey[900])
-                  )
-              )
-            ]
-        )
-    );
+        child: Row(children: [
+          Expanded(
+              child: Text(header.dateForDisplay(),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .title
+                      .copyWith(color: Colors.grey[900])))
+        ]));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: RefreshIndicator(
-        onRefresh: _fetchData,
-        child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (_listElements[index] is CoursHeader) return _buildRowHeader(index);
-              /*else if (index.isOdd)
-            return new Divider(color: Colors.grey[300]);*/
-              else return _buildRow(index);
-            },
-            itemCount: _listElements.length
-        ),
-        key: refreshKey
-    ));
+    return Expanded(
+        child: RefreshIndicator(
+            onRefresh: _fetchData,
+            child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  if (_listElements[index] is CoursHeader)
+                    return _buildRowHeader(index);
+                  else
+                    return _buildRow(index);
+                },
+                itemCount: _listElements.length),
+            key: refreshKey));
   }
 }
 
@@ -121,34 +119,36 @@ class CoursRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColorRow = Colors.white;
-    Color textColorCaption = Colors.grey[800];
-    if (cours.isExam()) {
-      bgColorRow = Colors.red;
-    } else if (Theme.of(context).brightness == Brightness.dark) {
-      bgColorRow = null;
-      textColorCaption = Colors.grey[400];
-    }
+    final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-        color: bgColorRow,
-        padding: const EdgeInsets.all(13.0),
-        child: Row(children: [
-          Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                Container(
-                    margin: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(cours.title,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.w500))),
-                Container(
-                    margin: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('${cours.location} - ${cours.description}', style: TextStyle(fontSize: 14.0))),
-                Text(cours.dateForDisplay(),
-                    style: TextStyle(fontSize: 14.0, color: textColorCaption))
-              ]))
-        ]));
+    Color bgColorRow;
+    if (cours.isExam()) bgColorRow = Colors.red[600];
+
+    final titleStyle = textTheme.title.copyWith(fontSize: 16.0);
+    final subheadStyle = textTheme.subhead.copyWith(fontSize: 14.0);
+    final cationStyle =
+        textTheme.caption.copyWith(fontSize: 14.0, fontWeight: FontWeight.w500);
+
+    return Column(children: <Widget>[
+      Container(
+          color: bgColorRow,
+          padding: const EdgeInsets.all(13.0),
+          child: Row(children: [
+            Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Container(
+                      margin: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(cours.title, style: titleStyle)),
+                  Container(
+                      margin: const EdgeInsets.only(bottom: 8.0),
+                      child: Text('${cours.location} - ${cours.description}',
+                          style: subheadStyle)),
+                  Text(cours.dateForDisplay(), style: cationStyle)
+                ]))
+          ])),
+      ListDivider()
+    ]);
   }
 }

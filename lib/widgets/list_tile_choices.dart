@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:myagenda/widgets/list_tile_title.dart';
 import 'package:myagenda/widgets/radio_list.dart';
 
 class ListTileChoices extends StatefulWidget {
@@ -80,7 +81,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(widget.title),
+        title: ListTileTitle(widget.title),
         subtitle: Text(_selectedChoice),
         onTap: _openDialog);
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/translate/string_key.dart';
 import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/widgets/list_tile_title.dart';
 
 class ListTileInput extends StatefulWidget {
   final String title;
@@ -101,7 +102,7 @@ class _ListTileInputState extends State<ListTileInput> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(widget.title),
+        title: ListTileTitle(widget.title),
         subtitle: Text(_submitInputValue),
         onTap: _openDialog);
   }
