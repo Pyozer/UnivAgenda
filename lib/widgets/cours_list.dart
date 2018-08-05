@@ -75,25 +75,6 @@ class CoursListState extends State<CoursList> {
     return listElement;
   }
 
-  Widget _buildRow(Cours cours) {
-    return CoursRow(cours: cours);
-  }
-
-  Widget _buildRowHeader(CoursHeader header) {
-    return Container(
-        color: Colors.grey[300],
-        padding: const EdgeInsets.all(14.0),
-        child: Row(children: [
-          Expanded(
-              child: Text(header.dateForDisplay(),
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .title
-                      .copyWith(color: Colors.grey[900])))
-        ]));
-  }
-
   List<Widget> _buildListCours() {
     List<Widget> widgets = [];
 
@@ -101,8 +82,8 @@ class CoursListState extends State<CoursList> {
 
     _listElements.forEach((cours) {
       if (cours is CoursHeader)
-        widgets.add(_buildRowHeader(cours));
-      else if (cours is Cours) widgets.add(_buildRow(cours));
+        widgets.add(CoursRowHeader(coursHeader: cours));
+      else if (cours is Cours) widgets.add(CoursRow(cours: cours));
     });
     return widgets;
   }
@@ -158,5 +139,23 @@ class CoursRow extends StatelessWidget {
           ])),
       ListDivider()
     ]);
+  }
+}
+
+class CoursRowHeader extends StatelessWidget {
+  final CoursHeader coursHeader;
+
+  const CoursRowHeader({Key key, this.coursHeader}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle =
+        Theme.of(context).textTheme.title.copyWith(color: Colors.grey[900]);
+    return Container(
+        color: Colors.grey[300],
+        padding: const EdgeInsets.all(14.0),
+        child: Row(children: [
+          Expanded(child: Text(coursHeader.dateForDisplay(), style: textStyle))
+        ]));
   }
 }
