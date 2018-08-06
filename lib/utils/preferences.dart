@@ -92,6 +92,17 @@ class Preferences {
     return noteColor;
   }
 
+  static Future<bool> isFirstBoot() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefKey.FIRST_BOOT) ?? true;
+  }
+
+  static Future<bool> setFirstBoot(bool isFirstBoot) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefKey.FIRST_BOOT, isFirstBoot);
+    return isFirstBoot;
+  }
+
   static Future<Map<String, dynamic>> getAllValues() async {
     Map<String, dynamic> dataPrefs = {};
     dataPrefs[PrefKey.CAMPUS] = await Preferences.getCampus();

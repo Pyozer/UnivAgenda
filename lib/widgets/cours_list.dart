@@ -118,27 +118,32 @@ class CoursRow extends StatelessWidget {
     final cationStyle =
         textTheme.caption.copyWith(fontSize: 14.0, fontWeight: FontWeight.w500);
 
-    return Column(children: <Widget>[
-      Container(
-          color: bgColorRow,
-          padding: const EdgeInsets.all(13.0),
-          child: Row(children: [
-            Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  Container(
-                      margin: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(cours.title, style: titleStyle)),
-                  Container(
-                      margin: const EdgeInsets.only(bottom: 8.0),
-                      child: Text('${cours.location} - ${cours.description}',
-                          style: subheadStyle)),
-                  Text(cours.dateForDisplay(), style: cationStyle)
-                ]))
-          ])),
-      ListDivider()
-    ]);
+    return InkWell(
+        onTap: () {
+          // TODO : Faire page d'un cours
+        },
+        child: Column(children: [
+          Container(
+              color: bgColorRow,
+              padding: const EdgeInsets.all(13.0),
+              child: Row(children: [
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Container(
+                          margin: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(cours.title, style: titleStyle)),
+                      Container(
+                          margin: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                              '${cours.location} - ${cours.description}',
+                              style: subheadStyle)),
+                      Text(cours.dateForDisplay(), style: cationStyle)
+                    ]))
+              ])),
+          ListDivider()
+        ]));
   }
 }
 

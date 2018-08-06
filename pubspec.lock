@@ -135,6 +135,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.6"
+  intro_views_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "5210edec91ec6246008dac85da6c6d3392dcee16"
+      url: "git://github.com/aagarwal1012/IntroViews-Flutter"
+    source: git
+    version: "2.2.2"
   io:
     dependency: transitive
     description:
@@ -176,7 +185,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: a5510f71977fa0f590bb16b667ba656e0c16679c
-      url: "https://github.com/long1eu/material_pickers.git"
+      url: "git://github.com/long1eu/material_pickers"
     source: git
     version: "0.0.2"
   meta:

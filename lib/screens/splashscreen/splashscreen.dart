@@ -34,19 +34,17 @@ class SplashScreen extends StatelessWidget {
     if (noteColor == null)
       await Preferences.setNoteColor(PrefKey.DEFAULT_NOTE_COLOR);
 
-    return true;
-  }
-
-  _startTime(BuildContext context) async {
-    var _duration = Duration(milliseconds: 1000);
-    return Timer(
-        _duration, () => Navigator.of(context).pushReplacementNamed('/'));
+    bool isFirstBoot = await Preferences.isFirstBoot();
+    return isFirstBoot;
   }
 
   @override
   Widget build(BuildContext context) {
-    _initPreferences(context).then((finish) {
-      _startTime(context);
+    _initPreferences(context).then((isFirstBoot) {
+      if (isFirstBoot)
+        Navigator.of(context).pushReplacementNamed('/intro');
+      else
+        Navigator.of(context).pushReplacementNamed('/');
     });
 
     return Scaffold(

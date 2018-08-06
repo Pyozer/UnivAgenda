@@ -7,7 +7,9 @@ import 'package:myagenda/widgets/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   FloatingActionButton _buildFab() =>
-      FloatingActionButton(onPressed: () {}, child: Icon(Icons.add));
+      FloatingActionButton(onPressed: () {
+        // TODO: Faire fullscreen dialog pour ajouter un cours perso
+      }, child: Icon(Icons.add));
 
   @override
   Widget build(BuildContext context) {

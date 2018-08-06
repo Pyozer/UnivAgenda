@@ -12,4 +12,6 @@ class PrefKey {
   static const DEFAULT_APPBAR_COLOR = 0xFFFF0000;
   static const DEFAULT_NOTE_COLOR = 0xFFFFFF00;
   static const DEFAULT_DARK_THEME = false;
+
+  static const FIRST_BOOT = "first_boot";
 }

@@ -13,8 +13,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   material_pickers:
-    git:
-      url: https://github.com/long1eu/material_pickers.git
+    git: git://github.com/long1eu/material_pickers
+  intro_views_flutter:
+    git: git://github.com/aagarwal1012/IntroViews-Flutter
 
 dev_dependencies:
   flutter_test:
