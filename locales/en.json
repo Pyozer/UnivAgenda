@@ -37,5 +37,13 @@
 
   "cancel": "Cancel",
   "save": "Save",
-  "submit": "Submit"
+  "submit": "Submit",
+
+  "what_is_it": "What is it?",
+  "about_what": "This app is linked to the agenda of th University of Le Mans. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
+  "author": "Author",
+  "developer": "Developer",
+  "social": "Social",
+  "other": "Other",
+  "made_with": "Made with"
 }

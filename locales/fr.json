@@ -37,5 +37,13 @@
 
   "cancel": "Annuler",
   "save": "Sauvegarder",
-  "submit": "Valider"
+  "submit": "Valider",
+
+  "what_is_it": "Qu'est ce que c'est ?",
+  "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine. L'application vous permet d'avoir un accès direct à votre emploi du temps sns avoir à aller sur l'ENT.",
+  "author": "Auteur",
+  "developer": "Développeur",
+  "social": "Social",
+  "other": "Autre",
+  "made_with": "Développé avec"
 }

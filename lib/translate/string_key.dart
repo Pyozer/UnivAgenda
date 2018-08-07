@@ -40,6 +40,16 @@ class StringKey {
   static const SAVE = const StringKey._('save');
   static const SUBMIT = const StringKey._('submit');
 
+  static const WHAT_IS_IT = const StringKey._('what_is_it');
+  static const ABOUT_WHAT = const StringKey._('about_what');
+
+  static const AUTHOR = const StringKey._('author');
+  static const DEVELOPER = const StringKey._('developer');
+  static const SOCIAL = const StringKey._('social');
+  static const OTHER = const StringKey._('other');
+
+  static const MADE_WITH = const StringKey._('made_with');
+
   final String value;
 
   const StringKey._(this.value);
