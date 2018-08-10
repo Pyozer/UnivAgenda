@@ -6,10 +6,15 @@ class PageViewModel {
   /// @Default `Colors.white`
   final Color pageColor;
 
-  /// color for background of progress bubbles
+  /// Progress indicator color
   ///
   /// @Default `Colors.blue`
-  final Color bubbleBackgroundColor;
+  final Color progressColor;
+
+  /// Button next (or done) color
+  ///
+  /// @Default `Colors.blue`
+  final Color buttonColor;
 
   /// Title of page
   ///
@@ -27,16 +32,18 @@ class PageViewModel {
   /// TextStyle for title
   final TextStyle bodyTextStyle;
 
-  /// Image Widget
-  final Image mainImage;
+  /// Image of page
+  final Image image;
 
-  PageViewModel({this.pageColor = Colors.white,
-    this.bubbleBackgroundColor = Colors.blue,
-    @required this.title,
-    @required this.body,
-    @required this.mainImage,
-    this.titleTextStyle = const TextStyle(
-        color: Colors.black, fontSize: 32.0, fontWeight: FontWeight.w600),
-    this.bodyTextStyle = const TextStyle(color: const Color(0xFF555555), fontSize: 22.0)});
-
+  PageViewModel(
+      {this.pageColor = Colors.white,
+      this.progressColor = Colors.blue,
+      this.buttonColor = Colors.blue,
+      @required this.title,
+      @required this.body,
+      @required this.image,
+      this.titleTextStyle = const TextStyle(
+          color: Colors.black, fontSize: 32.0, fontWeight: FontWeight.w600),
+      this.bodyTextStyle =
+          const TextStyle(color: const Color(0xFF555555), fontSize: 22.0)});
 }
