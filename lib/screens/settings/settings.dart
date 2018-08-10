@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
-import 'package:myagenda/models/pref_key.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/translate/string_key.dart';
-import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';

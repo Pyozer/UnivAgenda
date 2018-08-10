@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:myagenda/translate/string_key.dart';
+import 'package:myagenda/keys/string_key.dart';
 
 class Translations {
   Translations(Locale locale) {

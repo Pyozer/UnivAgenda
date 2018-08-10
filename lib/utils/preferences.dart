@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:myagenda/data.dart';
-import 'package:myagenda/models/pref_key.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';

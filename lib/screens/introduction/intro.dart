@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -61,12 +62,12 @@ class IntroductionScreen extends StatelessWidget {
 
   void _onDone(BuildContext context) async {
     await Preferences.setFirstBoot(false);
-    Navigator.pushReplacementNamed(context, '/');
+    Navigator.pushReplacementNamed(context, RouteKey.HOME);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new IntroViewsFlutter(
+    return IntroViewsFlutter(
       pages,
       onTapDoneButton: () => _onDone(context),
       showSkipButton: true, //Whether you want to// show the skip button or not.

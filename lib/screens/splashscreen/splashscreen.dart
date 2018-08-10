@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/pref_key.dart';
+import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -42,20 +43,20 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _initPreferences(context).then((isFirstBoot) {
       if (isFirstBoot)
-        Navigator.of(context).pushReplacementNamed('/intro');
+        Navigator.of(context).pushReplacementNamed(RouteKey.INTRO);
       else
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
     });
 
     return Scaffold(
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      LogoApp(),
-      const Padding(padding: EdgeInsets.only(top: 100.0)),
+      const LogoApp(),
+      const Padding(padding: const EdgeInsets.only(top: 100.0)),
       const CircularProgressIndicator(
           strokeWidth: 4.0,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.red))
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.red))
     ])));
   }
 }

@@ -15,7 +15,6 @@ class AppbarPage extends StatelessWidget {
         appBar: AppBar(title: Text(title)),
         body: body,
         drawer: drawer,
-        floatingActionButton: fab
-    );
+        floatingActionButton: fab);
   }
 }

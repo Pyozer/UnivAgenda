@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/translate/string_key.dart';
-import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/about_card.dart';
 import 'package:myagenda/widgets/circle_image.dart';
 import 'package:myagenda/widgets/logo_app.dart';

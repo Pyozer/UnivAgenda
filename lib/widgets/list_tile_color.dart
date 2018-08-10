@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:material_pickers/material_pickers.dart';
-import 'package:myagenda/translate/string_key.dart';
-import 'package:myagenda/translate/translations.dart';
+import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/list_tile_title.dart';
 
 class ListTileColor extends StatefulWidget {
