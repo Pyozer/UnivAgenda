@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LogoApp extends StatelessWidget {
 
-  final image = 'images/logo.png';
+  final image = 'res/images/logo.png';
 
   final double width;
 

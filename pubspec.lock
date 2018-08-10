@@ -71,6 +71,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  dots_indicator:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: c071d4dffb8b35570b6f25950bb4ab61ffc4cd47
+      url: "git://github.com/pyozer/dots_indicator"
+    source: git
+    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -135,15 +144,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.6"
-  intro_views_flutter:
+  introduction_screen:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5210edec91ec6246008dac85da6c6d3392dcee16"
-      url: "git://github.com/aagarwal1012/IntroViews-Flutter"
+      resolved-ref: b5def804dbecde21e8911a2b3491842accd68279
+      url: "git://github.com/pyozer/introduction_screen"
     source: git
-    version: "2.2.2"
+    version: "1.0.0"
   io:
     dependency: transitive
     description:

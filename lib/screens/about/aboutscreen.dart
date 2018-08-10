@@ -113,15 +113,18 @@ class AboutScreen extends StatelessWidget {
     return AppbarPage(
         title: translations.get(StringKey.ABOUT),
         body: Container(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.grey[200]
+                : null,
             child: ListView(
-          children: [
-            _buildHeader(context),
-            _buildWhatIsIt(context),
-            _buildAuthor(context),
-            _buildSocial(context),
-            _buildOther(context),
-            _buildFooter(context),
-          ],
-        )));
+              children: [
+                _buildHeader(context),
+                _buildWhatIsIt(context),
+                _buildAuthor(context),
+                _buildSocial(context),
+                _buildOther(context),
+                _buildFooter(context),
+              ],
+            )));
   }
 }

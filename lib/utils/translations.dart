@@ -41,7 +41,7 @@ class Translations {
   static Future<Translations> load(Locale locale) async {
     Translations translations = new Translations(locale);
     String jsonContent =
-        await rootBundle.loadString("locales/${locale.languageCode}.json");
+        await rootBundle.loadString("res/locales/${locale.languageCode}.json");
     _localizedValues = json.decode(jsonContent);
     return translations;
   }

@@ -28,6 +28,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return DynamicTheme(
         defaultTheme: ThemeData(
+            fontFamily: 'OpenSans',
             accentColor: const Color(PrefKey.DEFAULT_APPBAR_COLOR),
             primaryColor: const Color(PrefKey.DEFAULT_APPBAR_COLOR),
             brightness: getBrightness(PrefKey.DEFAULT_DARK_THEME)),
@@ -41,10 +42,7 @@ class App extends StatelessWidget {
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
               ],
-              supportedLocales: [
-                const Locale('en'),
-                const Locale('fr'),
-              ],
+              supportedLocales: [const Locale('en'), const Locale('fr')],
               initialRoute: RouteKey.SPLASHSCREEN,
               onGenerateRoute: (RouteSettings settings) {
                 if (routes.containsKey(settings.name))

@@ -19,7 +19,6 @@
   "select_group": "Select your group",
 
   "number_week": "Number of week",
-  "select_number_week": "Number of week for the agenda to display.",
 
   "dark_theme": "Dark theme",
   "dark_theme_desc": "Background color will be dark, like a night mode.",
@@ -45,5 +44,23 @@
   "developer": "Developer",
   "social": "Social",
   "other": "Other",
-  "made_with": "Made with"
+  "made_with": "Made with",
+
+  "intro_welcome_title": "Welcome !",
+  "intro_welcome_desc": "MyAgenda allows you to access the Le Mans University calendar directly on your device !",
+
+  "intro_agenda_title": "Choose your agenda",
+  "intro_agenda_desc": "In the settings, you can choose your department, year and group to display the corresponding calendar.",
+
+  "intro_customization_title": "Personalization",
+  "intro_customization_desc": "Choose between a light or dark theme. But also the main color of the app !",
+
+  "intro_note_title": "Note",
+  "intro_note_desc": "You can add a note to a course. A color will appear on the side, this one is also customizable.",
+
+  "intro_event_title": "Custom event",
+  "intro_event_desc": "You can add your own event to the calendar and assign it a special color.",
+
+  "intro_offline_title": "Offline Mode",
+  "intro_offline_desc": "Once your calendar has been loaded at least once, it will be backed up for offline use."
 }

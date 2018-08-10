@@ -48,6 +48,7 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   ThemeData _buildTheme({Brightness brightness, Color primaryColor}) {
     return ThemeData(
+        fontFamily: _theme.textTheme.title.fontFamily,
         brightness: brightness ?? _theme.brightness,
         primaryColor: primaryColor ?? _theme.primaryColor,
         accentColor: primaryColor ?? _theme.accentColor);

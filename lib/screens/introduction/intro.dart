@@ -1,64 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:intro_views_flutter/Models/page_view_model.dart';
-import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:myagenda/keys/route_key.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/logo_app.dart';
+import 'package:introduction_screen/introduction.dart';
 
 class IntroductionScreen extends StatelessWidget {
-  final pages = [
-    new PageViewModel(
-        pageColor: const Color(0xFF03A9F4),
-        iconImageAssetPath: 'assets/air-hostess.png',
-        iconColor: null,
-        bubbleBackgroundColor: null,
-        body: Text(
-          'Haselfree  booking  of  flight  tickets  with  full  refund  on  cancelation',
-        ),
-        title: Text(
-          'Title 1',
-        ),
-        textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
-        mainImage: Image.asset(
-          'assets/airplane.png',
-          height: 285.0,
-          width: 285.0,
-          alignment: Alignment.center,
-        )),
-    new PageViewModel(
-      pageColor: const Color(0xFF8BC34A),
-      iconImageAssetPath: 'assets/waiter.png',
-      iconColor: null,
-      bubbleBackgroundColor: null,
-      body: Text(
-        'We  work  for  the  comfort ,  enjoy  your  stay  at  our  beautiful  hotels',
+
+  static const double kIconSize = 175.0;
+
+  List<PageViewModel> _buildPages(BuildContext context) {
+    final translate = Translations.of(context);
+    return [
+      PageViewModel(
+        translate.get(StringKey.INTRO_WELCOME_TITLE),
+        translate.get(StringKey.INTRO_WELCOME_DESC),
+        LogoApp(width: kIconSize),
       ),
-      title: Text('Title 2'),
-      mainImage: Image.asset(
-        'assets/hotel.png',
-        height: 285.0,
-        width: 285.0,
-        alignment: Alignment.center,
+      PageViewModel(
+        translate.get(StringKey.INTRO_AGENDA_TITLE),
+        translate.get(StringKey.INTRO_AGENDA_DESC),
+        Image.network(
+            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_group.png",
+            height: kIconSize),
       ),
-      textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
-    ),
-    new PageViewModel(
-      pageColor: const Color(0xFF607D8B),
-      iconImageAssetPath: 'assets/taxi-driver.png',
-      iconColor: null,
-      bubbleBackgroundColor: null,
-      body: Text(
-        'Easy  cab  booking  at  your  doorstep  with  cashless  payment  system',
+      PageViewModel(
+        translate.get(StringKey.INTRO_CUSTOM_TITLE),
+        translate.get(StringKey.INTRO_CUSTOM_DESC),
+        Image.network(
+            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_theme.png",
+            height: kIconSize)
       ),
-      title: Text('Title 3'),
-      mainImage: Image.asset(
-        'assets/taxi.png',
-        height: 285.0,
-        width: 285.0,
-        alignment: Alignment.center,
+      PageViewModel(
+        translate.get(StringKey.INTRO_NOTE_TITLE),
+        translate.get(StringKey.INTRO_NOTE_DESC),
+        Image.network(
+            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_note.png",
+            height: kIconSize),
       ),
-      textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
-    ),
-  ];
+      PageViewModel(
+        translate.get(StringKey.INTRO_EVENT_TITLE),
+        translate.get(StringKey.INTRO_EVENT_DESC),
+        Image.network(
+            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_event.png",
+            height: kIconSize),
+      ),
+      PageViewModel(
+        translate.get(StringKey.INTRO_OFFLINE_TITLE),
+        translate.get(StringKey.INTRO_OFFLINE_DESC),
+        Image.network(
+            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_internet.png",
+            height: kIconSize),
+      )
+    ];
+  }
 
   void _onDone(BuildContext context) async {
     await Preferences.setFirstBoot(false);
@@ -67,14 +64,10 @@ class IntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntroViewsFlutter(
-      pages,
-      onTapDoneButton: () => _onDone(context),
-      showSkipButton: true, //Whether you want to// show the skip button or not.
-      pageButtonTextStyles: TextStyle(
-        color: Colors.white,
-        fontSize: 18.0,
-      ),
+    return IntroScreen(
+        pages: _buildPages(context),
+        onDone: () => _onDone(context),
+        showSkipButton: true
     ); //Material App
   }
 }

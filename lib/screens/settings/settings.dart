@@ -136,7 +136,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTileInput(
               title: translate.get(StringKey.NUMBER_WEEK),
-              titleDialog: translate.get(StringKey.SELECT_NUMBER_WEEK),
               defaultValue: _dataPrefs[PrefKey.NUMBER_WEEK]?.toString() ??
                   PrefKey.DEFAULT_NUMBER_WEEK.toString(),
               inputType:
