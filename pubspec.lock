@@ -149,7 +149,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b5def804dbecde21e8911a2b3491842accd68279
+      resolved-ref: "4e66830afe569eac16b6d441bf64e53eb0cb9ce6"
       url: "git://github.com/pyozer/introduction_screen"
     source: git
     version: "1.0.0"

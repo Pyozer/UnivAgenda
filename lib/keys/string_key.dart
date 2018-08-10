@@ -49,6 +49,10 @@ class StringKey {
 
   static const MADE_WITH = const StringKey._('made_with');
 
+  static const SKIP = const StringKey._('skip');
+  static const NEXT = const StringKey._('next');
+  static const DONE = const StringKey._('done');
+
   static const INTRO_WELCOME_TITLE = const StringKey._('intro_welcome_title');
   static const INTRO_WELCOME_DESC = const StringKey._('intro_welcome_desc');
 

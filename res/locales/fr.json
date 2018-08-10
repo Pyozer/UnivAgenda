@@ -46,6 +46,10 @@
   "other": "Autre",
   "made_with": "Développé avec",
 
+  "skip": "Passer",
+  "next": "Suivant",
+  "done": "Terminer",
+
   "intro_welcome_title": "Bienvenue !",
   "intro_welcome_desc": "MyAgenda vous permet d'accéder à l'agenda de l'Université du Mans directement sur votre appareil !",
 

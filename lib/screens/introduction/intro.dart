@@ -8,7 +8,6 @@ import 'package:myagenda/widgets/logo_app.dart';
 import 'package:introduction_screen/introduction.dart';
 
 class IntroductionScreen extends StatelessWidget {
-
   static const double kIconSize = 175.0;
 
   List<PageViewModel> _buildPages(BuildContext context) {
@@ -27,12 +26,11 @@ class IntroductionScreen extends StatelessWidget {
             height: kIconSize),
       ),
       PageViewModel(
-        translate.get(StringKey.INTRO_CUSTOM_TITLE),
-        translate.get(StringKey.INTRO_CUSTOM_DESC),
-        Image.network(
-            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_theme.png",
-            height: kIconSize)
-      ),
+          translate.get(StringKey.INTRO_CUSTOM_TITLE),
+          translate.get(StringKey.INTRO_CUSTOM_DESC),
+          Image.network(
+              "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_theme.png",
+              height: kIconSize)),
       PageViewModel(
         translate.get(StringKey.INTRO_NOTE_TITLE),
         translate.get(StringKey.INTRO_NOTE_DESC),
@@ -64,10 +62,15 @@ class IntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translate = Translations.of(context);
+
     return IntroScreen(
-        pages: _buildPages(context),
-        onDone: () => _onDone(context),
-        showSkipButton: true
+      pages: _buildPages(context),
+      onDone: () => _onDone(context),
+      showSkipButton: true,
+      skipText: translate.get(StringKey.SKIP),
+      nextText: translate.get(StringKey.NEXT),
+      doneText: translate.get(StringKey.DONE)
     ); //Material App
   }
 }
