@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/list_tile_title.dart';
-import 'package:myagenda/widgets/radio_list.dart';
+import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:myagenda/widgets/settings/radio_list.dart';
 
 class ListTileChoices extends StatefulWidget {
   final String title;

@@ -76,10 +76,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c071d4dffb8b35570b6f25950bb4ab61ffc4cd47
+      resolved-ref: "1719964b0bcd1a6767ec213b91536413590d1569"
       url: "git://github.com/pyozer/dots_indicator"
     source: git
-    version: "1.0.0"
+    version: "0.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -149,10 +149,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4e66830afe569eac16b6d441bf64e53eb0cb9ce6"
+      resolved-ref: "4f7b9cdc3b070a3758ddef1b182bf6e7a8107b3c"
       url: "git://github.com/pyozer/introduction_screen"
     source: git
-    version: "1.0.0"
+    version: "0.0.1"
   io:
     dependency: transitive
     description:

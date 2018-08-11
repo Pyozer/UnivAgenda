@@ -6,7 +6,7 @@ import 'package:myagenda/models/cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/widgets/cours_list_header.dart';
-import 'package:myagenda/widgets/list_divider.dart';
+import 'package:myagenda/widgets/ui/list_divider.dart';
 
 class CoursList extends StatefulWidget {
   final int resId;

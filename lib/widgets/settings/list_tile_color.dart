@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_pickers/material_pickers.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/list_tile_title.dart';
+import 'package:myagenda/widgets/settings/list_tile_title.dart';
 
 class ListTileColor extends StatefulWidget {
   final String title;
@@ -27,9 +27,8 @@ class ListTileColor extends StatefulWidget {
 }
 
 class _ListTileColorState extends State<ListTileColor> {
-
-  final double kSmallColorSize = 30.0;
-  final double kBigColorSize = 40.0;
+  final double kSmallColorSize = 20.0;
+  final double kBigColorSize = 30.0;
 
   Color _inputValue;
   Color _submitInputValue;
@@ -104,7 +103,8 @@ class _ListTileColorState extends State<ListTileColor> {
 
   @override
   Widget build(BuildContext context) {
-    final double sizeColor = widget.description != null ? kBigColorSize : kSmallColorSize;
+    final double sizeColor =
+        widget.description != null ? kBigColorSize : kSmallColorSize;
     return ListTile(
         title: ListTileTitle(widget.title),
         subtitle: widget.description != null ? Text(widget.description) : null,

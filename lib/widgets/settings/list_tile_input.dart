@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/list_tile_title.dart';
+import 'package:myagenda/widgets/settings/list_tile_title.dart';
 
 class ListTileInput extends StatefulWidget {
   final String title;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/logo_app.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
@@ -27,7 +27,7 @@ class MainDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  const LogoApp(width: 65.0),
+                  Image.asset(Asset.LOGO, width: 65.0),
                   Padding(padding: const EdgeInsets.only(top: 13.0)),
                   Text(Translations.of(context).get(StringKey.APP_NAME),
                       style: const TextStyle(

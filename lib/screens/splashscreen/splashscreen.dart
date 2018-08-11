@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/widgets/logo_app.dart';
 
 class SplashScreen extends StatelessWidget {
   Future<bool> _initPreferences(BuildContext context) async {
@@ -52,7 +52,7 @@ class SplashScreen extends StatelessWidget {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const LogoApp(),
+      Image.asset(Asset.LOGO),
       const Padding(padding: const EdgeInsets.only(top: 100.0)),
       const CircularProgressIndicator(
           strokeWidth: 4.0,

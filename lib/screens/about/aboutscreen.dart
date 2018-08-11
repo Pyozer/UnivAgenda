@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/about_card.dart';
-import 'package:myagenda/widgets/circle_image.dart';
-import 'package:myagenda/widgets/logo_app.dart';
+import 'package:myagenda/widgets/ui/about_card.dart';
+import 'package:myagenda/widgets/images/circle_image.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -19,7 +19,7 @@ class AboutScreen extends StatelessWidget {
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: LogoApp(width: 80.0)),
+                  child: Image.asset(Asset.LOGO, width: 80.0)),
               Text(Translations.of(context).get(StringKey.APP_NAME),
                   style: txtTheme),
             ]));
@@ -44,10 +44,8 @@ class AboutScreen extends StatelessWidget {
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-            leading: CircleImage(
-                image: Image.network(
-                    "https://pyozer.github.io/static/media/img_profil.ca35ebef.png",
-                    width: 50.0)),
+            leading:
+                CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
             title: Text("Jean-Charles Moussé"),
             subtitle: Text(Translations.of(context).get(StringKey.DEVELOPER)))
       ],
@@ -55,17 +53,26 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildSocial(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AboutCard(
       title: Translations.of(context).get(StringKey.SOCIAL),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-          leading: Icon(Icons.account_circle),
+          leading: Image.asset(
+              isDark
+                  ? Asset.GITHUB_WHITE
+                  : Asset.GITHUB_DARK,
+              width: 33.0),
           title: Text("GitHub Project"),
           onTap: () {},
         ),
         ListTile(
-          leading: Icon(Icons.accessible),
+          leading: Image.asset(
+              isDark
+                  ? Asset.TWITTER_WHITE
+                  : Asset.TWITTER_BLUE,
+              width: 33.0),
           title: Text("Twitter"),
           onTap: () {},
         )

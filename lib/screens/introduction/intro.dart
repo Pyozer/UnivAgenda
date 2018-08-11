@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/model/page_view_model.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/logo_app.dart';
 import 'package:introduction_screen/introduction.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class IntroductionScreen extends StatelessWidget {
       PageViewModel(
         translate.get(StringKey.INTRO_WELCOME_TITLE),
         translate.get(StringKey.INTRO_WELCOME_DESC),
-        LogoApp(width: kIconSize),
+        Image.asset(Asset.LOGO, width: kIconSize),
       ),
       PageViewModel(
         translate.get(StringKey.INTRO_AGENDA_TITLE),
