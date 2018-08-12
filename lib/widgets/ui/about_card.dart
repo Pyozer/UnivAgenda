@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AboutCard extends StatelessWidget {
-  static const kPadding = 16.0;
+  static const kPadding = 18.0;
 
   final String title;
   final List<Widget> children;
@@ -18,7 +18,7 @@ class AboutCard extends StatelessWidget {
     final List<Widget> cardContent = [];
     cardContent.add(Padding(
         padding: lateralPadding
-            ? const EdgeInsets.only(bottom: 8.0)
+            ? const EdgeInsets.only(bottom: 12.0)
             : const EdgeInsets.fromLTRB(kPadding, 0.0, kPadding, 8.0),
         child: Text(title,
             style: Theme
