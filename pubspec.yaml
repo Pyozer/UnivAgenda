@@ -10,6 +10,7 @@ dependencies:
   shared_preferences: ^0.4.2
   flutter_localizations:
     sdk: flutter
+  flutter_markdown: ^0.1.6
   material_pickers:
     git: git://github.com/long1eu/material_pickers
   introduction_screen:

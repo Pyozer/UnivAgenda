@@ -3,6 +3,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
 
@@ -62,19 +63,14 @@ class AboutScreen extends StatelessWidget {
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-          leading: Image.asset(
-              isDark
-                  ? Asset.GITHUB_WHITE
-                  : Asset.GITHUB_DARK,
+          leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
               width: 30.0),
           title: Text(translation.get(StringKey.GITHUB_PROJECT)),
           onTap: () {},
         ),
         ListTile(
           leading: Image.asset(
-              isDark
-                  ? Asset.TWITTER_WHITE
-                  : Asset.TWITTER_BLUE,
+              isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
               width: 30.0),
           title: Text("Twitter"),
           onTap: () {},
@@ -90,12 +86,17 @@ class AboutScreen extends StatelessWidget {
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-            title: Text(translation.get(StringKey.CHANGELOG)),
-            subtitle: Text(translation.get(StringKey.CHANGELOG_DESC))),
+          title: Text(translation.get(StringKey.CHANGELOG)),
+          subtitle: Text(translation.get(StringKey.CHANGELOG_DESC)),
+          onTap: () => _modalBottomSheet(context),
+        ),
         ListTile(
             title: Text(translation.get(StringKey.OPENSOURCE_LICENCES)),
-            subtitle: Text(translation.get(StringKey.OPENSOURCE_LICENCES_DESC))),
-        ListTile(title: Text(translation.get(StringKey.VERSION)), subtitle: Text("1.0.0"))
+            subtitle:
+                Text(translation.get(StringKey.OPENSOURCE_LICENCES_DESC))),
+        ListTile(
+            title: Text(translation.get(StringKey.VERSION)),
+            subtitle: Text("1.0.0"))
       ],
     );
   }
@@ -115,6 +116,30 @@ class AboutScreen extends StatelessWidget {
                   padding: EdgeInsets.only(left: 8.0),
                   child: const Icon(Icons.favorite, color: Colors.red))
             ]));
+  }
+
+  //It doesn't need any key , we can easily create it.
+  void _modalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(Translations.of(context).get(StringKey.CHANGELOG),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 24.0)),
+                ),
+                Expanded(child: SingleChildScrollView(child: ChangeLog()))
+              ],
+            ),
+          );
+        });
   }
 
   @override
