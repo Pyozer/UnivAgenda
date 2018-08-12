@@ -4,13 +4,15 @@ description: Application pour voir l'agenda de l'Université du Maine
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^0.1.2
   http: ^0.11.3+16
   shared_preferences: ^0.4.2
-  flutter_localizations:
-    sdk: flutter
+  url_launcher: ^3.0.3
   flutter_markdown: ^0.1.6
+
   material_pickers:
     git: git://github.com/long1eu/material_pickers
   introduction_screen:

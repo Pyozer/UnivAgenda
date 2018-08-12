@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
+import 'package:myagenda/screens/about/licences/licences.dart';
 import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/settings/settings.dart';
@@ -19,6 +20,7 @@ final routes = {
   RouteKey.SETTINGS: SettingsScreen(),
   RouteKey.UPDATE: AboutScreen(),
   RouteKey.ABOUT: AboutScreen(),
+  RouteKey.LICENCES: LicencesScreen(),
   RouteKey.INTRO: IntroductionScreen(),
   RouteKey.LOGOUT: AboutScreen()
 };

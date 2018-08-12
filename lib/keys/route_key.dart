@@ -1,10 +1,11 @@
 class RouteKey {
   static const HOME = '/';
   static const SPLASHSCREEN = '/splashscreen';
-  static const FINDROOM = 'RouteKey.FINDROOM';
+  static const FINDROOM = '/findroom';
   static const SETTINGS = '/settings';
   static const UPDATE = '/update';
   static const ABOUT = '/about';
+  static const LICENCES = '/about/licences';
   static const INTRO = '/intro';
   static const LOGOUT = '/logout';
 }

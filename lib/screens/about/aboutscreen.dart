@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -82,23 +83,25 @@ class AboutScreen extends StatelessWidget {
   Widget _buildOther(BuildContext context) {
     final translation = Translations.of(context);
     return AboutCard(
-      title: translation.get(StringKey.OTHER),
-      lateralPadding: false,
-      children: <Widget>[
-        ListTile(
-          title: Text(translation.get(StringKey.CHANGELOG)),
-          subtitle: Text(translation.get(StringKey.CHANGELOG_DESC)),
-          onTap: () => _modalBottomSheet(context),
-        ),
-        ListTile(
-            title: Text(translation.get(StringKey.OPENSOURCE_LICENCES)),
-            subtitle:
-                Text(translation.get(StringKey.OPENSOURCE_LICENCES_DESC))),
-        ListTile(
-            title: Text(translation.get(StringKey.VERSION)),
-            subtitle: Text("1.0.0"))
-      ],
-    );
+        title: translation.get(StringKey.OTHER),
+        lateralPadding: false,
+        children: <Widget>[
+          ListTile(
+              title: Text(translation.get(StringKey.CHANGELOG)),
+              subtitle: Text(translation.get(StringKey.CHANGELOG_DESC)),
+              onTap: () => _modalBottomSheet(context)),
+          ListTile(
+              title: Text(translation.get(StringKey.OPENSOURCE_LICENCES)),
+              subtitle:
+                  Text(translation.get(StringKey.OPENSOURCE_LICENCES_DESC)),
+              onTap: () {
+                //showLicensePage(context: context, applicationIcon: Image.asset(Asset.LOGO), applicationName: "MyAgenda", applicationVersion: "1.0.0");
+                Navigator.pushNamed(context, RouteKey.LICENCES);
+              }),
+          ListTile(
+              title: Text(translation.get(StringKey.VERSION)),
+              subtitle: Text("1.0.0"))
+        ]);
   }
 
   Widget _buildFooter(BuildContext context) {
