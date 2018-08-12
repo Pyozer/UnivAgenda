@@ -45,7 +45,14 @@ class StringKey {
   static const AUTHOR = const StringKey._('author');
   static const DEVELOPER = const StringKey._('developer');
   static const SOCIAL = const StringKey._('social');
+  static const GITHUB_PROJECT = const StringKey._('github_project');
   static const OTHER = const StringKey._('other');
+
+  static const CHANGELOG = const StringKey._('changelog');
+  static const CHANGELOG_DESC = const StringKey._('changelog_desc');
+  static const OPENSOURCE_LICENCES = const StringKey._('opensource_licences');
+  static const OPENSOURCE_LICENCES_DESC = const StringKey._('opensource_licences_desc');
+  static const VERSION = const StringKey._('version');
 
   static const MADE_WITH = const StringKey._('made_with');
 

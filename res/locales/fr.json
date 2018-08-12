@@ -43,7 +43,13 @@
   "author": "Auteur",
   "developer": "Développeur",
   "social": "Social",
+  "github_project": "Projet GitHub",
   "other": "Autre",
+  "changelog": "Changelog",
+  "changelog_desc": "Voir le changelog de MyAgenda",
+  "opensource_licences": "Licences open source",
+  "opensource_licences_desc": "Détails des licences open source",
+  "version": "Version",
   "made_with": "Développé avec",
 
   "skip": "Passer",

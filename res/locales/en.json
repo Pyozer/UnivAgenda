@@ -43,7 +43,13 @@
   "author": "Author",
   "developer": "Developer",
   "social": "Social",
+  "github_project": "GitHub Project",
   "other": "Other",
+  "changelog": "Changelog",
+  "changelog_desc": "See the changelog of the app",
+  "opensource_licences": "Open source licences",
+  "opensource_licences_desc": "Licences details for open softwares",
+  "version": "Version",
   "made_with": "Made with",
 
   "skip": "Skip",

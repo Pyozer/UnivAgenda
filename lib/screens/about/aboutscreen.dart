@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/about_card.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
+import 'package:myagenda/widgets/ui/about_card.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -39,23 +39,26 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildAuthor(BuildContext context) {
+    final translation = Translations.of(context);
     return AboutCard(
-      title: Translations.of(context).get(StringKey.AUTHOR),
+      title: translation.get(StringKey.AUTHOR),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
             leading:
                 CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
             title: Text("Jean-Charles Moussé"),
-            subtitle: Text(Translations.of(context).get(StringKey.DEVELOPER)))
+            subtitle: Text(translation.get(StringKey.DEVELOPER)))
       ],
     );
   }
 
   Widget _buildSocial(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final translation = Translations.of(context);
+
     return AboutCard(
-      title: Translations.of(context).get(StringKey.SOCIAL),
+      title: translation.get(StringKey.SOCIAL),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
@@ -63,8 +66,8 @@ class AboutScreen extends StatelessWidget {
               isDark
                   ? Asset.GITHUB_WHITE
                   : Asset.GITHUB_DARK,
-              width: 33.0),
-          title: Text("GitHub Project"),
+              width: 30.0),
+          title: Text(translation.get(StringKey.GITHUB_PROJECT)),
           onTap: () {},
         ),
         ListTile(
@@ -72,7 +75,7 @@ class AboutScreen extends StatelessWidget {
               isDark
                   ? Asset.TWITTER_WHITE
                   : Asset.TWITTER_BLUE,
-              width: 33.0),
+              width: 30.0),
           title: Text("Twitter"),
           onTap: () {},
         )
@@ -81,17 +84,18 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildOther(BuildContext context) {
+    final translation = Translations.of(context);
     return AboutCard(
-      title: Translations.of(context).get(StringKey.OTHER),
+      title: translation.get(StringKey.OTHER),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-            title: Text("Changelog"),
-            subtitle: Text("See the changelog of the app")),
+            title: Text(translation.get(StringKey.CHANGELOG)),
+            subtitle: Text(translation.get(StringKey.CHANGELOG_DESC))),
         ListTile(
-            title: Text("Open source licences"),
-            subtitle: Text("Licences details for open softwares")),
-        ListTile(title: Text("Version"), subtitle: Text("1.0.0"))
+            title: Text(translation.get(StringKey.OPENSOURCE_LICENCES)),
+            subtitle: Text(translation.get(StringKey.OPENSOURCE_LICENCES_DESC))),
+        ListTile(title: Text(translation.get(StringKey.VERSION)), subtitle: Text("1.0.0"))
       ],
     );
   }
@@ -108,7 +112,7 @@ class AboutScreen extends StatelessWidget {
               Text(Translations.of(context).get(StringKey.MADE_WITH),
                   style: txtTheme),
               Padding(
-                  padding: EdgeInsets.only(left: 5.0),
+                  padding: EdgeInsets.only(left: 8.0),
                   child: const Icon(Icons.favorite, color: Colors.red))
             ]));
   }
