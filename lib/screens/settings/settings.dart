@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/widgets/ui/list_divider.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/settings/list_tile_input.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/setting_card.dart';
 
 class SettingsScreen extends StatefulWidget {

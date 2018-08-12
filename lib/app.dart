@@ -7,10 +7,10 @@ import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),

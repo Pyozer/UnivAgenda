@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction.dart';
 import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:introduction_screen/introduction.dart';
 
 class IntroductionScreen extends StatelessWidget {
   static const double kIconSize = 175.0;
