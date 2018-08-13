@@ -31,40 +31,41 @@ class LicencesScreen extends StatelessWidget {
         license: "MIT Licence", url: "${git}Pyozer/introduction_screen"),
   ];
 
-  Widget _buildList(BuildContext context) {
+  List<Widget> _buildList(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return ListView.builder(
-        itemCount: _libraries.length * 2 - 1,
-        itemBuilder: (context, index) {
-          if (index.isOdd) return ListDivider();
+    List<Widget> listLicenses = [];
 
-          final license = _libraries[index ~/ 2];
+    final libraryStyle = const TextStyle(fontWeight: FontWeight.w600);
+    final authorStyle = TextStyle(color: Colors.grey[600]);
+    final licenseStyle =
+        TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[900]);
 
-          final libraryText = Text(license.library,
-              style: const TextStyle(fontWeight: FontWeight.w600));
+    for (final license in _libraries) {
+      final libraryText = Text(license.library, style: libraryStyle);
+      final authorText = Text(license.author, style: authorStyle);
+      final licenseText = license.license.isNotEmpty
+          ? Text(license.license, style: licenseStyle)
+          : Text("");
 
-          final authorText =
-              Text(license.author, style: TextStyle(color: Colors.grey[600]));
+      listLicenses.add(ListTile(
+          title: libraryText,
+          subtitle: authorText,
+          trailing: licenseText,
+          onTap: license.url != null ? () => openLink(license.url) : null));
+    }
 
-          final licenseText = license.license.isNotEmpty
-              ? Text(license.license,
-                  style: TextStyle(
-                      color: isDark ? Colors.grey[400] : Colors.grey[900]))
-              : Text("");
-
-          return ListTile(
-              title: libraryText,
-              subtitle: authorText,
-              trailing: licenseText,
-              onTap: license.url != null ? () => openLink(license.url) : null);
-        });
+    return listLicenses;
   }
 
   @override
   Widget build(BuildContext context) {
+    final dividedWidgetList = ListTile
+        .divideTiles(context: context, tiles: _buildList(context))
+        .toList();
+
     return AppbarPage(
         title: Translations.of(context).get(StringKey.OPENSOURCE_LICENCES),
-        body: Container(child: _buildList(context)));
+        body: Container(child: ListView(children: dividedWidgetList)));
   }
 }
