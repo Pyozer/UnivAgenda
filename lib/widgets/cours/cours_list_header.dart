@@ -1,9 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/keys/route_key.dart';
 
 class CoursListHeader extends StatelessWidget {
+  final String year;
+  final String group;
+
+  const CoursListHeader({Key key, this.year, this.group}) : super(key: key);
+
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     return showDialog<Null>(
       context: mainContext,
@@ -21,7 +26,7 @@ class CoursListHeader extends StatelessWidget {
               child: Text('CHANGE'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(mainContext).pushNamed('/settings');
+                Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);
               },
             )
           ],
@@ -30,30 +35,22 @@ class CoursListHeader extends StatelessWidget {
     );
   }
 
-  Widget _futureBuilder(BuildContext context, AsyncSnapshot<String> snapshot) {
-    if (snapshot.hasData && snapshot.data != null) {
+  String _getText() {
+    return "$year - $group";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (year != null && group != null) {
       final textStyle = Theme.of(context).textTheme.title;
       return InkWell(
           onTap: () => _onHeaderTap(context),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(snapshot.data, style: textStyle))
+                child: Text(_getText(), style: textStyle))
           ]));
     } else
       return Container();
-  }
-
-  Future<String> _getGroupCalendar() async {
-    String year = await Preferences.getYear();
-    String group = await Preferences.getGroup();
-
-    return "$year - $group";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: _getGroupCalendar(), builder: _futureBuilder);
   }
 }

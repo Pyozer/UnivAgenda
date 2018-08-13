@@ -1,10 +1,8 @@
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note_cours.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/functions.dart';
 
-String twoDigits(int number) {
-  return number.toString().padLeft(2, '0');
-}
 
 abstract class BaseCours {
   String dateForDisplay();

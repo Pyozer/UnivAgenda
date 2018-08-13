@@ -15,3 +15,7 @@ void openLink(String href) async {
   else
     throw 'Could not launch $href';
 }
+
+String twoDigits(int number) {
+  return number.toString().padLeft(2, '0');
+}

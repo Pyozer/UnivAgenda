@@ -20,23 +20,25 @@ class SplashScreen extends StatelessWidget {
         campus: campus, department: department, year: year, group: group);
 
     bool isDark = await Preferences.getDarkTheme();
-    if (isDark == null) isDark = PrefKey.DEFAULT_DARK_THEME;
+    if (isDark == null) isDark = PrefKey.defaultDarkTheme;
 
     int appbarColor = await Preferences.getAppbarColor();
-    if (appbarColor == null) appbarColor = PrefKey.DEFAULT_APPBAR_COLOR;
+    if (appbarColor == null) appbarColor = PrefKey.defaultAppbarColor;
 
     DynamicTheme.of(context).changeTheme(
         primaryColor: Color(appbarColor), brightness: getBrightness(isDark));
 
     int numberWeeks = await Preferences.getNumberWeek();
     if (numberWeeks == null)
-      await Preferences.setNumberWeek(PrefKey.DEFAULT_NUMBER_WEEK);
+      await Preferences.setNumberWeek(PrefKey.defaultNumberWeek);
 
     int noteColor = await Preferences.getNoteColor();
     if (noteColor == null)
-      await Preferences.setNoteColor(PrefKey.DEFAULT_NOTE_COLOR);
+      await Preferences.setNoteColor(PrefKey.defaultNoteColor);
 
     bool isFirstBoot = await Preferences.isFirstBoot();
+
+    await Future.delayed(Duration(seconds: 1), null);
     return isFirstBoot;
   }
 
@@ -53,9 +55,11 @@ class SplashScreen extends StatelessWidget {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image.asset(Asset.LOGO),
-      const Padding(padding: const EdgeInsets.only(top: 100.0)),
-      const CircularLoader()
+      Image.asset(Asset.LOGO, width: 150.0),
+      Padding(
+        padding: const EdgeInsets.only(top: 90.0),
+        child: const CircularLoader(),
+      )
     ])));
   }
 }

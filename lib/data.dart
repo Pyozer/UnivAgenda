@@ -1,9 +1,7 @@
 import 'package:myagenda/models/prefs_calendar.dart';
 
 class Data {
-  static List<String> getAllCampus() {
-    return allData.keys.toList();
-  }
+  static List<String> getAllCampus() => allData.keys.toList();
 
   static List<String> getCampusDepartments(String campus) {
     if (campus == null || !allData.containsKey(campus))

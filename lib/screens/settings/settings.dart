@@ -54,10 +54,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Values will be save by method changeGroupPref()
     Preferences
         .changeGroupPref(
-            campus: _dataPrefs[PrefKey.CAMPUS],
-            department: _dataPrefs[PrefKey.DEPARTMENT],
-            year: _dataPrefs[PrefKey.YEAR],
-            group: _dataPrefs[PrefKey.GROUP])
+            campus: _dataPrefs[PrefKey.campus],
+            department: _dataPrefs[PrefKey.department],
+            year: _dataPrefs[PrefKey.year],
+            group: _dataPrefs[PrefKey.group])
         .then((prefCalendar) {
       prefCalendar.getValues().forEach((key, value) {
         _editLocalPrefValue(key, value);
@@ -73,59 +73,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileChoices(
               title: translations.get(StringKey.CAMPUS),
               titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-              selectedValue: _dataPrefs[PrefKey.CAMPUS],
+              selectedValue: _dataPrefs[PrefKey.campus],
               values: Data.getAllCampus(),
-              onChange: (value) => _updatePrefGroup(PrefKey.CAMPUS, value)),
+              onChange: (value) => _updatePrefGroup(PrefKey.campus, value)),
           const ListDivider(),
           ListTileChoices(
               title: translations.get(StringKey.DEPARTMENT),
               titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-              selectedValue: _dataPrefs[PrefKey.DEPARTMENT],
-              values: Data.getCampusDepartments(_dataPrefs[PrefKey.CAMPUS]),
-              onChange: (value) => _updatePrefGroup(PrefKey.DEPARTMENT, value)),
+              selectedValue: _dataPrefs[PrefKey.department],
+              values: Data.getCampusDepartments(_dataPrefs[PrefKey.campus]),
+              onChange: (value) => _updatePrefGroup(PrefKey.department, value)),
           const ListDivider(),
           ListTileChoices(
             title: translations.get(StringKey.YEAR),
             titleDialog: translations.get(StringKey.SELECT_YEAR),
-            selectedValue: _dataPrefs[PrefKey.YEAR],
+            selectedValue: _dataPrefs[PrefKey.year],
             values: Data.getYears(
-                _dataPrefs[PrefKey.CAMPUS], _dataPrefs[PrefKey.DEPARTMENT]),
-            onChange: (value) => _updatePrefGroup(PrefKey.YEAR, value),
+                _dataPrefs[PrefKey.campus], _dataPrefs[PrefKey.department]),
+            onChange: (value) => _updatePrefGroup(PrefKey.year, value),
           ),
           const ListDivider(),
           ListTileChoices(
               title: translations.get(StringKey.GROUP),
               titleDialog: translations.get(StringKey.SELECT_GROUP),
-              selectedValue: _dataPrefs[PrefKey.GROUP],
-              values: Data.getGroups(_dataPrefs[PrefKey.CAMPUS],
-                  _dataPrefs[PrefKey.DEPARTMENT], _dataPrefs[PrefKey.YEAR]),
-              onChange: (value) => _updatePrefGroup(PrefKey.GROUP, value))
+              selectedValue: _dataPrefs[PrefKey.group],
+              values: Data.getGroups(_dataPrefs[PrefKey.campus],
+                  _dataPrefs[PrefKey.department], _dataPrefs[PrefKey.year]),
+              onChange: (value) => _updatePrefGroup(PrefKey.group, value))
         ]);
   }
 
   void _handleNumberWeek(String numberWeek) {
     Preferences.setNumberWeekStr(numberWeek).then((value) {
-      _editLocalPrefValue(PrefKey.NUMBER_WEEK, value);
+      _editLocalPrefValue(PrefKey.numberWeek, value);
     });
   }
 
   void _handleDarkTheme(bool isDark) {
     Preferences.setDarkTheme(isDark).then((value) {
-      _editLocalPrefValue(PrefKey.DARK_THEME, value);
+      _editLocalPrefValue(PrefKey.darkTheme, value);
       DynamicTheme.of(context).changeTheme(brightness: getBrightness(value));
     });
   }
 
   void _handleAppbarColor(Color newColor) {
     Preferences.setAppbarColor(newColor.value).then((value) {
-      _editLocalPrefValue(PrefKey.APPBAR_COLOR, value);
+      _editLocalPrefValue(PrefKey.appbarColor, value);
       DynamicTheme.of(context).changeTheme(primaryColor: newColor);
     });
   }
 
   void _handleNoteColor(Color newColor) {
     Preferences.setNoteColor(newColor.value).then((value) {
-      _editLocalPrefValue(PrefKey.NOTE_COLOR, value);
+      _editLocalPrefValue(PrefKey.noteColor, value);
     });
   }
 
@@ -136,8 +136,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTileInput(
               title: translate.get(StringKey.NUMBER_WEEK),
-              defaultValue: _dataPrefs[PrefKey.NUMBER_WEEK]?.toString() ??
-                  PrefKey.DEFAULT_NUMBER_WEEK.toString(),
+              defaultValue: _dataPrefs[PrefKey.numberWeek]?.toString() ??
+                  PrefKey.defaultNumberWeek.toString(),
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
               onChange: _handleNumberWeek),
@@ -146,24 +146,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: ListTileTitle(translate.get(StringKey.DARK_THEME)),
               subtitle: Text(translate.get(StringKey.DARK_THEME_DESC)),
               value:
-                  _dataPrefs[PrefKey.DARK_THEME] ?? PrefKey.DEFAULT_DARK_THEME,
+                  _dataPrefs[PrefKey.darkTheme] ?? PrefKey.defaultDarkTheme,
               activeColor: Theme.of(context).accentColor,
               onChanged: _handleDarkTheme),
           const ListDivider(),
           ListTileColor(
               title: translate.get(StringKey.APPBAR_COLOR),
               description: translate.get(StringKey.APPBAR_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.APPBAR_COLOR] != null
-                  ? Color(_dataPrefs[PrefKey.APPBAR_COLOR])
-                  : const Color(PrefKey.DEFAULT_APPBAR_COLOR),
+              defaultValue: _dataPrefs[PrefKey.appbarColor] != null
+                  ? Color(_dataPrefs[PrefKey.appbarColor])
+                  : const Color(PrefKey.defaultAppbarColor),
               onChange: _handleAppbarColor),
           const ListDivider(),
           ListTileColor(
               title: translate.get(StringKey.NOTE_COLOR),
               description: translate.get(StringKey.NOTE_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.NOTE_COLOR] != null
-                  ? Color(_dataPrefs[PrefKey.NOTE_COLOR])
-                  : const Color(PrefKey.DEFAULT_NOTE_COLOR),
+              defaultValue: _dataPrefs[PrefKey.noteColor] != null
+                  ? Color(_dataPrefs[PrefKey.noteColor])
+                  : const Color(PrefKey.defaultNoteColor),
               onChange: _handleNoteColor)
         ]);
   }
