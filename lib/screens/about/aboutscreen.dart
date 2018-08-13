@@ -7,6 +7,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -67,14 +68,18 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
               width: 30.0),
           title: Text(translation.get(StringKey.GITHUB_PROJECT)),
-          onTap: () {},
+          onTap: () {
+            _openLink("https://github.com/pyozer/myagenda_flutter");
+          },
         ),
         ListTile(
           leading: Image.asset(
               isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
               width: 30.0),
           title: Text("Twitter"),
-          onTap: () {},
+          onTap: () {
+            _openLink("https://twitter.com/jc_mousse");
+          },
         )
       ],
     );
@@ -126,23 +131,27 @@ class AboutScreen extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (builder) {
-          return Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+          return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(Translations.of(context).get(StringKey.CHANGELOG),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 24.0)),
                 ),
-                Expanded(child: SingleChildScrollView(child: ChangeLog()))
-              ],
-            ),
-          );
+                Expanded(child: ChangeLog())
+              ]);
         });
+  }
+
+  void _openLink(String href) async {
+    if (await canLaunch(href)) {
+      await launch(href);
+    } else {
+      throw 'Could not launch $href';
+    }
   }
 
   @override

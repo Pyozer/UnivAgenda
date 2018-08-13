@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/widgets/ui/CircularLoader.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChangeLog extends StatelessWidget {
   Future<String> _fetchData() async {
@@ -15,15 +16,21 @@ class ChangeLog extends StatelessWidget {
       return null;
   }
 
+  void _openLink(String href) async {
+    if (await canLaunch(href)) {
+      await launch(href);
+    } else {
+      throw 'Could not launch $href';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder(
-          future: _fetchData(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) =>
-              (snapshot.hasData)
-                  ? MarkdownBody(data: snapshot.data)
-                  : Center(child: CircularLoader())),
-    );
+    return FutureBuilder(
+        future: _fetchData(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) =>
+            (snapshot.hasData)
+                ? Markdown(data: snapshot.data, onTapLink: _openLink)
+                : Center(child: CircularLoader()));
   }
 }
