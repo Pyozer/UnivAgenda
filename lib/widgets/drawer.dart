@@ -8,14 +8,17 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
 
   Widget _drawerElem(
-      BuildContext context, IconData icon, StringKey title, String routeDest) {
+      BuildContext context, IconData icon, StringKey title, String routeDest,
+      {bool enabled = true}) {
     return ListTile(
         leading: Icon(icon),
         title: Text(Translations.of(context).get(title)),
         onTap: () {
           Navigator.pop(context);
           Navigator.pushNamed(context, routeDest);
-        });
+        },
+        enabled: enabled,
+    );
   }
 
   @override
@@ -37,17 +40,17 @@ class MainDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
               )),
           _drawerElem(context, Icons.location_city, StringKey.FINDROOM,
-              RouteKey.FINDROOM),
+              RouteKey.FINDROOM, enabled: false),
           _drawerElem(
               context, Icons.settings, StringKey.SETTINGS, RouteKey.SETTINGS),
           _drawerElem(
-              context, Icons.system_update, StringKey.UPDATE, RouteKey.UPDATE),
+              context, Icons.system_update, StringKey.UPDATE, RouteKey.UPDATE, enabled: false),
           _drawerElem(
               context, Icons.info_outline, StringKey.ABOUT, RouteKey.ABOUT),
           _drawerElem(context, Icons.lightbulb_outline, StringKey.INTRO,
               RouteKey.INTRO),
           _drawerElem(
-              context, Icons.exit_to_app, StringKey.LOGOUT, RouteKey.LOGOUT)
+              context, Icons.exit_to_app, StringKey.LOGOUT, RouteKey.LOGOUT, enabled: false)
         ]));
   }
 }
