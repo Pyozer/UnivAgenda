@@ -6,7 +6,6 @@ import 'package:myagenda/models/cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/widgets/cours_list_header.dart';
-import 'package:myagenda/widgets/ui/list_divider.dart';
 
 class CoursList extends StatefulWidget {
   final int resId;
@@ -90,7 +89,7 @@ class CoursListState extends State<CoursList> {
 
   @override
   Widget build(BuildContext context) {
-    var dividedWidgetList = ListTile
+    final dividedWidgetList = ListTile
         .divideTiles(context: context, tiles: _buildListCours())
         .toList();
 
@@ -122,28 +121,16 @@ class CoursRow extends StatelessWidget {
         onTap: () {
           // TODO : Faire page d'un cours
         },
-        child: Column(children: [
-          Container(
-              color: bgColorRow,
-              padding: const EdgeInsets.all(13.0),
-              child: Row(children: [
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Container(
-                          margin: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(cours.title, style: titleStyle)),
-                      Container(
-                          margin: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                              '${cours.location} - ${cours.description}',
-                              style: subheadStyle)),
-                      Text(cours.dateForDisplay(), style: cationStyle)
-                    ]))
-              ])),
-          ListDivider()
-        ]));
+        child: Container(
+            color: bgColorRow,
+            padding: const EdgeInsets.all(16.0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(cours.title, style: titleStyle),
+              Text('${cours.location} - ${cours.description}',
+                  style: subheadStyle),
+              Text(cours.dateForDisplay(), style: cationStyle),
+            ])));
   }
 }
 
@@ -156,11 +143,11 @@ class CoursRowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle =
         Theme.of(context).textTheme.title.copyWith(color: Colors.grey[900]);
+
     return Container(
         color: Colors.grey[300],
-        padding: const EdgeInsets.all(14.0),
-        child: Row(children: [
-          Expanded(child: Text(coursHeader.dateForDisplay(), style: textStyle))
-        ]));
+        padding: const EdgeInsets.all(16.0),
+        child: Text(coursHeader.dateForDisplay(),
+            style: textStyle, overflow: TextOverflow.ellipsis, maxLines: 1));
   }
 }
