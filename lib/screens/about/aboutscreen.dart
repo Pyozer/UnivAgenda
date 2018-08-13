@@ -52,7 +52,10 @@ class AboutScreen extends StatelessWidget {
             leading:
                 CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
             title: Text("Jean-Charles Moussé"),
-            subtitle: Text(translation.get(StringKey.DEVELOPER)))
+            subtitle: Text(translation.get(StringKey.DEVELOPER)),
+            onTap: () {
+              openLink("https://pyozer.github.io");
+            })
       ],
     );
   }
