@@ -3,6 +3,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
@@ -69,7 +70,7 @@ class AboutScreen extends StatelessWidget {
               width: 30.0),
           title: Text(translation.get(StringKey.GITHUB_PROJECT)),
           onTap: () {
-            _openLink("https://github.com/pyozer/myagenda_flutter");
+            openLink("https://github.com/pyozer/myagenda_flutter");
           },
         ),
         ListTile(
@@ -78,7 +79,7 @@ class AboutScreen extends StatelessWidget {
               width: 30.0),
           title: Text("Twitter"),
           onTap: () {
-            _openLink("https://twitter.com/jc_mousse");
+            openLink("https://twitter.com/jc_mousse");
           },
         )
       ],
@@ -144,14 +145,6 @@ class AboutScreen extends StatelessWidget {
                 Expanded(child: ChangeLog())
               ]);
         });
-  }
-
-  void _openLink(String href) async {
-    if (await canLaunch(href)) {
-      await launch(href);
-    } else {
-      throw 'Could not launch $href';
-    }
   }
 
   @override

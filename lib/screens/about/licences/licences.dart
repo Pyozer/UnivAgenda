@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/licence.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class LicencesScreen extends StatelessWidget {
   static const git = "https://github.com/";
 
-  final List<Licence> _libraries = [
+  static const List<Licence> _libraries = [
     Licence("HTTP", "Dart project authors",
         license: "BSD 3-Clause Licence", url: "${git}dart-lang/http"),
     Licence("Flutter Markdown", "Flutter Authors",
@@ -41,7 +42,7 @@ class LicencesScreen extends StatelessWidget {
           final license = _libraries[index ~/ 2];
 
           final libraryText = Text(license.library,
-              style: TextStyle(fontWeight: FontWeight.w600));
+              style: const TextStyle(fontWeight: FontWeight.w600));
 
           final authorText =
               Text(license.author, style: TextStyle(color: Colors.grey[600]));
@@ -52,19 +53,11 @@ class LicencesScreen extends StatelessWidget {
                       color: isDark ? Colors.grey[400] : Colors.grey[900]))
               : Text("");
 
-          void _openLibraryURL() async {
-            if (await canLaunch(license.url)) {
-              await launch(license.url);
-            } else {
-              throw 'Could not launch ${license.url}';
-            }
-          }
-
           return ListTile(
               title: libraryText,
               subtitle: authorText,
               trailing: licenseText,
-              onTap: license.url != null ? _openLibraryURL : null);
+              onTap: license.url != null ? () => openLink(license.url) : null);
         });
   }
 
