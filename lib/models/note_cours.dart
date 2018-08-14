@@ -1,11 +1,11 @@
-class NoteCours {
-  String coursUid;
+class NoteCourse {
+  String courseUid;
   String text = "";
   DateTime dateExpiration;
 
-  NoteCours({this.coursUid, this.text, this.dateExpiration});
+  NoteCourse({this.courseUid, this.text, this.dateExpiration});
 
   bool isExpired() {
-    return dateExpiration.isBefore(new DateTime.now());
+    return dateExpiration.isBefore(DateTime.now());
   }
 }

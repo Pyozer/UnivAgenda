@@ -23,7 +23,7 @@ class ListTileColor extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ListTileColorState createState() => new _ListTileColorState();
+  _ListTileColorState createState() => _ListTileColorState();
 }
 
 class _ListTileColorState extends State<ListTileColor> {

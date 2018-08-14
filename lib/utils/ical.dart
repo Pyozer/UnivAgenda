@@ -5,12 +5,12 @@ class Ical {
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
 
-    List<IcalModel> events = new List();
+    List<IcalModel> events = List();
     IcalModel event;
 
     lines.forEach((line) {
       if (line.startsWith('BEGIN:VEVENT')) {
-        event = new IcalModel();
+        event = IcalModel();
       } else if (line.startsWith('DTSTART')) {
         event.dtstart = _getValue(line);
       } else if (line.startsWith('DTEND')) {
@@ -27,9 +27,9 @@ class Ical {
             (value) => description = description.replaceAll(value, ''));
 
         event.description = description
-            .replaceAll(new RegExp(r'\\n'), ' ')
+            .replaceAll(RegExp(r'\\n'), ' ')
             .split('(Export')[0]
-            .replaceAll(new RegExp(r'\s\s+'), ' ')
+            .replaceAll(RegExp(r'\s\s+'), ' ')
             .trim();
       } else if (line.startsWith('UID')) {
         event.uid = _getValue(line);
@@ -42,7 +42,7 @@ class Ical {
   }
 
   static _getValue(String line) {
-    var index = line.indexOf(":"); // Gets the first index where a space occours
+    final index = line.indexOf(":"); // Gets the first index where a space occours
     return line.substring(index + 1); // Gets the value part
   }
 }

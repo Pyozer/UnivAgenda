@@ -6,7 +6,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/cours/cours_list.dart';
+import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/CircularLoader.dart';
 
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 return Center(child: CircularLoader());
 
               final data = snapshot.data;
-              return CoursList(
+              return CourseList(
                   campus: data[PrefKey.campus],
                   department: data[PrefKey.department],
                   year: data[PrefKey.year],

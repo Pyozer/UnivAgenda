@@ -21,7 +21,7 @@ class ListTileChoices extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ListTileChoicesState createState() => new _ListTileChoicesState();
+  _ListTileChoicesState createState() => _ListTileChoicesState();
 }
 
 class _ListTileChoicesState extends State<ListTileChoices> {

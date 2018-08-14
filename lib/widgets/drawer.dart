@@ -23,7 +23,7 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Drawer(
+    return Drawer(
         semanticLabel: Translations.of(context).get(StringKey.DRAWER),
         child: ListView(padding: EdgeInsets.zero, children: [
           DrawerHeader(

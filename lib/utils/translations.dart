@@ -32,14 +32,14 @@ class Translations {
   String _getTranslation(String key, [List replacements]) {
     String stringValue = _localizedValues[key] ?? '#$key not found#';
     replacements?.forEach((value) {
-      stringValue = stringValue.replaceFirst(new RegExp("%s%"), value);
+      stringValue = stringValue.replaceFirst(RegExp("%s%"), value);
     });
 
     return stringValue;
   }
 
   static Future<Translations> load(Locale locale) async {
-    Translations translations = new Translations(locale);
+    Translations translations = Translations(locale);
     String jsonContent =
         await rootBundle.loadString("res/locales/${locale.languageCode}.json");
     _localizedValues = json.decode(jsonContent);

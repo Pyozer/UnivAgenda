@@ -9,7 +9,7 @@ class RadioList extends StatefulWidget {
       : super(key: key);
 
   @override
-  _RadioListState createState() => new _RadioListState();
+  _RadioListState createState() => _RadioListState();
 }
 
 class _RadioListState extends State<RadioList> {

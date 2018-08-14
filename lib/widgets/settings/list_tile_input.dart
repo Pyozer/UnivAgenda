@@ -23,7 +23,7 @@ class ListTileInput extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ListTileInputState createState() => new _ListTileInputState();
+  _ListTileInputState createState() => _ListTileInputState();
 }
 
 class _ListTileInputState extends State<ListTileInput> {

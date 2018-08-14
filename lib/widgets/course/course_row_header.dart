@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/cours.dart';
+import 'package:myagenda/models/course.dart';
 
-class CoursRowHeader extends StatelessWidget {
-  final CoursHeader coursHeader;
+class CourseRowHeader extends StatelessWidget {
+  final CourseHeader coursHeader;
 
-  const CoursRowHeader({Key key, this.coursHeader}) : super(key: key);
+  const CourseRowHeader({Key key, this.coursHeader}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

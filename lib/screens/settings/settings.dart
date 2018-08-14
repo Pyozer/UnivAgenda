@@ -18,7 +18,7 @@ import 'package:myagenda/widgets/ui/setting_card.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
-  _SettingsScreenState createState() => new _SettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
@@ -145,8 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SwitchListTile(
               title: ListTileTitle(translate.get(StringKey.DARK_THEME)),
               subtitle: Text(translate.get(StringKey.DARK_THEME_DESC)),
-              value:
-                  _dataPrefs[PrefKey.darkTheme] ?? PrefKey.defaultDarkTheme,
+              value: _dataPrefs[PrefKey.darkTheme] ?? PrefKey.defaultDarkTheme,
               activeColor: Theme.of(context).accentColor,
               onChanged: _handleDarkTheme),
           const ListDivider(),

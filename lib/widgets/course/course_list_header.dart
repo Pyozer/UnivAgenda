@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
 
-class CoursListHeader extends StatelessWidget {
+class CourseListHeader extends StatelessWidget {
   final String year;
   final String group;
 
-  const CoursListHeader({Key key, this.year, this.group}) : super(key: key);
+  const CourseListHeader({Key key, this.year, this.group}) : super(key: key);
 
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     return showDialog<Null>(

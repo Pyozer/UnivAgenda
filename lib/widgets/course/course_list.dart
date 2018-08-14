@@ -2,21 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:myagenda/models/cours.dart';
+import 'package:myagenda/models/course.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/widgets/cours/cours_list_header.dart';
-import 'package:myagenda/widgets/cours/cours_row.dart';
-import 'package:myagenda/widgets/cours/cours_row_header.dart';
+import 'package:myagenda/widgets/course/course_list_header.dart';
+import 'package:myagenda/widgets/course/course_row.dart';
+import 'package:myagenda/widgets/course/course_row_header.dart';
 
-class CoursList extends StatefulWidget {
+class CourseList extends StatefulWidget {
   final String campus;
   final String department;
   final String year;
   final String group;
 
-  const CoursList(
+  const CourseList(
       {Key key,
       @required this.campus,
       @required this.department,
@@ -25,11 +25,11 @@ class CoursList extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CoursList> createState() => new CoursListState();
+  State<CourseList> createState() => CourseListState();
 }
 
-class CoursListState extends State<CoursList> {
-  List<BaseCours> _listElements = [];
+class CourseListState extends State<CourseList> {
+  List<BaseCourse> _listElements = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -70,19 +70,20 @@ class CoursListState extends State<CoursList> {
   }
 
   void _prepareList(String icalStr) {
-    List<Cours> listCours = [];
+    List<Course> listCourses = [];
 
     // Parse string ical to object
     Ical.parseToIcal(icalStr).forEach((icalModel) {
-      listCours.add(Cours.fromIcalModel(icalModel));
+      listCourses.add(Course.fromIcalModel(icalModel));
     });
 
     // Sort list by date start
-    listCours.sort((Cours a, Cours b) => a.dateStart.compareTo(b.dateStart));
+    listCourses
+        .sort((Course a, Course b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
-    List<BaseCours> listElement = [];
-    listElement.addAll(listCours);
+    List<BaseCourse> listElement = [];
+    listElement.addAll(listCourses);
 
     // Init variable to add headers
     DateTime lastDate = DateTime(1970); // Init variable to 1970
@@ -90,13 +91,13 @@ class CoursListState extends State<CoursList> {
 
     // Add header to list
     for (int i = 0; i < listSize; i++) {
-      if (listElement[i] is Cours) {
-        final Cours cours = listElement[i];
+      if (listElement[i] is Course) {
+        final Course course = listElement[i];
 
-        if (Date.notSameDay(cours.dateStart, lastDate)) {
-          listElement.insert(i, CoursHeader(cours.dateStart));
+        if (Date.notSameDay(course.dateStart, lastDate)) {
+          listElement.insert(i, CourseHeader(course.dateStart));
           listSize++;
-          lastDate = cours.dateStart;
+          lastDate = course.dateStart;
         }
       }
     }
@@ -109,12 +110,12 @@ class CoursListState extends State<CoursList> {
   List<Widget> _buildListCours() {
     List<Widget> widgets = [];
 
-    widgets.add(CoursListHeader(year: widget.year, group: widget.group));
+    widgets.add(CourseListHeader(year: widget.year, group: widget.group));
 
-    _listElements.forEach((cours) {
-      if (cours is CoursHeader)
-        widgets.add(CoursRowHeader(coursHeader: cours));
-      else if (cours is Cours) widgets.add(CoursRow(cours: cours));
+    _listElements.forEach((course) {
+      if (course is CourseHeader)
+        widgets.add(CourseRowHeader(coursHeader: course));
+      else if (course is Course) widgets.add(CourseRow(course: course));
     });
     return widgets;
   }

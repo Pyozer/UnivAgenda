@@ -3,15 +3,14 @@ import 'package:myagenda/models/note_cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
 
-
-abstract class BaseCours {
+abstract class BaseCourse {
   String dateForDisplay();
 }
 
-class CoursHeader implements BaseCours {
+class CourseHeader implements BaseCourse {
   DateTime date;
 
-  CoursHeader(this.date);
+  CourseHeader(this.date);
 
   @override
   String dateForDisplay() {
@@ -19,16 +18,16 @@ class CoursHeader implements BaseCours {
   }
 }
 
-class Cours implements BaseCours {
+class Course implements BaseCourse {
   String uid;
   String title;
   String description;
   String location;
-  NoteCours note;
+  NoteCourse note;
   DateTime dateStart;
   DateTime dateEnd;
 
-  Cours(this.uid, this.title, this.description, this.location, this.dateStart,
+  Course(this.uid, this.title, this.description, this.location, this.dateStart,
       this.dateEnd);
 
   bool hasNote() {
@@ -36,11 +35,11 @@ class Cours implements BaseCours {
   }
 
   bool isFinish() {
-    return dateEnd.isBefore(new DateTime.now());
+    return dateEnd.isBefore(DateTime.now());
   }
 
   bool isStarted() {
-    return dateStart.isAfter(new DateTime.now()) && !isFinish();
+    return dateStart.isAfter(DateTime.now()) && !isFinish();
   }
 
   int getMinutesBeforeStart() {
@@ -49,7 +48,7 @@ class Cours implements BaseCours {
   }
 
   bool isExam() {
-    return title.contains(new RegExp('exam', caseSensitive: false));
+    return title.contains(RegExp('exam', caseSensitive: false));
   }
 
   @override
@@ -62,8 +61,8 @@ class Cours implements BaseCours {
     return '${startH}h$startM à ${endH}h$endM';
   }
 
-  static Cours fromIcalModel(IcalModel ical) {
-    return new Cours(
+  factory Course.fromIcalModel(IcalModel ical) {
+    return Course(
         ical.uid,
         ical.summary,
         ical.description,
