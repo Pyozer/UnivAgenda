@@ -27,15 +27,25 @@ flutter:
 
   assets:
     - res/images/logo.png
+    - res/images/jeancharles-mousse.png
+
+    - res/images/intro_event.png
+    - res/images/intro_group.png
+    - res/images/intro_internet.png
+    - res/images/intro_note.png
+    - res/images/intro_theme.png
+
     - res/images/GitHub-Mark.png
-    - res/images/GitHub-Mark-Light.png
     - res/images/2x/GitHub-Mark.png
-    - res/images/2x/GitHub-Mark-Light.png
     - res/images/3x/GitHub-Mark.png
+
+    - res/images/GitHub-Mark-Light.png
+    - res/images/2x/GitHub-Mark-Light.png
     - res/images/3x/GitHub-Mark-Light.png
+
     - res/images/Twitter_Logo_Blue.png
     - res/images/Twitter_Logo_White.png
-    - res/images/jeancharles-mousse.png
+
     - res/locales/en.json
     - res/locales/fr.json
 

@@ -21,36 +21,26 @@ class IntroductionScreen extends StatelessWidget {
       PageViewModel(
         translate.get(StringKey.INTRO_AGENDA_TITLE),
         translate.get(StringKey.INTRO_AGENDA_DESC),
-        Image.network(
-            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_group.png",
-            height: kIconSize),
+        Image.asset(Asset.INTRO_GROUP, height: kIconSize),
       ),
       PageViewModel(
           translate.get(StringKey.INTRO_CUSTOM_TITLE),
           translate.get(StringKey.INTRO_CUSTOM_DESC),
-          Image.network(
-              "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_theme.png",
-              height: kIconSize)),
+          Image.asset(Asset.INTRO_THEME, height: kIconSize)),
       PageViewModel(
         translate.get(StringKey.INTRO_NOTE_TITLE),
         translate.get(StringKey.INTRO_NOTE_DESC),
-        Image.network(
-            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_note.png",
-            height: kIconSize),
+        Image.asset(Asset.INTRO_NOTE, height: kIconSize),
       ),
       PageViewModel(
         translate.get(StringKey.INTRO_EVENT_TITLE),
         translate.get(StringKey.INTRO_EVENT_DESC),
-        Image.network(
-            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_event.png",
-            height: kIconSize),
+        Image.asset(Asset.INTRO_EVENT, height: kIconSize),
       ),
       PageViewModel(
         translate.get(StringKey.INTRO_OFFLINE_TITLE),
         translate.get(StringKey.INTRO_OFFLINE_DESC),
-        Image.network(
-            "https://raw.githubusercontent.com/Pyozer/MyAgenda/master/app/src/main/res/mipmap-xxxhdpi/intro_internet.png",
-            height: kIconSize),
+        Image.asset(Asset.INTRO_INTERNET, height: kIconSize),
       )
     ];
   }
@@ -65,12 +55,11 @@ class IntroductionScreen extends StatelessWidget {
     final translate = Translations.of(context);
 
     return IntroScreen(
-      pages: _buildPages(context),
-      onDone: () => _onDone(context),
-      showSkipButton: true,
-      skipText: translate.get(StringKey.SKIP),
-      nextText: translate.get(StringKey.NEXT),
-      doneText: translate.get(StringKey.DONE)
-    ); //Material App
+        pages: _buildPages(context),
+        onDone: () => _onDone(context),
+        showSkipButton: true,
+        skipText: translate.get(StringKey.SKIP),
+        nextText: translate.get(StringKey.NEXT),
+        doneText: translate.get(StringKey.DONE)); //Material App
   }
 }
