@@ -8,7 +8,6 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {

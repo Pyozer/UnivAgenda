@@ -4,8 +4,6 @@ import 'package:myagenda/models/licence.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/list_divider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LicencesScreen extends StatelessWidget {
   static const git = "https://github.com/";
