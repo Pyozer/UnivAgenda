@@ -8,7 +8,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
-import 'package:myagenda/widgets/ui/CircularLoader.dart';
+import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class HomeScreen extends StatelessWidget {
   FloatingActionButton _buildFab() => FloatingActionButton(
@@ -31,8 +31,7 @@ class HomeScreen extends StatelessWidget {
         body: FutureBuilder<Map>(
             future: _getGroupValues(),
             builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularLoader());
+              if (!snapshot.hasData) return Center(child: CircularLoader());
 
               final data = snapshot.data;
               return CourseList(

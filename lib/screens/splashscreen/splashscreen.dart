@@ -7,7 +7,7 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/widgets/ui/CircularLoader.dart';
+import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class SplashScreen extends StatelessWidget {
   Future<bool> _initPreferences(BuildContext context) async {
@@ -45,10 +45,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _initPreferences(context).then((isFirstBoot) {
-      if (isFirstBoot)
-        Navigator.of(context).pushReplacementNamed(RouteKey.INTRO);
-      else
-        Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
+      final routeDest = (isFirstBoot) ? RouteKey.INTRO : RouteKey.HOME;
+      Navigator.of(context).pushReplacementNamed(routeDest);
     });
 
     return Scaffold(

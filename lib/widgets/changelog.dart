@@ -4,8 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/widgets/ui/CircularLoader.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class ChangeLog extends StatelessWidget {
   Future<String> _fetchData() async {
