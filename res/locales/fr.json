@@ -47,8 +47,8 @@
   "other": "Autre",
   "changelog": "Changelog",
   "changelog_desc": "Voir le changelog de MyAgenda",
-  "opensource_licences": "Licences open source",
-  "opensource_licences_desc": "Détails des licences open source",
+  "opensource_licences": "Licences",
+  "opensource_licences_desc": "Détails des licences open-sources",
   "version": "Version",
   "made_with": "Développé avec",
 
