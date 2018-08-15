@@ -8,7 +8,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
 class IntroductionScreen extends StatelessWidget {
-  static const double kIconSize = 175.0;
+  static const double kIconSize = 150.0;
 
   List<PageViewModel> _buildPages(BuildContext context) {
     final translate = Translations.of(context);
