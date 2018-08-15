@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note_cours.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/functions.dart';
 
 abstract class BaseCourse {
   String dateForDisplay([Locale locale]);
@@ -63,10 +62,10 @@ class Course implements BaseCourse {
 
   factory Course.fromIcalModel(IcalModel ical) {
     return Course(
-        ical.uid,
-        ical.summary,
-        ical.description,
-        ical.location,
+        ical.uid?.trim(),
+        ical.summary?.trim(),
+        ical.description?.trim(),
+        ical.location?.trim(),
         DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
         DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)));
   }
