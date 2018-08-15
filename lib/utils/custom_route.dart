@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomRoute<T> extends MaterialPageRoute<T> {
+  static const kDurationFade = 150;
+
   CustomRoute(
       {WidgetBuilder builder,
       RouteSettings settings,
@@ -11,12 +13,14 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
             fullscreenDialog: fullscreenDialog);
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 200);
+  Duration get transitionDuration =>
+      const Duration(milliseconds: kDurationFade);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    if (settings.isInitialRoute) return child;
-    return FadeTransition(opacity: animation, child: child);
+    return (settings.isInitialRoute)
+        ? child
+        : FadeTransition(opacity: animation, child: child);
   }
 }
