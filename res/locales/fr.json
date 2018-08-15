@@ -72,5 +72,8 @@
   "intro_event_desc": "Vous pouvez ajouter votre propre évènement à l'agenda et lui attribuer une couleur spécial.",
 
   "intro_offline_title": "Mode hors-connexion",
-  "intro_offline_desc": "Une fois votre agenda chargé au moins une fois, il sera sauvegardé pour une utilisation hors-connexion."
+  "intro_offline_desc": "Une fois votre agenda chargé au moins une fois, il sera sauvegardé pour une utilisation hors-connexion.",
+
+  "course_test": "Examen",
+  "course_details": "Détails du cours"
 }

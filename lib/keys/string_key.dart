@@ -78,6 +78,9 @@ class StringKey {
   static const INTRO_OFFLINE_TITLE = const StringKey._('intro_offline_title');
   static const INTRO_OFFLINE_DESC = const StringKey._('intro_offline_desc');
 
+  static const COURSE_TEST = const StringKey._('course_test');
+  static const COURSE_DETAILS = const StringKey._('course_details');
+
   final String value;
 
   const StringKey._(this.value);

@@ -72,5 +72,8 @@
   "intro_event_desc": "You can add your own event to the calendar and assign it a special color.",
 
   "intro_offline_title": "Offline Mode",
-  "intro_offline_desc": "Once your calendar has been loaded at least once, it will be backed up for offline use."
+  "intro_offline_desc": "Once your calendar has been loaded at least once, it will be backed up for offline use.",
+
+  "course_test": "Examination",
+  "course_details": "Course details"
 }

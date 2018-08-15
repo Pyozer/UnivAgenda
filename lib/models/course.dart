@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note_cours.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
 
 abstract class BaseCourse {
-  String dateForDisplay();
+  String dateForDisplay([Locale locale]);
 }
 
 class CourseHeader implements BaseCourse {
@@ -13,8 +15,8 @@ class CourseHeader implements BaseCourse {
   CourseHeader(this.date);
 
   @override
-  String dateForDisplay() {
-    return Date.dateFromNow(date);
+  String dateForDisplay([Locale locale]) {
+    return Date.dateFromNow(date, locale);
   }
 }
 
@@ -23,7 +25,7 @@ class Course implements BaseCourse {
   String title;
   String description;
   String location;
-  NoteCourse note;
+  List<NoteCourse> note;
   DateTime dateStart;
   DateTime dateEnd;
 
@@ -31,7 +33,7 @@ class Course implements BaseCourse {
       this.dateEnd);
 
   bool hasNote() {
-    return (note != null && !note.text.isNotEmpty);
+    return (note != null && note.length > 0);
   }
 
   bool isFinish() {
@@ -52,13 +54,11 @@ class Course implements BaseCourse {
   }
 
   @override
-  String dateForDisplay() {
-    final startH = twoDigits(dateStart.hour);
-    final startM = twoDigits(dateStart.minute);
-    final endH = twoDigits(dateEnd.hour);
-    final endM = twoDigits(dateEnd.minute);
+  String dateForDisplay([Locale locale]) {
+    final startTime = Date.extractTime(dateStart, locale);
+    final endTime = Date.extractTime(dateEnd, locale);
 
-    return '${startH}h$startM à ${endH}h$endM';
+    return '$startTime à $endTime';
   }
 
   factory Course.fromIcalModel(IcalModel ical) {

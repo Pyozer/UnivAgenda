@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:intl/intl.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class Date {
   static bool notSameDay(DateTime a, DateTime b) {
@@ -10,18 +11,34 @@ class Date {
   static String dateFromNow(DateTime date, [Locale locale]) {
     if (locale == null) locale = Locale('en');
 
-    DateTime today = DateTime.now();
+    DateTime dateTimeToday = DateTime.now();
 
-    int differenceDays = date.difference(today).inDays;
+    int differenceDays = date.difference(dateTimeToday).inDays;
+
+    final lang = locale.languageCode == "fr"
+        ? ["Aujourd'hui", "Demain"]
+        : ["Today", "Tomorrow"];
 
     if (differenceDays == 0)
-      return "Today";
-    else if (differenceDays == 1) return "Tomorrow";
+      return lang[0];
+    else if (differenceDays == 1) return lang[1];
 
-    String format = 'EEEE dd MMMM';
-    if (today.year != date.year) format += ' yyyy';
+    final dateFormat = (dateTimeToday.year == date.year)
+        ? DateFormat.MMMMEEEEd(locale.languageCode)
+        : DateFormat.yMMMMEEEEd(locale.languageCode);
 
-    final formatter = DateFormat(format, locale.languageCode);
-    return formatter.format(date);
+    return capitalize(dateFormat.format(date));
+  }
+
+  static String extractTime(DateTime date, [Locale locale]) {
+    if (locale == null) locale = Locale('en');
+
+    return DateFormat.Hm(locale.languageCode).format(date);
+  }
+
+  static String extractDate(DateTime date, [Locale locale]) {
+    if (locale == null) locale = Locale('en');
+
+    return DateFormat.yMMMMd(locale.languageCode).format(date);
   }
 }

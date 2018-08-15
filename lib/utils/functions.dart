@@ -19,3 +19,16 @@ void openLink(String href) async {
 String twoDigits(int number) {
   return number.toString().padLeft(2, '0');
 }
+
+String capitalize(String input) {
+  if (input == null)
+    throw new ArgumentError("string: $input");
+
+  if (input.length == 0)
+    return input;
+
+  if (input.length == 1)
+    return input[0].toUpperCase();
+
+  return input[0].toUpperCase() + input.substring(1);
+}
