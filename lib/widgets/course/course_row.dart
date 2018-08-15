@@ -27,7 +27,7 @@ class _CourseRowState extends State<CourseRow> {
 
   Future _onCourseTap(BuildContext context) async {
     Course courseUpdated = await Navigator.of(context).push(CustomRoute<Course>(
-        builder: (context) => DetailCourse(cours: course),
+        builder: (context) => DetailCourse(course: course),
         fullscreenDialog: true));
 
     if (courseUpdated != null)

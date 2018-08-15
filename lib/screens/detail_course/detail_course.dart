@@ -3,10 +3,10 @@ import 'package:myagenda/models/course.dart';
 import 'package:myagenda/widgets/ui/text_oneline.dart';
 
 class DetailCourse extends StatefulWidget {
-  final Course cours;
+  final Course course;
 
-  const DetailCourse({Key key, @required this.cours})
-      : assert(cours != null),
+  const DetailCourse({Key key, @required this.course})
+      : assert(course != null),
         super(key: key);
 
   @override
@@ -16,6 +16,8 @@ class DetailCourse extends StatefulWidget {
 class _DetailCourseState extends State<DetailCourse> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
         appBar: AppBar(title: Text("Detail course"), elevation: 0.0),
         body: Column(
@@ -24,27 +26,25 @@ class _DetailCourseState extends State<DetailCourse> {
               Row(children: [
                 Expanded(
                     child: Container(
-                        color: Theme.of(context).primaryColor,
-                        padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 16.0),
+                        color: theme.primaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 24.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(widget.cours.title,
-                                style:
-                                    Theme.of(context).primaryTextTheme.title),
-                            TextOneLine(widget.cours.description,
-                                style:
-                                    Theme.of(context).primaryTextTheme.subhead)
-                          ],
-                        )))
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.course.title,
+                                  style: theme.primaryTextTheme.title),
+                              TextOneLine(widget.course.description,
+                                  style: theme.primaryTextTheme.subhead)
+                            ])))
               ]),
               SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                    Text(widget.cours.title),
-                    Text(widget.cours.description)
-                  ])),
+                      children: [
+                    Text(widget.course.title),
+                    Text(widget.course.description)
+                  ]))
             ]));
   }
 }
