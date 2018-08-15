@@ -6,19 +6,31 @@ class AppbarPage extends StatelessWidget {
   final Widget body;
   final Widget drawer;
   final Widget fab;
+  final double elevation;
 
-  const AppbarPage({Key key, this.title, this.body, this.drawer, this.fab})
+  const AppbarPage(
+      {Key key, this.title, this.body, this.drawer, this.fab, this.elevation = 4.0})
       : super(key: key);
+
+  void _onChangeTheme(context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    DynamicTheme
+        .of(context)
+        .changeTheme(brightness: isDark ? Brightness.light : Brightness.dark);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title), actions: <Widget>[
-          FlatButton(onPressed: () {
-            final isDark = (Theme.of(context).brightness == Brightness.dark);
-            DynamicTheme.of(context).changeTheme(brightness: isDark ? Brightness.light : Brightness.dark);
-          }, child: Icon(Icons.lightbulb_outline))
-        ],),
+        appBar: AppBar(
+            title: Text(title),
+            actions: [
+              FlatButton(
+                  child: Icon(Icons.lightbulb_outline),
+                  onPressed: () => _onChangeTheme(context))
+            ],
+            elevation: elevation),
         body: body,
         drawer: drawer,
         floatingActionButton: fab);

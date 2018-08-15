@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
+import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/text_oneline.dart';
 
 class DetailCourse extends StatefulWidget {
   final Course course;
@@ -26,19 +26,27 @@ class _DetailCourseState extends State<DetailCourse> {
 
     List<Widget> listInfo = [
       ListTile(
-          leading: Icon(Icons.group), title: Text(widget.course.description, maxLines: 2)),
-      ListTile(
           leading: Icon(Icons.access_time),
           title: Text(timeStart + "  –  " + timeEnd),
           subtitle: Text(date)),
       ListTile(
-          leading: Icon(Icons.location_on), title: Text(widget.course.location))
+          leading: Icon(Icons.group),
+          title: Text(widget.course.description,
+              maxLines: 2, overflow: TextOverflow.ellipsis))
     ];
+
+    if (widget.course.location != null && widget.course.location.isNotEmpty)
+      listInfo.add(ListTile(
+          leading: Icon(Icons.location_on),
+          title: Text(widget.course.location)));
 
     if (widget.course.isExam())
       listInfo.add(ListTile(
           leading: Icon(Icons.description),
           title: Text(translate.get(StringKey.COURSE_TEST))));
+
+    listInfo.add(ListTile(
+        leading: Icon(Icons.attach_file), title: Text(widget.course.uid)));
 
     return listInfo;
   }
@@ -48,30 +56,27 @@ class _DetailCourseState extends State<DetailCourse> {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
 
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(translate.get(StringKey.COURSE_DETAILS)),
-            elevation: 0.0),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(children: [
-                Expanded(
-                    child: Material(
-                        color: theme.primaryColor,
-                        elevation: 4.0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 16.0),
-                          child: Text(widget.course.title,
-                              style: theme.primaryTextTheme.title),
-                        )))
-              ]),
-              SingleChildScrollView(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: _buildInfo(translate)))
-            ]));
+    return AppbarPage(
+        title: translate.get(StringKey.COURSE_DETAILS),
+        elevation: 0.0,
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Expanded(
+                child: Material(
+                    color: theme.primaryColor,
+                    elevation: 4.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 16.0),
+                      child: Text(widget.course.title,
+                          style: theme.primaryTextTheme.title),
+                    )))
+          ]),
+          SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _buildInfo(translate)))
+        ]));
   }
 }
