@@ -4,12 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:myagenda/utils/functions.dart';
 
 class Date {
+  static const kDefaultLocal = Locale('en');
+
   static bool notSameDay(DateTime a, DateTime b) {
     return a.year != b.year || a.month != b.month || a.day != b.day;
   }
 
   static String dateFromNow(DateTime date, [Locale locale]) {
-    if (locale == null) locale = Locale('en');
+    if (locale == null) locale = kDefaultLocal;
 
     DateTime dateTimeToday = DateTime.now();
 
@@ -31,13 +33,13 @@ class Date {
   }
 
   static String extractTime(DateTime date, [Locale locale]) {
-    if (locale == null) locale = Locale('en');
+    if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.Hm(locale.languageCode).format(date);
   }
 
   static String extractDate(DateTime date, [Locale locale]) {
-    if (locale == null) locale = Locale('en');
+    if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.yMMMMd(locale.languageCode).format(date);
   }

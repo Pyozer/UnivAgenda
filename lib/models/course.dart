@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:myagenda/models/ical_model.dart';
-import 'package:myagenda/models/note_cours.dart';
+import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
 
 abstract class BaseCourse {
@@ -24,15 +24,15 @@ class Course implements BaseCourse {
   String title;
   String description;
   String location;
-  List<NoteCourse> note;
+  List<Note> notes;
   DateTime dateStart;
   DateTime dateEnd;
 
   Course(this.uid, this.title, this.description, this.location, this.dateStart,
-      this.dateEnd);
+      this.dateEnd, this.notes);
 
   bool hasNote() {
-    return (note != null && note.length > 0);
+    return (notes != null && notes.length > 0);
   }
 
   bool isFinish() {
@@ -67,6 +67,8 @@ class Course implements BaseCourse {
         ical.description?.trim(),
         ical.location?.trim(),
         DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
-        DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)));
+        DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)),
+        []
+    );
   }
 }

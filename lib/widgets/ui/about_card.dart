@@ -26,7 +26,7 @@ class AboutCard extends StatelessWidget {
                 .textTheme
                 .title
                 .copyWith(fontWeight: FontWeight.w700))));
-    cardContent.addAll(children);
+    cardContent.addAll(children ?? []);
 
     return cardContent;
   }
@@ -34,6 +34,7 @@ class AboutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4.0,
         margin: const EdgeInsets.all(16.0),
         shape: const RoundedRectangleBorder(
             borderRadius: const BorderRadius.all(const Radius.circular(6.0))),
