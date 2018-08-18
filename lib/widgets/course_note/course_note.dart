@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/note.dart';
+import 'package:myagenda/utils/translations.dart';
 
 class CourseNote extends StatelessWidget {
   final Note note;
@@ -18,13 +20,12 @@ class CourseNote extends StatelessWidget {
                   textAlign: TextAlign.justify)))
     ];
 
-    // TODO: Ajouter trad supprimer
     if (onDelete != null) {
       elems.add(Container(color: Colors.grey, height: 18.0, width: 1.0));
       elems.add(IconButton(
           icon: Icon(Icons.delete),
           onPressed: () => onDelete(note),
-          tooltip: "Supprimer"));
+          tooltip: Translations.of(context).get(StringKey.DELETE)));
     }
     return elems;
   }

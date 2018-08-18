@@ -75,5 +75,13 @@
   "intro_offline_desc": "Once your calendar has been loaded at least once, it will be backed up for offline use.",
 
   "course_test": "Examination",
-  "course_details": "Course details"
+  "course_details": "Course details",
+
+  "notes": "Notes",
+  "add_note": "Add a note",
+  "add_note_placeholder": "Enter the note",
+  "add_note_empty": "Note can't be empty.",
+  "add_note_submit": "Add note",
+  "add_note_btn": "New",
+  "delete": "Delete"
 }

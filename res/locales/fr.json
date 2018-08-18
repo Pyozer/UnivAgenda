@@ -75,5 +75,13 @@
   "intro_offline_desc": "Une fois votre agenda chargé au moins une fois, il sera sauvegardé pour une utilisation hors-connexion.",
 
   "course_test": "Examen",
-  "course_details": "Détails du cours"
+  "course_details": "Détails du cours",
+
+  "notes": "Notes",
+  "add_note": "Ajouter une note",
+  "add_note_placeholder": "Entrez la note à ajouter",
+  "add_note_empty": "La note ne peut être vide.",
+  "add_note_submit": "Ajouter",
+  "add_note_btn": "Ajouter note",
+  "delete": "Supprimer"
 }

@@ -59,20 +59,17 @@ class _DetailCourseState extends State<DetailCourse> {
           leading: const Icon(Icons.description),
           title: Text(translate.get(StringKey.COURSE_TEST))));
 
-    // TODO: Ajout traduction
-    listInfo.add(
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 8.0),
-              child: Text("Notes",
-                  style: const TextStyle(
-                      fontSize: 16.0, fontWeight: FontWeight.w700))),
-          AddNoteButton(onPressed: _openAddNote)
-        ],
-      )
-    );
+    listInfo.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 8.0),
+            child: Text(translate.get(StringKey.NOTES),
+                style: const TextStyle(
+                    fontSize: 16.0, fontWeight: FontWeight.w700))),
+        AddNoteButton(onPressed: _openAddNote)
+      ],
+    ));
 
     listInfo.addAll(_buildListNotes());
 
@@ -105,27 +102,30 @@ class _DetailCourseState extends State<DetailCourse> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
-        // TODO: Ajouter traductions
+        final translate = Translations.of(context);
+
         return AlertDialog(
-          title: Text('Add a note'),
+          title: Text(translate.get(StringKey.ADD_NOTE)),
           content: Form(
             key: _formKey,
             child: TextFormField(
               maxLines: 3,
-              decoration: InputDecoration(hintText: 'Enter the note'),
-              validator: (val) =>
-                  val.trim().isEmpty ? 'Note can\'t be empty.' : null,
+              decoration: InputDecoration(
+                  hintText: translate.get(StringKey.ADD_NOTE_PLACEHOLDER)),
+              validator: (val) => val.trim().isEmpty
+                  ? translate.get(StringKey.ADD_NOTE_EMPTY)
+                  : null,
               onSaved: (val) => _noteToAdd = val.trim(),
             ),
           ),
           actions: [
             FlatButton(
-              child: Text(
-                  Translations.of(context).get(StringKey.CANCEL).toUpperCase()),
+              child: Text(translate.get(StringKey.CANCEL).toUpperCase()),
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             FlatButton(
-              child: Text("ADD NOTE"),
+              child:
+                  Text(translate.get(StringKey.ADD_NOTE_SUBMIT).toUpperCase()),
               onPressed: () => _submitAddNote(dialogContext),
             )
           ],
@@ -147,7 +147,6 @@ class _DetailCourseState extends State<DetailCourse> {
       Navigator.of(context).pop();
 
       // TODO: Save note to shared_preferences
-
     }
   }
 
@@ -162,7 +161,9 @@ class _DetailCourseState extends State<DetailCourse> {
         body: Container(
             child: Column(children: [
           AppbarSubTitle(subtitle: widget.course.title),
-          Expanded(child: ListView(shrinkWrap: true, children: _buildInfo(translate, theme)))
+          Expanded(
+              child: ListView(
+                  shrinkWrap: true, children: _buildInfo(translate, theme)))
         ])));
   }
 }

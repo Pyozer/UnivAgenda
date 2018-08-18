@@ -81,6 +81,15 @@ class StringKey {
   static const COURSE_TEST = const StringKey._('course_test');
   static const COURSE_DETAILS = const StringKey._('course_details');
 
+  static const NOTES = const StringKey._('notes');
+  static const ADD_NOTE = const StringKey._('add_note');
+  static const ADD_NOTE_PLACEHOLDER = const StringKey._('add_note_placeholder');
+  static const ADD_NOTE_EMPTY = const StringKey._('add_note_empty');
+  static const ADD_NOTE_SUBMIT = const StringKey._('add_note_submit');
+
+  static const ADD_NOTE_BTN = const StringKey._('add_note_btn');
+  static const DELETE = const StringKey._('delete');
+
   final String value;
 
   const StringKey._(this.value);

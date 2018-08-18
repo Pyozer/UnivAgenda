@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 
 class AddNoteButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -7,9 +9,8 @@ class AddNoteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Ajouter traduction "Add Note"
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: OutlineButton(child: Text('ADD NOTE'), onPressed: onPressed));
+        child: OutlineButton(child: Text(Translations.of(context).get(StringKey.ADD_NOTE_BTN)), onPressed: onPressed));
   }
 }
