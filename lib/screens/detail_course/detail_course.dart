@@ -25,11 +25,6 @@ class _DetailCourseState extends State<DetailCourse> {
   @override
   void initState() {
     super.initState();
-    // TODO: TEMPORAIRE
-    for (int i = 0; i < 5; i++) {
-      widget.course.notes.add(
-          Note(courseUid: widget.course.uid, text: "Une super note numéro $i"));
-    }
     courseNotes = widget.course.notes;
   }
 
@@ -106,20 +101,17 @@ class _DetailCourseState extends State<DetailCourse> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
-        // TODO: Ajouter traduction
+        // TODO: Ajouter traductions
         return AlertDialog(
           title: Text('Add a note'),
           content: TextField(
               maxLines: 3,
               decoration: InputDecoration(hintText: 'Enter the note'),
-              onChanged: (value) {
-                setState(() {
-                  noteToAdd = value;
-                });
-              }),
+              onChanged: (value) => noteToAdd = value),
           actions: [
             FlatButton(
-              child: Text(Translations.of(context).get(StringKey.CANCEL).toUpperCase()),
+              child: Text(
+                  Translations.of(context).get(StringKey.CANCEL).toUpperCase()),
               onPressed: () => Navigator.of(dialogContext).pop(),
             ),
             FlatButton(
@@ -129,6 +121,7 @@ class _DetailCourseState extends State<DetailCourse> {
                   courseNotes
                       .add(Note(courseUid: widget.course.uid, text: noteToAdd));
                 });
+                noteToAdd = "";
                 Navigator.of(dialogContext).pop();
               },
             )
