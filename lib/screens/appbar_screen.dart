@@ -36,3 +36,26 @@ class AppbarPage extends StatelessWidget {
         floatingActionButton: fab);
   }
 }
+
+class AppbarSubTitle extends StatelessWidget {
+  final String subtitle;
+
+  const AppbarSubTitle({Key key, @required this.subtitle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
+
+    return Row(children: [
+      Expanded(
+          child: Material(
+              color: theme.primaryColor,
+              elevation: 4.0,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 16.0),
+                  child: Text(subtitle, style: textStyle))))
+    ]);
+  }
+}

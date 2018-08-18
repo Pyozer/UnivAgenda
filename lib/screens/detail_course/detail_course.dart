@@ -6,7 +6,6 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_note.dart';
-import 'package:myagenda/widgets/ui/about_card.dart';
 
 class DetailCourse extends StatefulWidget {
   final Course course;
@@ -21,29 +20,17 @@ class DetailCourse extends StatefulWidget {
 
 class _DetailCourseState extends State<DetailCourse> {
   List<Note> courseNotes = [];
+  String noteToAdd;
 
   @override
   void initState() {
     super.initState();
+    // TODO: TEMPORAIRE
     for (int i = 0; i < 5; i++) {
-      final noteTEST = Note(courseUid: "lol", text: "Une super note numéro $i");
-      widget.course.notes.add(noteTEST);
+      widget.course.notes.add(
+          Note(courseUid: widget.course.uid, text: "Une super note numéro $i"));
     }
     courseNotes = widget.course.notes;
-  }
-
-  Widget _buildHeader(ThemeData theme) {
-    return Row(children: [
-      Expanded(
-          child: Material(
-              color: theme.primaryColor,
-              elevation: 4.0,
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 16.0),
-                  child: Text(widget.course.title,
-                      style: const TextStyle(fontSize: 17.0)))))
-    ]);
   }
 
   List<Widget> _buildInfo(Translations translate, ThemeData theme) {
@@ -78,11 +65,22 @@ class _DetailCourseState extends State<DetailCourse> {
     listInfo.add(ListTile(
         leading: Icon(Icons.attach_file), title: Text(widget.course.uid)));
 
+    // TODO: Ajout traduction
     listInfo.add(Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-      child: Text("Notes",
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700)),
-    ));
+        padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+        child: Text("Notes",
+            style:
+                const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700))));
+
+    // TODO: Ajouter traduction
+    listInfo.add(Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(children: [
+          Expanded(
+              child: OutlineButton(
+                  child: Text('ADD NOTE'), onPressed: _openAddNote))
+        ])));
+
     listInfo.addAll(_buildListNotes());
 
     return listInfo;
@@ -90,19 +88,54 @@ class _DetailCourseState extends State<DetailCourse> {
 
   List<Widget> _buildListNotes() {
     List<Widget> listNotes = [];
-    if (courseNotes.length > 0)
-      courseNotes.forEach((note) {
-        listNotes.add(CourseNote(
-            note: note,
-            onDelete: (noteToRemove) {
-              setState(() {
-                courseNotes.remove(note);
-              });
-            }));
-      });
-    else
-      listNotes.add(AboutCard(title: "Aucune note :/"));
+    courseNotes.forEach((note) {
+      listNotes.add(CourseNote(note: note, onDelete: _onNoteDeleted));
+    });
+
     return listNotes;
+  }
+
+  void _onNoteDeleted(Note noteToDelete) {
+    setState(() {
+      courseNotes.remove(noteToDelete);
+    });
+  }
+
+  void _openAddNote() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        // TODO: Ajouter traduction
+        return AlertDialog(
+          title: Text('Add a note'),
+          content: TextField(
+              maxLines: 3,
+              decoration: InputDecoration(hintText: 'Enter the note'),
+              onChanged: (value) {
+                setState(() {
+                  noteToAdd = value;
+                });
+              }),
+          actions: [
+            FlatButton(
+              child: Text(Translations.of(context).get(StringKey.CANCEL).toUpperCase()),
+              onPressed: () => Navigator.of(dialogContext).pop(),
+            ),
+            FlatButton(
+              child: Text("ADD NOTE"),
+              onPressed: () {
+                setState(() {
+                  courseNotes
+                      .add(Note(courseUid: widget.course.uid, text: noteToAdd));
+                });
+                Navigator.of(dialogContext).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -115,7 +148,7 @@ class _DetailCourseState extends State<DetailCourse> {
         elevation: 0.0,
         body: Container(
             child: Column(children: [
-          _buildHeader(theme),
+          AppbarSubTitle(subtitle: widget.course.title),
           Expanded(child: ListView(children: _buildInfo(translate, theme)))
         ])));
   }
