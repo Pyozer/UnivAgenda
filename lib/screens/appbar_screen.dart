@@ -7,9 +7,16 @@ class AppbarPage extends StatelessWidget {
   final Widget drawer;
   final Widget fab;
   final double elevation;
+  final List<Widget> actions;
 
   const AppbarPage(
-      {Key key, this.title, this.body, this.drawer, this.fab, this.elevation = 4.0})
+      {Key key,
+      @required this.title,
+      @required this.body,
+      this.drawer,
+      this.fab,
+      this.elevation = 4.0,
+      this.actions})
       : super(key: key);
 
   void _onChangeTheme(context) {
@@ -22,14 +29,14 @@ class AppbarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final changeTheme = IconButton(
+        icon: Icon(Icons.lightbulb_outline),
+        onPressed: () => _onChangeTheme(context));
+
     return Scaffold(
         appBar: AppBar(
             title: Text(title),
-            actions: [
-              FlatButton(
-                  child: Icon(Icons.lightbulb_outline),
-                  onPressed: () => _onChangeTheme(context))
-            ],
+            actions: (actions ?? [])..insert(0, changeTheme),
             elevation: elevation),
         body: body,
         drawer: drawer,
