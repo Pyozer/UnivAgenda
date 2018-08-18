@@ -38,7 +38,7 @@ class AppbarPage extends StatelessWidget {
             title: Text(title),
             actions: (actions ?? [])..insert(0, changeTheme),
             elevation: elevation),
-        body: body,
+        body: SafeArea(child: body),
         drawer: drawer,
         floatingActionButton: fab);
   }

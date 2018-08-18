@@ -47,7 +47,7 @@ class _ListTileColorState extends State<ListTileColor> {
 
   void _initSelectedValue() {
     setState(() {
-      _inputValue = widget.defaultValue ?? Colors.black;
+      _inputValue = widget.defaultValue;
       _submitInputValue = _inputValue;
     });
   }
@@ -92,10 +92,10 @@ class _ListTileColorState extends State<ListTileColor> {
             actions: <Widget>[
               FlatButton(
                   onPressed: _closeDialog,
-                  child: Text(translate.get(StringKey.CANCEL))),
+                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
               FlatButton(
                   onPressed: _onSubmit,
-                  child: Text(translate.get(StringKey.SUBMIT))),
+                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
             ],
           );
         });

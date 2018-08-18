@@ -15,6 +15,7 @@ dependencies:
 
   material_pickers:
     git: git://github.com/long1eu/material_pickers
+
   introduction_screen:
       git: git://github.com/pyozer/introduction_screen
 

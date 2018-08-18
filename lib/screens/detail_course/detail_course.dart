@@ -79,21 +79,15 @@ class _DetailCourseState extends State<DetailCourse> {
   List<Widget> _buildListNotes() {
     List<Widget> listNotes = [];
 
-    for (int i = 0; i < _courseNotes.length; i++) {
-      final note = _courseNotes[i];
-      listNotes.add(Dismissible(
-          key: Key('$i'),
-          direction: DismissDirection.startToEnd,
-          onDismissed: (direction) => _onNoteDeleted(i),
-          child: CourseNote(note: note)));
-    }
+    for (final note in _courseNotes)
+      listNotes.add(CourseNote(note: note, onDelete: _onNoteDeleted));
 
     return listNotes;
   }
 
-  void _onNoteDeleted(int index) {
+  void _onNoteDeleted(Note note) {
     setState(() {
-      _courseNotes.removeAt(index);
+      _courseNotes.remove(note);
     });
   }
 
