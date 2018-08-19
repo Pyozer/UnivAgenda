@@ -13,8 +13,8 @@ dependencies:
   url_launcher: ^3.0.3
   flutter_markdown: ^0.1.6
 
-  material_pickers:
-    git: git://github.com/long1eu/material_pickers
+  color_picker:
+        git: git://github.com/pyozer/color_picker
 
   introduction_screen:
       git: git://github.com/pyozer/introduction_screen
