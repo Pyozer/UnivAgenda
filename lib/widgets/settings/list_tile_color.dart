@@ -5,6 +5,7 @@ import 'package:material_pickers/material_pickers.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/material_color_picker/material_color_picker.dart';
+import 'package:myagenda/widgets/material_color_picker/material_color_picker_v2.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 
 class ListTileColor extends StatefulWidget {
@@ -85,10 +86,9 @@ class _ListTileColorState extends State<ListTileColor> {
           return AlertDialog(
             title: Text(widget.titleDialog ?? widget.title),
             contentPadding: EdgeInsets.all(8.0),
-            content: MaterialColorPicker(
-              type: MaterialType.card,
+            content: MaterialColorPickerV2(
               onColorChange: _onInputChange,
-              selectedColor: Colors.red[500],
+              selectedColor: _inputValue,
             ),
             actions: <Widget>[
               FlatButton(
@@ -129,15 +129,11 @@ class _ListTileColorState extends State<ListTileColor> {
   Widget build(BuildContext context) {
     final double sizeColor =
         widget.description != null ? kBigColorSize : kSmallColorSize;
+
     return ListTile(
         title: ListTileTitle(widget.title),
         subtitle: widget.description != null ? Text(widget.description) : null,
-        trailing: Container(
-          width: sizeColor,
-          height: sizeColor,
-          decoration:
-              ShapeDecoration(shape: CircleBorder(), color: _submitInputValue),
-        ),
+        trailing: ColorCircle(color: _submitInputValue, circleSize: sizeColor),
         onTap: _openDialog);
   }
 }
