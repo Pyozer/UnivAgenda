@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_pickers/material_pickers.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/material_color_picker/material_color_picker.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 
 class ListTileColor extends StatefulWidget {
@@ -84,6 +85,29 @@ class _ListTileColorState extends State<ListTileColor> {
           return AlertDialog(
             title: Text(widget.titleDialog ?? widget.title),
             contentPadding: EdgeInsets.all(8.0),
+            content: MaterialColorPicker(
+              type: MaterialType.card,
+              onColorChange: _onInputChange,
+              selectedColor: Colors.red[500],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: _closeDialog,
+                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
+              FlatButton(
+                  onPressed: _onSubmit,
+                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
+            ],
+          );
+        });
+
+    /*await showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(widget.titleDialog ?? widget.title),
+            contentPadding: EdgeInsets.all(8.0),
             content: ColorPicker(
               type: MaterialType.transparency,
               onColor: _onInputChange,
@@ -98,7 +122,7 @@ class _ListTileColorState extends State<ListTileColor> {
                   child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
             ],
           );
-        });
+        });*/
   }
 
   @override
