@@ -39,19 +39,23 @@ class DynamicThemeState extends State<DynamicTheme> {
     return widget.themedWidgetBuilder(context, _theme);
   }
 
-  void changeTheme({Brightness brightness, Color primaryColor}) {
-    final updatedTheme =
-        _buildTheme(brightness: brightness, primaryColor: primaryColor);
+  void changeTheme(
+      {Brightness brightness, Color primaryColor, Color accentColor}) {
+    final updatedTheme = _buildTheme(
+        brightness: brightness,
+        primaryColor: primaryColor,
+        accentColor: accentColor);
     _updateTheme(updatedTheme);
     _saveTheme();
   }
 
-  ThemeData _buildTheme({Brightness brightness, Color primaryColor}) {
+  ThemeData _buildTheme(
+      {Brightness brightness, Color primaryColor, Color accentColor}) {
     return ThemeData(
         fontFamily: _theme.textTheme.title.fontFamily,
         brightness: brightness ?? _theme.brightness,
         primaryColor: primaryColor ?? _theme.primaryColor,
-        accentColor: primaryColor ?? _theme.accentColor);
+        accentColor: accentColor ?? _theme.accentColor);
   }
 
   void _updateTheme(ThemeData updatedTheme) {
@@ -63,20 +67,28 @@ class DynamicThemeState extends State<DynamicTheme> {
   Future<ThemeData> _loadTheme() async {
     Brightness brightness = widget.defaultTheme.brightness;
     Color primaryColor = widget.defaultTheme.primaryColor;
+    Color accentColor = widget.defaultTheme.accentColor;
 
     bool isDark = await Preferences.getDarkTheme();
     if (isDark != null) brightness = getBrightness(isDark);
 
-    int primaryColorValue = await Preferences.getAppbarColor();
+    int primaryColorValue = await Preferences.getPrimaryColor();
     if (primaryColorValue != null) primaryColor = Color(primaryColorValue);
 
-    return _buildTheme(brightness: brightness, primaryColor: primaryColor);
+    int accentColorValue = await Preferences.getAccentColor();
+    if (accentColorValue != null) accentColor = Color(accentColorValue);
+
+    return _buildTheme(
+        brightness: brightness,
+        primaryColor: primaryColor,
+        accentColor: accentColor);
   }
 
   Future _saveTheme() async {
     await Preferences
         .setDarkTheme(_theme.brightness == Brightness.dark ? true : false);
-    await Preferences.setAppbarColor(_theme.primaryColor.value);
+    await Preferences.setPrimaryColor(_theme.primaryColor.value);
+    await Preferences.setAccentColor(_theme.accentColor.value);
   }
 
   ThemeData get theme => _theme;

@@ -22,8 +22,10 @@
 
   "dark_theme": "Thème sombre",
   "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
-  "appbar_color": "Couleur principale",
-  "appbar_color_desc": "Choisi la couleur principale de l'application.",
+  "primary_color": "Couleur principale",
+  "primary_color_desc": "Choisi la couleur principale de l'application.",
+  "accent_color": "Couleur secondaire",
+  "accent_color_desc": "Choisi la couleur secondaire de l'application.",
   "note_color": "Couleur indicateur d'une note",
   "note_color_desc": "Couleur indiquant si une note est présente.",
 

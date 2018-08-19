@@ -22,11 +22,16 @@ class SplashScreen extends StatelessWidget {
     bool isDark = await Preferences.getDarkTheme();
     if (isDark == null) isDark = PrefKey.defaultDarkTheme;
 
-    int appbarColor = await Preferences.getAppbarColor();
-    if (appbarColor == null) appbarColor = PrefKey.defaultAppbarColor;
+    int appbarColor = await Preferences.getPrimaryColor();
+    if (appbarColor == null) appbarColor = PrefKey.defaultPrimaryColor;
+
+    int accentColor = await Preferences.getPrimaryColor();
+    if (accentColor == null) accentColor = PrefKey.defaultAccentColor;
 
     DynamicTheme.of(context).changeTheme(
-        primaryColor: Color(appbarColor), brightness: getBrightness(isDark));
+        primaryColor: Color(appbarColor),
+        accentColor: Color(accentColor),
+        brightness: getBrightness(isDark));
 
     int numberWeeks = await Preferences.getNumberWeek();
     if (numberWeeks == null)

@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
+
 class ListTileColor extends StatefulWidget {
   final String title;
   final String titleDialog;
   final String description;
   final ValueChanged<Color> onChange;
   final Color defaultValue;
+  final List<ColorSwatch> colors;
 
   const ListTileColor(
       {Key key,
@@ -18,6 +20,7 @@ class ListTileColor extends StatefulWidget {
       this.titleDialog,
       this.description,
       this.onChange,
+      this.colors,
       this.defaultValue})
       : super(key: key);
 
@@ -86,6 +89,7 @@ class _ListTileColorState extends State<ListTileColor> {
             content: MaterialColorPicker(
               onColorChange: _onInputChange,
               selectedColor: _inputValue,
+              colors: widget.colors,
             ),
             actions: <Widget>[
               FlatButton(

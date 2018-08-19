@@ -22,8 +22,10 @@
 
   "dark_theme": "Dark theme",
   "dark_theme_desc": "App colors will be darker.",
-  "appbar_color": "Application color",
-  "appbar_color_desc": "Choose the color of the app.",
+  "primary_color": "Primary color",
+  "primary_color_desc": "Choose primary color of the app.",
+  "accent_color": "Accent color",
+  "accent_color_desc": "Choose accent color of the app.",
   "note_color": "Note indicator color",
   "note_color_desc": "Color indicating if a note is present.",
 

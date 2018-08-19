@@ -116,10 +116,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void _handleAppbarColor(Color newColor) {
-    Preferences.setAppbarColor(newColor.value).then((value) {
-      _editLocalPrefValue(PrefKey.appbarColor, value);
+  void _handlePrimaryColor(Color newColor) {
+    Preferences.setPrimaryColor(newColor.value).then((value) {
+      _editLocalPrefValue(PrefKey.primaryColor, value);
       DynamicTheme.of(context).changeTheme(primaryColor: newColor);
+    });
+  }
+
+  void _handleAccentColor(Color newColor) {
+    Preferences.setAccentColor(newColor.value).then((value) {
+      _editLocalPrefValue(PrefKey.accentColor, value);
+      DynamicTheme.of(context).changeTheme(accentColor: newColor);
     });
   }
 
@@ -150,12 +157,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: _handleDarkTheme),
           const ListDivider(),
           ListTileColor(
-              title: translate.get(StringKey.APPBAR_COLOR),
-              description: translate.get(StringKey.APPBAR_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.appbarColor] != null
-                  ? Color(_dataPrefs[PrefKey.appbarColor])
-                  : const Color(PrefKey.defaultAppbarColor),
-              onChange: _handleAppbarColor),
+              title: translate.get(StringKey.PRIMARY_COLOR),
+              description: translate.get(StringKey.PRIMARY_COLOR_DESC),
+              defaultValue: _dataPrefs[PrefKey.primaryColor] != null
+                  ? Color(_dataPrefs[PrefKey.primaryColor])
+                  : const Color(PrefKey.defaultPrimaryColor),
+              onChange: _handlePrimaryColor),
+          const ListDivider(),
+          ListTileColor(
+              title: translate.get(StringKey.ACCENT_COLOR),
+              description: translate.get(StringKey.ACCENT_COLOR_DESC),
+              defaultValue: _dataPrefs[PrefKey.accentColor] != null
+                  ? Color(_dataPrefs[PrefKey.accentColor])
+                  : const Color(PrefKey.defaultAccentColor),
+              onChange: _handleAccentColor,
+              colors: [
+                Colors.redAccent,
+                Colors.pinkAccent,
+                Colors.purpleAccent,
+                Colors.deepPurpleAccent,
+                Colors.indigoAccent,
+                Colors.blueAccent,
+                Colors.lightBlueAccent,
+                Colors.cyanAccent,
+                Colors.tealAccent,
+                Colors.greenAccent,
+                Colors.lightGreenAccent,
+                Colors.limeAccent,
+                Colors.yellowAccent,
+                Colors.amberAccent,
+                Colors.orangeAccent,
+                Colors.deepOrangeAccent,
+                Colors.brown,
+                Colors.grey,
+                Colors.blueGrey
+              ]),
           const ListDivider(),
           ListTileColor(
               title: translate.get(StringKey.NOTE_COLOR),

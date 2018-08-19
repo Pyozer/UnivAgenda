@@ -31,8 +31,8 @@ class App extends StatelessWidget {
     return DynamicTheme(
         defaultTheme: ThemeData(
             fontFamily: 'OpenSans',
-            accentColor: const Color(PrefKey.defaultAppbarColor),
-            primaryColor: const Color(PrefKey.defaultAppbarColor),
+            primaryColor: const Color(PrefKey.defaultPrimaryColor),
+            accentColor: const Color(PrefKey.defaultAccentColor),
             brightness: getBrightness(PrefKey.defaultDarkTheme)),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(

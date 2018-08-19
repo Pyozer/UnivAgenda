@@ -70,15 +70,26 @@ class Preferences {
     return darkTheme;
   }
 
-  static Future<int> getAppbarColor() async {
+  static Future<int> getPrimaryColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(PrefKey.appbarColor);
+    return prefs.getInt(PrefKey.primaryColor);
   }
 
-  static Future<int> setAppbarColor(int appbarColor) async {
+  static Future<int> setPrimaryColor(int primaryColor) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(PrefKey.appbarColor, appbarColor);
-    return appbarColor;
+    await prefs.setInt(PrefKey.primaryColor, primaryColor);
+    return primaryColor;
+  }
+
+  static Future<int> getAccentColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(PrefKey.accentColor);
+  }
+
+  static Future<int> setAccentColor(int accentColor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(PrefKey.accentColor, accentColor);
+    return accentColor;
   }
 
   static Future<int> getNoteColor() async {
@@ -122,7 +133,8 @@ class Preferences {
     dataPrefs[PrefKey.group] = await Preferences.getGroup();
     dataPrefs[PrefKey.numberWeek] = await Preferences.getNumberWeek();
     dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();
-    dataPrefs[PrefKey.appbarColor] = await Preferences.getAppbarColor();
+    dataPrefs[PrefKey.primaryColor] = await Preferences.getPrimaryColor();
+    dataPrefs[PrefKey.accentColor] = await Preferences.getAccentColor();
     dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
 
     return dataPrefs;
