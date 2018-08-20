@@ -53,7 +53,6 @@ class DynamicThemeState extends State<DynamicTheme> {
   ThemeData _buildTheme(
       {Brightness brightness, Color primaryColor, Color accentColor}) {
     final primarySwatch = _findMainColor(primaryColor);
-    print(primarySwatch);
 
     return ThemeData(
         fontFamily: _theme.textTheme.title.fontFamily,
