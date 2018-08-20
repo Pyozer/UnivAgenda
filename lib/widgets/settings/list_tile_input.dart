@@ -91,10 +91,10 @@ class _ListTileInputState extends State<ListTileInput> {
             actions: <Widget>[
               FlatButton(
                   onPressed: _closeDialog,
-                  child: Text(translate.get(StringKey.CANCEL))),
+                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
               FlatButton(
                   onPressed: _onSubmit,
-                  child: Text(translate.get(StringKey.SUBMIT))),
+                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
             ],
           );
         });

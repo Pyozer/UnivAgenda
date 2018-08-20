@@ -29,8 +29,8 @@ class ListTileColor extends StatefulWidget {
 }
 
 class _ListTileColorState extends State<ListTileColor> {
-  final double kSmallColorSize = 20.0;
-  final double kBigColorSize = 30.0;
+  final double kSmallColorSize = 30.0;
+  final double kBigColorSize = 38.0;
 
   Color _inputValue;
   Color _submitInputValue;
@@ -101,29 +101,6 @@ class _ListTileColorState extends State<ListTileColor> {
             ],
           );
         });
-
-    /*await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(widget.titleDialog ?? widget.title),
-            contentPadding: EdgeInsets.all(8.0),
-            content: ColorPicker(
-              type: MaterialType.transparency,
-              onColor: _onInputChange,
-              currentColor: _inputValue,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: _closeDialog,
-                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
-              FlatButton(
-                  onPressed: _onSubmit,
-                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
-            ],
-          );
-        });*/
   }
 
   @override
