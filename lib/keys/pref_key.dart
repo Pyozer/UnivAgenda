@@ -18,4 +18,5 @@ class PrefKey {
   static get firstBoot => "first_boot";
 
   static get cachedIcal => "cached_ical";
+  static get notes => "notes";
 }

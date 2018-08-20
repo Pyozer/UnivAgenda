@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/models/course.dart';
+import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -123,6 +126,58 @@ class Preferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefKey.cachedIcal, icalToCache);
     return icalToCache;
+  }
+
+  static Future<List<Note>> getNotes() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> notesJSONStr = prefs.getStringList(PrefKey.notes);
+
+    List<Note> notes = [];
+    notesJSONStr.forEach((noteJsonStr) {
+      Map noteMap = json.decode(noteJsonStr);
+      final note = Note.fromJson(noteMap);
+      
+      //if (!note.isExpired())
+        notes.add(note);
+    });
+
+    return notes;
+  }
+
+  static Future<List<Note>> getCourseNotes(Course course) async {
+    List<Note> notes = await getNotes();
+
+    return notes.where((note) => note.courseUid == course.uid);
+  }
+
+  static Future<List<Note>> setNotes(List<Note> notes) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> notesJSON = [];
+    notes.forEach((note) {
+      notesJSON.add(json.encode(note.toJson()));
+    });
+
+    await prefs.setStringList(PrefKey.notes, notesJSON);
+    return notes;
+  }
+
+  static Future<List<Note>> addNote(Note noteToAdd) async {
+    List<Note> notes = await getNotes();
+    notes.add(noteToAdd);
+
+    await setNotes(notes);
+
+    return notes;
+  }
+
+  static Future<List<Note>> removeNote(Note noteToRemove) async {
+    List<Note> notes = await getNotes();
+    notes.removeWhere((note) => (note == noteToRemove));
+
+    await setNotes(notes);
+
+    return notes;
   }
 
   static Future<Map<String, dynamic>> getAllValues() async {

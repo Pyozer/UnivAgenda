@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/models/course.dart';
+import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -69,17 +70,27 @@ class CourseListState extends State<CourseList> {
     return await Preferences.getCachedIcal();
   }
 
-  void _prepareList(String icalStr) {
+  void _prepareList(String icalStr) async {
     List<Course> listCourses = [];
 
-    // Parse string ical to object
-    Ical.parseToIcal(icalStr).forEach((icalModel) {
-      listCourses.add(Course.fromIcalModel(icalModel));
-    });
+    // Get all notes saved (expired notes removed by getNotes())
+    List<Note> allNotes = await Preferences.getNotes();
 
-    // Sort list by date start
-    listCourses
-        .sort((Course a, Course b) => a.dateStart.compareTo(b.dateStart));
+    // Parse string ical to object
+    for(final icalModel in Ical.parseToIcal(icalStr)) {
+      Course course = Course.fromIcalModel(icalModel);
+      // Get all notes of the course, and sort by dateCreation desc
+      final courseNotes = allNotes.where((note) => note.courseUid == course.uid).toList();
+      courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
+      
+      // Add all note of a course
+      course.notes = courseNotes;
+
+      listCourses.add(course);
+    }
+
+    // Sort list by date start (to add headers)
+    listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
     List<BaseCourse> listElement = [];
@@ -87,16 +98,14 @@ class CourseListState extends State<CourseList> {
 
     // Init variable to add headers
     DateTime lastDate = DateTime(1970); // Init variable to 1970
-    int listSize = listElement.length;
 
-    // Add header to list
-    for (int i = 0; i < listSize; i++) {
+    // Add headers to course list
+    for (int i = 0; i < listElement.length; i++) {
       if (listElement[i] is Course) {
         final Course course = listElement[i];
 
         if (Date.notSameDay(course.dateStart, lastDate)) {
           listElement.insert(i, CourseHeader(course.dateStart));
-          listSize++;
           lastDate = course.dateStart;
         }
       }

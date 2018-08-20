@@ -4,6 +4,7 @@ import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course_note/add_note_button.dart';
 import 'package:myagenda/widgets/course_note/course_note.dart';
@@ -20,16 +21,9 @@ class DetailCourse extends StatefulWidget {
 }
 
 class _DetailCourseState extends State<DetailCourse> {
-  List<Note> _courseNotes = [];
 
   final _formKey = GlobalKey<FormState>();
   String _noteToAdd;
-
-  @override
-  void initState() {
-    super.initState();
-    _courseNotes = widget.course.notes;
-  }
 
   List<Widget> _buildInfo(Translations translate, ThemeData theme) {
     final locale = translate.locale;
@@ -79,7 +73,7 @@ class _DetailCourseState extends State<DetailCourse> {
   List<Widget> _buildListNotes() {
     List<Widget> listNotes = [];
 
-    for (final note in _courseNotes)
+    for (final note in widget.course.notes)
       listNotes.add(CourseNote(note: note, onDelete: _onNoteDeleted));
 
     return listNotes;
@@ -87,8 +81,9 @@ class _DetailCourseState extends State<DetailCourse> {
 
   void _onNoteDeleted(Note note) {
     setState(() {
-      _courseNotes.remove(note);
+      widget.course.notes.remove(note);
     });
+    Preferences.removeNote(note);
   }
 
   void _openAddNote() {
@@ -134,13 +129,15 @@ class _DetailCourseState extends State<DetailCourse> {
     if (form.validate()) {
       form.save();
 
-      setState(() {
-        _courseNotes.add(Note(courseUid: widget.course.uid, text: _noteToAdd));
-      });
+      final note = Note(courseUid: widget.course.uid, text: _noteToAdd, dateExpiration: widget.course.dateEnd);
       _noteToAdd = "";
-      Navigator.of(context).pop();
 
-      // TODO: Save note to shared_preferences
+      setState(() {
+        widget.course.notes.insert(0, note);
+      });
+      Preferences.addNote(note);
+
+      Navigator.of(context).pop();
     }
   }
 
