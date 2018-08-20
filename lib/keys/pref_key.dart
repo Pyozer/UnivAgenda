@@ -12,7 +12,7 @@ class PrefKey {
   static get darkTheme => 'isDark';
 
   static const defaultNumberWeek = 5;
-  static const defaultPrimaryColor = 0xFFF44336;
+  static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
   static const defaultAccentColor = 0xFFFF5252;
   static const defaultNoteColor = 0xFFFFFF00;
   static const defaultDarkTheme = false;

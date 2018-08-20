@@ -10,8 +10,8 @@ class ListTileColor extends StatefulWidget {
   final String title;
   final String titleDialog;
   final String description;
-  final ValueChanged<Color> onChange;
-  final Color defaultValue;
+  final ValueChanged<Color> onColorChange;
+  final Color defaultColor;
   final List<ColorSwatch> colors;
 
   const ListTileColor(
@@ -19,9 +19,9 @@ class ListTileColor extends StatefulWidget {
       @required this.title,
       this.titleDialog,
       this.description,
-      this.onChange,
+      this.onColorChange,
       this.colors,
-      this.defaultValue})
+      this.defaultColor})
       : super(key: key);
 
   @override
@@ -32,8 +32,8 @@ class _ListTileColorState extends State<ListTileColor> {
   final double kSmallColorSize = 30.0;
   final double kBigColorSize = 38.0;
 
-  Color _inputValue;
-  Color _submitInputValue;
+  Color _inputColor;
+  Color _submitColor;
 
   @override
   void initState() {
@@ -49,14 +49,14 @@ class _ListTileColorState extends State<ListTileColor> {
 
   void _initSelectedValue() {
     setState(() {
-      _inputValue = widget.defaultValue;
-      _submitInputValue = _inputValue;
+      _inputColor = widget.defaultColor;
+      _submitColor = _inputColor;
     });
   }
 
-  void _onInputChange(value) {
+  void _onColorChange(value) {
     setState(() {
-      _inputValue = value;
+      _inputColor = value;
     });
   }
 
@@ -65,16 +65,16 @@ class _ListTileColorState extends State<ListTileColor> {
   }
 
   void _onSubmit() {
-    widget.onChange(_inputValue);
+    widget.onColorChange(_inputColor);
     setState(() {
-      _submitInputValue = _inputValue;
+      _submitColor = _inputColor;
     });
     _closeDialog();
   }
 
   Future<Null> _openDialog() async {
     setState(() {
-      _inputValue = _submitInputValue;
+      _inputColor = _submitColor;
     });
 
     final translate = Translations.of(context);
@@ -85,10 +85,10 @@ class _ListTileColorState extends State<ListTileColor> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(widget.titleDialog ?? widget.title),
-            contentPadding: EdgeInsets.all(8.0),
+            contentPadding: const EdgeInsets.all(8.0),
             content: MaterialColorPicker(
-              onColorChange: _onInputChange,
-              selectedColor: _inputValue,
+              onColorChange: _onColorChange,
+              selectedColor: _inputColor,
               colors: widget.colors,
             ),
             actions: <Widget>[
@@ -111,7 +111,7 @@ class _ListTileColorState extends State<ListTileColor> {
     return ListTile(
         title: ListTileTitle(widget.title),
         subtitle: widget.description != null ? Text(widget.description) : null,
-        trailing: CircleColor(color: _submitInputValue, circleSize: sizeColor),
+        trailing: CircleColor(color: _submitColor, circleSize: sizeColor),
         onTap: _openDialog);
   }
 }

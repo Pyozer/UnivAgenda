@@ -159,18 +159,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileColor(
               title: translate.get(StringKey.PRIMARY_COLOR),
               description: translate.get(StringKey.PRIMARY_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.primaryColor] != null
+              defaultColor: _dataPrefs[PrefKey.primaryColor] != null
                   ? Color(_dataPrefs[PrefKey.primaryColor])
                   : const Color(PrefKey.defaultPrimaryColor),
-              onChange: _handlePrimaryColor),
+              onColorChange: _handlePrimaryColor),
           const ListDivider(),
           ListTileColor(
               title: translate.get(StringKey.ACCENT_COLOR),
               description: translate.get(StringKey.ACCENT_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.accentColor] != null
+              defaultColor: _dataPrefs[PrefKey.accentColor] != null
                   ? Color(_dataPrefs[PrefKey.accentColor])
                   : const Color(PrefKey.defaultAccentColor),
-              onChange: _handleAccentColor,
+              onColorChange: _handleAccentColor,
               colors: [
                 Colors.redAccent,
                 Colors.pinkAccent,
@@ -196,10 +196,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileColor(
               title: translate.get(StringKey.NOTE_COLOR),
               description: translate.get(StringKey.NOTE_COLOR_DESC),
-              defaultValue: _dataPrefs[PrefKey.noteColor] != null
+              defaultColor: _dataPrefs[PrefKey.noteColor] != null
                   ? Color(_dataPrefs[PrefKey.noteColor])
                   : const Color(PrefKey.defaultNoteColor),
-              onChange: _handleNoteColor)
+              onColorChange: _handleNoteColor)
         ]);
   }
 
