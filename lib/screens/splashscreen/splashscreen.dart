@@ -48,8 +48,6 @@ class SplashScreen extends StatelessWidget {
 
     bool isFirstBoot = await Preferences.isFirstBoot();
 
-    //await Preferences.setNotes([]);
-
     await Future.delayed(Duration(seconds: 1), null);
     return isFirstBoot;
   }
