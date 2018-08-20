@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class PrefKey {
   static get campus => 'campus';
   static get department => 'department';

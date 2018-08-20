@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
