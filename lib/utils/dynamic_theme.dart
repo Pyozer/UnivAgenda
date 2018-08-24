@@ -90,7 +90,7 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   Future _saveTheme() async {
     await Preferences
-        .setDarkTheme(_theme.brightness == Brightness.dark ? true : false);
+        .setDarkTheme(isDarkTheme(_theme.brightness));
     await Preferences.setPrimaryColor(_theme.primaryColor.value);
     await Preferences.setAccentColor(_theme.accentColor.value);
   }

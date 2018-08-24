@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class AppbarPage extends StatelessWidget {
   final String title;
@@ -20,7 +21,7 @@ class AppbarPage extends StatelessWidget {
       : super(key: key);
 
   void _onChangeTheme(context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = isDarkTheme(Theme.of(context).brightness);
 
     DynamicTheme
         .of(context)

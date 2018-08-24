@@ -21,7 +21,7 @@ class LicencesScreen extends StatelessWidget {
     Licence("URL Launcher", "Flutter Team",
         license: "BSD Licence",
         url: "${git}flutter/plugins/tree/master/packages/url_launcher"),
-      Licence("Color Picker", "Jean-Charles Moussé",
+    Licence("Color Picker", "Jean-Charles Moussé",
         license: "MIT Licence", url: "${git}Pyozer/color_picker"),
     Licence("Dots Indicator", "Jean-Charles Moussé",
         license: "MIT Licence", url: "${git}Pyozer/dots_indicator"),
@@ -30,7 +30,7 @@ class LicencesScreen extends StatelessWidget {
   ];
 
   List<Widget> _buildList(BuildContext context) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final bool isDark = isDarkTheme(Theme.of(context).brightness);
 
     List<Widget> listLicenses = [];
 
@@ -58,12 +58,14 @@ class LicencesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dividedWidgetList = ListTile
-        .divideTiles(context: context, tiles: _buildList(context))
-        .toList();
-
     return AppbarPage(
-        title: Translations.of(context).get(StringKey.OPENSOURCE_LICENCES),
-        body: Container(child: ListView(children: dividedWidgetList)));
+      title: Translations.of(context).get(StringKey.OPENSOURCE_LICENCES),
+      body: Container(
+        child: ListView(
+            children: ListTile
+                .divideTiles(context: context, tiles: _buildList(context))
+                .toList()),
+      ),
+    );
   }
 }
