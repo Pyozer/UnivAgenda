@@ -37,7 +37,7 @@ class AppbarPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             title: Text(title),
-            actions: (actions ?? [])..insert(0, changeTheme),
+            actions: [changeTheme]..insertAll(0, actions ?? []),
             elevation: elevation),
         body: SafeArea(child: body),
         drawer: drawer,
