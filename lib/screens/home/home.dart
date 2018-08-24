@@ -35,11 +35,15 @@ class HomeScreen extends StatelessWidget {
 
               final data = snapshot.data;
               return CourseList(
-                  campus: data[PrefKey.campus],
-                  department: data[PrefKey.department],
-                  year: data[PrefKey.year],
-                  group: data[PrefKey.group],
-                  numberWeeks: data[PrefKey.numberWeek]);
+                campus: data[PrefKey.campus],
+                department: data[PrefKey.department],
+                year: data[PrefKey.year],
+                group: data[PrefKey.group],
+                numberWeeks: data[PrefKey.numberWeek],
+                noteColor: data[PrefKey.noteColor] != null
+                    ? Color(data[PrefKey.noteColor])
+                    : null,
+              );
             }));
   }
 }

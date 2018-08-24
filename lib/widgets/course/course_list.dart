@@ -18,6 +18,7 @@ class CourseList extends StatefulWidget {
   final String year;
   final String group;
   final int numberWeeks;
+  final Color noteColor;
 
   const CourseList(
       {Key key,
@@ -25,7 +26,8 @@ class CourseList extends StatefulWidget {
       @required this.department,
       @required this.year,
       @required this.group,
-      this.numberWeeks = 4})
+      this.numberWeeks = 4,
+      this.noteColor})
       : super(key: key);
 
   @override
@@ -144,7 +146,7 @@ class CourseListState extends State<CourseList> {
     _listElements?.forEach((course) {
       if (course is CourseHeader)
         widgets.add(CourseRowHeader(coursHeader: course));
-      else if (course is Course) widgets.add(CourseRow(course: course));
+      else if (course is Course) widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
     });
     return widgets;
   }

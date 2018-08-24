@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
 
 class CourseRow extends StatefulWidget {
   final Course course;
+  final Color noteColor;
 
-  const CourseRow({Key key, this.course}) : super(key: key);
+  const CourseRow(
+      {Key key,
+      this.course,
+      this.noteColor = const Color(PrefKey.defaultNoteColor)})
+      : super(key: key);
 
   @override
   _CourseRowState createState() => _CourseRowState();
@@ -42,7 +48,7 @@ class _CourseRowState extends State<CourseRow> {
         textTheme.caption.copyWith(fontSize: 14.0, fontWeight: FontWeight.w500);
 
     final noteBorder = course.hasNote()
-        ? Border(right: BorderSide(color: Colors.yellow, width: 5.0))
+        ? Border(right: BorderSide(color: widget.noteColor, width: 8.0))
         : null;
 
     return InkWell(
