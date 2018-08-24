@@ -9,6 +9,10 @@ Brightness getBrightness(bool isDark) {
   return isDark ? Brightness.dark : Brightness.light;
 }
 
+bool isDarkTheme(Brightness brightness) {
+  return brightness == Brightness.dark;
+}
+
 void openLink(String href) async {
   if (await canLaunch(href))
     await launch(href);
@@ -21,14 +25,9 @@ String twoDigits(int number) {
 }
 
 String capitalize(String input) {
-  if (input == null)
-    throw new ArgumentError("string: $input");
-
-  if (input.length == 0)
-    return input;
-
-  if (input.length == 1)
-    return input[0].toUpperCase();
+  if (input == null) throw new ArgumentError("string: $input");
+  if (input.length == 0) return input;
+  if (input.length == 1) return input[0].toUpperCase();
 
   return input[0].toUpperCase() + input.substring(1);
 }

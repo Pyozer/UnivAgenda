@@ -18,32 +18,37 @@ class HomeScreen extends StatelessWidget {
       child: Icon(Icons.add));
 
   Future<Map<String, dynamic>> _getGroupValues() async {
-    Map<String, dynamic> dataPrefs = await Preferences.getAllValues();
+    Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
+    dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
     return dataPrefs;
   }
 
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-        title: Translations.of(context).get(StringKey.APP_NAME),
-        drawer: MainDrawer(),
-        fab: _buildFab(),
-        body: FutureBuilder<Map>(
-            future: _getGroupValues(),
-            builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-              if (!snapshot.hasData) return Center(child: CircularLoader());
+      title: Translations.of(context).get(StringKey.APP_NAME),
+      drawer: MainDrawer(),
+      fab: _buildFab(),
+      body: FutureBuilder<Map>(
+        future: _getGroupValues(),
+        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularLoader());
+          }
 
-              final data = snapshot.data;
-              return CourseList(
-                campus: data[PrefKey.campus],
-                department: data[PrefKey.department],
-                year: data[PrefKey.year],
-                group: data[PrefKey.group],
-                numberWeeks: data[PrefKey.numberWeek],
-                noteColor: data[PrefKey.noteColor] != null
-                    ? Color(data[PrefKey.noteColor])
-                    : null,
-              );
-            }));
+          final data = snapshot.data;
+          return CourseList(
+            campus: data[PrefKey.campus],
+            department: data[PrefKey.department],
+            year: data[PrefKey.year],
+            group: data[PrefKey.group],
+            numberWeeks: data[PrefKey.numberWeek],
+            noteColor: data[PrefKey.noteColor] != null
+                ? Color(data[PrefKey.noteColor])
+                : null,
+          );
+        },
+      ),
+    );
   }
 }

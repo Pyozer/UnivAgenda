@@ -11,6 +11,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
+import 'package:myagenda/widgets/ui/about_card.dart';
 
 class CourseList extends StatefulWidget {
   final String campus;
@@ -41,6 +42,8 @@ class CourseListState extends State<CourseList> {
   @override
   void initState() {
     super.initState();
+    _listElements = [];
+
     // Load cached ical
     _loadIcalCached().then((ical) {
       if (ical != null && ical.isNotEmpty) _prepareList(ical);
@@ -64,16 +67,18 @@ class CourseListState extends State<CourseList> {
         .toString();
     final nbWeeks = widget.numberWeeks.toString();
 
-    return 'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&nbWeeks=' +
-        nbWeeks +
-        '&resources=' +
-        resID;
+    final base =
+        'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical';
+    return base + '&nbWeeks=' + nbWeeks + '&resources=' + resID;
   }
 
   Future<Null> _fetchData() async {
     refreshKey.currentState?.show();
 
-    final response = await http.get(_prepareURL());
+    final url = _prepareURL();
+    print(url);
+
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       _prepareList(response.body);
       _updateCache(response.body);
@@ -141,25 +146,42 @@ class CourseListState extends State<CourseList> {
   List<Widget> _buildListCours() {
     List<Widget> widgets = [];
 
-    widgets.add(CourseListHeader(year: widget.year, group: widget.group));
-
-    _listElements?.forEach((course) {
+    _listElements.forEach((course) {
       if (course is CourseHeader)
         widgets.add(CourseRowHeader(coursHeader: course));
-      else if (course is Course) widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
+      else if (course is Course)
+        widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
     });
+
     return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      CourseListHeader(year: widget.year, group: widget.group)
+    ];
+
+    if (_listElements.length > 0)
+      children.addAll(ListTile
+          .divideTiles(context: context, tiles: _buildListCours())
+          .toList());
+    else {
+      children.add(AboutCard(
+        title: "Aucun cours",
+        children: <Widget>[
+          Text("Essayez de modifier le nombre de semaines à afficher.",
+              textAlign: TextAlign.justify)
+        ],
+      ));
+    }
+
     return RefreshIndicator(
-        onRefresh: _fetchData,
-        child: ListView(
-            shrinkWrap: true,
-            children: ListTile
-                .divideTiles(context: context, tiles: _buildListCours())
-                .toList()),
-        key: refreshKey);
+      key: refreshKey,
+      onRefresh: _fetchData,
+      child: ListView(
+        children: children,
+      ),
+    );
   }
 }

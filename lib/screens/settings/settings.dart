@@ -22,7 +22,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  Map _dataPrefs = {};
+  Map<String, dynamic> _dataPrefs = {};
+  Translations translations;
 
   @override
   void initState() {
@@ -30,8 +31,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _fetchSettingsValues();
   }
 
-  Future _fetchSettingsValues() async {
-    Map dataPrefs = await Preferences.getAllValues();
+  void _fetchSettingsValues() async {
+    Map<String, dynamic> dataPrefs = await Preferences.getAllValues();
     setState(() {
       _dataPrefs = dataPrefs;
     });
@@ -66,41 +67,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsGeneral() {
-    final translations = Translations.of(context);
+    var campus = _dataPrefs[PrefKey.campus];
+    var department = _dataPrefs[PrefKey.department];
+    var year = _dataPrefs[PrefKey.year];
+    var group = _dataPrefs[PrefKey.group];
+
     return SettingCard(
-        header: translations.get(StringKey.SETTINGS_GENERAL),
-        children: [
-          ListTileChoices(
-              title: translations.get(StringKey.CAMPUS),
-              titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-              selectedValue: _dataPrefs[PrefKey.campus],
-              values: Data.getAllCampus(),
-              onChange: (value) => _updatePrefGroup(PrefKey.campus, value)),
-          const ListDivider(),
-          ListTileChoices(
-              title: translations.get(StringKey.DEPARTMENT),
-              titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-              selectedValue: _dataPrefs[PrefKey.department],
-              values: Data.getCampusDepartments(_dataPrefs[PrefKey.campus]),
-              onChange: (value) => _updatePrefGroup(PrefKey.department, value)),
-          const ListDivider(),
-          ListTileChoices(
-            title: translations.get(StringKey.YEAR),
-            titleDialog: translations.get(StringKey.SELECT_YEAR),
-            selectedValue: _dataPrefs[PrefKey.year],
-            values: Data.getYears(
-                _dataPrefs[PrefKey.campus], _dataPrefs[PrefKey.department]),
-            onChange: (value) => _updatePrefGroup(PrefKey.year, value),
-          ),
-          const ListDivider(),
-          ListTileChoices(
-              title: translations.get(StringKey.GROUP),
-              titleDialog: translations.get(StringKey.SELECT_GROUP),
-              selectedValue: _dataPrefs[PrefKey.group],
-              values: Data.getGroups(_dataPrefs[PrefKey.campus],
-                  _dataPrefs[PrefKey.department], _dataPrefs[PrefKey.year]),
-              onChange: (value) => _updatePrefGroup(PrefKey.group, value))
-        ]);
+      header: translations.get(StringKey.SETTINGS_GENERAL),
+      children: [
+        ListTileChoices(
+          title: translations.get(StringKey.CAMPUS),
+          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
+          selectedValue: campus,
+          values: Data.getAllCampus(),
+          onChange: (value) => _updatePrefGroup(PrefKey.campus, value),
+        ),
+        const ListDivider(),
+        ListTileChoices(
+          title: translations.get(StringKey.DEPARTMENT),
+          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
+          selectedValue: department,
+          values: Data.getCampusDepartments(campus),
+          onChange: (value) => _updatePrefGroup(PrefKey.department, value),
+        ),
+        const ListDivider(),
+        ListTileChoices(
+          title: translations.get(StringKey.YEAR),
+          titleDialog: translations.get(StringKey.SELECT_YEAR),
+          selectedValue: year,
+          values: Data.getYears(campus, department),
+          onChange: (value) => _updatePrefGroup(PrefKey.year, value),
+        ),
+        const ListDivider(),
+        ListTileChoices(
+          title: translations.get(StringKey.GROUP),
+          titleDialog: translations.get(StringKey.SELECT_GROUP),
+          selectedValue: group,
+          values: Data.getGroups(campus, department, year),
+          onChange: (value) => _updatePrefGroup(PrefKey.group, value),
+        )
+      ],
+    );
   }
 
   void _handleNumberWeek(String numberWeek) {
@@ -137,39 +144,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsDisplay() {
-    final translate = Translations.of(context);
+    final numberWeeks = _dataPrefs[PrefKey.numberWeek].toString();
+    final isDarkTheme = _dataPrefs[PrefKey.darkTheme];
+    final primaryColorValue = _dataPrefs[PrefKey.primaryColor];
+    final accentColorValue = _dataPrefs[PrefKey.accentColor];
+    final noteColorValue = _dataPrefs[PrefKey.noteColor];
+
     return SettingCard(
-        header: translate.get(StringKey.SETTINGS_DISPLAY),
+        header: translations.get(StringKey.SETTINGS_DISPLAY),
         children: [
           ListTileInput(
-              title: translate.get(StringKey.NUMBER_WEEK),
-              defaultValue: _dataPrefs[PrefKey.numberWeek]?.toString() ??
-                  PrefKey.defaultNumberWeek.toString(),
+              title: translations.get(StringKey.NUMBER_WEEK),
+              defaultValue: numberWeeks,
               inputType:
                   TextInputType.numberWithOptions(decimal: false, signed: true),
               onChange: _handleNumberWeek),
           const ListDivider(),
           SwitchListTile(
-              title: ListTileTitle(translate.get(StringKey.DARK_THEME)),
-              subtitle: Text(translate.get(StringKey.DARK_THEME_DESC)),
-              value: _dataPrefs[PrefKey.darkTheme] ?? PrefKey.defaultDarkTheme,
+              title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
+              subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+              value: isDarkTheme,
               activeColor: Theme.of(context).accentColor,
               onChanged: _handleDarkTheme),
           const ListDivider(),
           ListTileColor(
-              title: translate.get(StringKey.PRIMARY_COLOR),
-              description: translate.get(StringKey.PRIMARY_COLOR_DESC),
-              defaultColor: _dataPrefs[PrefKey.primaryColor] != null
-                  ? Color(_dataPrefs[PrefKey.primaryColor])
-                  : const Color(PrefKey.defaultPrimaryColor),
+              title: translations.get(StringKey.PRIMARY_COLOR),
+              description: translations.get(StringKey.PRIMARY_COLOR_DESC),
+              defaultColor: Color(primaryColorValue),
               onColorChange: _handlePrimaryColor),
           const ListDivider(),
           ListTileColor(
-              title: translate.get(StringKey.ACCENT_COLOR),
-              description: translate.get(StringKey.ACCENT_COLOR_DESC),
-              defaultColor: _dataPrefs[PrefKey.accentColor] != null
-                  ? Color(_dataPrefs[PrefKey.accentColor])
-                  : const Color(PrefKey.defaultAccentColor),
+              title: translations.get(StringKey.ACCENT_COLOR),
+              description: translations.get(StringKey.ACCENT_COLOR_DESC),
+              defaultColor: Color(accentColorValue),
               onColorChange: _handleAccentColor,
               colors: [
                 Colors.redAccent,
@@ -194,21 +201,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ]),
           const ListDivider(),
           ListTileColor(
-              title: translate.get(StringKey.NOTE_COLOR),
-              description: translate.get(StringKey.NOTE_COLOR_DESC),
-              defaultColor: _dataPrefs[PrefKey.noteColor] != null
-                  ? Color(_dataPrefs[PrefKey.noteColor])
-                  : const Color(PrefKey.defaultNoteColor),
+              title: translations.get(StringKey.NOTE_COLOR),
+              description: translations.get(StringKey.NOTE_COLOR_DESC),
+              defaultColor: Color(noteColorValue),
               onColorChange: _handleNoteColor)
         ]);
   }
 
   @override
   Widget build(BuildContext context) {
+    translations = Translations.of(context);
+
     return AppbarPage(
-        title: Translations.of(context).get(StringKey.SETTINGS),
-        body: ListView(
-          children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
-        ));
+      title: translations.get(StringKey.SETTINGS),
+      body: _dataPrefs.length > 0
+          ? ListView(
+              children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
+            )
+          : Container(),
+    );
   }
 }

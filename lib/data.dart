@@ -60,18 +60,51 @@ class Data {
 
   static final allData = {
     "Laval": {
-      "Campus Laval": {
+      "Informatique": {
+        "Info 1": {
+          "Grp 11A": 2660,
+          "Grp 11B": 2661,
+          "Grp 12C": 1149,
+          "Grp 12D": 1150
+        },
+        "Info 2": {
+          "Grp 21A": 2667,
+          "Grp 21B": 2668,
+          "Grp 22C": 3113,
+          "Grp 22D": 3115
+        },
+        "Info 2 S4": {
+          "Grp IPLP-A": 992,
+          "Grp IPLP-B": 1129,
+          "Grp PEL-A": 5133,
+          "Grp PEL-B": 5134
+        },
         "Salles": {
-          "Amphi 1": 2663,
-          "Amphi 2": 2665,
-          "Amphi 3": 2664,
-          "Bibliothèque": 2945,
-          "Labo multimédia GB": 2946,
-          "Labo multimédia TC": 1511,
-          "Salle examen": 2666,
-          "Salle visio admi": 372,
-          "Salle visio pavillon": 1358,
-          "Scolarité": 1368
+          "TD1 - Arrakis": 1304,
+          "TD2 - Mordor": 1303,
+          "TDm1 - Vulcain": 1299,
+          "TDm2 - LV426": 1300,
+          "TDm3 - Tatooine": 1293,
+          "TDm4 - Westeros": 1302,
+          "TP1 - Tamriel": 839,
+          "TP2 - Hyrule": 1038,
+          "TP3 - Gotham": 1099,
+          "TP4 - Azeroth ": 1216
+        },
+        "Professeurs": {
+          "BARRE Vincent": 26,
+          "COULAND Quentin": 3341,
+          "ERNET Bruno": 1550,
+          "GEORGE Sebastien": 4605,
+          "HAMON Ludovic": 3195,
+          "LABORIE Clement": 3717,
+          "LAFORCADE Pierre": 195,
+          "LOISEAU Esteban": 3415,
+          "LOUP Guillaume": 5612,
+          "MARFISI Iza": 2013,
+          "OUBAHSSI Lahcen": 281,
+          "VIEILLARD Nathalie": 4639,
+          "WALKOWIAK Yann": 368
         }
       },
       "GB": {
@@ -97,6 +130,25 @@ class Data {
           "PEL 1": 7095,
           "PEL 2": 7096
         },
+        "Salles": {
+          "E100": 2701,
+          "E101": 2702,
+          "E102": 1785,
+          "E103": 2703,
+          "E104": 2704,
+          "E105": 2705,
+          "E203": 2706,
+          "E204": 2707,
+          "E206": 2708,
+          "E207": 2709,
+          "E208": 2710,
+          "E209 info LS": 2715,
+          "Salle projet tutoré": 2720,
+          "TD E200": 2722,
+          "TD E201 A": 2723,
+          "TD E202": 2724,
+          "TD GB EXT": 2725
+        },
         "Professeurs": {
           "ALBERT-FOURNIER BENJAMIN": 662,
           "BLANCKAERT VINCENT": 39,
@@ -116,72 +168,6 @@ class Data {
           "POISSON LAURENT": 301,
           "SOULTANI-VIGNERON SAMIA": 340,
           "ULMANN LIONEL": 3012
-        },
-        "Salles": {
-          "E100": 2701,
-          "E101": 2702,
-          "E102": 1785,
-          "E103": 2703,
-          "E104": 2704,
-          "E105": 2705,
-          "E203": 2706,
-          "E204": 2707,
-          "E206": 2708,
-          "E207": 2709,
-          "E208": 2710,
-          "E209 info LS": 2715,
-          "Salle projet tutoré": 2720,
-          "TD E200": 2722,
-          "TD E201 A": 2723,
-          "TD E202": 2724,
-          "TD GB EXT": 2725
-        }
-      },
-      "Informatique": {
-        "Info 1": {
-          "Grp 11A": 2660,
-          "Grp 11B": 2661,
-          "Grp 12C": 1149,
-          "Grp 12D": 1150
-        },
-        "Info 2": {
-          "Grp 21A": 2667,
-          "Grp 21B": 2668,
-          "Grp 22C": 3113,
-          "Grp 22D": 3115
-        },
-        "Info 2 S4": {
-          "Grp IPLP-A": 992,
-          "Grp IPLP-B": 1129,
-          "Grp PEL-A": 5133,
-          "Grp PEL-B": 5134
-        },
-        "Professeurs": {
-          "BARRE Vincent": 26,
-          "COULAND Quentin": 3341,
-          "ERNET Bruno": 1550,
-          "GEORGE Sebastien": 4605,
-          "HAMON Ludovic": 3195,
-          "LABORIE Clement": 3717,
-          "LAFORCADE Pierre": 195,
-          "LOISEAU Esteban": 3415,
-          "LOUP Guillaume": 5612,
-          "MARFISI Iza": 2013,
-          "OUBAHSSI Lahcen": 281,
-          "VIEILLARD Nathalie": 4639,
-          "WALKOWIAK Yann": 368
-        },
-        "Salles": {
-          "TD1 - Arrakis": 1304,
-          "TD2 - Mordor": 1303,
-          "TDm1 - Vulcain": 1299,
-          "TDm2 - LV426": 1300,
-          "TDm3 - Tatooine": 1293,
-          "TDm4 - Westeros": 1302,
-          "TP1 - Tamriel": 839,
-          "TP2 - Hyrule": 1038,
-          "TP3 - Gotham": 1099,
-          "TP4 - Azeroth ": 1216
         }
       },
       "MMI": {
@@ -207,6 +193,22 @@ class Data {
           "Grp 2C-PCAG": 6705,
           "Grp 2D-PCAG": 6706
         },
+        "Salles": {
+          "Fox": 2146,
+          "Hip-Hop": 2150,
+          "Java": 2157,
+          "Mambo": 2219,
+          "Rock": 864,
+          "Rock 2": 4213,
+          "Salle 3D": 1786,
+          "Salle insonorisée": 2131,
+          "Salsa": 2524,
+          "Samba": 4873,
+          "TD1": 2526,
+          "TD2": 2527,
+          "TD4": 2528,
+          "Tango": 2523
+        },
         "Professeurs": {
           "BETTENFELD VINCENT": 4775,
           "BUCHET BRUNO": 59,
@@ -223,54 +225,9 @@ class Data {
           "PIROLLI RAPHAELLE": 90,
           "PUIZILLOUT ANNE-MARIE": 758,
           "SCHMIDT COLIN": 336
-        },
-        "Salles": {
-          "Fox": 2146,
-          "Hip-Hop": 2150,
-          "Java": 2157,
-          "Mambo": 2219,
-          "Rock": 864,
-          "Rock 2": 4213,
-          "Salle 3D": 1786,
-          "Salle insonorisée": 2131,
-          "Salsa": 2524,
-          "Samba": 4873,
-          "TD1": 2526,
-          "TD2": 2527,
-          "TD4": 2528,
-          "Tango": 2523
         }
       },
       "TC": {
-        "Professeurs": {
-          "CHEMIN LAURENT": 5970,
-          "CLIQUETEUX DAVID": 84,
-          "DIAWARA TIEFING": 4294,
-          "DRINE RHOUMA": 1629,
-          "FAURE-FERLET AXELLE": 2517,
-          "GEBERT ANGELIQUE": 2900,
-          "GUEGUEN JEAN-CLAUDE": 6712,
-          "LALLAI PHILIPPE": 197,
-          "LE JEUNE JEAN-YVES": 207,
-          "PEAN PHILIPPE": 288,
-          "ROBERTS LISE-ANNE": 322,
-          "SABAS JEAN-CHRISTOPHE": 5340,
-          "TANGUY SOLENNE": 2989
-        },
-        "Salles": {
-          "S info LS rdc": 2581,
-          "S info LS étage": 2582,
-          "S info cours étage": 2602,
-          "S1": 2603,
-          "S2": 2628,
-          "S3": 2629,
-          "S4": 2630,
-          "S5": 2637,
-          "S6": 2638,
-          "S7": 2640,
-          "S8": 2641,
-          "Salle licence": 2580
-        },
         "TC 1": {
           "TP 111": 2865,
           "TP 112": 2866,
@@ -293,6 +250,49 @@ class Data {
           "TP 232": 2887,
           "TP 241": 2889,
           "TP 242": 2890
+        },
+        "Salles": {
+          "S info LS rdc": 2581,
+          "S info LS étage": 2582,
+          "S info cours étage": 2602,
+          "S1": 2603,
+          "S2": 2628,
+          "S3": 2629,
+          "S4": 2630,
+          "S5": 2637,
+          "S6": 2638,
+          "S7": 2640,
+          "S8": 2641,
+          "Salle licence": 2580
+        },
+        "Professeurs": {
+          "CHEMIN LAURENT": 5970,
+          "CLIQUETEUX DAVID": 84,
+          "DIAWARA TIEFING": 4294,
+          "DRINE RHOUMA": 1629,
+          "FAURE-FERLET AXELLE": 2517,
+          "GEBERT ANGELIQUE": 2900,
+          "GUEGUEN JEAN-CLAUDE": 6712,
+          "LALLAI PHILIPPE": 197,
+          "LE JEUNE JEAN-YVES": 207,
+          "PEAN PHILIPPE": 288,
+          "ROBERTS LISE-ANNE": 322,
+          "SABAS JEAN-CHRISTOPHE": 5340,
+          "TANGUY SOLENNE": 2989
+        },
+      },
+      "Campus Laval": {
+        "Salles": {
+          "Amphi 1": 2663,
+          "Amphi 2": 2665,
+          "Amphi 3": 2664,
+          "Bibliothèque": 2945,
+          "Labo multimédia GB": 2946,
+          "Labo multimédia TC": 1511,
+          "Salle examen": 2666,
+          "Salle visio admi": 372,
+          "Salle visio pavillon": 1358,
+          "Scolarité": 1368
         }
       }
     },

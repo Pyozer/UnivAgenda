@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
-import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -11,15 +10,13 @@ import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class SplashScreen extends StatelessWidget {
   Future<bool> _initPreferences(BuildContext context) async {
+    // Store datetime start
+    final DateTime startTime = DateTime.now();
+
     // Get all data to setup theme
-    bool isDark = await Preferences.getDarkTheme();
-    if (isDark == null) isDark = PrefKey.defaultDarkTheme;
-
-    int appbarColor = await Preferences.getPrimaryColor();
-    if (appbarColor == null) appbarColor = PrefKey.defaultPrimaryColor;
-
-    int accentColor = await Preferences.getPrimaryColor();
-    if (accentColor == null) accentColor = PrefKey.defaultAccentColor;
+    final bool isDark = await Preferences.getDarkTheme();
+    final int appbarColor = await Preferences.getPrimaryColor();
+    final int accentColor = await Preferences.getAccentColor();
 
     // Change theme
     DynamicTheme.of(context).changeTheme(
@@ -28,27 +25,24 @@ class SplashScreen extends StatelessWidget {
         brightness: getBrightness(isDark));
 
     // Get groups prefs
-    String campus = await Preferences.getCampus();
-    String department = await Preferences.getDepartment();
-    String year = await Preferences.getYear();
-    String group = await Preferences.getGroup();
+    final String campus = await Preferences.getCampus();
+    final String department = await Preferences.getDepartment();
+    final String year = await Preferences.getYear();
+    final String group = await Preferences.getGroup();
 
     // Check group prefs
     Preferences.changeGroupPref(
         campus: campus, department: department, year: year, group: group);
 
-    // Check other prefs
-    int numberWeeks = await Preferences.getNumberWeek();
-    if (numberWeeks == null)
-      await Preferences.setNumberWeek(PrefKey.defaultNumberWeek);
+    final bool isFirstBoot = await Preferences.isFirstBoot();
 
-    int noteColor = await Preferences.getNoteColor();
-    if (noteColor == null)
-      await Preferences.setNoteColor(PrefKey.defaultNoteColor);
+    // Get date when all prefs setup
+    final int diffInMs = DateTime.now().difference(startTime).inMilliseconds;
+    // Get wait time (1 sec is max)
+    final int waitTime = 1000 - diffInMs;
+    await Future.delayed(
+        Duration(milliseconds: waitTime > 0 ? waitTime : 0), null);
 
-    bool isFirstBoot = await Preferences.isFirstBoot();
-
-    await Future.delayed(Duration(seconds: 1), null);
     return isFirstBoot;
   }
 
@@ -60,14 +54,18 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image.asset(Asset.LOGO, width: 150.0),
-      Padding(
-        padding: const EdgeInsets.only(top: 90.0),
-        child: const CircularLoader(),
-      )
-    ])));
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(Asset.LOGO, width: 150.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 90.0),
+              child: const CircularLoader(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -47,7 +47,7 @@ class Preferences {
 
   static Future<int> getNumberWeek() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(PrefKey.numberWeek);
+    return prefs.getInt(PrefKey.numberWeek) ?? PrefKey.defaultNumberWeek;
   }
 
   static Future<int> setNumberWeekStr(String numberWeek) async {
@@ -64,7 +64,7 @@ class Preferences {
 
   static Future<bool> getDarkTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(PrefKey.darkTheme);
+    return prefs.getBool(PrefKey.darkTheme) ?? PrefKey.defaultDarkTheme;
   }
 
   static Future<bool> setDarkTheme(bool darkTheme) async {
@@ -75,7 +75,7 @@ class Preferences {
 
   static Future<int> getPrimaryColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(PrefKey.primaryColor);
+    return prefs.getInt(PrefKey.primaryColor) ?? PrefKey.defaultPrimaryColor;
   }
 
   static Future<int> setPrimaryColor(int primaryColor) async {
@@ -86,7 +86,7 @@ class Preferences {
 
   static Future<int> getAccentColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(PrefKey.accentColor);
+    return prefs.getInt(PrefKey.accentColor) ?? PrefKey.defaultAccentColor;
   }
 
   static Future<int> setAccentColor(int accentColor) async {
@@ -97,7 +97,7 @@ class Preferences {
 
   static Future<int> getNoteColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(PrefKey.noteColor);
+    return prefs.getInt(PrefKey.noteColor) ?? PrefKey.defaultNoteColor;
   }
 
   static Future<int> setNoteColor(int noteColor) async {
@@ -130,15 +130,14 @@ class Preferences {
 
   static Future<List<Note>> getNotes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> notesJSONStr = prefs.getStringList(PrefKey.notes);
+    List<String> notesJSONStr = prefs.getStringList(PrefKey.notes) ?? [];
 
     List<Note> notes = [];
     notesJSONStr.forEach((noteJsonStr) {
       Map noteMap = json.decode(noteJsonStr);
       final note = Note.fromJson(noteMap);
-      
-      //if (!note.isExpired())
-        notes.add(note);
+
+      if (!note.isExpired()) notes.add(note);
     });
 
     return notes;
@@ -180,18 +179,31 @@ class Preferences {
     return notes;
   }
 
-  static Future<Map<String, dynamic>> getAllValues() async {
+  static Future<Map<String, dynamic>> getThemeValues() async {
     Map<String, dynamic> dataPrefs = {};
-    dataPrefs[PrefKey.campus] = await Preferences.getCampus();
-    dataPrefs[PrefKey.department] = await Preferences.getDepartment();
-    dataPrefs[PrefKey.year] = await Preferences.getYear();
-    dataPrefs[PrefKey.group] = await Preferences.getGroup();
-    dataPrefs[PrefKey.numberWeek] = await Preferences.getNumberWeek();
     dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();
     dataPrefs[PrefKey.primaryColor] = await Preferences.getPrimaryColor();
     dataPrefs[PrefKey.accentColor] = await Preferences.getAccentColor();
     dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
 
     return dataPrefs;
+  }
+
+  static Future<Map<String, dynamic>> getGroupValues() async {
+    Map<String, dynamic> dataPrefs = {};
+    dataPrefs[PrefKey.campus] = await Preferences.getCampus();
+    dataPrefs[PrefKey.department] = await Preferences.getDepartment();
+    dataPrefs[PrefKey.year] = await Preferences.getYear();
+    dataPrefs[PrefKey.group] = await Preferences.getGroup();
+    dataPrefs[PrefKey.numberWeek] = await Preferences.getNumberWeek();
+
+    return dataPrefs;
+  }
+
+  static Future<Map<String, dynamic>> getAllValues() async {
+    Map allPrefs = await Preferences.getGroupValues();
+    allPrefs.addAll(await Preferences.getThemeValues());
+
+    return allPrefs;
   }
 }
