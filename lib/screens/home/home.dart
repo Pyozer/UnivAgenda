@@ -38,7 +38,8 @@ class HomeScreen extends StatelessWidget {
                   campus: data[PrefKey.campus],
                   department: data[PrefKey.department],
                   year: data[PrefKey.year],
-                  group: data[PrefKey.group]);
+                  group: data[PrefKey.group],
+                  numberWeeks: data[PrefKey.numberWeek]);
             }));
   }
 }

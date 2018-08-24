@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:myagenda/data.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
@@ -16,13 +17,15 @@ class CourseList extends StatefulWidget {
   final String department;
   final String year;
   final String group;
+  final int numberWeeks;
 
   const CourseList(
       {Key key,
       @required this.campus,
       @required this.department,
       @required this.year,
-      @required this.group})
+      @required this.group,
+      this.numberWeeks = 4})
       : super(key: key);
 
   @override
@@ -45,8 +48,24 @@ class CourseListState extends State<CourseList> {
     _fetchData();
   }
 
+  @protected
+  void didUpdateWidget(covariant CourseList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reload ical from network
+    _fetchData();
+  }
+
   String _prepareURL() {
-    return 'https://pastebin.com/raw/Mnjd86L1';
+    final resID = Data
+        .getGroupRes(
+            widget.campus, widget.department, widget.year, widget.group)
+        .toString();
+    final nbWeeks = widget.numberWeeks.toString();
+
+    return 'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&nbWeeks=' +
+        nbWeeks +
+        '&resources=' +
+        resID;
   }
 
   Future<Null> _fetchData() async {
@@ -77,12 +96,13 @@ class CourseListState extends State<CourseList> {
     List<Note> allNotes = await Preferences.getNotes();
 
     // Parse string ical to object
-    for(final icalModel in Ical.parseToIcal(icalStr)) {
+    for (final icalModel in Ical.parseToIcal(icalStr)) {
       Course course = Course.fromIcalModel(icalModel);
       // Get all notes of the course, and sort by dateCreation desc
-      final courseNotes = allNotes.where((note) => note.courseUid == course.uid).toList();
+      final courseNotes =
+          allNotes.where((note) => note.courseUid == course.uid).toList();
       courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
-      
+
       // Add all note of a course
       course.notes = courseNotes;
 
@@ -131,13 +151,13 @@ class CourseListState extends State<CourseList> {
 
   @override
   Widget build(BuildContext context) {
-    final dividedWidgetList = ListTile
-        .divideTiles(context: context, tiles: _buildListCours())
-        .toList();
-
     return RefreshIndicator(
         onRefresh: _fetchData,
-        child: ListView(shrinkWrap: true, children: dividedWidgetList),
+        child: ListView(
+            shrinkWrap: true,
+            children: ListTile
+                .divideTiles(context: context, tiles: _buildListCours())
+                .toList()),
         key: refreshKey);
   }
 }

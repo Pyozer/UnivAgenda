@@ -22,9 +22,9 @@ class Ical {
       } else if (line.startsWith('DESCRIPTION')) {
         String description = _getValue(line);
 
-        final remove = ['DUT', 'S1', 'S2', 'S3', 'S4'];
+        /*final remove = ['DUT', 'S1', 'S2', 'S3', 'S4'];
         remove.forEach(
-            (value) => description = description.replaceAll(value, ''));
+            (value) => description = description.replaceAll(value, ''));*/
 
         event.description = description
             .replaceAll(RegExp(r'\\n'), ' ')
