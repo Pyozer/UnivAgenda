@@ -1,5 +1,6 @@
 class RouteKey {
   static const HOME = '/';
+  static const ADD_EVENT = '/addevent';
   static const SPLASHSCREEN = '/splashscreen';
   static const FINDROOM = '/findroom';
   static const SETTINGS = '/settings';

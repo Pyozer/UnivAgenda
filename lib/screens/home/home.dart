@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/screens/add_event/add_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
@@ -11,9 +13,10 @@ import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class HomeScreen extends StatelessWidget {
-  FloatingActionButton _buildFab() => FloatingActionButton(
+  Widget _buildFab(BuildContext context) => FloatingActionButton(
       onPressed: () {
-        // TODO: Faire fullscreen dialog pour ajouter un cours perso
+        Navigator.of(context).push(CustomRoute(
+            builder: (context) => AddEventScreen(), fullscreenDialog: true));
       },
       child: Icon(Icons.add));
 
@@ -28,7 +31,7 @@ class HomeScreen extends StatelessWidget {
     return AppbarPage(
       title: Translations.of(context).get(StringKey.APP_NAME),
       drawer: MainDrawer(),
-      fab: _buildFab(),
+      fab: _buildFab(context),
       body: FutureBuilder<Map>(
         future: _getGroupValues(),
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
