@@ -33,8 +33,8 @@ class CourseList extends StatefulWidget {
 }
 
 class CourseListState extends State<CourseList> {
-  List<BaseCourse> _listElements = [];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
+  List<BaseCourse> _listElements;
 
   @override
   void initState() {
@@ -141,7 +141,7 @@ class CourseListState extends State<CourseList> {
 
     widgets.add(CourseListHeader(year: widget.year, group: widget.group));
 
-    _listElements.forEach((course) {
+    _listElements?.forEach((course) {
       if (course is CourseHeader)
         widgets.add(CourseRowHeader(coursHeader: course));
       else if (course is Course) widgets.add(CourseRow(course: course));
