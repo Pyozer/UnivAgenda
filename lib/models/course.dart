@@ -27,9 +27,11 @@ class Course implements BaseCourse {
   List<Note> notes;
   DateTime dateStart;
   DateTime dateEnd;
+  Color color;
 
   Course(this.uid, this.title, this.description, this.location, this.dateStart,
-      this.dateEnd, this.notes);
+      this.dateEnd,
+      [this.notes = const [], this.color]);
 
   bool hasNote() {
     return (notes != null && notes.length > 0);
@@ -67,8 +69,33 @@ class Course implements BaseCourse {
         ical.description?.trim(),
         ical.location?.trim(),
         DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
-        DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)),
-        []
-    );
+        DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)));
   }
+
+  factory Course.fromJson(Map<String, dynamic> json) => Course(
+      json['uid'],
+      json['title'],
+      json['description'],
+      json['location'],
+      DateTime.fromMillisecondsSinceEpoch(json['date_start']),
+      DateTime.fromMillisecondsSinceEpoch(json['date_end']),
+      [],
+      Color(json['color']));
+
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'title': title,
+        'description': description,
+        'location': location,
+        'date_start': dateStart.millisecondsSinceEpoch,
+        'date_end': dateEnd.millisecondsSinceEpoch,
+        'color': color.value
+      };
+
+  @override
+  String toString() {
+    return 'Course{uid: $uid, title: $title, description: $description, location: $location, notes: $notes, dateStart: $dateStart, dateEnd: $dateEnd, color: $color}';
+  }
+
+
 }

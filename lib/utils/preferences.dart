@@ -179,6 +179,51 @@ class Preferences {
     return notes;
   }
 
+  static Future<List<Course>> getCustomEvents() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> eventsJSONStr = prefs.getStringList(PrefKey.customEvent) ?? [];
+
+    List<Course> events = [];
+    eventsJSONStr.forEach((eventJsonStr) {
+      Map eventMap = json.decode(eventJsonStr);
+      final event = Course.fromJson(eventMap);
+
+      if (!event.isFinish()) events.add(event);
+    });
+
+    return events;
+  }
+
+  static Future<List<Course>> setCustomEvents(List<Course> events) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> eventsJSON = [];
+    events.forEach((event) {
+      eventsJSON.add(json.encode(event.toJson()));
+    });
+
+    await prefs.setStringList(PrefKey.customEvent, eventsJSON);
+    return events;
+  }
+
+  static Future<List<Course>> addCustomEvent(Course eventToAdd) async {
+    List<Course> events = await getCustomEvents();
+    events.add(eventToAdd);
+
+    await setCustomEvents(events);
+
+    return events;
+  }
+
+  static Future<List<Course>> removeEvent(Course eventToRemove) async {
+    List<Course> events = await getCustomEvents();
+    events.removeWhere((event) => (event == eventToRemove));
+
+    await setCustomEvents(events);
+
+    return events;
+  }
+
   static Future<Map<String, dynamic>> getThemeValues() async {
     Map<String, dynamic> dataPrefs = {};
     dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();

@@ -40,7 +40,8 @@ class _CourseRowState extends State<CourseRow> {
     final textTheme = Theme.of(context).textTheme;
 
     Color bgColorRow;
-    if (course.isExam()) bgColorRow = Colors.red[600];
+    if (course.color != null) bgColorRow = course.color;
+    else if (course.isExam()) bgColorRow = Colors.red[600];
 
     final titleStyle = textTheme.title.copyWith(fontSize: 16.0);
     final subheadStyle = textTheme.subhead.copyWith(fontSize: 14.0);

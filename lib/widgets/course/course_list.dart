@@ -96,23 +96,43 @@ class CourseListState extends State<CourseList> {
     return await Preferences.getCachedIcal();
   }
 
+  Course _addNotesToCourse(List<Note> notes, Course course) {
+    // Get all note of the course
+    final courseNotes =
+        notes.where((note) => note.courseUid == course.uid).toList();
+
+    // Sorts notes by date desc
+    courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
+
+    // Add notes to the course
+    course.notes = courseNotes;
+
+    return course;
+  }
+
   void _prepareList(String icalStr) async {
     List<Course> listCourses = [];
 
     // Get all notes saved (expired notes removed by getNotes())
     List<Note> allNotes = await Preferences.getNotes();
 
+    // Get all custom events (except expired)
+    List<Course> customEvents = await Preferences.getCustomEvents();
+
+    // Add custom courses with their notes to list
+    for (final course in customEvents) {
+      listCourses.add(_addNotesToCourse(allNotes, course));
+    }
+
     // Parse string ical to object
     for (final icalModel in Ical.parseToIcal(icalStr)) {
+      // Transform IcalModel to Course
       Course course = Course.fromIcalModel(icalModel);
-      // Get all notes of the course, and sort by dateCreation desc
-      final courseNotes =
-          allNotes.where((note) => note.courseUid == course.uid).toList();
-      courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
 
-      // Add all note of a course
-      course.notes = courseNotes;
+      // Get all notes of the course
+      course = _addNotesToCourse(allNotes, course);
 
+      // Add course to list
       listCourses.add(course);
     }
 

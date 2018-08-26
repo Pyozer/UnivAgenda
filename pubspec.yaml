@@ -12,6 +12,7 @@ dependencies:
   shared_preferences: ^0.4.2
   url_launcher: ^3.0.3
   flutter_markdown: ^0.1.6
+  uuid: 1.0.0
 
   color_picker:
     git: git://github.com/pyozer/color_picker
