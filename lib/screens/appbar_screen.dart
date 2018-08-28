@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/utils/dynamic_theme.dart';
-import 'package:myagenda/utils/functions.dart';
 
 class AppbarPage extends StatelessWidget {
   final String title;
@@ -20,25 +18,11 @@ class AppbarPage extends StatelessWidget {
       this.actions})
       : super(key: key);
 
-  void _onChangeTheme(context) {
-    final isDark = isDarkTheme(Theme.of(context).brightness);
-
-    DynamicTheme
-        .of(context)
-        .changeTheme(brightness: isDark ? Brightness.light : Brightness.dark);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final changeTheme = IconButton(
-        icon: Icon(Icons.lightbulb_outline),
-        onPressed: () => _onChangeTheme(context));
-
     return Scaffold(
         appBar: AppBar(
-            title: Text(title),
-            actions: [changeTheme]..insertAll(0, actions ?? []),
-            elevation: elevation),
+            title: Text(title), actions: actions ?? [], elevation: elevation),
         body: SafeArea(child: body),
         drawer: drawer,
         floatingActionButton: fab);
