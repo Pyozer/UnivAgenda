@@ -8,6 +8,10 @@ import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:uuid/uuid.dart';
 
 class AddEventScreen extends StatefulWidget {
+  final CustomCourse course;
+
+  const AddEventScreen({Key key, this.course}) : super(key: key);
+
   @override
   _AddEventScreenState createState() => _AddEventScreenState();
 }
@@ -30,9 +34,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   void initState() {
     super.initState();
-    _eventDateStart = DateTime.now();
-    _eventDateEnd = DateTime.now().add(Duration(hours: 1));
-    _eventColor = Colors.red[500];
+    if (widget.course != null) {
+      _eventDateStart = widget.course.dateStart;
+      _eventDateEnd = widget.course.dateEnd;
+      _eventColor = widget.course.color;
+    } else {
+      _eventDateStart = DateTime.now();
+      _eventDateEnd = DateTime.now().add(Duration(hours: 1));
+      _eventColor = null;
+    }
   }
 
   @override
@@ -129,7 +139,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       );
 
       Preferences.addCustomEvent(course).then((_) {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(course);
       });
     }
   }
@@ -230,7 +240,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   ? ListTileColor(
                       title: "Event color",
                       description: "Custom color of this event",
-                      defaultColor: _eventColor,
+                      selectedColor: _eventColor,
                       onColorChange: (color) {
                         setState(() {
                           _eventColor = color;

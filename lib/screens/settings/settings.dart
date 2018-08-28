@@ -168,13 +168,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileColor(
               title: translations.get(StringKey.PRIMARY_COLOR),
               description: translations.get(StringKey.PRIMARY_COLOR_DESC),
-              defaultColor: Color(primaryColorValue),
+              selectedColor: Color(primaryColorValue),
               onColorChange: _handlePrimaryColor),
           const ListDivider(),
           ListTileColor(
               title: translations.get(StringKey.ACCENT_COLOR),
               description: translations.get(StringKey.ACCENT_COLOR_DESC),
-              defaultColor: Color(accentColorValue),
+              selectedColor: Color(accentColorValue),
               onColorChange: _handleAccentColor,
               colors: [
                 Colors.redAccent,
@@ -201,7 +201,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTileColor(
               title: translations.get(StringKey.NOTE_COLOR),
               description: translations.get(StringKey.NOTE_COLOR_DESC),
-              defaultColor: Color(noteColorValue),
+              selectedColor: Color(noteColorValue),
               onColorChange: _handleNoteColor)
         ]);
   }

@@ -11,7 +11,7 @@ class ListTileColor extends StatefulWidget {
   final String titleDialog;
   final String description;
   final ValueChanged<Color> onColorChange;
-  final Color defaultColor;
+  final Color selectedColor;
   final List<ColorSwatch> colors;
 
   const ListTileColor(
@@ -21,7 +21,7 @@ class ListTileColor extends StatefulWidget {
       this.description,
       this.onColorChange,
       this.colors,
-      this.defaultColor})
+      this.selectedColor})
       : super(key: key);
 
   @override
@@ -48,10 +48,11 @@ class _ListTileColorState extends State<ListTileColor> {
   }
 
   void _initSelectedValue() {
-    setState(() {
-      _inputColor = widget.defaultColor;
-      _submitColor = _inputColor;
-    });
+    // Specified color OR 1st color of specified colors OR 1st material color
+    _inputColor = widget.selectedColor ??
+        ((widget.colors != null) ? widget.colors[0] : null) ??
+        materialColors[0];
+    _submitColor = _inputColor;
   }
 
   void _onColorChange(value) {
@@ -61,7 +62,7 @@ class _ListTileColorState extends State<ListTileColor> {
   }
 
   void _closeDialog() {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(_submitColor);
   }
 
   void _onSubmit() {
