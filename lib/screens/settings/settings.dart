@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:http/http.dart' as http;
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 
