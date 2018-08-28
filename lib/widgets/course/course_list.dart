@@ -75,10 +75,7 @@ class CourseListState extends State<CourseList> {
   Future<Null> _fetchData() async {
     refreshKey.currentState?.show();
 
-    final url = _prepareURL();
-    print(url);
-
-    final response = await http.get(url);
+    final response = await http.get(_prepareURL());
     if (response.statusCode == 200) {
       _prepareList(response.body);
       _updateCache(response.body);
@@ -163,45 +160,40 @@ class CourseListState extends State<CourseList> {
     });
   }
 
-  List<Widget> _buildListCours() {
-    List<Widget> widgets = [];
-
-    _listElements.forEach((course) {
-      if (course is CourseHeader)
-        widgets.add(CourseRowHeader(coursHeader: course));
-      else if (course is Course)
-        widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
-    });
-
-    return widgets;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> children = [
+  Widget _buildListCours(List<BaseCourse> courses) {
+    List<Widget> widgets = [
       CourseListHeader(year: widget.year, group: widget.group)
     ];
 
-    if (_listElements.length > 0)
-      children.addAll(ListTile
-          .divideTiles(context: context, tiles: _buildListCours())
-          .toList());
-    else {
-      children.add(AboutCard(
+    if (_listElements.length == 0) {
+      widgets.add(AboutCard(
         title: "Aucun cours",
         children: <Widget>[
           Text("Essayez de modifier le nombre de semaines à afficher.",
               textAlign: TextAlign.justify)
         ],
       ));
+    } else {
+      courses.forEach((course) {
+        if (course is CourseHeader)
+          widgets.add(CourseRowHeader(coursHeader: course));
+        else if (course is Course)
+          widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
+      });
     }
 
+    return ListView(
+        children: ListTile
+            .divideTiles(context: context, tiles: widgets)
+            .toList(growable: false));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
-      child: ListView(
-        children: children,
-      ),
+      child: _buildListCours(_listElements),
     );
   }
 }

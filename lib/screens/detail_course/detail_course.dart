@@ -146,9 +146,17 @@ class _DetailCourseState extends State<DetailCourse> {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
 
+    final deleteBtn = (widget.course is CustomCourse) ? [
+      IconButton(icon: const Icon(Icons.delete), onPressed: () {
+        Preferences.removeEvent(widget.course);
+        Navigator.of(context).pop();
+      })
+    ] : null;
+
     return AppbarPage(
         title: translate.get(StringKey.COURSE_DETAILS),
         elevation: 0.0,
+        actions: deleteBtn,
         body: Container(
             child: Column(children: [
           AppbarSubTitle(subtitle: widget.course.title),

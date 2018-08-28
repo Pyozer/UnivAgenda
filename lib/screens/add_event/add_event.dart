@@ -117,7 +117,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   void _onSubmit(BuildContext context) {
     if (_formKey.currentState.validate()) {
-      final course = Course(
+      final course = CustomCourse(
         Uuid().v1(),
         _titleController.text,
         _descController.text,

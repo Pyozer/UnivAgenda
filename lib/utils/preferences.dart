@@ -179,14 +179,14 @@ class Preferences {
     return notes;
   }
 
-  static Future<List<Course>> getCustomEvents() async {
+  static Future<List<CustomCourse>> getCustomEvents() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> eventsJSONStr = prefs.getStringList(PrefKey.customEvent) ?? [];
 
-    List<Course> events = [];
+    List<CustomCourse> events = [];
     eventsJSONStr.forEach((eventJsonStr) {
       Map eventMap = json.decode(eventJsonStr);
-      final event = Course.fromJson(eventMap);
+      final event = CustomCourse.fromJson(eventMap);
 
       if (!event.isFinish()) events.add(event);
     });
@@ -194,7 +194,8 @@ class Preferences {
     return events;
   }
 
-  static Future<List<Course>> setCustomEvents(List<Course> events) async {
+  static Future<List<CustomCourse>> setCustomEvents(
+      List<CustomCourse> events) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String> eventsJSON = [];
@@ -206,8 +207,9 @@ class Preferences {
     return events;
   }
 
-  static Future<List<Course>> addCustomEvent(Course eventToAdd) async {
-    List<Course> events = await getCustomEvents();
+  static Future<List<CustomCourse>> addCustomEvent(
+      CustomCourse eventToAdd) async {
+    List<CustomCourse> events = await getCustomEvents();
     events.add(eventToAdd);
 
     await setCustomEvents(events);
@@ -215,8 +217,9 @@ class Preferences {
     return events;
   }
 
-  static Future<List<Course>> removeEvent(Course eventToRemove) async {
-    List<Course> events = await getCustomEvents();
+  static Future<List<CustomCourse>> removeEvent(
+      CustomCourse eventToRemove) async {
+    List<CustomCourse> events = await getCustomEvents();
     events.removeWhere((event) => (event == eventToRemove));
 
     await setCustomEvents(events);
