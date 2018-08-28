@@ -1,22 +1,22 @@
+import 'package:color_picker/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:uuid/uuid.dart';
 
-class AddEventScreen extends StatefulWidget {
+class CustomEventScreen extends StatefulWidget {
   final CustomCourse course;
 
-  const AddEventScreen({Key key, this.course}) : super(key: key);
+  const CustomEventScreen({Key key, this.course}) : super(key: key);
 
   @override
-  _AddEventScreenState createState() => _AddEventScreenState();
+  _CustomEventScreenState createState() => _CustomEventScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _CustomEventScreenState extends State<CustomEventScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final DateTime _firstDate = DateTime.now();
@@ -34,6 +34,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   void initState() {
     super.initState();
+
     if (widget.course != null) {
       _eventDateStart = widget.course.dateStart;
       _eventDateEnd = widget.course.dateEnd;
@@ -43,12 +44,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
       _locationController.text = widget.course.location;
       if (widget.course.color != null) {
         _isCustomColor = true;
-        _eventColor = widget.course.color;
       }
+      _eventColor = widget.course.color ?? materialColors[0];
     } else {
       _eventDateStart = DateTime.now();
       _eventDateEnd = DateTime.now().add(Duration(hours: 1));
-      _eventColor = null;
+      _eventColor = materialColors[0];
     }
   }
 
@@ -145,9 +146,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
         (_isCustomColor && _eventColor != null) ? _eventColor : null,
       );
 
-      Preferences.addCustomEvent(course).then((_) {
-        Navigator.of(context).pop(course);
-      });
+      Navigator.of(context).pop(course);
     }
   }
 

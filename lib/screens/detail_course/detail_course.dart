@@ -3,6 +3,8 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/screens/custom_event/custom_event.dart';
+import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -21,7 +23,6 @@ class DetailCourse extends StatefulWidget {
 }
 
 class _DetailCourseState extends State<DetailCourse> {
-
   final _formKey = GlobalKey<FormState>();
   String _noteToAdd;
 
@@ -129,7 +130,10 @@ class _DetailCourseState extends State<DetailCourse> {
     if (form.validate()) {
       form.save();
 
-      final note = Note(courseUid: widget.course.uid, text: _noteToAdd, dateExpiration: widget.course.dateEnd);
+      final note = Note(
+          courseUid: widget.course.uid,
+          text: _noteToAdd,
+          dateExpiration: widget.course.dateEnd);
       _noteToAdd = "";
 
       setState(() {
@@ -146,17 +150,34 @@ class _DetailCourseState extends State<DetailCourse> {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
 
-    final deleteBtn = (widget.course is CustomCourse) ? [
-      IconButton(icon: const Icon(Icons.delete), onPressed: () {
-        Preferences.removeEvent(widget.course);
-        Navigator.of(context).pop();
-      })
-    ] : null;
+    final actionsAppbar = (widget.course is CustomCourse)
+        ? [
+            IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  Preferences.removeCustomEvent(widget.course);
+                  Navigator.of(context).pop();
+                }),
+            IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () async {
+                  final editedCourse = await Navigator.of(context).push(
+                        CustomRoute<CustomCourse>(
+                          builder: (context) =>
+                              CustomEventScreen(course: widget.course),
+                          fullscreenDialog: true,
+                        ),
+                      );
+
+                  Preferences.editCustomEvent(editedCourse);
+                })
+          ]
+        : null;
 
     return AppbarPage(
         title: translate.get(StringKey.COURSE_DETAILS),
         elevation: 0.0,
-        actions: deleteBtn,
+        actions: actionsAppbar,
         body: Container(
             child: Column(children: [
           AppbarSubTitle(subtitle: widget.course.title),

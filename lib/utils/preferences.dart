@@ -217,7 +217,13 @@ class Preferences {
     return events;
   }
 
-  static Future<List<CustomCourse>> removeEvent(
+  static Future<List<CustomCourse>> editCustomEvent(
+      CustomCourse eventEdited) async {
+    await removeCustomEvent(eventEdited);
+    return await addCustomEvent(eventEdited);
+  }
+
+  static Future<List<CustomCourse>> removeCustomEvent(
       CustomCourse eventToRemove) async {
     List<CustomCourse> events = await getCustomEvents();
     events.removeWhere((event) => (event == eventToRemove));

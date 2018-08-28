@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/screens/add_event/add_event.dart';
+import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -14,9 +14,11 @@ import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class HomeScreen extends StatelessWidget {
   Widget _buildFab(BuildContext context) => FloatingActionButton(
-      onPressed: () {
-        Navigator.of(context).push(CustomRoute(
-            builder: (context) => AddEventScreen(), fullscreenDialog: true));
+      onPressed: () async {
+        final customCourse = await Navigator.of(context).push(CustomRoute(
+            builder: (context) => CustomEventScreen(), fullscreenDialog: true));
+
+        Preferences.addCustomEvent(customCourse);
       },
       child: Icon(Icons.add));
 
