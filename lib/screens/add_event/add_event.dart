@@ -38,6 +38,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
       _eventDateStart = widget.course.dateStart;
       _eventDateEnd = widget.course.dateEnd;
       _eventColor = widget.course.color;
+      _titleController.text = widget.course.title;
+      _descController.text = widget.course.description;
+      _locationController.text = widget.course.location;
+      if (widget.course.color != null) {
+        _isCustomColor = true;
+        _eventColor = widget.course.color;
+      }
     } else {
       _eventDateStart = DateTime.now();
       _eventDateEnd = DateTime.now().add(Duration(hours: 1));
