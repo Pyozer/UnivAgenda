@@ -160,7 +160,7 @@ class CourseListState extends State<CourseList> {
     });
   }
 
-  Widget _buildListCours(List<BaseCourse> courses) {
+  Widget _buildListCours() {
     List<Widget> widgets = [
       CourseListHeader(year: widget.year, group: widget.group)
     ];
@@ -174,7 +174,7 @@ class CourseListState extends State<CourseList> {
         ],
       ));
     } else {
-      courses.forEach((course) {
+      _listElements.forEach((course) {
         if (course is CourseHeader)
           widgets.add(CourseRowHeader(coursHeader: course));
         else if (course is Course)
@@ -193,7 +193,7 @@ class CourseListState extends State<CourseList> {
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
-      child: _buildListCours(_listElements),
+      child: _buildListCours(),
     );
   }
 }

@@ -136,13 +136,13 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   void _onSubmit(BuildContext context) {
     if (_formKey.currentState.validate()) {
       final course = CustomCourse(
-        Uuid().v1(),
+        widget.course?.uid ?? Uuid().v1(),
         _titleController.text,
         _descController.text,
         _locationController.text,
         _eventDateStart,
         _eventDateEnd,
-        [],
+        widget.course?.notes ?? [],
         (_isCustomColor && _eventColor != null) ? _eventColor : null,
       );
 
