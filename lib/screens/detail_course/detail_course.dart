@@ -184,8 +184,6 @@ class _DetailCourseState extends State<DetailCourse> {
                               CustomEventScreen(course: _course),
                           fullscreenDialog: true));
 
-                  print(editedCourse);
-
                   if (editedCourse != null) {
                     Preferences.editCustomEvent(editedCourse).then((_) {
                       setState(() {
