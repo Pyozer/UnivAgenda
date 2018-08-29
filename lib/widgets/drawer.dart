@@ -40,7 +40,7 @@ class MainDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
               )),
           _drawerElem(context, Icons.location_city, StringKey.FINDROOM,
-              RouteKey.FINDROOM, enabled: false),
+              RouteKey.FINDROOM, enabled: true),
           _drawerElem(
               context, Icons.settings, StringKey.SETTINGS, RouteKey.SETTINGS),
           _drawerElem(

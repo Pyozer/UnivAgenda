@@ -1,10 +1,16 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myagenda/utils/functions.dart';
 
 class Date {
   static const kDefaultLocal = Locale('en');
+
+  static TimeOfDay addDurationToTime(TimeOfDay time, Duration duration) {
+    final dateFromTime = DateTime(1970, 1, 1, time.hour, time.minute);
+    return TimeOfDay.fromDateTime(dateFromTime.add(duration));
+  }
 
   static bool notSameDay(DateTime a, DateTime b) {
     return a.year != b.year || a.month != b.month || a.day != b.day;
