@@ -86,5 +86,15 @@
   "add_note_submit": "Ajouter",
   "add_note_btn": "Ajouter note",
   "delete": "Supprimer",
-  "event_color": "Couleur de l'événement"
+  "event_color": "Couleur de l'événement",
+  "event_color_desc": "Couleur de fond de l'événement",
+
+  "title_event": "Titre",
+  "desc_event": "Description",
+  "location_event": "Emplacement",
+  "date_event": "Date",
+  "start_time_event": "Heure de début",
+  "end_time_event": "Heure de fin",
+
+  "require_field": "Vous devez saisir du texte"
 }

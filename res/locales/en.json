@@ -86,5 +86,15 @@
   "add_note_submit": "Add note",
   "add_note_btn": "New",
   "delete": "Delete",
-  "event_color": "Event color"
+  "event_color": "Event color",
+  "event_color_desc": "Background color of this event",
+
+  "title_event": "Title",
+  "desc_event": "Description",
+  "location_event": "Location",
+  "date_event": "Date",
+  "start_time_event": "Start time",
+  "end_time_event": "End time",
+
+  "require_field": "You must enter some text"
 }

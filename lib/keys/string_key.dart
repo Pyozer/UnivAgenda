@@ -93,6 +93,17 @@ class StringKey {
   static const DELETE = const StringKey._('delete');
 
   static const EVENT_COLOR = const StringKey._('event_color');
+  static const EVENT_COLOR_DESC = const StringKey._('event_color_desc');
+
+  static const TITLE_EVENT = const StringKey._('title_event');
+  static const DESC_EVENT = const StringKey._('desc_event');
+  static const LOCATION_EVENT = const StringKey._('location_event');
+  static const DATE_EVENT = const StringKey._('date_event');
+
+  static const START_TIME_EVENT = const StringKey._('start_time_event');
+  static const END_TIME_EVENT = const StringKey._('end_time_event');
+
+  static const REQUIRE_FIELD = const StringKey._('require_field');
 
   final String value;
 

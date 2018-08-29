@@ -1,5 +1,6 @@
 import 'package:color_picker/color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
@@ -128,7 +129,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   String _validateTextField(String value) {
     if (value.isEmpty) {
-      return 'Please enter some text';
+      return Translations.of(context).get(StringKey.REQUIRE_FIELD);
     }
     return null;
   }
@@ -152,10 +153,11 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _locale = Translations.of(context).locale;
+    final translations = Translations.of(context);
+    _locale = translations.locale;
 
     return AppbarPage(
-      title: "Add event",
+      title: translations.get(StringKey.ADD_EVENT),
       actions: [
         IconButton(
             icon: const Icon(Icons.check), onPressed: () => _onSubmit(context))
@@ -169,7 +171,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 leading: const Icon(Icons.title),
                 title: TextFormField(
                   controller: _titleController,
-                  decoration: InputDecoration.collapsed(hintText: "Title"),
+                  decoration: InputDecoration.collapsed(hintText: translations.get(StringKey.TITLE_EVENT)),
                   validator: _validateTextField,
                 ),
               ),
@@ -179,7 +181,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: TextFormField(
                   controller: _descController,
                   decoration:
-                      InputDecoration.collapsed(hintText: "Description"),
+                      InputDecoration.collapsed(hintText: translations.get(StringKey.DESC_EVENT)),
                   validator: _validateTextField,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -190,7 +192,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 leading: const Icon(Icons.location_on),
                 title: TextFormField(
                   controller: _locationController,
-                  decoration: InputDecoration.collapsed(hintText: "Location"),
+                  decoration: InputDecoration.collapsed(hintText: translations.get(StringKey.LOCATION_EVENT)),
                   validator: _validateTextField,
                 ),
               ),
@@ -198,7 +200,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               ListTile(
                 leading: const Icon(Icons.date_range),
                 title: _buildDateTimeField(
-                  "Date",
+                  translations.get(StringKey.DATE_EVENT),
                   Date.extractDate(_eventDateStart, _locale),
                   _onDateTap,
                 ),
@@ -210,7 +212,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     child: ListTile(
                       leading: const Icon(Icons.access_time),
                       title: _buildDateTimeField(
-                        "Heure début",
+                        translations.get(StringKey.START_TIME_EVENT),
                         Date.extractTime(_eventDateStart, _locale),
                         _onStartTimeTap,
                       ),
@@ -221,7 +223,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     child: ListTile(
                       leading: const Icon(Icons.access_time),
                       title: _buildDateTimeField(
-                        "Heure fin",
+                        translations.get(StringKey.END_TIME_EVENT),
                         Date.extractTime(_eventDateEnd, _locale),
                         _onEndTimeTap,
                       ),
@@ -232,7 +234,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               Divider(height: 4.0),
               ListTile(
                 leading: const Icon(Icons.color_lens),
-                title: Text("Custom color"),
+                title: Text(translations.get(StringKey.EVENT_COLOR)),
                 trailing: Switch(
                     value: _isCustomColor,
                     activeColor: Theme.of(context).accentColor,
@@ -244,8 +246,8 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               ),
               _isCustomColor
                   ? ListTileColor(
-                      title: "Event color",
-                      description: "Custom color of this event",
+                      title: translations.get(StringKey.EVENT_COLOR),
+                      description: translations.get(StringKey.EVENT_COLOR_DESC),
                       selectedColor: _eventColor,
                       onColorChange: (color) {
                         setState(() {
