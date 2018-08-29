@@ -92,6 +92,8 @@ class StringKey {
   static const ADD_NOTE_BTN = const StringKey._('add_note_btn');
   static const DELETE = const StringKey._('delete');
 
+  static const EVENT_COLOR = const StringKey._('event_color');
+
   final String value;
 
   const StringKey._(this.value);

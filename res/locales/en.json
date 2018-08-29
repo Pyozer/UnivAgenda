@@ -85,5 +85,6 @@
   "add_note_empty": "Note can't be empty.",
   "add_note_submit": "Add note",
   "add_note_btn": "New",
-  "delete": "Delete"
+  "delete": "Delete",
+  "event_color": "Event color"
 }

@@ -85,5 +85,6 @@
   "add_note_empty": "La note ne peut être vide.",
   "add_note_submit": "Ajouter",
   "add_note_btn": "Ajouter note",
-  "delete": "Supprimer"
+  "delete": "Supprimer",
+  "event_color": "Couleur de l'événement"
 }

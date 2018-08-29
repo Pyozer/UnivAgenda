@@ -66,7 +66,7 @@ class _DetailCourseState extends State<DetailCourse> {
       listInfo.add(
         ListTile(
           leading: const Icon(Icons.color_lens),
-          title: Text("Couleur de l'événement"),
+          title: Text(translate.get(StringKey.EVENT_COLOR)),
           trailing: CircleColor(color: _course.color, circleSize: 28.0),
         ),
       );
