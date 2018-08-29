@@ -1,3 +1,4 @@
+import 'package:color_picker/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
@@ -25,13 +26,20 @@ class DetailCourse extends StatefulWidget {
 class _DetailCourseState extends State<DetailCourse> {
   final _formKey = GlobalKey<FormState>();
   String _noteToAdd;
+  Course _course;
+
+  @override
+  void initState() {
+    super.initState();
+    _course = widget.course;
+  }
 
   List<Widget> _buildInfo(Translations translate, ThemeData theme) {
     final locale = translate.locale;
 
-    final timeStart = Date.extractTime(widget.course.dateStart, locale);
-    final timeEnd = Date.extractTime(widget.course.dateEnd, locale);
-    final date = Date.dateFromNow(widget.course.dateStart, locale);
+    final timeStart = Date.extractTime(_course.dateStart, locale);
+    final timeEnd = Date.extractTime(_course.dateEnd, locale);
+    final date = Date.dateFromNow(_course.dateStart, locale);
 
     List<Widget> listInfo = [
       ListTile(
@@ -40,19 +48,28 @@ class _DetailCourseState extends State<DetailCourse> {
           subtitle: Text(date)),
       ListTile(
           leading: const Icon(Icons.group),
-          title: Text(widget.course.description,
+          title: Text(_course.description,
               maxLines: 2, overflow: TextOverflow.ellipsis))
     ];
 
-    if (widget.course.location != null && widget.course.location.isNotEmpty)
+    if (_course.location != null && _course.location.isNotEmpty)
       listInfo.add(ListTile(
           leading: const Icon(Icons.location_on),
-          title: Text(widget.course.location)));
+          title: Text(_course.location)));
 
-    if (widget.course.isExam())
+    if (_course.isExam())
       listInfo.add(ListTile(
           leading: const Icon(Icons.description),
           title: Text(translate.get(StringKey.COURSE_TEST))));
+
+    if (_course.color != null)
+      listInfo.add(
+        ListTile(
+          leading: const Icon(Icons.color_lens),
+          title: Text("Couleur de l'événement"),
+          trailing: CircleColor(color: _course.color, circleSize: 28.0),
+        ),
+      );
 
     listInfo.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,7 +91,7 @@ class _DetailCourseState extends State<DetailCourse> {
   List<Widget> _buildListNotes() {
     List<Widget> listNotes = [];
 
-    for (final note in widget.course.notes)
+    for (final note in _course.notes)
       listNotes.add(CourseNote(note: note, onDelete: _onNoteDeleted));
 
     return listNotes;
@@ -82,7 +99,7 @@ class _DetailCourseState extends State<DetailCourse> {
 
   void _onNoteDeleted(Note note) {
     setState(() {
-      widget.course.notes.remove(note);
+      _course.notes.remove(note);
     });
     Preferences.removeNote(note);
   }
@@ -131,13 +148,13 @@ class _DetailCourseState extends State<DetailCourse> {
       form.save();
 
       final note = Note(
-          courseUid: widget.course.uid,
+          courseUid: _course.uid,
           text: _noteToAdd,
-          dateExpiration: widget.course.dateEnd);
+          dateExpiration: _course.dateEnd);
       _noteToAdd = "";
 
       setState(() {
-        widget.course.notes.insert(0, note);
+        _course.notes.insert(0, note);
       });
       Preferences.addNote(note);
 
@@ -150,26 +167,32 @@ class _DetailCourseState extends State<DetailCourse> {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
 
-    final actionsAppbar = (widget.course is CustomCourse)
+    final actionsAppbar = (_course is CustomCourse)
         ? [
             IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {
-                  Preferences.removeCustomEvent(widget.course);
+                  Preferences.removeCustomEvent(_course);
                   Navigator.of(context).pop();
                 }),
             IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () async {
-                  final editedCourse = await Navigator.of(context).push(
-                        CustomRoute<CustomCourse>(
+                  CustomCourse editedCourse = await Navigator.of(context).push(
+                      CustomRoute<CustomCourse>(
                           builder: (context) =>
-                              CustomEventScreen(course: widget.course),
-                          fullscreenDialog: true,
-                        ),
-                      );
+                              CustomEventScreen(course: _course),
+                          fullscreenDialog: true));
 
-                  Preferences.editCustomEvent(editedCourse);
+                  print(editedCourse);
+
+                  if (editedCourse != null) {
+                    Preferences.editCustomEvent(editedCourse).then((_) {
+                      setState(() {
+                        _course = editedCourse;
+                      });
+                    });
+                  }
                 })
           ]
         : null;
@@ -180,7 +203,7 @@ class _DetailCourseState extends State<DetailCourse> {
         actions: actionsAppbar,
         body: Container(
             child: Column(children: [
-          AppbarSubTitle(subtitle: widget.course.title),
+          AppbarSubTitle(subtitle: _course.title),
           Expanded(
               child: ListView(
                   shrinkWrap: true, children: _buildInfo(translate, theme)))
