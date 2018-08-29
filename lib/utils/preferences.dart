@@ -200,7 +200,8 @@ class Preferences {
 
     List<String> eventsJSON = [];
     events.forEach((event) {
-      eventsJSON.add(json.encode(event.toJson()));
+      if (event != null)
+        eventsJSON.add(json.encode(event.toJson()));
     });
 
     await prefs.setStringList(PrefKey.customEvent, eventsJSON);
