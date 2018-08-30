@@ -6,6 +6,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class FindRoomScreen extends StatefulWidget {
   @override
@@ -40,20 +41,36 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     });
   }
 
-  void _onStartTimeChange(TimeOfDay startTime) {
-    setState(() {
-      _selectedStartTime = startTime;
-    });
-  }
-
-  void _onEndTimeChange(TimeOfDay endTime) {
-    setState(() {
-      _selectedEndTime = endTime;
-    });
+  void _onTimeChange(TimeOfDay startTime, TimeOfDay endTime) {
+    if (startTime != null && endTime != null)
+      setState(() {
+        _selectedStartTime = startTime;
+        _selectedEndTime = endTime;
+      });
   }
 
   Text _buildHeader(String text) {
     return Text(text, style: Theme.of(context).textTheme.subhead);
+  }
+
+  Widget _buildTimePicker(TimeOfDay time, ValueChanged<TimeOfDay> onChange) {
+    final timeStr = '${time.hour}:${time.minute}';
+
+    return Card(
+      elevation: 3.0,
+      margin: const EdgeInsets.only(top: 12.0, bottom: 24.0),
+      child: InkWell(
+        onTap: () {
+          _openTimePicker(time).then((newTime) {
+            onChange(newTime);
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(timeStr),
+        ),
+      ),
+    );
   }
 
   List<DropdownMenuItem<String>> _dropdownListDepartments() {
@@ -75,9 +92,6 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
-    final startTimeStr = '${_selectedStartTime.hour}:${_selectedStartTime
-        .minute}';
-    final endTimeStr = '${_selectedEndTime.hour}:${_selectedEndTime.minute}';
 
     return AppbarPage(
       title: translations.get(StringKey.FINDROOM),
@@ -85,46 +99,64 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+          children: [
             _buildHeader(translations.get(StringKey.DEPARTMENT)),
             Card(
+              elevation: 3.0,
               margin: const EdgeInsets.only(top: 12.0, bottom: 24.0),
-              child: DropdownButtonHideUnderline(
-                child: ButtonTheme(
-                  alignedDropdown: true,
-                  child: DropdownButton(
-                    value: _selectedDepartment,
-                    items: _dropdownListDepartments(),
-                    onChanged: _onBuildingChange,
+              child: InkWell(
+                onTap: () {},
+                child: DropdownButtonHideUnderline(
+                  child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButton(
+                      value: _selectedDepartment,
+                      items: _dropdownListDepartments(),
+                      onChanged: _onBuildingChange,
+                    ),
                   ),
                 ),
               ),
             ),
-            _buildHeader(translations.get(StringKey.START_TIME_EVENT)),
-            Card(
-              margin: const EdgeInsets.only(top: 12.0, bottom: 24.0),
-              child: InkWell(
-                onTap: () {
-                  _openTimePicker(_selectedStartTime).then(_onStartTimeChange);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(startTimeStr),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _buildHeader(
+                            translations.get(StringKey.START_TIME_EVENT)),
+                        _buildTimePicker(_selectedStartTime, (newStartTime) {
+                          _onTimeChange(newStartTime, _selectedEndTime);
+                        }),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _buildHeader(
+                            translations.get(StringKey.END_TIME_EVENT)),
+                        _buildTimePicker(_selectedEndTime, (newEndTime) {
+                          _onTimeChange(_selectedStartTime, newEndTime);
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            _buildHeader(translations.get(StringKey.END_TIME_EVENT)),
-            Card(
-              margin: const EdgeInsets.only(top: 12.0, bottom: 24.0),
-              child: InkWell(
-                onTap: () {
-                  _openTimePicker(_selectedEndTime).then(_onEndTimeChange);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(endTimeStr),
-                ),
-              ),
+            RaisedButtonColored(
+              onPressed: () {},
+              text: "SEARCH",
             )
           ],
         ),
