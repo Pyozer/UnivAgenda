@@ -39,16 +39,22 @@ class CourseRow extends StatelessWidget {
         : null;
 
     return InkWell(
-        onTap: () => _onCourseTap(context),
-        child: Container(
-            decoration: BoxDecoration(color: bgColorRow, border: noteBorder),
-            padding: const EdgeInsets.all(16.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(course.title, style: titleStyle),
-              Text('${course.location} - ${course.description}',
-                  style: subheadStyle),
-              Text(course.dateForDisplay(), style: cationStyle),
-            ])));
+      onTap: () => _onCourseTap(context),
+      child: Container(
+        decoration: BoxDecoration(color: bgColorRow, border: noteBorder),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(course.title, style: titleStyle),
+            Text(
+              '${course.location} - ${course.description}',
+              style: subheadStyle,
+            ),
+            Text(course.dateForDisplay(), style: cationStyle),
+          ],
+        ),
+      ),
+    );
   }
 }

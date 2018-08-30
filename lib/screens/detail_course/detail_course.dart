@@ -43,13 +43,18 @@ class _DetailCourseState extends State<DetailCourse> {
 
     List<Widget> listInfo = [
       ListTile(
-          leading: const Icon(Icons.access_time),
-          title: Text('$timeStart  –  $timeEnd'),
-          subtitle: Text(date)),
+        leading: const Icon(Icons.access_time),
+        title: Text('$timeStart  –  $timeEnd'),
+        subtitle: Text(date),
+      ),
       ListTile(
-          leading: const Icon(Icons.group),
-          title: Text(_course.description,
-              maxLines: 2, overflow: TextOverflow.ellipsis))
+        leading: const Icon(Icons.group),
+        title: Text(
+          _course.description,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      )
     ];
 
     if (_course.location != null && _course.location.isNotEmpty)
