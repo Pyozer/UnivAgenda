@@ -7,9 +7,11 @@ import 'package:myagenda/utils/functions.dart';
 class Date {
   static const kDefaultLocal = Locale('en');
 
-  static TimeOfDay addDurationToTime(TimeOfDay time, Duration duration) {
-    final dateFromTime = DateTime(1970, 1, 1, time.hour, time.minute);
-    return TimeOfDay.fromDateTime(dateFromTime.add(duration));
+  static TimeOfDay addTimeToTime(TimeOfDay time, [hours = 0, minutes = 0]) {
+    return TimeOfDay(
+      hour: (time.hour + hours) % 24,
+      minute: (time.minute + minutes) % 24,
+    );
   }
 
   static bool notSameDay(DateTime a, DateTime b) {
@@ -48,5 +50,10 @@ class Date {
     if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.yMMMMd(locale.languageCode).format(date);
+  }
+
+  static String extractTimeWithDate(DateTime dateTime, [Locale locale]) {
+    return DateFormat.jm(locale.languageCode).format(dateTime) +
+        ' (' + DateFormat.Md(locale.languageCode).format(dateTime) + ')';
   }
 }
