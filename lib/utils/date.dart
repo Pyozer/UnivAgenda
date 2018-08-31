@@ -41,19 +41,26 @@ class Date {
   }
 
   static String extractTime(DateTime date, [Locale locale]) {
+    if (date == null)
+      return "";
     if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.Hm(locale.languageCode).format(date);
   }
 
   static String extractDate(DateTime date, [Locale locale]) {
+    if (date == null)
+      return "";
     if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.yMMMMd(locale.languageCode).format(date);
   }
 
   static String extractTimeWithDate(DateTime dateTime, [Locale locale]) {
+    if (dateTime == null)
+      return "";
+
     return DateFormat.jm(locale.languageCode).format(dateTime) +
-        ' (' + DateFormat.Md(locale.languageCode).format(dateTime) + ')';
+        ' (' + DateFormat.MMMEd(locale.languageCode).format(dateTime) + ')';
   }
 }

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:myagenda/data.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
+import 'package:myagenda/utils/IcalAPI.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -60,22 +60,18 @@ class CourseListState extends State<CourseList> {
     _fetchData();
   }
 
-  String _prepareURL() {
-    final resID = Data
-        .getGroupRes(
-            widget.campus, widget.department, widget.year, widget.group)
-        .toString();
-    final nbWeeks = widget.numberWeeks.toString();
-
-    final base =
-        'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical';
-    return base + '&nbWeeks=' + nbWeeks + '&resources=' + resID;
-  }
-
   Future<Null> _fetchData() async {
     refreshKey.currentState?.show();
 
-    final response = await http.get(_prepareURL());
+    final url = IcalAPI.prepareURL(
+      widget.campus,
+      widget.department,
+      widget.year,
+      widget.group,
+      widget.numberWeeks
+    );
+
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       _prepareList(response.body);
       _updateCache(response.body);
