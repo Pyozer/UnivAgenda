@@ -6,6 +6,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
+import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:uuid/uuid.dart';
 
 class CustomEventScreen extends StatefulWidget {
@@ -136,6 +137,13 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   void _onSubmit(BuildContext context) {
     if (_formKey.currentState.validate()) {
+
+      // Check data
+      if (_eventDateEnd.isBefore(_eventDateStart)) {
+        DialogPredefined.showEndTimeError(context);
+        return;
+      }
+
       final course = CustomCourse(
         widget.course?.uid ?? Uuid().v1(),
         _titleController.text,

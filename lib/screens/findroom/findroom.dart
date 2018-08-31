@@ -12,6 +12,8 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/circular_loader.dart';
+import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,6 +24,7 @@ class FindRoomScreen extends StatefulWidget {
 
 class _FindRoomScreenState extends State<FindRoomScreen> {
   bool isDataLoaded = false;
+  bool isLoading = false;
 
   List<String> _campus = [];
   List<String> _departments = [];
@@ -116,18 +119,32 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     final date = DateTime.now();
 
     // Create DateTime from today with chosen hours
-    DateTime dateTimeStart = DateTime(date.year, date.month, date.day, _selectedStartTime.hour, _selectedStartTime.minute);
-    DateTime dateTimeEnd = DateTime(date.year, date.month, date.day, _selectedEndTime.hour, _selectedEndTime.minute);
+    DateTime dateTimeStart = DateTime(date.year, date.month, date.day,
+        _selectedStartTime.hour, _selectedStartTime.minute);
+    DateTime dateTimeEnd = DateTime(date.year, date.month, date.day,
+        _selectedEndTime.hour, _selectedEndTime.minute);
+
+    // Check data
+    if (dateTimeEnd.isBefore(dateTimeStart)) {
+      DialogPredefined.showEndTimeError(context);
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
 
     // All rooms available between times defined
     List<RoomResult> results = [];
 
     // Get all room in the department in the campus
-    final groups = Data.getGroups(_selectedCampus, _selectedDepartment, "Salles");
+    final groups =
+        Data.getGroups(_selectedCampus, _selectedDepartment, "Salles");
 
     // Check for every rooms if available
-    for(final room in groups) {
-      String url = IcalAPI.prepareURL(_selectedCampus, _selectedDepartment, "Salles", room, 1);
+    for (final room in groups) {
+      String url = IcalAPI.prepareURL(
+          _selectedCampus, _selectedDepartment, "Salles", room, 1);
       String icalStr = await _fetchData(url);
 
       List<Course> listCourses = [];
@@ -147,15 +164,13 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
       DateTime endNoCourse;
 
       listCourses.removeWhere((course) {
-        print(course);
-
         bool isBeforeHours = course.dateEnd.isBefore(dateTimeStart);
         bool isAfterHours = course.dateStart.isAfter(dateTimeEnd);
 
-        if (isBeforeHours && (startNoCourse == null || course.dateEnd.isAfter(startNoCourse)))
+        if (isBeforeHours &&
+            (startNoCourse == null || course.dateEnd.isAfter(startNoCourse)))
           startNoCourse = course.dateEnd;
-        if (isAfterHours && endNoCourse == null)
-          endNoCourse = course.dateStart;
+        if (isAfterHours && endNoCourse == null) endNoCourse = course.dateStart;
 
         return isBeforeHours || isAfterHours;
       });
@@ -168,6 +183,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
 
     setState(() {
       _searchResult = results;
+      isLoading = false;
     });
   }
 
@@ -276,16 +292,19 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 16.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          itemCount: _searchResult.length,
-                          itemBuilder: (context, index) {
-                            return ResultCard(
-                              roomResult: _searchResult[index],
-                            );
-                          },
-                        ),
+                        child: isLoading
+                            ? Center(child: CircularLoader())
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                itemCount: _searchResult.length,
+                                itemBuilder: (context, index) {
+                                  return ResultCard(
+                                    roomResult: _searchResult[index],
+                                  );
+                                },
+                              ),
                       ),
                     ),
                   ],
@@ -309,13 +328,15 @@ class ResultCard extends StatelessWidget {
       info = Date.extractTimeWithDate(roomResult.startAvailable, locale);
 
     if (roomResult.endAvailable != null)
-      info += " jusqu'à " + Date.extractTimeWithDate(roomResult.endAvailable, locale);
+      info += " jusqu'à " +
+          Date.extractTimeWithDate(roomResult.endAvailable, locale);
 
     return Card(
       elevation: 3.0,
       child: ListTile(
         title: Text(roomResult.room),
-        subtitle: Text(info.length > 0 ? capitalize(info.trim()) : 'Disponible'),
+        subtitle:
+            Text(info.length > 0 ? capitalize(info.trim()) : 'Disponible'),
       ),
     );
   }

@@ -105,6 +105,11 @@ class StringKey {
 
   static const REQUIRE_FIELD = const StringKey._('require_field');
 
+  static const ERROR_END_TIME = const StringKey._('error_end_time');
+  static const ERROR_END_TIME_TEXT = const StringKey._('error_end_time_text');
+
+  static const OK = const StringKey._('ok');
+
   final String value;
 
   const StringKey._(this.value);

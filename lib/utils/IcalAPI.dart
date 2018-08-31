@@ -14,9 +14,6 @@ class IcalAPI {
     final startDate = dateFormat.format(date);
     final endDate = dateFormat.format(date.add(durationToAdd));
 
-    print(startDate);
-    print(endDate);
-
     String base =
         'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical';
     base += '&resources=' + resID;
