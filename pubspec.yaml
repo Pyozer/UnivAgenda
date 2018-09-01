@@ -8,11 +8,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-  http: ^0.11.3+16
+  http: ^0.11.3+17
   shared_preferences: ^0.4.2
   url_launcher: ^3.0.3
-  flutter_markdown: ^0.1.6
-  uuid: 1.0.0
+  flutter_markdown: ^0.2.0
+  uuid: ^1.0.3
 
   color_picker:
     git: git://github.com/pyozer/color_picker

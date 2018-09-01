@@ -12,6 +12,7 @@ class PrefKey {
   static get darkTheme => 'isDark';
 
   static get firstBoot => "first_boot";
+  static get isLogged => "is_logged";
 
   static get cachedIcal => "cached_ical";
 

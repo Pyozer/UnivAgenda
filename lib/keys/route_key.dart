@@ -9,4 +9,5 @@ class RouteKey {
   static const LICENCES = '/about/licences';
   static const INTRO = '/intro';
   static const LOGOUT = '/logout';
+  static const LOGIN = '/login';
 }

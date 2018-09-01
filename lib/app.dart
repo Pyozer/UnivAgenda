@@ -7,6 +7,7 @@ import 'package:myagenda/screens/about/licences/licences.dart';
 import 'package:myagenda/screens/findroom/findroom.dart';
 import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
+import 'package:myagenda/screens/login/login.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/utils/custom_route.dart';
@@ -23,7 +24,8 @@ final routes = {
   RouteKey.ABOUT: AboutScreen(),
   RouteKey.LICENCES: LicencesScreen(),
   RouteKey.INTRO: IntroductionScreen(),
-  RouteKey.LOGOUT: AboutScreen()
+  RouteKey.LOGOUT: LoginScreen(),
+  RouteKey.LOGIN: LoginScreen(),
 };
 
 class App extends StatelessWidget {

@@ -234,6 +234,17 @@ class Preferences {
     return events;
   }
 
+  static Future<bool> isUserLogged() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefKey.isLogged) ?? false;
+  }
+
+  static Future<bool> setUserLogged(bool isLogged) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefKey.isLogged, isLogged);
+    return isLogged;
+  }
+
   static Future<Map<String, dynamic>> getThemeValues() async {
     Map<String, dynamic> dataPrefs = {};
     dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();

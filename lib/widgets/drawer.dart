@@ -50,7 +50,7 @@ class MainDrawer extends StatelessWidget {
           _drawerElem(context, Icons.lightbulb_outline, StringKey.INTRO,
               RouteKey.INTRO),
           _drawerElem(
-              context, Icons.exit_to_app, StringKey.LOGOUT, RouteKey.LOGOUT, enabled: false)
+              context, Icons.exit_to_app, StringKey.LOGOUT, RouteKey.LOGOUT)
         ]));
   }
 }
