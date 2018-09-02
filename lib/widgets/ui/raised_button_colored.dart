@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class RaisedButtonColored extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final ShapeBorder shape;
 
-  const RaisedButtonColored({Key key, this.onPressed, this.text})
+  const RaisedButtonColored({Key key, this.onPressed, this.text, this.shape = const OutlineInputBorder()})
       : super(key: key);
 
   @override
@@ -14,7 +15,7 @@ class RaisedButtonColored extends StatelessWidget {
     final color = (brightness == Brightness.dark) ? Colors.white : Colors.black;
 
     return RaisedButton(
-      shape: OutlineInputBorder(),
+      shape: shape,
       onPressed: onPressed,
       child: Text(text),
       color: Theme.of(context).accentColor,

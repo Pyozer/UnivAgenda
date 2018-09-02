@@ -43,17 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(height: 64.0),
                 TextFormField(
                   decoration: InputDecoration(
-                      labelText: translations.get(StringKey.APP_NAME),
-                      filled: true,
-                      fillColor: const Color(0x11000000)),
+                      labelText: "Identifiant")
                 ),
                 Container(height: 24.0),
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      labelText: "Mot de passe",
-                      filled: true,
-                      fillColor: const Color(0x11000000)),
+                      labelText: "Mot de passe"),
                 ),
                 Container(height: 32.0),
                 RaisedButtonColored(
