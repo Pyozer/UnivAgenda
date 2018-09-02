@@ -138,11 +138,11 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     List<RoomResult> results = [];
 
     // Get all room in the department in the campus
-    final groups =
+    final rooms =
         Data.getGroups(_selectedCampus, _selectedDepartment, "Salles");
 
     // Check for every rooms if available
-    for (final room in groups) {
+    for (final room in rooms) {
       String url = IcalAPI.prepareURL(
           _selectedCampus, _selectedDepartment, "Salles", room, 1);
       String icalStr = await _fetchData(url);
