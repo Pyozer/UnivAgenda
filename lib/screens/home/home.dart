@@ -13,8 +13,6 @@ import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key key}) : super(key: key);
-
   Widget _buildFab(BuildContext context) => FloatingActionButton(
         onPressed: () async {
           final customCourse = await Navigator.of(context).push(
