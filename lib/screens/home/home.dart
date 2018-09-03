@@ -13,14 +13,21 @@ import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 
 class HomeScreen extends StatelessWidget {
-  Widget _buildFab(BuildContext context) => FloatingActionButton(
-      onPressed: () async {
-        final customCourse = await Navigator.of(context).push(CustomRoute(
-            builder: (context) => CustomEventScreen(), fullscreenDialog: true));
+  const HomeScreen({Key key}) : super(key: key);
 
-        Preferences.addCustomEvent(customCourse);
-      },
-      child: Icon(Icons.add));
+  Widget _buildFab(BuildContext context) => FloatingActionButton(
+        onPressed: () async {
+          final customCourse = await Navigator.of(context).push(
+            CustomRoute(
+              builder: (context) => CustomEventScreen(),
+              fullscreenDialog: true,
+            ),
+          );
+
+          Preferences.addCustomEvent(customCourse);
+        },
+        child: const Icon(Icons.add),
+      );
 
   Future<Map<String, dynamic>> _getGroupValues() async {
     Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
@@ -30,15 +37,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translations = Translations.of(context);
+
     return AppbarPage(
-      title: Translations.of(context).get(StringKey.APP_NAME),
+      title: translations.get(StringKey.APP_NAME),
       drawer: MainDrawer(),
       fab: _buildFab(context),
       body: FutureBuilder<Map>(
         future: _getGroupValues(),
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularLoader());
+            return Center(child: const CircularLoader());
           }
 
           final data = snapshot.data;
