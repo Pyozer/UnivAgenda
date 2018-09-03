@@ -61,6 +61,8 @@ class CourseListState extends State<CourseList> {
   }
 
   Future<Null> _fetchData() async {
+    if (!mounted) return null;
+
     refreshKey.currentState?.show();
 
     final url = IcalAPI.prepareURL(
@@ -72,7 +74,7 @@ class CourseListState extends State<CourseList> {
     );
 
     final response = await http.get(url);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && mounted) {
       _prepareList(response.body);
       _updateCache(response.body);
     } else {
@@ -151,9 +153,10 @@ class CourseListState extends State<CourseList> {
       }
     }
 
-    setState(() {
-      _listElements = listElement;
-    });
+    if (mounted)
+      setState(() {
+        _listElements = listElement;
+      });
   }
 
   Widget _buildListCours() {
