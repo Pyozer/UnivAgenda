@@ -31,3 +31,12 @@ String capitalize(String input) {
 
   return input[0].toUpperCase() + input.substring(1);
 }
+
+String getStringBetween(String origin, String begin, String end) {
+  RegExp pattern = RegExp(begin + "(.+?)" + end);
+  Match matcher = pattern.firstMatch(origin);
+  if (matcher.groupCount > 0)
+    return matcher.group(1);
+  else
+    return null;
+}
