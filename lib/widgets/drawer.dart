@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/screens/login/login.dart';
+import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -9,15 +12,19 @@ class MainDrawer extends StatelessWidget {
 
   Widget _drawerElem(
       BuildContext context, IconData icon, StringKey title, String routeDest,
-      {bool enabled = true}) {
+      {bool enabled = true, Function onTap}) {
     return ListTile(
-        leading: Icon(icon),
-        title: Text(Translations.of(context).get(title)),
-        onTap: () {
+      leading: Icon(icon),
+      title: Text(Translations.of(context).get(title)),
+      onTap: () {
+        if (onTap != null){
+          onTap();
+        }else {
           Navigator.pop(context);
-          Navigator.pushNamed(context, routeDest);
-        },
-        enabled: enabled,
+          Navigator.of(context).pushNamed(routeDest);
+        }
+      },
+      enabled: enabled,
     );
   }
 
@@ -27,30 +34,65 @@ class MainDrawer extends StatelessWidget {
         semanticLabel: Translations.of(context).get(StringKey.DRAWER),
         child: ListView(padding: EdgeInsets.zero, children: [
           DrawerHeader(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Image.asset(Asset.LOGO, width: 65.0),
-                  Padding(padding: const EdgeInsets.only(top: 13.0)),
-                  Text(Translations.of(context).get(StringKey.APP_NAME),
-                      style: const TextStyle(
-                          fontSize: 24.0, fontWeight: FontWeight.w500))
-                ],
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-              )),
-          _drawerElem(context, Icons.location_city, StringKey.FINDROOM,
-              RouteKey.FINDROOM, enabled: true),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Image.asset(Asset.LOGO, width: 65.0),
+                const Padding(padding: const EdgeInsets.only(top: 13.0)),
+                Text(
+                  Translations.of(context).get(StringKey.APP_NAME),
+                  style: const TextStyle(
+                      fontSize: 24.0, fontWeight: FontWeight.w500),
+                )
+              ],
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ),
           _drawerElem(
-              context, Icons.settings, StringKey.SETTINGS, RouteKey.SETTINGS),
+            context,
+            Icons.location_city,
+            StringKey.FINDROOM,
+            RouteKey.FINDROOM,
+          ),
           _drawerElem(
-              context, Icons.system_update, StringKey.UPDATE, RouteKey.UPDATE, enabled: false),
+            context,
+            Icons.settings,
+            StringKey.SETTINGS,
+            RouteKey.SETTINGS,
+          ),
           _drawerElem(
-              context, Icons.info_outline, StringKey.ABOUT, RouteKey.ABOUT),
-          _drawerElem(context, Icons.lightbulb_outline, StringKey.INTRO,
-              RouteKey.INTRO),
+            context,
+            Icons.system_update,
+            StringKey.UPDATE,
+            RouteKey.UPDATE,
+            enabled: false,
+          ),
           _drawerElem(
-              context, Icons.exit_to_app, StringKey.LOGOUT, RouteKey.LOGOUT)
+            context,
+            Icons.info_outline,
+            StringKey.ABOUT,
+            RouteKey.ABOUT,
+          ),
+          _drawerElem(
+            context,
+            Icons.lightbulb_outline,
+            StringKey.INTRO,
+            RouteKey.INTRO,
+          ),
+          _drawerElem(
+            context,
+            Icons.exit_to_app,
+            StringKey.LOGOUT,
+            RouteKey.LOGIN,
+            onTap: () {
+              Preferences.setUserLogged(false);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.of(context)
+                  .pushReplacement(CustomRoute(builder: (_) => LoginScreen()));
+            },
+          )
         ]));
   }
 }
