@@ -59,7 +59,7 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(Asset.LOGO, width: 150.0),
-            Padding(
+            const Padding(
               padding: const EdgeInsets.only(top: 90.0),
               child: const CircularLoader(),
             ),
