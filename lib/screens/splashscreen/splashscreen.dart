@@ -37,8 +37,10 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _initPreferences(context).then((isFirstBoot) {
-      final routeDest = (isFirstBoot) ? RouteKey.INTRO : RouteKey.HOME;
-      Navigator.of(context).pushReplacementNamed(routeDest);
+      Preferences.isUserLogged().then((isLogged) {
+        final routeDest = (isFirstBoot) ? RouteKey.INTRO : (isLogged) ? RouteKey.HOME : RouteKey.LOGIN;
+        Navigator.of(context).pushReplacementNamed(routeDest);
+      });
     });
 
     return Container();

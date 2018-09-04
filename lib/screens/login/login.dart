@@ -130,18 +130,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: _validateTextField,
                           controller: _usernameController,
                           decoration:
-                              InputDecoration(labelText: "Identifiant")),
+                              InputDecoration(labelText: translations.get(StringKey.LOGIN_USERNAME))),
                       Container(height: 24.0),
                       TextFormField(
                         validator: _validateTextField,
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: InputDecoration(labelText: "Mot de passe"),
+                        decoration: InputDecoration(labelText: translations.get(StringKey.LOGIN_PASSWORD)),
                       ),
                       Container(height: 32.0),
                       RaisedButtonColored(
                         onPressed: _onSubmit,
-                        text: "CONNEXION",
+                        text: translations.get(StringKey.LOGIN_SUBMIT).toUpperCase(),
                       ),
                       Container(height: 32.0),
                     ],
@@ -150,6 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ));
+        ),);
   }
 }

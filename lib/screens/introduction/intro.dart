@@ -48,7 +48,8 @@ class IntroductionScreen extends StatelessWidget {
 
   void _onDone(BuildContext context) async {
     await Preferences.setFirstBoot(false);
-    Navigator.pushReplacementNamed(context, RouteKey.HOME);
+    final isLogged = await Preferences.isUserLogged();
+    Navigator.pushReplacementNamed(context, isLogged ? RouteKey.HOME : RouteKey.LOGIN);
   }
 
   @override

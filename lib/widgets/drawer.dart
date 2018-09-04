@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/screens/login/login.dart';
-import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
@@ -87,10 +85,7 @@ class MainDrawer extends StatelessWidget {
             RouteKey.LOGIN,
             onTap: () {
               Preferences.setUserLogged(false);
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.of(context)
-                  .pushReplacement(CustomRoute(builder: (_) => LoginScreen()));
+              Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
             },
           )
         ]));

@@ -101,5 +101,9 @@
   "error_end_time": "Heure de fin",
   "error_end_time_text": "L'heure de fin choisi est avant l'heure de début !",
 
-  "ok": "Ok"
+  "ok": "Ok",
+
+  "login_username": "Identifiant ENT",
+  "login_password": "Mot de passe",
+  "login_submit": "Connexion"
 }

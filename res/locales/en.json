@@ -101,5 +101,9 @@
   "error_end_time": "Error time selected",
   "error_end_time_text": "The end time availability must be after the start time !",
 
-  "ok": "Ok"
+  "ok": "Ok",
+
+  "login_username": "ENT Username",
+  "login_password": "Password",
+  "login_submit": "Login"
 }

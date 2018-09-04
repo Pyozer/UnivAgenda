@@ -110,6 +110,10 @@ class StringKey {
 
   static const OK = const StringKey._('ok');
 
+  static const LOGIN_USERNAME = const StringKey._('login_username');
+  static const LOGIN_PASSWORD = const StringKey._('login_password');
+  static const LOGIN_SUBMIT = const StringKey._('login_submit');
+
   final String value;
 
   const StringKey._(this.value);

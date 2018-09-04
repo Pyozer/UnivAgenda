@@ -21,6 +21,9 @@ class LicencesScreen extends StatelessWidget {
     Licence("URL Launcher", "Flutter Team",
         license: "BSD Licence",
         url: "${git}flutter/plugins/tree/master/packages/url_launcher"),
+    Licence("Flutter Launcher Icons", "Flutter Community, Franz Silva, Mark O'Sullivan",
+        license: "MIT Licence",
+        url: "${git}fluttercommunity/flutter_launcher_icons"),
     Licence("Color Picker", "Jean-Charles Moussé",
         license: "MIT Licence", url: "${git}Pyozer/color_picker"),
     Licence("Dots Indicator", "Jean-Charles Moussé",
@@ -62,8 +65,8 @@ class LicencesScreen extends StatelessWidget {
       title: Translations.of(context).get(StringKey.OPENSOURCE_LICENCES),
       body: Container(
         child: ListView(
-            children: ListTile
-                .divideTiles(context: context, tiles: _buildList(context))
+            children: ListTile.divideTiles(
+                    context: context, tiles: _buildList(context))
                 .toList()),
       ),
     );
