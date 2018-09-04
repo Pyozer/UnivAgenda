@@ -4,8 +4,9 @@ class RaisedButtonColored extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final ShapeBorder shape;
+  final EdgeInsets padding;
 
-  const RaisedButtonColored({Key key, this.onPressed, this.text, this.shape = const OutlineInputBorder()})
+  const RaisedButtonColored({Key key, this.onPressed, this.text, this.shape = const OutlineInputBorder(), this.padding})
       : super(key: key);
 
   @override
@@ -20,6 +21,7 @@ class RaisedButtonColored extends StatelessWidget {
       child: Text(text),
       color: Theme.of(context).accentColor,
       textColor: color,
+      padding: padding,
     );
   }
 }
