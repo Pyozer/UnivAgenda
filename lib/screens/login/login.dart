@@ -103,7 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final orientation = MediaQuery.of(context).orientation;
 
-    final logo = Image.asset(Asset.LOGO, width: 100.0);
+    final logo = Hero(
+      tag: Asset.LOGO,
+      child: Image.asset(Asset.LOGO, width: 100.0),
+    );
 
     final titleApp = Text(
       translations.get(StringKey.APP_NAME),
@@ -167,7 +170,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         : Row(
                             children: [
                               Expanded(child: username),
-                              Container(height: 32.0, width: 1.0, color: Colors.black54),
+                              Container(
+                                  height: 32.0,
+                                  width: 1.0,
+                                  color: Colors.black54),
                               Expanded(child: password)
                             ],
                           ),
