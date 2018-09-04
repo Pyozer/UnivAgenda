@@ -1,5 +1,6 @@
 name: myagenda
 description: Application pour voir l'agenda de l'Université du Maine
+version: 1.0.0
 
 dependencies:
   flutter:
