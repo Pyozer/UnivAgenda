@@ -7,6 +7,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:http/http.dart' as http;
 
@@ -101,55 +102,159 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
 
+    final orientation = MediaQuery.of(context).orientation;
+
+    final logo = Image.asset(Asset.LOGO, width: 100.0);
+
+    final titleApp = Text(
+      translations.get(StringKey.APP_NAME),
+      style: Theme.of(context).textTheme.title.copyWith(fontSize: 28.0),
+    );
+
+    final username = TextFormField(
+      validator: _validateTextField,
+      controller: _usernameController,
+      autofocus: false,
+      decoration: InputDecoration(
+        hintText: translations.get(StringKey.LOGIN_USERNAME),
+        prefixIcon: const Icon(Icons.person_outline),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
+        border: InputBorder.none,
+      ),
+    );
+
+    final password = TextFormField(
+      autofocus: false,
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: translations.get(StringKey.LOGIN_PASSWORD),
+        prefixIcon: const Icon(Icons.lock_outline),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
+        border: InputBorder.none,
+      ),
+    );
+
+    final loginButton = FloatingActionButton(
+      onPressed: _onSubmit,
+      child: const Icon(Icons.send),
+    );
+
     return Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
-          child: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset(
-                        Asset.LOGO,
-                        width: 100.0,
-                      ),
-                      Container(height: 12.0),
-                      Text(
-                        translations.get(StringKey.APP_NAME),
-                        style: Theme.of(context)
-                            .textTheme
-                            .title
-                            .copyWith(fontSize: 28.0),
-                      ),
-                      Container(height: 64.0),
-                      TextFormField(
-                          validator: _validateTextField,
-                          controller: _usernameController,
-                          decoration:
-                              InputDecoration(labelText: translations.get(StringKey.LOGIN_USERNAME))),
-                      Container(height: 24.0),
-                      TextFormField(
-                        validator: _validateTextField,
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(labelText: translations.get(StringKey.LOGIN_PASSWORD)),
-                      ),
-                      Container(height: 32.0),
-                      RaisedButtonColored(
-                        onPressed: _onSubmit,
-                        text: translations.get(StringKey.LOGIN_SUBMIT).toUpperCase(),
-                      ),
-                      Container(height: 32.0),
-                    ],
+        body: Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [logo, titleApp],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  elevation: 4.0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: orientation == Orientation.portrait
+                        ? Column(
+                            children: [username, const ListDivider(), password],
+                          )
+                        : Row(
+                            children: [
+                              Expanded(child: username),
+                              Container(height: 32.0, width: 1.0, color: Colors.black54),
+                              Expanded(child: password)
+                            ],
+                          ),
                   ),
                 ),
+                const SizedBox(height: 32.0),
+                loginButton,
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
+/*
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SafeArea(
+        child: Center(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          Asset.LOGO,
+                          width: 100.0,
+                        ),
+                        const Padding(
+                            padding: const EdgeInsets.only(top: 12.0)),
+                        Text(
+                          translations.get(StringKey.APP_NAME),
+                          style: Theme.of(context)
+                              .textTheme
+                              .title
+                              .copyWith(fontSize: 28.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 64.0),
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            validator: _validateTextField,
+                            controller: _usernameController,
+                            decoration: InputDecoration(
+                              labelText:
+                                  translations.get(StringKey.LOGIN_USERNAME),
+                            ),
+                          ),
+                          const Padding(
+                              padding: const EdgeInsets.only(top: 16.0)),
+                          TextFormField(
+                            validator: _validateTextField,
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText:
+                                    translations.get(StringKey.LOGIN_PASSWORD)),
+                          ),
+                          const Padding(
+                              padding: const EdgeInsets.only(top: 32.0)),
+                          RaisedButtonColored(
+                            onPressed: _onSubmit,
+                            text: translations
+                                .get(StringKey.LOGIN_SUBMIT)
+                                .toUpperCase(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),);
+        ),
+      ),
+    );*/
   }
 }
