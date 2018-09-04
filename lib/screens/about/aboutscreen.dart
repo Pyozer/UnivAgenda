@@ -10,11 +10,10 @@ import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
 
 class AboutScreen extends StatelessWidget {
-  Translations _translations;
-  ThemeData _theme;
-
-  Widget _buildHeader() {
-    final txtTheme = _theme.textTheme.headline.copyWith(fontSize: 30.0);
+  Widget _buildHeader(BuildContext context) {
+    final txtTheme =
+        Theme.of(context).textTheme.headline.copyWith(fontSize: 30.0);
+    final appName = Translations.of(context).get(StringKey.APP_NAME);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 16.0),
@@ -25,52 +24,54 @@ class AboutScreen extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: Image.asset(Asset.LOGO, width: 80.0)),
-          Text(_translations.get(StringKey.APP_NAME), style: txtTheme),
+          Text(appName, style: txtTheme),
         ],
       ),
     );
   }
 
-  Widget _buildWhatIsIt() {
+  Widget _buildWhatIsIt(BuildContext context) {
+    final translations = Translations.of(context);
     return AboutCard(
-      title: _translations.get(StringKey.WHAT_IS_IT),
+      title: translations.get(StringKey.WHAT_IS_IT),
       children: <Widget>[
         Text(
-          _translations.get(StringKey.ABOUT_WHAT),
-          style: _theme.textTheme.body1,
+          translations.get(StringKey.ABOUT_WHAT),
+          style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.justify,
         )
       ],
     );
   }
 
-  Widget _buildAuthor() {
+  Widget _buildAuthor(BuildContext context) {
+    final translations = Translations.of(context);
     return AboutCard(
-      title: _translations.get(StringKey.AUTHOR),
+      title: translations.get(StringKey.AUTHOR),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
           leading:
               CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
-          title: Text("Jean-Charles Moussé"),
-          subtitle: Text(_translations.get(StringKey.DEVELOPER)),
+          title: const Text("Jean-Charles Moussé"),
+          subtitle: Text(translations.get(StringKey.DEVELOPER)),
           onTap: () => openLink("https://pyozer.github.io"),
         )
       ],
     );
   }
 
-  Widget _buildSocial() {
-    final isDark = isDarkTheme(_theme.brightness);
+  Widget _buildSocial(BuildContext context) {
+    final isDark = isDarkTheme(Theme.of(context).brightness);
 
     return AboutCard(
-      title: _translations.get(StringKey.SOCIAL),
+      title: Translations.of(context).get(StringKey.SOCIAL),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
           leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
               width: 30.0),
-          title: Text(_translations.get(StringKey.GITHUB_PROJECT)),
+          title: Text(Translations.of(context).get(StringKey.GITHUB_PROJECT)),
           onTap: () => openLink("https://github.com/pyozer/myagenda_flutter"),
         ),
         ListTile(
@@ -78,37 +79,40 @@ class AboutScreen extends StatelessWidget {
             isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
             width: 30.0,
           ),
-          title: Text("Twitter"),
+          title: const Text("Twitter"),
           onTap: () => openLink("https://twitter.com/jc_mousse"),
         ),
       ],
     );
   }
 
-  Widget _buildOther(VoidCallback onChangeLogTap, VoidCallback onLicensesTap) {
+  Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
+      VoidCallback onLicensesTap) {
+    final translations = Translations.of(context);
+
     return AboutCard(
-        title: _translations.get(StringKey.OTHER),
+        title: translations.get(StringKey.OTHER),
         lateralPadding: false,
         children: <Widget>[
           ListTile(
-            title: Text(_translations.get(StringKey.CHANGELOG)),
-            subtitle: Text(_translations.get(StringKey.CHANGELOG_DESC)),
+            title: Text(translations.get(StringKey.CHANGELOG)),
+            subtitle: Text(translations.get(StringKey.CHANGELOG_DESC)),
             onTap: onChangeLogTap,
           ),
           ListTile(
-            title: Text(_translations.get(StringKey.OPENSOURCE_LICENCES)),
+            title: Text(translations.get(StringKey.OPENSOURCE_LICENCES)),
             subtitle:
-                Text(_translations.get(StringKey.OPENSOURCE_LICENCES_DESC)),
+                Text(translations.get(StringKey.OPENSOURCE_LICENCES_DESC)),
             onTap: onLicensesTap,
           ),
           ListTile(
-              title: Text(_translations.get(StringKey.VERSION)),
+              title: Text(translations.get(StringKey.VERSION)),
               subtitle: Text("1.0.0"))
         ]);
   }
 
-  Widget _buildFooter() {
-    final txtTheme = _theme.textTheme.subhead;
+  Widget _buildFooter(BuildContext context) {
+    final txtTheme = Theme.of(context).textTheme.subhead;
 
     return Container(
         padding: const EdgeInsets.only(bottom: 24.0),
@@ -116,9 +120,10 @@ class AboutScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(_translations.get(StringKey.MADE_WITH), style: txtTheme),
+              Text(Translations.of(context).get(StringKey.MADE_WITH),
+                  style: txtTheme),
               Padding(
-                  padding: EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: const Icon(Icons.favorite, color: Colors.red))
             ]));
   }
@@ -134,7 +139,7 @@ class AboutScreen extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(_translations.get(StringKey.CHANGELOG),
+                  child: Text(Translations.of(context).get(StringKey.CHANGELOG),
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 24.0)),
                 ),
@@ -145,22 +150,22 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _translations = Translations.of(context);
-    _theme = Theme.of(context);
+    final translations = Translations.of(context);
+    final theme = Theme.of(context);
 
     return AppbarPage(
-      title: _translations.get(StringKey.ABOUT),
+      title: translations.get(StringKey.ABOUT),
       body: Container(
-        color: !isDarkTheme(_theme.brightness) ? Colors.grey[200] : null,
+        color: !isDarkTheme(theme.brightness) ? Colors.grey[200] : null,
         child: ListView(
           children: [
-            _buildHeader(),
-            _buildWhatIsIt(),
-            _buildAuthor(),
-            _buildSocial(),
-            _buildOther(() => _modalBottomSheet(context),
+            _buildHeader(context),
+            _buildWhatIsIt(context),
+            _buildAuthor(context),
+            _buildSocial(context),
+            _buildOther(context, () => _modalBottomSheet(context),
                 () => Navigator.pushNamed(context, RouteKey.LICENCES)),
-            _buildFooter(),
+            _buildFooter(context),
           ],
         ),
       ),

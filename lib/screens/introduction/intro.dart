@@ -9,38 +9,38 @@ import 'package:myagenda/utils/translations.dart';
 
 class IntroductionScreen extends StatelessWidget {
   static const double kIconSize = 150.0;
-  Translations _translations;
 
-  List<PageViewModel> _buildPages() {
+  List<PageViewModel> _buildPages(BuildContext context) {
+    final translations = Translations.of(context);
     return [
       PageViewModel(
-        _translations.get(StringKey.INTRO_WELCOME_TITLE),
-        _translations.get(StringKey.INTRO_WELCOME_DESC),
+        translations.get(StringKey.INTRO_WELCOME_TITLE),
+        translations.get(StringKey.INTRO_WELCOME_DESC),
         Image.asset(Asset.LOGO, width: kIconSize),
       ),
       PageViewModel(
-        _translations.get(StringKey.INTRO_AGENDA_TITLE),
-        _translations.get(StringKey.INTRO_AGENDA_DESC),
+        translations.get(StringKey.INTRO_AGENDA_TITLE),
+        translations.get(StringKey.INTRO_AGENDA_DESC),
         Image.asset(Asset.INTRO_GROUP, height: kIconSize),
       ),
       PageViewModel(
-        _translations.get(StringKey.INTRO_CUSTOM_TITLE),
-        _translations.get(StringKey.INTRO_CUSTOM_DESC),
+        translations.get(StringKey.INTRO_CUSTOM_TITLE),
+        translations.get(StringKey.INTRO_CUSTOM_DESC),
         Image.asset(Asset.INTRO_THEME, height: kIconSize),
       ),
       PageViewModel(
-        _translations.get(StringKey.INTRO_NOTE_TITLE),
-        _translations.get(StringKey.INTRO_NOTE_DESC),
+        translations.get(StringKey.INTRO_NOTE_TITLE),
+        translations.get(StringKey.INTRO_NOTE_DESC),
         Image.asset(Asset.INTRO_NOTE, height: kIconSize),
       ),
       PageViewModel(
-        _translations.get(StringKey.INTRO_EVENT_TITLE),
-        _translations.get(StringKey.INTRO_EVENT_DESC),
+        translations.get(StringKey.INTRO_EVENT_TITLE),
+        translations.get(StringKey.INTRO_EVENT_DESC),
         Image.asset(Asset.INTRO_EVENT, height: kIconSize),
       ),
       PageViewModel(
-        _translations.get(StringKey.INTRO_OFFLINE_TITLE),
-        _translations.get(StringKey.INTRO_OFFLINE_DESC),
+        translations.get(StringKey.INTRO_OFFLINE_TITLE),
+        translations.get(StringKey.INTRO_OFFLINE_DESC),
         Image.asset(Asset.INTRO_INTERNET, height: kIconSize),
       )
     ];
@@ -54,15 +54,15 @@ class IntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _translations = Translations.of(context);
+    final translations = Translations.of(context);
 
     return IntroScreen(
-      pages: _buildPages(),
+      pages: _buildPages(context),
       onDone: () => _onDone(context),
       showSkipButton: true,
-      skipText: _translations.get(StringKey.SKIP),
-      nextText: _translations.get(StringKey.NEXT),
-      doneText: _translations.get(StringKey.DONE),
+      skipText: translations.get(StringKey.SKIP),
+      nextText: translations.get(StringKey.NEXT),
+      doneText: translations.get(StringKey.DONE),
     ); //Material App
   }
 }
