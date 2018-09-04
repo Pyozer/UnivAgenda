@@ -8,7 +8,6 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -152,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Card(
                   shape: RoundedRectangleBorder(
