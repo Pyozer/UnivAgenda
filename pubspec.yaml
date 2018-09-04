@@ -24,11 +24,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.6.1
+
 flutter:
   uses-material-design: true
 
   assets:
-    - res/images/logo.png
+    - res/images/icon.png
     - res/images/jeancharles-mousse.png
 
     - res/images/intro_event.png
@@ -93,3 +95,10 @@ flutter:
           - asset: res/fonts/OpenSans-ExtraBoldItalic.ttf
             style: italic
             weight: 800
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "res/images/icon.png"
+  adaptive_icon_background: "#FFFF0000"
+  adaptive_icon_foreground: "res/images/icon_foreground.png"
