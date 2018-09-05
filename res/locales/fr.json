@@ -102,6 +102,12 @@
   "error_end_time_text": "L'heure de fin choisi est avant l'heure de début !",
 
   "ok": "Ok",
+  "search": "Rechercher",
+
+  "findroom_to": "jusqu'à",
+  "findroom_available": "Disponible",
+  "findroom_noresult": "Aucun résultat",
+  "findroom_noresult_text": "Aucune salle a pu être trouvée. Soit aucune n'est disponible ou bien il y a aucune donnée concernant ce département.",
 
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",

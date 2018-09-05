@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 class AboutCard extends StatelessWidget {
   static const kPadding = 18.0;
+  static const kMargin =  EdgeInsets.all(16.0);
 
   final String title;
   final List<Widget> children;
   final bool lateralPadding;
+  final EdgeInsets margin;
 
   const AboutCard(
       {Key key,
       @required this.title,
       this.children,
-      this.lateralPadding = true})
+      this.lateralPadding = true,
+      this.margin = kMargin})
       : super(key: key);
 
   List<Widget> _buildChildren(BuildContext context) {
@@ -35,7 +38,7 @@ class AboutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
-        margin: const EdgeInsets.all(16.0),
+        margin: margin,
         shape: const RoundedRectangleBorder(
             borderRadius: const BorderRadius.all(const Radius.circular(6.0))),
         child: Container(

@@ -12,6 +12,7 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/about_card.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
@@ -23,8 +24,9 @@ class FindRoomScreen extends StatefulWidget {
 }
 
 class _FindRoomScreenState extends State<FindRoomScreen> {
-  bool isDataLoaded = false;
-  bool isLoading = false;
+  bool _isDataLoaded = false;
+  bool _isLoading = false;
+  bool _isResultLoaded = false;
 
   List<String> _campus = [];
   List<String> _departments = [];
@@ -56,7 +58,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     await _initDepartmentValue();
 
     setState(() {
-      isDataLoaded = true;
+      _isDataLoaded = true;
     });
   }
 
@@ -88,7 +90,9 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                   value: value,
                   items: items.map((String value) {
                     return DropdownMenuItem<String>(
-                        value: value, child: Text(value));
+                      value: value,
+                      child: Text(value),
+                    );
                   }).toList(),
                   onChanged: onChanged,
                 ),
@@ -115,6 +119,18 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   void _onSearch() async {
+    // All rooms available between times defined
+    List<RoomResult> results = [];
+
+    if (!Data.allData[_selectedCampus][_selectedDepartment]
+        .containsKey("Salles")) {
+      setState(() {
+        _searchResult = results;
+        _isResultLoaded = true;
+      });
+      return;
+    }
+
     // Get actual datetime
     final date = DateTime.now();
 
@@ -131,11 +147,9 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
+      _isResultLoaded = false;
     });
-
-    // All rooms available between times defined
-    List<RoomResult> results = [];
 
     // Get all room in the department in the campus
     final rooms =
@@ -164,8 +178,10 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
       DateTime endNoCourse;
 
       listCourses.removeWhere((course) {
-        bool isBeforeHours = course.dateEnd.isBefore(dateTimeStart);
-        bool isAfterHours = course.dateStart.isAfter(dateTimeEnd);
+        bool isBeforeHours = course.dateEnd.isBefore(dateTimeStart) ||
+            course.dateEnd == dateTimeStart;
+        bool isAfterHours = course.dateStart.isAfter(dateTimeEnd) ||
+            course.dateStart == dateTimeEnd;
 
         if (isBeforeHours &&
             (startNoCourse == null || course.dateEnd.isAfter(startNoCourse)))
@@ -183,7 +199,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
 
     setState(() {
       _searchResult = results;
-      isLoading = false;
+      _isLoading = false;
+      _isResultLoaded = true;
     });
   }
 
@@ -226,6 +243,16 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     return await showTimePicker(context: context, initialTime: time);
   }
 
+  Widget _noResultCard() {
+    return AboutCard(
+      margin: const EdgeInsets.only(top: 16.0),
+      title: Translations.of(context).get(StringKey.FINDROOM_NORESULT),
+      children: <Widget>[
+        Text(Translations.of(context).get(StringKey.FINDROOM_NORESULT_TEXT))
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
@@ -234,7 +261,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
       title: translations.get(StringKey.FINDROOM),
       body: Container(
           padding: const EdgeInsets.all(16.0),
-          child: isDataLoaded
+          child: _isDataLoaded
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -253,8 +280,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                           flex: 4,
                         ),
                         Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0)),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        ),
                         Expanded(
                           child: _buildDropdown(
                               translations.get(StringKey.DEPARTMENT),
@@ -276,8 +303,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                           _onTimeChange(newStartTime, _selectedEndTime);
                         }),
                         Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0)),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        ),
                         _buildTimePart(
                             translations.get(StringKey.END_TIME_EVENT),
                             _selectedEndTime, (newEndTime) {
@@ -287,26 +314,28 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                     ),
                     RaisedButtonColored(
                       onPressed: _onSearch,
-                      text: "SEARCH",
+                      text: translations.get(StringKey.SEARCH).toUpperCase(),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: isLoading
-                            ? Center(child: CircularLoader())
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                itemCount: _searchResult.length,
-                                itemBuilder: (context, index) {
-                                  return ResultCard(
-                                    roomResult: _searchResult[index],
-                                  );
-                                },
-                              ),
-                      ),
-                    ),
+                    (_isResultLoaded && _searchResult.length == 0)
+                        ? _noResultCard()
+                        : Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: _isLoading
+                                  ? Center(child: CircularLoader())
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      itemCount: _searchResult.length,
+                                      itemBuilder: (context, index) {
+                                        return ResultCard(
+                                          roomResult: _searchResult[index],
+                                        );
+                                      },
+                                    ),
+                            ),
+                          ),
                   ],
                 )
               : Container()),
@@ -321,22 +350,26 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Translations.of(context).locale;
+    final translation = Translations.of(context);
+    final locale = translation.locale;
 
     String info = '';
     if (roomResult.startAvailable != null)
       info = Date.extractTimeWithDate(roomResult.startAvailable, locale);
 
     if (roomResult.endAvailable != null)
-      info += " jusqu'à " +
+      info += " " +
+          translation.get(StringKey.FINDROOM_TO) +
+          " " +
           Date.extractTimeWithDate(roomResult.endAvailable, locale);
 
     return Card(
       elevation: 3.0,
       child: ListTile(
         title: Text(roomResult.room),
-        subtitle:
-            Text(info.length > 0 ? capitalize(info.trim()) : 'Disponible'),
+        subtitle: Text((info.length > 0)
+            ? capitalize(info.trim())
+            : translation.get(StringKey.FINDROOM_AVAILABLE)),
       ),
     );
   }

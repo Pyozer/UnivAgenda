@@ -102,6 +102,12 @@
   "error_end_time_text": "The end time availability must be after the start time !",
 
   "ok": "Ok",
+  "search": "Search",
+
+  "findroom_to": "to",
+  "findroom_available": "Available",
+  "findroom_noresult": "No result",
+  "findroom_noresult_text": "No room could be found. Either none is available or there is no data concerning this department.",
 
   "login_username": "ENT Username",
   "login_password": "Password",

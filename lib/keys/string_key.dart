@@ -109,6 +109,12 @@ class StringKey {
   static const ERROR_END_TIME_TEXT = const StringKey._('error_end_time_text');
 
   static const OK = const StringKey._('ok');
+  static const SEARCH = const StringKey._('search');
+
+  static const FINDROOM_TO = const StringKey._('findroom_to');
+  static const FINDROOM_AVAILABLE = const StringKey._('findroom_available');
+  static const FINDROOM_NORESULT = const StringKey._('findroom_noresult');
+  static const FINDROOM_NORESULT_TEXT = const StringKey._('findroom_noresult_text');
 
   static const LOGIN_USERNAME = const StringKey._('login_username');
   static const LOGIN_PASSWORD = const StringKey._('login_password');
