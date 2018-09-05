@@ -26,13 +26,13 @@ Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la
 
 ## A quoi elle ressemble ?
 
-![Page connexion](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png)
-![Accueil](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home.png)
-![Menu navigation](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/drawer.png)
-![Page d'un cours ](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/event.png)
-![Page d'ajouter un événement perso](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/add_event.png)
-![Trouver une salle libre](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/findroom.png)
-![Paramètres](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings.png)
-![Paramètres affichage](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings_display.png)
-![A propos](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/about.png)
-![Introduction](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/intro.png)
+<img title="Page connexion" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png" width="300" />
+<img title="Accueil" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home.png" width="300" />
+<img title="Menu navigation" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/drawer.png" width="300" />
+<img title="Page événement" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/event.png" width="300" />
+<img title="Page ajout événement" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/add_event.png" width="300" />
+<img title="Trouver une salle" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/findroom.png" width="300" />
+<img title="Paramètres" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings.png" width="300" />
+<img title="Paramètres affichage" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings_display.png" width="300" />
+<img title="A propos" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/about.png" width="300" />
+<img title="Introduction" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/intro.png" width="300" />
