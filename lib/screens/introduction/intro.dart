@@ -16,7 +16,7 @@ class IntroductionScreen extends StatelessWidget {
       PageViewModel(
         translations.get(StringKey.INTRO_WELCOME_TITLE),
         translations.get(StringKey.INTRO_WELCOME_DESC),
-        Image.asset(Asset.LOGO, width: kIconSize),
+        Hero(tag: Asset.LOGO, child: Image.asset(Asset.LOGO, width: kIconSize)),
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_AGENDA_TITLE),
@@ -49,7 +49,8 @@ class IntroductionScreen extends StatelessWidget {
   void _onDone(BuildContext context) async {
     await Preferences.setFirstBoot(false);
     final isLogged = await Preferences.isUserLogged();
-    Navigator.pushReplacementNamed(context, isLogged ? RouteKey.HOME : RouteKey.LOGIN);
+    Navigator.pushReplacementNamed(
+        context, isLogged ? RouteKey.HOME : RouteKey.LOGIN);
   }
 
   @override

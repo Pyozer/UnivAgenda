@@ -1,14 +1,22 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 
-class SplashScreen extends StatelessWidget {
-  Future<Map<String, bool>> _initPreferences(BuildContext context) async {
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initPreferences();
+  }
+
+  void _initPreferences() async {
     // Get all data to setup theme
     final bool isDark = await Preferences.getDarkTheme();
     final int appbarColor = await Preferences.getPrimaryColor();
@@ -34,28 +42,15 @@ class SplashScreen extends StatelessWidget {
     final bool isFirstBoot = await Preferences.isFirstBoot();
     final bool isUserLogged = await Preferences.isUserLogged();
 
-    return {"isFirstBoot": isFirstBoot, "isLogged": isUserLogged};
+    final routeDest = (isFirstBoot)
+        ? RouteKey.INTRO
+        : (isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
+
+    Navigator.of(context).pushReplacementNamed(routeDest);
   }
 
   @override
   Widget build(BuildContext context) {
-    _initPreferences(context).then((data) async {
-      final routeDest = (data["isFirstBoot"])
-          ? RouteKey.INTRO
-          : (data["isLogged"]) ? RouteKey.HOME : RouteKey.LOGIN;
-      Future.delayed(Duration(milliseconds: 100)).then((_) {
-        Navigator.of(context).pushNamed(routeDest);
-      });
-    });
-
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Hero(
-          tag: Asset.LOGO,
-          child: Image.asset(Asset.LOGO, width: 175.0),
-        ),
-      ),
-    );
+    return Container(color: Colors.white);
   }
 }

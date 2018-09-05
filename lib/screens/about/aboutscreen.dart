@@ -22,8 +22,12 @@ class AboutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Image.asset(Asset.LOGO, width: 80.0)),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Hero(
+              tag: Asset.LOGO,
+              child: Image.asset(Asset.LOGO, width: 80.0),
+            ),
+          ),
           Text(appName, style: txtTheme),
         ],
       ),

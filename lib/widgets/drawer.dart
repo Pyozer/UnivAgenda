@@ -15,12 +15,10 @@ class MainDrawer extends StatelessWidget {
       leading: Icon(icon),
       title: Text(Translations.of(context).get(title)),
       onTap: () {
-        if (onTap != null){
+        if (onTap != null)
           onTap();
-        }else {
-          Navigator.pop(context);
-          Navigator.of(context).pushNamed(routeDest);
-        }
+        else
+          Navigator.of(context).popAndPushNamed(routeDest);
       },
       enabled: enabled,
     );
@@ -35,7 +33,9 @@ class MainDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Image.asset(Asset.LOGO, width: 65.0),
+                Hero(
+                    tag: Asset.LOGO,
+                    child: Image.asset(Asset.LOGO, width: 65.0)),
                 const Padding(padding: const EdgeInsets.only(top: 13.0)),
                 Text(
                   Translations.of(context).get(StringKey.APP_NAME),
