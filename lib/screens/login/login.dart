@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   void setLoading(bool loading) {
-    print("SetState: $loading");
     setState(() {
       _isLoading = loading;
     });
@@ -51,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // If request failed
     if (response.statusCode != 200) {
       setLoading(false);
-      showMessage("Erreur de connexion au serveur :/");
+      showMessage(Translations.of(context).get(StringKey.APP_NAME));
       return;
     }
 
@@ -86,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // If request failed
     if (loginResponse.statusCode != 200) {
       setLoading(false);
-      showMessage("Erreur de connexion au serveur :/");
+      showMessage(Translations.of(context).get(StringKey.APP_NAME));
       return;
     }
 
@@ -120,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_isLoading.toString());
     final translations = Translations.of(context);
 
     final orientation = MediaQuery.of(context).orientation;

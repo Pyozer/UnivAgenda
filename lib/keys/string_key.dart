@@ -113,6 +113,7 @@ class StringKey {
   static const LOGIN_USERNAME = const StringKey._('login_username');
   static const LOGIN_PASSWORD = const StringKey._('login_password');
   static const LOGIN_SUBMIT = const StringKey._('login_submit');
+  static const LOGIN_SERVER_ERROR = const StringKey._('login_server_error');
 
   final String value;
 

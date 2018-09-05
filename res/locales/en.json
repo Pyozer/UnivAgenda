@@ -105,5 +105,6 @@
 
   "login_username": "ENT Username",
   "login_password": "Password",
-  "login_submit": "Login"
+  "login_submit": "Login",
+  "login_server_error": "Trouble connecting with the University of Maine server!"
 }
