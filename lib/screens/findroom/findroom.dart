@@ -6,7 +6,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/room_result.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/IcalAPI.dart';
+import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/ical.dart';

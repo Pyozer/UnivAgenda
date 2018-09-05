@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
-import 'package:myagenda/utils/IcalAPI.dart';
+import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
