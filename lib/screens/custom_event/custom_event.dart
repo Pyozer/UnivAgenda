@@ -97,7 +97,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   void _onEndTimeTap() async {
     TimeOfDay timeEnd = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.fromDateTime(_eventDateStart),
+      initialTime: TimeOfDay.fromDateTime(_eventDateEnd),
     );
 
     if (timeEnd != null) {
