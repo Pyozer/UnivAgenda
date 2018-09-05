@@ -68,8 +68,8 @@ class Course extends BaseCourse {
       ical.summary?.trim(),
       ical.description?.trim(),
       ical.location?.trim(),
-      DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
-      DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)));
+      ical.dtstart,
+      ical.dtend);
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
       json['uid'],
@@ -117,8 +117,8 @@ class CustomCourse extends Course {
       ical.summary?.trim(),
       ical.description?.trim(),
       ical.location?.trim(),
-      DateTime.parse(ical.dtstart.substring(0, ical.dtstart.length - 2)),
-      DateTime.parse(ical.dtend.substring(0, ical.dtend.length - 2)));
+      ical.dtstart,
+      ical.dtend);
 
   factory CustomCourse.fromJson(Map<String, dynamic> json) => CustomCourse(
       json['uid'],

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -12,7 +10,29 @@ import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic> prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _getGroupValues();
+  }
+
+  void _getGroupValues() async {
+    Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
+    dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
+
+    setState(() {
+      prefs = dataPrefs;
+    });
+  }
+
   Widget _buildFab(BuildContext context) => FloatingActionButton(
         onPressed: () async {
           final customCourse = await Navigator.of(context).push(
@@ -27,12 +47,6 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(Icons.add),
       );
 
-  Future<Map<String, dynamic>> _getGroupValues() async {
-    Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
-    dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
-    return dataPrefs;
-  }
-
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
@@ -41,26 +55,18 @@ class HomeScreen extends StatelessWidget {
       title: translations.get(StringKey.APP_NAME),
       drawer: MainDrawer(),
       fab: _buildFab(context),
-      body: FutureBuilder<Map>(
-        future: _getGroupValues(),
-        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: const CircularLoader());
-          }
-
-          final data = snapshot.data;
-          return CourseList(
-            campus: data[PrefKey.campus],
-            department: data[PrefKey.department],
-            year: data[PrefKey.year],
-            group: data[PrefKey.group],
-            numberWeeks: data[PrefKey.numberWeek],
-            noteColor: data[PrefKey.noteColor] != null
-                ? Color(data[PrefKey.noteColor])
-                : null,
-          );
-        },
-      ),
+      body: prefs == null || prefs.length == 0
+          ? Center(child: const CircularLoader())
+          : CourseList(
+              campus: prefs[PrefKey.campus],
+              department: prefs[PrefKey.department],
+              year: prefs[PrefKey.year],
+              group: prefs[PrefKey.group],
+              numberWeeks: prefs[PrefKey.numberWeek],
+              noteColor: prefs[PrefKey.noteColor] != null
+                  ? Color(prefs[PrefKey.noteColor])
+                  : null,
+            ),
     );
   }
 }

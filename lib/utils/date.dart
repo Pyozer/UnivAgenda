@@ -23,15 +23,17 @@ class Date {
 
     DateTime dateTimeToday = DateTime.now();
 
-    int differenceDays = date.difference(dateTimeToday).inDays;
-
     final lang = locale.languageCode == "fr"
         ? ["Aujourd'hui", "Demain"]
         : ["Today", "Tomorrow"];
 
-    if (differenceDays == 0)
+    if (dateTimeToday.day == date.day &&
+        dateTimeToday.month == date.month &&
+        dateTimeToday.year == date.year)
       return lang[0];
-    else if (differenceDays == 1) return lang[1];
+    else if ((dateTimeToday.day + 1) == date.day &&
+        dateTimeToday.month == date.month &&
+        dateTimeToday.year == date.year) return lang[1];
 
     final dateFormat = (dateTimeToday.year == date.year)
         ? DateFormat.MMMMEEEEd(locale.languageCode)
@@ -41,26 +43,25 @@ class Date {
   }
 
   static String extractTime(DateTime date, [Locale locale]) {
-    if (date == null)
-      return "";
+    if (date == null) return "";
     if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.Hm(locale.languageCode).format(date);
   }
 
   static String extractDate(DateTime date, [Locale locale]) {
-    if (date == null)
-      return "";
+    if (date == null) return "";
     if (locale == null) locale = kDefaultLocal;
 
     return DateFormat.yMMMMd(locale.languageCode).format(date);
   }
 
   static String extractTimeWithDate(DateTime dateTime, [Locale locale]) {
-    if (dateTime == null)
-      return "";
+    if (dateTime == null) return "";
 
     return DateFormat.jm(locale.languageCode).format(dateTime) +
-        ' (' + DateFormat.MMMEd(locale.languageCode).format(dateTime) + ')';
+        ' (' +
+        DateFormat.MMMEd(locale.languageCode).format(dateTime) +
+        ')';
   }
 }

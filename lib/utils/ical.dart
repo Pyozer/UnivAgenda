@@ -1,9 +1,10 @@
 import 'package:myagenda/models/ical_model.dart';
 
 class Ical {
-
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
+
+    Duration timezoneOffset = DateTime.now().timeZoneOffset;
 
     List<IcalModel> events = List();
     IcalModel event;
@@ -12,19 +13,15 @@ class Ical {
       if (line.startsWith('BEGIN:VEVENT')) {
         event = IcalModel();
       } else if (line.startsWith('DTSTART')) {
-        event.dtstart = _getValue(line);
+        event.dtstart = _getDateValue(line).add(timezoneOffset);
       } else if (line.startsWith('DTEND')) {
-        event.dtend = _getValue(line);
+        event.dtend = _getDateValue(line).add(timezoneOffset);
       } else if (line.startsWith('SUMMARY')) {
         event.summary = _getValue(line);
       } else if (line.startsWith('LOCATION')) {
         event.location = _getValue(line);
       } else if (line.startsWith('DESCRIPTION')) {
         String description = _getValue(line);
-
-        /*final remove = ['DUT', 'S1', 'S2', 'S3', 'S4'];
-        remove.forEach(
-            (value) => description = description.replaceAll(value, ''));*/
 
         event.description = description
             .replaceAll(RegExp(r'\\n'), ' ')
@@ -42,7 +39,12 @@ class Ical {
   }
 
   static _getValue(String line) {
-    final index = line.indexOf(":"); // Gets the first index where a space occours
+    final index =
+        line.indexOf(":"); // Gets the first index where a space occours
     return line.substring(index + 1); // Gets the value part
+  }
+
+  static DateTime _getDateValue(String line) {
+    return DateTime.parse(_getValue(line).toString().substring(0, 15));
   }
 }

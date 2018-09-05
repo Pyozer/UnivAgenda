@@ -1,6 +1,6 @@
 class IcalModel {
-  String dtstart;
-  String dtend;
+  DateTime dtstart;
+  DateTime dtend;
   String summary;
   String location;
   String description;

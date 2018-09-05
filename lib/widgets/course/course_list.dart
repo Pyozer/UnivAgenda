@@ -37,7 +37,7 @@ class CourseList extends StatefulWidget {
 
 class CourseListState extends State<CourseList> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  List<BaseCourse> _listElements;
+  List<BaseCourse> _listElements = [];
 
   @override
   void initState() {
@@ -61,10 +61,6 @@ class CourseListState extends State<CourseList> {
   }
 
   Future<Null> _fetchData() async {
-    if (!mounted) return null;
-
-    refreshKey.currentState?.show();
-
     final url = IcalAPI.prepareURL(
       widget.campus,
       widget.department,
@@ -75,7 +71,7 @@ class CourseListState extends State<CourseList> {
 
     final response = await http.get(url);
     if (response.statusCode == 200 && mounted) {
-      _prepareList(response.body);
+      await _prepareList(response.body);
       _updateCache(response.body);
     } else {
       // TODO: Afficher message d'erreur
@@ -105,7 +101,7 @@ class CourseListState extends State<CourseList> {
     return course;
   }
 
-  void _prepareList(String icalStr) async {
+  Future<Null> _prepareList(String icalStr) async {
     List<Course> listCourses = [];
 
     // Get all notes saved (expired notes removed by getNotes())
@@ -153,38 +149,39 @@ class CourseListState extends State<CourseList> {
       }
     }
 
-    if (mounted)
+    if (mounted) {
       setState(() {
         _listElements = listElement;
       });
+    }
+    return null;
   }
 
-  Widget _buildListCours() {
+  List<Widget> _buildListCours(List<BaseCourse> courses) {
     List<Widget> widgets = [
       CourseListHeader(year: widget.year, group: widget.group)
     ];
 
-    if (_listElements.length == 0) {
-      widgets.add(AboutCard(
-        title: "Aucun cours",
-        children: <Widget>[
-          Text("Essayez de modifier le nombre de semaines à afficher.",
-              textAlign: TextAlign.justify)
-        ],
-      ));
-    } else {
-      _listElements.forEach((course) {
-        if (course is CourseHeader)
-          widgets.add(CourseRowHeader(coursHeader: course));
-        else if (course is Course)
-          widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
-      });
+    if (courses != null) {
+      if (courses.length == 0) {
+        widgets.add(AboutCard(
+          title: "Aucun cours",
+          children: <Widget>[
+            Text("Essayez de modifier le nombre de semaines à afficher.",
+                textAlign: TextAlign.justify)
+          ],
+        ));
+      } else {
+        courses.forEach((course) {
+          if (course is CourseHeader)
+            widgets.add(CourseRowHeader(coursHeader: course));
+          else if (course is Course)
+            widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
+        });
+      }
     }
 
-    return ListView(
-        children: ListTile
-            .divideTiles(context: context, tiles: widgets)
-            .toList(growable: false));
+    return widgets;
   }
 
   @override
@@ -192,7 +189,8 @@ class CourseListState extends State<CourseList> {
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
-      child: _buildListCours(),
+      child: ListView(
+          children: ListTile.divideTiles(context: context, tiles: _buildListCours(_listElements)).toList()),
     );
   }
 }
