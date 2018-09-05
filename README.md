@@ -26,16 +26,13 @@ Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la
 
 ## A quoi elle ressemble ?
 
-WIP, Bientôt disponible
-
-![Page connexion]()
-![Accueil]()
-![Page d'un cours ]()
-![Page d'un événement perso]()
-![Page de modification d'un événement perso]()
-![Page d'ajouter un événement perso]()
-![Trouver une salle libre]()
-![Paramètres]()
-![A propos]()
-![Changelog]()
-![Licences]()
+![Page connexion](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png)
+![Accueil](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home.png)
+![Menu navigation](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/drawer.png)
+![Page d'un cours ](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/event.png)
+![Page d'ajouter un événement perso](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/add_event.png)
+![Trouver une salle libre](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/findroom.png)
+![Paramètres](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings.png)
+![Paramètres affichage](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/settings_display.png)
+![A propos](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/about.png)
+![Introduction](https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/intro.png)
