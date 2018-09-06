@@ -108,12 +108,12 @@ class Preferences {
 
   static Future<bool> isFirstBoot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(PrefKey.firstBoot) ?? true;
+    return prefs.getBool(PrefKey.isFirstBoot) ?? true;
   }
 
   static Future<bool> setFirstBoot(bool isFirstBoot) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(PrefKey.firstBoot, isFirstBoot);
+    await prefs.setBool(PrefKey.isFirstBoot, isFirstBoot);
     return isFirstBoot;
   }
 
@@ -200,8 +200,7 @@ class Preferences {
 
     List<String> eventsJSON = [];
     events.forEach((event) {
-      if (event != null)
-        eventsJSON.add(json.encode(event.toJson()));
+      if (event != null) eventsJSON.add(json.encode(event.toJson()));
     });
 
     await prefs.setStringList(PrefKey.customEvent, eventsJSON);
@@ -245,12 +244,25 @@ class Preferences {
     return isLogged;
   }
 
+  static Future<bool> isHorizontalView() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PrefKey.isHorizontalView) ??
+        PrefKey.defaultHorizontalView;
+  }
+
+  static Future<bool> setHorizontalView(bool isHorizontalView) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefKey.isHorizontalView, isHorizontalView);
+    return isHorizontalView;
+  }
+
   static Future<Map<String, dynamic>> getThemeValues() async {
     Map<String, dynamic> dataPrefs = {};
     dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();
     dataPrefs[PrefKey.primaryColor] = await Preferences.getPrimaryColor();
     dataPrefs[PrefKey.accentColor] = await Preferences.getAccentColor();
     dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
+    dataPrefs[PrefKey.isHorizontalView] = await Preferences.isHorizontalView();
 
     return dataPrefs;
   }

@@ -21,6 +21,8 @@ class StringKey {
 
   static const NUMBER_WEEK = const StringKey._('number_week');
 
+  static const HORIZONTAL_VIEW = const StringKey._('horizontal_view');
+  static const HORIZONTAL_VIEW_DESC = const StringKey._('horizontal_view_desc');
   static const DARK_THEME = const StringKey._('dark_theme');
   static const DARK_THEME_DESC = const StringKey._('dark_theme_desc');
   static const PRIMARY_COLOR = const StringKey._('primary_color');

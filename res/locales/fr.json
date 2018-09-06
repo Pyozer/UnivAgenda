@@ -20,6 +20,8 @@
 
   "number_week": "Nombre de semaines",
 
+  "horizontal_view": "Affichage horizontal",
+  "horizontal_view_desc": "Les cours seront affichés horizontalement",
   "dark_theme": "Thème sombre",
   "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
   "primary_color": "Couleur principale",

@@ -11,8 +11,9 @@ class PrefKey {
   static get noteColor => 'note_color';
   static get darkTheme => 'isDark';
 
-  static get firstBoot => "first_boot";
+  static get isFirstBoot => "is_first_boot";
   static get isLogged => "is_logged";
+  static get isHorizontalView => "is_horizontal_view";
 
   static get cachedIcal => "cached_ical";
 
@@ -24,4 +25,5 @@ class PrefKey {
   static const defaultAccentColor = 0xFFFF5252;
   static const defaultNoteColor = 0xFFFFFF00;
   static const defaultDarkTheme = false;
+  static const defaultHorizontalView = false;
 }

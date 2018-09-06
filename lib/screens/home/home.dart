@@ -24,9 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
     _getGroupValues();
   }
 
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _getGroupValues();
+  }
+
   void _getGroupValues() async {
+    print("salut");
     Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
     dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
+    dataPrefs[PrefKey.isHorizontalView] = await Preferences.isHorizontalView();
 
     setState(() {
       prefs = dataPrefs;
@@ -53,11 +61,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return AppbarPage(
       title: translations.get(StringKey.APP_NAME),
-      drawer: MainDrawer(),
+      drawer: MainDrawer(
+        onOpenedScreenClose: () {
+          _getGroupValues();
+        },
+      ),
       fab: _buildFab(context),
-      body: prefs == null || prefs.length == 0
+      body: (prefs == null || prefs.length == 0)
           ? Center(child: const CircularLoader())
           : CourseList(
+              isHorizontal: prefs[PrefKey.isHorizontalView],
               campus: prefs[PrefKey.campus],
               department: prefs[PrefKey.department],
               year: prefs[PrefKey.year],

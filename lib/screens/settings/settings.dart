@@ -51,8 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     // Check and edit values if necessary (ex: Change campus, so change department etc..)
     // Values will be save by method changeGroupPref()
-    Preferences
-        .changeGroupPref(
+    Preferences.changeGroupPref(
             campus: _dataPrefs[PrefKey.campus],
             department: _dataPrefs[PrefKey.department],
             year: _dataPrefs[PrefKey.year],
@@ -114,6 +113,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  void _handleHorizontalView(bool isHorizontal) {
+    Preferences.setHorizontalView(isHorizontal).then((value) {
+      _editLocalPrefValue(PrefKey.isHorizontalView, value);
+    });
+  }
+
   void _handleDarkTheme(bool isDark) {
     Preferences.setDarkTheme(isDark).then((value) {
       _editLocalPrefValue(PrefKey.darkTheme, value);
@@ -143,6 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSettingsDisplay() {
     final numberWeeks = _dataPrefs[PrefKey.numberWeek].toString();
+    final isHorizontal = _dataPrefs[PrefKey.isHorizontalView];
     final isDarkTheme = _dataPrefs[PrefKey.darkTheme];
     final primaryColorValue = _dataPrefs[PrefKey.primaryColor];
     final accentColorValue = _dataPrefs[PrefKey.accentColor];
@@ -158,6 +164,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   TextInputType.numberWithOptions(decimal: false, signed: true),
               onChange: _handleNumberWeek),
           const ListDivider(),
+          SwitchListTile(
+              title: ListTileTitle(translations.get(StringKey.HORIZONTAL_VIEW)),
+              subtitle: Text(translations.get(StringKey.HORIZONTAL_VIEW_DESC)),
+              value: isHorizontal,
+              activeColor: Theme.of(context).accentColor,
+              onChanged: _handleHorizontalView),
           SwitchListTile(
               title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
               subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),

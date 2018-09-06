@@ -20,6 +20,8 @@
 
   "number_week": "Number of week",
 
+  "horizontal_view": "Horizontal view",
+  "horizontal_view_desc": "Courses will be display in horizontal way.",
   "dark_theme": "Dark theme",
   "dark_theme_desc": "App colors will be darker.",
   "primary_color": "Primary color",

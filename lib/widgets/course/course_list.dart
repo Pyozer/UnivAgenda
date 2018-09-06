@@ -21,6 +21,7 @@ class CourseList extends StatefulWidget {
   final String year;
   final String group;
   final int numberWeeks;
+  final bool isHorizontal;
   final Color noteColor;
 
   const CourseList(
@@ -30,6 +31,7 @@ class CourseList extends StatefulWidget {
       @required this.year,
       @required this.group,
       this.numberWeeks = 4,
+      this.isHorizontal = false,
       this.noteColor})
       : super(key: key);
 
@@ -39,7 +41,7 @@ class CourseList extends StatefulWidget {
 
 class CourseListState extends State<CourseList> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  List<BaseCourse> _listElements = [];
+  List<List<BaseCourse>> _listElements = [];
 
   @override
   void initState() {
@@ -130,21 +132,25 @@ class CourseListState extends State<CourseList> {
     listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
-    List<BaseCourse> listElement = [];
-    listElement.addAll(listCourses);
+    List<List<BaseCourse>> listElement = [];
+    //listElement.addAll(listCourses);
 
     // Init variable to add headers
     DateTime lastDate = DateTime(1970); // Init variable to 1970
 
     // Add headers to course list
-    for (int i = 0; i < listElement.length; i++) {
-      if (listElement[i] is Course) {
-        final Course course = listElement[i];
+    List<BaseCourse> listCourseDay = [];
+    for (int i = 0; i < listCourses.length; i++) {
+      if (listCourses[i] is Course) {
+        final Course course = listCourses[i];
 
         if (Date.notSameDay(course.dateStart, lastDate)) {
-          listElement.insert(i, CourseHeader(course.dateStart));
+          if (i != 0) listElement.add(listCourseDay);
+          listCourseDay = [CourseHeader(course.dateStart)];
           lastDate = course.dateStart;
         }
+
+        listCourseDay.add(course);
       }
     }
 
@@ -156,10 +162,8 @@ class CourseListState extends State<CourseList> {
     return null;
   }
 
-  List<Widget> _buildListCours(List<BaseCourse> courses) {
-    List<Widget> widgets = [
-      CourseListHeader(year: widget.year, group: widget.group)
-    ];
+  Widget _buildListCours(List<BaseCourse> courses) {
+    List<Widget> widgets = [];
 
     if (courses != null) {
       if (courses.length == 0) {
@@ -182,18 +186,57 @@ class CourseListState extends State<CourseList> {
       }
     }
 
-    return widgets;
+    return ListView(
+      children: ListTile.divideTiles(
+        context: context,
+        tiles: widgets,
+      ).toList(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    var listChildren;
+
+    if (widget.isHorizontal) {
+      // Build horizontal view
+      listChildren = List<Widget>();
+      _listElements.forEach((courseDay) {
+        listChildren.add(
+          Container(
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: _buildListCours(courseDay),
+          ),
+        );
+      });
+    } else {
+      // Build vertical view
+      listChildren = List<BaseCourse>();
+      _listElements.forEach((listCourseDay) {
+        listChildren.addAll(listCourseDay);
+      });
+    }
+
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
-      child: ListView(
-          children: ListTile.divideTiles(
-                  context: context, tiles: _buildListCours(_listElements))
-              .toList()),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          CourseListHeader(year: widget.year, group: widget.group),
+          Expanded(
+            child: Container(
+              child: widget.isHorizontal
+                  ? ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: listChildren,
+                    )
+                  : _buildListCours(listChildren),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
