@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
@@ -61,13 +63,8 @@ class CourseListState extends State<CourseList> {
   }
 
   Future<Null> _fetchData() async {
-    final url = IcalAPI.prepareURL(
-      widget.campus,
-      widget.department,
-      widget.year,
-      widget.group,
-      widget.numberWeeks
-    );
+    final url = IcalAPI.prepareURL(widget.campus, widget.department,
+        widget.year, widget.group, widget.numberWeeks);
 
     final response = await http.get(url);
     if (response.statusCode == 200 && mounted) {
@@ -119,12 +116,14 @@ class CourseListState extends State<CourseList> {
     for (final icalModel in Ical.parseToIcal(icalStr)) {
       // Transform IcalModel to Course
       Course course = Course.fromIcalModel(icalModel);
+      // Check if course is not finish
+      if (!course.isFinish()) {
+        // Get all notes of the course
+        course = _addNotesToCourse(allNotes, course);
 
-      // Get all notes of the course
-      course = _addNotesToCourse(allNotes, course);
-
-      // Add course to list
-      listCourses.add(course);
+        // Add course to list
+        listCourses.add(course);
+      }
     }
 
     // Sort list by date start (to add headers)
@@ -165,10 +164,12 @@ class CourseListState extends State<CourseList> {
     if (courses != null) {
       if (courses.length == 0) {
         widgets.add(AboutCard(
-          title: "Aucun cours",
+          title: Translations.of(context).get(StringKey.COURSES_NORESULT),
           children: <Widget>[
-            Text("Essayez de modifier le nombre de semaines à afficher.",
-                textAlign: TextAlign.justify)
+            Text(
+              Translations.of(context).get(StringKey.COURSES_NORESULT_TEXT),
+              textAlign: TextAlign.justify,
+            ),
           ],
         ));
       } else {
@@ -190,7 +191,9 @@ class CourseListState extends State<CourseList> {
       key: refreshKey,
       onRefresh: _fetchData,
       child: ListView(
-          children: ListTile.divideTiles(context: context, tiles: _buildListCours(_listElements)).toList()),
+          children: ListTile.divideTiles(
+                  context: context, tiles: _buildListCours(_listElements))
+              .toList()),
     );
   }
 }

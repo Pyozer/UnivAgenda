@@ -110,6 +110,9 @@
   "findroom_noresult": "Aucun résultat",
   "findroom_noresult_text": "Aucune salle a pu être trouvée. Soit aucune n'est disponible ou bien il y a aucune donnée concernant ce département.",
 
+  "courses_noresult": "Aucun cours",
+  "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
+
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
   "login_submit": "Connexion",

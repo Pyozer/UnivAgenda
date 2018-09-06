@@ -117,6 +117,9 @@ class StringKey {
   static const FINDROOM_NORESULT = const StringKey._('findroom_noresult');
   static const FINDROOM_NORESULT_TEXT = const StringKey._('findroom_noresult_text');
 
+  static const COURSES_NORESULT = const StringKey._('courses_noresult');
+  static const COURSES_NORESULT_TEXT = const StringKey._('courses_noresult_text');
+
   static const LOGIN_USERNAME = const StringKey._('login_username');
   static const LOGIN_PASSWORD = const StringKey._('login_password');
   static const LOGIN_SUBMIT = const StringKey._('login_submit');

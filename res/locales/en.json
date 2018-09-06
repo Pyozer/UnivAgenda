@@ -110,6 +110,9 @@
   "findroom_noresult": "No result",
   "findroom_noresult_text": "No room could be found. Either none is available or there is no data concerning this department.",
 
+  "courses_noresult": "No course to display",
+  "courses_noresult_text": "Try to edit number of weeks in settings.",
+
   "login_username": "ENT Username",
   "login_password": "Password",
   "login_submit": "Login",
