@@ -1,3 +1,18 @@
+## Version 4.0.0
+
+- Refonte totale de l'application avec Flutter (Android/iOS)
+- Amélioration de la personnalisation (couleur, thème sombre)
+- Mise à jour / Ajout de nouveaux agenda (STAPS L3, ...)
+- Ajout d'un écran pour voir en détail un cours
+- Possibilité de mettre plusieurs notes
+- Amélioration de la recherche d'une salle libre
+- Ajout des bibliothèques utilisés (licences)
+- Modification de l'écran "A propos"
+- Modification de l'écran "Paramètres"
+- Modification de l'écran "Connexion"
+- Modification de l'écran "Ajouter un événement"
+- Ajout d'un écran Feedback
+
 ## Version 3.0.3
 
 - Fix: Bug HTTP réparé sur Android P (9.0)

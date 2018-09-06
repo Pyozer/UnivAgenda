@@ -9,11 +9,11 @@ import 'package:myagenda/widgets/ui/circular_loader.dart';
 class ChangeLog extends StatelessWidget {
   Future<String> _fetchData() async {
     final response = await http.get(
-        'https://raw.githubusercontent.com/Pyozer/dots_indicator/master/CHANGELOG.md');
+        'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md');
     if (response.statusCode == 200)
       return response.body;
     else
-      return null;
+      return "## **ERROR**";
   }
 
   @override
