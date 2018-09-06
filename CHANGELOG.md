@@ -11,7 +11,8 @@
 - Modification de l'écran "Paramètres"
 - Modification de l'écran "Connexion"
 - Modification de l'écran "Ajouter un événement"
-- Ajout d'un écran Feedback
+- Ajout de la possibilité de faire un Feedback
+- Réintégration de l'affichage horizontal
 
 ## Version 3.0.3
 
