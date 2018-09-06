@@ -112,12 +112,6 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
       });
   }
 
-  Future<String> _fetchData(String url) async {
-    final response = await http.get(url);
-
-    return (response.statusCode == 200) ? response.body : null;
-  }
-
   void _onSearch() async {
     // All rooms available between times defined
     List<RoomResult> results = [];
@@ -158,8 +152,25 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     // Check for every rooms if available
     for (final room in rooms) {
       String url = IcalAPI.prepareURL(
-          _selectedCampus, _selectedDepartment, "Salles", room, 1);
-      String icalStr = await _fetchData(url);
+          _selectedCampus, _selectedDepartment, "Salles", room, 0);
+
+      // Get data
+      final response = await http.get(url);
+      // If request error
+      if (response.statusCode != 200) {
+        setState(() {
+          _isLoading = false;
+          _isResultLoaded = true;
+          _searchResult = [];
+        });
+
+        final errorMsg =
+            Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR);
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
+        return;
+      }
+
+      String icalStr = response.body;
 
       List<Course> listCourses = [];
 
@@ -358,9 +369,7 @@ class ResultCard extends StatelessWidget {
       info = Date.extractTimeWithDate(roomResult.startAvailable, locale);
 
     if (roomResult.endAvailable != null)
-      info += " " +
-          translation.get(StringKey.FINDROOM_TO) +
-          " " +
+      info += " ${translation.get(StringKey.FINDROOM_TO)} " +
           Date.extractTimeWithDate(roomResult.endAvailable, locale);
 
     return Card(

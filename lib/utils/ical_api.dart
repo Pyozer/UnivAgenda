@@ -8,7 +8,8 @@ class IcalAPI {
 
     final date = DateTime.now();
 
-    final durationToAdd = Duration(days: 7 * numberWeeks + 7 - date.weekday);
+    final numDays = (numberWeeks == 0) ? 0 : 7 * numberWeeks + 7 - date.weekday;
+    final durationToAdd = Duration(days: numDays);
 
     final dateFormat = DateFormat("yyyy-MM-dd");
     final startDate = dateFormat.format(date);
