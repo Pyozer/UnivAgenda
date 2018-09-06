@@ -43,7 +43,7 @@ class Course extends BaseCourse {
   }
 
   bool isStarted() {
-    return dateStart.isAfter(DateTime.now()) && !isFinish();
+    return dateStart.isBefore(DateTime.now()) && !isFinish();
   }
 
   int getMinutesBeforeStart() {
@@ -60,7 +60,7 @@ class Course extends BaseCourse {
     final startTime = Date.extractTime(dateStart, locale);
     final endTime = Date.extractTime(dateEnd, locale);
 
-    return '$startTime à $endTime';
+    return '$startTime - $endTime';
   }
 
   factory Course.fromIcalModel(IcalModel ical) => Course(
