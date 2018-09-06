@@ -4,19 +4,9 @@ import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
+class SplashScreen extends StatelessWidget {
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _initPreferences();
-  }
-
-  void _initPreferences() async {
+  void _initPreferences(BuildContext context) async {
     // Get all data to setup theme
     final bool isDark = await Preferences.getDarkTheme();
     final int appbarColor = await Preferences.getPrimaryColor();
@@ -51,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _initPreferences(context);
     return Container(color: Colors.white);
   }
 }
