@@ -32,6 +32,7 @@
   "update": "Update",
   "about": "About",
   "introduction": "Introduction",
+  "feedback": "Feedback",
   "logout": "Logout",
 
   "add_event": "Add event",
@@ -116,5 +117,7 @@
   "login_username": "ENT Username",
   "login_password": "Password",
   "login_submit": "Login",
-  "login_server_error": "Trouble connecting with the University of Maine server!"
+  "login_server_error": "Trouble connecting with the University of Maine server!",
+
+  "no_email_app": "No email client :/\nPlease install email app like Gmail."
 }

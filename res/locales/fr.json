@@ -32,6 +32,7 @@
   "update": "Mise à jour",
   "about": "A propos",
   "introduction": "Introduction",
+  "feedback": "Feedback",
   "logout": "Déconnexion",
 
   "add_event": "Ajouter un événement",
@@ -116,5 +117,7 @@
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
   "login_submit": "Connexion",
-  "login_server_error": "Problème de connexion avec le serveur de l'Université du Maine !"
+  "login_server_error": "Problème de connexion avec le serveur de l'Université du Maine !",
+
+  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback."
 }

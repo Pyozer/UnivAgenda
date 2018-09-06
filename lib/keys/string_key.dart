@@ -33,6 +33,7 @@ class StringKey {
   static const UPDATE = const StringKey._('update');
   static const ABOUT = const StringKey._('about');
   static const INTRO = const StringKey._('introduction');
+  static const FEEDBACK = const StringKey._('feedback');
   static const LOGOUT = const StringKey._('logout');
 
   static const ADD_EVENT = const StringKey._('add_event');
@@ -124,6 +125,8 @@ class StringKey {
   static const LOGIN_PASSWORD = const StringKey._('login_password');
   static const LOGIN_SUBMIT = const StringKey._('login_submit');
   static const LOGIN_SERVER_ERROR = const StringKey._('login_server_error');
+
+  static const NO_EMAIL_APP = const StringKey._('no_email_app');
 
   final String value;
 
