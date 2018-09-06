@@ -111,6 +111,7 @@ class StringKey {
   static const OK = const StringKey._('ok');
   static const SEARCH = const StringKey._('search');
 
+  static const FINDROOM_FROM = const StringKey._('findroom_from');
   static const FINDROOM_TO = const StringKey._('findroom_to');
   static const FINDROOM_AVAILABLE = const StringKey._('findroom_available');
   static const FINDROOM_NORESULT = const StringKey._('findroom_noresult');

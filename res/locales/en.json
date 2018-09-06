@@ -104,6 +104,7 @@
   "ok": "Ok",
   "search": "Search",
 
+  "findroom_from": "From",
   "findroom_to": "to",
   "findroom_available": "Available",
   "findroom_noresult": "No result",

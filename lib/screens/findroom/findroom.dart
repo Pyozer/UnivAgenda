@@ -366,7 +366,8 @@ class ResultCard extends StatelessWidget {
 
     String info = '';
     if (roomResult.startAvailable != null)
-      info = Date.extractTimeWithDate(roomResult.startAvailable, locale);
+      info = "${translation.get(StringKey.FINDROOM_FROM)} " +
+       Date.extractTimeWithDate(roomResult.startAvailable, locale);
 
     if (roomResult.endAvailable != null)
       info += " ${translation.get(StringKey.FINDROOM_TO)} " +
