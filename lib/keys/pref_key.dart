@@ -16,6 +16,7 @@ class PrefKey {
   static get isHorizontalView => "is_horizontal_view";
 
   static get cachedIcal => "cached_ical";
+  static get ressources => "ressources";
 
   static get notes => "notes";
   static get customEvent => "custom_event";

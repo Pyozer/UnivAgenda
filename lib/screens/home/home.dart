@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -9,6 +11,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/circular_loader.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic> _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _getLastestRessources();
+  }
 
   @override
   void didChangeDependencies() {
@@ -28,6 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void didUpdateWidget(covariant HomeScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     _getGroupValues();
+  }
+
+  void _getLastestRessources() async {
+    final response = await http.get("https://rawcdn.githack.com/Pyozer/MyAgenda_Flutter/master/res/ressources.json");
+    if (response.statusCode == 200 && mounted) {
+      Map<String, dynamic> ressources = json.decode(response.body);
+      PreferencesProvider.of(context).prefs.setRessources(ressources);
+    }
   }
 
   void _getGroupValues() async {

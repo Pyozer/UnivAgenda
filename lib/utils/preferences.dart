@@ -24,8 +24,6 @@ class PreferencesProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(PreferencesProvider oldWidget) {
-    print(oldWidget.prefs.dataChange);
-    print(prefs.dataChange);
     if (!prefs.dataChange) {
       return false;
     }
@@ -291,6 +289,21 @@ class Preferences {
     await prefs.setBool(PrefKey.isHorizontalView, isHorizontalView);
     dataChange = true;
     return isHorizontalView;
+  }
+
+  Future<Map<String, dynamic>> getRessources() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map ressources = json.decode(prefs.getString(PrefKey.ressources) ?? "{}");
+    return ressources;
+  }
+
+  Future<Map<String, dynamic>> setRessources(
+      Map<String, dynamic> ressources) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(PrefKey.ressources, json.encode(ressources));
+    Data.allData = ressources;
+    dataChange = true;
+    return ressources;
   }
 
   Future<Map<String, dynamic>> getThemeValues() async {

@@ -1,13 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class SplashScreen extends StatelessWidget {
-
   void _initPreferences(BuildContext context) async {
     final prefs = PreferencesProvider.of(context).prefs;
+
+    // Load ressources
+    Map<String, dynamic> ressources = await prefs.getRessources();
+    // If no ressources saved, store defaults
+    if (ressources == null || ressources.length == 0) {
+      String jsonContent = await rootBundle.loadString("res/ressources.json");
+      ressources = json.decode(jsonContent);
+      prefs.setRessources(ressources);
+    } else {
+      Data.allData = ressources;
+    }
+
     // Get all data to setup theme
     final bool isDark = await prefs.getDarkTheme();
     final int appbarColor = await prefs.getPrimaryColor();

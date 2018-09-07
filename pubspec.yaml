@@ -52,6 +52,8 @@ flutter:
 
     - res/locales/en.json
     - res/locales/fr.json
+    
+    - res/ressources.json
 
   fonts:
      - family: OpenSans
