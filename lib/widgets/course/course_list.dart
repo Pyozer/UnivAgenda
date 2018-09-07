@@ -205,7 +205,7 @@ class CourseListState extends State<CourseList> {
     elements.forEach((date, courses) {
       tabs.add(
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: Text(
             DateFormat.MEd(langCode).format(date),
             style: textTheme.title,
@@ -256,6 +256,7 @@ class CourseListState extends State<CourseList> {
         mainAxisSize: MainAxisSize.max,
         children: [
           CourseListHeader(year: widget.year, group: widget.group),
+          Divider(height: 1.0),
           Expanded(
             child: Container(
               child: (isHorizontal)
