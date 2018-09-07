@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
@@ -41,12 +42,12 @@ class CourseList extends StatefulWidget {
 
 class CourseListState extends State<CourseList> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  List<List<BaseCourse>> _listElements = [];
+  Map<DateTime, List<BaseCourse>> _listElements = {};
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _listElements = [];
+    _listElements = {};
 
     // Load cached ical
     PreferencesProvider.of(context).prefs.getCachedIcal().then((ical) {
@@ -130,7 +131,7 @@ class CourseListState extends State<CourseList> {
     listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
-    List<List<BaseCourse>> listElement = [];
+    Map<DateTime, List<BaseCourse>> listElement = {};
     //listElement.addAll(listCourses);
 
     // Init variable to add headers
@@ -143,8 +144,10 @@ class CourseListState extends State<CourseList> {
         final Course course = listCourses[i];
 
         if (Date.notSameDay(course.dateStart, lastDate)) {
-          if (i != 0) listElement.add(listCourseDay);
-          listCourseDay = [CourseHeader(course.dateStart)];
+          if (i != 0) {
+            listElement[lastDate] = listCourseDay;
+            listCourseDay = [];
+          }
           lastDate = course.dateStart;
         }
 
@@ -192,28 +195,62 @@ class CourseListState extends State<CourseList> {
     );
   }
 
+  Widget _buildHorizontal(Map<DateTime, List<BaseCourse>> elements) {
+    if (elements.length < 1) {
+      return Container();
+    }
+
+    final langCode = Translations.of(context).locale.languageCode;
+    final textTheme = Theme.of(context).textTheme;
+    List<Widget> listTabView = [];
+    List<Widget> tabs = [];
+    // Build horizontal view
+    elements.forEach((date, courses) {
+      tabs.add(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            DateFormat.MEd(langCode).format(date),
+            style: textTheme.title,
+          ),
+        ),
+      );
+
+      listTabView.add(
+        _buildListCours(courses),
+      );
+    });
+
+    return DefaultTabController(
+      length: elements.length,
+      child: Column(children: [
+        TabBar(
+          isScrollable: true,
+          tabs: tabs,
+        ),
+        Expanded(
+          child: TabBarView(
+            children: listTabView,
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildVertical(Map<DateTime, List<BaseCourse>> elements) {
+    // Build vertical view
+    final List<BaseCourse> listChildren = [];
+    elements.forEach((date, courses) {
+      listChildren.add(CourseHeader(date));
+      listChildren.addAll(courses);
+    });
+
+    return _buildListCours(listChildren);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var listChildren;
-
-    if (widget.isHorizontal) {
-      // Build horizontal view
-      listChildren = List<Widget>();
-      _listElements.forEach((courseDay) {
-        listChildren.add(
-          Container(
-            width: MediaQuery.of(context).size.width * 0.90,
-            child: _buildListCours(courseDay),
-          ),
-        );
-      });
-    } else {
-      // Build vertical view
-      listChildren = List<BaseCourse>();
-      _listElements.forEach((listCourseDay) {
-        listChildren.addAll(listCourseDay);
-      });
-    }
+    final isHorizontal = widget.isHorizontal;
 
     return RefreshIndicator(
       key: refreshKey,
@@ -224,13 +261,9 @@ class CourseListState extends State<CourseList> {
           CourseListHeader(year: widget.year, group: widget.group),
           Expanded(
             child: Container(
-              child: widget.isHorizontal
-                  ? ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: listChildren,
-                    )
-                  : _buildListCours(listChildren),
+              child: (isHorizontal)
+                  ? _buildHorizontal(_listElements)
+                  : _buildVertical(_listElements),
             ),
           ),
         ],
