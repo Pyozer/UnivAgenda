@@ -66,7 +66,6 @@ class CourseListState extends State<CourseList> {
   }
 
   Future<Null> _fetchData() async {
-    print("fetch data");
     final url = IcalAPI.prepareURL(widget.campus, widget.department,
         widget.year, widget.group, widget.numberWeeks);
 
@@ -249,9 +248,7 @@ class CourseListState extends State<CourseList> {
   @override
   Widget build(BuildContext context) {
     final isHorizontal = widget.isHorizontal;
-
-    print("dsfsdssd");
-
+    
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
