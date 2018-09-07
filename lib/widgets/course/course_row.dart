@@ -15,9 +15,11 @@ class CourseRow extends StatelessWidget {
       : super(key: key);
 
   void _onCourseTap(BuildContext context) {
-    Navigator.of(context).push(CustomRoute<Course>(
-        builder: (context) => DetailCourse(course: course),
-        fullscreenDialog: true));
+    Navigator.of(context).push(
+      CustomRoute<Course>(
+          builder: (context) => DetailCourse(course: course),
+          fullscreenDialog: true),
+    );
   }
 
   @override
@@ -29,30 +31,60 @@ class CourseRow extends StatelessWidget {
       bgColorRow = course.color;
     else if (course.isExam()) bgColorRow = Colors.red[600];
 
-    final titleStyle = textTheme.title.copyWith(fontSize: 16.0);
-    final subheadStyle = textTheme.subhead.copyWith(fontSize: 14.0);
-    final cationStyle =
-        textTheme.caption.copyWith(fontSize: 14.0, fontWeight: FontWeight.w500);
-
-    final noteBorder = course.hasNote()
-        ? Border(right: BorderSide(color: noteColor, width: 8.0))
-        : null;
-
-    return InkWell(
-      onTap: () => _onCourseTap(context),
-      child: Container(
-        decoration: BoxDecoration(color: bgColorRow, border: noteBorder),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(course.title, style: titleStyle),
-            Text(
-              '${course.location} - ${course.description}',
-              style: subheadStyle,
+    final noteIndicator = course.hasNote()
+        ? Material(
+            elevation: 4.0,
+            borderRadius: BorderRadius.circular(25.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: noteColor,
+                borderRadius: BorderRadius.circular(40.0),
+              ),
+              width: 14.0,
+              height: 14.0,
             ),
-            Text(course.dateForDisplay(), style: cationStyle),
-          ],
+          )
+        : Container(width: 14.0, height: 14.0);
+
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      child: InkWell(
+        onTap: () => _onCourseTap(context),
+        child: Container(
+          decoration: BoxDecoration(color: bgColorRow),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      course.title,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      '${course.location} - ${course.description}',
+                      style: const TextStyle(fontSize: 13.0),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      course.dateForDisplay(),
+                      style: textTheme.caption.copyWith(fontSize: 13.0),
+                    )
+                  ],
+                ),
+              ),
+              noteIndicator
+            ],
+          ),
         ),
       ),
     );

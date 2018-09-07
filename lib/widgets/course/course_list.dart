@@ -188,10 +188,7 @@ class CourseListState extends State<CourseList> {
     }
 
     return ListView(
-      children: ListTile.divideTiles(
-        context: context,
-        tiles: widgets,
-      ).toList(),
+      children: widgets
     );
   }
 
