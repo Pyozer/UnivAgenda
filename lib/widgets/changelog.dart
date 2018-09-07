@@ -19,12 +19,15 @@ class ChangeLog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _fetchData(),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) =>
-            (snapshot.hasData)
-                ? Markdown(
-                    data: snapshot.data,
-                    onTapLink: (String href) => openLink(href))
-                : Center(child: CircularLoader()));
+      future: _fetchData(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) =>
+          (snapshot.hasData)
+              ? Markdown(
+                  data: snapshot.data,
+                  onTapLink: (String href) => openLink(href))
+              : Center(
+                  child: CircularLoader(),
+                ),
+    );
   }
 }
