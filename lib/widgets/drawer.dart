@@ -7,9 +7,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainDrawer extends StatelessWidget {
-  final VoidCallback onOpenedScreenClose;
-
-  const MainDrawer({Key key, this.onOpenedScreenClose}) : super(key: key);
+  const MainDrawer({Key key}) : super(key: key);
 
   Widget _drawerElem(
       BuildContext context, IconData icon, StringKey title, String routeDest,
@@ -21,9 +19,7 @@ class MainDrawer extends StatelessWidget {
         if (onTap != null)
           onTap();
         else
-          Navigator.of(context).popAndPushNamed(routeDest).then((_) {
-            if (onOpenedScreenClose != null) onOpenedScreenClose();
-          });
+          Navigator.of(context).popAndPushNamed(routeDest);
       },
       enabled: enabled,
     );
@@ -116,12 +112,8 @@ class MainDrawer extends StatelessWidget {
             StringKey.LOGOUT,
             RouteKey.LOGIN,
             onTap: () {
-              Preferences.setUserLogged(false);
-              Navigator.of(context)
-                  .pushReplacementNamed(RouteKey.LOGIN)
-                  .then((_) {
-                if (onOpenedScreenClose != null) onOpenedScreenClose();
-              });
+              PreferencesProvider.of(context).prefs.setUserLogged(false);
+              Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
             },
           )
         ]));

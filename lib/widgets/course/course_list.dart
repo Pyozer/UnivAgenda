@@ -44,12 +44,12 @@ class CourseListState extends State<CourseList> {
   List<List<BaseCourse>> _listElements = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _listElements = [];
 
     // Load cached ical
-    _loadIcalCached().then((ical) {
+    PreferencesProvider.of(context).prefs.getCachedIcal().then((ical) {
       if (ical != null && ical.isNotEmpty) _prepareList(ical);
     });
 
@@ -79,11 +79,7 @@ class CourseListState extends State<CourseList> {
   }
 
   void _updateCache(String ical) async {
-    Preferences.setCachedIcal(ical);
-  }
-
-  Future<String> _loadIcalCached() async {
-    return await Preferences.getCachedIcal();
+    PreferencesProvider.of(context).prefs.setCachedIcal(ical);
   }
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
@@ -103,11 +99,13 @@ class CourseListState extends State<CourseList> {
   Future<Null> _prepareList(String icalStr) async {
     List<Course> listCourses = [];
 
+    final prefs = PreferencesProvider.of(context).prefs;
+
     // Get all notes saved (expired notes removed by getNotes())
-    List<Note> allNotes = await Preferences.getNotes();
+    List<Note> allNotes = await prefs.getNotes();
 
     // Get all custom events (except expired)
-    List<Course> customEvents = await Preferences.getCustomEvents();
+    List<Course> customEvents = await prefs.getCustomEvents();
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {

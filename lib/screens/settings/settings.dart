@@ -24,13 +24,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Translations translations;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _fetchSettingsValues();
   }
 
   void _fetchSettingsValues() async {
-    Map<String, dynamic> dataPrefs = await Preferences.getAllValues();
+    Map<String, dynamic> dataPrefs = await PreferencesProvider.of(context).prefs.getGroupAndThemeValues();
     setState(() {
       _dataPrefs = dataPrefs;
     });
@@ -51,7 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     // Check and edit values if necessary (ex: Change campus, so change department etc..)
     // Values will be save by method changeGroupPref()
-    Preferences.changeGroupPref(
+    PreferencesProvider.of(context).prefs.changeGroupPref(
             campus: _dataPrefs[PrefKey.campus],
             department: _dataPrefs[PrefKey.department],
             year: _dataPrefs[PrefKey.year],
@@ -108,40 +108,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _handleNumberWeek(String numberWeek) {
-    Preferences.setNumberWeekStr(numberWeek).then((value) {
+    PreferencesProvider.of(context).prefs.setNumberWeekStr(numberWeek).then((value) {
       _editLocalPrefValue(PrefKey.numberWeek, value);
     });
   }
 
   void _handleHorizontalView(bool isHorizontal) {
-    Preferences.setHorizontalView(isHorizontal).then((value) {
+    PreferencesProvider.of(context).prefs.setHorizontalView(isHorizontal).then((value) {
       _editLocalPrefValue(PrefKey.isHorizontalView, value);
     });
   }
 
   void _handleDarkTheme(bool isDark) {
-    Preferences.setDarkTheme(isDark).then((value) {
+    PreferencesProvider.of(context).prefs.setDarkTheme(isDark).then((value) {
       _editLocalPrefValue(PrefKey.darkTheme, value);
       DynamicTheme.of(context).changeTheme(brightness: getBrightness(value));
     });
   }
 
   void _handlePrimaryColor(Color newColor) {
-    Preferences.setPrimaryColor(newColor.value).then((value) {
+    PreferencesProvider.of(context).prefs.setPrimaryColor(newColor.value).then((value) {
       _editLocalPrefValue(PrefKey.primaryColor, value);
       DynamicTheme.of(context).changeTheme(primaryColor: newColor);
     });
   }
 
   void _handleAccentColor(Color newColor) {
-    Preferences.setAccentColor(newColor.value).then((value) {
+    PreferencesProvider.of(context).prefs.setAccentColor(newColor.value).then((value) {
       _editLocalPrefValue(PrefKey.accentColor, value);
       DynamicTheme.of(context).changeTheme(accentColor: newColor);
     });
   }
 
   void _handleNoteColor(Color newColor) {
-    Preferences.setNoteColor(newColor.value).then((value) {
+    PreferencesProvider.of(context).prefs.setNoteColor(newColor.value).then((value) {
       _editLocalPrefValue(PrefKey.noteColor, value);
     });
   }

@@ -13,12 +13,15 @@ import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DynamicTheme(
+    return PreferencesProvider(
+      prefs: Preferences(),
+      child: DynamicTheme(
         defaultTheme: ThemeData(
             fontFamily: 'OpenSans',
             primaryColor: const Color(PrefKey.defaultPrimaryColor),
@@ -26,57 +29,69 @@ class App extends StatelessWidget {
             brightness: getBrightness(PrefKey.defaultDarkTheme)),
         themedWidgetBuilder: (context, theme) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: "MyAgenda",
-              theme: theme,
-              localizationsDelegates: [
-                const TranslationsDelegate(),
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: [const Locale('en'), const Locale('fr')],
-              initialRoute: RouteKey.SPLASHSCREEN,
-              onGenerateRoute: (RouteSettings settings) {
-                switch (settings.name) {
-                  case RouteKey.SPLASHSCREEN: return CustomRoute(
+            debugShowCheckedModeBanner: false,
+            title: "MyAgenda",
+            theme: theme,
+            localizationsDelegates: [
+              const TranslationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [const Locale('en'), const Locale('fr')],
+            initialRoute: RouteKey.SPLASHSCREEN,
+            onGenerateRoute: (RouteSettings settings) {
+              switch (settings.name) {
+                case RouteKey.SPLASHSCREEN:
+                  return CustomRoute(
                     builder: (_) => SplashScreen(),
                     settings: settings,
                   );
-                  case RouteKey.HOME: return CustomRoute(
+                case RouteKey.HOME:
+                  return CustomRoute(
                     builder: (_) => HomeScreen(),
                     settings: settings,
                   );
-                  case RouteKey.FINDROOM: return CustomRoute(
+                case RouteKey.FINDROOM:
+                  return CustomRoute(
                     builder: (_) => FindRoomScreen(),
                     settings: settings,
                   );
-                  case RouteKey.SETTINGS: return CustomRoute(
+                case RouteKey.SETTINGS:
+                  return CustomRoute(
                     builder: (_) => SettingsScreen(),
                     settings: settings,
                   );
-                  case RouteKey.UPDATE: return CustomRoute(
+                case RouteKey.UPDATE:
+                  return CustomRoute(
                     builder: (_) => AboutScreen(),
                     settings: settings,
                   );
-                  case RouteKey.ABOUT: return CustomRoute(
+                case RouteKey.ABOUT:
+                  return CustomRoute(
                     builder: (_) => AboutScreen(),
                     settings: settings,
                   );
-                  case RouteKey.LICENCES: return CustomRoute(
+                case RouteKey.LICENCES:
+                  return CustomRoute(
                     builder: (_) => LicencesScreen(),
                     settings: settings,
                   );
-                  case RouteKey.INTRO: return CustomRoute(
+                case RouteKey.INTRO:
+                  return CustomRoute(
                     builder: (_) => IntroductionScreen(),
                     settings: settings,
                   );
-                  case RouteKey.LOGIN: return CustomRoute(
+                case RouteKey.LOGIN:
+                  return CustomRoute(
                     builder: (_) => LoginScreen(),
                     settings: settings,
                   );
-                }
-                assert(false);
-              });
-        });
+              }
+              assert(false);
+            },
+          );
+        },
+      ),
+    );
   }
 }

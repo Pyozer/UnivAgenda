@@ -16,11 +16,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map<String, dynamic> prefs;
+  Map<String, dynamic> _prefs;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _getGroupValues();
   }
 
@@ -31,13 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _getGroupValues() async {
-    print("salut");
-    Map<String, dynamic> dataPrefs = await Preferences.getGroupValues();
-    dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
-    dataPrefs[PrefKey.isHorizontalView] = await Preferences.isHorizontalView();
+    final prefs = PreferencesProvider.of(context).prefs;
+    Map<String, dynamic> dataPrefs = await prefs.getGroupValues();
+    dataPrefs[PrefKey.noteColor] = await prefs.getNoteColor();
+    dataPrefs[PrefKey.isHorizontalView] = await prefs.isHorizontalView();
 
     setState(() {
-      prefs = dataPrefs;
+      _prefs = dataPrefs;
     });
   }
 
@@ -49,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fullscreenDialog: true,
             ),
           );
-
-          Preferences.addCustomEvent(customCourse);
+          PreferencesProvider.of(context).prefs.addCustomEvent(customCourse);
         },
         child: const Icon(Icons.add),
       );
@@ -61,23 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return AppbarPage(
       title: translations.get(StringKey.APP_NAME),
-      drawer: MainDrawer(
-        onOpenedScreenClose: () {
-          _getGroupValues();
-        },
-      ),
+      drawer: MainDrawer(),
       fab: _buildFab(context),
-      body: (prefs == null || prefs.length == 0)
+      body: (_prefs == null || _prefs.length == 0)
           ? Center(child: const CircularLoader())
           : CourseList(
-              isHorizontal: prefs[PrefKey.isHorizontalView],
-              campus: prefs[PrefKey.campus],
-              department: prefs[PrefKey.department],
-              year: prefs[PrefKey.year],
-              group: prefs[PrefKey.group],
-              numberWeeks: prefs[PrefKey.numberWeek],
-              noteColor: prefs[PrefKey.noteColor] != null
-                  ? Color(prefs[PrefKey.noteColor])
+              isHorizontal: _prefs[PrefKey.isHorizontalView],
+              campus: _prefs[PrefKey.campus],
+              department: _prefs[PrefKey.department],
+              year: _prefs[PrefKey.year],
+              group: _prefs[PrefKey.group],
+              numberWeeks: _prefs[PrefKey.numberWeek],
+              noteColor: (_prefs[PrefKey.noteColor] != null)
+                  ? Color(_prefs[PrefKey.noteColor])
                   : null,
             ),
     );

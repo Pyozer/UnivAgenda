@@ -38,8 +38,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   TimeOfDay _selectedEndTime;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _initData();
   }
 
@@ -52,7 +52,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     _campus = Data.getAllCampus();
 
     // Define preselected campus depends on preferences
-    final prefCampus = await Preferences.getCampus();
+    final prefCampus = await PreferencesProvider.of(context).prefs.getCampus();
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
     await _initDepartmentValue();
@@ -67,7 +67,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     _departments = Data.getCampusDepartments(_selectedCampus);
 
     // Define preselected department depends on preferences
-    final prefDepart = await Preferences.getDepartment();
+    final prefDepart = await PreferencesProvider.of(context).prefs.getDepartment();
     _selectedDepartment =
         _departments.contains(prefDepart) ? prefDepart : _departments[0];
   }

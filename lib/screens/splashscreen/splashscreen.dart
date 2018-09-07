@@ -7,10 +7,11 @@ import 'package:myagenda/utils/preferences.dart';
 class SplashScreen extends StatelessWidget {
 
   void _initPreferences(BuildContext context) async {
+    final prefs = PreferencesProvider.of(context).prefs;
     // Get all data to setup theme
-    final bool isDark = await Preferences.getDarkTheme();
-    final int appbarColor = await Preferences.getPrimaryColor();
-    final int accentColor = await Preferences.getAccentColor();
+    final bool isDark = await prefs.getDarkTheme();
+    final int appbarColor = await prefs.getPrimaryColor();
+    final int accentColor = await prefs.getAccentColor();
 
     // Change theme
     DynamicTheme.of(context).changeTheme(
@@ -20,17 +21,17 @@ class SplashScreen extends StatelessWidget {
     );
 
     // Get groups prefs
-    final String campus = await Preferences.getCampus();
-    final String department = await Preferences.getDepartment();
-    final String year = await Preferences.getYear();
-    final String group = await Preferences.getGroup();
+    final String campus = await prefs.getCampus();
+    final String department = await prefs.getDepartment();
+    final String year = await prefs.getYear();
+    final String group = await prefs.getGroup();
 
     // Check group prefs
-    Preferences.changeGroupPref(
+    prefs.changeGroupPref(
         campus: campus, department: department, year: year, group: group);
 
-    final bool isFirstBoot = await Preferences.isFirstBoot();
-    final bool isUserLogged = await Preferences.isUserLogged();
+    final bool isFirstBoot = await prefs.isFirstBoot();
+    final bool isUserLogged = await prefs.isUserLogged();
 
     final routeDest = (isFirstBoot)
         ? RouteKey.INTRO

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/course.dart';
@@ -9,28 +10,54 @@ import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class PreferencesProvider extends InheritedWidget {
+  PreferencesProvider({Key key, @required this.prefs, @required this.child})
+      : super(key: key, child: child);
+
+  final Preferences prefs;
+  final Widget child;
+
+  static PreferencesProvider of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(PreferencesProvider)
+        as PreferencesProvider);
+  }
+
+  @override
+  bool updateShouldNotify(PreferencesProvider oldWidget) {
+    print(oldWidget.prefs.dataChange);
+    print(prefs.dataChange);
+    if (!prefs.dataChange) {
+      return false;
+    }
+    prefs.dataChange = false;
+    return true;
+  }
+}
+
 class Preferences {
-  static Future<String> getCampus() async {
+  bool dataChange = false;
+
+  Future<String> getCampus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefKey.campus);
   }
 
-  static Future<String> getDepartment() async {
+  Future<String> getDepartment() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefKey.department);
   }
 
-  static Future<String> getYear() async {
+  Future<String> getYear() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefKey.year);
   }
 
-  static Future<String> getGroup() async {
+  Future<String> getGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefKey.group);
   }
 
-  static Future<PrefsCalendar> changeGroupPref(
+  Future<PrefsCalendar> changeGroupPref(
       {String campus, String department, String year, String group}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -42,93 +69,102 @@ class Preferences {
     await prefs.setString(PrefKey.year, values.year);
     await prefs.setString(PrefKey.group, values.group);
 
+    dataChange = true;
+
     return values;
   }
 
-  static Future<int> getNumberWeek() async {
+  Future<int> getNumberWeek() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(PrefKey.numberWeek) ?? PrefKey.defaultNumberWeek;
   }
 
-  static Future<int> setNumberWeekStr(String numberWeek) async {
+  Future<int> setNumberWeekStr(String numberWeek) async {
     int intValue = PrefKey.defaultNumberWeek;
     if (isNumeric(numberWeek)) intValue = int.parse(numberWeek);
     return setNumberWeek(intValue);
   }
 
-  static Future<int> setNumberWeek(int numberWeek) async {
+  Future<int> setNumberWeek(int numberWeek) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(PrefKey.numberWeek, numberWeek);
+    dataChange = true;
     return numberWeek;
   }
 
-  static Future<bool> getDarkTheme() async {
+  Future<bool> getDarkTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(PrefKey.darkTheme) ?? PrefKey.defaultDarkTheme;
   }
 
-  static Future<bool> setDarkTheme(bool darkTheme) async {
+  Future<bool> setDarkTheme(bool darkTheme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefKey.darkTheme, darkTheme);
+    dataChange = true;
     return darkTheme;
   }
 
-  static Future<int> getPrimaryColor() async {
+  Future<int> getPrimaryColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(PrefKey.primaryColor) ?? PrefKey.defaultPrimaryColor;
   }
 
-  static Future<int> setPrimaryColor(int primaryColor) async {
+  Future<int> setPrimaryColor(int primaryColor) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(PrefKey.primaryColor, primaryColor);
+    dataChange = true;
     return primaryColor;
   }
 
-  static Future<int> getAccentColor() async {
+  Future<int> getAccentColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(PrefKey.accentColor) ?? PrefKey.defaultAccentColor;
   }
 
-  static Future<int> setAccentColor(int accentColor) async {
+  Future<int> setAccentColor(int accentColor) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(PrefKey.accentColor, accentColor);
+    dataChange = true;
     return accentColor;
   }
 
-  static Future<int> getNoteColor() async {
+  Future<int> getNoteColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(PrefKey.noteColor) ?? PrefKey.defaultNoteColor;
   }
 
-  static Future<int> setNoteColor(int noteColor) async {
+  Future<int> setNoteColor(int noteColor) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(PrefKey.noteColor, noteColor);
+    dataChange = true;
     return noteColor;
   }
 
-  static Future<bool> isFirstBoot() async {
+  Future<bool> isFirstBoot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(PrefKey.isFirstBoot) ?? true;
   }
 
-  static Future<bool> setFirstBoot(bool isFirstBoot) async {
+  Future<bool> setFirstBoot(bool isFirstBoot) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefKey.isFirstBoot, isFirstBoot);
+    dataChange = true;
     return isFirstBoot;
   }
 
-  static Future<String> getCachedIcal() async {
+  Future<String> getCachedIcal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(PrefKey.cachedIcal) ?? null;
   }
 
-  static Future<String> setCachedIcal(String icalToCache) async {
+  Future<String> setCachedIcal(String icalToCache) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefKey.cachedIcal, icalToCache);
+    dataChange = true;
     return icalToCache;
   }
 
-  static Future<List<Note>> getNotes() async {
+  Future<List<Note>> getNotes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> notesJSONStr = prefs.getStringList(PrefKey.notes) ?? [];
 
@@ -143,13 +179,13 @@ class Preferences {
     return notes;
   }
 
-  static Future<List<Note>> getCourseNotes(Course course) async {
+  Future<List<Note>> getCourseNotes(Course course) async {
     List<Note> notes = await getNotes();
 
     return notes.where((note) => note.courseUid == course.uid);
   }
 
-  static Future<List<Note>> setNotes(List<Note> notes) async {
+  Future<List<Note>> setNotes(List<Note> notes) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String> notesJSON = [];
@@ -158,10 +194,11 @@ class Preferences {
     });
 
     await prefs.setStringList(PrefKey.notes, notesJSON);
+    dataChange = true;
     return notes;
   }
 
-  static Future<List<Note>> addNote(Note noteToAdd) async {
+  Future<List<Note>> addNote(Note noteToAdd) async {
     List<Note> notes = await getNotes();
     notes.add(noteToAdd);
 
@@ -170,7 +207,7 @@ class Preferences {
     return notes;
   }
 
-  static Future<List<Note>> removeNote(Note noteToRemove) async {
+  Future<List<Note>> removeNote(Note noteToRemove) async {
     List<Note> notes = await getNotes();
     notes.removeWhere((note) => (note == noteToRemove));
 
@@ -179,7 +216,7 @@ class Preferences {
     return notes;
   }
 
-  static Future<List<CustomCourse>> getCustomEvents() async {
+  Future<List<CustomCourse>> getCustomEvents() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> eventsJSONStr = prefs.getStringList(PrefKey.customEvent) ?? [];
 
@@ -194,8 +231,7 @@ class Preferences {
     return events;
   }
 
-  static Future<List<CustomCourse>> setCustomEvents(
-      List<CustomCourse> events) async {
+  Future<List<CustomCourse>> setCustomEvents(List<CustomCourse> events) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String> eventsJSON = [];
@@ -204,11 +240,11 @@ class Preferences {
     });
 
     await prefs.setStringList(PrefKey.customEvent, eventsJSON);
+    dataChange = true;
     return events;
   }
 
-  static Future<List<CustomCourse>> addCustomEvent(
-      CustomCourse eventToAdd) async {
+  Future<List<CustomCourse>> addCustomEvent(CustomCourse eventToAdd) async {
     List<CustomCourse> events = await getCustomEvents();
     events.add(eventToAdd);
 
@@ -217,13 +253,12 @@ class Preferences {
     return events;
   }
 
-  static Future<List<CustomCourse>> editCustomEvent(
-      CustomCourse eventEdited) async {
+  Future<List<CustomCourse>> editCustomEvent(CustomCourse eventEdited) async {
     await removeCustomEvent(eventEdited);
     return await addCustomEvent(eventEdited);
   }
 
-  static Future<List<CustomCourse>> removeCustomEvent(
+  Future<List<CustomCourse>> removeCustomEvent(
       CustomCourse eventToRemove) async {
     List<CustomCourse> events = await getCustomEvents();
     events.removeWhere((event) => (event == eventToRemove));
@@ -233,54 +268,56 @@ class Preferences {
     return events;
   }
 
-  static Future<bool> isUserLogged() async {
+  Future<bool> isUserLogged() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(PrefKey.isLogged) ?? false;
   }
 
-  static Future<bool> setUserLogged(bool isLogged) async {
+  Future<bool> setUserLogged(bool isLogged) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefKey.isLogged, isLogged);
+    dataChange = true;
     return isLogged;
   }
 
-  static Future<bool> isHorizontalView() async {
+  Future<bool> isHorizontalView() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(PrefKey.isHorizontalView) ??
         PrefKey.defaultHorizontalView;
   }
 
-  static Future<bool> setHorizontalView(bool isHorizontalView) async {
+  Future<bool> setHorizontalView(bool isHorizontalView) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefKey.isHorizontalView, isHorizontalView);
+    dataChange = true;
     return isHorizontalView;
   }
 
-  static Future<Map<String, dynamic>> getThemeValues() async {
+  Future<Map<String, dynamic>> getThemeValues() async {
     Map<String, dynamic> dataPrefs = {};
-    dataPrefs[PrefKey.darkTheme] = await Preferences.getDarkTheme();
-    dataPrefs[PrefKey.primaryColor] = await Preferences.getPrimaryColor();
-    dataPrefs[PrefKey.accentColor] = await Preferences.getAccentColor();
-    dataPrefs[PrefKey.noteColor] = await Preferences.getNoteColor();
-    dataPrefs[PrefKey.isHorizontalView] = await Preferences.isHorizontalView();
+    dataPrefs[PrefKey.darkTheme] = await getDarkTheme();
+    dataPrefs[PrefKey.primaryColor] = await getPrimaryColor();
+    dataPrefs[PrefKey.accentColor] = await getAccentColor();
+    dataPrefs[PrefKey.noteColor] = await getNoteColor();
+    dataPrefs[PrefKey.isHorizontalView] = await isHorizontalView();
 
     return dataPrefs;
   }
 
-  static Future<Map<String, dynamic>> getGroupValues() async {
+  Future<Map<String, dynamic>> getGroupValues() async {
     Map<String, dynamic> dataPrefs = {};
-    dataPrefs[PrefKey.campus] = await Preferences.getCampus();
-    dataPrefs[PrefKey.department] = await Preferences.getDepartment();
-    dataPrefs[PrefKey.year] = await Preferences.getYear();
-    dataPrefs[PrefKey.group] = await Preferences.getGroup();
-    dataPrefs[PrefKey.numberWeek] = await Preferences.getNumberWeek();
+    dataPrefs[PrefKey.campus] = await getCampus();
+    dataPrefs[PrefKey.department] = await getDepartment();
+    dataPrefs[PrefKey.year] = await getYear();
+    dataPrefs[PrefKey.group] = await getGroup();
+    dataPrefs[PrefKey.numberWeek] = await getNumberWeek();
 
     return dataPrefs;
   }
 
-  static Future<Map<String, dynamic>> getAllValues() async {
-    Map allPrefs = await Preferences.getGroupValues();
-    allPrefs.addAll(await Preferences.getThemeValues());
+  Future<Map<String, dynamic>> getGroupAndThemeValues() async {
+    Map allPrefs = await getGroupValues();
+    allPrefs.addAll(await getThemeValues());
 
     return allPrefs;
   }

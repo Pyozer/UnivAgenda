@@ -26,8 +26,8 @@ class DynamicThemeState extends State<DynamicTheme> {
   ThemeData _theme;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _updateTheme(widget.defaultTheme);
 
     _loadTheme().then((theme) {
@@ -73,13 +73,15 @@ class DynamicThemeState extends State<DynamicTheme> {
     Color primaryColor = widget.defaultTheme.primaryColor;
     Color accentColor = widget.defaultTheme.accentColor;
 
-    bool isDark = await Preferences.getDarkTheme();
+    final prefs = PreferencesProvider.of(context).prefs;
+
+    bool isDark = await prefs.getDarkTheme();
     if (isDark != null) brightness = getBrightness(isDark);
 
-    int primaryColorValue = await Preferences.getPrimaryColor();
+    int primaryColorValue = await prefs.getPrimaryColor();
     if (primaryColorValue != null) primaryColor = Color(primaryColorValue);
 
-    int accentColorValue = await Preferences.getAccentColor();
+    int accentColorValue = await prefs.getAccentColor();
     if (accentColorValue != null) accentColor = Color(accentColorValue);
 
     return _buildTheme(
@@ -89,10 +91,10 @@ class DynamicThemeState extends State<DynamicTheme> {
   }
 
   Future _saveTheme() async {
-    await Preferences
-        .setDarkTheme(isDarkTheme(_theme.brightness));
-    await Preferences.setPrimaryColor(_theme.primaryColor.value);
-    await Preferences.setAccentColor(_theme.accentColor.value);
+    final prefs = PreferencesProvider.of(context).prefs;
+    await prefs.setDarkTheme(isDarkTheme(_theme.brightness));
+    await prefs.setPrimaryColor(_theme.primaryColor.value);
+    await prefs.setAccentColor(_theme.accentColor.value);
   }
 
   ThemeData get theme => _theme;

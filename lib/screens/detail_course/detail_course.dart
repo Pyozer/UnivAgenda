@@ -106,7 +106,7 @@ class _DetailCourseState extends State<DetailCourse> {
     setState(() {
       _course.notes.remove(note);
     });
-    Preferences.removeNote(note);
+    PreferencesProvider.of(context).prefs.removeNote(note);
   }
 
   void _openAddNote() {
@@ -161,7 +161,7 @@ class _DetailCourseState extends State<DetailCourse> {
       setState(() {
         _course.notes.insert(0, note);
       });
-      Preferences.addNote(note);
+      PreferencesProvider.of(context).prefs.addNote(note);
 
       Navigator.of(context).pop();
     }
@@ -171,45 +171,57 @@ class _DetailCourseState extends State<DetailCourse> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
+    final prefs = PreferencesProvider.of(context).prefs;
 
     final actionsAppbar = (_course is CustomCourse)
         ? [
             IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  Preferences.removeCustomEvent(_course);
-                  Navigator.of(context).pop();
-                }),
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                prefs.removeCustomEvent(_course);
+                Navigator.of(context).pop();
+              },
+            ),
             IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  CustomCourse editedCourse = await Navigator.of(context).push(
-                      CustomRoute<CustomCourse>(
-                          builder: (context) =>
-                              CustomEventScreen(course: _course),
-                          fullscreenDialog: true));
+              icon: const Icon(Icons.edit),
+              onPressed: () async {
+                CustomCourse editedCourse = await Navigator.of(context).push(
+                  CustomRoute<CustomCourse>(
+                      builder: (context) => CustomEventScreen(course: _course),
+                      fullscreenDialog: true),
+                );
 
-                  if (editedCourse != null) {
-                    Preferences.editCustomEvent(editedCourse).then((_) {
+                if (editedCourse != null) {
+                  prefs.editCustomEvent(editedCourse).then(
+                    (_) {
                       setState(() {
                         _course = editedCourse;
                       });
-                    });
-                  }
-                })
+                    },
+                  );
+                }
+              },
+            )
           ]
         : null;
 
     return AppbarPage(
-        title: translate.get(StringKey.COURSE_DETAILS),
-        elevation: 0.0,
-        actions: actionsAppbar,
-        body: Container(
-            child: Column(children: [
-          AppbarSubTitle(subtitle: _course.title),
-          Expanded(
+      title: translate.get(StringKey.COURSE_DETAILS),
+      elevation: 0.0,
+      actions: actionsAppbar,
+      body: Container(
+        child: Column(
+          children: [
+            AppbarSubTitle(subtitle: _course.title),
+            Expanded(
               child: ListView(
-                  shrinkWrap: true, children: _buildInfo(translate, theme)))
-        ])));
+                shrinkWrap: true,
+                children: _buildInfo(translate, theme),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

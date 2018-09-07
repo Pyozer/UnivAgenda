@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isError) {
       // Display error to user
-      Preferences.setUserLogged(false);
+      PreferencesProvider.of(context).prefs.setUserLogged(false);
       String error = getStringBetween(
         htmlLogin,
         "<div id=\"status\" class=\"errors\">",
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showMessage(error);
     } else {
       // Login user if no error
-      Preferences.setUserLogged(true);
+      PreferencesProvider.of(context).prefs.setUserLogged(true);
       Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
     }
   }
@@ -118,7 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
-
     final orientation = MediaQuery.of(context).orientation;
 
     final logo = Hero(
