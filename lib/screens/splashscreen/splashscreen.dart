@@ -19,9 +19,8 @@ class SplashScreen extends StatelessWidget {
       String jsonContent = await rootBundle.loadString("res/ressources.json");
       ressources = json.decode(jsonContent);
       prefs.setRessources(ressources);
-    } else {
-      Data.allData = ressources;
     }
+    Data.allData = ressources;
 
     // Get all data to setup theme
     final bool isDark = await prefs.getDarkTheme();
@@ -41,8 +40,8 @@ class SplashScreen extends StatelessWidget {
     final String year = await prefs.getYear();
     final String group = await prefs.getGroup();
 
-    // Check group prefs
-    prefs.changeGroupPref(
+    // Check and save group prefs
+    await prefs.changeGroupPref(
         campus: campus, department: department, year: year, group: group);
 
     final bool isFirstBoot = await prefs.isFirstBoot();

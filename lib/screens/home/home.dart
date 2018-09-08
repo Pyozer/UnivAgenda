@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200 && mounted) {
       Map<String, dynamic> ressources = json.decode(response.body);
       PreferencesProvider.of(context).prefs.setRessources(ressources);
+      Data.allData = ressources;
     }
   }
 

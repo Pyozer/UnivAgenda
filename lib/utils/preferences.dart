@@ -301,7 +301,6 @@ class Preferences {
       Map<String, dynamic> ressources) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefKey.ressources, json.encode(ressources));
-    Data.allData = ressources;
     dataChange = true;
     return ressources;
   }
