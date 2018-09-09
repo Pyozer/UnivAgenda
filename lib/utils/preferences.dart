@@ -10,20 +10,33 @@ import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/prefs_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef Widget PreferenceBuilder(BuildContext context);
+class _MyInheritedPreferences extends InheritedWidget {
+  _MyInheritedPreferences({
+    Key key,
+    @required Widget child,
+    @required this.data,
+  }) : super(key: key, child: child);
+
+  final PreferencesProviderState data;
+
+  @override
+  bool updateShouldNotify(_MyInheritedPreferences oldWidget) {
+    return (data != oldWidget.data);
+  }
+}
 
 class PreferencesProvider extends StatefulWidget {
-  final PreferenceBuilder preferenceBuilder;
+  final Widget child;
 
-  const PreferencesProvider({Key key, this.preferenceBuilder})
-      : super(key: key);
+  const PreferencesProvider({Key key, this.child}) : super(key: key);
 
   @override
   PreferencesProviderState createState() => PreferencesProviderState();
 
   static PreferencesProviderState of(BuildContext context) {
-    return context
-        .ancestorStateOfType(const TypeMatcher<PreferencesProviderState>());
+    return (context.inheritFromWidgetOfExactType(_MyInheritedPreferences)
+            as _MyInheritedPreferences)
+        .data;
   }
 }
 
@@ -31,17 +44,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
-  }
-
-  Future _loadPreferences() async {
-    await initFromDisk();
+    initFromDisk();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("rebuild");
-    return widget.preferenceBuilder(context);
+    return _MyInheritedPreferences(data: this, child: widget.child);
   }
 
   String _campus;
@@ -64,6 +72,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   String get campus => _campus;
 
   set campus(String newCampus) {
+    if (campus == newCampus) return;
     changeGroupPref(
       campus: newCampus,
       department: department,
@@ -75,6 +84,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   String get department => _department;
 
   set department(String newDepartment) {
+    if (department == newDepartment) return;
     changeGroupPref(
       campus: campus,
       department: newDepartment,
@@ -86,6 +96,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   String get year => _year;
 
   set year(String newYear) {
+    if (year == newYear) return;
     changeGroupPref(
       campus: campus,
       department: department,
@@ -97,6 +108,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   String get group => _group;
 
   set group(String newGroup) {
+    if (group == newGroup) return;
     changeGroupPref(
       campus: campus,
       department: department,
@@ -105,18 +117,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     );
   }
 
-  PrefsCalendar changeGroupPref({
-    String campus,
-    String department,
-    String year,
-    String group,
-  }) {
+  void changeGroupPref(
+      {String campus, String department, String year, String group}) {
+        // Check if values are correct together
     PrefsCalendar values = Data.checkDataValues(
       campus: campus,
       department: department,
       year: year,
       group: group,
     );
+
+    if (campus == values.campus &&
+        department == values.department &&
+        year == values.year &&
+        group == values.group) return;
 
     setState(() {
       _campus = values.campus;
@@ -131,16 +145,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       prefs.setString(PrefKey.year, values.year);
       prefs.setString(PrefKey.group, values.group);
     });
-
-    return values;
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
-  set numberWeeks(int numberWeeks) {
-    int intValue = (numberWeeks == null || numberWeeks < 1 || numberWeeks > 20)
-        ? PrefKey.defaultNumberWeeks
-        : numberWeeks;
+  set numberWeeks(int newNumberWeeks) {
+    if (numberWeeks == newNumberWeeks) return;
+
+    int intValue =
+        (newNumberWeeks == null || newNumberWeeks < 1 || newNumberWeeks > 20)
+            ? PrefKey.defaultNumberWeeks
+            : newNumberWeeks;
 
     setState(() {
       _numberWeeks = intValue;
@@ -153,6 +168,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool get isDarkTheme => _darkTheme ?? PrefKey.defaultDarkTheme;
 
   set darkTheme(bool darkTheme) {
+    if (isDarkTheme == darkTheme) return;
+
     setState(() {
       _darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
     });
@@ -163,39 +180,47 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   int get primaryColor => _primaryColor ?? PrefKey.defaultPrimaryColor;
 
-  set primaryColor(int primaryColor) {
+  set primaryColor(int newPrimaryColor) {
+    if (primaryColor == newPrimaryColor) return;
+
     setState(() {
-      _primaryColor = primaryColor ?? PrefKey.defaultPrimaryColor;
+      _primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
     });
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.primaryColor, primaryColor));
+        .then((prefs) => prefs.setInt(PrefKey.primaryColor, newPrimaryColor));
   }
 
   int get accentColor => _accentColor ?? PrefKey.defaultAccentColor;
 
-  set accentColor(int accentColor) {
+  set accentColor(int newAccentColor) {
+    if (accentColor == newAccentColor) return;
+
     setState(() {
-      _accentColor = accentColor ?? PrefKey.defaultAccentColor;
+      _accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
     });
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.accentColor, accentColor));
+        .then((prefs) => prefs.setInt(PrefKey.accentColor, newAccentColor));
   }
 
   int get noteColor => _noteColor ?? PrefKey.defaultNoteColor;
 
-  set noteColor(int noteColor) {
+  set noteColor(int newNoteColor) {
+    if (noteColor == newNoteColor) return;
+
     setState(() {
-      _noteColor = noteColor ?? PrefKey.defaultNoteColor;
+      _noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
     });
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.noteColor, noteColor));
+        .then((prefs) => prefs.setInt(PrefKey.noteColor, newNoteColor));
   }
 
   bool get isFirstBoot => _firstBoot ?? true;
 
   set firstBoot(bool firstBoot) {
+    if (isFirstBoot == firstBoot) return;
+
     setState(() {
       _firstBoot = firstBoot ?? true;
     });
@@ -206,7 +231,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   String get cachedIcal => _cachedIcal ?? null;
 
   set cachedIcal(String icalToCache) {
-    _cachedIcal = icalToCache ?? null;
+    if (cachedIcal == icalToCache) return;
+
+    setState(() {
+      _cachedIcal = icalToCache ?? null;
+    });
+
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setString(PrefKey.cachedIcal, icalToCache));
   }
@@ -218,18 +248,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     return notes.where((note) => note.courseUid == course.uid).toList();
   }
 
-  set notes(List<Note> notes) {
-    notes ??= [];
+  set notes(List<Note> newNotes) {
+    if (notes == newNotes) return;
+
+    newNotes ??= [];
     // Remove expired notes
-    notes.removeWhere((note) => note.isExpired());
+    newNotes.removeWhere((note) => note.isExpired());
 
     setState(() {
-      _notes = notes;
+      _notes = newNotes;
     });
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> notesJSON = [];
-      notes.forEach((note) {
+      newNotes.forEach((note) {
         notesJSON.add(json.encode(note.toJson()));
       });
 
@@ -238,17 +270,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   void addNote(Note noteToAdd) {
-    if (noteToAdd != null) {
-      notes.add(noteToAdd);
-      notes = notes;
-    }
+    if (noteToAdd == null) return;
+
+    notes.add(noteToAdd);
+    notes = notes;
   }
 
   void removeNote(Note noteToRemove) {
-    if (noteToRemove != null) {
-      notes.removeWhere((note) => (note == noteToRemove));
-      notes = notes;
-    }
+    if (noteToRemove == null) return;
+
+    notes.removeWhere((note) => (note == noteToRemove));
+    notes = notes;
   }
 
   List<CustomCourse> get customEvents =>
@@ -271,18 +303,22 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   void addCustomEvent(CustomCourse eventToAdd) {
-    if (eventToAdd != null) {
-      customEvents.add(eventToAdd);
-      customEvents = customEvents;
-    }
+    if (eventToAdd == null) return;
+
+    customEvents.add(eventToAdd);
+    customEvents = customEvents;
   }
 
   void removeCustomEvent(CustomCourse eventToRemove) {
+    if (eventToRemove == null) return;
+
     customEvents.removeWhere((event) => (event == eventToRemove));
     customEvents = customEvents;
   }
 
   void editCustomEvent(CustomCourse eventEdited) {
+    if (eventEdited == null) return;
+
     removeCustomEvent(eventEdited);
     addCustomEvent(eventEdited);
   }
@@ -290,6 +326,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool get isUserLogged => _userLogged ?? false;
 
   set userLogged(bool userLogged) {
+    if (isUserLogged == userLogged) return;
+
     setState(() {
       _userLogged = userLogged ?? false;
     });
@@ -301,6 +339,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool get isHorizontalView => _horizontalView ?? PrefKey.defaultHorizontalView;
 
   set horizontalView(bool horizontalView) {
+    if (isHorizontalView == horizontalView) return;
+
     setState(() {
       _horizontalView = horizontalView ?? PrefKey.defaultHorizontalView;
     });
@@ -311,13 +351,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Map<String, dynamic> get ressources => _ressources ?? {};
 
-  set ressources(Map<String, dynamic> ressources) {
+  set ressources(Map<String, dynamic> newRessources) {
+    if (ressources == newRessources) return;
+
     setState(() {
-      _ressources = ressources ?? {};
+      _ressources = newRessources ?? {};
     });
 
     SharedPreferences.getInstance().then((prefs) =>
-        prefs.setString(PrefKey.ressources, json.encode(ressources)));
+        prefs.setString(PrefKey.ressources, json.encode(newRessources)));
   }
 
   Map<String, dynamic> getThemeValues() {
@@ -406,4 +448,43 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
     customEvents = actualEvents;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is PreferencesProviderState &&
+      campus == other.campus &&
+      department == other.department &&
+      year == other.year &&
+      group == other.group &&
+      numberWeeks == other.numberWeeks &&
+      isDarkTheme == other.isDarkTheme &&
+      primaryColor == other.primaryColor &&
+      accentColor == other.accentColor &&
+      noteColor == other.noteColor &&
+      isFirstBoot == other.isFirstBoot &&
+      cachedIcal == other.cachedIcal &&
+      notes == other.notes &&
+      customEvents == other.customEvents &&
+      isUserLogged == other.isUserLogged &&
+      isHorizontalView == other.isHorizontalView &&
+      ressources == other.ressources;
+
+  @override
+  int get hashCode =>
+      _campus.hashCode ^
+      _department.hashCode ^
+      _year.hashCode ^
+      _group.hashCode ^
+      _numberWeeks.hashCode ^
+      _darkTheme.hashCode ^
+      _primaryColor.hashCode ^
+      _accentColor.hashCode ^
+      _noteColor.hashCode ^
+      _firstBoot.hashCode ^
+      _cachedIcal.hashCode ^
+      _notes.hashCode ^
+      _customEvents.hashCode ^
+      _userLogged.hashCode ^
+      _horizontalView.hashCode ^
+      _ressources.hashCode;
 }
