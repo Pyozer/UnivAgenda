@@ -119,7 +119,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   void changeGroupPref(
       {String campus, String department, String year, String group}) {
-        // Check if values are correct together
+    // Check if values are correct together
     PrefsCalendar values = Data.checkDataValues(
       campus: campus,
       department: department,
@@ -271,30 +271,34 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   void addNote(Note noteToAdd) {
     if (noteToAdd == null) return;
-
-    notes.add(noteToAdd);
-    notes = notes;
+    List<Note> newNotes = notes;
+    newNotes.add(noteToAdd);
+    notes = newNotes;
   }
 
   void removeNote(Note noteToRemove) {
     if (noteToRemove == null) return;
 
-    notes.removeWhere((note) => (note == noteToRemove));
-    notes = notes;
+    List<Note> newNotes = notes;
+    newNotes.removeWhere((note) => (note == noteToRemove));
+    notes = newNotes;
   }
 
   List<CustomCourse> get customEvents =>
       _customEvents?.where((event) => !event.isFinish())?.toList() ?? [];
 
-  set customEvents(List<CustomCourse> events) {
-    events ??= [];
+  set customEvents(List<CustomCourse> newCustomEvents) {
+    if (customEvents == newCustomEvents) return;
+
+    newCustomEvents ??= [];
+    newCustomEvents.removeWhere((event) => event.isFinish());
     setState(() {
-      _notes = notes;
+      _customEvents = newCustomEvents;
     });
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> eventsJSON = [];
-      events.forEach((event) {
+      newCustomEvents.forEach((event) {
         if (event != null) eventsJSON.add(json.encode(event.toJson()));
       });
 
@@ -305,15 +309,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void addCustomEvent(CustomCourse eventToAdd) {
     if (eventToAdd == null) return;
 
-    customEvents.add(eventToAdd);
-    customEvents = customEvents;
+    List<Course> newEvents = customEvents;
+    newEvents.add(eventToAdd);
+    customEvents = newEvents;
   }
 
   void removeCustomEvent(CustomCourse eventToRemove) {
     if (eventToRemove == null) return;
 
-    customEvents.removeWhere((event) => (event == eventToRemove));
-    customEvents = customEvents;
+    List<Course> newEvents = customEvents;
+    newEvents.removeWhere((event) => (event == eventToRemove));
+    customEvents = newEvents;
   }
 
   void editCustomEvent(CustomCourse eventEdited) {
@@ -435,7 +441,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     List<String> notesStr = prefs.getStringList(PrefKey.notes) ?? [];
     notesStr.forEach((noteJsonStr) {
       final note = Note.fromJsonStr(noteJsonStr);
-      if (!note.isExpired()) notes.add(note);
+      if (!note.isExpired()) actualNotes.add(note);
     });
     notes = actualNotes;
 
