@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
 import 'package:myagenda/screens/about/licences/licences.dart';
@@ -12,7 +11,6 @@ import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
-import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 

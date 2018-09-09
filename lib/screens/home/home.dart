@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
-import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
