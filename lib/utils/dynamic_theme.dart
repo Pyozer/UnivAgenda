@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:color_picker/color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -9,10 +7,11 @@ typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
 class DynamicTheme extends StatefulWidget {
   final ThemedWidgetBuilder themedWidgetBuilder;
-  final ThemeData defaultTheme;
 
-  const DynamicTheme({Key key, this.themedWidgetBuilder, this.defaultTheme})
-      : super(key: key);
+  const DynamicTheme({
+    Key key,
+    this.themedWidgetBuilder,
+  }) : super(key: key);
 
   @override
   DynamicThemeState createState() => DynamicThemeState();
@@ -23,81 +22,37 @@ class DynamicTheme extends StatefulWidget {
 }
 
 class DynamicThemeState extends State<DynamicTheme> {
-  ThemeData _theme;
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _updateTheme(widget.defaultTheme);
-
-    _loadTheme().then((theme) {
-      _updateTheme(theme);
-    });
+  void didUpdateWidget(DynamicTheme oldWidget) {
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.themedWidgetBuilder(context, _theme);
+    print("dynamic theme");
+    final prefs = PreferencesProvider.of(context);
+    return widget.themedWidgetBuilder(
+      context,
+      _buildTheme(
+        brightness: getBrightness(prefs.isDarkTheme),
+        primaryColor: Color(prefs.primaryColor),
+        accentColor: Color(prefs.accentColor),
+      ),
+    );
   }
 
-  void changeTheme(
-      {Brightness brightness, Color primaryColor, Color accentColor}) {
-    final updatedTheme = _buildTheme(
-        brightness: brightness,
-        primaryColor: primaryColor,
-        accentColor: accentColor);
-    _updateTheme(updatedTheme);
-    _saveTheme();
-  }
-
-  ThemeData _buildTheme(
-      {Brightness brightness, Color primaryColor, Color accentColor}) {
-    final primarySwatch = _findMainColor(primaryColor);
-
+  ThemeData _buildTheme({
+    Brightness brightness,
+    Color primaryColor,
+    Color accentColor,
+  }) {
     return ThemeData(
-        fontFamily: _theme.textTheme.title.fontFamily,
-        brightness: brightness ?? _theme.brightness,
-        primarySwatch: primarySwatch,
-        primaryColor: primaryColor ?? _theme.primaryColor,
-        accentColor: accentColor ?? _theme.accentColor);
-  }
-
-  void _updateTheme(ThemeData updatedTheme) {
-    setState(() {
-      this._theme = updatedTheme;
-    });
-  }
-
-  Future<ThemeData> _loadTheme() async {
-    Brightness brightness = widget.defaultTheme.brightness;
-    Color primaryColor = widget.defaultTheme.primaryColor;
-    Color accentColor = widget.defaultTheme.accentColor;
-
-    final prefs = PreferencesProvider.of(context).prefs;
-
-    bool isDark = await prefs.getDarkTheme();
-    if (isDark != null) brightness = getBrightness(isDark);
-
-    int primaryColorValue = await prefs.getPrimaryColor();
-    if (primaryColorValue != null) primaryColor = Color(primaryColorValue);
-
-    int accentColorValue = await prefs.getAccentColor();
-    if (accentColorValue != null) accentColor = Color(accentColorValue);
-
-    return _buildTheme(
+        fontFamily: 'OpenSans',
         brightness: brightness,
+        primarySwatch: _findMainColor(primaryColor),
         primaryColor: primaryColor,
         accentColor: accentColor);
   }
-
-  Future _saveTheme() async {
-    final prefs = PreferencesProvider.of(context).prefs;
-    await prefs.setDarkTheme(isDarkTheme(_theme.brightness));
-    await prefs.setPrimaryColor(_theme.primaryColor.value);
-    await prefs.setAccentColor(_theme.accentColor.value);
-  }
-
-  ThemeData get theme => _theme;
 
   MaterialColor _findMainColor(Color shadeColor) {
     if (shadeColor == null) return null;

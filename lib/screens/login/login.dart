@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isError) {
       // Display error to user
-      PreferencesProvider.of(context).prefs.setUserLogged(false);
+      PreferencesProvider.of(context).userLogged = false;
       String error = getStringBetween(
         htmlLogin,
         "<div id=\"status\" class=\"errors\">",
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showMessage(error);
     } else {
       // Login user if no error
-      PreferencesProvider.of(context).prefs.setUserLogged(true);
+      PreferencesProvider.of(context).userLogged = true;
       Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
     }
   }

@@ -106,7 +106,7 @@ class _DetailCourseState extends State<DetailCourse> {
     setState(() {
       _course.notes.remove(note);
     });
-    PreferencesProvider.of(context).prefs.removeNote(note);
+    PreferencesProvider.of(context).removeNote(note);
   }
 
   void _openAddNote() {
@@ -161,8 +161,8 @@ class _DetailCourseState extends State<DetailCourse> {
       setState(() {
         _course.notes.insert(0, note);
       });
-      PreferencesProvider.of(context).prefs.addNote(note);
 
+      PreferencesProvider.of(context).addNote(note);
       Navigator.of(context).pop();
     }
   }
@@ -171,7 +171,7 @@ class _DetailCourseState extends State<DetailCourse> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
-    final prefs = PreferencesProvider.of(context).prefs;
+    final prefs = PreferencesProvider.of(context);
 
     final actionsAppbar = (_course is CustomCourse)
         ? [
@@ -192,13 +192,10 @@ class _DetailCourseState extends State<DetailCourse> {
                 );
 
                 if (editedCourse != null) {
-                  prefs.editCustomEvent(editedCourse).then(
-                    (_) {
-                      setState(() {
-                        _course = editedCourse;
-                      });
-                    },
-                  );
+                  prefs.editCustomEvent(editedCourse);
+                  setState(() {
+                    _course = editedCourse;
+                  });
                 }
               },
             )

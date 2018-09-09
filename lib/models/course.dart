@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:myagenda/models/ical_model.dart';
@@ -119,6 +120,11 @@ class CustomCourse extends Course {
       ical.location?.trim(),
       ical.dtstart,
       ical.dtend);
+
+  factory CustomCourse.fromJsonStr(String jsonStr) {
+    Map courseMap = json.decode(jsonStr);
+    return CustomCourse.fromJson(courseMap);
+  }
 
   factory CustomCourse.fromJson(Map<String, dynamic> json) => CustomCourse(
       json['uid'],

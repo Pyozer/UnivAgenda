@@ -24,7 +24,6 @@ class FindRoomScreen extends StatefulWidget {
 }
 
 class _FindRoomScreenState extends State<FindRoomScreen> {
-  bool _isDataLoaded = false;
   bool _isLoading = false;
   bool _isResultLoaded = false;
 
@@ -43,31 +42,24 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     _initData();
   }
 
-  void _initData() async {
+  void _initData() {
     // Init start/end time
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
-
     // Get list of all campus
     _campus = Data.getAllCampus();
-
     // Define preselected campus depends on preferences
-    final prefCampus = await PreferencesProvider.of(context).prefs.getCampus();
+    final prefCampus = PreferencesProvider.of(context).campus;
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
-    await _initDepartmentValue();
-
-    setState(() {
-      _isDataLoaded = true;
-    });
+    _initDepartmentValue();
   }
 
-  Future<Null> _initDepartmentValue() async {
+  void _initDepartmentValue() {
     // Get list of all department of selected campus
     _departments = Data.getCampusDepartments(_selectedCampus);
-
     // Define preselected department depends on preferences
-    final prefDepart = await PreferencesProvider.of(context).prefs.getDepartment();
+    final prefDepart = PreferencesProvider.of(context).department;
     _selectedDepartment =
         _departments.contains(prefDepart) ? prefDepart : _departments[0];
   }
@@ -271,85 +263,78 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     return AppbarPage(
       title: translations.get(StringKey.FINDROOM),
       body: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: _isDataLoaded
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: _buildDropdown(
-                              translations.get(StringKey.CAMPUS),
-                              _campus,
-                              _selectedCampus, (String campus) {
-                            setState(() {
-                              _selectedCampus = campus;
-                              _initDepartmentValue();
-                            });
-                          }),
-                          flex: 4,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        ),
-                        Expanded(
-                          child: _buildDropdown(
-                              translations.get(StringKey.DEPARTMENT),
-                              _departments,
-                              _selectedDepartment, (String department) {
-                            setState(() {
-                              _selectedDepartment = department;
-                            });
-                          }),
-                          flex: 6,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        _buildTimePart(
-                            translations.get(StringKey.START_TIME_EVENT),
-                            _selectedStartTime, (newStartTime) {
-                          _onTimeChange(newStartTime, _selectedEndTime);
-                        }),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        ),
-                        _buildTimePart(
-                            translations.get(StringKey.END_TIME_EVENT),
-                            _selectedEndTime, (newEndTime) {
-                          _onTimeChange(_selectedStartTime, newEndTime);
-                        }),
-                      ],
-                    ),
-                    RaisedButtonColored(
-                      onPressed: _onSearch,
-                      text: translations.get(StringKey.SEARCH).toUpperCase(),
-                    ),
-                    (_isResultLoaded && _searchResult.length == 0)
-                        ? _noResultCard()
-                        : Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: _isLoading
-                                  ? Center(child: CircularLoader())
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      itemCount: _searchResult.length,
-                                      itemBuilder: (context, index) {
-                                        return ResultCard(
-                                          roomResult: _searchResult[index],
-                                        );
-                                      },
-                                    ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: _buildDropdown(translations.get(StringKey.CAMPUS),
+                      _campus, _selectedCampus, (String campus) {
+                    setState(() {
+                      _selectedCampus = campus;
+                      _initDepartmentValue();
+                    });
+                  }),
+                  flex: 4,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                ),
+                Expanded(
+                  child: _buildDropdown(translations.get(StringKey.DEPARTMENT),
+                      _departments, _selectedDepartment, (String department) {
+                    setState(() {
+                      _selectedDepartment = department;
+                    });
+                  }),
+                  flex: 6,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _buildTimePart(translations.get(StringKey.START_TIME_EVENT),
+                    _selectedStartTime, (newStartTime) {
+                  _onTimeChange(newStartTime, _selectedEndTime);
+                }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                ),
+                _buildTimePart(translations.get(StringKey.END_TIME_EVENT),
+                    _selectedEndTime, (newEndTime) {
+                  _onTimeChange(_selectedStartTime, newEndTime);
+                }),
+              ],
+            ),
+            RaisedButtonColored(
+              onPressed: _onSearch,
+              text: translations.get(StringKey.SEARCH).toUpperCase(),
+            ),
+            (_isResultLoaded && _searchResult.length == 0)
+                ? _noResultCard()
+                : Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: _isLoading
+                          ? Center(child: CircularLoader())
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              itemCount: _searchResult.length,
+                              itemBuilder: (context, index) {
+                                return ResultCard(
+                                  roomResult: _searchResult[index],
+                                );
+                              },
                             ),
-                          ),
-                  ],
-                )
-              : Container()),
+                    ),
+                  ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -367,7 +352,7 @@ class ResultCard extends StatelessWidget {
     String info = '';
     if (roomResult.startAvailable != null)
       info = "${translation.get(StringKey.FINDROOM_FROM)} " +
-       Date.extractTimeWithDate(roomResult.startAvailable, locale);
+          Date.extractTimeWithDate(roomResult.startAvailable, locale);
 
     if (roomResult.endAvailable != null)
       info += " ${translation.get(StringKey.FINDROOM_TO)} " +

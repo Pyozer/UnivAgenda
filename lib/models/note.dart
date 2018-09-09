@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Note {
   DateTime dateCreation;
   String courseUid;
@@ -14,6 +16,11 @@ class Note {
         
   bool isExpired() {
     return dateExpiration.isBefore(DateTime.now());
+  }
+
+  factory Note.fromJsonStr(String jsonStr) {
+    Map noteMap = json.decode(jsonStr);
+    return Note.fromJson(noteMap);
   }
 
   factory Note.fromJson(Map<String, dynamic> json) => Note(

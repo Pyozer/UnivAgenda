@@ -11,7 +11,6 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
-import 'package:myagenda/widgets/ui/circular_loader.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Map<String, dynamic> _prefs;
 
   @override
   void initState() {
@@ -28,72 +26,47 @@ class _HomeScreenState extends State<HomeScreen> {
     _getLastestRessources();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _getGroupValues();
-  }
-
-  @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _getGroupValues();
-  }
-
   void _getLastestRessources() async {
-    final response = await http.get("https://rawcdn.githack.com/Pyozer/MyAgenda_Flutter/master/res/ressources.json");
+    final response = await http.get(
+        "https://rawcdn.githack.com/Pyozer/MyAgenda_Flutter/master/res/ressources.json");
     if (response.statusCode == 200 && mounted) {
       Map<String, dynamic> ressources = json.decode(response.body);
-      PreferencesProvider.of(context).prefs.setRessources(ressources);
+      PreferencesProvider.of(context).ressources = ressources;
       Data.allData = ressources;
     }
   }
 
-  void _getGroupValues() async {
-    final prefs = PreferencesProvider.of(context).prefs;
-    Map<String, dynamic> dataPrefs = await prefs.getGroupValues();
-    dataPrefs[PrefKey.noteColor] = await prefs.getNoteColor();
-    dataPrefs[PrefKey.isHorizontalView] = await prefs.isHorizontalView();
-
-    setState(() {
-      _prefs = dataPrefs;
-    });
+  Widget _buildFab(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        final customCourse = await Navigator.of(context).push(
+          CustomRoute(
+            builder: (context) => CustomEventScreen(),
+            fullscreenDialog: true,
+          ),
+        );
+        PreferencesProvider.of(context).addCustomEvent(customCourse);
+      },
+      child: const Icon(Icons.add),
+    );
   }
-
-  Widget _buildFab(BuildContext context) => FloatingActionButton(
-        onPressed: () async {
-          final customCourse = await Navigator.of(context).push(
-            CustomRoute(
-              builder: (context) => CustomEventScreen(),
-              fullscreenDialog: true,
-            ),
-          );
-          PreferencesProvider.of(context).prefs.addCustomEvent(customCourse);
-        },
-        child: const Icon(Icons.add),
-      );
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
+    final prefs = PreferencesProvider.of(context);
     return AppbarPage(
-      title: translations.get(StringKey.APP_NAME),
+      title: Translations.of(context).get(StringKey.APP_NAME),
       drawer: MainDrawer(),
       fab: _buildFab(context),
-      body: (_prefs == null || _prefs.length == 0)
-          ? Center(child: const CircularLoader())
-          : CourseList(
-              isHorizontal: _prefs[PrefKey.isHorizontalView],
-              campus: _prefs[PrefKey.campus],
-              department: _prefs[PrefKey.department],
-              year: _prefs[PrefKey.year],
-              group: _prefs[PrefKey.group],
-              numberWeeks: _prefs[PrefKey.numberWeek],
-              noteColor: (_prefs[PrefKey.noteColor] != null)
-                  ? Color(_prefs[PrefKey.noteColor])
-                  : null,
-            ),
+      body: CourseList(
+        isHorizontal: prefs.isHorizontalView,
+        campus: prefs.campus,
+        department: prefs.department,
+        year: prefs.year,
+        group: prefs.group,
+        numberWeeks: prefs.numberWeeks,
+        noteColor: Color(prefs.noteColor),
+      ),
     );
   }
 }

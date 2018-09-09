@@ -50,9 +50,10 @@ class CourseListState extends State<CourseList> {
     _listElements = {};
 
     // Load cached ical
-    PreferencesProvider.of(context).prefs.getCachedIcal().then((ical) {
-      if (ical != null && ical.isNotEmpty) _prepareList(ical);
-    });
+    final ical = PreferencesProvider.of(context).cachedIcal;
+    if (ical != null && ical.isNotEmpty) {
+      _prepareList(ical);
+    }
 
     // Load ical from network
     _fetchData();
@@ -71,7 +72,7 @@ class CourseListState extends State<CourseList> {
 
     final response = await http.get(url);
     if (response.statusCode == 200 && mounted) {
-      await _prepareList(response.body);
+      _prepareList(response.body);
       _updateCache(response.body);
     } else {
       // TODO: Afficher message d'erreur
@@ -79,14 +80,14 @@ class CourseListState extends State<CourseList> {
     return null;
   }
 
-  void _updateCache(String ical) async {
-    PreferencesProvider.of(context).prefs.setCachedIcal(ical);
+  void _updateCache(String ical) {
+    PreferencesProvider.of(context).cachedIcal = ical;
   }
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
     final courseNotes =
-        notes.where((note) => note.courseUid == course.uid).toList();
+        PreferencesProvider.of(context).notesOfCourse(course);
 
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
@@ -97,16 +98,16 @@ class CourseListState extends State<CourseList> {
     return course;
   }
 
-  Future<Null> _prepareList(String icalStr) async {
+  void _prepareList(String icalStr) {
     List<Course> listCourses = [];
 
-    final prefs = PreferencesProvider.of(context).prefs;
+    final prefs = PreferencesProvider.of(context);
 
     // Get all notes saved (expired notes removed by getNotes())
-    List<Note> allNotes = await prefs.getNotes();
+    List<Note> allNotes = prefs.notes;
 
     // Get all custom events (except expired)
-    List<Course> customEvents = await prefs.getCustomEvents();
+    List<Course> customEvents = prefs.customEvents;
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
@@ -168,15 +169,17 @@ class CourseListState extends State<CourseList> {
 
     if (courses != null) {
       if (courses.length == 0) {
-        widgets.add(AboutCard(
-          title: Translations.of(context).get(StringKey.COURSES_NORESULT),
-          children: <Widget>[
-            Text(
-              Translations.of(context).get(StringKey.COURSES_NORESULT_TEXT),
-              textAlign: TextAlign.justify,
-            ),
-          ],
-        ));
+        widgets.add(
+          AboutCard(
+            title: Translations.of(context).get(StringKey.COURSES_NORESULT),
+            children: <Widget>[
+              Text(
+                Translations.of(context).get(StringKey.COURSES_NORESULT_TEXT),
+                textAlign: TextAlign.justify,
+              ),
+            ],
+          ),
+        );
       } else {
         courses.forEach((course) {
           if (course is CourseHeader)
@@ -187,9 +190,7 @@ class CourseListState extends State<CourseList> {
       }
     }
 
-    return ListView(
-      children: widgets
-    );
+    return ListView(shrinkWrap: true, children: widgets);
   }
 
   Widget _buildHorizontal(Map<DateTime, List<BaseCourse>> elements) {
@@ -248,7 +249,7 @@ class CourseListState extends State<CourseList> {
   @override
   Widget build(BuildContext context) {
     final isHorizontal = widget.isHorizontal;
-    
+
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
