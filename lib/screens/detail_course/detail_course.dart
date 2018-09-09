@@ -171,14 +171,13 @@ class _DetailCourseState extends State<DetailCourse> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final translate = Translations.of(context);
-    final prefs = PreferencesProvider.of(context);
 
     final actionsAppbar = (_course is CustomCourse)
         ? [
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                prefs.removeCustomEvent(_course);
+                PreferencesProvider.of(context).removeCustomEvent(_course);
                 Navigator.of(context).pop();
               },
             ),
@@ -192,7 +191,7 @@ class _DetailCourseState extends State<DetailCourse> {
                 );
 
                 if (editedCourse != null) {
-                  prefs.editCustomEvent(editedCourse);
+                  PreferencesProvider.of(context).editCustomEvent(editedCourse);
                   setState(() {
                     _course = editedCourse;
                   });
