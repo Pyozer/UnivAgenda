@@ -9,29 +9,15 @@ import 'package:url_launcher/url_launcher.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
 
-  Widget _drawerElem(
-      BuildContext context, IconData icon, StringKey title, String routeDest,
-      {bool enabled = true, Function onTap}) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(Translations.of(context).get(title)),
-      onTap: () {
-        if (onTap != null)
-          onTap();
-        else
-          Navigator.of(context).popAndPushNamed(routeDest);
-      },
-      enabled: enabled,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
 
     return Drawer(
-        semanticLabel: translations.get(StringKey.DRAWER),
-        child: ListView(padding: EdgeInsets.zero, children: [
+      semanticLabel: translations.get(StringKey.DRAWER),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
           DrawerHeader(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -44,50 +30,45 @@ class MainDrawer extends StatelessWidget {
                 Text(
                   translations.get(StringKey.APP_NAME),
                   style: const TextStyle(
-                      fontSize: 24.0, fontWeight: FontWeight.w500),
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 )
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
-          _drawerElem(
-            context,
-            Icons.location_city,
-            StringKey.FINDROOM,
-            RouteKey.FINDROOM,
+          DrawerElement(
+            icon: Icons.location_city,
+            title: translations.get(StringKey.FINDROOM),
+            routeDest: RouteKey.FINDROOM,
           ),
-          _drawerElem(
-            context,
-            Icons.info_outline,
-            StringKey.ABOUT,
-            RouteKey.ABOUT,
+          DrawerElement(
+            icon: Icons.info_outline,
+            title: translations.get(StringKey.ABOUT),
+            routeDest: RouteKey.ABOUT,
           ),
-          _drawerElem(
-            context,
-            Icons.lightbulb_outline,
-            StringKey.INTRO,
-            RouteKey.INTRO,
+          DrawerElement(
+            icon: Icons.lightbulb_outline,
+            title: translations.get(StringKey.INTRO),
+            routeDest: RouteKey.INTRO,
           ),
-          Divider(),
-          _drawerElem(
-            context,
-            Icons.settings,
-            StringKey.SETTINGS,
-            RouteKey.SETTINGS,
+          const Divider(),
+          DrawerElement(
+            icon: Icons.settings,
+            title: translations.get(StringKey.SETTINGS),
+            routeDest: RouteKey.SETTINGS,
           ),
-          _drawerElem(
-            context,
-            Icons.system_update,
-            StringKey.UPDATE,
-            RouteKey.UPDATE,
+          DrawerElement(
+            icon: Icons.system_update,
+            title: translations.get(StringKey.UPDATE),
+            routeDest: RouteKey.UPDATE,
             enabled: false,
           ),
-          _drawerElem(
-            context,
-            Icons.feedback,
-            StringKey.FEEDBACK,
-            null,
+          DrawerElement(
+            icon: Icons.feedback,
+            title: translations.get(StringKey.FEEDBACK),
             onTap: () async {
               var url =
                   'mailto:jeancharles.msse@gmail.com?subject=Feedback MyAgenda';
@@ -97,25 +78,56 @@ class MainDrawer extends StatelessWidget {
                 Navigator.of(context).pop();
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      translations.get(StringKey.NO_EMAIL_APP),
-                    ),
+                    content: Text(translations.get(StringKey.NO_EMAIL_APP)),
                   ),
                 );
               }
             },
           ),
-          Divider(),
-          _drawerElem(
-            context,
-            Icons.exit_to_app,
-            StringKey.LOGOUT,
-            RouteKey.LOGIN,
+          const Divider(),
+          DrawerElement(
+            icon: Icons.exit_to_app,
+            title: translations.get(StringKey.LOGOUT),
+            routeDest: RouteKey.LOGIN,
             onTap: () {
               PreferencesProvider.of(context).userLogged = false;
               Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
             },
           )
-        ]));
+        ],
+      ),
+    );
+  }
+}
+
+class DrawerElement extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String routeDest;
+  final Function onTap;
+  final bool enabled;
+
+  const DrawerElement(
+      {Key key,
+      @required this.icon,
+      @required this.title,
+      this.routeDest,
+      this.onTap,
+      this.enabled = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: () {
+        if (onTap != null)
+          onTap();
+        else if (routeDest != null)
+          Navigator.of(context).popAndPushNamed(routeDest);
+      },
+      enabled: enabled,
+    );
   }
 }

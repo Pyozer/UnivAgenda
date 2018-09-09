@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/widgets/ui/circular_loader.dart';
+
+const changelogUrl = 'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
 
 class ChangeLog extends StatelessWidget {
+
   Future<String> _fetchData() async {
-    final response = await http.get(
-        'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md');
+    final response = await http.get(changelogUrl);
     if (response.statusCode == 200)
       return response.body;
     else
@@ -26,7 +27,7 @@ class ChangeLog extends StatelessWidget {
                   data: snapshot.data,
                   onTapLink: (String href) => openLink(href))
               : Center(
-                  child: CircularLoader(),
+                  child: CircularProgressIndicator(),
                 ),
     );
   }

@@ -339,7 +339,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isLogged, _userLogged));
+        .then((prefs) => prefs.setBool(PrefKey.isUserLogged, _userLogged));
   }
 
   bool get isHorizontalView => _horizontalView ?? PrefKey.defaultHorizontalView;
@@ -365,7 +365,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
 
     SharedPreferences.getInstance().then((prefs) =>
-        prefs.setString(PrefKey.ressources, json.encode(newRessources)));
+        prefs.setString(PrefKey.resources, json.encode(newRessources)));
   }
 
   Map<String, dynamic> getThemeValues() {
@@ -402,7 +402,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init ressources for agendas
     Map<String, dynamic> actualRes =
-        json.decode(prefs.getString(PrefKey.ressources) ?? "{}");
+        json.decode(prefs.getString(PrefKey.resources) ?? "{}");
     // If no ressources saved, store defaults from JSON
     if (actualRes == null || actualRes.length == 0) {
       String jsonContent = await rootBundle.loadString("res/ressources.json");
@@ -433,7 +433,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init other prefs
     cachedIcal = prefs.getString(PrefKey.cachedIcal);
-    userLogged = prefs.getBool(PrefKey.isLogged);
+    userLogged = prefs.getBool(PrefKey.isUserLogged);
     firstBoot = prefs.getBool(PrefKey.isFirstBoot);
 
     // Init saved notes

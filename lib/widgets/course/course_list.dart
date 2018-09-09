@@ -25,16 +25,16 @@ class CourseList extends StatefulWidget {
   final bool isHorizontal;
   final Color noteColor;
 
-  const CourseList(
-      {Key key,
-      @required this.campus,
-      @required this.department,
-      @required this.year,
-      @required this.group,
-      this.numberWeeks = 4,
-      this.isHorizontal = false,
-      this.noteColor})
-      : super(key: key);
+  const CourseList({
+    Key key,
+    @required this.campus,
+    @required this.department,
+    @required this.year,
+    @required this.group,
+    @required this.numberWeeks,
+    @required this.noteColor,
+    this.isHorizontal = false,
+  }) : super(key: key);
 
   @override
   State<CourseList> createState() => CourseListState();
@@ -75,7 +75,7 @@ class CourseListState extends State<CourseList> {
       _prepareList(response.body);
       _updateCache(response.body);
     } else {
-      // TODO: Afficher message d'erreur
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Network error")));
     }
     return null;
   }
@@ -86,8 +86,7 @@ class CourseListState extends State<CourseList> {
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
-    final courseNotes =
-        PreferencesProvider.of(context).notesOfCourse(course);
+    final courseNotes = PreferencesProvider.of(context).notesOfCourse(course);
 
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
@@ -253,19 +252,21 @@ class CourseListState extends State<CourseList> {
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _fetchData,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          CourseListHeader(year: widget.year, group: widget.group),
-          Divider(height: 0.0),
-          Expanded(
-            child: Container(
-              child: (isHorizontal)
-                  ? _buildHorizontal(_listElements)
-                  : _buildVertical(_listElements),
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            CourseListHeader(year: widget.year, group: widget.group),
+            Divider(height: 0.0),
+            Expanded(
+              child: Container(
+                child: (isHorizontal)
+                    ? _buildHorizontal(_listElements)
+                    : _buildVertical(_listElements),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

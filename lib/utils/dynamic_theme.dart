@@ -29,7 +29,6 @@ class DynamicThemeState extends State<DynamicTheme> {
 
   @override
   Widget build(BuildContext context) {
-    print("dynamic theme");
     final prefs = PreferencesProvider.of(context);
     return widget.themedWidgetBuilder(
       context,

@@ -14,6 +14,18 @@ import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
+final routes = {
+  RouteKey.SPLASHSCREEN: SplashScreen(),
+  RouteKey.HOME: HomeScreen(),
+  RouteKey.FINDROOM: FindRoomScreen(),
+  RouteKey.SETTINGS: SettingsScreen(),
+  RouteKey.UPDATE: AboutScreen(),
+  RouteKey.ABOUT: AboutScreen(),
+  RouteKey.LICENCES: LicencesScreen(),
+  RouteKey.INTRO: IntroductionScreen(),
+  RouteKey.LOGIN: LoginScreen(),
+};
+
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,53 +44,11 @@ class App extends StatelessWidget {
             supportedLocales: [const Locale('en'), const Locale('fr')],
             initialRoute: RouteKey.SPLASHSCREEN,
             onGenerateRoute: (RouteSettings settings) {
-              switch (settings.name) {
-                case RouteKey.SPLASHSCREEN:
-                  return CustomRoute(
-                    builder: (_) => SplashScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.HOME:
-                  return CustomRoute(
-                    builder: (_) => HomeScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.FINDROOM:
-                  return CustomRoute(
-                    builder: (_) => FindRoomScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.SETTINGS:
-                  return CustomRoute(
-                    builder: (_) => SettingsScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.UPDATE:
-                  return CustomRoute(
-                    builder: (_) => AboutScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.ABOUT:
-                  return CustomRoute(
-                    builder: (_) => AboutScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.LICENCES:
-                  return CustomRoute(
-                    builder: (_) => LicencesScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.INTRO:
-                  return CustomRoute(
-                    builder: (_) => IntroductionScreen(),
-                    settings: settings,
-                  );
-                case RouteKey.LOGIN:
-                  return CustomRoute(
-                    builder: (_) => LoginScreen(),
-                    settings: settings,
-                  );
-              }
+              if (routes.containsKey(settings.name))
+                return CustomRoute(
+                  builder: (_) => routes[settings.name],
+                  settings: settings,
+                );
               assert(false);
             },
           );

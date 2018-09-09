@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/route_key.dart';
@@ -5,6 +7,15 @@ import 'package:myagenda/utils/preferences.dart';
 
 class SplashScreen extends StatelessWidget {
   void _initPreferences(BuildContext context) async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+    }
+
     final prefs = PreferencesProvider.of(context);
 
     // Load preferences from disk

@@ -18,15 +18,15 @@ class Translations {
     return Localizations.of<Translations>(context, Translations);
   }
 
-  String getPlural(StringKey key, int number, [List replacements]) {
-    if (number > 1 && _localizedValues.containsKey(key.value + "_PLURAL"))
-      return _getTranslation(key.value + "_PLURAL", replacements);
+  String getPlural(String key, int number, [List replacements]) {
+    if (number > 1 && _localizedValues.containsKey(key + "_PLURAL"))
+      return _getTranslation(key + "_PLURAL", replacements);
     else
-      return _getTranslation(key.value, replacements);
+      return _getTranslation(key, replacements);
   }
 
-  String get(StringKey key, [List replacements]) {
-    return _getTranslation(key.value, replacements);
+  String get(String key, [List replacements]) {
+    return _getTranslation(key, replacements);
   }
 
   String _getTranslation(String key, [List replacements]) {

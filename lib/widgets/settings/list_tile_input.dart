@@ -84,17 +84,17 @@ class _ListTileInputState extends State<ListTileInput> {
               controller: TextEditingController(text: _inputValue),
               keyboardType: widget.inputType ?? TextInputType.text,
               onChanged: _onInputChange,
-              onSubmitted: (value) {
-                _onSubmit();
-              },
+              onSubmitted: (value) => _onSubmit(),
             ),
             actions: <Widget>[
               FlatButton(
-                  onPressed: _closeDialog,
-                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
+                onPressed: _closeDialog,
+                child: Text(translate.get(StringKey.CANCEL).toUpperCase()),
+              ),
               FlatButton(
-                  onPressed: _onSubmit,
-                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
+                onPressed: _onSubmit,
+                child: Text(translate.get(StringKey.SUBMIT).toUpperCase()),
+              ),
             ],
           );
         });

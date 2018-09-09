@@ -10,6 +10,13 @@ class CircleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(shape: CircleBorder(), child: image);
+    return Material(
+      elevation: 3.0,
+      shape: CircleBorder(),
+      child: ClipOval(
+        child: image,
+        clipBehavior: Clip.antiAlias,
+      ),
+    );
   }
 }

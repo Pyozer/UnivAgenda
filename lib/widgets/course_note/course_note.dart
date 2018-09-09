@@ -13,19 +13,26 @@ class CourseNote extends StatelessWidget {
   List<Widget> _buildElements(BuildContext context) {
     List<Widget> elems = [
       Expanded(
-          child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: Text(note.text,
-                  style: Theme.of(context).textTheme.body1,
-                  textAlign: TextAlign.justify)))
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            note.text,
+            style: Theme.of(context).textTheme.body1,
+            textAlign: TextAlign.justify,
+          ),
+        ),
+      )
     ];
 
     if (onDelete != null) {
       elems.add(Container(color: Colors.grey, height: 18.0, width: 1.0));
-      elems.add(IconButton(
+      elems.add(
+        IconButton(
           icon: Icon(Icons.delete),
           onPressed: () => onDelete(note),
-          tooltip: Translations.of(context).get(StringKey.DELETE)));
+          tooltip: Translations.of(context).get(StringKey.DELETE),
+        ),
+      );
     }
     return elems;
   }
@@ -33,8 +40,11 @@ class CourseNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 4.0,
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
-        child: Row(children: _buildElements(context)));
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
+      child: Row(
+        children: _buildElements(context),
+      ),
+    );
   }
 }

@@ -5,7 +5,6 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/circular_loader.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,12 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
     setLoading(true);
 
     // First request to get JSESSIONID cookie and lt value
-    final response = await http.get(kLoginURL);
 
-    // If request failed
-    if (response.statusCode != 200) {
+    http.Response response;
+    try {
+      response = await http.get(kLoginURL);
+    } catch (_) {
       setLoading(false);
-      showMessage(Translations.of(context).get(StringKey.APP_NAME));
+      showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
       return;
     }
 
@@ -74,16 +74,16 @@ class _LoginScreenState extends State<LoginScreen> {
     final cookie = response.headers["set-cookie"];
 
     // Second request, with all necessary data
-    final loginResponse = await http.post(
-      kLoginURL,
-      body: postParams,
-      headers: {"cookie": cookie},
-    );
-
-    // If request failed
-    if (loginResponse.statusCode != 200) {
+    http.Response loginResponse;
+    try {
+      loginResponse = await http.post(
+        kLoginURL,
+        body: postParams,
+        headers: {"cookie": cookie},
+      );
+    } catch (_) {
       setLoading(false);
-      showMessage(Translations.of(context).get(StringKey.APP_NAME));
+      showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
       return;
     }
 
@@ -177,8 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(8.0),
+                        ),
                       ),
                       elevation: 4.0,
                       child: Padding(
@@ -195,16 +197,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Expanded(child: username),
                                   Container(
-                                      height: 32.0,
-                                      width: 1.0,
-                                      color: Colors.black54),
+                                    height: 32.0,
+                                    width: 1.0,
+                                    color: Colors.black54,
+                                  ),
                                   Expanded(child: password)
                                 ],
                               ),
                       ),
                     ),
                     const SizedBox(height: 32.0),
-                    _isLoading ? CircularLoader() : loginButton,
+                    _isLoading ? CircularProgressIndicator() : loginButton,
                   ],
                 ),
               ),

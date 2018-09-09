@@ -35,22 +35,23 @@ class CourseListHeader extends StatelessWidget {
     );
   }
 
-  String _getText() {
-    return "$year - $group";
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (year != null && group != null) {
-      final textStyle = Theme.of(context).textTheme.title;
-      return InkWell(
-          onTap: () => _onHeaderTap(context),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(_getText(), style: textStyle))
-          ]));
-    } else
-      return Container();
+    if (year == null || group == null) return Container();
+
+    final textStyle = Theme.of(context).textTheme.title;
+
+    return InkWell(
+      onTap: () => _onHeaderTap(context),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text("$year - $group", style: textStyle),
+          )
+        ],
+      ),
+    );
   }
 }

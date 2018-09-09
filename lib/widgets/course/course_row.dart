@@ -8,47 +8,34 @@ class CourseRow extends StatelessWidget {
   final Course course;
   final Color noteColor;
 
-  CourseRow(
-      {Key key,
-      this.course,
-      this.noteColor = const Color(PrefKey.defaultNoteColor)})
+  CourseRow({Key key,
+    this.course,
+    this.noteColor = const Color(PrefKey.defaultNoteColor)})
       : super(key: key);
 
   void _onCourseTap(BuildContext context) {
     Navigator.of(context).push(
       CustomRoute<Course>(
-          builder: (context) => DetailCourse(course: course),
-          fullscreenDialog: true),
+        builder: (context) => DetailCourse(course: course),
+        fullscreenDialog: true,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
 
     Color bgColorRow;
     if (course.color != null)
       bgColorRow = course.color;
     else if (course.isExam()) bgColorRow = Colors.red[600];
 
-    final noteIndicator = course.hasNote()
-        ? Material(
-            elevation: 4.0,
-            borderRadius: BorderRadius.circular(25.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: noteColor,
-                borderRadius: BorderRadius.circular(40.0),
-              ),
-              width: 14.0,
-              height: 14.0,
-            ),
-          )
-        : Container(width: 14.0, height: 14.0);
-
     return Card(
       elevation: 4.0,
-      margin: const EdgeInsets.only(left: 12.0,right: 12.0, top: 12.0),
+      margin: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
       child: InkWell(
         onTap: () => _onCourseTap(context),
         child: Container(
@@ -82,7 +69,9 @@ class CourseRow extends StatelessWidget {
                   ],
                 ),
               ),
-              noteIndicator
+              course.hasNote()
+                  ? NoteIndicator(noteColor: noteColor)
+                  : Container(width: 14.0, height: 14.0)
             ],
           ),
         ),
@@ -90,3 +79,29 @@ class CourseRow extends StatelessWidget {
     );
   }
 }
+
+class NoteIndicator extends StatelessWidget {
+  final Color noteColor;
+
+  const NoteIndicator({Key key, this.noteColor}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final border = const BorderRadius.all(const Radius.circular(25.0));
+
+    return Material(
+      elevation: 4.0,
+      borderRadius: border,
+      shape: CircleBorder(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: noteColor,
+          borderRadius: border,
+        ),
+        width: 14.0,
+        height: 14.0,
+      ),
+    );
+  }
+}
+

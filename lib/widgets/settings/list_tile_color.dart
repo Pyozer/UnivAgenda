@@ -81,38 +81,42 @@ class _ListTileColorState extends State<ListTileColor> {
     final translate = Translations.of(context);
 
     await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(widget.titleDialog ?? widget.title),
-            contentPadding: const EdgeInsets.all(8.0),
-            content: MaterialColorPicker(
-              onColorChange: _onColorChange,
-              selectedColor: _inputColor,
-              colors: widget.colors,
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(widget.titleDialog ?? widget.title),
+          contentPadding: const EdgeInsets.all(8.0),
+          content: MaterialColorPicker(
+            onColorChange: _onColorChange,
+            selectedColor: _inputColor,
+            colors: widget.colors,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: _closeDialog,
+              child: Text(translate.get(StringKey.CANCEL).toUpperCase()),
             ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: _closeDialog,
-                  child: Text(translate.get(StringKey.CANCEL).toUpperCase())),
-              FlatButton(
-                  onPressed: _onSubmit,
-                  child: Text(translate.get(StringKey.SUBMIT).toUpperCase())),
-            ],
-          );
-        });
+            FlatButton(
+              onPressed: _onSubmit,
+              child: Text(translate.get(StringKey.SUBMIT).toUpperCase()),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final double sizeColor =
+    final sizeColor =
         widget.description != null ? kBigColorSize : kSmallColorSize;
 
     return ListTile(
-        title: ListTileTitle(widget.title),
-        subtitle: widget.description != null ? Text(widget.description) : null,
-        trailing: CircleColor(color: _submitColor, circleSize: sizeColor),
-        onTap: _openDialog);
+      title: ListTileTitle(widget.title),
+      subtitle: Text(widget.description ?? ""),
+      trailing: CircleColor(color: _submitColor, circleSize: sizeColor),
+      onTap: _openDialog,
+    );
   }
 }

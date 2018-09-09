@@ -1,136 +1,132 @@
 class StringKey {
 
-  static const APP_NAME = const StringKey._('app_name');
+  static const APP_NAME = 'app_name';
 
-  static const DRAWER = const StringKey._('drawer');
+  static const DRAWER = 'drawer';
 
-  static const FINDROOM = const StringKey._('findroom');
+  static const FINDROOM = 'findroom';
 
-  static const SETTINGS = const StringKey._('settings');
-  static const SETTINGS_GENERAL = const StringKey._('settings_general');
-  static const SETTINGS_DISPLAY = const StringKey._('settings_display');
+  static const SETTINGS = 'settings';
+  static const SETTINGS_GENERAL = 'settings_general';
+  static const SETTINGS_DISPLAY = 'settings_display';
 
-  static const CAMPUS = const StringKey._('campus');
-  static const SELECT_CAMPUS = const StringKey._('select_campus');
-  static const DEPARTMENT = const StringKey._('department');
-  static const SELECT_DEPARTMENT = const StringKey._('select_department');
-  static const YEAR = const StringKey._('year');
-  static const SELECT_YEAR = const StringKey._('select_year');
-  static const GROUP = const StringKey._('group');
-  static const SELECT_GROUP = const StringKey._('select_group');
+  static const CAMPUS = 'campus';
+  static const SELECT_CAMPUS = 'select_campus';
+  static const DEPARTMENT = 'department';
+  static const SELECT_DEPARTMENT = 'select_department';
+  static const YEAR = 'year';
+  static const SELECT_YEAR = 'select_year';
+  static const GROUP = 'group';
+  static const SELECT_GROUP = 'select_group';
 
-  static const NUMBER_WEEK = const StringKey._('number_week');
+  static const NUMBER_WEEK = 'number_week';
 
-  static const HORIZONTAL_VIEW = const StringKey._('horizontal_view');
-  static const HORIZONTAL_VIEW_DESC = const StringKey._('horizontal_view_desc');
-  static const DARK_THEME = const StringKey._('dark_theme');
-  static const DARK_THEME_DESC = const StringKey._('dark_theme_desc');
-  static const PRIMARY_COLOR = const StringKey._('primary_color');
-  static const PRIMARY_COLOR_DESC = const StringKey._('primary_color_desc');
-  static const ACCENT_COLOR = const StringKey._('accent_color');
-  static const ACCENT_COLOR_DESC = const StringKey._('accent_color_desc');
-  static const NOTE_COLOR = const StringKey._('note_color');
-  static const NOTE_COLOR_DESC = const StringKey._('note_color_desc');
+  static const HORIZONTAL_VIEW = 'horizontal_view';
+  static const HORIZONTAL_VIEW_DESC = 'horizontal_view_desc';
+  static const DARK_THEME = 'dark_theme';
+  static const DARK_THEME_DESC = 'dark_theme_desc';
+  static const PRIMARY_COLOR = 'primary_color';
+  static const PRIMARY_COLOR_DESC = 'primary_color_desc';
+  static const ACCENT_COLOR = 'accent_color';
+  static const ACCENT_COLOR_DESC = 'accent_color_desc';
+  static const NOTE_COLOR = 'note_color';
+  static const NOTE_COLOR_DESC = 'note_color_desc';
 
-  static const UPDATE = const StringKey._('update');
-  static const ABOUT = const StringKey._('about');
-  static const INTRO = const StringKey._('introduction');
-  static const FEEDBACK = const StringKey._('feedback');
-  static const LOGOUT = const StringKey._('logout');
+  static const UPDATE = 'update';
+  static const ABOUT = 'about';
+  static const INTRO = 'introduction';
+  static const FEEDBACK = 'feedback';
+  static const LOGOUT = 'logout';
 
-  static const ADD_EVENT = const StringKey._('add_event');
+  static const ADD_EVENT = 'add_event';
 
-  static const CANCEL = const StringKey._('cancel');
-  static const SAVE = const StringKey._('save');
-  static const SUBMIT = const StringKey._('submit');
+  static const CANCEL = 'cancel';
+  static const SAVE = 'save';
+  static const SUBMIT = 'submit';
 
-  static const WHAT_IS_IT = const StringKey._('what_is_it');
-  static const ABOUT_WHAT = const StringKey._('about_what');
+  static const WHAT_IS_IT = 'what_is_it';
+  static const ABOUT_WHAT = 'about_what';
 
-  static const AUTHOR = const StringKey._('author');
-  static const DEVELOPER = const StringKey._('developer');
-  static const SOCIAL = const StringKey._('social');
-  static const GITHUB_PROJECT = const StringKey._('github_project');
-  static const OTHER = const StringKey._('other');
+  static const AUTHOR = 'author';
+  static const DEVELOPER = 'developer';
+  static const SOCIAL = 'social';
+  static const GITHUB_PROJECT = 'github_project';
+  static const OTHER = 'other';
 
-  static const CHANGELOG = const StringKey._('changelog');
-  static const CHANGELOG_DESC = const StringKey._('changelog_desc');
-  static const OPENSOURCE_LICENCES = const StringKey._('opensource_licences');
-  static const OPENSOURCE_LICENCES_DESC = const StringKey._('opensource_licences_desc');
-  static const VERSION = const StringKey._('version');
+  static const CHANGELOG = 'changelog';
+  static const CHANGELOG_DESC = 'changelog_desc';
+  static const OPENSOURCE_LICENCES = 'opensource_licences';
+  static const OPENSOURCE_LICENCES_DESC = 'opensource_licences_desc';
+  static const VERSION = 'version';
 
-  static const MADE_WITH = const StringKey._('made_with');
+  static const MADE_WITH = 'made_with';
 
-  static const SKIP = const StringKey._('skip');
-  static const NEXT = const StringKey._('next');
-  static const DONE = const StringKey._('done');
+  static const SKIP = 'skip';
+  static const NEXT = 'next';
+  static const DONE = 'done';
 
-  static const INTRO_WELCOME_TITLE = const StringKey._('intro_welcome_title');
-  static const INTRO_WELCOME_DESC = const StringKey._('intro_welcome_desc');
+  static const INTRO_WELCOME_TITLE = 'intro_welcome_title';
+  static const INTRO_WELCOME_DESC = 'intro_welcome_desc';
 
-  static const INTRO_AGENDA_TITLE = const StringKey._('intro_agenda_title');
-  static const INTRO_AGENDA_DESC = const StringKey._('intro_agenda_desc');
+  static const INTRO_AGENDA_TITLE = 'intro_agenda_title';
+  static const INTRO_AGENDA_DESC = 'intro_agenda_desc';
 
-  static const INTRO_CUSTOM_TITLE = const StringKey._('intro_customization_title');
-  static const INTRO_CUSTOM_DESC = const StringKey._('intro_customization_desc');
+  static const INTRO_CUSTOM_TITLE = 'intro_customization_title';
+  static const INTRO_CUSTOM_DESC = 'intro_customization_desc';
 
-  static const INTRO_NOTE_TITLE = const StringKey._('intro_note_title');
-  static const INTRO_NOTE_DESC = const StringKey._('intro_note_desc');
+  static const INTRO_NOTE_TITLE = 'intro_note_title';
+  static const INTRO_NOTE_DESC = 'intro_note_desc';
 
-  static const INTRO_EVENT_TITLE = const StringKey._('intro_event_title');
-  static const INTRO_EVENT_DESC = const StringKey._('intro_event_desc');
+  static const INTRO_EVENT_TITLE = 'intro_event_title';
+  static const INTRO_EVENT_DESC = 'intro_event_desc';
 
-  static const INTRO_OFFLINE_TITLE = const StringKey._('intro_offline_title');
-  static const INTRO_OFFLINE_DESC = const StringKey._('intro_offline_desc');
+  static const INTRO_OFFLINE_TITLE = 'intro_offline_title';
+  static const INTRO_OFFLINE_DESC = 'intro_offline_desc';
 
-  static const COURSE_TEST = const StringKey._('course_test');
-  static const COURSE_DETAILS = const StringKey._('course_details');
+  static const COURSE_TEST = 'course_test';
+  static const COURSE_DETAILS = 'course_details';
 
-  static const NOTES = const StringKey._('notes');
-  static const ADD_NOTE = const StringKey._('add_note');
-  static const ADD_NOTE_PLACEHOLDER = const StringKey._('add_note_placeholder');
-  static const ADD_NOTE_EMPTY = const StringKey._('add_note_empty');
-  static const ADD_NOTE_SUBMIT = const StringKey._('add_note_submit');
+  static const NOTES = 'notes';
+  static const ADD_NOTE = 'add_note';
+  static const ADD_NOTE_PLACEHOLDER = 'add_note_placeholder';
+  static const ADD_NOTE_EMPTY = 'add_note_empty';
+  static const ADD_NOTE_SUBMIT = 'add_note_submit';
 
-  static const ADD_NOTE_BTN = const StringKey._('add_note_btn');
-  static const DELETE = const StringKey._('delete');
+  static const ADD_NOTE_BTN = 'add_note_btn';
+  static const DELETE = 'delete';
 
-  static const EVENT_COLOR = const StringKey._('event_color');
-  static const EVENT_COLOR_DESC = const StringKey._('event_color_desc');
+  static const EVENT_COLOR = 'event_color';
+  static const EVENT_COLOR_DESC = 'event_color_desc';
 
-  static const TITLE_EVENT = const StringKey._('title_event');
-  static const DESC_EVENT = const StringKey._('desc_event');
-  static const LOCATION_EVENT = const StringKey._('location_event');
-  static const DATE_EVENT = const StringKey._('date_event');
+  static const TITLE_EVENT = 'title_event';
+  static const DESC_EVENT = 'desc_event';
+  static const LOCATION_EVENT = 'location_event';
+  static const DATE_EVENT = 'date_event';
 
-  static const START_TIME_EVENT = const StringKey._('start_time_event');
-  static const END_TIME_EVENT = const StringKey._('end_time_event');
+  static const START_TIME_EVENT = 'start_time_event';
+  static const END_TIME_EVENT = 'end_time_event';
 
-  static const REQUIRE_FIELD = const StringKey._('require_field');
+  static const REQUIRE_FIELD = 'require_field';
 
-  static const ERROR_END_TIME = const StringKey._('error_end_time');
-  static const ERROR_END_TIME_TEXT = const StringKey._('error_end_time_text');
+  static const ERROR_END_TIME = 'error_end_time';
+  static const ERROR_END_TIME_TEXT = 'error_end_time_text';
 
-  static const OK = const StringKey._('ok');
-  static const SEARCH = const StringKey._('search');
+  static const OK = 'ok';
+  static const SEARCH = 'search';
 
-  static const FINDROOM_FROM = const StringKey._('findroom_from');
-  static const FINDROOM_TO = const StringKey._('findroom_to');
-  static const FINDROOM_AVAILABLE = const StringKey._('findroom_available');
-  static const FINDROOM_NORESULT = const StringKey._('findroom_noresult');
-  static const FINDROOM_NORESULT_TEXT = const StringKey._('findroom_noresult_text');
+  static const FINDROOM_FROM = 'findroom_from';
+  static const FINDROOM_TO = 'findroom_to';
+  static const FINDROOM_AVAILABLE = 'findroom_available';
+  static const FINDROOM_NORESULT = 'findroom_noresult';
+  static const FINDROOM_NORESULT_TEXT = 'findroom_noresult_text';
 
-  static const COURSES_NORESULT = const StringKey._('courses_noresult');
-  static const COURSES_NORESULT_TEXT = const StringKey._('courses_noresult_text');
+  static const COURSES_NORESULT = 'courses_noresult';
+  static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
 
-  static const LOGIN_USERNAME = const StringKey._('login_username');
-  static const LOGIN_PASSWORD = const StringKey._('login_password');
-  static const LOGIN_SUBMIT = const StringKey._('login_submit');
-  static const LOGIN_SERVER_ERROR = const StringKey._('login_server_error');
+  static const LOGIN_USERNAME = 'login_username';
+  static const LOGIN_PASSWORD = 'login_password';
+  static const LOGIN_SUBMIT = 'login_submit';
+  static const LOGIN_SERVER_ERROR = 'login_server_error';
 
-  static const NO_EMAIL_APP = const StringKey._('no_email_app');
-
-  final String value;
-
-  const StringKey._(this.value);
+  static const NO_EMAIL_APP = 'no_email_app';
 }

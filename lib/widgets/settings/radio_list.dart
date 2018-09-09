@@ -25,29 +25,30 @@ class _RadioListState extends State<RadioList> {
       _selectedChoice = widget.values[0];
   }
 
-  Widget _getContent() {
+  @override
+  Widget build(BuildContext context) {
     final int valuesSize = widget.values.length;
 
     if (valuesSize == 0) return Container();
 
     return Column(
-        children: List<RadioListTile>.generate(valuesSize, (int index) {
-      return RadioListTile<String>(
-          activeColor: Theme.of(context).accentColor,
-          value: widget.values[index],
-          groupValue: _selectedChoice,
-          title: Text(widget.values[index]),
-          onChanged: (String value) {
-            setState(() {
-              _selectedChoice = value;
-            });
-            widget.onChange(widget.values[index]);
-          });
-    }));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _getContent();
+      children: List<RadioListTile>.generate(
+        valuesSize,
+        (int index) {
+          return RadioListTile<String>(
+            activeColor: Theme.of(context).accentColor,
+            value: widget.values[index],
+            groupValue: _selectedChoice,
+            title: Text(widget.values[index]),
+            onChanged: (String value) {
+              setState(() {
+                _selectedChoice = value;
+              });
+              widget.onChange(widget.values[index]);
+            },
+          );
+        },
+      ),
+    );
   }
 }

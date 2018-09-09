@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
 class RaisedButtonColored extends StatelessWidget {
+  static const kShape = const OutlineInputBorder();
+
   final VoidCallback onPressed;
   final String text;
   final ShapeBorder shape;
   final EdgeInsets padding;
 
-  const RaisedButtonColored({Key key, this.onPressed, this.text, this.shape = const OutlineInputBorder(), this.padding})
-      : super(key: key);
+  const RaisedButtonColored({
+    Key key,
+    this.text,
+    this.onPressed,
+    this.shape = kShape,
+    this.padding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

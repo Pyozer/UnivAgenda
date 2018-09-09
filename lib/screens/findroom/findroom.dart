@@ -13,7 +13,6 @@ import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
-import 'package:myagenda/widgets/ui/circular_loader.dart';
 import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:http/http.dart' as http;
@@ -318,7 +317,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: _isLoading
-                          ? Center(child: CircularLoader())
+                          ? Center(child: CircularProgressIndicator())
                           : ListView.builder(
                               shrinkWrap: true,
                               padding:

@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -64,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
         year: prefs.year,
         group: prefs.group,
         numberWeeks: prefs.numberWeeks,
-        noteColor: Color(prefs.noteColor),
+        noteColor: Color(
+          prefs.noteColor,
+        ),
       ),
     );
   }
