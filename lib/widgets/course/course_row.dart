@@ -8,9 +8,10 @@ class CourseRow extends StatelessWidget {
   final Course course;
   final Color noteColor;
 
-  CourseRow({Key key,
-    this.course,
-    this.noteColor = const Color(PrefKey.defaultNoteColor)})
+  CourseRow(
+      {Key key,
+      this.course,
+      this.noteColor = const Color(PrefKey.defaultNoteColor)})
       : super(key: key);
 
   void _onCourseTap(BuildContext context) {
@@ -24,9 +25,7 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
+    final textTheme = Theme.of(context).textTheme;
 
     Color bgColorRow;
     if (course.color != null)
@@ -87,16 +86,13 @@ class NoteIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final border = const BorderRadius.all(const Radius.circular(25.0));
-
     return Material(
       elevation: 4.0,
-      borderRadius: border,
-      shape: CircleBorder(),
+      shape: const CircleBorder(),
       child: Container(
         decoration: BoxDecoration(
           color: noteColor,
-          borderRadius: border,
+          shape: BoxShape.circle,
         ),
         width: 14.0,
         height: 14.0,
@@ -104,4 +100,3 @@ class NoteIndicator extends StatelessWidget {
     );
   }
 }
-

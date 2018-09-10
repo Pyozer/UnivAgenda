@@ -75,7 +75,8 @@ class CourseListState extends State<CourseList> {
       _prepareList(response.body);
       _updateCache(response.body);
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Network error")));
+      if (context != null)
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Network error")));
     }
     return null;
   }

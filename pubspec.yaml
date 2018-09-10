@@ -15,8 +15,7 @@ dependencies:
   flutter_markdown: ^0.2.0
   uuid: ^1.0.3
 
-  color_picker:
-    git: git://github.com/pyozer/color_picker
+  flutter_material_color_picker: ^0.0.3+1
   introduction_screen:
     git: git://github.com/pyozer/introduction_screen
 
