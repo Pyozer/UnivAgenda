@@ -21,8 +21,6 @@ class StringKey {
 
   static const NUMBER_WEEK = 'number_week';
 
-  static const HORIZONTAL_VIEW = 'horizontal_view';
-  static const HORIZONTAL_VIEW_DESC = 'horizontal_view_desc';
   static const DARK_THEME = 'dark_theme';
   static const DARK_THEME_DESC = 'dark_theme_desc';
   static const PRIMARY_COLOR = 'primary_color';
@@ -43,6 +41,7 @@ class StringKey {
   static const CANCEL = 'cancel';
   static const SAVE = 'save';
   static const SUBMIT = 'submit';
+  static const CHANGE = 'change';
 
   static const WHAT_IS_IT = 'what_is_it';
   static const ABOUT_WHAT = 'about_what';
@@ -129,4 +128,7 @@ class StringKey {
   static const LOGIN_SERVER_ERROR = 'login_server_error';
 
   static const NO_EMAIL_APP = 'no_email_app';
+
+  static const CHANGE_AGENDA = 'change_agenda';
+  static const CHANGE_AGENDA_TEXT = 'change_agenda_text';
 }

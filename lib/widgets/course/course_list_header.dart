@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
+import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 
 class CourseListHeader extends StatelessWidget {
   final String text;
@@ -9,21 +11,22 @@ class CourseListHeader extends StatelessWidget {
   const CourseListHeader(this.text, {Key key}) : super(key: key);
 
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
+    final translations = Translations.of(mainContext);
+
     return showDialog<Null>(
       context: mainContext,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        // TODO: Add translations or even remove this ?
         return AlertDialog(
-          title: Text('Change calendar ?'),
-          content: Text('Do you want to change your calendar settings ?'),
+          title: Text(translations.get(StringKey.CHANGE_AGENDA)),
+          content: Text(translations.get(StringKey.CHANGE_AGENDA_TEXT)),
           actions: [
             FlatButton(
-              child: Text('CANCEL'),
+              child: Text(translations.get(StringKey.CANCEL)),
               onPressed: () => Navigator.of(context).pop(),
             ),
             FlatButton(
-              child: Text('CHANGE'),
+              child: Text(translations.get(StringKey.CHANGE)),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);

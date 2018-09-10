@@ -20,8 +20,6 @@
 
   "number_week": "Nombre de semaines",
 
-  "horizontal_view": "Affichage horizontal",
-  "horizontal_view_desc": "Les cours seront affichés horizontalement",
   "dark_theme": "Thème sombre",
   "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
   "primary_color": "Couleur principale",
@@ -42,6 +40,7 @@
   "cancel": "Annuler",
   "save": "Sauvegarder",
   "submit": "Valider",
+  "change": "Changer",
 
   "what_is_it": "Qu'est ce que c'est ?",
   "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine. L'application vous permet d'avoir un accès direct à votre emploi du temps sns avoir à aller sur l'ENT.",
@@ -121,5 +120,8 @@
   "login_submit": "Connexion",
   "login_server_error": "Problème de connexion avec le serveur de l'Université du Maine !",
 
-  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback."
+  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
+
+  "change_agenda": "Changer d'agenda ?",
+  "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?"
 }

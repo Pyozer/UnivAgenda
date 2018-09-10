@@ -452,7 +452,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Init ressources for agendas
     String resourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
     Map<String, dynamic> actualRes = json.decode(resourcesStr);
-    print(actualRes);
 
     // If no ressources saved, store defaults from JSON
     if (actualRes == null || actualRes.length == 0) {

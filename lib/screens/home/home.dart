@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : const SizedBox.shrink(),
         IconButton(
-          icon: Icon(_isHorizontal ? Icons.view_agenda : Icons.view_column),
+          icon: Icon(_isHorizontal ? Icons.view_day : Icons.view_week),
           onPressed: _switchTypeView,
         )
       ],

@@ -20,8 +20,6 @@
 
   "number_week": "Number of week",
 
-  "horizontal_view": "Horizontal view",
-  "horizontal_view_desc": "Courses will be display in horizontal way.",
   "dark_theme": "Dark theme",
   "dark_theme_desc": "App colors will be darker.",
   "primary_color": "Primary color",
@@ -60,6 +58,7 @@
   "skip": "Skip",
   "next": "Next",
   "done": "Got it",
+  "change": "Change",
 
   "intro_welcome_title": "Welcome !",
   "intro_welcome_desc": "MyAgenda allows you to access the Le Mans University calendar directly on your device !",
@@ -121,5 +120,8 @@
   "login_submit": "Login",
   "login_server_error": "Trouble connecting with the University of Maine server!",
 
-  "no_email_app": "No email client :/\nPlease install email app like Gmail."
+  "no_email_app": "No email client :/\nPlease install email app like Gmail.",
+
+  "change_agenda": "Change agenda ?",
+  "change_agenda_text": "Do you want to change your actual agenda ?"
 }
