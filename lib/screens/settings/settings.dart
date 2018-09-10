@@ -70,72 +70,76 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final prefs = PreferencesProvider.of(context);
 
     return SettingCard(
-        header: translations.get(StringKey.SETTINGS_DISPLAY),
-        children: [
-          ListTileInput(
-              title: translations.get(StringKey.NUMBER_WEEK),
-              defaultValue: prefs.numberWeeks.toString(),
-              inputType:
-                  TextInputType.numberWithOptions(decimal: false, signed: true),
-              onChange: (value) {
-                int numberWeeks = -1;
-                if (isNumeric(value)) numberWeeks = int.parse(value);
-
-                PreferencesProvider.of(context).setNumberWeeks(numberWeeks);
-              }),
-          const ListDivider(),
-          SwitchListTile(
-              title: ListTileTitle(translations.get(StringKey.HORIZONTAL_VIEW)),
-              subtitle: Text(translations.get(StringKey.HORIZONTAL_VIEW_DESC)),
-              value: prefs.isHorizontalView,
-              activeColor: Theme.of(context).accentColor,
-              onChanged: (value) => prefs.setHorizontalView(value)),
-          SwitchListTile(
-              title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
-              subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
-              value: prefs.isDarkTheme,
-              activeColor: Theme.of(context).accentColor,
-              onChanged: (value) => prefs.setDarkTheme(value)),
-          const ListDivider(),
-          ListTileColor(
-              title: translations.get(StringKey.PRIMARY_COLOR),
-              description: translations.get(StringKey.PRIMARY_COLOR_DESC),
-              selectedColor: Color(prefs.primaryColor),
-              onColorChange: (color) => prefs.setPrimaryColor(color.value)),
-          const ListDivider(),
-          ListTileColor(
-              title: translations.get(StringKey.ACCENT_COLOR),
-              description: translations.get(StringKey.ACCENT_COLOR_DESC),
-              selectedColor: Color(prefs.accentColor),
-              onColorChange: (color) => prefs.setAccentColor(color.value),
-              colors: [
-                Colors.redAccent,
-                Colors.pinkAccent,
-                Colors.purpleAccent,
-                Colors.deepPurpleAccent,
-                Colors.indigoAccent,
-                Colors.blueAccent,
-                Colors.lightBlueAccent,
-                Colors.cyanAccent,
-                Colors.tealAccent,
-                Colors.greenAccent,
-                Colors.lightGreenAccent,
-                Colors.limeAccent,
-                Colors.yellowAccent,
-                Colors.amberAccent,
-                Colors.orangeAccent,
-                Colors.deepOrangeAccent,
-                Colors.brown,
-                Colors.grey,
-                Colors.blueGrey
-              ]),
-          const ListDivider(),
-          ListTileColor(
-              title: translations.get(StringKey.NOTE_COLOR),
-              description: translations.get(StringKey.NOTE_COLOR_DESC),
-              selectedColor: Color(prefs.noteColor),
-              onColorChange: (color) => prefs.setNoteColor(color.value))
-        ]);
+      header: translations.get(StringKey.SETTINGS_DISPLAY),
+      children: [
+        ListTileInput(
+          title: translations.get(StringKey.NUMBER_WEEK),
+          defaultValue: prefs.numberWeeks.toString(),
+          inputType:
+              TextInputType.numberWithOptions(decimal: false, signed: true),
+          onChange: (value) {
+            prefs.setNumberWeeks(isNumeric(value) ? int.parse(value) : -1);
+          },
+        ),
+        const ListDivider(),
+        SwitchListTile(
+          title: ListTileTitle(translations.get(StringKey.HORIZONTAL_VIEW)),
+          subtitle: Text(translations.get(StringKey.HORIZONTAL_VIEW_DESC)),
+          value: prefs.isHorizontalView,
+          activeColor: Theme.of(context).accentColor,
+          onChanged: (value) => prefs.setHorizontalView(value),
+        ),
+        SwitchListTile(
+          title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
+          subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+          value: prefs.isDarkTheme,
+          activeColor: Theme.of(context).accentColor,
+          onChanged: (value) => prefs.setDarkTheme(value),
+        ),
+        const ListDivider(),
+        ListTileColor(
+          title: translations.get(StringKey.PRIMARY_COLOR),
+          description: translations.get(StringKey.PRIMARY_COLOR_DESC),
+          selectedColor: Color(prefs.primaryColor),
+          onColorChange: (color) => prefs.setPrimaryColor(color.value),
+        ),
+        const ListDivider(),
+        ListTileColor(
+          title: translations.get(StringKey.ACCENT_COLOR),
+          description: translations.get(StringKey.ACCENT_COLOR_DESC),
+          selectedColor: Color(prefs.accentColor),
+          onColorChange: (color) => prefs.setAccentColor(color.value),
+          colors: [
+            Colors.redAccent,
+            Colors.pinkAccent,
+            Colors.purpleAccent,
+            Colors.deepPurpleAccent,
+            Colors.indigoAccent,
+            Colors.blueAccent,
+            Colors.lightBlueAccent,
+            Colors.cyanAccent,
+            Colors.tealAccent,
+            Colors.greenAccent,
+            Colors.lightGreenAccent,
+            Colors.limeAccent,
+            Colors.yellowAccent,
+            Colors.amberAccent,
+            Colors.orangeAccent,
+            Colors.deepOrangeAccent,
+            Colors.brown,
+            Colors.grey,
+            Colors.blueGrey
+          ],
+        ),
+        const ListDivider(),
+        ListTileColor(
+          title: translations.get(StringKey.NOTE_COLOR),
+          description: translations.get(StringKey.NOTE_COLOR_DESC),
+          selectedColor: Color(prefs.noteColor),
+          onColorChange: (color) => prefs.setNoteColor(color.value),
+        )
+      ],
+    );
   }
 
   @override
