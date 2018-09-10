@@ -1,11 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:myagenda/data.dart';
 
 class IcalAPI {
-  static String prepareURL(String campus, String department, String year,
-      String group, int numberWeeks) {
-    final resID = Data.getGroupRes(campus, department, year, group).toString();
-
+  static String prepareURL(int resID, int numberWeeks) {
     final date = DateTime.now();
 
     final numDays = (numberWeeks == 0) ? 0 : 7 * numberWeeks + 7 - date.weekday;
@@ -17,7 +13,7 @@ class IcalAPI {
 
     String base =
         'http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical';
-    base += '&resources=' + resID;
+    base += '&resources=' + resID.toString();
     base += '&firstDate=' + startDate + '&lastDate=' + endDate;
 
     return base;

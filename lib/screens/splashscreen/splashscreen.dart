@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:http/http.dart' as http;
@@ -47,8 +46,6 @@ class SplashScreenState extends State<SplashScreen> {
         }
       } catch (_) {}
     }
-    // Send resources to Data
-    Data.allData = prefs.resources;
 
     // Load preferences from disk
     await prefs.initFromDisk();

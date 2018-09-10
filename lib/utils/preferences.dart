@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
@@ -73,62 +72,43 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   setCampus(String newCampus, [state = true]) {
     if (campus == newCampus) return;
-    changeGroupPref(
-        campus: newCampus,
-        department: department,
-        year: year,
-        group: group,
-        state: state);
+
+    changeGroupPref(newCampus, department, year, group, state);
   }
 
   String get department => _department;
 
   setDepartment(String newDepartment, [state = true]) {
     if (department == newDepartment) return;
-    changeGroupPref(
-        campus: campus,
-        department: newDepartment,
-        year: year,
-        group: group,
-        state: state);
+
+    changeGroupPref(campus, newDepartment, year, group, state);
   }
 
   String get year => _year;
 
   setYear(String newYear, [state = true]) {
     if (year == newYear) return;
-    changeGroupPref(
-      campus: campus,
-      department: department,
-      year: newYear,
-      group: group,
-    );
+
+    changeGroupPref(campus, department, newYear, group, state);
   }
 
   String get group => _group;
 
   setGroup(String newGroup, [state = true]) {
     if (group == newGroup) return;
-    changeGroupPref(
-        campus: campus,
-        department: department,
-        year: year,
-        group: newGroup,
-        state: true);
+
+    changeGroupPref(campus, department, year, newGroup, state);
   }
 
   void changeGroupPref(
-      {String campus,
-      String department,
-      String year,
-      String group,
-      state = true}) {
+      String newCampus, String newDepartment, String newYear, String newGroup,
+      [state = true]) {
     // Check if values are correct together
-    PrefsCalendar values = Data.checkDataValues(
-      campus: campus,
-      department: department,
-      year: year,
-      group: group,
+    PrefsCalendar values = checkDataValues(
+      campus: newCampus,
+      department: newDepartment,
+      year: newYear,
+      group: newGroup,
     );
 
     if (campus == values.campus &&
@@ -149,6 +129,64 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       prefs.setString(PrefKey.year, values.year);
       prefs.setString(PrefKey.group, values.group);
     });
+  }
+
+  List<String> getAllCampus() => _resources.keys.toList();
+
+  List<String> getCampusDepartments(String campus) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+
+    return _resources[campus].keys.toList();
+  }
+
+  List<String> getYears(String campus, String department) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+
+    return _resources[campus][department].keys.toList();
+  }
+
+  List<String> getGroups(String campus, String department, String year) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
+    return _resources[campus][department][year].keys.toList();
+  }
+
+  int getGroupRes(String campus, String department, String year, String group) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
+    if (group == null ||
+        !_resources[campus][department][year].containsKey(group))
+      group = getGroups(campus, department, year)[0];
+
+    return _resources[campus][department][year][group];
+  }
+
+  PrefsCalendar checkDataValues(
+      {String campus, String department, String year, String group}) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
+    if (group == null ||
+        !_resources[campus][department][year].containsKey(group))
+      group = getGroups(campus, department, year)[0];
+
+    return PrefsCalendar(
+        campus: campus, department: department, year: year, group: group);
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
@@ -422,7 +460,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       actualRes = json.decode(jsonContent);
     }
     setResources(actualRes, false);
-    Data.allData = actualRes;
 
     // Init group preferences
     final String campus = prefs.getString(PrefKey.campus);
@@ -431,12 +468,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     final String group = prefs.getString(PrefKey.group);
 
     // Check values and resave group prefs (useful if issue)
-    changeGroupPref(
-        campus: campus,
-        department: department,
-        year: year,
-        group: group,
-        state: false);
+    changeGroupPref(campus, department, year, group, false);
 
     // Init number of weeks to display
     setNumberWeeks(prefs.getInt(PrefKey.numberWeeks), false);

@@ -54,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
+    final resID = prefs.getGroupRes(
+        prefs.campus, prefs.department, prefs.year, prefs.group);
+
     final url = IcalAPI.prepareURL(
-      prefs.campus,
-      prefs.department,
-      prefs.year,
-      prefs.group,
+      resID,
       prefs.numberWeeks,
     );
 
@@ -80,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final endTime = DateTime.now();
     final diff = endTime.difference(startTime);
 
-    final waitTime = (diff.inMilliseconds < 1500) ? 1500 - diff.inMilliseconds : 0;
+    final waitTime =
+        (diff.inMilliseconds < 1500) ? 1500 - diff.inMilliseconds : 0;
 
     await Future.delayed(Duration(milliseconds: waitTime));
 

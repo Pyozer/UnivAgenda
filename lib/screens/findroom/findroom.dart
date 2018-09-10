@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/room_result.dart';
@@ -42,23 +41,25 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   void _initData() {
+    final prefs = PreferencesProvider.of(context);
     // Init start/end time
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
     // Get list of all campus
-    _campus = Data.getAllCampus();
+    _campus = prefs.getAllCampus();
     // Define preselected campus depends on preferences
-    final prefCampus = PreferencesProvider.of(context).campus;
+    final prefCampus = prefs.campus;
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
     _initDepartmentValue();
   }
 
   void _initDepartmentValue() {
+    final prefs = PreferencesProvider.of(context);
     // Get list of all department of selected campus
-    _departments = Data.getCampusDepartments(_selectedCampus);
+    _departments = prefs.getCampusDepartments(_selectedCampus);
     // Define preselected department depends on preferences
-    final prefDepart = PreferencesProvider.of(context).department;
+    final prefDepart = prefs.department;
     _selectedDepartment =
         _departments.contains(prefDepart) ? prefDepart : _departments[0];
   }
@@ -104,10 +105,12 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   void _onSearch() async {
+    final prefs = PreferencesProvider.of(context);
+
     // All rooms available between times defined
     List<RoomResult> results = [];
 
-    if (!Data.allData[_selectedCampus][_selectedDepartment]
+    if (!prefs.resources[_selectedCampus][_selectedDepartment]
         .containsKey("Salles")) {
       setState(() {
         _searchResult = results;
@@ -138,12 +141,13 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
 
     // Get all room in the department in the campus
     final rooms =
-        Data.getGroups(_selectedCampus, _selectedDepartment, "Salles");
+        prefs.getGroups(_selectedCampus, _selectedDepartment, "Salles");
 
     // Check for every rooms if available
     for (final room in rooms) {
-      String url = IcalAPI.prepareURL(
-          _selectedCampus, _selectedDepartment, "Salles", room, 0);
+      int resRoom = prefs.getGroupRes(
+          _selectedCampus, _selectedDepartment, "Salles", room);
+      String url = IcalAPI.prepareURL(resRoom, 0);
 
       // Get data
       final response = await http.get(url);

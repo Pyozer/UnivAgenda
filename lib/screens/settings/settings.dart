@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/data.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -35,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.CAMPUS),
           titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: prefs.campus,
-          values: Data.getAllCampus(),
+          values: prefs.getAllCampus(),
           onChange: (value) => prefs.setCampus(value),
         ),
         const ListDivider(),
@@ -43,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.DEPARTMENT),
           titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: prefs.department,
-          values: Data.getCampusDepartments(prefs.campus),
+          values: prefs.getCampusDepartments(prefs.campus),
           onChange: (value) => prefs.setDepartment(value),
         ),
         const ListDivider(),
@@ -51,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.YEAR),
           titleDialog: translations.get(StringKey.SELECT_YEAR),
           selectedValue: prefs.year,
-          values: Data.getYears(prefs.campus, prefs.department),
+          values: prefs.getYears(prefs.campus, prefs.department),
           onChange: (value) => prefs.setYear(value),
         ),
         const ListDivider(),
@@ -59,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.GROUP),
           titleDialog: translations.get(StringKey.SELECT_GROUP),
           selectedValue: prefs.group,
-          values: Data.getGroups(prefs.campus, prefs.department, prefs.year),
+          values: prefs.getGroups(prefs.campus, prefs.department, prefs.year),
           onChange: (value) => prefs.setGroup(value),
         )
       ],
