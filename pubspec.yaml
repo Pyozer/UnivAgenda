@@ -16,8 +16,7 @@ dependencies:
   uuid: ^1.0.3
 
   flutter_material_color_picker: ^0.0.3+1
-  introduction_screen:
-    git: git://github.com/pyozer/introduction_screen
+  introduction_screen: ^0.0.2
 
 dev_dependencies:
   flutter_test:
