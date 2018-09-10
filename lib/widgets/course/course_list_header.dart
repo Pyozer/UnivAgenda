@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
 
 class CourseListHeader extends StatelessWidget {
-  final String year;
-  final String group;
+  final String text;
 
-  const CourseListHeader({Key key, this.year, this.group}) : super(key: key);
+  const CourseListHeader(this.text, {Key key}) : super(key: key);
 
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     return showDialog<Null>(
       context: mainContext,
       barrierDismissible: true,
       builder: (BuildContext context) {
+        // TODO: Add translations or even remove this ?
         return AlertDialog(
           title: Text('Change calendar ?'),
           content: Text('Do you want to change your calendar settings ?'),
@@ -37,7 +37,7 @@ class CourseListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (year == null || group == null) return Container();
+    if (text == null) return Container();
 
     final textStyle = Theme.of(context).textTheme.title;
 
@@ -48,7 +48,7 @@ class CourseListHeader extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text("$year - $group", style: textStyle),
+            child: Text(text, style: textStyle),
           )
         ],
       ),

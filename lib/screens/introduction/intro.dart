@@ -48,7 +48,7 @@ class IntroductionScreen extends StatelessWidget {
 
   void _onDone(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
-    prefs.firstBoot = false;
+    prefs.setFirstBoot(false, false);
 
     Navigator.pushReplacementNamed(
       context,

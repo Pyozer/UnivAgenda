@@ -36,7 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: prefs.campus,
           values: Data.getAllCampus(),
-          onChange: (value) => prefs.campus = value,
+          onChange: (value) => prefs.setCampus(value),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -44,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: prefs.department,
           values: Data.getCampusDepartments(prefs.campus),
-          onChange: (value) => prefs.department = value,
+          onChange: (value) => prefs.setDepartment(value),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -52,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_YEAR),
           selectedValue: prefs.year,
           values: Data.getYears(prefs.campus, prefs.department),
-          onChange: (value) => prefs.year = value,
+          onChange: (value) => prefs.setYear(value),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -60,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_GROUP),
           selectedValue: prefs.group,
           values: Data.getGroups(prefs.campus, prefs.department, prefs.year),
-          onChange: (value) => prefs.group = value,
+          onChange: (value) => prefs.setGroup(value),
         )
       ],
     );
@@ -81,7 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 int numberWeeks = -1;
                 if (isNumeric(value)) numberWeeks = int.parse(value);
 
-                PreferencesProvider.of(context).numberWeeks = numberWeeks;
+                PreferencesProvider.of(context).setNumberWeeks(numberWeeks);
               }),
           const ListDivider(),
           SwitchListTile(
@@ -89,25 +89,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: Text(translations.get(StringKey.HORIZONTAL_VIEW_DESC)),
               value: prefs.isHorizontalView,
               activeColor: Theme.of(context).accentColor,
-              onChanged: (value) => prefs.horizontalView = value),
+              onChanged: (value) => prefs.setHorizontalView(value)),
           SwitchListTile(
               title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
               subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
               value: prefs.isDarkTheme,
               activeColor: Theme.of(context).accentColor,
-              onChanged: (value) => prefs.darkTheme = value),
+              onChanged: (value) => prefs.setDarkTheme(value)),
           const ListDivider(),
           ListTileColor(
               title: translations.get(StringKey.PRIMARY_COLOR),
               description: translations.get(StringKey.PRIMARY_COLOR_DESC),
               selectedColor: Color(prefs.primaryColor),
-              onColorChange: (color) => prefs.primaryColor = color.value),
+              onColorChange: (color) => prefs.setPrimaryColor(color.value)),
           const ListDivider(),
           ListTileColor(
               title: translations.get(StringKey.ACCENT_COLOR),
               description: translations.get(StringKey.ACCENT_COLOR_DESC),
               selectedColor: Color(prefs.accentColor),
-              onColorChange: (color) => prefs.accentColor = color.value,
+              onColorChange: (color) => prefs.setAccentColor(color.value),
               colors: [
                 Colors.redAccent,
                 Colors.pinkAccent,
@@ -134,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: translations.get(StringKey.NOTE_COLOR),
               description: translations.get(StringKey.NOTE_COLOR_DESC),
               selectedColor: Color(prefs.noteColor),
-              onColorChange: (color) => prefs.noteColor = color.value)
+              onColorChange: (color) => prefs.setNoteColor(color.value))
         ]);
   }
 

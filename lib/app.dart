@@ -30,30 +30,32 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PreferencesProvider(
-      child: DynamicTheme(
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "MyAgenda",
-            theme: theme,
-            localizationsDelegates: [
-              const TranslationsDelegate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: [const Locale('en'), const Locale('fr')],
-            initialRoute: RouteKey.SPLASHSCREEN,
-            onGenerateRoute: (RouteSettings settings) {
-              if (routes.containsKey(settings.name))
-                return CustomRoute(
-                  builder: (_) => routes[settings.name],
-                  settings: settings,
-                );
-              assert(false);
-            },
-          );
-        },
-      ),
+      child: Builder(builder: (context) {
+        return DynamicTheme(
+          themedWidgetBuilder: (context, theme) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: "MyAgenda",
+              theme: theme,
+              localizationsDelegates: [
+                const TranslationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: [const Locale('en'), const Locale('fr')],
+              initialRoute: RouteKey.SPLASHSCREEN,
+              onGenerateRoute: (RouteSettings settings) {
+                if (routes.containsKey(settings.name))
+                  return CustomRoute(
+                    builder: (_) => routes[settings.name],
+                    settings: settings,
+                  );
+                assert(false);
+              },
+            );
+          },
+        );
+      }),
     );
   }
 }
