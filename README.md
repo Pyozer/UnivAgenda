@@ -3,14 +3,14 @@
 Application pour avoir l'**agenda de l'Université du Maine** sur son téléphone.
 Elle sera disponible pour **Android** mais aussi **iOS**.
 
-## Comment l'application fonctionne ?
+## Fonctionnement de l'application
 
 MyAgenda utilise les dernière données provenant de l'**ENT**. En effet, elle récupère un fichier ICS (ical), le traite et l'affiche.
 Ce fichier contient la liste des événements (cours) du groupe que vous avez choisis sur l'application (dans les paramètres).
 
 Pour accéder à l'application, **vous devez vous connecter** en utilisant vos identifiants de l'Université du Maine. Une fois connecté, il ne vous sera plus demandé vos identifiants.
 
-## Quelle sont les fonctionnalités ?
+## Fonctionnalitées
 
 MyAgenda intègre une **multitude de fonctionnalités**, comme le choix du campus, département, année et groupe.
 Ex: Campus de laval, département Informatique, 1ère année et groupe 11A.
@@ -24,9 +24,10 @@ Par ex: Chercher les salles libres entre 11h00 et 12h30 dans le département Inf
 
 Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la couleur **principale**, la couleur **secondaires** (pour les boutons, switch, etc..) ou encore la couleur de l'**indicateur de présence d'une note** (affiché sur le bord droit d'un cours/événement perso). De plus vous pouvez choisir le **nombre de semaine** à afficher.
 
-## A quoi elle ressemble ?
+## Screenshots
 
-<img title="Page connexion" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png" width="300" />
+<img title="Page connexion" src="<https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png>" width="300" />
+
 <img title="Accueil" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home.png" width="300" />
 <img title="Menu navigation" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/drawer.png" width="300" />
 <img title="Page événement" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/event.png" width="300" />
