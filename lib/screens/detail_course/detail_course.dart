@@ -80,10 +80,12 @@ class _DetailCourseState extends State<DetailCourse> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 8.0),
-            child: Text(translate.get(StringKey.NOTES),
-                style: const TextStyle(
-                    fontSize: 16.0, fontWeight: FontWeight.w700))),
+          padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 8.0),
+          child: Text(
+            translate.get(StringKey.NOTES),
+            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+          ),
+        ),
         AddNoteButton(onPressed: _openAddNote)
       ],
     ));
@@ -106,7 +108,7 @@ class _DetailCourseState extends State<DetailCourse> {
     setState(() {
       _course.notes.remove(note);
     });
-    PreferencesProvider.of(context).removeNote(note);
+    PreferencesProvider.of(context).removeNote(note, false);
   }
 
   void _openAddNote() {
@@ -153,16 +155,17 @@ class _DetailCourseState extends State<DetailCourse> {
       form.save();
 
       final note = Note(
-          courseUid: _course.uid,
-          text: _noteToAdd,
-          dateExpiration: _course.dateEnd);
+        courseUid: _course.uid,
+        text: _noteToAdd,
+        dateExpiration: _course.dateEnd,
+      );
       _noteToAdd = "";
 
       setState(() {
         _course.notes.insert(0, note);
       });
 
-      PreferencesProvider.of(context).addNote(note);
+      PreferencesProvider.of(context).addNote(note, false);
       Navigator.of(context).pop();
     }
   }

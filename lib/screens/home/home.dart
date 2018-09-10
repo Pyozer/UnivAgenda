@@ -45,13 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchData();
   }
 
-  @protected
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Reload ical from network
-    _fetchData();
-  }
-
   Future<Null> _fetchData() async {
     _refreshKey?.currentState?.show();
 

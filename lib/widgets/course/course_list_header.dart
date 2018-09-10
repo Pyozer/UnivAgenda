@@ -22,11 +22,11 @@ class CourseListHeader extends StatelessWidget {
           content: Text(translations.get(StringKey.CHANGE_AGENDA_TEXT)),
           actions: [
             FlatButton(
-              child: Text(translations.get(StringKey.CANCEL)),
+              child: Text(translations.get(StringKey.CANCEL).toUpperCase()),
               onPressed: () => Navigator.of(context).pop(),
             ),
             FlatButton(
-              child: Text(translations.get(StringKey.CHANGE)),
+              child: Text(translations.get(StringKey.CHANGE).toUpperCase()),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);

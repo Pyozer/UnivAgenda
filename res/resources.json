@@ -49,19 +49,19 @@
     },
     "GB": {
       "GB 1": {
-        "Grp A": 2766,
-        "Grp B": 2767,
-        "Grp C": 2768,
-        "Grp D": 2770,
-        "Grp E": 2771,
-        "Grp F": 2772
+        "A1": 2766,
+        "B1": 2767,
+        "C1": 2768,
+        "D1": 2770,
+        "E1": 2771,
+        "F1": 2772
       },
       "GB 2": {
-        "Grp A": 2777,
-        "Grp B": 2778,
-        "Grp C": 2780,
-        "Grp D": 2781,
-        "Grp E": 2782
+        "A2": 2777,
+        "B2": 2778,
+        "C2": 2780,
+        "D2": 2781,
+        "E2": 2782
       },
       "GB 2 S4": {
         "IPLP 1": 7091,
@@ -112,26 +112,28 @@
     },
     "MMI": {
       "MMI 1": {
-        "Grp 11A": 2700,
-        "Grp 11B": 2711,
-        "Grp 12C": 2775,
-        "Grp 12D": 2776,
-        "Grp 13E": 2808,
-        "Grp 13F": 2839
+        "11A": 2700,
+        "11B": 2711,
+        "12C": 2775,
+        "12D": 2776,
+        "13E": 2808,
+        "13F": 2839
       },
       "MMI 2": {
-        "Grp 21A": 2844,
-        "Grp 21B": 2845,
-        "Grp 22C": 2846,
-        "Grp 22D": 2847,
-        "Grp 2ALT": 2849
+        "21A": 2844,
+        "21B": 2845,
+        "22C": 2846,
+        "22D": 2847,
+        "23E ALT": 2849,
+        "23F ALT": 704
       },
       "MMI 2 S4": {
-        "Grp 2A-PID": 6704,
-        "Grp 2ALT": 5222,
-        "Grp 2B-PP": 6707,
-        "Grp 2C-PCAG": 6705,
-        "Grp 2D-PCAG": 6706
+        "2A PID": 6704,
+        "2B PP": 6707,
+        "2C PCAG": 6705,
+        "2D PCAG": 6706,
+        "23E ALT": 5471,
+        "23F ALT": 5473
       },
       "Salles": {
         "Fox": 2146,
@@ -172,7 +174,6 @@
         "TP 111": 2865,
         "TP 112": 2866,
         "TP 113": 1356,
-        "TP 114": 855,
         "TP 121": 2870,
         "TP 122": 2871,
         "TP 131": 2873,
@@ -185,7 +186,6 @@
         "TP 212": 2882,
         "TP 221": 2884,
         "TP 222": 2885,
-        "TP 223": 3500,
         "TP 231": 2886,
         "TP 232": 2887,
         "TP 241": 2889,
@@ -221,6 +221,25 @@
         "TANGUY SOLENNE": 2989
       }
     },
+    "LP": {
+      "LP CDAA": {
+        "LP CDAA": 2898
+      },
+      "LP DIWA": {
+        "DIWA ALT": 2857,
+        "DIWA Classique": 1364
+      },
+      "LP GIE": {
+        "GIE1": 2895
+      },
+      "LP QualHyPAA": {
+        "A3": 3526,
+        "B3": 3551
+      },
+      "LP TQL": {
+        "TQL": 1151
+      }
+    },
     "Campus Laval": {
       "Salles": {
         "Amphi 1": 2663,
@@ -233,6 +252,61 @@
         "Salle visio admi": 372,
         "Salle visio pavillon": 1358,
         "Scolarité": 1368
+      }
+    },
+    "ENSIM": {
+      "3A": {
+        "3TP INFO1": 5194,
+        "3TP INFO2": 5197,
+        "3TP INFO3": 4682,
+        "3TP VAC alt1": 5325,
+        "3TP VAC alt2": 5302,
+        "3TP VAC 1": 5331,
+        "3TP VAC 2": 5332,
+        "3TP VAC 3": 5335,
+        "3TP VAC 4": 1874
+      },
+      "4A S7": {
+        "4TP INFO1": 4893,
+        "4TP INFO2": 4895,
+        "4TP INFO3": 360,
+        "4TP VAC alt1": 642,
+        "4TP VAC alt2": 646,
+        "4TP VAC 1": 6484,
+        "4TP VAC 2": 6485,
+        "4TP VAC 3": 6486,
+        "4TP VAC 4": 309
+      },
+      "4A S8": {
+        "4TP ASTRE": 6515,
+        "4TP CI1": 7024,
+        "4TP CI2": 4914,
+        "4TP CI Alt": 727,
+        "4TP IPS": 3675,
+        "4TP VA1": 7205,
+        "4TP VA2": 7206,
+        "4TP VA3": 5274,
+        "4TP VA3_1": 460,
+        "4TP VA3_2": 461,
+        "4TP VA Alt1": 709,
+        "4TP VA Alt2": 2566
+      },
+      "5": {
+        "5TP ASTRE": 2501,
+        "5TP CI": 2189,
+        "5TP CI Alt": 3568,
+        "5TP IPS": 2500,
+        "5TP VA1": 2790,
+        "5TP VA1_ENSIM": 2015,
+        "5TP VA1 Master Acoustique": 2698,
+        "5TP VA2": 3571,
+        "5TP VA Alt1": 3575,
+        "5TP VA Alt2": 734
+      }
+    },
+    "CUEP": {
+      "LP": {
+        "LP Intervention Sociale": 2714
       }
     }
   },
