@@ -34,11 +34,11 @@ class CourseRow extends StatelessWidget {
 
     return Card(
       elevation: 4.0,
+      color: bgColorRow,
       margin: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
       child: InkWell(
         onTap: () => _onCourseTap(context),
         child: Container(
-          decoration: BoxDecoration(color: bgColorRow),
           padding: const EdgeInsets.all(16.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
