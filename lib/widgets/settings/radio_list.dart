@@ -29,7 +29,7 @@ class _RadioListState extends State<RadioList> {
   Widget build(BuildContext context) {
     final int valuesSize = widget.values.length;
 
-    if (valuesSize == 0) return Container();
+    if (valuesSize == 0) return const SizedBox.shrink();
 
     return Column(
       children: List<RadioListTile>.generate(

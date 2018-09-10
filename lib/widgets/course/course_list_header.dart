@@ -37,7 +37,7 @@ class CourseListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (text == null) return Container();
+    if (text == null) return const SizedBox.shrink();
 
     final textStyle = Theme.of(context).textTheme.title;
 

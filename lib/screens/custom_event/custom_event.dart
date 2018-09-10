@@ -263,7 +263,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                         });
                       },
                     )
-                  : Container()
+                  : const SizedBox.shrink()
             ],
           ),
         ),

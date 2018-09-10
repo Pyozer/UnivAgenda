@@ -24,14 +24,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
   Map<DateTime, List<BaseCourse>> _courses = {};
+  bool _isHorizontal = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final prefs = PreferencesProvider.of(context);
+    // Define type of view
+    _isHorizontal = prefs.isHorizontalView;
+
     _courses = {};
 
     // Load cached ical
-    final ical = PreferencesProvider.of(context).cachedIcal;
+    final ical = prefs.cachedIcal;
     if (ical != null && ical.isNotEmpty) {
       _prepareList(ical);
     }
@@ -178,18 +183,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _switchTypeView() {
+    final prefs = PreferencesProvider.of(context);
+    setState(() {
+      _isHorizontal = !prefs.isHorizontalView;
+    });
+    prefs.setHorizontalView(!prefs.isHorizontalView, false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
 
-    print(prefs.campus);
-
     return AppbarPage(
       title: Translations.of(context).get(StringKey.APP_NAME),
       actions: <Widget>[
+        _isHorizontal
+            ? IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _fetchData,
+              )
+            : const SizedBox.shrink(),
         IconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: _fetchData,
+          icon: Icon(_isHorizontal ? Icons.view_agenda : Icons.view_column),
+          onPressed: _switchTypeView,
         )
       ],
       drawer: MainDrawer(),

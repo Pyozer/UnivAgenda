@@ -80,14 +80,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             prefs.setNumberWeeks(isNumeric(value) ? int.parse(value) : -1);
           },
         ),
-        const ListDivider(),
-        SwitchListTile(
-          title: ListTileTitle(translations.get(StringKey.HORIZONTAL_VIEW)),
-          subtitle: Text(translations.get(StringKey.HORIZONTAL_VIEW_DESC)),
-          value: prefs.isHorizontalView,
-          activeColor: Theme.of(context).accentColor,
-          onChanged: (value) => prefs.setHorizontalView(value),
-        ),
         SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),

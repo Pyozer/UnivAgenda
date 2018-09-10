@@ -50,12 +50,16 @@ class CourseList extends StatelessWidget {
       }
     }
 
-    return ListView(shrinkWrap: true, children: widgets);
+    return ListView(
+      shrinkWrap: true,
+      children: widgets,
+      padding: EdgeInsets.only(bottom: 12.0, top: isHorizontal ? 12.0 : 0.0),
+    );
   }
 
   Widget _buildHorizontal(context, Map<DateTime, List<BaseCourse>> elements) {
     if (elements.length < 1) {
-      return Container();
+      return const SizedBox.shrink();
     }
 
     final langCode = Translations.of(context).locale.languageCode;
