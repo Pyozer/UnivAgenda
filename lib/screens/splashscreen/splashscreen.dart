@@ -8,7 +8,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:http/http.dart' as http;
 
 const resourcesUrl =
-    "https://rawcdn.githack.com/Pyozer/MyAgenda_Flutter/master/res/resources.json";
+    "https://rawgit.com/Pyozer/MyAgenda_Flutter/master/res/resources.json";
 
 class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
