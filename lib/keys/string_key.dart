@@ -41,6 +41,7 @@ class StringKey {
   static const SAVE = 'save';
   static const SUBMIT = 'submit';
   static const CHANGE = 'change';
+  static const REFRESH = 'refresh';
 
   static const WHAT_IS_IT = 'what_is_it';
   static const ABOUT_WHAT = 'about_what';
@@ -117,9 +118,12 @@ class StringKey {
   static const FINDROOM_AVAILABLE = 'findroom_available';
   static const FINDROOM_NORESULT = 'findroom_noresult';
   static const FINDROOM_NORESULT_TEXT = 'findroom_noresult_text';
+  static const FINDROOM_RESULTS = 'findroom_results';
 
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
+
+  static const NETWORK_ERROR = 'network_error';
 
   static const LOGIN_USERNAME = 'login_username';
   static const LOGIN_PASSWORD = 'login_password';

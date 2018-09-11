@@ -13,6 +13,7 @@ class AddNoteButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: RaisedButtonColored(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         text: Translations.of(context).get(StringKey.ADD_NOTE_BTN),
         onPressed: onPressed,
       ),

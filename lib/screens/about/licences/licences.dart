@@ -47,7 +47,7 @@ class LicencesScreen extends StatelessWidget {
       final authorText = Text(license.author, style: authorStyle);
       final licenseText = license.license.isNotEmpty
           ? Text(license.license, style: licenseStyle)
-          : Text("");
+          : const Text("");
 
       listLicenses.add(ListTile(
           title: libraryText,

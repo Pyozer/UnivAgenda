@@ -40,6 +40,7 @@
   "save": "Sauvegarder",
   "submit": "Valider",
   "change": "Changer",
+  "refresh": "Rafraichir",
 
   "what_is_it": "Qu'est ce que c'est ?",
   "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine. L'application vous permet d'avoir un accès direct à votre emploi du temps sns avoir à aller sur l'ENT.",
@@ -109,15 +110,18 @@
   "findroom_to": "jusqu'à",
   "findroom_available": "Disponible",
   "findroom_noresult": "Aucune salle trouvée",
-  "findroom_noresult_text": "Soit aucune salle n'est disponible ou bien il y a aucune donnée concernant les salles ce département.",
+  "findroom_noresult_text": "Aucune salle n'est disponible. Ou bien il y a aucune donnée sur les salles ce département.",
+  "findroom_results": "Salle(s) trouvée(s)",
 
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
 
+  "network_eror": "Une erreur réseau est survenue.. vérifez votre connexion internet.",
+
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
   "login_submit": "Connexion",
-  "login_server_error": "Problème de connexion avec le serveur de l'Université du Maine !",
+  "login_server_error": "Problème de connexion avec le serveur de l'%s% !",
 
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 

@@ -7,11 +7,13 @@ class AppbarPage extends StatelessWidget {
   final Widget fab;
   final double elevation;
   final List<Widget> actions;
+  final Key scaffoldKey;
 
   const AppbarPage(
       {Key key,
       @required this.title,
       @required this.body,
+      this.scaffoldKey,
       this.drawer,
       this.fab,
       this.elevation = 4.0,
@@ -21,6 +23,7 @@ class AppbarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(title),
         actions: actions ?? [],

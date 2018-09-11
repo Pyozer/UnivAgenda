@@ -30,8 +30,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_alreadyLoaded)
-      _initData();
+    if (!_alreadyLoaded) _initData();
   }
 
   void _initData() {
@@ -194,7 +193,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
             ),
             RaisedButtonColored(
               onPressed: _onSearchPressed,
-              text: translations.get(StringKey.SEARCH).toUpperCase(),
+              text: translations.get(StringKey.SEARCH),
             ),
           ],
         ),

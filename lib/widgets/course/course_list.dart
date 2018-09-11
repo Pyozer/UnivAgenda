@@ -28,26 +28,12 @@ class CourseList extends StatelessWidget {
     List<Widget> widgets = [];
 
     if (courses != null) {
-      if (courses.length == 0) {
-        widgets.add(
-          AboutCard(
-            title: Translations.of(context).get(StringKey.COURSES_NORESULT),
-            children: <Widget>[
-              Text(
-                Translations.of(context).get(StringKey.COURSES_NORESULT_TEXT),
-                textAlign: TextAlign.justify,
-              ),
-            ],
-          ),
-        );
-      } else {
-        courses.forEach((course) {
-          if (course is CourseHeader)
-            widgets.add(CourseRowHeader(coursHeader: course));
-          else if (course is Course)
-            widgets.add(CourseRow(course: course, noteColor: noteColor));
-        });
-      }
+      courses.forEach((course) {
+        if (course is CourseHeader)
+          widgets.add(CourseRowHeader(coursHeader: course));
+        else if (course is Course)
+          widgets.add(CourseRow(course: course, noteColor: noteColor));
+      });
     }
 
     return ListView(

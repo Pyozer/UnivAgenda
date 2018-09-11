@@ -15,6 +15,8 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
+import 'package:myagenda/widgets/ui/no_result.dart';
+import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -23,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Map<DateTime, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
@@ -32,8 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final prefs = PreferencesProvider.of(context);
     // Define type of view
     _isHorizontal = prefs.isHorizontalView;
-
-    _courses = {};
 
     // Load cached ical
     final ical = prefs.cachedIcal;
@@ -66,14 +68,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (response.statusCode == 200 && mounted) {
         _prepareList(response.body);
-        PreferencesProvider.of(context).setCachedIcal(response.body, false);
+        prefs.setCachedIcal(response.body, false);
       }
     } catch (_) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Network error"),
-        ),
-      );
+      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
+      ));
     }
 
     final endTime = DateTime.now();
@@ -188,16 +188,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
+    final translations = Translations.of(context);
+
+    final refreshBtn = (_isHorizontal)
+        ? IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _fetchData,
+          )
+        : const SizedBox.shrink();
 
     return AppbarPage(
-      title: Translations.of(context).get(StringKey.APP_NAME),
+      scaffoldKey: _scaffoldKey,
+      title: translations.get(StringKey.APP_NAME),
       actions: <Widget>[
-        _isHorizontal
-            ? IconButton(
-                icon: const Icon(Icons.refresh),
-                onPressed: _fetchData,
-              )
-            : const SizedBox.shrink(),
+        refreshBtn,
         IconButton(
           icon: Icon(_isHorizontal ? Icons.view_day : Icons.view_week),
           onPressed: _switchTypeView,
@@ -208,13 +212,22 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         key: _refreshKey,
         onRefresh: _fetchData,
-        child: CourseList(
-          courses: _courses,
-          isHorizontal: prefs.isHorizontalView,
-          coursesHeader: "${prefs.year} - ${prefs.group}",
-          numberWeeks: prefs.numberWeeks,
-          noteColor: Color(prefs.noteColor),
-        ),
+        child: (_courses?.length == 0 ?? true)
+            ? NoResult(
+                title: translations.get(StringKey.COURSES_NORESULT),
+                text: translations.get(StringKey.COURSES_NORESULT_TEXT),
+                footer: RaisedButtonColored(
+                  text: translations.get(StringKey.REFRESH),
+                  onPressed: _fetchData,
+                ),
+              )
+            : CourseList(
+                courses: _courses,
+                isHorizontal: prefs.isHorizontalView,
+                coursesHeader: "${prefs.year} - ${prefs.group}",
+                numberWeeks: prefs.numberWeeks,
+                noteColor: Color(prefs.noteColor),
+              ),
       ),
     );
   }

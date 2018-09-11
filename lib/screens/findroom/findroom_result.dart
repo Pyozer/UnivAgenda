@@ -12,6 +12,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
 import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:http/http.dart' as http;
+import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindRoomResults extends StatefulWidget {
   final String campus;
@@ -56,7 +57,6 @@ class FindRoomResultsState extends State<FindRoomResults> {
           _isLoading = false;
         });
       }
-      // TODO: Display a message to informe that there is no room in data
       return;
     }
 
@@ -101,9 +101,11 @@ class FindRoomResultsState extends State<FindRoomResults> {
       String url = IcalAPI.prepareURL(prefs.agendaUrl, resRoom, 0);
 
       // Get data
-      final response = await http.get(url);
+      http.Response response;
       // If request error
-      if (response.statusCode != 200) {
+      try {
+        response = await http.get(url);
+      } catch (_) {
         if (mounted) {
           setState(() {
             _searchResult = [];
@@ -111,8 +113,7 @@ class FindRoomResultsState extends State<FindRoomResults> {
           });
         }
 
-        final errorMsg =
-            Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR);
+        final errorMsg = Translations.of(context).get(StringKey.NETWORK_ERROR);
         Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
         return;
       }
@@ -164,36 +165,18 @@ class FindRoomResultsState extends State<FindRoomResults> {
   }
 
   Widget _noResult(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final translations = Translations.of(context);
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              Translations.of(context).get(StringKey.FINDROOM_NORESULT),
-              style: textTheme.headline,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 24.0,
-            ),
-            Text(
-              Translations.of(context).get(StringKey.FINDROOM_NORESULT_TEXT),
-              style: textTheme.subhead,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
+    return NoResult(
+      title: translations.get(StringKey.FINDROOM_NORESULT),
+      text: translations.get(StringKey.FINDROOM_NORESULT_TEXT),
     );
   }
 
   Widget _buildListResults() {
     return ListView.builder(
       shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       itemCount: _searchResult.length,
       itemBuilder: (context, index) {
         return ResultCard(
@@ -205,21 +188,23 @@ class FindRoomResultsState extends State<FindRoomResults> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = Translations.of(context);
+
     Widget widget;
 
     if (_isLoading)
       widget = const Center(child: const CircularProgressIndicator());
     else if (_searchResult.length == 0)
-      widget = _noResult(context);
+      widget = NoResult(
+        title: translations.get(StringKey.FINDROOM_NORESULT),
+        text: translations.get(StringKey.FINDROOM_NORESULT_TEXT),
+      );
     else
       widget = _buildListResults();
 
     return AppbarPage(
-      title: "Results",
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-        child: widget,
-      ),
+      title: translations.get(StringKey.FINDROOM_RESULTS),
+      body: widget,
     );
   }
 }

@@ -25,11 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  http.Client client;
-
   @override
   void dispose() {
-    client?.close();
     super.dispose();
   }
 
@@ -41,7 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _requestFail() {
     _setLoading(false);
-    _showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
+    _showMessage(
+      Translations.of(context).get(
+        StringKey.LOGIN_SERVER_ERROR,
+        [PreferencesProvider.of(context).university],
+      ),
+    );
   }
 
   void _onSubmit() async {
@@ -94,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Second request, with all necessary data
     http.Response loginResponse;
     try {
-      loginResponse = await client.post(
+      loginResponse = await http.post(
         loginUrl,
         body: postParams,
         headers: {"cookie": cookie},
