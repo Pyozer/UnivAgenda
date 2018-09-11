@@ -61,12 +61,6 @@ class MainDrawer extends StatelessWidget {
             routeDest: RouteKey.SETTINGS,
           ),
           DrawerElement(
-            icon: Icons.system_update,
-            title: translations.get(StringKey.UPDATE),
-            routeDest: RouteKey.UPDATE,
-            enabled: false,
-          ),
-          DrawerElement(
             icon: Icons.feedback,
             title: translations.get(StringKey.FEEDBACK),
             onTap: () async {

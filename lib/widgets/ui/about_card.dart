@@ -44,7 +44,10 @@ class AboutCard extends StatelessWidget {
       elevation: 4.0,
       margin: margin,
       shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(const Radius.circular(6.0))),
+        borderRadius: const BorderRadius.all(
+          const Radius.circular(6.0),
+        ),
+      ),
       child: Container(
         padding: lateralPadding
             ? const EdgeInsets.all(kPadding)

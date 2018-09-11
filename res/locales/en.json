@@ -109,8 +109,8 @@
   "findroom_from": "From",
   "findroom_to": "to",
   "findroom_available": "Available",
-  "findroom_noresult": "No result",
-  "findroom_noresult_text": "No room could be found. Either none is available or there is no data concerning this department.",
+  "findroom_noresult": "No room found",
+  "findroom_noresult_text": "Either no room is available or there is no data concerning the rooms this department.",
 
   "courses_noresult": "No course to display",
   "courses_noresult_text": "Try to edit number of weeks in settings.",

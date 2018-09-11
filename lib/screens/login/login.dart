@@ -8,6 +8,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' show parse;
 
 //const kLoginURL = "https://cas.univ-lemans.fr/cas/login";
 const kLoginURL = "https://cas.univ-tours.fr/cas/login";
@@ -24,10 +25,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  void setLoading(bool loading) {
+  http.Client client;
+
+  @override
+  void dispose() {
+    client?.close();
+    super.dispose();
+  }
+
+  void _setLoading(bool loading) {
     setState(() {
       _isLoading = loading;
     });
+  }
+
+  void _requestFail() {
+    _setLoading(false);
+    _showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
   }
 
   void _onSubmit() async {
@@ -37,11 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Check fields values
     if (username.isEmpty || password.isEmpty) {
-      showMessage(Translations.of(context).get(StringKey.REQUIRE_FIELD));
+      _showMessage(Translations.of(context).get(StringKey.REQUIRE_FIELD));
       return;
     }
 
-    setLoading(true);
+    _setLoading(true);
 
     final prefs = PreferencesProvider.of(context);
 
@@ -52,19 +66,17 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       response = await http.get(loginUrl);
     } catch (_) {
-      setLoading(false);
-      showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
+      _requestFail();
       return;
     }
 
-    final htmlResult = response.body;
+    final document = parse(response.body);
 
     // Extract lt value from HTML
-    String lt = getStringBetween(
-      htmlResult,
-      "<input type=\"hidden\" name=\"lt\" value=\"",
-      "\" />",
-    );
+    final ltInput = document.querySelector('input[name="lt"]');
+    String lt = "";
+    if (ltInput?.attributes?.containsKey("value") ?? false)
+      lt = ltInput.attributes['value'];
 
     // POST data
     Map<String, String> postParams = {
@@ -72,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
       "lt": lt,
       "submit": "LOGIN",
       "username": username,
-      "password": password
+      "password": password,
+      "execution": "e1s1"
     };
 
     // Get JSESSIONID from previous request header
@@ -81,42 +94,40 @@ class _LoginScreenState extends State<LoginScreen> {
     // Second request, with all necessary data
     http.Response loginResponse;
     try {
-      loginResponse = await http.post(
+      loginResponse = await client.post(
         loginUrl,
         body: postParams,
         headers: {"cookie": cookie},
       );
     } catch (_) {
-      setLoading(false);
-      showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
+      _requestFail();
       return;
     }
 
-    final htmlLogin = loginResponse.body;
+    final loginDocument = parse(loginResponse.body);
+    final errorElement = loginDocument.querySelector(".errors");
+    final successElement = loginDocument.querySelector(".success");
 
-    // Check if error
-    bool isError = htmlLogin.contains("<div id=\"status\" class=\"errors\">");
+    _setLoading(false);
 
-    setLoading(false);
-
-    if (isError) {
-      // Display error to user
+    if (errorElement != null && successElement == null) {
       prefs.setUserLogged(false, false);
-      String error = getStringBetween(
-        htmlLogin,
-        "<div id=\"status\" class=\"errors\">",
-        "</div>",
-      ).trim();
+      // Display error to user
+      String error = errorElement.innerHtml;
+      error = error.replaceAll("<h2>", "").replaceAll("</h2>", "");
 
-      showMessage(error);
-    } else {
-      // Login user if no error
+      _showMessage(error.trim());
+    } else if (successElement != null && errorElement == null) {
+      _scaffoldKey.currentState.removeCurrentSnackBar();
+      // Redirect user if no error
       prefs.setUserLogged(true, false);
       Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
+    } else {
+      _showMessage("Unknown error :/");
     }
   }
 
-  void showMessage(String msg) {
+  void _showMessage(String msg) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 

@@ -21,11 +21,15 @@ class AppbarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(title), actions: actions ?? [], elevation: elevation),
-        body: SafeArea(child: body),
-        drawer: drawer,
-        floatingActionButton: fab);
+      appBar: AppBar(
+        title: Text(title),
+        actions: actions ?? [],
+        elevation: elevation,
+      ),
+      body: SafeArea(child: body),
+      drawer: drawer,
+      floatingActionButton: fab,
+    );
   }
 }
 

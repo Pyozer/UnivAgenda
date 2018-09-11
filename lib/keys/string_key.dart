@@ -30,7 +30,6 @@ class StringKey {
   static const NOTE_COLOR = 'note_color';
   static const NOTE_COLOR_DESC = 'note_color_desc';
 
-  static const UPDATE = 'update';
   static const ABOUT = 'about';
   static const INTRO = 'introduction';
   static const FEEDBACK = 'feedback';
