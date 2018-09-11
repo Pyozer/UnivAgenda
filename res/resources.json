@@ -641,5 +641,18 @@
         }
       }
     }
+  },
+  "Université de Rennes": {
+    "agendaUrl": "http://edt.insa-rennes.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=8&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
+    "loginUrl": "https://cas.insa-rennes.fr/cas/login",
+    "resources": {
+      "INSA": {
+        "Info": {
+          "Info 3": {
+            "G1": 1356
+          }
+        }
+      }
+    }
   }
 }
