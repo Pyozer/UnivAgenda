@@ -7,7 +7,7 @@ import 'package:flutter/services.dart' show rootBundle;
 class Translations {
   Translations(Locale locale) {
     this.locale = locale;
-    _localizedValues = null;
+    _localizedValues = {};
   }
 
   Locale locale;
