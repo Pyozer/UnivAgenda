@@ -52,10 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
-    final resID = prefs.getGroupRes(
-        prefs.campus, prefs.department, prefs.year, prefs.group);
+    final resID = prefs.getGroupRes(prefs.university, prefs.campus,
+        prefs.department, prefs.year, prefs.group);
 
     final url = IcalAPI.prepareURL(
+      prefs.agendaUrl,
       resID,
       prefs.numberWeeks,
     );

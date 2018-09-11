@@ -12,6 +12,7 @@ import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
+import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:http/http.dart' as http;
@@ -46,7 +47,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
     // Get list of all campus
-    _campus = prefs.getAllCampus();
+    _campus = prefs.getAllCampus(prefs.university);
     // Define preselected campus depends on preferences
     final prefCampus = prefs.campus;
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
@@ -57,7 +58,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   void _initDepartmentValue() {
     final prefs = PreferencesProvider.of(context);
     // Get list of all department of selected campus
-    _departments = prefs.getCampusDepartments(_selectedCampus);
+    _departments =
+        prefs.getCampusDepartments(prefs.university, _selectedCampus);
     // Define preselected department depends on preferences
     final prefDepart = prefs.department;
     _selectedDepartment =
@@ -73,23 +75,10 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
         Card(
           elevation: 3.0,
           margin: const EdgeInsets.only(top: 8.0, bottom: 24.0),
-          child: InkWell(
-            onTap: () {},
-            child: DropdownButtonHideUnderline(
-              child: ButtonTheme(
-                alignedDropdown: true,
-                child: DropdownButton(
-                  value: value,
-                  items: items.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: onChanged,
-                ),
-              ),
-            ),
+          child: Dropdown(
+            items: items,
+            value: value,
+            onChanged: onChanged,
           ),
         )
       ],
@@ -140,14 +129,23 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     });
 
     // Get all room in the department in the campus
-    final rooms =
-        prefs.getGroups(_selectedCampus, _selectedDepartment, "Salles");
+    final rooms = prefs.getGroups(
+      prefs.university,
+      _selectedCampus,
+      _selectedDepartment,
+      "Salles",
+    );
 
     // Check for every rooms if available
     for (final room in rooms) {
       int resRoom = prefs.getGroupRes(
-          _selectedCampus, _selectedDepartment, "Salles", room);
-      String url = IcalAPI.prepareURL(resRoom, 0);
+        prefs.university,
+        _selectedCampus,
+        _selectedDepartment,
+        "Salles",
+        room,
+      );
+      String url = IcalAPI.prepareURL(prefs.agendaUrl, resRoom, 0);
 
       // Get data
       final response = await http.get(url);

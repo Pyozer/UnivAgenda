@@ -1,6 +1,7 @@
 class PrefKey {
-  static const String campus = 'campus';
-  static const String department = 'department';
+  static const university = 'university';
+  static const campus = 'campus';
+  static const department = 'department';
   static const year = 'year';
   static const group = 'group';
 

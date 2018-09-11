@@ -6,9 +6,11 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
+import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:http/http.dart' as http;
 
-const kLoginURL = "https://cas.univ-lemans.fr/cas/login";
+//const kLoginURL = "https://cas.univ-lemans.fr/cas/login";
+const kLoginURL = "https://cas.univ-tours.fr/cas/login";
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -41,11 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setLoading(true);
 
-    // First request to get JSESSIONID cookie and lt value
+    final prefs = PreferencesProvider.of(context);
 
+    String loginUrl = prefs.loginUrl;
+
+    // First request to get JSESSIONID cookie and lt value
     http.Response response;
     try {
-      response = await http.get(kLoginURL);
+      response = await http.get(loginUrl);
     } catch (_) {
       setLoading(false);
       showMessage(Translations.of(context).get(StringKey.LOGIN_SERVER_ERROR));
@@ -77,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
     http.Response loginResponse;
     try {
       loginResponse = await http.post(
-        kLoginURL,
+        loginUrl,
         body: postParams,
         headers: {"cookie": cookie},
       );
@@ -96,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isError) {
       // Display error to user
-      PreferencesProvider.of(context).setUserLogged(false, false);
+      prefs.setUserLogged(false, false);
       String error = getStringBetween(
         htmlLogin,
         "<div id=\"status\" class=\"errors\">",
@@ -106,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showMessage(error);
     } else {
       // Login user if no error
-      PreferencesProvider.of(context).setUserLogged(true, false);
+      prefs.setUserLogged(true, false);
       Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
     }
   }
@@ -118,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
+    final prefs = PreferencesProvider.of(context);
     final orientation = MediaQuery.of(context).orientation;
 
     final logo = Hero(
@@ -176,6 +182,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Dropdown(
+                      items: prefs.getAllUniversity(),
+                      value: prefs.university,
+                      onChanged: (university) {
+                        prefs.setUniversity(university);
+                      },
+                    ),
                     Card(
                       shape: const RoundedRectangleBorder(
                         borderRadius: const BorderRadius.all(
