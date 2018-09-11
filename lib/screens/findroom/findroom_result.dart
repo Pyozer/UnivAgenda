@@ -9,7 +9,6 @@ import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/about_card.dart';
 import 'package:myagenda/widgets/ui/end_time_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
@@ -162,15 +161,6 @@ class FindRoomResultsState extends State<FindRoomResults> {
         _isLoading = false;
       });
     }
-  }
-
-  Widget _noResult(BuildContext context) {
-    final translations = Translations.of(context);
-
-    return NoResult(
-      title: translations.get(StringKey.FINDROOM_NORESULT),
-      text: translations.get(StringKey.FINDROOM_NORESULT_TEXT),
-    );
   }
 
   Widget _buildListResults() {

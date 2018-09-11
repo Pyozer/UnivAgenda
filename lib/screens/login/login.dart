@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
-
-//const kLoginURL = "https://cas.univ-lemans.fr/cas/login";
-const kLoginURL = "https://cas.univ-tours.fr/cas/login";
 
 class LoginScreen extends StatefulWidget {
   @override

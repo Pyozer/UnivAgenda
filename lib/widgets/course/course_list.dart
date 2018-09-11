@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
-import 'package:myagenda/widgets/ui/about_card.dart';
 
 class CourseList extends StatelessWidget {
   final Map<DateTime, List<BaseCourse>> courses;
