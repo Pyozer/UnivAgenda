@@ -49,6 +49,8 @@ flutter:
     - res/images/Twitter_Logo_Blue.png
     - res/images/Twitter_Logo_White.png
 
+    - res/images/sad_icon.png
+
     - res/locales/en.json
     - res/locales/fr.json
     

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/assets.dart';
 
 class NoResult extends StatelessWidget {
   final Widget header;
@@ -25,10 +26,7 @@ class NoResult extends StatelessWidget {
       defaultHeader = Material(
         elevation: 2.0,
         shape: const CircleBorder(),
-        child: Image.network(
-          "https://cdn4.iconfinder.com/data/icons/reaction/32/sad-512.png",
-          width: 140.0,
-        ),
+        child: Image.asset(Asset.SAD_ICON, width: 140.0),
       );
     }
 
