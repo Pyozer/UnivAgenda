@@ -371,7 +371,9 @@
       "L3 MS" : {
         "MS" : 2555
       }
-    },
+    }
+  },
+  "IUT Le Mans": {
     "Chimie": {
       "S1S2": {
         "A1 CH": 2325,
@@ -531,6 +533,88 @@
       },
       "LP SurFi": {
         "LP Surfi": 2374
+      }
+    }
+  },
+  "PluriPASS": {
+    "PluriPass": {
+      "Semestre 1": {
+        "Groupe 1": 1188,
+        "Groupe 2": 1198,
+        "Groupe 3": 1297,
+        "Groupe 4": 1145
+      },
+      "Semestre 2": {
+        "Groupe 1": 6498,
+        "Groupe 2": 6499,
+        "Groupe 3": 6500,
+        "Groupe 4": 1689
+      },
+      "Semestre 3": {
+        "Parcours SV Droit": 902,
+        "Parcours SV MP": 694
+      }
+    }
+  },
+  "UFR Droit et Sciences Eco": {
+    "DROIT": {
+      "L1 Laval": {
+        "L1 G1": 3156,
+        "L1 G2": 3157,
+        "L1 G3": 3158,
+        "L1 G4": 4256,
+        "L1 G5": 903,
+        "L1 G6": 1053
+      },
+      "L1 Le Mans": {
+        "L1 G01": 6392,
+        "L1 G02": 6385,
+        "L1 G03": 6386,
+        "L1 G04": 6387,
+        "L1 G05": 6388,
+        "L1 G06": 6389,
+        "L1 G07": 6390,
+        "L1 G08": 6393,
+        "L1 G09": 6395,
+        "L1 G10": 6396,
+        "L1 G11": 6397,
+        "L1 G12": 6398,
+        "L1 G13": 6391
+      },
+      "L2 Laval": {
+        "L2 G1": 6373,
+        "L2 G2": 6374
+      },
+      "L2 Le Mans": {
+        "L2 G1": 6405,
+        "L2 G2": 6406,
+        "L2 G3": 6409,
+        "L2 G4": 6407,
+        "L2 G5": 6408,
+        "L2 G6": 6410
+      },
+      "L3 Laval": {
+        "L3 G1": 3159,
+        "L3 G2": 855
+      },
+      "L3 Le Mans": {
+        "L3 G1": 6416,
+        "L3 G2": 6418,
+        "L3 G3": 6419,
+        "L3 G4": 6417,
+        "L3 G5": 6420
+      },
+      "M1": {
+        "M1 Droit Bancaire et Financier": 6436,
+        "M1 Droit des Assurances": 6437,
+        "M1 Droit P. Contentieux Privé": 6433,
+        "M1 Droit Public": 6435
+      },
+      "M2": {
+        "M2 Droit Bancaire et Financier": 4959,
+        "M2 Droit des Assurances": 4418,
+        "M2 Droit P. Contentieux Privé": 3985,
+        "M2 Droit Public": 5479
       }
     }
   }
