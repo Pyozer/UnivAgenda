@@ -572,7 +572,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       final event = CustomCourse.fromJsonStr(eventJsonStr);
       if (!event.isFinish()) actualEvents.add(event);
     });
-    setCustomEvents(actualEvents, false);
+
+    // Set update state true on last to force rebuild
+    setCustomEvents(actualEvents);
   }
 
   void _updatePref(Function f, bool state) {

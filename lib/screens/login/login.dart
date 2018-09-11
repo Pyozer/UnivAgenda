@@ -25,11 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void _setLoading(bool loading) {
     setState(() {
       _isLoading = loading;
@@ -136,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
+    final theme = Theme.of(context);
     final prefs = PreferencesProvider.of(context);
     final orientation = MediaQuery.of(context).orientation;
 
@@ -146,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final titleApp = Text(
       translations.get(StringKey.APP_NAME),
-      style: Theme.of(context).textTheme.title.copyWith(fontSize: 28.0),
+      style: theme.textTheme.title.copyWith(fontSize: 28.0),
     );
 
     final username = TextField(
@@ -154,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
       autofocus: false,
       decoration: InputDecoration(
         hintText: translations.get(StringKey.LOGIN_USERNAME),
-        prefixIcon: const Icon(Icons.person_outline),
+        prefixIcon: Icon(Icons.person_outline, color: theme.accentColor),
         contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
         border: InputBorder.none,
       ),
@@ -166,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: true,
       decoration: InputDecoration(
         hintText: translations.get(StringKey.LOGIN_PASSWORD),
-        prefixIcon: const Icon(Icons.lock_outline),
+        prefixIcon: Icon(Icons.lock_outline, color: theme.accentColor),
         contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
         border: InputBorder.none,
       ),
@@ -175,6 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = FloatingActionButton(
       onPressed: _onSubmit,
       child: const Icon(Icons.send),
+      backgroundColor: theme.accentColor,
     );
 
     return Scaffold(
@@ -203,10 +200,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     Card(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(8.0),
-                        ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       elevation: 4.0,
                       child: Padding(

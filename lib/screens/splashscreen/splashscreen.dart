@@ -15,10 +15,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+  bool _isPrefsLoaded = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _initPreferences();
+    if (!_isPrefsLoaded) {
+      _initPreferences();
+    }
   }
 
   Future<Null> _initPreferences() async {
@@ -49,6 +53,8 @@ class SplashScreenState extends State<SplashScreen> {
 
     // Load preferences from disk
     await prefs.initFromDisk();
+
+    _isPrefsLoaded = true;
 
     final bool isFirstBoot = prefs.isFirstBoot;
     final bool isUserLogged = prefs.isUserLogged;
