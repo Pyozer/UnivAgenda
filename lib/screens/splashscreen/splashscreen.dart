@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
+import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,29 +67,28 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: (Theme.of(context).brightness == Brightness.dark)
-          ? const Color(0xFF303030)
-          : const Color(0xFFFFFFFF),
-      child: Column(
-        children: <Widget>[
-          const Expanded(
-            flex: 1,
-            child: const SizedBox.shrink(),
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Image.asset(Asset.LOGO, width: 192.0),
+    return AppbarPage(
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            const Expanded(
+              flex: 1,
+              child: const SizedBox.shrink(),
             ),
-          ),
-          const Expanded(
-            flex: 1,
-            child: const Center(
-              child: const CircularProgressIndicator(),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Image.asset(Asset.LOGO, width: 192.0),
+              ),
             ),
-          ),
-        ],
+            const Expanded(
+              flex: 1,
+              child: const Center(
+                child: const CircularProgressIndicator(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

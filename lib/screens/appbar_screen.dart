@@ -11,7 +11,7 @@ class AppbarPage extends StatelessWidget {
 
   const AppbarPage(
       {Key key,
-      @required this.title,
+      this.title,
       @required this.body,
       this.scaffoldKey,
       this.drawer,
@@ -24,11 +24,13 @@ class AppbarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        title: Text(title),
-        actions: actions ?? [],
-        elevation: elevation,
-      ),
+      appBar: (title != null)
+          ? AppBar(
+              title: Text(title),
+              actions: actions ?? [],
+              elevation: elevation,
+            )
+          : null,
       body: SafeArea(child: body),
       drawer: drawer,
       floatingActionButton: fab,
