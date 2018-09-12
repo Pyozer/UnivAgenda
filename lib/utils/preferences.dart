@@ -526,7 +526,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     return allPrefs;
   }
 
-  Future<Null> initFromDisk() async {
+  Future<Null> initFromDisk([state = false]) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Init ressources for agendas
@@ -585,8 +585,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       if (!event.isFinish()) actualEvents.add(event);
     });
 
-    // Set update state true on last to force rebuild
-    setCustomEvents(actualEvents, false);
+    // Set update state true/false on last to force rebuild
+    setCustomEvents(actualEvents, state);
   }
 
   void _updatePref(Function f, bool state) {

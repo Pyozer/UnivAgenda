@@ -137,7 +137,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   void _onSubmit(BuildContext context) {
     if (_formKey.currentState.validate()) {
-
       // Check data
       if (_eventDateEnd.isBefore(_eventDateStart)) {
         DialogPredefined.showEndTimeError(context);
@@ -159,52 +158,72 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
     }
   }
 
+  InputDecoration _buildInputDecoration(IconData icon, String hintText) {
+    return InputDecoration(
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(right: 32.0, left: 16.0),
+        child: Icon(icon),
+      ),
+      hintText: hintText,
+      contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+      border: InputBorder.none,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
     _locale = translations.locale;
+    final theme = Theme.of(context);
 
     return AppbarPage(
       title: translations.get(StringKey.ADD_EVENT),
       actions: [
         IconButton(
-            icon: const Icon(Icons.check), onPressed: () => _onSubmit(context))
+          icon: const Icon(Icons.check),
+          onPressed: () => _onSubmit(context),
+        )
       ],
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.title),
-                title: TextFormField(
-                  controller: _titleController,
-                  decoration: InputDecoration.collapsed(hintText: translations.get(StringKey.TITLE_EVENT)),
-                  validator: _validateTextField,
-                ),
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: _buildInputDecoration(Icons.title, translations.get(StringKey.TITLE_EVENT)),
+                validator: _validateTextField,
               ),
-              Divider(height: 4.0),
+              const Divider(height: 0.0),
               ListTile(
                 leading: const Icon(Icons.description),
                 title: TextFormField(
                   controller: _descController,
-                  decoration:
-                      InputDecoration.collapsed(hintText: translations.get(StringKey.DESC_EVENT)),
+                  decoration: InputDecoration(
+                    hintText: translations.get(StringKey.DESC_EVENT),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                    border: InputBorder.none,
+                  ),
                   validator: _validateTextField,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                 ),
               ),
-              Divider(height: 4.0),
-              ListTile(
-                leading: const Icon(Icons.location_on),
-                title: TextFormField(
-                  controller: _locationController,
-                  decoration: InputDecoration.collapsed(hintText: translations.get(StringKey.LOCATION_EVENT)),
-                  validator: _validateTextField,
+              const Divider(height: 0.0),
+              TextFormField(
+                controller: _locationController,
+                decoration: InputDecoration(
+                  prefixIcon: const Padding(
+                    padding: const EdgeInsets.only(right: 32.0, left: 16.0),
+                    child: const Icon(Icons.location_on),
+                  ),
+                  hintText: translations.get(StringKey.LOCATION_EVENT),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
+                  border: InputBorder.none,
                 ),
+                validator: _validateTextField,
               ),
-              Divider(height: 4.0),
+              const Divider(height: 4.0),
               ListTile(
                 leading: const Icon(Icons.date_range),
                 title: _buildDateTimeField(
@@ -213,7 +232,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   _onDateTap,
                 ),
               ),
-              Divider(height: 4.0),
+              const Divider(height: 4.0),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -239,18 +258,19 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   ),
                 ],
               ),
-              Divider(height: 4.0),
+              const Divider(height: 4.0),
               ListTile(
                 leading: const Icon(Icons.color_lens),
                 title: Text(translations.get(StringKey.EVENT_COLOR)),
                 trailing: Switch(
-                    value: _isCustomColor,
-                    activeColor: Theme.of(context).accentColor,
-                    onChanged: (value) {
-                      setState(() {
-                        _isCustomColor = value;
-                      });
-                    }),
+                  value: _isCustomColor,
+                  activeColor: theme.accentColor,
+                  onChanged: (value) {
+                    setState(() {
+                      _isCustomColor = value;
+                    });
+                  },
+                ),
               ),
               _isCustomColor
                   ? ListTileColor(

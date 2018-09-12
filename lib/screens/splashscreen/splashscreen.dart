@@ -20,55 +20,56 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _initPreferences();
+    if (!_isPrefsLoaded) {
+      _initPreferences();
+    }
   }
 
-  Future<Null> _initPreferences() async {
+  void _initPreferences() async {
+    _isPrefsLoaded = true;
+
     final startTime = DateTime.now();
 
     final prefs = PreferencesProvider.of(context);
 
-    if (!_isPrefsLoaded) {
-      // Update resources if they are older than 12 hours
-      if (prefs.resourcesDate.difference(DateTime.now()).inHours >= 12) {
-        try {
-          final response = await http.get(resourcesUrl);
-          if (response.statusCode == 200 && response.body.isNotEmpty) {
-            Map<String, dynamic> ressources = json.decode(response.body);
-            prefs.setResources(ressources, false);
-            prefs.setResourcesDate(startTime);
-          }
-        } catch (_) {}
-      }
-
-      // Load preferences from disk
-      await prefs.initFromDisk();
-
-      _isPrefsLoaded = true;
+    // Update resources if they are older than 12 hours
+    if (prefs.resourcesDate.difference(DateTime.now()).inHours >= 12) {
+      try {
+        final response = await http.get(resourcesUrl);
+        if (response.statusCode == 200 && response.body.isNotEmpty) {
+          Map<String, dynamic> ressources = json.decode(response.body);
+          prefs.setResources(ressources, false);
+          prefs.setResourcesDate(startTime);
+        }
+      } catch (_) {}
     }
 
-    final bool isFirstBoot = prefs.isFirstBoot;
-    final bool isUserLogged = prefs.isUserLogged;
+    // Load preferences from disk
+    prefs.initFromDisk(true).then((_) {
+      final routeDest = (prefs.isFirstBoot)
+          ? RouteKey.INTRO
+          : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 
-    final routeDest = (isFirstBoot)
-        ? RouteKey.INTRO
-        : (isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
+      // Wait minimum 1.5 secondes
+      final diffMs = DateTime.now().difference(startTime).inMilliseconds;
+      final waitTime = diffMs < 1500 ? 1500 - diffMs : 0;
 
-    // Wait minimum 1 seconde
-    final endTime = DateTime.now();
-    final diffMs = endTime.difference(startTime).inMilliseconds;
- 
-    await Future.delayed(
-      Duration(milliseconds: diffMs < 1500 ? 1500 - diffMs : 0),
-    );
+      Future.delayed(Duration(milliseconds: waitTime)).then((_) {
+        _goToNext(routeDest);
+      });
+    });
+  }
 
-    Navigator.of(context).pushReplacementNamed(routeDest);
+  void _goToNext(String route) {
+    Navigator.of(context).pushReplacementNamed(route);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFFFFFFF),
+      color: (Theme.of(context).brightness == Brightness.dark)
+          ? const Color(0xFF303030)
+          : const Color(0xFFFFFFFF),
       child: Column(
         children: <Widget>[
           const Expanded(

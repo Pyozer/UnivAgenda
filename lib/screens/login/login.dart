@@ -44,8 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   dispose() {
-    super.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     setAllOrientation();
+    super.dispose();
   }
 
   void setOnlyPortrait() {
