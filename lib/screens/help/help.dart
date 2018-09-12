@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
 
 const kHelpDataUrl =
-    "https://rawgit.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
+    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
 
 class HelpScreen extends StatelessWidget {
   Future<List<HelpItem>> _loadHelpData(String lang) async {
