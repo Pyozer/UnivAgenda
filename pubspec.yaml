@@ -32,6 +32,7 @@ flutter:
     - res/images/icon_circle.png
     - res/images/jeancharles-mousse.png
 
+    - res/images/intro_login.png
     - res/images/intro_event.png
     - res/images/intro_group.png
     - res/images/intro_internet.png

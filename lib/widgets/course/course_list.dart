@@ -8,7 +8,6 @@ import 'package:myagenda/widgets/course/course_row_header.dart';
 
 class CourseList extends StatelessWidget {
   final Map<DateTime, List<BaseCourse>> courses;
-  final String coursesHeader;
   final int numberWeeks;
   final bool isHorizontal;
   final Color noteColor;
@@ -16,7 +15,6 @@ class CourseList extends StatelessWidget {
   const CourseList({
     Key key,
     @required this.courses,
-    @required this.coursesHeader,
     @required this.numberWeeks,
     @required this.noteColor,
     this.isHorizontal = false,
@@ -97,20 +95,9 @@ class CourseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          CourseListHeader(coursesHeader),
-          Divider(height: 0.0),
-          Expanded(
-            child: Container(
-              child: (isHorizontal)
-                  ? _buildHorizontal(context, courses)
-                  : _buildVertical(context, courses),
-            ),
-          ),
-        ],
-      ),
+      child: (isHorizontal)
+          ? _buildHorizontal(context, courses)
+          : _buildVertical(context, courses),
     );
   }
 }

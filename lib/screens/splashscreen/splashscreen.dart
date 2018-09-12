@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:http/http.dart' as http;
@@ -20,41 +20,32 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_isPrefsLoaded) {
-      _initPreferences();
-    }
+    _initPreferences();
   }
 
   Future<Null> _initPreferences() async {
-    bool hasInternet = false;
-
-    // Check if internet is available
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        hasInternet = true;
-      }
-    } on SocketException catch (_) {
-      hasInternet = false;
-    }
+    final startTime = DateTime.now();
 
     final prefs = PreferencesProvider.of(context);
 
-    // Update resources if internet available
-    if (hasInternet) {
-      try {
-        final response = await http.get(resourcesUrl);
-        if (response.statusCode == 200 && response.body.isNotEmpty) {
-          Map<String, dynamic> ressources = json.decode(response.body);
-          prefs.setResources(ressources, false);
-        }
-      } catch (_) {}
+    if (!_isPrefsLoaded) {
+      // Update resources if they are older than 12 hours
+      if (prefs.resourcesDate.difference(DateTime.now()).inHours >= 12) {
+        try {
+          final response = await http.get(resourcesUrl);
+          if (response.statusCode == 200 && response.body.isNotEmpty) {
+            Map<String, dynamic> ressources = json.decode(response.body);
+            prefs.setResources(ressources, false);
+            prefs.setResourcesDate(startTime);
+          }
+        } catch (_) {}
+      }
+
+      // Load preferences from disk
+      await prefs.initFromDisk();
+
+      _isPrefsLoaded = true;
     }
-
-    // Load preferences from disk
-    await prefs.initFromDisk();
-
-    _isPrefsLoaded = true;
 
     final bool isFirstBoot = prefs.isFirstBoot;
     final bool isUserLogged = prefs.isUserLogged;
@@ -63,11 +54,41 @@ class SplashScreenState extends State<SplashScreen> {
         ? RouteKey.INTRO
         : (isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 
+    // Wait minimum 1 seconde
+    final endTime = DateTime.now();
+    final diffMs = endTime.difference(startTime).inMilliseconds;
+ 
+    await Future.delayed(
+      Duration(milliseconds: diffMs < 1500 ? 1500 - diffMs : 0),
+    );
+
     Navigator.of(context).pushReplacementNamed(routeDest);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.white);
+    return Container(
+      color: const Color(0xFFFFFFFF),
+      child: Column(
+        children: <Widget>[
+          const Expanded(
+            flex: 1,
+            child: const SizedBox.shrink(),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Image.asset(Asset.LOGO, width: 192.0),
+            ),
+          ),
+          const Expanded(
+            flex: 1,
+            child: const Center(
+              child: const CircularProgressIndicator(),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

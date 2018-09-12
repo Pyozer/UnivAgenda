@@ -42,7 +42,7 @@
   "submit": "Submit",
 
   "what_is_it": "What is it?",
-  "about_what": "This app is linked to the agenda of th University of Le Mans. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
+  "about_what": "This app is linked to the agenda of the University of Le Mans, Tours and Rennes. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
   "author": "Author",
   "developer": "Developer",
   "social": "Social",
@@ -62,7 +62,10 @@
   "refresh": "Refresh",
 
   "intro_welcome_title": "Welcome !",
-  "intro_welcome_desc": "MyAgenda allows you to access the Le Mans University calendar directly on your device !",
+  "intro_welcome_desc": "MyAgenda allows you to access the University of Le Mans, Tours or Rennes calendar directly on your device !",
+
+  "intro_login_title": "Login",
+  "intro_login_desc": "To login, simply select your university and enter the credentials you use for the ENT.",
 
   "intro_agenda_title": "Choose your agenda",
   "intro_agenda_desc": "In the settings, you can choose your department, year and group to display the corresponding calendar.",

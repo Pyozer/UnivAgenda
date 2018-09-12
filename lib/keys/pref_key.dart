@@ -18,6 +18,7 @@ class PrefKey {
 
   static const cachedIcal = 'cached_ical';
   static const resources = 'resources';
+  static const resourcesDate = 'ressources_date';
 
   static const notes = 'notes';
   static const customEvent = 'custom_events';
@@ -30,7 +31,7 @@ class PrefKey {
   static const defaultUserLogged = false;
   static const defaultHorizontalView = false;
   static const defaultCachedIcal = null;
-  static const defaultResources = null;
+  static const Map<String, dynamic> defaultResources = {};
   static const defaultNotes = [];
   static const defaultCustomEvents = [];
 }

@@ -13,6 +13,7 @@ import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
+import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
@@ -185,6 +186,19 @@ class _HomeScreenState extends State<HomeScreen> {
     prefs.setHorizontalView(!prefs.isHorizontalView, false);
   }
 
+  Widget _buildNoResult() {
+    final translations = Translations.of(context);
+
+    return NoResult(
+      title: translations.get(StringKey.COURSES_NORESULT),
+      text: translations.get(StringKey.COURSES_NORESULT_TEXT),
+      footer: RaisedButtonColored(
+        text: translations.get(StringKey.REFRESH),
+        onPressed: _fetchData,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
@@ -197,37 +211,39 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         : const SizedBox.shrink();
 
+    final iconView = _isHorizontal ? Icons.view_day : Icons.view_week;
+
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.APP_NAME),
       actions: <Widget>[
         refreshBtn,
-        IconButton(
-          icon: Icon(_isHorizontal ? Icons.view_day : Icons.view_week),
-          onPressed: _switchTypeView,
-        )
+        IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
       ],
       drawer: MainDrawer(),
       fab: _buildFab(context),
       body: RefreshIndicator(
         key: _refreshKey,
         onRefresh: _fetchData,
-        child: (_courses?.length == 0 ?? true)
-            ? NoResult(
-                title: translations.get(StringKey.COURSES_NORESULT),
-                text: translations.get(StringKey.COURSES_NORESULT_TEXT),
-                footer: RaisedButtonColored(
-                  text: translations.get(StringKey.REFRESH),
-                  onPressed: _fetchData,
-                ),
-              )
-            : CourseList(
-                courses: _courses,
-                isHorizontal: prefs.isHorizontalView,
-                coursesHeader: "${prefs.year} - ${prefs.group}",
-                numberWeeks: prefs.numberWeeks,
-                noteColor: Color(prefs.noteColor),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            CourseListHeader("${prefs.year} - ${prefs.group}"),
+            const Divider(height: 0.0),
+            Expanded(
+              child: Container(
+                child: (_courses?.length == 0 ?? true)
+                    ? _buildNoResult()
+                    : CourseList(
+                        courses: _courses,
+                        isHorizontal: prefs.isHorizontalView,
+                        numberWeeks: prefs.numberWeeks,
+                        noteColor: Color(prefs.noteColor),
+                      ),
               ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -20,6 +21,48 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
+  bool _orientationDefined = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Set screen only portrait of height is less than 600
+    if (!_orientationDefined) {
+      final media = MediaQuery.of(context);
+
+      if (media.orientation == Orientation.portrait && media.size.width < 600) {
+        setOnlyPortrait();
+      } else if (media.orientation == Orientation.landscape &&
+          media.size.height < 600) {
+        setOnlyPortrait();
+      } else {
+        setAllOrientation();
+      }
+      _orientationDefined = true;
+    }
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    setAllOrientation();
+  }
+
+  void setOnlyPortrait() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  void setAllOrientation() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   void _setLoading(bool loading) {
     setState(() {
@@ -76,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final translations = Translations.of(context);
     final theme = Theme.of(context);
     final prefs = PreferencesProvider.of(context);
-    final orientation = MediaQuery.of(context).orientation;
 
     final logo = Hero(
       tag: Asset.LOGO,
@@ -126,17 +168,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: (orientation == Orientation.portrait)
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [logo, titleApp],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [logo, 
-                        const SizedBox(width: 16.0,),
-                        titleApp],
-                      ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [logo, titleApp],
+                ),
               ),
               Expanded(
                 child: Column(
@@ -145,38 +180,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     Dropdown(
                       items: prefs.getAllUniversity(),
                       value: prefs.university,
-                      onChanged: (university) {
-                        prefs.setUniversity(university);
-                      },
+                      onChanged: prefs.setUniversity,
                     ),
                     Card(
-                      shape: OutlineInputBorder(),
+                      shape: const OutlineInputBorder(),
                       elevation: 4.0,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        child: (orientation == Orientation.portrait)
-                            ? Column(
-                                children: [
-                                  username,
-                                  const ListDivider(),
-                                  password
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Expanded(child: username),
-                                  Container(
-                                    height: 32.0,
-                                    width: 1.0,
-                                    color: Colors.black54,
-                                  ),
-                                  Expanded(child: password)
-                                ],
-                              ),
-                      ),
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: Column(
+                            children: [username, const ListDivider(), password],
+                          )),
                     ),
                     const SizedBox(height: 32.0),
-                    _isLoading ? CircularProgressIndicator() : loginButton,
+                    _isLoading ? CircularProgressIndicator() : loginButton
                   ],
                 ),
               ),

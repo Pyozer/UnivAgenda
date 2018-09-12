@@ -7,6 +7,7 @@ class Asset {
   static const TWITTER_WHITE = 'res/images/Twitter_Logo_White.png';
 
   static const INTRO_EVENT = 'res/images/intro_event.png';
+  static const INTRO_LOGIN = 'res/images/intro_login.png';
   static const INTRO_GROUP = 'res/images/intro_group.png';
   static const INTRO_INTERNET = 'res/images/intro_internet.png';
   static const INTRO_NOTE = 'res/images/intro_note.png';

@@ -67,6 +67,9 @@ class StringKey {
   static const INTRO_WELCOME_TITLE = 'intro_welcome_title';
   static const INTRO_WELCOME_DESC = 'intro_welcome_desc';
 
+  static const INTRO_LOGIN_TITLE = 'intro_login_title';
+  static const INTRO_LOGIN_DESC = 'intro_login_desc';
+
   static const INTRO_AGENDA_TITLE = 'intro_agenda_title';
   static const INTRO_AGENDA_DESC = 'intro_agenda_desc';
 

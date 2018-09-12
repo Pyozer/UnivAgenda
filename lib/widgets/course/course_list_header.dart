@@ -46,14 +46,10 @@ class CourseListHeader extends StatelessWidget {
 
     return InkWell(
       onTap: () => _onHeaderTap(context),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(text, style: textStyle),
-          )
-        ],
+      child: Container(
+        padding: const EdgeInsets.all(12.0),
+        alignment: Alignment.center,
+        child: Text(text, style: textStyle),
       ),
     );
   }

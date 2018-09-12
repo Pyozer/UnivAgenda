@@ -41,12 +41,6 @@ class PreferencesProvider extends StatefulWidget {
 
 class PreferencesProviderState extends State<PreferencesProvider> {
   @override
-  void initState() {
-    super.initState();
-    initFromDisk();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return _MyInheritedPreferences(data: this, child: widget.child);
   }
@@ -68,6 +62,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool _userLogged;
   bool _horizontalView;
   Map<String, dynamic> _resources;
+  DateTime _resourcesDate;
 
   String get university => _university;
 
@@ -233,19 +228,19 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }) {
     if (university == null || !_resources.containsKey(university))
       university = getAllUniversity()[0];
-    if (campus == null || !_resources[university]['resources'].containsKey(campus))
+    if (campus == null ||
+        !_resources[university]['resources'].containsKey(campus))
       campus = getAllCampus(university)[0];
-
-    print(university);
-    print(campus);
     if (department == null ||
         !_resources[university]["resources"][campus].containsKey(department))
       department = getCampusDepartments(university, campus)[0];
     if (year == null ||
-        !_resources[university]["resources"][campus][department].containsKey(year))
+        !_resources[university]["resources"][campus][department]
+            .containsKey(year))
       year = getYears(university, campus, department)[0];
     if (group == null ||
-        !_resources[university]["resources"][campus][department][year].containsKey(group))
+        !_resources[university]["resources"][campus][department][year]
+            .containsKey(group))
       group = getGroups(university, campus, department, year)[0];
 
     return PrefsCalendar(
@@ -475,17 +470,31 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isHorizontalView, isHorizontalView));
   }
 
-  Map<String, dynamic> get resources => _resources ?? {};
+  Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
   setResources(Map<String, dynamic> newResources, [state = true]) {
     if (resources == newResources) return;
 
     _updatePref(() {
-      _resources = newResources ?? {};
+      _resources = newResources ?? PrefKey.defaultResources;
     }, state);
 
     SharedPreferences.getInstance().then((prefs) =>
         prefs.setString(PrefKey.resources, json.encode(newResources)));
+  }
+
+  DateTime get resourcesDate => _resourcesDate ?? DateTime(1970);
+
+  setResourcesDate([newResDate, state = false]) {
+    newResDate ??= DateTime.now();
+
+    _updatePref(() {
+      _resourcesDate = newResDate;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setInt(PrefKey.resourcesDate, newResDate.millisecondsSinceEpoch);
+    });
   }
 
   Map<String, dynamic> getThemeValues() {
@@ -531,6 +540,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }
     setResources(actualRes, false);
 
+    final int resourcesDate = prefs.getInt(PrefKey.resourcesDate) ?? 0;
+    setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
+
     // Init group preferences
     final String university = prefs.getString(PrefKey.university);
     final String campus = prefs.getString(PrefKey.campus);
@@ -574,7 +586,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
 
     // Set update state true on last to force rebuild
-    setCustomEvents(actualEvents);
+    setCustomEvents(actualEvents, false);
   }
 
   void _updatePref(Function f, bool state) {

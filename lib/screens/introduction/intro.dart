@@ -19,6 +19,11 @@ class IntroductionScreen extends StatelessWidget {
         Hero(tag: Asset.LOGO, child: Image.asset(Asset.LOGO, width: kIconSize)),
       ),
       PageViewModel(
+        translations.get(StringKey.INTRO_LOGIN_TITLE),
+        translations.get(StringKey.INTRO_LOGIN_DESC),
+        Image.asset(Asset.INTRO_LOGIN, height: kIconSize),
+      ),
+      PageViewModel(
         translations.get(StringKey.INTRO_AGENDA_TITLE),
         translations.get(StringKey.INTRO_AGENDA_DESC),
         Image.asset(Asset.INTRO_GROUP, height: kIconSize),
