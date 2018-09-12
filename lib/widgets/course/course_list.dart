@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
 
