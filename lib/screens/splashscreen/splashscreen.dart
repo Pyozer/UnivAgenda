@@ -68,27 +68,26 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            const Expanded(
-              flex: 1,
-              child: const SizedBox.shrink(),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          const Expanded(
+            flex: 1,
+            child: const SizedBox.shrink(),
+          ),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Image.asset(Asset.LOGO, width: 192.0),
             ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Image.asset(Asset.LOGO, width: 192.0),
-              ),
+          ),
+          const Expanded(
+            flex: 1,
+            child: const Center(
+              child: const CircularProgressIndicator(),
             ),
-            const Expanded(
-              flex: 1,
-              child: const Center(
-                child: const CircularProgressIndicator(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

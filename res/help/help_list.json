@@ -5,5 +5,12 @@
             "fr": "Trouver mon agenda"
         },
         "page": "https://rawgit.com/Pyozer/MyAgenda_Flutter/master/res/help/find_my_agenda"
+    },
+    {
+        "title": {
+            "en": "Find my agenda",
+            "fr": "Trouver mon agenda"
+        },
+        "page": "https://rawgit.com/Pyozer/MyAgenda_Flutter/master/res/help/find_my_agenda"
     }
 ]
