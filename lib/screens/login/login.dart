@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/login/login_base.dart';
+import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' show parse;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -27,90 +27,37 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _requestFail() {
-    _setLoading(false);
-    _showMessage(
-      Translations.of(context).get(
-        StringKey.LOGIN_SERVER_ERROR,
-        [PreferencesProvider.of(context).university],
-      ),
-    );
-  }
-
   void _onSubmit() async {
+    final translations = Translations.of(context);
+
     // Get username and password from inputs
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
     // Check fields values
     if (username.isEmpty || password.isEmpty) {
-      _showMessage(Translations.of(context).get(StringKey.REQUIRE_FIELD));
+      _showMessage(translations.get(StringKey.REQUIRE_FIELD));
       return;
     }
 
     _setLoading(true);
 
     final prefs = PreferencesProvider.of(context);
+    prefs.setUserLogged(false, false);
 
-    String loginUrl = prefs.loginUrl;
-
-    // First request to get JSESSIONID cookie and lt value
-    http.Response response;
-    try {
-      response = await http.get(loginUrl);
-    } catch (_) {
-      _requestFail();
-      return;
-    }
-
-    final document = parse(response.body);
-
-    // Extract lt value from HTML
-    final ltInput = document.querySelector('input[name="lt"]');
-    String lt = "";
-    if (ltInput?.attributes?.containsKey("value") ?? false)
-      lt = ltInput.attributes['value'];
-
-    // POST data
-    Map<String, String> postParams = {
-      "_eventId": "submit",
-      "lt": lt,
-      "submit": "LOGIN",
-      "username": username,
-      "password": password,
-      "execution": "e1s1"
-    };
-
-    // Get JSESSIONID from previous request header
-    final cookie = response.headers["set-cookie"];
-
-    // Second request, with all necessary data
-    http.Response loginResponse;
-    try {
-      loginResponse = await http.post(
-        loginUrl,
-        body: postParams,
-        headers: {"cookie": cookie},
-      );
-    } catch (_) {
-      _requestFail();
-      return;
-    }
-
-    final loginDocument = parse(loginResponse.body);
-    final errorElement = loginDocument.querySelector(".errors");
-    final successElement = loginDocument.querySelector(".success");
+    // Login process
+    final loginResult =
+        await LoginCAS(prefs.loginUrl, username, password).login();
 
     _setLoading(false);
 
-    if (errorElement != null && successElement == null) {
-      prefs.setUserLogged(false, false);
-      // Display error to user
-      String error = errorElement.innerHtml;
-      error = error.replaceAll("<h2>", "").replaceAll("</h2>", "");
-
-      _showMessage(error.trim());
-    } else if (successElement != null && errorElement == null) {
+    if (loginResult.result == LoginResultType.LOGIN_FAIL) {
+      _showMessage(loginResult.message);
+    } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
+      _showMessage(
+        translations.get(StringKey.LOGIN_SERVER_ERROR, [prefs.university]),
+      );
+    } else if (loginResult.result == LoginResultType.LOGIN_SUCCESS) {
       _scaffoldKey.currentState.removeCurrentSnackBar();
       // Redirect user if no error
       prefs.setUserLogged(true, false);
@@ -179,10 +126,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [logo, titleApp],
-                ),
+                child: (orientation == Orientation.portrait)
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [logo, titleApp],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [logo, 
+                        const SizedBox(width: 16.0,),
+                        titleApp],
+                      ),
               ),
               Expanded(
                 child: Column(
@@ -196,9 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
+                      shape: OutlineInputBorder(),
                       elevation: 4.0,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
