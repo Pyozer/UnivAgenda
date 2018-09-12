@@ -32,8 +32,7 @@ class StringKey {
 
   static const ABOUT = 'about';
   static const INTRO = 'introduction';
-  static const FEEDBACK = 'feedback';
-  static const HELP = 'help';
+  static const HELP_FEEDBACK = 'help_feedback';
   static const LOGOUT = 'logout';
 
   static const ADD_EVENT = 'add_event';
@@ -43,6 +42,7 @@ class StringKey {
   static const SUBMIT = 'submit';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
+  static const SEND_FEEDBACK = 'send_feedback';
 
   static const WHAT_IS_IT = 'what_is_it';
   static const ABOUT_WHAT = 'about_what';

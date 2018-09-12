@@ -31,8 +31,7 @@
 
   "about": "A propos",
   "introduction": "Introduction",
-  "feedback": "Feedback",
-  "help": "Aide",
+  "help_feedback": "Aide & Feedback",
   "logout": "Déconnexion",
 
   "add_event": "Ajouter un événement",
@@ -42,6 +41,7 @@
   "submit": "Valider",
   "change": "Changer",
   "refresh": "Rafraichir",
+  "send_feedback": "Envoyer un feedback",
 
   "what_is_it": "Qu'est ce que c'est ?",
   "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sns avoir à aller sur l'ENT.",

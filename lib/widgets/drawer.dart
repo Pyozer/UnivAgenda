@@ -61,26 +61,8 @@ class MainDrawer extends StatelessWidget {
             routeDest: RouteKey.SETTINGS,
           ),
           DrawerElement(
-            icon: Icons.feedback,
-            title: translations.get(StringKey.FEEDBACK),
-            onTap: () async {
-              var url =
-                  'mailto:jeancharles.msse@gmail.com?subject=Feedback MyAgenda';
-              if (await canLaunch(url)) {
-                await launch(url);
-              } else {
-                Navigator.of(context).pop();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(translations.get(StringKey.NO_EMAIL_APP)),
-                  ),
-                );
-              }
-            },
-          ),
-          DrawerElement(
             icon: Icons.help,
-            title: translations.get(StringKey.HELP),
+            title: translations.get(StringKey.HELP_FEEDBACK),
             routeDest: RouteKey.HELP,
           ),
           const Divider(),

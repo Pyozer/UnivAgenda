@@ -31,8 +31,7 @@
 
   "about": "About",
   "introduction": "Introduction",
-  "feedback": "Feedback",
-  "help": "Help",
+  "help_feedback": "Help & Feedback",
   "logout": "Logout",
 
   "add_event": "Add event",
@@ -60,6 +59,7 @@
   "done": "Got it",
   "change": "Change",
   "refresh": "Refresh",
+  "send_feedback": "Send a feedback",
 
   "intro_welcome_title": "Welcome !",
   "intro_welcome_desc": "MyAgenda allows you to access the University of Le Mans, Tours or Rennes calendar directly on your device !",
