@@ -33,6 +33,7 @@ class StringKey {
   static const ABOUT = 'about';
   static const INTRO = 'introduction';
   static const FEEDBACK = 'feedback';
+  static const HELP = 'help';
   static const LOGOUT = 'logout';
 
   static const ADD_EVENT = 'add_event';

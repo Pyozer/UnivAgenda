@@ -78,6 +78,11 @@ class MainDrawer extends StatelessWidget {
               }
             },
           ),
+          DrawerElement(
+            icon: Icons.help,
+            title: translations.get(StringKey.HELP),
+            routeDest: RouteKey.HELP,
+          ),
           const Divider(),
           DrawerElement(
             icon: Icons.exit_to_app,

@@ -6,7 +6,7 @@ class RouteKey {
   static const ADD_EVENT = '/addevent';
   static const FINDROOM = '/findroom';
   static const SETTINGS = '/settings';
-  static const UPDATE = '/update';
+  static const HELP = '/help';
   static const ABOUT = '/about';
   static const LICENCES = '/about/licences';
 }

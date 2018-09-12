@@ -29,10 +29,10 @@
   "note_color": "Note indicator color",
   "note_color_desc": "Color indicating if a note is present.",
 
-  "update": "Update",
   "about": "About",
   "introduction": "Introduction",
   "feedback": "Feedback",
+  "help": "Help",
   "logout": "Logout",
 
   "add_event": "Add event",

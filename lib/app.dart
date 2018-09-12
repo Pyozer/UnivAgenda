@@ -4,6 +4,7 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
 import 'package:myagenda/screens/about/licences/licences.dart';
 import 'package:myagenda/screens/findroom/findroom.dart';
+import 'package:myagenda/screens/help/help.dart';
 import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/login/login.dart';
@@ -19,7 +20,7 @@ final routes = {
   RouteKey.HOME: HomeScreen(),
   RouteKey.FINDROOM: FindRoomScreen(),
   RouteKey.SETTINGS: SettingsScreen(),
-  RouteKey.UPDATE: AboutScreen(),
+  RouteKey.HELP: HelpScreen(),
   RouteKey.ABOUT: AboutScreen(),
   RouteKey.LICENCES: LicencesScreen(),
   RouteKey.INTRO: IntroductionScreen(),
