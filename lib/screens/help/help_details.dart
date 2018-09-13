@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result_help.dart';
 
@@ -25,8 +24,6 @@ class HelpDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return AppbarPage(
         title: helpItem.title,
         body: FutureBuilder(
