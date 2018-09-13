@@ -10,10 +10,9 @@ class Note {
       : assert(text != null),
         assert(courseUid != null),
         assert(dateExpiration != null) {
-    if(dateCreation == null)
-      dateCreation = DateTime.now();
+    if (dateCreation == null) dateCreation = DateTime.now();
   }
-        
+
   bool isExpired() {
     return dateExpiration.isBefore(DateTime.now());
   }
@@ -24,28 +23,38 @@ class Note {
   }
 
   factory Note.fromJson(Map<String, dynamic> json) => Note(
-    courseUid: json['courseUid'],
-    text: json['text'],
-    dateExpiration: DateTime.fromMillisecondsSinceEpoch(json['date_expiration']),
-    dateCreation: DateTime.fromMillisecondsSinceEpoch(json['date_creation']),
-  );
+        courseUid: json['courseUid'],
+        text: json['text'],
+        dateExpiration:
+            DateTime.fromMillisecondsSinceEpoch(json['date_expiration']),
+        dateCreation:
+            DateTime.fromMillisecondsSinceEpoch(json['date_creation']),
+      );
 
   Map<String, dynamic> toJson() => {
-    'courseUid': courseUid,
-    'text': text,
-    'date_expiration': dateExpiration.millisecondsSinceEpoch,
-    'date_creation': dateCreation.millisecondsSinceEpoch
-  };
+        'courseUid': courseUid,
+        'text': text,
+        'date_expiration': dateExpiration.millisecondsSinceEpoch,
+        'date_creation': dateCreation.millisecondsSinceEpoch
+      };
 
   @override
   String toString() => this.toJson().toString();
 
   @override
-  bool operator ==(dynamic other) {
-    if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
-    final Note typedOther = other;
-    return (dateCreation.compareTo(dateCreation) == 0 && dateExpiration.compareTo(dateExpiration) == 0 && courseUid == typedOther.courseUid && text == typedOther.text);
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Note &&
+          runtimeType == other.runtimeType &&
+          dateCreation == other.dateCreation &&
+          courseUid == other.courseUid &&
+          text == other.text &&
+          dateExpiration == other.dateExpiration;
 
+  @override
+  int get hashCode =>
+      dateCreation.hashCode ^
+      courseUid.hashCode ^
+      text.hashCode ^
+      dateExpiration.hashCode;
 }

@@ -22,9 +22,12 @@ class CourseHeader extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CourseHeader &&
+      other is CourseHeader &&
           runtimeType == other.runtimeType &&
-          date.compareTo(other.date) == 0);
+          date == other.date;
+
+  @override
+  int get hashCode => date.hashCode;
 }
 
 class Course extends BaseCourse {
@@ -107,7 +110,10 @@ class Course extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Course && runtimeType == other.runtimeType && uid == other.uid);
+      other is Course && runtimeType == other.runtimeType && uid == other.uid;
+
+  @override
+  int get hashCode => uid.hashCode;
 }
 
 class CustomCourse extends Course {
