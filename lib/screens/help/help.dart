@@ -17,7 +17,7 @@ const kHelpDataUrl =
     "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
 
 class HelpScreen extends StatelessWidget {
-  var _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<HelpItem>> _loadHelpData(String lang) async {
     final response = await http.get(kHelpDataUrl);
