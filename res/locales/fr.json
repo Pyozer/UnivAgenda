@@ -44,7 +44,7 @@
   "send_feedback": "Envoyer un feedback",
 
   "what_is_it": "Qu'est ce que c'est ?",
-  "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sns avoir à aller sur l'ENT.",
+  "about_what": "MyAgenda est relié à l'agenda de l'Université du Maine, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sans avoir à aller sur l'ENT.",
   "author": "Auteur",
   "developer": "Développeur",
   "social": "Social",
@@ -65,19 +65,19 @@
   "intro_welcome_desc": "MyAgenda vous permet d'accéder à l'agenda de l'Université du Maine, de Tours ou de Rennes, directement sur votre téléphone !",
 
   "intro_login_title": "Connexion",
-  "intro_login_desc": "Pour vous connecter, il suffit de selectionner votre université et de saisir les identifiants que vous utilisez pour l'ENT.",
+  "intro_login_desc": "L'accès aux agendas est réservé aux étudiants, ainsi vous devez vous connecter. Il suffit de selectionner votre université et de saisir les même identifiants que vous utilisez pour l'ENT.",
 
   "intro_agenda_title": "Choisi ton agenda",
   "intro_agenda_desc": "Dans les paramètres, vous pourrez choisir votre campus, département, année et groupe pour afficher l'agenda que vous souhaitez.",
 
   "intro_customization_title": "Personnalisation",
-  "intro_customization_desc": "Choisissez entre un thème clair ou sombre mais aussi la couleur principale de l'application !",
+  "intro_customization_desc": "Choisissez entre un thème clair ou sombre mais aussi les couleurs de l'application ! Rendez l'application unique grâce aux 35720 combinaisons de couleurs possibles.",
 
   "intro_note_title": "Note",
-  "intro_note_desc": "Vous pouvez ajouter une note sur un cours. Une couleur apparaitera sur le coté, celle-ci est aussi personnalisable.",
+  "intro_note_desc": "Vous pouvez ajouter des notes sur un cours. Une couleur apparaitera sur le coté, celle-ci est aussi personnalisable via les paramètres.",
 
   "intro_event_title": "Évènement personnalisé",
-  "intro_event_desc": "Vous pouvez ajouter votre propre évènement à l'agenda et lui attribuer une couleur spécial.",
+  "intro_event_desc": "Vous pouvez ajouter votre propre évènement à l'agenda et lui attribuer une couleur spécial. Par exemple: Un rendez-vous avec un professeur.",
 
   "intro_offline_title": "Mode hors-connexion",
   "intro_offline_desc": "Une fois votre agenda chargé au moins une fois, il sera sauvegardé pour une utilisation hors-connexion.",
@@ -120,7 +120,7 @@
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
 
-  "network_eror": "Une erreur réseau est survenue.. vérifez votre connexion internet.",
+  "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
 
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
