@@ -8,6 +8,7 @@ import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -31,21 +32,38 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<DateTime, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
+  Map<String, dynamic> _actualPrefs = {};
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    
     final prefs = PreferencesProvider.of(context);
-    // Define type of view
-    _isHorizontal = prefs.isHorizontalView;
 
-    // Load cached ical
-    final ical = prefs.cachedIcal;
-    if (ical != null && ical.isNotEmpty) {
-      _prepareList(ical);
+    Map<String, dynamic> newPrefs = prefs.getGroupAndThemeValues();
+
+    // Update only if prefs differents
+    if (!isMapsEquals(newPrefs, _actualPrefs)) {
+      _actualPrefs = newPrefs;
+
+      // Define type of view
+      _isHorizontal = prefs.isHorizontalView;
+
+      // Load cached ical
+      final ical = prefs.cachedIcal;
+      if (ical != null && ical.isNotEmpty) {
+        _prepareList(ical);
+      }
+
+      // Load ical from network
+      _fetchData();
     }
+  }
 
-    // Load ical from network
-    _fetchData();
+  @override
+  void didUpdateWidget(HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("update called");
   }
 
   Future<Null> _fetchData() async {
@@ -64,18 +82,16 @@ class _HomeScreenState extends State<HomeScreen> {
       prefs.numberWeeks,
     );
 
-    try {
-      final response = await http.get(url);
+    final response = await http.get(url);
 
-      if (response.statusCode == 200 && mounted) {
-        _prepareList(response.body);
-        prefs.setCachedIcal(response.body, false);
-      }
-    } catch (_) {
+    if (response.statusCode != 200) {
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
       ));
+      return null;
     }
+    _prepareList(response.body);
+    prefs.setCachedIcal(response.body, false);
 
     final endTime = DateTime.now();
     final diff = endTime.difference(startTime);

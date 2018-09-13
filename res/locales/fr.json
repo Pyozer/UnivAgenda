@@ -133,5 +133,7 @@
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 
   "change_agenda": "Changer d'agenda ?",
-  "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?"
+  "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?",
+
+  "in_progress": "En cours"
 }

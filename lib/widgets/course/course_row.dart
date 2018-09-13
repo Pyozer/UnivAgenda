@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/translations.dart';
 
 class CourseRow extends StatelessWidget {
   final Course course;
@@ -32,6 +34,11 @@ class CourseRow extends StatelessWidget {
       bgColorRow = course.color;
     else if (course.isExam()) bgColorRow = Colors.red[600];
 
+    String courseDate = course.dateForDisplay();
+    if (course.isStarted()) {
+      courseDate += " - ${Translations.of(context).get(StringKey.IN_PROGRESS)}";
+    }
+
     return Card(
       elevation: 4.0,
       color: bgColorRow,
@@ -53,6 +60,7 @@ class CourseRow extends StatelessWidget {
                         fontSize: 14.0,
                         fontWeight: FontWeight.w700,
                       ),
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4.0),
@@ -62,7 +70,7 @@ class CourseRow extends StatelessWidget {
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      course.dateForDisplay(),
+                      courseDate,
                       style: textTheme.caption.copyWith(fontSize: 13.0),
                     )
                   ],
@@ -70,7 +78,7 @@ class CourseRow extends StatelessWidget {
               ),
               course.hasNote()
                   ? NoteIndicator(noteColor: noteColor)
-                  : Container(width: 14.0, height: 14.0)
+                  : const SizedBox(width: 14.0, height: 14.0)
             ],
           ),
         ),

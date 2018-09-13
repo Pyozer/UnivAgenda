@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/widgets/ui/no_result.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:http/http.dart' as http;
+import 'package:myagenda/widgets/ui/no_result_help.dart';
 
 class HelpDetailsScreen extends StatelessWidget {
   final HelpItem helpItem;
@@ -24,6 +25,8 @@ class HelpDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translations = Translations.of(context);
+
     return AppbarPage(
         title: helpItem.title,
         body: FutureBuilder(
@@ -32,17 +35,12 @@ class HelpDetailsScreen extends StatelessWidget {
             if (snapshot.hasData) {
               return Markdown(
                 data: snapshot.data,
-                styleSheet: MarkdownStyleSheet.fromTheme(
-                    Theme.of(context)),
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
               );
             }
 
             if (snapshot.hasError)
-              return NoResult(
-                title: "Aucune donnée",
-                text:
-                    "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
-              );
+              return NoResultHelp(onPressed: () => _loadHelpPage());
 
             return const Center(child: CircularProgressIndicator());
           },

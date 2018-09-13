@@ -133,5 +133,7 @@
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 
   "change_agenda": "Change agenda ?",
-  "change_agenda_text": "Do you want to change your actual agenda ?"
+  "change_agenda_text": "Do you want to change your actual agenda ?",
+
+  "in_progress": "In progress"
 }

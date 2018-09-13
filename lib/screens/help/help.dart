@@ -9,7 +9,7 @@ import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:http/http.dart' as http;
-import 'package:myagenda/widgets/ui/no_result.dart';
+import 'package:myagenda/widgets/ui/no_result_help.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,10 +87,7 @@ class HelpScreen extends StatelessWidget {
                   }
 
                   if (snapshot.hasError)
-                    return NoResult(
-                      title: translations.get(StringKey.HELP_NORESULT),
-                      text: translations.get(StringKey.HELP_NORESULT_TEXT),
-                    );
+                    return NoResultHelp(onPressed: () => _loadHelpData(lang));
 
                   return const Center(child: CircularProgressIndicator());
                 },

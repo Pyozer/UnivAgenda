@@ -20,10 +20,6 @@ void openLink(String href) async {
     throw 'Could not launch $href';
 }
 
-String twoDigits(int number) {
-  return number.toString().padLeft(2, '0');
-}
-
 String capitalize(String input) {
   if (input == null) throw new ArgumentError("string: $input");
   if (input.length == 0) return input;
@@ -32,11 +28,7 @@ String capitalize(String input) {
   return input[0].toUpperCase() + input.substring(1);
 }
 
-String getStringBetween(String origin, String begin, String end) {
-  RegExp pattern = RegExp(begin + "(.+?)" + end);
-  Match matcher = pattern.firstMatch(origin);
-  if (matcher.groupCount > 0)
-    return matcher.group(1);
-  else
-    return null;
+bool isMapsEquals(Map a, Map b) {
+  if (a.length != a.length) return false;
+  return a.keys.every((key) => b.containsKey(key) && a[key] == b[key]);
 }

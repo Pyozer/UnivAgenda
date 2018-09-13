@@ -141,4 +141,6 @@ class StringKey {
 
   static const CHANGE_AGENDA = 'change_agenda';
   static const CHANGE_AGENDA_TEXT = 'change_agenda_text';
+
+  static const IN_PROGRESS = 'in_progress';
 }
