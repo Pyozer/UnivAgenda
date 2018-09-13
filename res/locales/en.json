@@ -120,6 +120,9 @@
   "courses_noresult": "No course to display",
   "courses_noresult_text": "Try to edit number of weeks in settings.",
 
+  "help_noresult": "No data",
+  "help_noresult_text": " Check your internet connection.\nIt's also possible that the server is down.",
+
   "network_error": "Network error! Check your internet connection.",
 
   "login_username": "ENT Username",

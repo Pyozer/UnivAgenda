@@ -127,6 +127,9 @@ class StringKey {
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
 
+  static const HELP_NORESULT = 'help_noresult';
+  static const HELP_NORESULT_TEXT = 'help_noresult_text';
+
   static const NETWORK_ERROR = 'network_error';
 
   static const LOGIN_USERNAME = 'login_username';

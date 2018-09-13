@@ -37,8 +37,9 @@ class HelpScreen extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           CustomRoute(
-              builder: (context) => HelpDetailsScreen(helpItem: item),
-              fullscreenDialog: true),
+            builder: (context) => HelpDetailsScreen(helpItem: item),
+            fullscreenDialog: true,
+          ),
         );
       },
     );
@@ -52,9 +53,7 @@ class HelpScreen extends StatelessWidget {
       await launch(url);
     } else {
       _scaffoldKey?.currentState?.showSnackBar(
-        SnackBar(
-          content: Text(translations.get(StringKey.NO_EMAIL_APP)),
-        ),
+        SnackBar(content: Text(translations.get(StringKey.NO_EMAIL_APP))),
       );
     }
   }
@@ -62,13 +61,13 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
-    final lang = translations.locale.languageCode.substring(0, 2);
+    final lang = translations.locale?.languageCode?.substring(0, 2) ?? "en";
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.HELP_FEEDBACK),
       body: Container(
-              child: Column(
+        child: Column(
           children: [
             Expanded(
               child: FutureBuilder<List<HelpItem>>(
@@ -89,23 +88,24 @@ class HelpScreen extends StatelessWidget {
 
                   if (snapshot.hasError)
                     return NoResult(
-                      title: "Aucune donnée",
-                      text:
-                          "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
+                      title: translations.get(StringKey.HELP_NORESULT),
+                      text: translations.get(StringKey.HELP_NORESULT_TEXT),
                     );
 
                   return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
-            const SizedBox(height: 16.0),
-            RaisedButtonColored(
-              onPressed: () => _sendFeedback(context),
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-                horizontal: 40.0,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: RaisedButtonColored(
+                onPressed: () => _sendFeedback(context),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 40.0,
+                ),
+                text: translations.get(StringKey.SEND_FEEDBACK).toUpperCase(),
               ),
-              text: translations.get(StringKey.SEND_FEEDBACK).toUpperCase(),
             ),
           ],
         ),

@@ -120,6 +120,9 @@
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
 
+  "help_noresult": "Aucune donnée",
+  "help_noresult_text": "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
+
   "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
 
   "login_username": "Identifiant ENT",

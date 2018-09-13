@@ -23,8 +23,10 @@ class RaisedButtonColored extends StatelessWidget {
 
     return RaisedButton(
       shape: shape ??
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+          const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8.0),
+            ),
           ),
       onPressed: onPressed,
       child: Text(text.toUpperCase()),
