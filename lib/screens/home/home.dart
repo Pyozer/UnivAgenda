@@ -9,7 +9,6 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';

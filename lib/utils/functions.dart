@@ -27,8 +27,3 @@ String capitalize(String input) {
 
   return input[0].toUpperCase() + input.substring(1);
 }
-
-bool isMapsEquals(Map a, Map b) {
-  if (a.length != a.length) return false;
-  return a.keys.every((key) => b.containsKey(key) && a[key] == b[key]);
-}
