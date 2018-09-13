@@ -24,7 +24,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   final DateTime _firstDate = DateTime.now();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
+  final _descNode = FocusNode();
   final TextEditingController _locationController = TextEditingController();
+  final _locationNode = FocusNode();
 
   Locale _locale;
   bool _isCustomColor = false;
@@ -60,6 +62,8 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
     _titleController.dispose();
     _descController.dispose();
     _locationController.dispose();
+    _descNode.dispose();
+    _locationNode.dispose();
     super.dispose();
   }
 
@@ -190,38 +194,35 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
           child: Column(
             children: [
               TextFormField(
+                textInputAction: TextInputAction.next,
                 controller: _titleController,
-                decoration: _buildInputDecoration(Icons.title, translations.get(StringKey.TITLE_EVENT)),
+                decoration: _buildInputDecoration(
+                    Icons.title, translations.get(StringKey.TITLE_EVENT)),
                 validator: _validateTextField,
-              ),
-              const Divider(height: 0.0),
-              ListTile(
-                leading: const Icon(Icons.description),
-                title: TextFormField(
-                  controller: _descController,
-                  decoration: InputDecoration(
-                    hintText: translations.get(StringKey.DESC_EVENT),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                    border: InputBorder.none,
-                  ),
-                  validator: _validateTextField,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                ),
+                onEditingComplete: () =>
+                    FocusScope.of(context).requestFocus(_descNode),
               ),
               const Divider(height: 0.0),
               TextFormField(
-                controller: _locationController,
-                decoration: InputDecoration(
-                  prefixIcon: const Padding(
-                    padding: const EdgeInsets.only(right: 32.0, left: 16.0),
-                    child: const Icon(Icons.location_on),
-                  ),
-                  hintText: translations.get(StringKey.LOCATION_EVENT),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-                  border: InputBorder.none,
-                ),
+                focusNode: _descNode,
+                textInputAction: TextInputAction.next,
+                controller: _descController,
+                decoration: _buildInputDecoration(
+                    Icons.description, translations.get(StringKey.DESC_EVENT)),
                 validator: _validateTextField,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_locationNode),
+              ),
+              const Divider(height: 0.0),
+              TextFormField(
+                focusNode: _locationNode,
+                textInputAction: TextInputAction.next,
+                controller: _locationController,
+                decoration: _buildInputDecoration(
+                    Icons.location_on, translations.get(StringKey.LOCATION_EVENT)),
+                validator: _validateTextField,
+                onEditingComplete: _onDateTap,
               ),
               const Divider(height: 4.0),
               ListTile(

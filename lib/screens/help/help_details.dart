@@ -30,7 +30,11 @@ class HelpDetailsScreen extends StatelessWidget {
           future: _loadHelpPage(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Markdown(data: snapshot.data);
+              return Markdown(
+                data: snapshot.data,
+                styleSheet: MarkdownStyleSheet.fromTheme(
+                    Theme.of(context)),
+              );
             }
 
             if (snapshot.hasError)

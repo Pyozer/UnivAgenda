@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
+    _passwordNode.dispose();
     setAllOrientation();
     super.dispose();
   }
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 
-  Widget _buildTextField(hint, icon, controller, onEditComplete, inputAction,
+  Widget _buildTextField(hint, icon, isObscure, controller, onEditComplete, inputAction,
       [focusNode]) {
     return TextField(
       focusNode: focusNode,
@@ -126,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: controller,
       textInputAction: inputAction,
       autofocus: false,
+      obscureText: isObscure,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon, color: Theme.of(context).accentColor),
@@ -154,6 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _buildTextField(
       translations.get(StringKey.LOGIN_USERNAME),
       Icons.person_outline,
+      false,
       _usernameController,
       () => FocusScope.of(context).requestFocus(_passwordNode),
       TextInputAction.next,
@@ -162,6 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _buildTextField(
       translations.get(StringKey.LOGIN_PASSWORD),
       Icons.lock_outline,
+      true,
       _passwordController,
       _onSubmit,
       TextInputAction.done,
