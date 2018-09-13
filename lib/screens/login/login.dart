@@ -103,7 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
       _showMessage(loginResult.message);
     } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
       _showMessage(
-        translations.get(StringKey.LOGIN_SERVER_ERROR, [prefs.university]),
+        translations.get(
+          StringKey.LOGIN_SERVER_ERROR,
+          [prefs.calendar.university],
+        ),
       );
     } else if (loginResult.result == LoginResultType.LOGIN_SUCCESS) {
       _scaffoldKey.currentState.removeCurrentSnackBar();
@@ -119,7 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 
-  Widget _buildTextField(hint, icon, isObscure, controller, onEditComplete, inputAction,
+  Widget _buildTextField(
+      hint, icon, isObscure, controller, onEditComplete, inputAction,
       [focusNode]) {
     return TextField(
       focusNode: focusNode,
@@ -198,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Dropdown(
                       items: prefs.getAllUniversity(),
-                      value: prefs.university,
+                      value: prefs.calendar.university,
                       onChanged: prefs.setUniversity,
                     ),
                     Card(

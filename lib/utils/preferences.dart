@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
-import 'package:myagenda/models/prefs_calendar.dart';
+import 'package:myagenda/models/preferences/prefs_calendar.dart';
+import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _MyInheritedPreferences extends InheritedWidget {
@@ -45,16 +46,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     return _MyInheritedPreferences(data: this, child: widget.child);
   }
 
-  String _university;
-  String _campus;
-  String _department;
-  String _year;
-  String _group;
+  PrefsTheme _prefsTheme = PrefsTheme(
+    darkTheme: PrefKey.defaultDarkTheme,
+    primaryColor: PrefKey.defaultPrimaryColor,
+    accentColor: PrefKey.defaultAccentColor,
+    noteColor: PrefKey.defaultNoteColor,
+  );
+  PrefsCalendar _prefsCalendar = PrefsCalendar();
   int _numberWeeks;
-  bool _darkTheme;
-  int _primaryColor;
-  int _accentColor;
-  int _noteColor;
   bool _firstBoot;
   String _cachedIcal;
   List<Note> _notes;
@@ -64,44 +63,41 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Map<String, dynamic> _resources;
   DateTime _resourcesDate;
 
-  String get university => _university;
+  PrefsCalendar get calendar => _prefsCalendar;
 
   setUniversity(String newUniversity, [state = true]) {
-    if (university == newUniversity) return;
+    if (calendar.university == newUniversity) return;
 
-    changeGroupPref(newUniversity, campus, department, year, group, state);
+    changeGroupPref(newUniversity, calendar.campus, calendar.department,
+        calendar.year, calendar.group, state);
   }
-
-  String get campus => _campus;
 
   setCampus(String newCampus, [state = true]) {
-    if (campus == newCampus) return;
+    if (calendar.campus == newCampus) return;
 
-    changeGroupPref(university, newCampus, department, year, group, state);
+    changeGroupPref(calendar.university, newCampus, calendar.department,
+        calendar.year, calendar.group, state);
   }
-
-  String get department => _department;
 
   setDepartment(String newDepartment, [state = true]) {
-    if (department == newDepartment) return;
+    if (calendar.department == newDepartment) return;
 
-    changeGroupPref(university, campus, newDepartment, year, group, state);
+    changeGroupPref(calendar.university, calendar.campus, newDepartment,
+        calendar.year, calendar.group, state);
   }
-
-  String get year => _year;
 
   setYear(String newYear, [state = true]) {
-    if (year == newYear) return;
+    if (calendar.year == newYear) return;
 
-    changeGroupPref(university, campus, department, newYear, group, state);
+    changeGroupPref(calendar.university, calendar.campus, calendar.department,
+        newYear, calendar.group, state);
   }
 
-  String get group => _group;
-
   setGroup(String newGroup, [state = true]) {
-    if (group == newGroup) return;
+    if (calendar.group == newGroup) return;
 
-    changeGroupPref(university, campus, department, year, newGroup, state);
+    changeGroupPref(calendar.university, calendar.campus, calendar.department,
+        calendar.year, newGroup, state);
   }
 
   void changeGroupPref(
@@ -121,18 +117,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       group: newGroup,
     );
 
-    if (university == values.university &&
-        campus == values.campus &&
-        department == values.department &&
-        year == values.year &&
-        group == values.group) return;
+    if (_prefsCalendar == values) return;
 
     _updatePref(() {
-      _university = values.university;
-      _campus = values.campus;
-      _department = values.department;
-      _year = values.year;
-      _group = values.group;
+      _prefsCalendar = values;
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -252,8 +240,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     );
   }
 
-  String get loginUrl => _resources[university]['loginUrl'];
-  String get agendaUrl => _resources[university]['agendaUrl'];
+  String get loginUrl => _resources[calendar.university]['loginUrl'];
+
+  String get agendaUrl => _resources[calendar.university]['agendaUrl'];
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
@@ -273,52 +262,46 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         .then((prefs) => prefs.setInt(PrefKey.numberWeeks, intValue));
   }
 
-  bool get isDarkTheme => _darkTheme ?? PrefKey.defaultDarkTheme;
+  PrefsTheme get theme => _prefsTheme;
 
   setDarkTheme(bool darkTheme, [state = true]) {
-    if (isDarkTheme == darkTheme) return;
+    if (theme.darkTheme == darkTheme) return;
 
     _updatePref(() {
-      _darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
+      _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
     }, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setBool(PrefKey.isDarkTheme, darkTheme));
   }
 
-  int get primaryColor => _primaryColor ?? PrefKey.defaultPrimaryColor;
-
   setPrimaryColor(int newPrimaryColor, [state = true]) {
-    if (primaryColor == newPrimaryColor) return;
+    if (theme.primaryColor == newPrimaryColor) return;
 
     _updatePref(() {
-      _primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
+      _prefsTheme.primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
     }, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setInt(PrefKey.primaryColor, newPrimaryColor));
   }
 
-  int get accentColor => _accentColor ?? PrefKey.defaultAccentColor;
-
   setAccentColor(int newAccentColor, [state = true]) {
-    if (accentColor == newAccentColor) return;
+    if (theme.accentColor == newAccentColor) return;
 
     _updatePref(() {
-      _accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
+      _prefsTheme.accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
     }, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setInt(PrefKey.accentColor, newAccentColor));
   }
 
-  int get noteColor => _noteColor ?? PrefKey.defaultNoteColor;
-
   setNoteColor(int newNoteColor, [state = true]) {
-    if (noteColor == newNoteColor) return;
+    if (theme.noteColor == newNoteColor) return;
 
     _updatePref(() {
-      _noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
+      _prefsTheme.noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
     }, state);
 
     SharedPreferences.getInstance()
@@ -570,15 +553,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   @override
   bool operator ==(Object other) =>
       other is PreferencesProviderState &&
-      campus == other.campus &&
-      department == other.department &&
-      year == other.year &&
-      group == other.group &&
+      calendar == other.calendar &&
       numberWeeks == other.numberWeeks &&
-      isDarkTheme == other.isDarkTheme &&
-      primaryColor == other.primaryColor &&
-      accentColor == other.accentColor &&
-      noteColor == other.noteColor &&
+      theme == other.theme &&
       isFirstBoot == other.isFirstBoot &&
       cachedIcal == other.cachedIcal &&
       notes == other.notes &&
@@ -589,15 +566,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   @override
   int get hashCode =>
-      _campus.hashCode ^
-      _department.hashCode ^
-      _year.hashCode ^
-      _group.hashCode ^
+      _prefsCalendar.hashCode ^
       _numberWeeks.hashCode ^
-      _darkTheme.hashCode ^
-      _primaryColor.hashCode ^
-      _accentColor.hashCode ^
-      _noteColor.hashCode ^
+      _prefsTheme.hashCode ^
       _firstBoot.hashCode ^
       _cachedIcal.hashCode ^
       _notes.hashCode ^

@@ -46,8 +46,8 @@ class FindRoomResultsState extends State<FindRoomResults> {
     // All rooms available between times defined
     List<RoomResult> results = [];
 
-    final departmentRes =
-        prefs.getYears(prefs.university, widget.campus, widget.department);
+    final departmentRes = prefs.getYears(
+        prefs.calendar.university, widget.campus, widget.department);
 
     if (!(departmentRes?.contains("Salles") ?? false)) {
       if (mounted) {
@@ -82,7 +82,7 @@ class FindRoomResultsState extends State<FindRoomResults> {
 
     // Get all room in the department in the campus
     final rooms = prefs.getGroups(
-      prefs.university,
+      prefs.calendar.university,
       widget.campus,
       widget.department,
       "Salles",
@@ -91,7 +91,7 @@ class FindRoomResultsState extends State<FindRoomResults> {
     // Check for every rooms if available
     for (final room in rooms) {
       int resRoom = prefs.getGroupRes(
-        prefs.university,
+        prefs.calendar.university,
         widget.campus,
         widget.department,
         "Salles",

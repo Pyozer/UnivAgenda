@@ -39,9 +39,9 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
     // Get list of all campus
-    _campus = prefs.getAllCampus(prefs.university);
+    _campus = prefs.getAllCampus(prefs.calendar.university);
     // Define preselected campus depends on preferences
-    final prefCampus = prefs.campus;
+    final prefCampus = prefs.calendar.campus;
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
     _initDepartmentValue();
@@ -53,9 +53,9 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
     final prefs = PreferencesProvider.of(context);
     // Get list of all department of selected campus
     _departments =
-        prefs.getCampusDepartments(prefs.university, _selectedCampus);
+        prefs.getCampusDepartments(prefs.calendar.university, _selectedCampus);
     // Define preselected department depends on preferences
-    final prefDepart = prefs.department;
+    final prefDepart = prefs.calendar.department;
     _selectedDepartment =
         _departments.contains(prefDepart) ? prefDepart : _departments[0];
   }

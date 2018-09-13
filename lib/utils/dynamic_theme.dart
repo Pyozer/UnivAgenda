@@ -19,9 +19,9 @@ class DynamicTheme extends StatelessWidget {
     return themedWidgetBuilder(
       context,
       _buildTheme(
-        brightness: getBrightness(prefs.isDarkTheme),
-        primaryColor: Color(prefs.primaryColor),
-        accentColor: Color(prefs.accentColor),
+        brightness: getBrightness(prefs.theme.darkTheme),
+        primaryColor: Color(prefs.theme.primaryColor),
+        accentColor: Color(prefs.theme.accentColor),
       ),
     );
   }

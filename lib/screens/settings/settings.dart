@@ -26,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSettingsGeneral() {
     final prefs = PreferencesProvider.of(context);
+    final calendar = prefs.calendar;
 
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_GENERAL),
@@ -33,32 +34,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTileChoices(
           title: translations.get(StringKey.CAMPUS),
           titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-          selectedValue: prefs.campus,
-          values: prefs.getAllCampus(prefs.university),
+          selectedValue: calendar.campus,
+          values: prefs.getAllCampus(calendar.university),
           onChange: (value) => prefs.setCampus(value),
         ),
         const ListDivider(),
         ListTileChoices(
           title: translations.get(StringKey.DEPARTMENT),
           titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-          selectedValue: prefs.department,
-          values: prefs.getCampusDepartments(prefs.university, prefs.campus),
+          selectedValue: calendar.department,
+          values: prefs.getCampusDepartments(
+            calendar.university,
+            calendar.campus,
+          ),
           onChange: (value) => prefs.setDepartment(value),
         ),
         const ListDivider(),
         ListTileChoices(
           title: translations.get(StringKey.YEAR),
           titleDialog: translations.get(StringKey.SELECT_YEAR),
-          selectedValue: prefs.year,
-          values: prefs.getYears(prefs.university, prefs.campus, prefs.department),
+          selectedValue: calendar.year,
+          values: prefs.getYears(
+            calendar.university,
+            calendar.campus,
+            calendar.department,
+          ),
           onChange: (value) => prefs.setYear(value),
         ),
         const ListDivider(),
         ListTileChoices(
           title: translations.get(StringKey.GROUP),
           titleDialog: translations.get(StringKey.SELECT_GROUP),
-          selectedValue: prefs.group,
-          values: prefs.getGroups(prefs.university, prefs.campus, prefs.department, prefs.year),
+          selectedValue: calendar.group,
+          values: prefs.getGroups(
+            calendar.university,
+            calendar.campus,
+            calendar.department,
+            calendar.year,
+          ),
           onChange: (value) => prefs.setGroup(value),
         )
       ],
@@ -83,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
-          value: prefs.isDarkTheme,
+          value: prefs.theme.darkTheme,
           activeColor: Theme.of(context).accentColor,
           onChanged: (value) => prefs.setDarkTheme(value),
         ),
@@ -91,14 +104,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTileColor(
           title: translations.get(StringKey.PRIMARY_COLOR),
           description: translations.get(StringKey.PRIMARY_COLOR_DESC),
-          selectedColor: Color(prefs.primaryColor),
+          selectedColor: Color(prefs.theme.primaryColor),
           onColorChange: (color) => prefs.setPrimaryColor(color.value),
         ),
         const ListDivider(),
         ListTileColor(
           title: translations.get(StringKey.ACCENT_COLOR),
           description: translations.get(StringKey.ACCENT_COLOR_DESC),
-          selectedColor: Color(prefs.accentColor),
+          selectedColor: Color(prefs.theme.accentColor),
           onColorChange: (color) => prefs.setAccentColor(color.value),
           colors: [
             Colors.redAccent,
@@ -126,7 +139,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTileColor(
           title: translations.get(StringKey.NOTE_COLOR),
           description: translations.get(StringKey.NOTE_COLOR_DESC),
-          selectedColor: Color(prefs.noteColor),
+          selectedColor: Color(prefs.theme.noteColor),
           onColorChange: (color) => prefs.setNoteColor(color.value),
         )
       ],

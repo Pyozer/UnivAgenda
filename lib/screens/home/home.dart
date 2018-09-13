@@ -56,15 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<Null> _sendAnalyticsEvent() async {
-    final prefs = PreferencesProvider.of(context);
+    final calendar = PreferencesProvider.of(context).calendar;
+
     await AnalyticsProvider.of(context).analytics.logEvent(
       name: 'user_group',
       parameters: <String, String>{
-        'university': prefs.university,
-        'campus': prefs.campus,
-        'department': prefs.department,
-        'year': prefs.year,
-        'group': prefs.group,
+        'university': calendar.university,
+        'campus': calendar.campus,
+        'department': calendar.department,
+        'year': calendar.year,
+        'group': calendar.group,
       },
     );
     _isAnalyticsSended = true;
@@ -74,9 +75,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshKey?.currentState?.show();
 
     final prefs = PreferencesProvider.of(context);
+    final calendar = prefs.calendar;
 
-    final resID = prefs.getGroupRes(prefs.university, prefs.campus,
-        prefs.department, prefs.year, prefs.group);
+    final resID = prefs.getGroupRes(
+      calendar.university,
+      calendar.campus,
+      calendar.department,
+      calendar.year,
+      calendar.group,
+    );
 
     final url = IcalAPI.prepareURL(
       prefs.agendaUrl,
@@ -238,7 +245,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            CourseListHeader("${prefs.year} - ${prefs.group}"),
+            CourseListHeader(
+              "${prefs.calendar.year} - ${prefs.calendar.group}",
+            ),
             const Divider(height: 0.0),
             Expanded(
               child: Container(
@@ -248,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         courses: _courses,
                         isHorizontal: prefs.isHorizontalView,
                         numberWeeks: prefs.numberWeeks,
-                        noteColor: Color(prefs.noteColor),
+                        noteColor: Color(prefs.theme.noteColor),
                       ),
               ),
             ),
