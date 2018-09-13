@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "518938880074",
+    "firebase_url": "https://myagenda-57559.firebaseio.com",
+    "project_id": "myagenda-57559",
+    "storage_bucket": "myagenda-57559.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518938880074:android:caff68f2e611d095",
+        "android_client_info": {
+          "package_name": "com.pyozer.myagenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518938880074-lvlca2f1ugge92i9rekt9103qguru2n5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pyozer.myagenda",
+            "certificate_hash": "e4d5b698083c6f69c277d6085a2eeb65ab17514e"
+          }
+        },
+        {
+          "client_id": "518938880074-lc3b42663ck35qh77im2ekce481sr75c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2khIhFvRrRYJOzT0KQ6bglJeKHfE4eBE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518938880074-lc3b42663ck35qh77im2ekce481sr75c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

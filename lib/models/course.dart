@@ -18,6 +18,13 @@ class CourseHeader extends BaseCourse {
   String dateForDisplay([Locale locale]) {
     return Date.dateFromNow(date, locale);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CourseHeader &&
+          runtimeType == other.runtimeType &&
+          date.compareTo(other.date) == 0);
 }
 
 class Course extends BaseCourse {
@@ -100,10 +107,7 @@ class Course extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Course && runtimeType == other.runtimeType && uid == other.uid;
-
-  @override
-  int get hashCode => uid.hashCode;
+      (other is Course && runtimeType == other.runtimeType && uid == other.uid);
 }
 
 class CustomCourse extends Course {

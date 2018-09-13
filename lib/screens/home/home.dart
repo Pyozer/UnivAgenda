@@ -6,6 +6,7 @@ import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -32,44 +33,46 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<DateTime, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
-  Map<String, dynamic> _actualPrefs = {};
+  bool _isAnalyticsSended = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     final prefs = PreferencesProvider.of(context);
 
-    Map<String, dynamic> newPrefs = prefs.getGroupAndThemeValues();
+    // Define type of view
+    _isHorizontal = prefs.isHorizontalView;
 
-    // Update only if prefs differents
-    if (!isMapsEquals(newPrefs, _actualPrefs)) {
-      _actualPrefs = newPrefs;
-
-      // Define type of view
-      _isHorizontal = prefs.isHorizontalView;
-
-      // Load cached ical
-      final ical = prefs.cachedIcal;
-      if (ical != null && ical.isNotEmpty) {
-        _prepareList(ical);
-      }
-
-      // Load ical from network
-      _fetchData();
+    // Load cached ical
+    final cachedIcal = prefs.cachedIcal;
+    if (cachedIcal != null && cachedIcal.isNotEmpty) {
+      _prepareList(cachedIcal);
     }
+
+    // Load ical from network
+    _fetchData();
+    // Send analytics to have stats of group users
+    if (!_isAnalyticsSended) _sendAnalyticsEvent();
   }
 
-  @override
-  void didUpdateWidget(HomeScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print("update called");
+  Future<Null> _sendAnalyticsEvent() async {
+    final prefs = PreferencesProvider.of(context);
+    await AnalyticsProvider.of(context).analytics.logEvent(
+      name: 'user_group',
+      parameters: <String, String>{
+        'university': prefs.university,
+        'campus': prefs.campus,
+        'department': prefs.department,
+        'year': prefs.year,
+        'group': prefs.group,
+      },
+    );
+    _isAnalyticsSended = true;
   }
 
   Future<Null> _fetchData() async {
     _refreshKey?.currentState?.show();
-
-    final startTime = DateTime.now();
 
     final prefs = PreferencesProvider.of(context);
 
@@ -92,14 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     _prepareList(response.body);
     prefs.setCachedIcal(response.body, false);
-
-    final endTime = DateTime.now();
-    final diff = endTime.difference(startTime);
-
-    final waitTime =
-        (diff.inMilliseconds < 1500) ? 1500 - diff.inMilliseconds : 0;
-
-    await Future.delayed(Duration(milliseconds: waitTime));
 
     return null;
   }

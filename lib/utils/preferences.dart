@@ -497,35 +497,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  Map<String, dynamic> getThemeValues() {
-    Map<String, dynamic> dataPrefs = {};
-    dataPrefs[PrefKey.isDarkTheme] = isDarkTheme;
-    dataPrefs[PrefKey.primaryColor] = primaryColor;
-    dataPrefs[PrefKey.accentColor] = accentColor;
-    dataPrefs[PrefKey.noteColor] = noteColor;
-    dataPrefs[PrefKey.isHorizontalView] = isHorizontalView;
-
-    return dataPrefs;
-  }
-
-  Map<String, dynamic> getGroupValues() {
-    Map<String, dynamic> dataPrefs = {};
-    dataPrefs[PrefKey.campus] = campus;
-    dataPrefs[PrefKey.department] = department;
-    dataPrefs[PrefKey.year] = year;
-    dataPrefs[PrefKey.group] = group;
-    dataPrefs[PrefKey.numberWeeks] = numberWeeks;
-
-    return dataPrefs;
-  }
-
-  Map<String, dynamic> getGroupAndThemeValues() {
-    Map allPrefs = getGroupValues();
-    allPrefs.addAll(getThemeValues());
-
-    return allPrefs;
-  }
-
   Future<Null> initFromDisk([state = false]) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

@@ -10,10 +10,13 @@ import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/login/login.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
@@ -28,35 +31,46 @@ final routes = {
 };
 
 class App extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
-    return PreferencesProvider(
-      child: Builder(builder: (context) {
-        return DynamicTheme(
-          themedWidgetBuilder: (context, theme) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: "MyAgenda",
-              theme: theme,
-              localizationsDelegates: [
-                const TranslationsDelegate(),
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: [const Locale('en'), const Locale('fr')],
-              initialRoute: RouteKey.SPLASHSCREEN,
-              onGenerateRoute: (RouteSettings settings) {
-                if (routes.containsKey(settings.name))
-                  return CustomRoute(
-                    builder: (_) => routes[settings.name],
-                    settings: settings,
-                  );
-                assert(false);
+    return AnalyticsProvider(
+      analytics,
+      observer,
+      child: PreferencesProvider(
+        child: Builder(
+          builder: (context) {
+            return DynamicTheme(
+              themedWidgetBuilder: (context, theme) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: "MyAgenda",
+                  theme: theme,
+                  localizationsDelegates: [
+                    const TranslationsDelegate(),
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: [const Locale('en'), const Locale('fr')],
+                  navigatorObservers: [observer],
+                  initialRoute: RouteKey.SPLASHSCREEN,
+                  onGenerateRoute: (RouteSettings settings) {
+                    if (routes.containsKey(settings.name))
+                      return CustomRoute(
+                        builder: (_) => routes[settings.name],
+                        settings: settings,
+                      );
+                    assert(false);
+                  },
+                );
               },
             );
           },
-        );
-      }),
+        ),
+      ),
     );
   }
 }

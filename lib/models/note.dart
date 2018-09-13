@@ -48,6 +48,4 @@ class Note {
     return (dateCreation.compareTo(dateCreation) == 0 && dateExpiration.compareTo(dateExpiration) == 0 && courseUid == typedOther.courseUid && text == typedOther.text);
   }
 
-  @override
-  int get hashCode => this.hashCode;
 }

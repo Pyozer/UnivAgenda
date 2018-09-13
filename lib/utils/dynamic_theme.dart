@@ -5,7 +5,7 @@ import 'package:myagenda/utils/preferences.dart';
 
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
-class DynamicTheme extends StatefulWidget {
+class DynamicTheme extends StatelessWidget {
   final ThemedWidgetBuilder themedWidgetBuilder;
 
   const DynamicTheme({
@@ -14,23 +14,9 @@ class DynamicTheme extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  DynamicThemeState createState() => DynamicThemeState();
-
-  static DynamicThemeState of(BuildContext context) {
-    return context.ancestorStateOfType(const TypeMatcher<DynamicThemeState>());
-  }
-}
-
-class DynamicThemeState extends State<DynamicTheme> {
-  @override
-  void didUpdateWidget(DynamicTheme oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
-    return widget.themedWidgetBuilder(
+    return themedWidgetBuilder(
       context,
       _buildTheme(
         brightness: getBrightness(prefs.isDarkTheme),
