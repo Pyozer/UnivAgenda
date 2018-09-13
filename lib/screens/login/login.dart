@@ -17,8 +17,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordNode = FocusNode();
 
   bool _isLoading = false;
   bool _orientationDefined = false;
@@ -116,6 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 
+  Widget _buildTextField(hint, icon, controller, onEditComplete, inputAction,
+      [focusNode]) {
+    return TextField(
+      focusNode: focusNode,
+      onEditingComplete: onEditComplete,
+      controller: controller,
+      textInputAction: inputAction,
+      autofocus: false,
+      decoration: InputDecoration(
+        hintText: hint,
+        prefixIcon: Icon(icon, color: Theme.of(context).accentColor),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
+        border: InputBorder.none,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
@@ -132,27 +151,21 @@ class _LoginScreenState extends State<LoginScreen> {
       style: theme.textTheme.title.copyWith(fontSize: 28.0),
     );
 
-    final username = TextField(
-      controller: _usernameController,
-      autofocus: false,
-      decoration: InputDecoration(
-        hintText: translations.get(StringKey.LOGIN_USERNAME),
-        prefixIcon: Icon(Icons.person_outline, color: theme.accentColor),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-        border: InputBorder.none,
-      ),
+    final username = _buildTextField(
+      translations.get(StringKey.LOGIN_USERNAME),
+      Icons.person_outline,
+      _usernameController,
+      () => FocusScope.of(context).requestFocus(_passwordNode),
+      TextInputAction.next,
     );
 
-    final password = TextField(
-      controller: _passwordController,
-      autofocus: false,
-      obscureText: true,
-      decoration: InputDecoration(
-        hintText: translations.get(StringKey.LOGIN_PASSWORD),
-        prefixIcon: Icon(Icons.lock_outline, color: theme.accentColor),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
-        border: InputBorder.none,
-      ),
+    final password = _buildTextField(
+      translations.get(StringKey.LOGIN_PASSWORD),
+      Icons.lock_outline,
+      _passwordController,
+      _onSubmit,
+      TextInputAction.done,
+      _passwordNode,
     );
 
     final loginButton = FloatingActionButton(
