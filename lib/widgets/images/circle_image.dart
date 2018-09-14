@@ -12,7 +12,7 @@ class CircleImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 3.0,
-      shape: CircleBorder(),
+      shape: const CircleBorder(),
       child: ClipOval(
         child: image,
         clipBehavior: Clip.antiAlias,
