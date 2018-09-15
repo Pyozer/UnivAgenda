@@ -5,9 +5,8 @@ import 'package:myagenda/widgets/ui/no_result.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class NoResultHelp extends StatelessWidget {
-  final Function onPressed;
 
-  const NoResultHelp({Key key, this.onPressed}) : super(key: key);
+  const NoResultHelp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,6 @@ class NoResultHelp extends StatelessWidget {
       text: translations.get(StringKey.HELP_NORESULT_TEXT),
       footer: RaisedButtonColored(
         text: translations.get(StringKey.REFRESH),
-        onPressed: onPressed,
       ),
     );
   }

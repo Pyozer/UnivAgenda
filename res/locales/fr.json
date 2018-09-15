@@ -108,8 +108,13 @@
   "error_end_time": "Heure de fin",
   "error_end_time_text": "L'heure de fin choisi est avant l'heure de début !",
 
+  "confirm_event_delete": "Supprimer cette événement ?",
+  "confirm_event_delete_text": "Si vous suppriemr cette événement, vous ne pourrez pas le récupérer.",
+
   "ok": "Ok",
   "search": "Rechercher",
+  "yes": "Oui",
+  "no": "Non",
 
   "findroom_from": "De",
   "findroom_to": "jusqu'à",

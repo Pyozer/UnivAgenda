@@ -108,8 +108,13 @@
   "error_end_time": "Error time selected",
   "error_end_time_text": "The end time availability must be after the start time !",
 
+  "confirm_event_delete": "Delete this event ?",
+  "confirm_event_delete_text": "By deleting this event, you will can't get it back.",
+
   "ok": "Ok",
   "search": "Search",
+  "yes": "Yes",
+  "no": "No",
 
   "findroom_from": "From",
   "findroom_to": "to",

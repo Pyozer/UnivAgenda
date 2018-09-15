@@ -11,6 +11,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course_note/add_note_button.dart';
 import 'package:myagenda/widgets/course_note/course_note.dart';
+import 'package:myagenda/widgets/ui/dialog_predefined.dart';
 
 class DetailCourse extends StatefulWidget {
   final Course course;
@@ -179,9 +180,14 @@ class _DetailCourseState extends State<DetailCourse> {
         ? [
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () {
-                PreferencesProvider.of(context).removeCustomEvent(_course);
-                Navigator.of(context).pop();
+              onPressed: () async {
+                bool isConfirm =
+                    await DialogPredefined.showDeleteEventConfirm(context);
+                    print(isConfirm);
+                if (isConfirm) {
+                  PreferencesProvider.of(context).removeCustomEvent(_course);
+                  Navigator.of(context).pop();
+                }
               },
             ),
             IconButton(

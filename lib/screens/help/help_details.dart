@@ -37,7 +37,7 @@ class HelpDetailsScreen extends StatelessWidget {
             }
 
             if (snapshot.hasError)
-              return NoResultHelp(onPressed: () => _loadHelpPage());
+              return const NoResultHelp();
 
             return const Center(child: CircularProgressIndicator());
           },

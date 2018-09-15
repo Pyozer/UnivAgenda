@@ -115,8 +115,13 @@ class StringKey {
   static const ERROR_END_TIME = 'error_end_time';
   static const ERROR_END_TIME_TEXT = 'error_end_time_text';
 
+  static const CONFIRM_EVENT_DELETE = 'confirm_event_delete';
+  static const CONFIRM_EVENT_DELETE_TEXT = 'confirm_event_delete_text';
+
   static const OK = 'ok';
   static const SEARCH = 'search';
+  static const YES = 'yes';
+  static const NO = 'no';
 
   static const FINDROOM_FROM = 'findroom_from';
   static const FINDROOM_TO = 'findroom_to';

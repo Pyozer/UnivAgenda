@@ -9,7 +9,7 @@ import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/end_time_error.dart';
+import 'package:myagenda/widgets/ui/dialog_predefined.dart';
 import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
 

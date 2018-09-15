@@ -86,8 +86,7 @@ class HelpScreen extends StatelessWidget {
                     );
                   }
 
-                  if (snapshot.hasError)
-                    return NoResultHelp(onPressed: () => _loadHelpData(lang));
+                  if (snapshot.hasError) return const NoResultHelp();
 
                   return const Center(child: CircularProgressIndicator());
                 },

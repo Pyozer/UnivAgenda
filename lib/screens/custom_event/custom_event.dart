@@ -6,7 +6,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
-import 'package:myagenda/widgets/ui/end_time_error.dart';
+import 'package:myagenda/widgets/ui/dialog_predefined.dart';
 import 'package:uuid/uuid.dart';
 
 class CustomEventScreen extends StatefulWidget {
