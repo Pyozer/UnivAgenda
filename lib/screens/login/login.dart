@@ -26,22 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _orientationDefined = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     // Set screen only portrait of height is less than 600
-    if (!_orientationDefined) {
-      final media = MediaQuery.of(context);
-
-      if (media.orientation == Orientation.portrait && media.size.width < 600) {
-        setOnlyPortrait();
-      } else if (media.orientation == Orientation.landscape &&
-          media.size.height < 600) {
-        setOnlyPortrait();
-      } else {
-        setAllOrientation();
-      }
-      _orientationDefined = true;
-    }
+    setOnlyPortrait();
   }
 
   @override
@@ -219,6 +207,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
+              FlatButton(
+                child: Text(translations.get(StringKey.HELP_FEEDBACK)),
+                onPressed: () => Navigator.of(context).pushNamed(RouteKey.HELP),
+              )
             ],
           ),
         ),
