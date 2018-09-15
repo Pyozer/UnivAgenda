@@ -10,6 +10,7 @@ import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/login/login.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
+import 'package:myagenda/screens/supportme/supportme.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
@@ -28,6 +29,7 @@ final routes = {
   RouteKey.LICENCES: LicencesScreen(),
   RouteKey.INTRO: IntroductionScreen(),
   RouteKey.LOGIN: LoginScreen(),
+  RouteKey.SUPPORTME: SupportMeScreen(),
 };
 
 class App extends StatelessWidget {

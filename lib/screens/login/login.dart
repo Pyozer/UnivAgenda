@@ -23,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordNode = FocusNode();
 
   bool _isLoading = false;
-  bool _orientationDefined = false;
 
   @override
   void initState() {
