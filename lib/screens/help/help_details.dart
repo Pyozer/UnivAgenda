@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:http/http.dart' as http;
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/widgets/ui/no_result_help.dart';
 
 class HelpDetailsScreen extends StatelessWidget {
@@ -15,11 +15,11 @@ class HelpDetailsScreen extends StatelessWidget {
         super(key: key);
 
   Future<String> _loadHelpPage() async {
-    final response = await http.get(helpItem.page);
-    if (response.statusCode != 200 || response.body.isEmpty) {
+    final response = await HttpRequest.get(helpItem.page);
+    if (!response.isSuccess) {
       throw Exception();
     }
-    return response.body;
+    return response.httpResponse.body;
   }
 
   @override
@@ -36,8 +36,7 @@ class HelpDetailsScreen extends StatelessWidget {
               );
             }
 
-            if (snapshot.hasError)
-              return const NoResultHelp();
+            if (snapshot.hasError) return const NoResultHelp();
 
             return const Center(child: CircularProgressIndicator());
           },

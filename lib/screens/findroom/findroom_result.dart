@@ -5,12 +5,12 @@ import 'package:myagenda/models/room_result.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog_predefined.dart';
-import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindRoomResults extends StatefulWidget {
@@ -100,11 +100,9 @@ class FindRoomResultsState extends State<FindRoomResults> {
       String url = IcalAPI.prepareURL(prefs.agendaUrl, resRoom, 0);
 
       // Get data
-      http.Response response;
-      // If request error
-      try {
-        response = await http.get(url);
-      } catch (_) {
+      final response = await HttpRequest.get(url);
+      
+      if (!response.isSuccess) {
         if (mounted) {
           setState(() {
             _searchResult = [];
@@ -117,7 +115,7 @@ class FindRoomResultsState extends State<FindRoomResults> {
         return;
       }
 
-      String icalStr = response.body;
+      String icalStr = response.httpResponse.body;
 
       List<Course> listCourses = [];
 

@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:http/http.dart' as http;
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 
 const changelogUrl = 'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
 
 class ChangeLog extends StatelessWidget {
 
   Future<String> _fetchData() async {
-    final response = await http.get(changelogUrl);
-    if (response.statusCode == 200)
-      return response.body;
+    final response = await HttpRequest.get(changelogUrl);
+    if (response.isSuccess)
+      return response.httpResponse.body;
     else
-      return "## **ERROR**";
+      return "## **NETWORK ERROR**";
   }
 
   @override

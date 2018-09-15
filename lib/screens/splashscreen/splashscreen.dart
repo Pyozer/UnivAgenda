@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:http/http.dart' as http;
 
 const resourcesUrl =
     "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/resources.json";
@@ -36,9 +36,9 @@ class SplashScreenState extends State<SplashScreen> {
     // Update resources if they are older than 12 hours
     if (prefs.resourcesDate.difference(DateTime.now()).inHours >= 12) {
       try {
-        final response = await http.get(resourcesUrl);
-        if (response.statusCode == 200 && response.body.isNotEmpty) {
-          Map<String, dynamic> ressources = json.decode(response.body);
+        final response = await HttpRequest.get(resourcesUrl);
+        if (response.isSuccess) {
+          Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
           prefs.setResources(ressources, false);
           prefs.setResourcesDate(startTime);
         }

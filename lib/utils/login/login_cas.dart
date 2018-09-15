@@ -1,21 +1,17 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 
 class LoginCAS extends LoginProcess {
-
   LoginCAS(loginUrl, username, password) : super(loginUrl, username, password);
 
   Future<LoginResult> login() async {
-    http.Response response;
-    try {
-      response = await http.get(loginUrl);
-    } catch (_) {
-      return LoginResult(LoginResultType.NETWORK_ERROR);
-    }
+    final response = await HttpRequest.get(loginUrl);
 
-    final document = parse(response.body);
+    if (!response.isSuccess) return LoginResult(LoginResultType.NETWORK_ERROR);
+
+    final document = parse(response.httpResponse.body);
 
     // Extract lt value from HTML
     final ltInput = document.querySelector('input[name="lt"]');
@@ -34,21 +30,19 @@ class LoginCAS extends LoginProcess {
     };
 
     // Get JSESSIONID from previous request header
-    final cookie = response.headers["set-cookie"];
+    final cookie = response.httpResponse.headers["set-cookie"];
 
     // Second request, with all necessary data
-    http.Response loginResponse;
-    try {
-      loginResponse = await http.post(
-        loginUrl,
-        body: postParams,
-        headers: {"cookie": cookie},
-      );
-    } catch (_) {
-      return LoginResult(LoginResultType.NETWORK_ERROR);
-    }
+    final loginResponse = await HttpRequest.post(
+      loginUrl,
+      body: postParams,
+      headers: {"cookie": cookie},
+    );
 
-    final loginDocument = parse(loginResponse.body);
+    if (!loginResponse.isSuccess)
+      return LoginResult(LoginResultType.NETWORK_ERROR);
+
+    final loginDocument = parse(loginResponse.httpResponse.body);
     final errorElement = loginDocument.querySelector(".errors");
     final successElement = loginDocument.querySelector(".success");
 

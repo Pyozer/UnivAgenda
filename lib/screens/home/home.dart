@@ -9,6 +9,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -16,7 +17,6 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
-import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
@@ -91,16 +91,16 @@ class _HomeScreenState extends State<HomeScreen> {
       prefs.numberWeeks,
     );
 
-    final response = await http.get(url);
+    final response = await HttpRequest.get(url);
 
-    if (response.statusCode != 200) {
+    if (!response.isSuccess) {
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
       ));
       return null;
     }
-    _prepareList(response.body);
-    prefs.setCachedIcal(response.body, false);
+    _prepareList(response.httpResponse.body);
+    prefs.setCachedIcal(response.httpResponse.body, false);
 
     return null;
   }

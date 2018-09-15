@@ -7,8 +7,8 @@ import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:http/http.dart' as http;
 import 'package:myagenda/widgets/ui/no_result_help.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,11 +20,11 @@ class HelpScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<HelpItem>> _loadHelpData(String lang) async {
-    final response = await http.get(kHelpDataUrl);
+    final response = await HttpRequest.get(kHelpDataUrl);
 
-    if (response.statusCode != 200 || response.body.isEmpty) throw Exception();
+    if (!response.isSuccess) throw Exception();
 
-    List responseJson = json.decode(response.body);
+    List responseJson = json.decode(response.httpResponse.body);
 
     return responseJson
         .map((itemJson) => HelpItem.fromJson(itemJson, lang))
