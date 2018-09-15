@@ -4,7 +4,9 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/dialog_predefined.dart';
 
 class CourseRow extends StatelessWidget {
   final Course course;
@@ -45,6 +47,13 @@ class CourseRow extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: InkWell(
         onTap: () => _onCourseTap(context),
+        onLongPress: () async {
+          if (course is CustomCourse) {
+            bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
+            if (isConfirm)
+              PreferencesProvider.of(context).removeCustomEvent(course);
+          }
+        },
         child: Container(
           padding: const EdgeInsets.all(16.0),
           child: Row(
