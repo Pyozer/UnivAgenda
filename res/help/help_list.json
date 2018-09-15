@@ -5,5 +5,12 @@
             "fr": "Trouver mon agenda"
         },
         "page": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/find_my_agenda"
+    },
+    {
+        "title": {
+            "en": "Why my University is not added ?",
+            "fr": "Pourquoi mon University n'est ajouté ?"
+        },
+        "page": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/where_is_my_university"
     }
 ]
