@@ -11,8 +11,7 @@ import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 const testDevices = [
   '9b34e796f34721de',
-  'e0253f145e0d05e3'
-]; // Android Emulator, OnePlus3,
+]; // Android Emulator
 
 class SupportMeScreen extends StatefulWidget {
   _SupportMeScreenState createState() => _SupportMeScreenState();
