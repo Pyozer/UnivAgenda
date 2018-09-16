@@ -149,4 +149,9 @@ class StringKey {
   static const CHANGE_AGENDA_TEXT = 'change_agenda_text';
 
   static const IN_PROGRESS = 'in_progress';
+
+  static const SUPPORTME_HEADER = 'supportme_header';
+  static const SUPPORTME_TEXT = 'supportme_text';
+  static const SUPPORTME_AD = 'supportme_ad';
+  static const SUPPORTME_PAYPAL_ERROR = 'supportme_paypal_error';
 }

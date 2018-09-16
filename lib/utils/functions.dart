@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,7 +15,7 @@ bool isDarkTheme(Brightness brightness) {
   return brightness == Brightness.dark;
 }
 
-void openLink(String href) async {
+Future<void> openLink(String href) async {
   if (await canLaunch(href))
     await launch(href);
   else

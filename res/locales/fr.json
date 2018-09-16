@@ -141,5 +141,10 @@
   "change_agenda": "Changer d'agenda ?",
   "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?",
 
-  "in_progress": "En cours"
+  "in_progress": "En cours",
+
+  "supportme_header": "Faire un don",
+  "supportme_text": "MyAgenda est une application gratuite et elle le restera, mais le développement de celle-ci prend tu temps.\n\nCette page est ainsi faite afin de récompenser tout le travail fourni pour réaliser et maintenir MyAgenda.\n\nVous pouvez soit regarder/cliquer sur la pub ou bien me faire un don via PayPal du montant de votre choix afin de me soutenir.\n\nMerci.",
+  "supportme_ad": "Voir une pub",
+  "supportme_paypal_error": "Impossible d'ouvrir le site PayPal...\nLien: "
 }

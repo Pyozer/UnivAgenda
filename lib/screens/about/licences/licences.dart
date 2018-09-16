@@ -16,6 +16,18 @@ class LicencesScreen extends StatelessWidget {
       url: "${git}flutter/cupertino_icons",
     ),
     Licence(
+      "Firebase AdMob",
+      "Flutter Team",
+      license: "BSD Licence",
+      url: "${git}flutter/plugins/tree/master/packages/firebase_admob",
+    ),
+    Licence(
+      "Firebase Analytics",
+      "Flutter Team",
+      license: "BSD Licence",
+      url: "${git}flutter/plugins/tree/master/packages/firebase_analytics",
+    ),
+    Licence(
       "Flutter Launcher Icons",
       "Flutter Community, Franz Silva, Mark O'Sullivan",
       license: "MIT Licence",

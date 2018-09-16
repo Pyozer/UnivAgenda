@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/utils/analytics.dart';
 
 class CustomRoute<T> extends MaterialPageRoute<T> {
   static const kDurationFade = 150;
@@ -19,6 +20,10 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
+
+    // Send current screen to analytics
+    AnalyticsProvider.of(context).analytics.setCurrentScreen(screenName: settings.name);
+
     return (settings.isInitialRoute)
         ? child
         : FadeTransition(opacity: animation, child: child);
