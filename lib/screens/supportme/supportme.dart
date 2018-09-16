@@ -17,7 +17,9 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
       ? 'ca-app-pub-4423812191493105~7454106275'
       : 'ca-app-pub-4423812191493105~7975305867';
 
-  static final String bannerID = 'ca-app-pub-4423812191493105/9268206230';
+  static final String bannerID = Platform.isAndroid
+      ? 'ca-app-pub-4423812191493105/9268206230'
+      : 'ca-app-pub-4423812191493105/2910681446';
 
   static final MobileAdTargetingInfo targetingInfo = new MobileAdTargetingInfo(
     testDevices: <String>[testDevice],
@@ -44,9 +46,9 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     super.initState();
     FirebaseAdMob.instance.initialize(appId: appId);
 
-    _bannerAd = createBannerAd()..load()..show(
-      anchorType: AnchorType.bottom
-    );
+    _bannerAd = createBannerAd()
+      ..load()
+      ..show(anchorType: AnchorType.bottom);
   }
 
   @override
