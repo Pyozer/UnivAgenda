@@ -13,7 +13,7 @@ class HttpResult {
 }
 
 class HttpRequest {
-  static Future<HttpResult> get(String url, {Map headers}) async {
+  static Future<HttpResult> get(String url, {Map<String, String> headers}) async {
     http.Response response;
 
     try {
@@ -27,7 +27,7 @@ class HttpRequest {
     return HttpResult.success(response);
   }
 
-  static Future<HttpResult> post(String url, {Map body, Map headers}) async {
+  static Future<HttpResult> post(String url, {body, Map<String, String> headers}) async {
     http.Response response;
 
     try {
