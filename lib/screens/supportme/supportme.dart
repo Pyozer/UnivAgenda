@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -81,7 +82,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
 
   void _openPayPal() {
     _openLink(
-      "https://paypal.me/jeancharlesmousse",
+      Url.paypal,
       StringKey.SUPPORTME_PAYPAL_ERROR,
       'open_paypal',
     );
@@ -89,7 +90,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
 
   void _openUnidays() {
     _openLink(
-      "https://myunidays.com/r/Bdf7mZIQGak",
+      Url.unidays,
       StringKey.SUPPORTME_PAYPAL_ERROR,
       'open_unidays',
     );

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
@@ -13,9 +14,6 @@ import 'package:myagenda/widgets/settings/list_tile_input.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/setting_card.dart';
-
-const resourcesUrl =
-    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/resources.json";
 
 enum MenuItem { REFRESH }
 
@@ -32,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   _forceRefreshResources() async {
     final prefs = PreferencesProvider.of(context);
-    final response = await HttpRequest.get(resourcesUrl);
+    final response = await HttpRequest.get(Url.resources);
     if (response.isSuccess && mounted) {
       Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
       prefs.setResources(ressources);

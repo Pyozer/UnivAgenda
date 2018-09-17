@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-
-const changelogUrl = 'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
 
 class ChangeLog extends StatelessWidget {
 
   Future<String> _fetchData() async {
-    final response = await HttpRequest.get(changelogUrl);
+    final response = await HttpRequest.get(Url.changelog);
     if (response.isSuccess)
       return response.httpResponse.body;
     else

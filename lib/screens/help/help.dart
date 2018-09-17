@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
@@ -13,14 +14,11 @@ import 'package:myagenda/widgets/ui/no_result_help.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const kHelpDataUrl =
-    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
-
 class HelpScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<HelpItem>> _loadHelpData(String lang) async {
-    final response = await HttpRequest.get(kHelpDataUrl);
+    final response = await HttpRequest.get(Url.helpList);
 
     if (!response.isSuccess) throw Exception();
 

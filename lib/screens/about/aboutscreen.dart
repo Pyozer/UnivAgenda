@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -59,7 +60,7 @@ class AboutScreen extends StatelessWidget {
               CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
           title: const Text("Jean-Charles Moussé"),
           subtitle: Text(translations.get(StringKey.DEVELOPER)),
-          onTap: () => openLink("https://pyozer.github.io"),
+          onTap: () => openLink(Url.myWebsite),
         )
       ],
     );
@@ -76,7 +77,7 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
               width: 30.0),
           title: Text(Translations.of(context).get(StringKey.GITHUB_PROJECT)),
-          onTap: () => openLink("https://github.com/pyozer/myagenda_flutter"),
+          onTap: () => openLink(Url.githubProjet),
         ),
         ListTile(
           leading: Image.asset(
@@ -84,7 +85,7 @@ class AboutScreen extends StatelessWidget {
             width: 30.0,
           ),
           title: const Text("Twitter"),
-          onTap: () => openLink("https://twitter.com/jc_mousse"),
+          onTap: () => openLink(Url.myTwitter),
         ),
       ],
     );
