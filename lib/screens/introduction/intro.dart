@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction.dart';
 import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:myagenda/keys/assets.dart';
@@ -7,8 +8,40 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 
-class IntroductionScreen extends StatelessWidget {
-  static const double kIconSize = 150.0;
+const double kIconSize = 150.0;
+
+class IntroductionScreen extends StatefulWidget {
+  _IntroductionScreenState createState() => _IntroductionScreenState();
+}
+
+class _IntroductionScreenState extends State<IntroductionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    setOnlyPortrait();
+  }
+
+  @override
+  void dispose() {
+    setAllOrientation();
+    super.dispose();
+  }
+
+  void setOnlyPortrait() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  void setAllOrientation() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   List<PageViewModel> _buildPages(BuildContext context) {
     final translations = Translations.of(context);
