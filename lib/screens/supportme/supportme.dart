@@ -48,7 +48,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
 
     _bannerAd = BannerAd(
       adUnitId: bannerID,
-      size: AdSize.largeBanner,
+      size: AdSize.banner,
       targetingInfo: targetingInfo,
     )
       ..load()
@@ -79,17 +79,30 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     );
   }
 
-  void _openPayPal() async {
-    final url = "https://paypal.me/jeancharlesmousse";
+  void _openPayPal() {
+    _openLink(
+      "https://paypal.me/jeancharlesmousse",
+      StringKey.SUPPORTME_PAYPAL_ERROR,
+      'open_paypal',
+    );
+  }
+
+  void _openUnidays() {
+    _openLink(
+      "https://myunidays.com/r/Bdf7mZIQGak",
+      StringKey.SUPPORTME_PAYPAL_ERROR,
+      'open_unidays',
+    );
+  }
+
+  void _openLink(String url, String errorKey, String analyticsEvent) async {
     try {
       await openLink(url);
     } catch (_) {
-      _showSnackBar(
-        Translations.of(context).get(StringKey.SUPPORTME_PAYPAL_ERROR) + url,
-      );
+      _showSnackBar(Translations.of(context).get(errorKey) + url);
     }
     AnalyticsProvider.of(context).analytics.logEvent(
-      name: 'open_paypal',
+      name: analyticsEvent,
       parameters: <String, dynamic>{},
     );
   }
@@ -109,11 +122,6 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
         child: Column(
           children: <Widget>[
             Text(
-              translations.get(StringKey.SUPPORTME_HEADER),
-              style: Theme.of(context).textTheme.display1,
-            ),
-            const SizedBox(height: 24.0),
-            Text(
               translations.get(StringKey.SUPPORTME_TEXT),
               style: Theme.of(context).textTheme.subhead,
               textAlign: TextAlign.justify,
@@ -122,6 +130,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
             Wrap(
               alignment: WrapAlignment.center,
               spacing: 16.0,
+              runSpacing: 8.0,
               children: <Widget>[
                 RaisedButtonColored(
                   text: translations.get(StringKey.SUPPORTME_AD).toUpperCase(),
@@ -132,6 +141,12 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
                       .get(StringKey.SUPPORTME_HEADER)
                       .toUpperCase(),
                   onPressed: _openPayPal,
+                ),
+                RaisedButtonColored(
+                  text: translations
+                      .get(StringKey.SUPPORTME_UNIDAYS)
+                      .toUpperCase(),
+                  onPressed: _openUnidays,
                 )
               ],
             )
