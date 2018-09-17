@@ -27,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // Set screen only portrait of height is less than 600
     setOnlyPortrait();
   }
 
