@@ -314,8 +314,8 @@
           }
         }
       },
-      "Le Mans": {
-        "STAPS": {
+      "UFR Sciences & Techniques": {
+        "Licence": {
           "L1 STAPS": {
             "Grp A1": 2534,
             "Grp A2": 2535,
@@ -325,18 +325,33 @@
             "Grp C5": 2538,
             "Grp D5": 2540,
             "Grp D6": 2541,
-            "Grp E16": 25,
             "Grp E7": 3839,
-            "Grp F10": 2903,
-            "Grp F9": 2891,
+            "Grp E8": 25,
+            "Grp F17": 2891,
+            "Grp F8": 2903,
             "Grp G10": 3096,
             "Grp G11": 1213,
-            "Grp H12": 1227,
-            "Grp H13": 1215,
+            "Grp H11": 1227,
+            "Grp H12": 1215,
             "Grp I13": 3761,
             "Grp I14": 5834,
+            "Grp J14": 1111,
             "Grp J15": 1076,
-            "Grp J16": 1111
+            "Grp K16": 319,
+            "Grp K17": 335,
+            "Grp L18": 343
+          },
+          "L2 STAPS": {
+            "Grp A1": 2543,
+            "Grp A2": 2544,
+            "Grp B3": 2547,
+            "Grp B4": 2897,
+            "Grp C5": 1625,
+            "Grp C6": 870,
+            "Grp D7": 3783,
+            "Grp D8": 1648,
+            "Grp E9": 3006,
+            "Grp E10": 206
           },
           "L2 S4 STAPS": {
             "Grp 1A APAS": 4752,
@@ -348,17 +363,6 @@
             "Grp 6D EM": 5059,
             "Grp 7D EM": 5573,
             "Grp MS": 4356
-          },
-          "L2 STAPS": {
-            "Grp A1": 2543,
-            "Grp A2": 2544,
-            "Grp B2": 2897,
-            "Grp B3": 2547,
-            "Grp C4": 1625,
-            "Grp D5": 3783,
-            "Grp D6": 1648,
-            "Grp E7": 3006,
-            "Grp E8": 206
           },
           "L3 APAS": {
             "APA 11": 2550,
@@ -374,6 +378,26 @@
           },
           "L3 MS": {
             "MS": 2555
+          }
+        },
+        "Informatique": {
+          "L1": {
+            "L1 INFO TPGr1": 620,
+            "L1 INFO TPGr2": 629,
+            "L1 INFO TPGr3": 641,
+            "L1 INFO TPGr4": 644,
+            "L1 INFO TPGr5": 647,
+            "L1 INFO TPGr6": 771
+          },
+          "L2": {
+            "L2 INFO TP1": 899,
+            "L2 INFO TP2": 1070,
+            "L2 INFO TP3": 1543,
+            "L2 INFO TP4": 237
+          },
+          "L3": {
+            "L3 INFO TPGr1": 405,
+            "L3 INFO TPGr2": 406
           }
         }
       },
@@ -668,5 +692,4 @@
       }
     }
   }
-
 }
