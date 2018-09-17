@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
@@ -11,20 +14,34 @@ import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/setting_card.dart';
 
+const resourcesUrl =
+    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/resources.json";
+
+enum MenuItem { REFRESH }
+
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  Translations translations;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
+  _forceRefreshResources() async {
+    final prefs = PreferencesProvider.of(context);
+    final response = await HttpRequest.get(resourcesUrl);
+    if (response.isSuccess && mounted) {
+      Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
+      prefs.setResources(ressources);
+      prefs.setResourcesDate(DateTime.now());
+    }
+  }
+
   Widget _buildSettingsGeneral() {
+    final translations = Translations.of(context);
     final prefs = PreferencesProvider.of(context);
     final calendar = prefs.calendar;
 
@@ -79,6 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsDisplay() {
+    final translations = Translations.of(context);
     final prefs = PreferencesProvider.of(context);
 
     return SettingCard(
@@ -148,10 +166,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    translations = Translations.of(context);
+    final translations = Translations.of(context);
 
     return AppbarPage(
       title: translations.get(StringKey.SETTINGS),
+      actions: <Widget>[
+        PopupMenuButton<MenuItem>(
+          icon: const Icon(Icons.more_vert),
+          onSelected: (MenuItem result) {
+            if (result == MenuItem.REFRESH) _forceRefreshResources();
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+                PopupMenuItem<MenuItem>(
+                  value: MenuItem.REFRESH,
+                  child: Text(translations.get(StringKey.REFRESH_AGENDAS)),
+                ),
+              ],
+        )
+      ],
       body: ListView(
         children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
       ),

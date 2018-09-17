@@ -60,6 +60,7 @@
   "done": "Got it",
   "change": "Change",
   "refresh": "Refresh",
+  "refresh_agendas": "Refresh calendars",
   "send_feedback": "Send feedback",
 
   "intro_welcome_title": "Welcome !",

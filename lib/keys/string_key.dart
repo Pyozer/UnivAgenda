@@ -43,6 +43,7 @@ class StringKey {
   static const SUBMIT = 'submit';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
+  static const REFRESH_AGENDAS = 'refresh_agendas';
   static const SEND_FEEDBACK = 'send_feedback';
 
   static const WHAT_IS_IT = 'what_is_it';
