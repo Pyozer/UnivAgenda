@@ -4,7 +4,7 @@
 
 Il est fortement possible que votre université n'ai pas été ajouté. En effet chaque université est ajouté une par une et manuellement.
 
-Actuellement est présente seulement l'Université du Mans, de Tours, de Rennes ainsi que l'INSA de Rennes. <!-- moyen de créer une liste des univ présente dynamiquement ? --!>
+Actuellement est présente seulement l'Université du Mans, de Tours, de Rennes ainsi que l'INSA de Rennes.
 
 Il se peut donc que la votre n'ai pas été ajouté, car:
 
