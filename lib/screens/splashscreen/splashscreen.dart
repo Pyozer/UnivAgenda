@@ -33,8 +33,9 @@ class SplashScreenState extends State<SplashScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
-    // Update resources if they are older than 12 hours
-    if (prefs.resourcesDate.difference(DateTime.now()).inHours >= 12) {
+    // Update resources if they are older than 6 hours
+    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours;
+    if (oldRes.abs() >= 6) {
       try {
         final response = await HttpRequest.get(resourcesUrl);
         if (response.isSuccess) {
