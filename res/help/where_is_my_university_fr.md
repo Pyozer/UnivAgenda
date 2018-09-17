@@ -1,18 +1,15 @@
-# Pourquoi mon université n'est pas présente
-
-Vous ne trouvez pas votre université dans la liste ?
+# Vous ne trouvez pas votre université dans la liste ?
 
 ## Origine du problème
 
-Il est fortement possible que votre université n'ai pas été ajouté.
-En effet chaque université est ajouté une par une et manuellement.
+Il est fortement possible que votre université n'ai pas été ajouté. En effet chaque université est ajouté une par une et manuellement.
 
-Actuellement est présente seulement l'Université du Maine, de Tours, de Rennes ainsi que l'INSA de Rennes.
+Actuellement est présente seulement l'Université du Mans, de Tours, de Rennes ainsi que l'INSA de Rennes. <!-- moyen de créer une liste des univ présente dynamiquement ? --!>
 
 Il se peut donc que la votre n'ai pas été ajouté, car:
 
-- Soit personne n'a demandé à ce qu'elle soit présente donc celle-ci n'a pas été ajouté.
-- Soit car votre université utilise un système qui ne permet pas à l'application de pouvoir récupérer les agendas.
+- Personne n'a demandé à ce qu'elle soit présente.
+- Votre université utilise un système qui ne permet pas à l'application de pouvoir récupérer les agendas.
 
 ## Solution
 
