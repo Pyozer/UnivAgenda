@@ -36,14 +36,13 @@ class SplashScreenState extends State<SplashScreen> {
     // Update resources if they are older than 6 hours
     int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours;
     if (oldRes.abs() >= 6) {
-      try {
-        final response = await HttpRequest.get(resourcesUrl);
-        if (response.isSuccess) {
-          Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
-          prefs.setResources(ressources, false);
-          prefs.setResourcesDate(startTime);
-        }
-      } catch (_) {}
+      final response = await HttpRequest.get(resourcesUrl);
+      if (response.isSuccess) {
+        Map<String, dynamic> ressources =
+            json.decode(response.httpResponse.body);
+        prefs.setResources(ressources, false);
+        prefs.setResourcesDate(startTime);
+      }
     }
 
     // Load preferences from disk
