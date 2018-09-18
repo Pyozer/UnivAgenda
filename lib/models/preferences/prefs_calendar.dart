@@ -11,6 +11,10 @@ class PrefsCalendar {
     this.group,
   });
 
+  String toString() {
+    return "$campus, $department, $year, $group";
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

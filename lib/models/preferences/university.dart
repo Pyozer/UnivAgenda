@@ -20,4 +20,8 @@ class University {
         'loginUrl': loginUrl,
         'resourcesFile': resourcesFile
       };
+
+  String toString() {
+    return "$name, $agendaUrl, $loginUrl, $resourcesFile";
+  }
 }

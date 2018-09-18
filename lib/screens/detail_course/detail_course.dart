@@ -184,7 +184,6 @@ class _DetailCourseState extends State<DetailCourse> {
               onPressed: () async {
                 bool isConfirm =
                     await DialogPredefined.showDeleteEventConfirm(context);
-                    print(isConfirm);
                 if (isConfirm) {
                   PreferencesProvider.of(context).removeCustomEvent(_course);
                   Navigator.of(context).pop();

@@ -32,22 +32,23 @@ class SplashScreenState extends State<SplashScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
-    // Update resources if they are older than 6 hours
-    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
-    if (oldRes >= 6) {
-      final responseUniv = await HttpRequest.get(Url.listUniversity);
-      if (responseUniv.isSuccess) {
-        List responseJson = json.decode(responseUniv.httpResponse.body);
-        List<University> listUniv =
-            responseJson.map((m) => University.fromJson(m)).toList();
-
-        prefs.setListUniversity(listUniv, false);
-      }
-    }
-
     // Load preferences from disk
     prefs.initFromDisk(true).then((_) async {
-      if (oldRes >= 6) {
+      // Update resources if they are empty or older than 6 hours
+      int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
+
+      if (prefs.listUniversity.length == 0 || oldRes >= 6) {
+        final responseUniv = await HttpRequest.get(Url.listUniversity);
+        if (responseUniv.isSuccess) {
+          List responseJson = json.decode(responseUniv.httpResponse.body);
+          List<University> listUniv =
+              responseJson.map((m) => University.fromJson(m)).toList();
+          prefs.setListUniversity(listUniv, false);
+        }
+      }
+
+      if (prefs.university != null &&
+          (prefs.resources.length == 0 || oldRes >= 6)) {
         final responseRes = await HttpRequest.get(
             Url.resourcesUrl(prefs.university.resourcesFile));
         if (responseRes.isSuccess) {
@@ -57,6 +58,8 @@ class SplashScreenState extends State<SplashScreen> {
           prefs.setResourcesDate(startTime);
         }
       }
+
+      await prefs.initResAndGroup();
 
       final routeDest = (prefs.isFirstBoot)
           ? RouteKey.INTRO

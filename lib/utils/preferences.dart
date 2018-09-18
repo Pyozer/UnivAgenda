@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
@@ -154,7 +153,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   University findUniversity(String university) {
-    return _listUniversity.firstWhere((univ) => univ.name == university);
+    return _listUniversity.firstWhere((univ) => univ.name == university,
+        orElse: () => null);
   }
 
   List<String> getAllCampus() {
@@ -441,12 +441,16 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() {
       _listUniversity = listUniv ?? [];
+      //if (university == null) setUniversity(_listUniversity[0].name, false);
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> univsJSON = [];
       _listUniversity.forEach((univ) {
-        if (univ != null) univsJSON.add(json.encode(univ.toJson()));
+        if (univ != null) {
+          String univJSONStr = json.encode(univ.toJson());
+          univsJSON.add(univJSONStr);
+        }
       });
 
       prefs.setStringList(PrefKey.listUniversity, univsJSON);
@@ -455,7 +459,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   University get university => _university;
 
-  setUniversity(String newUniversity, [state = false]) {
+  setUniversity(String newUniversity, [state = true]) {
     if ((university?.name ?? "") == newUniversity) return;
 
     var univ = findUniversity(newUniversity);
@@ -511,62 +515,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<Null> initFromDisk([state = false]) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Init list university
-    var listUnivStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
-    // Decode json from local
-    List<University> actualListUniv = [];
-    listUnivStr.forEach((univStr) {
-      Map<String, dynamic> jsonMap = json.decode(univStr);
-      actualListUniv.add(University.fromJson(jsonMap));
-    });
-
-    // If no list saved, store defaults from JSON file
-    if (actualListUniv == null || actualListUniv.length == 0) {
-      var jsonStr = await rootBundle.loadString("res/agendas/resources.json");
-
-      List responseJson = json.decode(jsonStr);
-      actualListUniv = responseJson.map((m) => University.fromJson(m)).toList();
-    }
-    // Update current list of university
-    setListUniversity(actualListUniv);
-
-    // Retrieve local university saved
-    final String universityStr = prefs.getString(PrefKey.university);
-
-    // Check if university stored is in list
-    var univFound = findUniversity(universityStr);
-
-    // If university store is null or not in list
-    if (universityStr == null || univFound == null) {
-      // Take first university of list
-      univFound = _listUniversity[0];
-    }
-    _university = univFound;
-
-    // Get local resources
-    String resourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
-    Map<String, dynamic> actualRes = json.decode(resourcesStr);
-
-    // If no ressources saved, get defaults from JSON
-    if (actualRes == null || actualRes.length == 0) {
-      final univFile = _university.resourcesFile;
-      print(univFile);
-      String jsonContent = await rootBundle.loadString("res/agendas/$univFile");
-      actualRes = json.decode(jsonContent);
-    }
-    setResources(actualRes, false);
+    await initResAndGroup();
 
     final int resourcesDate = prefs.getInt(PrefKey.resourcesDate) ?? 0;
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
-
-    // Init group preferences
-    final String campus = prefs.getString(PrefKey.campus);
-    final String department = prefs.getString(PrefKey.department);
-    final String year = prefs.getString(PrefKey.year);
-    final String group = prefs.getString(PrefKey.group);
-
-    // Check values and resave group prefs (useful if issue)
-    changeGroupPref(campus, department, year, group, false);
 
     // Init number of weeks to display
     setNumberWeeks(prefs.getInt(PrefKey.numberWeeks), false);
@@ -602,6 +554,58 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Set update state true/false on last to force rebuild
     setCustomEvents(actualEvents, state);
+  }
+
+  Future<Null> initResAndGroup() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Init list university
+    var listUnivStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
+
+    // Decode json from local
+    List<University> actualListUniv = [];
+    listUnivStr.forEach((univStr) {
+      Map<String, dynamic> jsonMap = json.decode(univStr);
+      actualListUniv.add(University.fromJson(jsonMap));
+    });
+    // Update current list of university
+    setListUniversity(actualListUniv);
+
+    // Retrieve local university saved
+    if (_listUniversity.length > 0) {
+      String universityStr = prefs.getString(PrefKey.university) ?? "";
+
+      // Check if university stored is in list
+      var univFound = findUniversity(universityStr);
+
+      // If university store is null or not in list
+      if (universityStr == null || univFound == null) {
+        // Take first university of list
+        univFound = _listUniversity[0];
+      }
+      _university = univFound;
+
+      // Get local resources
+      String resourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
+      Map<String, dynamic> actualRes = json.decode(resourcesStr);
+
+      if (actualRes.length > 0) {
+        setResources(actualRes, false);
+
+        // Init group preferences
+        final String campus = prefs.getString(PrefKey.campus);
+        final String department = prefs.getString(PrefKey.department);
+        final String year = prefs.getString(PrefKey.year);
+        final String group = prefs.getString(PrefKey.group);
+
+        // Check values and resave group prefs (useful if issue)
+        changeGroupPref(campus, department, year, group, false);
+      } else {
+        _resources = {};
+      }
+    } else {
+      _resources = {};
+    }
   }
 
   void _updatePref(Function f, bool state) {

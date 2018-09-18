@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
         translations.get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
       );
       return;
-    } else if (loginResult.result == LoginResultType.LOGIN_SUCCESS) {
+    } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
       _setLoading(false);
       _showMessage("Unknown error :/");
       return;
@@ -118,6 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
     Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
     prefs.setResources(ressources, false);
     prefs.setResourcesDate();
+
+    await prefs.initResAndGroup();
+
+    _scaffoldKey.currentState.removeCurrentSnackBar();
+    // Redirect user if no error
+    prefs.setUserLogged(true, false);
+    Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
   }
 
   void _showMessage(String msg) {
@@ -183,6 +190,9 @@ class _LoginScreenState extends State<LoginScreen> {
       child: const Icon(Icons.send),
       backgroundColor: theme.accentColor,
     );
+
+    var listUniversity = prefs.getAllUniversity();
+    if (prefs.university == null) prefs.setUniversity(listUniversity[0]);
 
     return Scaffold(
       key: _scaffoldKey,

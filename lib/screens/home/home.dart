@@ -45,7 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
-    if (prefs.calendar != _lastPrefsCalendar || prefs.numberWeeks != _lastNumberWeeks) {
+    if (prefs.calendar != _lastPrefsCalendar ||
+        prefs.numberWeeks != _lastNumberWeeks) {
       _lastPrefsCalendar = prefs.calendar;
       _lastNumberWeeks = prefs.numberWeeks;
 
@@ -85,32 +86,34 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<Null> _fetchData() async {
     _refreshKey?.currentState?.show();
 
-    final prefs = PreferencesProvider.of(context);
-    final calendar = prefs.calendar;
+    if (mounted) {
+      final prefs = PreferencesProvider.of(context);
+      final calendar = prefs.calendar;
 
-    final resID = prefs.getGroupRes(
-      calendar.campus,
-      calendar.department,
-      calendar.year,
-      calendar.group,
-    );
+      final resID = prefs.getGroupRes(
+        calendar.campus,
+        calendar.department,
+        calendar.year,
+        calendar.group,
+      );
 
-    final url = IcalAPI.prepareURL(
-      prefs.university.agendaUrl,
-      resID,
-      prefs.numberWeeks,
-    );
+      final url = IcalAPI.prepareURL(
+        prefs.university.agendaUrl,
+        resID,
+        prefs.numberWeeks,
+      );
 
-    final response = await HttpRequest.get(url);
+      final response = await HttpRequest.get(url);
 
-    if (!response.isSuccess) {
-      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
-      ));
-      return null;
+      if (!response.isSuccess) {
+        _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+          content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
+        ));
+        return null;
+      }
+      _prepareList(response.httpResponse.body);
+      prefs.setCachedIcal(response.httpResponse.body, false);
     }
-    _prepareList(response.httpResponse.body);
-    prefs.setCachedIcal(response.httpResponse.body, false);
 
     return null;
   }
@@ -195,10 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () async {
         final customCourse = await Navigator.of(context).push(
           CustomRoute(
-            builder: (context) => CustomEventScreen(),
-            fullscreenDialog: true,
-            routeName: RouteKey.ADD_EVENT
-          ),
+              builder: (context) => CustomEventScreen(),
+              fullscreenDialog: true,
+              routeName: RouteKey.ADD_EVENT),
         );
         PreferencesProvider.of(context).addCustomEvent(customCourse);
       },
