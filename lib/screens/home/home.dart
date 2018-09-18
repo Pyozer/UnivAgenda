@@ -36,7 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isAnalyticsSended = false;
 
-  PrefsCalendar _prefsCalendar;
+  PrefsCalendar _lastPrefsCalendar;
+  int _lastNumberWeeks;
 
   @override
   void didChangeDependencies() {
@@ -44,8 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
-    if (prefs.calendar != _prefsCalendar) {
-      _prefsCalendar = prefs.calendar;
+    if (prefs.calendar != _lastPrefsCalendar || prefs.numberWeeks != _lastNumberWeeks) {
+      _lastPrefsCalendar = prefs.calendar;
+      _lastNumberWeeks = prefs.numberWeeks;
 
       // Define type of view
       _isHorizontal = prefs.isHorizontalView;
