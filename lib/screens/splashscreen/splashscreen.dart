@@ -4,11 +4,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
@@ -16,6 +19,8 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   bool _isPrefsLoaded = false;
+
+  bool _isError = false;
 
   @override
   void didChangeDependencies() {
@@ -27,6 +32,9 @@ class SplashScreenState extends State<SplashScreen> {
 
   void _initPreferences() async {
     _isPrefsLoaded = true;
+    setState(() {
+      _isError = false;
+    });
 
     final startTime = DateTime.now();
 
@@ -44,6 +52,12 @@ class SplashScreenState extends State<SplashScreen> {
           List<University> listUniv =
               responseJson.map((m) => University.fromJson(m)).toList();
           prefs.setListUniversity(listUniv, false);
+        } else if (prefs.listUniversity.length == 0) {
+          setState(() {
+            _isPrefsLoaded = false;
+            _isError = true;
+          });
+          return;
         }
       }
 
@@ -56,6 +70,12 @@ class SplashScreenState extends State<SplashScreen> {
               json.decode(responseRes.httpResponse.body);
           prefs.setResources(ressources, false);
           prefs.setResourcesDate(startTime);
+        } else if (prefs.resources.length == 0) {
+          setState(() {
+            _isPrefsLoaded = false;
+            _isError = true;
+          });
+          return;
         }
       }
 
@@ -81,27 +101,44 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = Translations.of(context);
+
     return AppbarPage(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          const Expanded(
-            flex: 1,
-            child: const SizedBox.shrink(),
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Image.asset(Asset.LOGO, width: 192.0),
+      body: Container(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(
+              flex: 6,
+              child: Center(
+                child: Image.asset(Asset.LOGO, width: 192.0),
+              ),
             ),
-          ),
-          const Expanded(
-            flex: 1,
-            child: const Center(
-              child: const CircularProgressIndicator(),
+            Expanded(
+              flex: 4,
+              child: Center(
+                child: _isError
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            translations.get(StringKey.NETWORK_ERROR),
+                            style: Theme.of(context).textTheme.subhead,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24.0),
+                          RaisedButtonColored(
+                            text: translations.get(StringKey.RETRY),
+                            onPressed: _initPreferences,
+                          )
+                        ],
+                      )
+                    : const CircularProgressIndicator(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

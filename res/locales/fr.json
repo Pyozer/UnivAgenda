@@ -131,6 +131,7 @@
   "help_noresult_text": "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
 
   "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
+  "retry": "Réessayer",
 
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
