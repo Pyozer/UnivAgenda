@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
@@ -23,6 +24,7 @@ class CourseRow extends StatelessWidget {
       CustomRoute<Course>(
         builder: (context) => DetailCourse(course: course),
         fullscreenDialog: true,
+        routeName: RouteKey.DETAIL_EVENT
       ),
     );
   }

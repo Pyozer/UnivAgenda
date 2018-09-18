@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
+import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/analytics.dart';
@@ -34,23 +36,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isAnalyticsSended = false;
 
+  PrefsCalendar _prefsCalendar;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     final prefs = PreferencesProvider.of(context);
 
-    // Define type of view
-    _isHorizontal = prefs.isHorizontalView;
+    if (prefs.calendar != _prefsCalendar) {
+      _prefsCalendar = prefs.calendar;
 
-    // Load cached ical
-    final cachedIcal = prefs.cachedIcal;
-    if (cachedIcal != null && cachedIcal.isNotEmpty) {
-      _prepareList(cachedIcal);
+      // Define type of view
+      _isHorizontal = prefs.isHorizontalView;
+
+      // Load cached ical
+      final cachedIcal = prefs.cachedIcal;
+      if (cachedIcal != null && cachedIcal.isNotEmpty) {
+        _prepareList(cachedIcal);
+      }
+
+      // Load ical from network
+      _fetchData();
     }
 
-    // Load ical from network
-    _fetchData();
     // Send analytics to have stats of group users
     if (!_isAnalyticsSended) _sendAnalyticsEvent();
   }
@@ -187,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
           CustomRoute(
             builder: (context) => CustomEventScreen(),
             fullscreenDialog: true,
+            routeName: RouteKey.ADD_EVENT
           ),
         );
         PreferencesProvider.of(context).addCustomEvent(customCourse);

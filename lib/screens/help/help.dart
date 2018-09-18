@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/help_item.dart';
@@ -37,6 +38,7 @@ class HelpScreen extends StatelessWidget {
           CustomRoute(
             builder: (context) => HelpDetailsScreen(helpItem: item),
             fullscreenDialog: true,
+            routeName: RouteKey.HELP_DETAIL
           ),
         );
       },
