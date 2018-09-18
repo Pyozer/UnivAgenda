@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
     prefs.setResources(ressources, false);
-    prefs.setResourcesDate(DateTime.now());
+    prefs.setResourcesDate();
   }
 
   void _showMessage(String msg) {

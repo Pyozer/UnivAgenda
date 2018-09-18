@@ -54,41 +54,43 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     noteColor: PrefKey.defaultNoteColor,
   );
 
+  /// List of all university
   List<University> _listUniversity;
+
+  /// Actual University
   University _university;
 
+  /// Agenda preferences (campus, department, year, group)
   PrefsCalendar _prefsCalendar = PrefsCalendar();
 
+  /// Number of weeks to display
   int _numberWeeks;
 
+  /// Is app has been already launched
   bool _firstBoot;
+
+  /// Is the user if logged
   bool _userLogged;
+
+  /// If agenda is in horizontal mode
   bool _horizontalView;
 
+  /// Last ical loaded
   String _cachedIcal;
 
+  /// List of notes for events
   List<Note> _notes;
+
+  /// List of all custom events
   List<Course> _customEvents;
 
+  /// Resources (contain all agenda with their ID)
   Map<String, dynamic> _resources;
+
+  /// Last date that the resources has ben updated
   DateTime _resourcesDate;
 
   PrefsCalendar get calendar => _prefsCalendar;
-
-  setUniversity(String newUniversity, [state = false]) {
-    if (university.name == newUniversity) return;
-
-    var univ = findUniversity(newUniversity);
-    univ ??= _listUniversity[0];
-
-    _updatePref(() {
-      _university = univ;
-    }, state);
-
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(PrefKey.university, _university.name);
-    });
-  }
 
   setCampus(String newCampus, [state = true]) {
     if (calendar.campus == newCampus) return;
@@ -434,7 +436,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   List<University> get listUniversity => _listUniversity;
 
-  setListUniversity(List<University> listUniv, [state = true]) {
+  setListUniversity(List<University> listUniv, [state = false]) {
     if (listUniversity == listUniv) return;
 
     _updatePref(() {
@@ -452,6 +454,21 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   University get university => _university;
+
+  setUniversity(String newUniversity, [state = false]) {
+    if ((university?.name ?? "") == newUniversity) return;
+
+    var univ = findUniversity(newUniversity);
+    univ ??= _listUniversity[0];
+
+    _updatePref(() {
+      _university = univ;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString(PrefKey.university, _university.name);
+    });
+  }
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
@@ -472,7 +489,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     );
 
     SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString(PrefKey.resources, json.encode(_resources)));
+      (prefs) => prefs.setString(PrefKey.resources, json.encode(_resources)),
+    );
   }
 
   DateTime get resourcesDate => _resourcesDate ?? DateTime(1970);
@@ -494,18 +512,23 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Init list university
-    String listUniversityStr =
-        prefs.getStringList(PrefKey.listUniversity) ?? "[]";
+    var listUnivStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
     // Decode json from local
-    List<University> actualListUniv = json.decode(listUniversityStr);
+    List<University> actualListUniv = [];
+    listUnivStr.forEach((univStr) {
+      Map<String, dynamic> jsonMap = json.decode(univStr);
+      actualListUniv.add(University.fromJson(jsonMap));
+    });
 
     // If no list saved, store defaults from JSON file
     if (actualListUniv == null || actualListUniv.length == 0) {
       var jsonStr = await rootBundle.loadString("res/agendas/resources.json");
-      actualListUniv = json.decode(jsonStr);
+
+      List responseJson = json.decode(jsonStr);
+      actualListUniv = responseJson.map((m) => University.fromJson(m)).toList();
     }
     // Update current list of university
-    setListUniversity(actualListUniv, false);
+    setListUniversity(actualListUniv);
 
     // Retrieve local university saved
     final String universityStr = prefs.getString(PrefKey.university);
@@ -527,6 +550,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // If no ressources saved, get defaults from JSON
     if (actualRes == null || actualRes.length == 0) {
       final univFile = _university.resourcesFile;
+      print(univFile);
       String jsonContent = await rootBundle.loadString("res/agendas/$univFile");
       actualRes = json.decode(jsonContent);
     }

@@ -37,7 +37,10 @@ class SplashScreenState extends State<SplashScreen> {
     if (oldRes >= 6) {
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       if (responseUniv.isSuccess) {
-        List<University> listUniv = json.decode(responseUniv.httpResponse.body);
+        List responseJson = json.decode(responseUniv.httpResponse.body);
+        List<University> listUniv =
+            responseJson.map((m) => University.fromJson(m)).toList();
+
         prefs.setListUniversity(listUniv, false);
       }
     }

@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (response.isSuccess && mounted) {
       Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
       prefs.setResources(ressources);
-      prefs.setResourcesDate(DateTime.now());
+      prefs.setResourcesDate();
     }
   }
 
