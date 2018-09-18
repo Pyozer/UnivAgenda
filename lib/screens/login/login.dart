@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -23,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordNode = FocusNode();
 
   bool _isLoading = false;
+
+  String university;
 
   @override
   void initState() {
@@ -81,27 +87,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Login process
     final loginResult =
-        await LoginCAS(prefs.loginUrl, username, password).login();
-
-    _setLoading(false);
+        await LoginCAS(prefs.university.loginUrl, username, password).login();
 
     if (loginResult.result == LoginResultType.LOGIN_FAIL) {
+      _setLoading(false);
       _showMessage(loginResult.message);
+      return;
     } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
+      _setLoading(false);
       _showMessage(
-        translations.get(
-          StringKey.LOGIN_SERVER_ERROR,
-          [prefs.calendar.university],
-        ),
+        translations.get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
       );
+      return;
     } else if (loginResult.result == LoginResultType.LOGIN_SUCCESS) {
-      _scaffoldKey.currentState.removeCurrentSnackBar();
-      // Redirect user if no error
-      prefs.setUserLogged(true, false);
-      Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
-    } else {
+      _setLoading(false);
       _showMessage("Unknown error :/");
+      return;
     }
+
+    final response = await HttpRequest.get(
+      Url.resourcesUrl(prefs.university.resourcesFile),
+    );
+
+    if (!response.isSuccess) {
+      _setLoading(false);
+      _showMessage("Error during retrieve agenda resources :/");
+      return;
+    }
+
+    Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
+    prefs.setResources(ressources, false);
+    prefs.setResourcesDate(DateTime.now());
   }
 
   void _showMessage(String msg) {
@@ -188,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Dropdown(
                       items: prefs.getAllUniversity(),
-                      value: prefs.calendar.university,
+                      value: prefs.university.name,
                       onChanged: prefs.setUniversity,
                     ),
                     Card(

@@ -17,6 +17,7 @@ class PrefKey {
   static const isHorizontalView = 'is_horizontal_view';
 
   static const cachedIcal = 'cached_ical';
+  static const listUniversity = 'list_university';
   static const resources = 'resources';
   static const resourcesDate = 'ressources_date';
 

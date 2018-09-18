@@ -67,16 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<Null> _sendAnalyticsEvent() async {
-    final calendar = PreferencesProvider.of(context).calendar;
+    final prefs = PreferencesProvider.of(context);
 
     await AnalyticsProvider.of(context).analytics.logEvent(
       name: 'user_group',
       parameters: <String, String>{
-        'university': calendar.university,
-        'campus': calendar.campus,
-        'department': calendar.department,
-        'year': calendar.year,
-        'group': calendar.group,
+        'university': prefs.university.name,
+        'campus': prefs.calendar.campus,
+        'department': prefs.calendar.department,
+        'year': prefs.calendar.year,
+        'group': prefs.calendar.group,
       },
     );
     _isAnalyticsSended = true;
@@ -89,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final calendar = prefs.calendar;
 
     final resID = prefs.getGroupRes(
-      calendar.university,
       calendar.campus,
       calendar.department,
       calendar.year,
@@ -97,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     final url = IcalAPI.prepareURL(
-      prefs.agendaUrl,
+      prefs.university.agendaUrl,
       resID,
       prefs.numberWeeks,
     );

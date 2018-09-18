@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
@@ -32,19 +33,28 @@ class SplashScreenState extends State<SplashScreen> {
     final prefs = PreferencesProvider.of(context);
 
     // Update resources if they are older than 6 hours
-    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours;
-    if (oldRes.abs() >= 6) {
-      final response = await HttpRequest.get(Url.resources);
-      if (response.isSuccess) {
-        Map<String, dynamic> ressources =
-            json.decode(response.httpResponse.body);
-        prefs.setResources(ressources, false);
-        prefs.setResourcesDate(startTime);
+    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
+    if (oldRes >= 6) {
+      final responseUniv = await HttpRequest.get(Url.listUniversity);
+      if (responseUniv.isSuccess) {
+        List<University> listUniv = json.decode(responseUniv.httpResponse.body);
+        prefs.setListUniversity(listUniv, false);
       }
     }
 
     // Load preferences from disk
-    prefs.initFromDisk(true).then((_) {
+    prefs.initFromDisk(true).then((_) async {
+      if (oldRes >= 6) {
+        final responseRes = await HttpRequest.get(
+            Url.resourcesUrl(prefs.university.resourcesFile));
+        if (responseRes.isSuccess) {
+          Map<String, dynamic> ressources =
+              json.decode(responseRes.httpResponse.body);
+          prefs.setResources(ressources, false);
+          prefs.setResourcesDate(startTime);
+        }
+      }
+
       final routeDest = (prefs.isFirstBoot)
           ? RouteKey.INTRO
           : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;

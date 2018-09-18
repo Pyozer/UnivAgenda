@@ -30,7 +30,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   _forceRefreshResources() async {
     final prefs = PreferencesProvider.of(context);
-    final response = await HttpRequest.get(Url.resources);
+
+    final response = await HttpRequest.get(
+      Url.resourcesUrl(prefs.university.resourcesFile),
+    );
     if (response.isSuccess && mounted) {
       Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
       prefs.setResources(ressources);
@@ -50,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.CAMPUS),
           titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: calendar.campus,
-          values: prefs.getAllCampus(calendar.university),
+          values: prefs.getAllCampus(),
           onChange: (value) => prefs.setCampus(value),
         ),
         const ListDivider(),
@@ -58,10 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.DEPARTMENT),
           titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: calendar.department,
-          values: prefs.getCampusDepartments(
-            calendar.university,
-            calendar.campus,
-          ),
+          values: prefs.getCampusDepartments(calendar.campus),
           onChange: (value) => prefs.setDepartment(value),
         ),
         const ListDivider(),
@@ -69,11 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.YEAR),
           titleDialog: translations.get(StringKey.SELECT_YEAR),
           selectedValue: calendar.year,
-          values: prefs.getYears(
-            calendar.university,
-            calendar.campus,
-            calendar.department,
-          ),
+          values: prefs.getYears(calendar.campus, calendar.department),
           onChange: (value) => prefs.setYear(value),
         ),
         const ListDivider(),
@@ -82,7 +78,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_GROUP),
           selectedValue: calendar.group,
           values: prefs.getGroups(
-            calendar.university,
             calendar.campus,
             calendar.department,
             calendar.year,

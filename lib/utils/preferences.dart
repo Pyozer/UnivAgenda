@@ -8,6 +8,7 @@ import 'package:myagenda/models/course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
+import 'package:myagenda/models/preferences/university.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _MyInheritedPreferences extends InheritedWidget {
@@ -52,56 +53,72 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     accentColor: PrefKey.defaultAccentColor,
     noteColor: PrefKey.defaultNoteColor,
   );
+
+  List<University> _listUniversity;
+  University _university;
+
   PrefsCalendar _prefsCalendar = PrefsCalendar();
+
   int _numberWeeks;
+
   bool _firstBoot;
-  String _cachedIcal;
-  List<Note> _notes;
-  List<Course> _customEvents;
   bool _userLogged;
   bool _horizontalView;
+
+  String _cachedIcal;
+
+  List<Note> _notes;
+  List<Course> _customEvents;
+
   Map<String, dynamic> _resources;
   DateTime _resourcesDate;
 
   PrefsCalendar get calendar => _prefsCalendar;
 
-  setUniversity(String newUniversity, [state = true]) {
-    if (calendar.university == newUniversity) return;
+  setUniversity(String newUniversity, [state = false]) {
+    if (university.name == newUniversity) return;
 
-    changeGroupPref(newUniversity, calendar.campus, calendar.department,
-        calendar.year, calendar.group, state);
+    var univ = findUniversity(newUniversity);
+    univ ??= _listUniversity[0];
+
+    _updatePref(() {
+      _university = univ;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString(PrefKey.university, _university.name);
+    });
   }
 
   setCampus(String newCampus, [state = true]) {
     if (calendar.campus == newCampus) return;
 
-    changeGroupPref(calendar.university, newCampus, calendar.department,
-        calendar.year, calendar.group, state);
+    changeGroupPref(
+        newCampus, calendar.department, calendar.year, calendar.group, state);
   }
 
   setDepartment(String newDepartment, [state = true]) {
     if (calendar.department == newDepartment) return;
 
-    changeGroupPref(calendar.university, calendar.campus, newDepartment,
-        calendar.year, calendar.group, state);
+    changeGroupPref(
+        calendar.campus, newDepartment, calendar.year, calendar.group, state);
   }
 
   setYear(String newYear, [state = true]) {
     if (calendar.year == newYear) return;
 
-    changeGroupPref(calendar.university, calendar.campus, calendar.department,
-        newYear, calendar.group, state);
+    changeGroupPref(
+        calendar.campus, calendar.department, newYear, calendar.group, state);
   }
 
   setGroup(String newGroup, [state = true]) {
     if (calendar.group == newGroup) return;
 
-    changeGroupPref(calendar.university, calendar.campus, calendar.department,
-        calendar.year, newGroup, state);
+    changeGroupPref(
+        calendar.campus, calendar.department, calendar.year, newGroup, state);
   }
 
   void changeGroupPref(
-    String newUniversity,
     String newCampus,
     String newDepartment,
     String newYear,
@@ -110,7 +127,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   ]) {
     // Check if values are correct together
     PrefsCalendar values = checkDataValues(
-      university: newUniversity,
       campus: newCampus,
       department: newDepartment,
       year: newYear,
@@ -124,7 +140,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(PrefKey.university, values.university);
       prefs.setString(PrefKey.campus, values.campus);
       prefs.setString(PrefKey.department, values.department);
       prefs.setString(PrefKey.year, values.year);
@@ -132,117 +147,81 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  List<String> getAllUniversity() => _resources.keys.toList();
-
-  List<String> getAllCampus(String university) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-
-    return _resources[university]["resources"].keys.toList();
+  List<String> getAllUniversity() {
+    return _listUniversity.map((univ) => univ.name).toList();
   }
 
-  List<String> getCampusDepartments(String university, String campus) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-    if (campus == null ||
-        !_resources[university]["resources"].containsKey(campus))
-      campus = getAllCampus(university)[0];
-
-    return _resources[university]["resources"][campus].keys.toList();
+  University findUniversity(String university) {
+    return _listUniversity.firstWhere((univ) => univ.name == university);
   }
 
-  List<String> getYears(String university, String campus, String department) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-    if (campus == null ||
-        !_resources[university]["resources"].containsKey(campus))
-      campus = getAllCampus(university)[0];
-    if (department == null ||
-        !_resources[university]["resources"][campus].containsKey(department))
-      department = getCampusDepartments(university, campus)[0];
-
-    return _resources[university]["resources"][campus][department]
-        .keys
-        .toList();
+  List<String> getAllCampus() {
+    return _resources.keys.toList();
   }
 
-  List<String> getGroups(
-      String university, String campus, String department, String year) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-    if (campus == null ||
-        !_resources[university]["resources"].containsKey(campus))
-      campus = getAllCampus(university)[0];
-    if (department == null ||
-        !_resources[university]["resources"][campus].containsKey(department))
-      department = getCampusDepartments(university, campus)[0];
-    if (year == null ||
-        !_resources[university]["resources"][campus][department]
-            .containsKey(year))
-      year = getYears(university, campus, department)[0];
-    return _resources[university]["resources"][campus][department][year]
-        .keys
-        .toList();
+  List<String> getCampusDepartments(String campus) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+
+    return _resources[campus].keys.toList();
   }
 
-  int getGroupRes(String university, String campus, String department,
-      String year, String group) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-    if (campus == null ||
-        !_resources[university]["resources"].containsKey(campus))
-      campus = getAllCampus(university)[0];
-    if (department == null ||
-        !_resources[university]["resources"][campus].containsKey(department))
-      department = getCampusDepartments(university, campus)[0];
-    if (year == null ||
-        !_resources[university]["resources"][campus][department]
-            .containsKey(year))
-      year = getYears(university, campus, department)[0];
+  List<String> getYears(String campus, String department) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+
+    return _resources[campus][department].keys.toList();
+  }
+
+  List<String> getGroups(String campus, String department, String year) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
+    return _resources[campus][department][year].keys.toList();
+  }
+
+  int getGroupRes(String campus, String department, String year, String group) {
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
     if (group == null ||
-        !_resources[university]["resources"][campus][department][year]
-            .containsKey(group))
-      group = getGroups(university, campus, department, year)[0];
+        !_resources[campus][department][year].containsKey(group))
+      group = getGroups(campus, department, year)[0];
 
-    return _resources[university]["resources"][campus][department][year][group];
+    return _resources[campus][department][year][group];
   }
 
   PrefsCalendar checkDataValues({
-    String university,
     String campus,
     String department,
     String year,
     String group,
   }) {
-    if (university == null || !_resources.containsKey(university))
-      university = getAllUniversity()[0];
-    if (campus == null ||
-        !_resources[university]['resources'].containsKey(campus))
-      campus = getAllCampus(university)[0];
-    if (department == null ||
-        !_resources[university]["resources"][campus].containsKey(department))
-      department = getCampusDepartments(university, campus)[0];
-    if (year == null ||
-        !_resources[university]["resources"][campus][department]
-            .containsKey(year))
-      year = getYears(university, campus, department)[0];
+    if (campus == null || !_resources.containsKey(campus))
+      campus = getAllCampus()[0];
+    if (department == null || !_resources[campus].containsKey(department))
+      department = getCampusDepartments(campus)[0];
+    if (year == null || !_resources[campus][department].containsKey(year))
+      year = getYears(campus, department)[0];
     if (group == null ||
-        !_resources[university]["resources"][campus][department][year]
-            .containsKey(group))
-      group = getGroups(university, campus, department, year)[0];
+        !_resources[campus][department][year].containsKey(group))
+      group = getGroups(campus, department, year)[0];
 
     return PrefsCalendar(
-      university: university,
       campus: campus,
       department: department,
       year: year,
       group: group,
     );
   }
-
-  String get loginUrl => _resources[calendar.university]['loginUrl'];
-
-  String get agendaUrl => _resources[calendar.university]['agendaUrl'];
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
@@ -259,7 +238,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.numberWeeks, intValue));
+        .then((prefs) => prefs.setInt(PrefKey.numberWeeks, _numberWeeks));
   }
 
   PrefsTheme get theme => _prefsTheme;
@@ -271,8 +250,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
     }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isDarkTheme, darkTheme));
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme));
   }
 
   setPrimaryColor(int newPrimaryColor, [state = true]) {
@@ -282,8 +261,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
     }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.primaryColor, newPrimaryColor));
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor));
   }
 
   setAccentColor(int newAccentColor, [state = true]) {
@@ -293,8 +272,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
     }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.accentColor, newAccentColor));
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor));
   }
 
   setNoteColor(int newNoteColor, [state = true]) {
@@ -304,8 +283,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
     }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.noteColor, newNoteColor));
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor));
   }
 
   bool get isFirstBoot => _firstBoot ?? true;
@@ -318,7 +297,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isFirstBoot, firstBoot));
+        .then((prefs) => prefs.setBool(PrefKey.isFirstBoot, _firstBoot));
   }
 
   String get cachedIcal => _cachedIcal ?? null;
@@ -331,7 +310,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setString(PrefKey.cachedIcal, icalToCache));
+        .then((prefs) => prefs.setString(PrefKey.cachedIcal, _cachedIcal));
   }
 
   List<Note> get notes =>
@@ -354,7 +333,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> notesJSON = [];
-      newNotes.forEach((note) {
+      _notes.forEach((note) {
         notesJSON.add(json.encode(note.toJson()));
       });
 
@@ -394,7 +373,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> eventsJSON = [];
-      newCustomEvents.forEach((event) {
+      _customEvents.forEach((event) {
         if (event != null) eventsJSON.add(json.encode(event.toJson()));
       });
 
@@ -450,8 +429,29 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance().then(
-        (prefs) => prefs.setBool(PrefKey.isHorizontalView, isHorizontalView));
+        (prefs) => prefs.setBool(PrefKey.isHorizontalView, _horizontalView));
   }
+
+  List<University> get listUniversity => _listUniversity;
+
+  setListUniversity(List<University> listUniv, [state = true]) {
+    if (listUniversity == listUniv) return;
+
+    _updatePref(() {
+      _listUniversity = listUniv ?? [];
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      List<String> univsJSON = [];
+      _listUniversity.forEach((univ) {
+        if (univ != null) univsJSON.add(json.encode(univ.toJson()));
+      });
+
+      prefs.setStringList(PrefKey.listUniversity, univsJSON);
+    });
+  }
+
+  University get university => _university;
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
@@ -462,8 +462,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _resources = newResources ?? PrefKey.defaultResources;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) =>
-        prefs.setString(PrefKey.resources, json.encode(newResources)));
+    // Check actual calendar prefs with new resources
+    changeGroupPref(
+      calendar.campus,
+      calendar.department,
+      calendar.year,
+      calendar.group,
+      state,
+    );
+
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString(PrefKey.resources, json.encode(_resources)));
   }
 
   DateTime get resourcesDate => _resourcesDate ?? DateTime(1970);
@@ -476,20 +485,49 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt(PrefKey.resourcesDate, newResDate.millisecondsSinceEpoch);
+      prefs.setInt(
+          PrefKey.resourcesDate, _resourcesDate.millisecondsSinceEpoch);
     });
   }
 
   Future<Null> initFromDisk([state = false]) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Init ressources for agendas
+    // Init list university
+    String listUniversityStr =
+        prefs.getStringList(PrefKey.listUniversity) ?? "[]";
+    // Decode json from local
+    List<University> actualListUniv = json.decode(listUniversityStr);
+
+    // If no list saved, store defaults from JSON file
+    if (actualListUniv == null || actualListUniv.length == 0) {
+      var jsonStr = await rootBundle.loadString("res/agendas/resources.json");
+      actualListUniv = json.decode(jsonStr);
+    }
+    // Update current list of university
+    setListUniversity(actualListUniv, false);
+
+    // Retrieve local university saved
+    final String universityStr = prefs.getString(PrefKey.university);
+
+    // Check if university stored is in list
+    var univFound = findUniversity(universityStr);
+
+    // If university store is null or not in list
+    if (universityStr == null || univFound == null) {
+      // Take first university of list
+      univFound = _listUniversity[0];
+    }
+    _university = univFound;
+
+    // Get local resources
     String resourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
     Map<String, dynamic> actualRes = json.decode(resourcesStr);
 
-    // If no ressources saved, store defaults from JSON
+    // If no ressources saved, get defaults from JSON
     if (actualRes == null || actualRes.length == 0) {
-      String jsonContent = await rootBundle.loadString("res/resources.json");
+      final univFile = _university.resourcesFile;
+      String jsonContent = await rootBundle.loadString("res/agendas/$univFile");
       actualRes = json.decode(jsonContent);
     }
     setResources(actualRes, false);
@@ -498,14 +536,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
 
     // Init group preferences
-    final String university = prefs.getString(PrefKey.university);
     final String campus = prefs.getString(PrefKey.campus);
     final String department = prefs.getString(PrefKey.department);
     final String year = prefs.getString(PrefKey.year);
     final String group = prefs.getString(PrefKey.group);
 
     // Check values and resave group prefs (useful if issue)
-    changeGroupPref(university, campus, department, year, group, false);
+    changeGroupPref(campus, department, year, group, false);
 
     // Init number of weeks to display
     setNumberWeeks(prefs.getInt(PrefKey.numberWeeks), false);
@@ -562,6 +599,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       customEvents == other.customEvents &&
       isUserLogged == other.isUserLogged &&
       isHorizontalView == other.isHorizontalView &&
+      listUniversity == other.listUniversity &&
       resources == other.resources;
 
   @override
@@ -575,5 +613,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _customEvents.hashCode ^
       _userLogged.hashCode ^
       _horizontalView.hashCode ^
+      _listUniversity.hashCode ^
       _resources.hashCode;
 }
