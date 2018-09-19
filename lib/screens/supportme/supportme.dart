@@ -118,40 +118,43 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.SUPPORTME),
-      body: Container(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              translations.get(StringKey.SUPPORTME_TEXT),
-              style: Theme.of(context).textTheme.subhead,
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 24.0),
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 16.0,
-              runSpacing: 8.0,
-              children: <Widget>[
-                RaisedButtonColored(
-                  text: translations.get(StringKey.SUPPORTME_AD).toUpperCase(),
-                  onPressed: _openFullAd,
-                ),
-                RaisedButtonColored(
-                  text: translations
-                      .get(StringKey.SUPPORTME_HEADER)
-                      .toUpperCase(),
-                  onPressed: _openPayPal,
-                ),
-                RaisedButtonColored(
-                  text: translations
-                      .get(StringKey.SUPPORTME_UNIDAYS)
-                      .toUpperCase(),
-                  onPressed: _openUnidays,
-                )
-              ],
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                translations.get(StringKey.SUPPORTME_TEXT),
+                style: Theme.of(context).textTheme.subhead,
+                textAlign: TextAlign.justify,
+              ),
+              const SizedBox(height: 24.0),
+              Wrap(
+                alignment: WrapAlignment.spaceEvenly,
+                spacing: 8.0,
+                runSpacing: 8.0,
+                children: <Widget>[
+                  RaisedButtonColored(
+                    text: translations
+                        .get(StringKey.SUPPORTME_UNIDAYS)
+                        .toUpperCase(),
+                    onPressed: _openUnidays,
+                  ),
+                  RaisedButtonColored(
+                    text: translations
+                        .get(StringKey.SUPPORTME_HEADER)
+                        .toUpperCase(),
+                    onPressed: _openPayPal,
+                  ),
+                  RaisedButtonColored(
+                    text:
+                        translations.get(StringKey.SUPPORTME_AD).toUpperCase(),
+                    onPressed: _openFullAd,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

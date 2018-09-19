@@ -145,9 +145,9 @@
 
   "in_progress": "In progress",
 
-  "supportme_header": "Make a donation",
-  "supportme_text": "This page allows you to reward all the work done to create and maintain MyAgenda.\n\nYou can look / click on the ad or make a PayPal donation of the amount of your choice to support me.\n\nTips: Register on Unidays to take advantage of discounts on many sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc.).\n\nThank you.",
-  "supportme_ad": "See advertisement",
+  "supportme_header": "Donation",
+  "supportme_text": "This page allows you to reward all the work done to create and maintain MyAgenda.\n\nYou can look an ad or make a PayPal donation (amount of your choice) to support me.\n\nTips: Register on Unidays to have discounts on many sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc.).\n\nThank you.",
+  "supportme_ad": "Advertisement",
   "supportme_unidays": "Discounts",
   "supportme_paypal_error": "Can not open the PayPal website...\nLink: ",
   "supportme_unidays_error": "Can not open the Unidays website...\nLink: "

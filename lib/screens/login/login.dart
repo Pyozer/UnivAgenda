@@ -132,8 +132,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildTextField(
-      hint, icon, isObscure, controller, onEditComplete, inputAction,
-      [focusNode]) {
+    hint,
+    icon,
+    isObscure,
+    controller,
+    onEditComplete,
+    inputAction, [
+    focusNode,
+  ]) {
     return TextField(
       focusNode: focusNode,
       onEditingComplete: onEditComplete,
@@ -198,19 +204,21 @@ class _LoginScreenState extends State<LoginScreen> {
       key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.only(
+              left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [logo, titleApp],
+                  children: [logo, const SizedBox(height: 8.0), titleApp],
                 ),
+                flex: 4,
               ),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Dropdown(
                       items: prefs.getAllUniversity(),
@@ -230,7 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isLoading ? CircularProgressIndicator() : loginButton
                   ],
                 ),
+                flex: 6,
               ),
+              const SizedBox(height: 12.0),
               FlatButton(
                 child: Text(translations.get(StringKey.HELP_FEEDBACK)),
                 onPressed: () => Navigator.of(context).pushNamed(RouteKey.HELP),
