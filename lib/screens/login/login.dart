@@ -211,10 +211,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [logo, const SizedBox(height: 8.0), titleApp],
                 ),
-                flex: 4,
+                flex: 3,
               ),
               Expanded(
                 child: Column(
@@ -238,7 +238,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isLoading ? CircularProgressIndicator() : loginButton
                   ],
                 ),
-                flex: 6,
+                flex: 7,
               ),
               const SizedBox(height: 12.0),
               FlatButton(
