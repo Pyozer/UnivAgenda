@@ -64,19 +64,19 @@
   "send_feedback": "Send feedback",
 
   "intro_welcome_title": "Welcome !",
-  "intro_welcome_desc": "MyAgenda allows you to access the University of Le Mans, Tours or Rennes calendar directly on your device !",
+  "intro_welcome_desc": "MyAgenda allows you to access to your calendar of your university, directly on your device!",
 
   "intro_login_title": "Login",
-  "intro_login_desc": "Access to the calendars is reserved for students, so you must login. Just select your university and enter the same credentials you use for the ENT.",
+  "intro_login_desc": "Calendars are reserved to students, so you must login. Select your university and enter the same credentials you use for the ENT.",
 
   "intro_agenda_title": "Choose your agenda",
-  "intro_agenda_desc": "In the settings, you can choose your department, year and group to display the corresponding calendar.",
+  "intro_agenda_desc": "In the settings, you can choose your campus, department, year and group to display the corresponding calendar.",
 
   "intro_customization_title": "Personalization",
-  "intro_customization_desc": "Choose between a light or dark theme but also the colors of the application! Make the application unique with 35720 possible color combinations.",
+  "intro_customization_desc": "Choose light or dark theme but also the colors of the app! Make it unique with 35 720 combinations.",
 
   "intro_note_title": "Note",
-  "intro_note_desc": "You can add notes on a course. A color will appear on the side, it is also customizable in the settings.",
+  "intro_note_desc": "You can add notes on a course. An indicator will appear on the side, it is also customizable in the settings.",
 
   "intro_event_title": "Custom event",
   "intro_event_desc": "You can add your own event to the calendar and give it a special color. For example: An appointment with a teacher.",

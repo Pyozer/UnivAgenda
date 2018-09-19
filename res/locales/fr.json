@@ -64,25 +64,25 @@
   "done": "Terminer",
 
   "intro_welcome_title": "Bienvenue !",
-  "intro_welcome_desc": "MyAgenda vous permet d'accéder à l'agenda de l'Université du Maine, de Tours ou de Rennes, directement sur votre téléphone !",
+  "intro_welcome_desc": "MyAgenda vous permet d'accéder à votre calendrier de votre université, directement sur votre appareil !",
 
   "intro_login_title": "Connexion",
-  "intro_login_desc": "L'accès aux agendas est réservé aux étudiants, ainsi vous devez vous connecter. Il suffit de selectionner votre université et de saisir les même identifiants que vous utilisez pour l'ENT.",
+  "intro_login_desc": "Les agendas sont réservés aux étudiants, vous devrez vous connecter. Sélectionnez votre université et entrez les mêmes identifiants que pour l'ENT.",
 
   "intro_agenda_title": "Choisi ton agenda",
-  "intro_agenda_desc": "Dans les paramètres, vous pourrez choisir votre campus, département, année et groupe pour afficher l'agenda que vous souhaitez.",
+  "intro_agenda_desc": "Dans les paramètres, vous pouvez choisir votre campus, département, année et groupe pour afficher le calendrier correspondant.",
 
   "intro_customization_title": "Personnalisation",
-  "intro_customization_desc": "Choisissez entre un thème clair ou sombre mais aussi les couleurs de l'application ! Rendez l'application unique grâce aux 35720 combinaisons de couleurs possibles.",
+  "intro_customization_desc": "Choisissez un thème clair ou sombre mais aussi les couleurs de l'application ! Rendez-la unique avec 35 720 combinaisons.",
 
   "intro_note_title": "Note",
-  "intro_note_desc": "Vous pouvez ajouter des notes sur un cours. Une couleur apparaitera sur le coté, celle-ci est aussi personnalisable via les paramètres.",
+  "intro_note_desc": "Vous pouvez ajouter des notes sur un cours. Un indicateur apparaîtra sur le côté, il est aussi personnalisable dans les paramètres.",
 
   "intro_event_title": "Évènement personnalisé",
-  "intro_event_desc": "Vous pouvez ajouter votre propre évènement à l'agenda et lui attribuer une couleur spécial. Par exemple: Un rendez-vous avec un professeur.",
+  "intro_event_desc": "Vous pouvez ajouter votre propre événement au calendrier et lui donner une couleur spéciale. Par exemple: un rendez-vous avec un enseignant.",
 
   "intro_offline_title": "Mode hors-connexion",
-  "intro_offline_desc": "Une fois votre agenda chargé au moins une fois, il sera sauvegardé pour une utilisation hors-connexion.",
+  "intro_offline_desc": "Une fois votre calendrier chargé au moins une fois, il sera sauvegardé pour une utilisation hors connexion.",
 
   "course_test": "Examen",
   "course_details": "Détails du cours",
