@@ -153,7 +153,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   University findUniversity(String university) {
-    return _listUniversity.firstWhere((univ) => univ.name == university,
+    return listUniversity.firstWhere((univ) => univ.name == university,
         orElse: () => null);
   }
 
@@ -434,14 +434,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isHorizontalView, _horizontalView));
   }
 
-  List<University> get listUniversity => _listUniversity;
+  List<University> get listUniversity => _listUniversity ?? [];
 
   setListUniversity(List<University> listUniv, [state = false]) {
     if (listUniversity == listUniv) return;
 
     _updatePref(() {
       _listUniversity = listUniv ?? [];
-      //if (university == null) setUniversity(_listUniversity[0].name, false);
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -459,19 +458,21 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   University get university => _university;
 
-  setUniversity(String newUniversity, [state = true]) {
+  setUniversity(String newUniversity, [state = false]) {
     if ((university?.name ?? "") == newUniversity) return;
 
-    var univ = findUniversity(newUniversity);
-    univ ??= _listUniversity[0];
+    if (listUniversity.length > 0) {
+      var univ = findUniversity(newUniversity);
 
-    _updatePref(() {
-      _university = univ;
-    }, state);
+      univ ??= _listUniversity[0];
+      _updatePref(() {
+        _university = univ;
+      }, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(PrefKey.university, _university.name);
-    });
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setString(PrefKey.university, _university.name);
+      });
+    }
   }
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
@@ -559,53 +560,47 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<Null> initResAndGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Init list university
-    var listUnivStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
+    // Init stored values
+    var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
+    String storedUniversityName = prefs.getString(PrefKey.university);
+    String storedResourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
 
+    // Check valuees
     // Decode json from local
-    List<University> actualListUniv = [];
-    listUnivStr.forEach((univStr) {
+    List<University> listUniversity = [];
+    storedListUnivsStr.forEach((univStr) {
       Map<String, dynamic> jsonMap = json.decode(univStr);
-      actualListUniv.add(University.fromJson(jsonMap));
+      listUniversity.add(University.fromJson(jsonMap));
     });
     // Update current list of university
-    setListUniversity(actualListUniv);
+    setListUniversity(listUniversity);
 
-    // Retrieve local university saved
-    if (_listUniversity.length > 0) {
-      String universityStr = prefs.getString(PrefKey.university) ?? "";
-
-      // Check if university stored is in list
-      var univFound = findUniversity(universityStr);
-
-      // If university store is null or not in list
-      if (universityStr == null || univFound == null) {
+    // If list of university is not empty
+    if (listUniversity.length > 0) {
+      // If no university store
+      if (storedUniversityName == null || storedUniversityName.length == 0) {
         // Take first university of list
-        univFound = _listUniversity[0];
+        storedUniversityName = listUniversity[0].name;
       }
-      _university = univFound;
+      setUniversity(storedUniversityName);
 
-      // Get local resources
-      String resourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
-      Map<String, dynamic> actualRes = json.decode(resourcesStr);
-
-      if (actualRes.length > 0) {
-        setResources(actualRes, false);
-
+      // Parse local resources to Map
+      Map<String, dynamic> localResources = json.decode(storedResourcesStr);
+      // If local resources aren't empty
+      if (localResources.length > 0) {
         // Init group preferences
         final String campus = prefs.getString(PrefKey.campus);
         final String department = prefs.getString(PrefKey.department);
         final String year = prefs.getString(PrefKey.year);
         final String group = prefs.getString(PrefKey.group);
-
+        // Update
+        setResources(localResources, false);
         // Check values and resave group prefs (useful if issue)
         changeGroupPref(campus, department, year, group, false);
-      } else {
-        _resources = {};
       }
-    } else {
-      _resources = {};
     }
+
+    return null;
   }
 
   void _updatePref(Function f, bool state) {

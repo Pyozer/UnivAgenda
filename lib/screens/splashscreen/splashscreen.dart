@@ -41,57 +41,82 @@ class SplashScreenState extends State<SplashScreen> {
     final prefs = PreferencesProvider.of(context);
 
     // Load preferences from disk
-    prefs.initFromDisk(true).then((_) async {
-      // Update resources if they are empty or older than 6 hours
-      int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
+    await prefs.initFromDisk();
 
-      if (prefs.listUniversity.length == 0 || oldRes >= 6) {
-        final responseUniv = await HttpRequest.get(Url.listUniversity);
-        if (responseUniv.isSuccess) {
-          List responseJson = json.decode(responseUniv.httpResponse.body);
-          List<University> listUniv =
-              responseJson.map((m) => University.fromJson(m)).toList();
-          prefs.setListUniversity(listUniv, false);
-        } else if (prefs.listUniversity.length == 0) {
-          setState(() {
-            _isPrefsLoaded = false;
-            _isError = true;
-          });
-          return;
-        }
+    // Update resources if they are empty or older than 6 hours
+    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
+
+    // If university list is empty or cache is older than 6 hours
+    if (prefs.listUniversity.length == 0 || oldRes >= 6) {
+      // Request lastest university list
+      final responseUniv = await HttpRequest.get(Url.listUniversity);
+      // If request failed and there is no list University
+      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
+        _setError();
+        return;
+      }
+      // Update university list
+      List responseJson = json.decode(responseUniv.httpResponse.body);
+      List<University> listUniv =
+          responseJson.map((m) => University.fromJson(m)).toList();
+      prefs.setListUniversity(listUniv);
+      prefs.setResourcesDate(startTime);
+    }
+
+    // If list university still empty, set error
+    if (prefs.listUniversity.length == 0) {
+      _setError();
+      return;
+    }
+
+    // If user was connected but university is null, disconnect him
+    if (prefs.university == null && prefs.isUserLogged)
+      prefs.setUserLogged(false, false);
+
+    // If university is null, take the first of list
+    if (prefs.university == null)
+      prefs.setUniversity(prefs.listUniversity[0].name);
+
+    // If user is connected and have an university but no resources
+    // Or same as top but with cache older than 6 hours
+    if (prefs.isUserLogged &&
+        prefs.university != null &&
+        (prefs.resources.length == 0 || oldRes >= 6)) {
+
+      final responseRes = await HttpRequest.get(
+        Url.resourcesUrl(prefs.university.resourcesFile),
+      );
+
+      if (!responseRes.isSuccess && prefs.resources.length == 0) {
+        _setError();
+        return;
       }
 
-      if (prefs.university != null &&
-          (prefs.resources.length == 0 || oldRes >= 6)) {
-        final responseRes = await HttpRequest.get(
-            Url.resourcesUrl(prefs.university.resourcesFile));
-        if (responseRes.isSuccess) {
-          Map<String, dynamic> ressources =
-              json.decode(responseRes.httpResponse.body);
-          prefs.setResources(ressources, false);
-          prefs.setResourcesDate(startTime);
-        } else if (prefs.resources.length == 0) {
-          setState(() {
-            _isPrefsLoaded = false;
-            _isError = true;
-          });
-          return;
-        }
-      }
+      // Update resources with new data get
+      final resourcesGet = responseRes.httpResponse.body;
+      Map<String, dynamic> ressources = json.decode(resourcesGet);
 
-      await prefs.initResAndGroup();
+      prefs.setResources(ressources, false);
+      prefs.setResourcesDate(startTime);
+    }
 
-      final routeDest = (prefs.isFirstBoot)
-          ? RouteKey.INTRO
-          : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
+    final routeDest = (prefs.isFirstBoot)
+        ? RouteKey.INTRO
+        : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 
-      // Wait minimum 1.5 secondes
-      final diffMs = DateTime.now().difference(startTime).inMilliseconds;
-      final waitTime = diffMs < 1500 ? 1500 - diffMs : 0;
+    // Wait minimum 1.5 secondes
+    final diffMs = DateTime.now().difference(startTime).inMilliseconds;
+    final waitTime = diffMs < 1500 ? 1500 - diffMs : 0;
 
-      Future.delayed(Duration(milliseconds: waitTime)).then((_) {
-        _goToNext(routeDest);
-      });
+    Future.delayed(Duration(milliseconds: waitTime)).then((_) {
+      _goToNext(routeDest);
+    });
+  }
+
+  void _setError() {
+    setState(() {
+      _isPrefsLoaded = false;
+      _isError = true;
     });
   }
 
