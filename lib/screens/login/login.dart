@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSubmit() async {
     final translations = Translations.of(context);
+    FocusScope.of(context).requestFocus(FocusNode());
 
     // Get username and password from inputs
     final username = _usernameController.text.trim();
