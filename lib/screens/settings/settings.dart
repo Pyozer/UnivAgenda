@@ -35,9 +35,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       Url.resourcesUrl(prefs.university.resourcesFile),
     );
     if (response.isSuccess && mounted) {
-      Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
-      prefs.setResources(ressources);
-      prefs.setResourcesDate();
+      final resourcesGetStr = response.httpResponse.body;
+      Map<String, dynamic> resourcesGet = json.decode(resourcesGetStr);
+      if (resourcesGet.length > 0) {
+        prefs.setResources(resourcesGet);
+        prefs.setResourcesDate();
+      }
     }
   }
 
