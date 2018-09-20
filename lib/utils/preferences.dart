@@ -485,13 +485,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     // Check actual calendar prefs with new resources
-    changeGroupPref(
-      calendar.campus,
-      calendar.department,
-      calendar.year,
-      calendar.group,
-      state,
-    );
+    if (_resources.length > 0)
+      changeGroupPref(
+        calendar.campus,
+        calendar.department,
+        calendar.year,
+        calendar.group,
+        state,
+      );
 
     SharedPreferences.getInstance().then(
       (prefs) => prefs.setString(PrefKey.resources, json.encode(_resources)),
@@ -511,6 +512,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       prefs.setInt(
           PrefKey.resourcesDate, _resourcesDate.millisecondsSinceEpoch);
     });
+  }
+
+  disconnectUser([state = false]) {
+    setUserLogged(false, false);
+    setResources(PrefKey.defaultResources);
   }
 
   Future<Null> initFromDisk([state = false]) async {

@@ -75,7 +75,7 @@ class MainDrawer extends StatelessWidget {
             title: translations.get(StringKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () {
-              PreferencesProvider.of(context).setUserLogged(false, false);
+              PreferencesProvider.of(context).disconnectUser();
               Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
             },
           )
