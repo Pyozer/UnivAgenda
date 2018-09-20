@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:introduction_screen/introduction.dart';
+import 'package:introduction_screen/introduction_screen.dart' as IntroScreen;
 import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
@@ -98,7 +98,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
 
-    return IntroScreen(
+    return IntroScreen.IntroductionScreen(
       pages: _buildPages(context),
       onDone: () => _onDone(context),
       showSkipButton: true,
