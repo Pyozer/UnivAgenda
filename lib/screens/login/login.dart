@@ -224,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Dropdown(
                       items: prefs.getAllUniversity(),
                       value: prefs.university.name,
-                      onChanged: prefs.setUniversity,
+                      onChanged: (value) => prefs.setUniversity(value, true),
                     ),
                     Card(
                       shape: const OutlineInputBorder(),
