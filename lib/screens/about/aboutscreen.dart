@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
@@ -61,6 +63,13 @@ class AboutScreen extends StatelessWidget {
           title: const Text("Jean-Charles Moussé"),
           subtitle: Text(translations.get(StringKey.DEVELOPER)),
           onTap: () => openLink(Url.myWebsite),
+        ),
+        ListTile(
+          leading:
+              CircleImage(image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0)),
+          title: const Text("Justin Martin"),
+          subtitle: Text("${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}"),
+          onTap: () => openLink(Url.myWebsite),
         )
       ],
     );
@@ -68,15 +77,23 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildSocial(BuildContext context) {
     final isDark = isDarkTheme(Theme.of(context).brightness);
+    final translations = Translations.of(context);
 
     return AboutCard(
       title: Translations.of(context).get(StringKey.SOCIAL),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
+          leading: Icon(Platform.isAndroid ? Icons.apps : Icons.exit_to_app),
+          title: Text(Platform.isAndroid ? "Play Store" : "App Store"),
+          subtitle: Text(translations.get(StringKey.ADD_NOTE_STORE)),
+          onTap: () => openLink(Platform.isAndroid ? Url.playstore : Url.appstore),
+        ),
+        ListTile(
           leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
               width: 30.0),
-          title: Text(Translations.of(context).get(StringKey.GITHUB_PROJECT)),
+          title: Text(translations.get(StringKey.GITHUB_PROJECT)),
+          subtitle: Text(translations.get(StringKey.GITHUB_PROJECT_DESC)),
           onTap: () => openLink(Url.githubProjet),
         ),
         ListTile(
@@ -85,6 +102,7 @@ class AboutScreen extends StatelessWidget {
             width: 30.0,
           ),
           title: const Text("Twitter"),
+          subtitle: Text(translations.get(StringKey.TWITTER_DESC)),
           onTap: () => openLink(Url.myTwitter),
         ),
       ],
