@@ -616,6 +616,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       f();
   }
 
+  void forceSetStat() {
+    setState(() {
+      // nothing, just forc to rebuild
+    });
+  }
+
   @override
   bool operator ==(Object other) =>
       other is PreferencesProviderState &&

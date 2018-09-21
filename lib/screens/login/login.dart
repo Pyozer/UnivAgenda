@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -85,7 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final prefs = PreferencesProvider.of(context);
     prefs.setUserLogged(false, false);
-
+    
+    _startTimeout();
+    
     // Login process
     final loginResult =
         await LoginCAS(prefs.university.loginUrl, username, password).login();
@@ -155,6 +158,17 @@ class _LoginScreenState extends State<LoginScreen> {
         border: InputBorder.none,
       ),
     );
+  }
+
+  void _startTimeout() async {
+    // Start timout of 1 minutes. If widget still mounted, set error
+    // If not mounted anymore, do nothing
+    await Future.delayed(Duration(minutes: 1));
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override

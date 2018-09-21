@@ -27,14 +27,12 @@ class SplashScreenState extends State<SplashScreen> {
     super.didChangeDependencies();
     if (!_isPrefsLoaded) {
       _initPreferences();
+      _startTimeout();
     }
   }
 
   void _initPreferences() async {
     _isPrefsLoaded = true;
-    setState(() {
-      _isError = false;
-    });
 
     final startTime = DateTime.now();
 
@@ -82,7 +80,6 @@ class SplashScreenState extends State<SplashScreen> {
     if (prefs.isUserLogged &&
         prefs.university != null &&
         (prefs.resources.length == 0 || oldRes >= 6)) {
-
       final responseRes = await HttpRequest.get(
         Url.resourcesUrl(prefs.university.resourcesFile),
       );
@@ -97,8 +94,10 @@ class SplashScreenState extends State<SplashScreen> {
       Map<String, dynamic> ressources = json.decode(resourcesGet);
 
       prefs.setResources(ressources, false);
-      prefs.setResourcesDate(startTime);
+      prefs.setResourcesDate(startTime, false);
     }
+
+    prefs.forceSetStat();
 
     final routeDest = (prefs.isFirstBoot)
         ? RouteKey.INTRO
@@ -111,6 +110,17 @@ class SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(milliseconds: waitTime)).then((_) {
       _goToNext(routeDest);
     });
+  }
+
+  void _startTimeout() async {
+    // Start timout of 1 minutes. If widget still mounted, set error
+    // If not mounted anymore, do nothing
+    await Future.delayed(Duration(minutes: 1));
+    if (mounted) {
+      setState(() {
+        _isError = true;
+      });
+    }
   }
 
   void _setError() {
