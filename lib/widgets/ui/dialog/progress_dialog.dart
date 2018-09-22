@@ -12,13 +12,22 @@ class ProgressDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title, style: boldText),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(text, textAlign: TextAlign.center),
-          const SizedBox(height: 16.0),
-          const CircularProgressIndicator(),
-        ],
+      content: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(width: 24.0),
+            Expanded(
+              child: Container(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
