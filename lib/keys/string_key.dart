@@ -1,5 +1,4 @@
 class StringKey {
-
   static const APP_NAME = 'app_name';
 
   static const DRAWER = 'drawer';
@@ -155,6 +154,8 @@ class StringKey {
   static const CHANGE_AGENDA_TEXT = 'change_agenda_text';
 
   static const IN_PROGRESS = 'in_progress';
+  static const LOADING = 'loading';
+  static const LOADING_RESOURCES = 'loading_resources';
 
   static const SUPPORTME_HEADER = 'supportme_header';
   static const SUPPORTME_TEXT = 'supportme_text';

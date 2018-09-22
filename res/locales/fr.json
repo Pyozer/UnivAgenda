@@ -148,6 +148,8 @@
   "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?",
 
   "in_progress": "En cours",
+  "loading": "Chargement...",
+  "loading_resources": "Chargement des ressources d'agendas...",
 
   "supportme_header": "Don",
   "supportme_text": "Cette page permet de récompenser tout le travail pour réaliser et maintenir MyAgenda.\n\nVous pouvez regarder une pub ou bien faire un don PayPal (montant de votre choix) afin de me soutenir.\n\nTips: Inscrivez-vous sur Unidays pour avoir des réductions sur de nombreux sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc..).\n\nMerci.",

@@ -3,36 +3,27 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
+import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
 class DialogPredefined {
-  static show(BuildContext context, String title, String text,
-      String btnPositive, String btnNegative,
-      [dismissable = true]) async {
-    final boldText = const TextStyle(fontWeight: FontWeight.w600);
-
+  static show(
+    BuildContext context,
+    String title,
+    String text,
+    String btnPositive,
+    String btnNegative, [
+    dismissable = true,
+  ]) async {
     return await showDialog<bool>(
           context: context,
           barrierDismissible: dismissable,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(title, style: boldText),
-              content: Text(text),
-              actions: <Widget>[
-                (btnNegative != null)
-                    ? FlatButton(
-                        child: Text(btnNegative, style: boldText),
-                        onPressed: () {
-                          Navigator.of(context).pop(false);
-                        },
-                      )
-                    : const SizedBox.shrink(),
-                FlatButton(
-                  child: Text(btnPositive, style: boldText),
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ],
+            return SimpleAlertDialog(
+              title: title,
+              text: text,
+              btnNegative: btnNegative,
+              btnPositive: btnPositive,
             );
           },
         ) ??
@@ -60,6 +51,21 @@ class DialogPredefined {
       translate.get(StringKey.CONFIRM_EVENT_DELETE_TEXT),
       translate.get(StringKey.YES),
       translate.get(StringKey.NO),
+    );
+  }
+
+  static showProgressDialog(BuildContext context, String message) {
+    final translate = Translations.of(context);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return ProgressDialog(
+          title: translate.get(StringKey.LOADING),
+          text: message,
+        );
+      },
     );
   }
 }

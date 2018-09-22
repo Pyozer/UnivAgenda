@@ -12,7 +12,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course_note/add_note_button.dart';
 import 'package:myagenda/widgets/course_note/course_note.dart';
-import 'package:myagenda/widgets/ui/dialog_predefined.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class DetailCourse extends StatefulWidget {
   final Course course;
@@ -197,8 +197,7 @@ class _DetailCourseState extends State<DetailCourse> {
                   CustomRoute<CustomCourse>(
                       builder: (context) => CustomEventScreen(course: _course),
                       fullscreenDialog: true,
-                      routeName: RouteKey.EDIT_EVENT
-                      ),
+                      routeName: RouteKey.EDIT_EVENT),
                 );
 
                 if (editedCourse != null) {

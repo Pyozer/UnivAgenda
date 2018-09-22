@@ -12,6 +12,7 @@ import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/settings/list_tile_input.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/setting_card.dart';
 
@@ -29,11 +30,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   _forceRefreshResources() async {
+    final translate = Translations.of(context);
+    // Show progress dialog
+    DialogPredefined.showProgressDialog(
+      context,
+      translate.get(StringKey.LOADING_RESOURCES),
+    );
+
     final prefs = PreferencesProvider.of(context);
 
     final response = await HttpRequest.get(
       Url.resourcesUrl(prefs.university.resourcesFile),
     );
+
     if (response.isSuccess && mounted) {
       final resourcesGetStr = response.httpResponse.body;
       Map<String, dynamic> resourcesGet = json.decode(resourcesGetStr);
@@ -42,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         prefs.setResourcesDate();
       }
     }
+    Navigator.pop(context);
   }
 
   Widget _buildSettingsGeneral() {

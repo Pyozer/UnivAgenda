@@ -6,7 +6,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
-import 'package:myagenda/widgets/ui/dialog_predefined.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:uuid/uuid.dart';
 
 class CustomEventScreen extends StatefulWidget {
@@ -212,15 +212,16 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 validator: _validateTextField,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_locationNode),
+                onEditingComplete: () =>
+                    FocusScope.of(context).requestFocus(_locationNode),
               ),
               const Divider(height: 0.0),
               TextFormField(
                 focusNode: _locationNode,
                 textInputAction: TextInputAction.next,
                 controller: _locationController,
-                decoration: _buildInputDecoration(
-                    Icons.location_on, translations.get(StringKey.LOCATION_EVENT)),
+                decoration: _buildInputDecoration(Icons.location_on,
+                    translations.get(StringKey.LOCATION_EVENT)),
                 validator: _validateTextField,
                 onEditingComplete: _onDateTap,
               ),

@@ -7,7 +7,7 @@ import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/dialog_predefined.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseRow extends StatelessWidget {
   final Course course;
@@ -22,10 +22,9 @@ class CourseRow extends StatelessWidget {
   void _onCourseTap(BuildContext context) {
     Navigator.of(context).push(
       CustomRoute<Course>(
-        builder: (context) => DetailCourse(course: course),
-        fullscreenDialog: true,
-        routeName: RouteKey.DETAIL_EVENT
-      ),
+          builder: (context) => DetailCourse(course: course),
+          fullscreenDialog: true,
+          routeName: RouteKey.DETAIL_EVENT),
     );
   }
 
@@ -51,7 +50,8 @@ class CourseRow extends StatelessWidget {
         onTap: () => _onCourseTap(context),
         onLongPress: () async {
           if (course is CustomCourse) {
-            bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
+            bool isConfirm =
+                await DialogPredefined.showDeleteEventConfirm(context);
             if (isConfirm)
               PreferencesProvider.of(context).removeCustomEvent(course);
           }
