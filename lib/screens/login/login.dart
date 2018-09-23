@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
       _setLoading(false);
-      _showMessage("Unknown error :/");
+      _showMessage(translations.get(StringKey.UNKNOWN_ERROR));
       return;
     }
 
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (!response.isSuccess) {
       _setLoading(false);
-      _showMessage("Error during retrieve agenda resources :/");
+      _showMessage(translations.get(StringKey.GET_RES_ERROR));
       return;
     }
 

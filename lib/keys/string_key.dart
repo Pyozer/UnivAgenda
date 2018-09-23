@@ -141,6 +141,8 @@ class StringKey {
   static const HELP_NORESULT_TEXT = 'help_noresult_text';
 
   static const NETWORK_ERROR = 'network_error';
+  static const UNKNOWN_ERROR = 'unknown_error';
+  static const GET_RES_ERROR = 'get_res_error';
   static const RETRY = 'retry';
 
   static const LOGIN_USERNAME = 'login_username';

@@ -135,6 +135,8 @@
   "help_noresult_text": " Check your internet connection.\nIt's also possible that the server is down.",
 
   "network_error": "Network error! Check your internet connection.",
+  "unknown_error": "Unknown error...",
+  "get_res_error": "Error retrieving calendar resources.",
   "retry": "Retry",
 
   "login_username": "ENT Username",

@@ -135,6 +135,8 @@
   "help_noresult_text": "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
 
   "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
+  "unknown_error": "Erreur inconnue...",
+  "get_res_error": "Erreur lors de la récupération des agendas.",
   "retry": "Réessayer",
 
   "login_username": "Identifiant ENT",
