@@ -10,3 +10,9 @@ gen/
 
 .flutter-plugins
 pubspec.lock
+
+android/keystore.properties
+android/app/release/
+
+android/keystore
+android/keystore.debug
