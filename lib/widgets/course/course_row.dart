@@ -30,8 +30,6 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     Color bgColorRow;
     if (course.color != null)
       bgColorRow = course.color;
