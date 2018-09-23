@@ -65,10 +65,11 @@ class AboutScreen extends StatelessWidget {
           onTap: () => openLink(Url.myWebsite),
         ),
         ListTile(
-          leading:
-              CircleImage(image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0)),
+          leading: CircleImage(
+              image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0)),
           title: const Text("Justin Martin"),
-          subtitle: Text("${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}"),
+          subtitle: Text(
+              "${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}"),
           onTap: () => openLink(Url.myWebsite),
         )
       ],
@@ -84,10 +85,14 @@ class AboutScreen extends StatelessWidget {
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-          leading: Icon(Platform.isAndroid ? Icons.apps : Icons.exit_to_app),
+          leading: Image.asset(
+            Platform.isAndroid ? Asset.PLAYSTORE : Asset.APPSTORE,
+            width: Platform.isAndroid ? 30.0 : 32.0,
+          ),
           title: Text(Platform.isAndroid ? "Play Store" : "App Store"),
           subtitle: Text(translations.get(StringKey.ADD_NOTE_STORE)),
-          onTap: () => openLink(Platform.isAndroid ? Url.playstore : Url.appstore),
+          onTap: () =>
+              openLink(Platform.isAndroid ? Url.playstore : Url.appstore),
         ),
         ListTile(
           leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
