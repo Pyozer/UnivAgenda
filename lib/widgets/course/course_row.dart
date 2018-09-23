@@ -68,7 +68,7 @@ class CourseRow extends StatelessWidget {
                     Text(
                       course.title,
                       style: const TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 15.0,
                         fontWeight: FontWeight.w700,
                       ),
                       maxLines: 2,
@@ -77,12 +77,12 @@ class CourseRow extends StatelessWidget {
                     const SizedBox(height: 4.0),
                     Text(
                       '${course.location} - ${course.description}',
-                      style: const TextStyle(fontSize: 13.0),
+                      style: const TextStyle(fontSize: 14.0),
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       courseDate,
-                      style: textTheme.caption.copyWith(fontSize: 13.0),
+                      style: const TextStyle(fontSize: 14.0),
                     )
                   ],
                 ),
