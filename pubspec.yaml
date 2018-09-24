@@ -1,6 +1,6 @@
 name: myagenda
-description: Application pour voir l'agenda de l'Université du Maine
-version: 4.0.0+2
+description: Application pour voir simplement son agenda universitaire.
+version: 4.0.0+3
 
 dependencies:
   flutter:
@@ -59,45 +59,17 @@ flutter:
   fonts:
      - family: OpenSans
        fonts:
-          - asset: res/fonts/OpenSans-Light.ttf
-            style: normal
-            weight: 300
-
-          - asset: res/fonts/OpenSans-LightItalic.ttf
-            style: italic
-            weight: 300
-
           - asset: res/fonts/OpenSans-Regular.ttf
             style: normal
-            weight: 400
-
-          - asset: res/fonts/OpenSans-Italic.ttf
-            style: italic
-            weight: 400
+            weight: 500
 
           - asset: res/fonts/OpenSans-SemiBold.ttf
             style: normal
             weight: 600
 
-          - asset: res/fonts/OpenSans-SemiBoldItalic.ttf
-            style: italic
-            weight: 600
-
           - asset: res/fonts/OpenSans-Bold.ttf
             style: normal
             weight: 700
-
-          - asset: res/fonts/OpenSans-BoldItalic.ttf
-            style: italic
-            weight: 700
-
-          - asset: res/fonts/OpenSans-ExtraBold.ttf
-            style: normal
-            weight: 800
-
-          - asset: res/fonts/OpenSans-ExtraBoldItalic.ttf
-            style: italic
-            weight: 800
 
 flutter_icons:
   android: true
