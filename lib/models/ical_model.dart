@@ -9,10 +9,10 @@ class IcalModel {
   IcalModel(
       {this.dtstart,
       this.dtend,
-      this.summary,
-      this.location,
-      this.description,
-      this.uid});
+      this.summary = "",
+      this.location = "",
+      this.description = "",
+      this.uid = ""});
 
   @override
   String toString() {

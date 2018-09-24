@@ -1,6 +1,16 @@
 import 'package:myagenda/models/ical_model.dart';
 
+const String BEGINVEVENT = "BEGIN:VEVENT";
+const String ENDVEVENT = "END:VEVENT";
+const String DTSTART = "DTSTART";
+const String DTEND = "DTEND";
+const String SUMMARY = "SUMMARY";
+const String DESCRIPTION = "DESCRIPTION";
+const String LOCATION = "LOCATION";
+const String UID = "UID";
+
 class Ical {
+
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
 
@@ -9,29 +19,40 @@ class Ical {
     List<IcalModel> events = List();
     IcalModel event;
 
+    String lastProp;
+
     lines.forEach((line) {
-      if (line.startsWith('BEGIN:VEVENT')) {
+      if (line.startsWith(BEGINVEVENT)) {
         event = IcalModel();
-      } else if (line.startsWith('DTSTART')) {
+        lastProp = BEGINVEVENT;
+      } else if (line.startsWith(ENDVEVENT)) {
+        events.add(event);
+        lastProp = ENDVEVENT;
+      } else if (line.startsWith(DTSTART)) {
         event.dtstart = _getDateValue(line).add(timezoneOffset);
-      } else if (line.startsWith('DTEND')) {
+        lastProp = DTSTART;
+      } else if (line.startsWith(DTEND)) {
         event.dtend = _getDateValue(line).add(timezoneOffset);
-      } else if (line.startsWith('SUMMARY')) {
+        lastProp = DTEND;
+      } else if (line.startsWith(SUMMARY)) {
         event.summary = _getValue(line);
-      } else if (line.startsWith('LOCATION')) {
+        lastProp = SUMMARY;
+      } else if (line.startsWith(LOCATION)) {
         event.location = _getValue(line);
-      } else if (line.startsWith('DESCRIPTION')) {
+        lastProp = LOCATION;
+      } else if (line.startsWith(UID)) {
+        event.uid = _getValue(line);
+        lastProp = UID;
+      } else if (line.startsWith(DESCRIPTION) || lastProp == DESCRIPTION) {
         String description = _getValue(line);
 
-        event.description = description
+        event.description += description
             .replaceAll(RegExp(r'\\n'), ' ')
             .split('(Export')[0]
             .replaceAll(RegExp(r'\s\s+'), ' ')
             .trim();
-      } else if (line.startsWith('UID')) {
-        event.uid = _getValue(line);
-      } else if (line.startsWith('END:VEVENT')) {
-        events.add(event);
+
+        lastProp = DESCRIPTION;
       }
     });
 
