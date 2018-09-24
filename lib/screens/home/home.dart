@@ -45,20 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final prefs = PreferencesProvider.of(context);
 
+    // Define type of view
+    _isHorizontal = prefs.isHorizontalView;
+
+    // Load cached ical
+    final cachedIcal = prefs.cachedIcal;
+    if (cachedIcal != null && cachedIcal.isNotEmpty) {
+      _prepareList(cachedIcal);
+    }
+
     if (prefs.calendar != _lastPrefsCalendar ||
         prefs.numberWeeks != _lastNumberWeeks) {
       _lastPrefsCalendar = prefs.calendar;
       _lastNumberWeeks = prefs.numberWeeks;
-
-      // Define type of view
-      _isHorizontal = prefs.isHorizontalView;
-
-      // Load cached ical
-      final cachedIcal = prefs.cachedIcal;
-      if (cachedIcal != null && cachedIcal.isNotEmpty) {
-        _prepareList(cachedIcal);
-      }
-
       // Load ical from network
       _fetchData();
     }
@@ -202,7 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
               fullscreenDialog: true,
               routeName: RouteKey.ADD_EVENT),
         );
-        PreferencesProvider.of(context).addCustomEvent(customCourse);
+        if (customCourse != null)
+          PreferencesProvider.of(context).addCustomEvent(customCourse);
       },
       child: const Icon(Icons.add),
     );
