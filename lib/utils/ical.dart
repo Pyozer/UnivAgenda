@@ -10,7 +10,6 @@ const String LOCATION = "LOCATION";
 const String UID = "UID";
 
 class Ical {
-
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
 
@@ -26,6 +25,13 @@ class Ical {
         event = IcalModel();
         lastProp = BEGINVEVENT;
       } else if (line.startsWith(ENDVEVENT)) {
+        // Remove exported indicator of description
+        event.description = event.description
+            .replaceAll(RegExp(r'\\n'), ' ')
+            .split('(Export')[0]
+            .replaceAll(RegExp(r'\s\s+'), ' ')
+            .trim();
+
         events.add(event);
         lastProp = ENDVEVENT;
       } else if (line.startsWith(DTSTART)) {
@@ -44,14 +50,10 @@ class Ical {
         event.uid = _getValue(line);
         lastProp = UID;
       } else if (line.startsWith(DESCRIPTION) || lastProp == DESCRIPTION) {
-        String description = _getValue(line);
-
-        event.description += description
-            .replaceAll(RegExp(r'\\n'), ' ')
-            .split('(Export')[0]
-            .replaceAll(RegExp(r'\s\s+'), ' ')
-            .trim();
-
+        if (lastProp == DESCRIPTION)
+          event.description += line.trim();
+        else
+          event.description += _getValue(line).trim();
         lastProp = DESCRIPTION;
       }
     });
