@@ -161,9 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _startTimeout() async {
-    // Start timout of 1 minutes. If widget still mounted, set error
+    // Start timout of 30sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
-    await Future.delayed(Duration(minutes: 1));
+    await Future.delayed(Duration(seconds: 30));
     if (mounted) {
       setState(() {
         _isLoading = false;
