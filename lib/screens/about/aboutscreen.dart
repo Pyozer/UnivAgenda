@@ -135,7 +135,7 @@ class AboutScreen extends StatelessWidget {
           ),
           ListTile(
               title: Text(translations.get(StringKey.VERSION)),
-              subtitle: const Text("4.0.0"))
+              subtitle: const Text("4.0.0+2"))
         ]);
   }
 

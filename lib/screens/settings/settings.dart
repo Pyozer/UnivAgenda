@@ -106,10 +106,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final translations = Translations.of(context);
     final prefs = PreferencesProvider.of(context);
 
-    ColorSwatch blackColors = new ColorSwatch(Colors.black.value, {
-      500: Colors.black
-    });
-
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_DISPLAY),
       children: [
@@ -140,10 +136,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTileColor(
           title: translations.get(StringKey.ACCENT_COLOR),
           description: translations.get(StringKey.ACCENT_COLOR_DESC),
-          selectedColor: Colors.black,
+          selectedColor: Color(prefs.theme.accentColor),
           onColorChange: (color) => prefs.setAccentColor(color.value),
           colors: [
-            blackColors
+            Colors.redAccent,
+            Colors.pinkAccent,
+            Colors.purpleAccent,
+            Colors.deepPurpleAccent,
+            Colors.indigoAccent,
+            Colors.blueAccent,
+            Colors.lightBlueAccent,
+            Colors.cyanAccent,
+            Colors.tealAccent,
+            Colors.greenAccent,
+            Colors.lightGreenAccent,
+            Colors.limeAccent,
+            Colors.yellowAccent,
+            Colors.amberAccent,
+            Colors.orangeAccent,
+            Colors.deepOrangeAccent,
+            Colors.brown,
+            Colors.grey,
+            Colors.blueGrey
           ],
         ),
         const ListDivider(),
