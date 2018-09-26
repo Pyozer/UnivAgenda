@@ -50,6 +50,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _titleController.text = widget.course.title;
       _descController.text = widget.course.description;
       _locationController.text = widget.course.location;
+      if (widget.course.weekdaysRepeat.length > 0) {
+        _isEventRecurrent = true;
+      }
+      _selectedWeekdays = widget.course.weekdaysRepeat;
       if (widget.course.color != null) {
         _isCustomColor = true;
       }
@@ -160,7 +164,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
         _eventDateEnd,
         notes: widget.course?.notes ?? [],
         color: (_isCustomColor && _eventColor != null) ? _eventColor : null,
-        weekdaysRepeat: _selectedWeekdays
+        weekdaysRepeat: _isEventRecurrent ? _selectedWeekdays : []
       );
 
       Navigator.of(context).pop(course);
