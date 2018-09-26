@@ -1,34 +1,9 @@
-import 'dart:convert';
 import 'dart:ui';
 
+import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
-
-abstract class BaseCourse {
-  String dateForDisplay([Locale locale]);
-}
-
-class CourseHeader extends BaseCourse {
-  DateTime date;
-
-  CourseHeader(this.date);
-
-  @override
-  String dateForDisplay([Locale locale]) {
-    return Date.dateFromNow(date, locale);
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CourseHeader &&
-          runtimeType == other.runtimeType &&
-          date == other.date;
-
-  @override
-  int get hashCode => date.hashCode;
-}
 
 class Course extends BaseCourse {
   String uid;
@@ -43,7 +18,7 @@ class Course extends BaseCourse {
 
   Course(this.uid, this.title, this.description, this.location, this.dateStart,
       this.dateEnd,
-      [this.notes = const [], this.color]);
+      {this.notes = const [], this.color});
 
   bool hasNote() {
     return (notes != null && notes.length > 0);
@@ -83,14 +58,14 @@ class Course extends BaseCourse {
       ical.dtend);
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
-      json['uid'],
-      json['title'],
-      json['description'],
-      json['location'],
-      DateTime.fromMillisecondsSinceEpoch(json['date_start']),
-      DateTime.fromMillisecondsSinceEpoch(json['date_end']),
-      [],
-      Color(json['color']));
+        json['uid'],
+        json['title'],
+        json['description'],
+        json['location'],
+        DateTime.fromMillisecondsSinceEpoch(json['date_start']),
+        DateTime.fromMillisecondsSinceEpoch(json['date_end']),
+        color: Color(json['color']),
+      );
 
   Map<String, dynamic> toJson() => {
         'uid': uid,
@@ -114,35 +89,4 @@ class Course extends BaseCourse {
 
   @override
   int get hashCode => uid.hashCode;
-}
-
-class CustomCourse extends Course {
-  CustomCourse(String uid, String title, String description, String location,
-      DateTime dateStart, DateTime dateEnd,
-      [List<Note> notes = const [], Color color])
-      : super(uid, title, description, location, dateStart, dateEnd, notes,
-            color);
-
-  factory CustomCourse.fromIcalModel(IcalModel ical) => CustomCourse(
-      ical.uid?.trim(),
-      ical.summary?.trim(),
-      ical.description?.trim(),
-      ical.location?.trim(),
-      ical.dtstart,
-      ical.dtend);
-
-  factory CustomCourse.fromJsonStr(String jsonStr) {
-    Map courseMap = json.decode(jsonStr);
-    return CustomCourse.fromJson(courseMap);
-  }
-
-  factory CustomCourse.fromJson(Map<String, dynamic> json) => CustomCourse(
-      json['uid'],
-      json['title'],
-      json['description'],
-      json['location'],
-      DateTime.fromMillisecondsSinceEpoch(json['date_start']),
-      DateTime.fromMillisecondsSinceEpoch(json['date_end']),
-      [],
-      json['color'] != null ? Color(json['color']) : null);
 }

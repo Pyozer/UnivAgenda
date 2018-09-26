@@ -98,6 +98,7 @@
   "add_note_submit": "Ajouter",
   "add_note_btn": "Ajouter note",
   "delete": "Supprimer",
+  "event_repeat": "Événement récurrent",
   "event_color": "Couleur de l'événement",
   "event_color_desc": "Couleur de fond de l'événement",
 
@@ -158,5 +159,13 @@
   "supportme_ad": "Publicité",
   "supportme_unidays": "Réductions",
   "supportme_paypal_error": "Impossible d'ouvrir le site PayPal...\nLien: ",
-  "supportme_unidays_error": "Impossible d'ouvrir le site Unidays...\nLien: "
+  "supportme_unidays_error": "Impossible d'ouvrir le site Unidays...\nLien: ",
+
+  "monday": "Lundi",
+  "tuesday": "Mardi",
+  "wednesday": "Mercredi",
+  "thursday": "Jeudi",
+  "friday": "Vendredi",
+  "saturday": "Samedi",
+  "sunday": "Dimanche"
 }

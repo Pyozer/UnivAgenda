@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
-import 'package:myagenda/models/course.dart';
+import 'package:myagenda/models/courses/course.dart';
+import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
@@ -81,7 +82,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   List<Note> _notes;
 
   /// List of all custom events
-  List<Course> _customEvents;
+  List<CustomCourse> _customEvents;
 
   /// Resources (contain all agenda with their ID)
   Map<String, dynamic> _resources;
@@ -361,7 +362,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   List<CustomCourse> get customEvents =>
-      _customEvents?.where((event) => !event.isFinish())?.toList() ?? [];
+      _customEvents
+          ?.where(
+              (event) => !event.isFinish() || event.weekdaysRepeat.length > 0)
+          ?.toList() ??
+      [];
 
   setCustomEvents(List<CustomCourse> newCustomEvents, [state = true]) {
     if (customEvents == newCustomEvents) return;
@@ -378,6 +383,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _customEvents.forEach((event) {
         if (event != null) eventsJSON.add(json.encode(event.toJson()));
       });
+
+      print(eventsJSON);
 
       prefs.setStringList(PrefKey.customEvent, eventsJSON);
     });

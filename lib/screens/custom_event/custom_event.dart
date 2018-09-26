@@ -1,11 +1,13 @@
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/course.dart';
+import 'package:myagenda/models/courses/custom_course.dart';
+import 'package:myagenda/models/weekday.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
+import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:uuid/uuid.dart';
 
@@ -30,6 +32,8 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   Locale _locale;
   bool _isCustomColor = false;
+  bool _isEventRecurrent = false;
+  List<WeekDay> _selectedWeekdays = [];
 
   DateTime _eventDateStart;
   DateTime _eventDateEnd;
@@ -154,8 +158,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
         _locationController.text,
         _eventDateStart,
         _eventDateEnd,
-        widget.course?.notes ?? [],
-        (_isCustomColor && _eventColor != null) ? _eventColor : null,
+        notes: widget.course?.notes ?? [],
+        color: (_isCustomColor && _eventColor != null) ? _eventColor : null,
+        weekdaysRepeat: _selectedWeekdays
       );
 
       Navigator.of(context).pop(course);
@@ -172,6 +177,39 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
       border: InputBorder.none,
     );
+  }
+
+  List<Widget> _buildWeekDaySelection() {
+    final translations = Translations.of(context);
+
+    List<String> weekDaysText = [
+      translations.get(StringKey.MONDAY).substring(0, 1),
+      translations.get(StringKey.TUESDAY).substring(0, 1),
+      translations.get(StringKey.WEDNESDAY).substring(0, 1),
+      translations.get(StringKey.THURSDAY).substring(0, 1),
+      translations.get(StringKey.FRIDAY).substring(0, 1),
+      translations.get(StringKey.SATURDAY).substring(0, 1),
+      translations.get(StringKey.SUNDAY).substring(0, 1),
+    ];
+
+    return List<Widget>.generate(
+      WeekDay.count,
+      (int index) {
+        WeekDay weekday = WeekDay.values[index];
+
+        return CircleText(
+            onChange: (newSelected) {
+              setState(() {
+                if (newSelected)
+                  _selectedWeekdays.add(weekday);
+                else
+                  _selectedWeekdays.remove(weekday);
+              });
+            },
+            text: weekDaysText[index],
+            isSelected: _selectedWeekdays.contains(weekday));
+      },
+    ).toList(growable: false);
   }
 
   @override
@@ -197,7 +235,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _titleController,
                 decoration: _buildInputDecoration(
-                    Icons.title, translations.get(StringKey.TITLE_EVENT)),
+                  Icons.title,
+                  translations.get(StringKey.TITLE_EVENT),
+                ),
                 validator: _validateTextField,
                 onEditingComplete: () =>
                     FocusScope.of(context).requestFocus(_descNode),
@@ -208,7 +248,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _descController,
                 decoration: _buildInputDecoration(
-                    Icons.description, translations.get(StringKey.DESC_EVENT)),
+                  Icons.description,
+                  translations.get(StringKey.DESC_EVENT),
+                ),
                 validator: _validateTextField,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -220,8 +262,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 focusNode: _locationNode,
                 textInputAction: TextInputAction.next,
                 controller: _locationController,
-                decoration: _buildInputDecoration(Icons.location_on,
-                    translations.get(StringKey.LOCATION_EVENT)),
+                decoration: _buildInputDecoration(
+                  Icons.location_on,
+                  translations.get(StringKey.LOCATION_EVENT),
+                ),
                 validator: _validateTextField,
                 onEditingComplete: _onDateTap,
               ),
@@ -260,6 +304,29 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   ),
                 ],
               ),
+              const Divider(height: 4.0),
+              ListTile(
+                leading: const Icon(Icons.repeat),
+                title: Text(translations.get(StringKey.EVENT_REPEAT)),
+                trailing: Switch(
+                  value: _isEventRecurrent,
+                  activeColor: theme.accentColor,
+                  onChanged: (value) {
+                    setState(() {
+                      _isEventRecurrent = value;
+                    });
+                  },
+                ),
+              ),
+              _isEventRecurrent
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Wrap(
+                        spacing: 5.0,
+                        children: _buildWeekDaySelection(),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               const Divider(height: 4.0),
               ListTile(
                 leading: const Icon(Icons.color_lens),

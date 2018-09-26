@@ -103,6 +103,8 @@ class StringKey {
   static const ADD_NOTE_BTN = 'add_note_btn';
   static const DELETE = 'delete';
 
+  static const EVENT_REPEAT = 'event_repeat';
+
   static const EVENT_COLOR = 'event_color';
   static const EVENT_COLOR_DESC = 'event_color_desc';
 
@@ -165,4 +167,12 @@ class StringKey {
   static const SUPPORTME_UNIDAYS = 'supportme_unidays';
   static const SUPPORTME_PAYPAL_ERROR = 'supportme_paypal_error';
   static const SUPPORTME_UNIDAYS_ERROR = 'supportme_unidays_error';
+
+  static const MONDAY = 'monday';
+  static const TUESDAY = 'tuesday';
+  static const WEDNESDAY = 'wednesday';
+  static const THURSDAY = 'thursday';
+  static const FRIDAY = 'friday';
+  static const SATURDAY = 'saturday';
+  static const SUNDAY = 'sunday';
 }
