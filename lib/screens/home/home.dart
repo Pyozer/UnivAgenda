@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Map<DateTime, List<BaseCourse>> _courses = {};
+  Map<int, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
   bool _isAnalyticsSended = false;
@@ -144,7 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
           int diffDays = (targetWD - actualWeekDay) % daysPerWeek;
 
           final duration = Duration(days: diffDays + (daysPerWeek * week));
-          print("Diff days = ($targetWD - $actualWeekDay) * $week = ${duration.inDays}");
 
           CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
           courseRepeated.dateStart = course.dateStart.add(duration);
@@ -197,10 +196,21 @@ class _HomeScreenState extends State<HomeScreen> {
     listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
-    Map<DateTime, List<BaseCourse>> listElement = {};
+    Map<int, List<BaseCourse>> listElement = {};
+
+    // Add all weekdays for X week(s) depends on numberWeek pref
+    if (prefs.isDisplayAllDays) {
+      DateTime dayDate = Date.dateFromDateTime(DateTime.now());
+
+      final int numberDays = prefs.numberWeeks * DateTime.daysPerWeek;
+      for (int day = 0; day < numberDays; day++) {
+        listElement[dayDate.millisecondsSinceEpoch] = [];
+        dayDate = dayDate.add(Duration(days: 1));
+      }
+    }
 
     // Init variable to add headers
-    DateTime lastDate = DateTime(1970); // Init variable to 1970
+    DateTime lastDate = DateTime(1970); // In0it variable to 1970
 
     // Add headers to course list
     List<BaseCourse> listCourseDay = [];
@@ -209,10 +219,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (Date.notSameDay(course.dateStart, lastDate)) {
         if (i != 0) {
-          listElement[lastDate] = listCourseDay;
+          listElement[lastDate.millisecondsSinceEpoch] = listCourseDay;
           listCourseDay = [];
         }
-        lastDate = course.dateStart;
+        lastDate = Date.dateFromDateTime(course.dateStart);
       }
 
       listCourseDay.add(course);

@@ -19,6 +19,8 @@
   "select_group": "Select your group",
 
   "number_week": "Number of week",
+  "display_all_days": "Display all days",
+  "display_all_days_desc": "Show every day of the week.",
 
   "dark_theme": "Dark theme",
   "dark_theme_desc": "App colors will be darker.",

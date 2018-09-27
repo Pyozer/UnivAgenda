@@ -2,7 +2,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
-import 'package:myagenda/models/weekday.dart';
+import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';

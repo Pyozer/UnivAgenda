@@ -75,6 +75,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// If agenda is in horizontal mode
   bool _horizontalView;
 
+  /// Display all week days even if no event
+  bool _isDisplayAllDays;
+
   /// Last ical loaded
   String _cachedIcal;
 
@@ -290,13 +293,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor));
   }
 
-  bool get isFirstBoot => _firstBoot ?? true;
+  bool get isFirstBoot => _firstBoot ?? PrefKey.defaultFirstBoot;
 
   setFirstBoot(bool firstBoot, [state = true]) {
     if (isFirstBoot == firstBoot) return;
 
     _updatePref(() {
-      _firstBoot = firstBoot ?? true;
+      _firstBoot = firstBoot ?? PrefKey.defaultFirstBoot;
     }, state);
 
     SharedPreferences.getInstance()
@@ -317,7 +320,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   List<Note> get notes =>
-      _notes?.where((note) => !note.isExpired())?.toList() ?? [];
+      _notes?.where((note) => !note.isExpired())?.toList() ??
+      PrefKey.defaultNotes;
 
   List<Note> notesOfCourse(Course course) {
     return notes.where((note) => note.courseUid == course.uid).toList();
@@ -326,7 +330,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setNotes(List<Note> newNotes, [state = true]) {
     if (notes == newNotes) return;
 
-    newNotes ??= [];
+    newNotes ??= PrefKey.defaultNotes;
     // Remove expired notes
     newNotes.removeWhere((note) => note.isExpired());
 
@@ -366,12 +370,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
           ?.where(
               (event) => !event.isFinish() || event.weekdaysRepeat.length > 0)
           ?.toList() ??
-      [];
+      PrefKey.defaultCustomEvents;
 
   setCustomEvents(List<CustomCourse> newCustomEvents, [state = true]) {
     if (customEvents == newCustomEvents) return;
 
-    newCustomEvents ??= [];
+    newCustomEvents ??= PrefKey.defaultCustomEvents;
     newCustomEvents.removeWhere((event) => event.isFinish());
 
     _updatePref(() {
@@ -383,8 +387,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _customEvents.forEach((event) {
         if (event != null) eventsJSON.add(json.encode(event.toJson()));
       });
-
-      print(eventsJSON);
 
       prefs.setStringList(PrefKey.customEvent, eventsJSON);
     });
@@ -415,13 +417,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     addCustomEvent(eventEdited, state);
   }
 
-  bool get isUserLogged => _userLogged ?? false;
+  bool get isUserLogged => _userLogged ?? PrefKey.defaultUserLogged;
 
   setUserLogged(bool userLogged, [state = true]) {
     if (isUserLogged == userLogged) return;
 
     _updatePref(() {
-      _userLogged = userLogged ?? false;
+      _userLogged = userLogged ?? PrefKey.defaultUserLogged;
     }, state);
 
     SharedPreferences.getInstance()
@@ -441,13 +443,28 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isHorizontalView, _horizontalView));
   }
 
-  List<University> get listUniversity => _listUniversity ?? [];
+  bool get isDisplayAllDays =>
+      _isDisplayAllDays ?? PrefKey.defaultDisplayAllDays;
+
+  setDisplayAllDays(bool displayAllDays, [state = true]) {
+    if (isDisplayAllDays == displayAllDays) return;
+
+    _updatePref(() {
+      _isDisplayAllDays = displayAllDays ?? PrefKey.defaultDisplayAllDays;
+    }, state);
+
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays));
+  }
+
+  List<University> get listUniversity =>
+      _listUniversity ?? PrefKey.defaultListUniversity;
 
   setListUniversity(List<University> listUniv, [state = false]) {
     if (listUniversity == listUniv) return;
 
     _updatePref(() {
-      _listUniversity = listUniv ?? [];
+      _listUniversity = listUniv ?? PrefKey.defaultListUniversity;
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -531,7 +548,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     await initResAndGroup();
 
-    final int resourcesDate = prefs.getInt(PrefKey.resourcesDate) ?? 0;
+    final int resourcesDate =
+        prefs.getInt(PrefKey.resourcesDate) ?? PrefKey.defaultResourcesDate;
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
 
     // Init number of weeks to display
@@ -548,10 +566,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCachedIcal(prefs.getString(PrefKey.cachedIcal), false);
     setUserLogged(prefs.getBool(PrefKey.isUserLogged), false);
     setFirstBoot(prefs.getBool(PrefKey.isFirstBoot), false);
+    setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays), false);
 
     // Init saved notes
     List<Note> actualNotes = [];
-    List<String> notesStr = prefs.getStringList(PrefKey.notes) ?? [];
+    List<String> notesStr =
+        prefs.getStringList(PrefKey.notes) ?? PrefKey.defaultNotes;
     notesStr.forEach((noteJsonStr) {
       final note = Note.fromJsonStr(noteJsonStr);
       if (!note.isExpired()) actualNotes.add(note);
@@ -560,7 +580,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =
-        prefs.getStringList(PrefKey.customEvent) ?? [];
+        prefs.getStringList(PrefKey.customEvent) ?? PrefKey.defaultCustomEvents;
     customEventsStr.forEach((eventJsonStr) {
       final event = CustomCourse.fromJsonStr(eventJsonStr);
       if (!event.isFinish()) actualEvents.add(event);
@@ -574,7 +594,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Init stored values
-    var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ?? [];
+    var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ??
+        PrefKey.defaultListUniversity;
     String storedUniversityName = prefs.getString(PrefKey.university);
     String storedResourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
 

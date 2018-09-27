@@ -119,6 +119,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           },
         ),
         SwitchListTile(
+          title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
+          subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
+          value: prefs.isDisplayAllDays,
+          activeColor: Theme.of(context).accentColor,
+          onChanged: (value) => prefs.setDisplayAllDays(value),
+        ),
+        const ListDivider(),
+        SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,

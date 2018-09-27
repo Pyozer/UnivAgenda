@@ -19,6 +19,8 @@ class StringKey {
   static const SELECT_GROUP = 'select_group';
 
   static const NUMBER_WEEK = 'number_week';
+  static const DISPLAY_ALL_DAYS = 'display_all_days';
+  static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
 
   static const DARK_THEME = 'dark_theme';
   static const DARK_THEME_DESC = 'dark_theme_desc';

@@ -19,6 +19,8 @@
   "select_group": "Choisi ton groupe",
 
   "number_week": "Nombre de semaines",
+  "display_all_days": "Afficher tous les jours",
+  "display_all_days_desc": "Affiche chaque jour de la semaine.",
 
   "dark_theme": "Thème sombre",
   "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",

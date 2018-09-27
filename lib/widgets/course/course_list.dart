@@ -7,7 +7,7 @@ import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
 
 class CourseList extends StatelessWidget {
-  final Map<DateTime, List<BaseCourse>> courses;
+  final Map<int, List<BaseCourse>> courses;
   final int numberWeeks;
   final bool isHorizontal;
   final Color noteColor;
@@ -39,7 +39,7 @@ class CourseList extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontal(context, Map<DateTime, List<BaseCourse>> elements) {
+  Widget _buildHorizontal(context, Map<int, List<BaseCourse>> elements) {
     if (elements.length < 1) {
       return const SizedBox.shrink();
     }
@@ -49,12 +49,16 @@ class CourseList extends StatelessWidget {
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
     // Build horizontal view
+    DateTime lastDate;
     elements.forEach((date, courses) {
+      if (lastDate == null || lastDate.millisecondsSinceEpoch != date)
+        lastDate = DateTime.fromMillisecondsSinceEpoch(date);
+
       tabs.add(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: Text(
-            DateFormat.MEd(langCode).format(date),
+            DateFormat.MEd(langCode).format(lastDate),
             style: textTheme.title,
           ),
         ),
@@ -81,11 +85,15 @@ class CourseList extends StatelessWidget {
     );
   }
 
-  Widget _buildVertical(context, Map<DateTime, List<BaseCourse>> elements) {
+  Widget _buildVertical(context, Map<int, List<BaseCourse>> elements) {
     // Build vertical view
     final List<BaseCourse> listChildren = [];
+    DateTime lastDate;
     elements.forEach((date, courses) {
-      listChildren.add(CourseHeader(date));
+      if (lastDate == null || lastDate.millisecondsSinceEpoch != date)
+        lastDate = DateTime.fromMillisecondsSinceEpoch(date);
+
+      listChildren.add(CourseHeader(lastDate));
       listChildren.addAll(courses);
     });
 
