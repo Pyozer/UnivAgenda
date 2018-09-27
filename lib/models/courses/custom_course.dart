@@ -20,7 +20,7 @@ class CustomCourse extends Course {
     this.weekdaysRepeat = const [],
   }) : super(uid, title, description, location, dateStart, dateEnd,
             notes: notes, color: color);
-
+            
   factory CustomCourse.fromJsonStr(String jsonStr) {
     Map courseMap = json.decode(jsonStr);
     return CustomCourse.fromJson(courseMap);

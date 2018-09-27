@@ -156,16 +156,15 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       }
 
       final course = CustomCourse(
-        widget.course?.uid ?? Uuid().v1(),
-        _titleController.text,
-        _descController.text,
-        _locationController.text,
-        _eventDateStart,
-        _eventDateEnd,
-        notes: widget.course?.notes ?? [],
-        color: (_isCustomColor && _eventColor != null) ? _eventColor : null,
-        weekdaysRepeat: _isEventRecurrent ? _selectedWeekdays : []
-      );
+          widget.course?.uid ?? Uuid().v1(),
+          _titleController.text,
+          _descController.text,
+          _locationController.text,
+          _eventDateStart,
+          _eventDateEnd,
+          notes: widget.course?.notes ?? [],
+          color: (_isCustomColor && _eventColor != null) ? _eventColor : null,
+          weekdaysRepeat: _isEventRecurrent ? _selectedWeekdays : []);
 
       Navigator.of(context).pop(course);
     }
@@ -196,24 +195,26 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       translations.get(StringKey.SUNDAY).substring(0, 1),
     ];
 
-    return List<Widget>.generate(
-      WeekDay.count,
-      (int index) {
-        WeekDay weekday = WeekDay.values[index];
+    List<Widget> weekDayChips = [];
 
-        return CircleText(
-            onChange: (newSelected) {
-              setState(() {
-                if (newSelected)
-                  _selectedWeekdays.add(weekday);
-                else
-                  _selectedWeekdays.remove(weekday);
-              });
-            },
-            text: weekDaysText[index],
-            isSelected: _selectedWeekdays.contains(weekday));
-      },
-    ).toList(growable: false);
+    WeekDay.values.forEach((weekday) {
+      weekDayChips.add(
+        CircleText(
+          onChange: (newSelected) {
+            setState(() {
+              if (newSelected)
+                _selectedWeekdays.add(weekday);
+              else
+                _selectedWeekdays.remove(weekday);
+            });
+          },
+          text: weekDaysText[weekday.value - 1],
+          isSelected: _selectedWeekdays.contains(weekday),
+        ),
+      );
+    });
+
+    return weekDayChips;
   }
 
   @override

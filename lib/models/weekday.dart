@@ -3,13 +3,13 @@ class WeekDay {
 
   const WeekDay._(this.weekDay);
 
-  static final MONDAY = WeekDay._(0);
-  static final TUESDAY = WeekDay._(1);
-  static final WEDNESDAY = WeekDay._(2);
-  static final THURSDAY = WeekDay._(3);
-  static final FRIDAY = WeekDay._(4);
-  static final SATURDAY = WeekDay._(5);
-  static final SUNDAY = WeekDay._(6);
+  static final MONDAY = WeekDay._(DateTime.monday);
+  static final TUESDAY = WeekDay._(DateTime.tuesday);
+  static final WEDNESDAY = WeekDay._(DateTime.wednesday);
+  static final THURSDAY = WeekDay._(DateTime.thursday);
+  static final FRIDAY = WeekDay._(DateTime.friday);
+  static final SATURDAY = WeekDay._(DateTime.saturday);
+  static final SUNDAY = WeekDay._(DateTime.sunday);
 
   get value => weekDay;
 
@@ -18,5 +18,5 @@ class WeekDay {
   static List<WeekDay> get values =>
       [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY];
 
-  factory WeekDay.fromIndex(int value) => values[value];
+  factory WeekDay.fromIndex(int value) => values[value - 1];
 }

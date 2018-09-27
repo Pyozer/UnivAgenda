@@ -5,6 +5,7 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
+import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isAnalyticsSended = false;
 
+  PreferencesProviderState prefs;
   PrefsCalendar _lastPrefsCalendar;
   int _lastNumberWeeks;
 
@@ -44,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final prefs = PreferencesProvider.of(context);
+    prefs = PreferencesProvider.of(context);
 
     // Define type of view
     _isHorizontal = prefs.isHorizontalView;
@@ -68,9 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<Null> _sendAnalyticsEvent() async {
-    final prefs = PreferencesProvider.of(context);
-
-    await AnalyticsProvider.of(context).analytics.logEvent(
+    AnalyticsProvider.of(context).analytics.logEvent(
       name: 'user_group',
       parameters: <String, String>{
         'university': prefs.university.name,
@@ -87,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshKey?.currentState?.show();
 
     if (mounted) {
-      final prefs = PreferencesProvider.of(context);
       final calendar = prefs.calendar;
 
       final resID = prefs.getGroupRes(
@@ -120,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
-    final courseNotes = PreferencesProvider.of(context).notesOfCourse(course);
+    final courseNotes = prefs.notesOfCourse(course);
 
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
@@ -131,20 +130,53 @@ class _HomeScreenState extends State<HomeScreen> {
     return course;
   }
 
+  List<CustomCourse> _generateRepeatedCourses(CustomCourse course) {
+    List<CustomCourse> courses = [];
+
+    final daysPerWeek = DateTime.daysPerWeek;
+    final actualWeekDay = DateTime.now().weekday;
+
+    for (int week = 0; week < prefs.numberWeeks; week++) {
+      course.weekdaysRepeat.forEach((weekday) {
+        int targetWD = weekday.value;
+
+        if (targetWD < actualWeekDay && week > 0 || targetWD >= actualWeekDay) {
+          int diffDays = (targetWD - actualWeekDay) % daysPerWeek;
+
+          final duration = Duration(days: diffDays + (daysPerWeek * week));
+          print("Diff days = ($targetWD - $actualWeekDay) * $week = ${duration.inDays}");
+
+          CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
+          courseRepeated.dateStart = course.dateStart.add(duration);
+          courseRepeated.dateEnd = course.dateEnd.add(duration);
+
+          courses.add(courseRepeated);
+        }
+      });
+    }
+
+    return courses;
+  }
+
   void _prepareList(String icalStr) {
     List<Course> listCourses = [];
-
-    final prefs = PreferencesProvider.of(context);
 
     // Get all notes saved (expired notes removed by getNotes())
     List<Note> allNotes = prefs.notes;
 
     // Get all custom events (except expired)
-    List<Course> customEvents = prefs.customEvents;
+    List<CustomCourse> customEvents = prefs.customEvents;
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
-      listCourses.add(_addNotesToCourse(allNotes, course));
+      if (course.weekdaysRepeat.length > 0) {
+        List<CustomCourse> customCourses = _generateRepeatedCourses(course);
+        customCourses.forEach((customCourse) {
+          listCourses.add(_addNotesToCourse(allNotes, customCourse));
+        });
+      } else {
+        listCourses.add(_addNotesToCourse(allNotes, course));
+      }
     }
 
     // Parse string ical to object
@@ -202,15 +234,13 @@ class _HomeScreenState extends State<HomeScreen> {
               fullscreenDialog: true,
               routeName: RouteKey.ADD_EVENT),
         );
-        if (customCourse != null)
-          PreferencesProvider.of(context).addCustomEvent(customCourse);
+        if (customCourse != null) prefs.addCustomEvent(customCourse);
       },
       child: const Icon(Icons.add),
     );
   }
 
   void _switchTypeView() {
-    final prefs = PreferencesProvider.of(context);
     setState(() {
       _isHorizontal = !prefs.isHorizontalView;
     });
@@ -232,7 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferencesProvider.of(context);
     final translations = Translations.of(context);
 
     final refreshBtn = (_isHorizontal)
