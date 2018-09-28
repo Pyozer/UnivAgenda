@@ -4,6 +4,7 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/course/course_list_header.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
@@ -11,6 +12,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
+    final prefs = PreferencesProvider.of(context);
 
     return Drawer(
       semanticLabel: translations.get(StringKey.DRAWER),
@@ -19,6 +21,7 @@ class MainDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(16.0),
+            margin: EdgeInsets.zero,
             child: Column(
               children: [
                 Hero(
@@ -37,6 +40,12 @@ class MainDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
             ),
+          ),
+          CourseListHeader(
+            "${prefs.calendar.year} - ${prefs.calendar.group}",
+            bgColor: prefs.theme.darkTheme
+                ? const Color(0x21FFFFFF)
+                : const Color(0x18000000),
           ),
           DrawerElement(
             icon: Icons.location_city,
@@ -75,7 +84,7 @@ class MainDrawer extends StatelessWidget {
             title: translations.get(StringKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () {
-              PreferencesProvider.of(context).disconnectUser();
+              prefs.disconnectUser();
               Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
             },
           )

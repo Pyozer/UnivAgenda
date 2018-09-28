@@ -7,8 +7,9 @@ import 'package:myagenda/utils/translations.dart';
 
 class CourseListHeader extends StatelessWidget {
   final String text;
+  final Color bgColor;
 
-  const CourseListHeader(this.text, {Key key}) : super(key: key);
+  const CourseListHeader(this.text, {Key key, this.bgColor}) : super(key: key);
 
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     final translations = Translations.of(mainContext);
@@ -47,6 +48,7 @@ class CourseListHeader extends StatelessWidget {
     return InkWell(
       onTap: () => _onHeaderTap(context),
       child: Container(
+        color: bgColor,
         padding: const EdgeInsets.all(12.0),
         alignment: Alignment.center,
         child: Text(text, style: textStyle),
