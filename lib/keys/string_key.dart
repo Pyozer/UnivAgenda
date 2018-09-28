@@ -8,6 +8,7 @@ class StringKey {
   static const SETTINGS = 'settings';
   static const SETTINGS_GENERAL = 'settings_general';
   static const SETTINGS_DISPLAY = 'settings_display';
+  static const SETTINGS_COLORS = 'settings_colors';
 
   static const CAMPUS = 'campus';
   static const SELECT_CAMPUS = 'select_campus';

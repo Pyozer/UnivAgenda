@@ -127,13 +127,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const ListDivider(),
         SwitchListTile(
-          title: ListTileTitle(translations.get(StringKey.DISPLAY_HEADER_GROUP)),
+          title:
+              ListTileTitle(translations.get(StringKey.DISPLAY_HEADER_GROUP)),
           subtitle: Text(translations.get(StringKey.DISPLAY_HEADER_GROUP_DESC)),
           value: prefs.isHeaderGroupVisible,
           activeColor: Theme.of(context).accentColor,
           onChanged: (value) => prefs.setHeaderGroupVisible(value),
         ),
-        const ListDivider(),
+      ],
+    );
+  }
+
+  Widget _buildSettingsColors() {
+    final translations = Translations.of(context);
+    final prefs = PreferencesProvider.of(context);
+
+    return SettingCard(
+      header: translations.get(StringKey.SETTINGS_COLORS),
+      children: [
         SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
@@ -208,7 +219,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         )
       ],
       body: ListView(
-        children: [_buildSettingsGeneral(), _buildSettingsDisplay()],
+        children: [
+          _buildSettingsGeneral(),
+          _buildSettingsDisplay(),
+          _buildSettingsColors()
+        ],
       ),
     );
   }
