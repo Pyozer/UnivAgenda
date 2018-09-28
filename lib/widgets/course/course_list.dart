@@ -5,6 +5,7 @@ import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
+import 'package:myagenda/widgets/ui/empty_day.dart';
 
 class CourseList extends StatelessWidget {
   final Map<int, List<BaseCourse>> courses;
@@ -23,13 +24,19 @@ class CourseList extends StatelessWidget {
   Widget _buildListCours(BuildContext context, List<BaseCourse> courses) {
     List<Widget> widgets = [];
 
-    if (courses != null) {
+    if (courses != null && courses.length > 0) {
       courses.forEach((course) {
-        if (course is CourseHeader)
+        if (course == null)
+          widgets.add(const EmptyDay());
+        else if (course is CourseHeader)
           widgets.add(CourseRowHeader(coursHeader: course));
         else if (course is Course)
           widgets.add(CourseRow(course: course, noteColor: noteColor));
       });
+    } else {
+      widgets.add(const EmptyDay(
+        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 26.0),
+      ));
     }
 
     return ListView(
@@ -94,7 +101,10 @@ class CourseList extends StatelessWidget {
         lastDate = DateTime.fromMillisecondsSinceEpoch(date);
 
       listChildren.add(CourseHeader(lastDate));
-      listChildren.addAll(courses);
+      if (courses != null && courses.length > 0)
+        listChildren.addAll(courses);
+      else
+        listChildren.add(null);
     });
 
     return _buildListCours(context, listChildren);

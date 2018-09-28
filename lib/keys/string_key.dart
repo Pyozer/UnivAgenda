@@ -177,4 +177,6 @@ class StringKey {
   static const FRIDAY = 'friday';
   static const SATURDAY = 'saturday';
   static const SUNDAY = 'sunday';
+
+  static const NO_EVENTS = "no_events";
 }

@@ -169,5 +169,7 @@
   "thursday": "Jeudi",
   "friday": "Vendredi",
   "saturday": "Samedi",
-  "sunday": "Dimanche"
+  "sunday": "Dimanche",
+
+  "no_events": "Aucun événement."
 }
