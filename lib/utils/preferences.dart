@@ -571,7 +571,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Init saved notes
     List<Note> actualNotes = [];
     List<String> notesStr =
-        prefs.getStringList(PrefKey.notes) ?? PrefKey.defaultNotes;
+        prefs.getStringList(PrefKey.notes) ?? [];
     notesStr.forEach((noteJsonStr) {
       final note = Note.fromJsonStr(noteJsonStr);
       if (!note.isExpired()) actualNotes.add(note);
@@ -580,7 +580,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =
-        prefs.getStringList(PrefKey.customEvent) ?? PrefKey.defaultCustomEvents;
+        prefs.getStringList(PrefKey.customEvent) ?? [];
     customEventsStr.forEach((eventJsonStr) {
       final event = CustomCourse.fromJsonStr(eventJsonStr);
       if (!event.isFinish()) actualEvents.add(event);

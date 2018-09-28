@@ -33,6 +33,10 @@ class SplashScreenState extends State<SplashScreen> {
 
   void _initPreferences() async {
     _isPrefsLoaded = true;
+    setState(() {
+      _isError = false;
+    });
+    _startTimeout();
 
     final startTime = DateTime.now();
 
