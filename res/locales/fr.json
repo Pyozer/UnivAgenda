@@ -21,6 +21,8 @@
   "number_week": "Nombre de semaines",
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine.",
+  "display_header_group": "Afficher votre groupe",
+  "display_header_group_desc": "Votre groupe sera visible en en-tête des cours.",
 
   "dark_theme": "Thème sombre",
   "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",

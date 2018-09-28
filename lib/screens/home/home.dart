@@ -298,9 +298,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            CourseListHeader(
-              "${prefs.calendar.year} - ${prefs.calendar.group}",
-            ),
+            prefs.isHeaderGroupVisible
+                ? CourseListHeader(
+                    "${prefs.calendar.year} - ${prefs.calendar.group}",
+                  )
+                : const SizedBox.shrink(),
             const Divider(height: 0.0),
             Expanded(
               child: Container(

@@ -78,6 +78,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Display all week days even if no event
   bool _isDisplayAllDays;
 
+  /// Display the group header
+  bool _isHeaderGroup;
+
   /// Last ical loaded
   String _cachedIcal;
 
@@ -457,6 +460,19 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays));
   }
 
+  bool get isHeaderGroupVisible => _isHeaderGroup ?? PrefKey.defaultHeaderGroup;
+
+  setHeaderGroupVisible(bool headerGroup, [state = true]) {
+    if (isHeaderGroupVisible == headerGroup) return;
+
+    _updatePref(() {
+      _isHeaderGroup = headerGroup ?? PrefKey.defaultHeaderGroup;
+    }, state);
+
+    SharedPreferences.getInstance()
+        .then((prefs) => prefs.setBool(PrefKey.isHeaderGroup, _isHeaderGroup));
+  }
+
   List<University> get listUniversity =>
       _listUniversity ?? PrefKey.defaultListUniversity;
 
@@ -570,8 +586,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init saved notes
     List<Note> actualNotes = [];
-    List<String> notesStr =
-        prefs.getStringList(PrefKey.notes) ?? [];
+    List<String> notesStr = prefs.getStringList(PrefKey.notes) ?? [];
     notesStr.forEach((noteJsonStr) {
       final note = Note.fromJsonStr(noteJsonStr);
       if (!note.isExpired()) actualNotes.add(note);

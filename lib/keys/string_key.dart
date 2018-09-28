@@ -21,6 +21,8 @@ class StringKey {
   static const NUMBER_WEEK = 'number_week';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
+  static const DISPLAY_HEADER_GROUP = 'display_header_group';
+  static const DISPLAY_HEADER_GROUP_DESC = 'display_header_group_desc';
 
   static const DARK_THEME = 'dark_theme';
   static const DARK_THEME_DESC = 'dark_theme_desc';

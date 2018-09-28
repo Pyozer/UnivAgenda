@@ -127,6 +127,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const ListDivider(),
         SwitchListTile(
+          title: ListTileTitle(translations.get(StringKey.DISPLAY_HEADER_GROUP)),
+          subtitle: Text(translations.get(StringKey.DISPLAY_HEADER_GROUP_DESC)),
+          value: prefs.isHeaderGroupVisible,
+          activeColor: Theme.of(context).accentColor,
+          onChanged: (value) => prefs.setHeaderGroupVisible(value),
+        ),
+        const ListDivider(),
+        SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
