@@ -59,7 +59,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
   @override
   void dispose() {
     _bannerAd?.dispose();
-    _interstitialAd?.dispose();
+    //_interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -70,9 +70,8 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
       adUnitId: interstitialID,
       targetingInfo: targetingInfo,
     );
-    _interstitialAd
-      ..load()
-      ..show();
+    _interstitialAd.load();
+    _interstitialAd.show();
 
     AnalyticsProvider.of(context).analytics.logEvent(
       name: 'open_fullad',
@@ -115,6 +114,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
+
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.SUPPORTME),
@@ -135,20 +135,15 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
                 runSpacing: 8.0,
                 children: <Widget>[
                   RaisedButtonColored(
-                    text: translations
-                        .get(StringKey.SUPPORTME_UNIDAYS)
-                        .toUpperCase(),
+                    text: translations.get(StringKey.SUPPORTME_UNIDAYS),
                     onPressed: _openUnidays,
                   ),
                   RaisedButtonColored(
-                    text: translations
-                        .get(StringKey.SUPPORTME_HEADER)
-                        .toUpperCase(),
+                    text: translations.get(StringKey.SUPPORTME_HEADER),
                     onPressed: _openPayPal,
                   ),
                   RaisedButtonColored(
-                    text:
-                        translations.get(StringKey.SUPPORTME_AD).toUpperCase(),
+                    text: translations.get(StringKey.SUPPORTME_AD),
                     onPressed: _openFullAd,
                   ),
                 ],
