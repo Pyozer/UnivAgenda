@@ -6,6 +6,7 @@ import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -41,6 +42,16 @@ class CourseRow extends StatelessWidget {
       courseDate += " - ${Translations.of(context).get(StringKey.IN_PROGRESS)}";
     }
 
+    TextStyle textStyle = TextStyle();
+
+    if (bgColorRow != null) {
+      var bgBrightness = ThemeData.estimateBrightnessForColor(bgColorRow);
+      bool isBgDark = isDarkTheme(bgBrightness);
+
+      textStyle =
+          textStyle.copyWith(color: isBgDark ? Colors.white : Colors.black);
+    }
+
     return Card(
       elevation: 4.0,
       color: bgColorRow,
@@ -66,7 +77,7 @@ class CourseRow extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       course.title,
-                      style: const TextStyle(
+                      style: textStyle.copyWith(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w700,
                       ),
@@ -76,12 +87,12 @@ class CourseRow extends StatelessWidget {
                     const SizedBox(height: 4.0),
                     Text(
                       '${course.location} - ${course.description}',
-                      style: const TextStyle(fontSize: 14.0),
+                      style: textStyle.copyWith(fontSize: 14.0),
                     ),
                     const SizedBox(height: 4.0),
                     Text(
                       courseDate,
-                      style: const TextStyle(fontSize: 14.0),
+                      style: textStyle.copyWith(fontSize: 14.0),
                     )
                   ],
                 ),
