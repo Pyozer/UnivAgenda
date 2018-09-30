@@ -22,6 +22,14 @@ class Date {
     return DateTime(dt.year, dt.month, dt.day);
   }
 
+  static DateTime setTimeFromOther(DateTime date, DateTime time) {
+    return changeTime(date, time.hour, time.minute, time.second);
+  }
+
+  static DateTime changeTime(DateTime dt, int hour, int minute, [int second = 0]) {
+    return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
+  }
+
   static String dateFromNow(DateTime date, [Locale locale]) {
     if (locale == null) locale = kDefaultLocal;
 
