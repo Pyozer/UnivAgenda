@@ -79,7 +79,7 @@ class Course extends BaseCourse {
 
   @override
   String toString() {
-    return 'Course{uid: $uid, title: $title, description: $description, location: $location, notes: $notes, dateStart: $dateStart, dateEnd: $dateEnd, color: $color}';
+    return toJson().toString();
   }
 
   @override

@@ -55,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final cachedIcal = prefs.cachedIcal;
     if (cachedIcal != null && cachedIcal.isNotEmpty) {
       _prepareList(cachedIcal);
+    } else {
+      _prepareList("");
     }
 
     if (prefs.calendar != _lastPrefsCalendar ||
@@ -170,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
           listCourses.add(_addNotesToCourse(allNotes, customCourse));
         });
       } else {
+        print(course);
         listCourses.add(_addNotesToCourse(allNotes, course));
       }
     }
@@ -201,28 +204,16 @@ class _HomeScreenState extends State<HomeScreen> {
       for (int day = 0; day < numberDays; day++) {
         int dateValue = Date.dateToInt(dayDate);
         listElement[dateValue] = [];
-        dayDate = dayDate.add(Duration(days: 1));
+        dayDate = dayDate.add(const Duration(days: 1));
       }
     }
 
-    // Init variable to add headers
-    DateTime lastDate = DateTime(1970); // In0it variable to 1970
+    for (Course course in listCourses) {
+      int dateValue = Date.dateToInt(course.dateStart);
+      if (listElement[dateValue] == null)
+        listElement[dateValue] = [];
 
-    // Add headers to course list
-    List<BaseCourse> listCourseDay = [];
-    for (int i = 0; i < listCourses.length; i++) {
-      final Course course = listCourses[i];
-
-      if (Date.notSameDay(course.dateStart, lastDate)) {
-        if (i != 0) {
-          int dateValue = Date.dateToInt(lastDate);
-          listElement[dateValue] = listCourseDay;
-          listCourseDay = [];
-        }
-        lastDate = Date.dateFromDateTime(course.dateStart);
-      }
-
-      listCourseDay.add(course);
+      listElement[dateValue].add(course);
     }
 
     if (mounted) {

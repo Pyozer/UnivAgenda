@@ -33,7 +33,8 @@ class CustomCourse extends Course {
     }
 
     List<WeekDay> listWeekDays = [];
-    if (jsonInput['weekdays_repeat'] != null) {
+    if (jsonInput['weekdays_repeat'] != null &&
+        jsonInput['weekdays_repeat'].trim() != "") {
       List<int> weekDays = jsonInput['weekdays_repeat']
           .toString()
           .split(',')
@@ -65,8 +66,16 @@ class CustomCourse extends Course {
       weekDaysIndex.add(weekDay.value);
     });
 
-    jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
+    if (weekDaysIndex.length > 0)
+      jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
+    else
+      jsonMap['weekdays_repeat'] = "";
 
     return jsonMap;
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }

@@ -11,6 +11,8 @@ const String UID = "UID";
 
 class Ical {
   static List<IcalModel> parseToIcal(String icalData) {
+    if (icalData == null || icalData.trim().length == 0) return [];
+
     List<String> lines = icalData.split("\n");
     Duration timezoneOffset = DateTime.now().timeZoneOffset;
 
