@@ -20,7 +20,7 @@ class CustomCourse extends Course {
     this.weekdaysRepeat = const [],
   }) : super(uid, title, description, location, dateStart, dateEnd,
             notes: notes, color: color);
-            
+
   factory CustomCourse.fromJsonStr(String jsonStr) {
     Map courseMap = json.decode(jsonStr);
     return CustomCourse.fromJson(courseMap);
@@ -34,14 +34,14 @@ class CustomCourse extends Course {
 
     List<WeekDay> listWeekDays = [];
     if (jsonInput['weekdays_repeat'] != null) {
-      List<int> weekDaysIndex = jsonInput['weekdays_repeat']
+      List<int> weekDays = jsonInput['weekdays_repeat']
           .toString()
           .split(',')
           .map((value) => int.parse(value))
           .toList();
 
-      weekDaysIndex.forEach((index) {
-        listWeekDays.add(WeekDay.fromIndex(index));
+      weekDays.forEach((weekDay) {
+        listWeekDays.add(WeekDay.fromValue(weekDay));
       });
     }
 

@@ -120,10 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
     final courseNotes = prefs.notesOfCourse(course);
-
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
-
     // Add notes to the course
     course.notes = courseNotes;
 
@@ -134,24 +132,22 @@ class _HomeScreenState extends State<HomeScreen> {
     List<CustomCourse> courses = [];
 
     final daysPerWeek = DateTime.daysPerWeek;
-    final actualWeekDay = DateTime.now().weekday;
+    int numberDay = daysPerWeek * prefs.numberWeeks;
 
-    for (int week = 0; week < prefs.numberWeeks; week++) {
-      course.weekdaysRepeat.forEach((weekday) {
-        int targetWD = weekday.value;
+    DateTime dayDate = DateTime.now();
+    int weekDay;
+    for (int day = 0; day < numberDay; day++) {
+      weekDay = dayDate.weekday;
+      // Check if actual day is in weekdays's course list
+      if (course.weekdaysRepeat.contains(weekDay)) {
+        CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
+        courseRepeated.dateStart =
+            Date.setTimeFromOther(dayDate, course.dateStart);
+        courseRepeated.dateEnd = Date.setTimeFromOther(dayDate, course.dateEnd);
 
-        if (targetWD < actualWeekDay && week > 0 || targetWD >= actualWeekDay) {
-          int diffDays = (targetWD - actualWeekDay) % daysPerWeek;
-
-          final duration = Duration(days: diffDays + (daysPerWeek * week));
-
-          CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
-          courseRepeated.dateStart = course.dateStart.add(duration);
-          courseRepeated.dateEnd = course.dateEnd.add(duration);
-
-          courses.add(courseRepeated);
-        }
-      });
+        courses.add(courseRepeated);
+      }
+      dayDate = dayDate.add(Duration(days: 1));
     }
 
     return courses;
@@ -207,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listElement[dayDate.millisecondsSinceEpoch] = [];
         dayDate = dayDate.add(Duration(days: 1));
       }
+      print(dayDate.toString());
     }
 
     // Init variable to add headers
