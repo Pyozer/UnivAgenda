@@ -182,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!course.isFinish()) {
         // Get all notes of the course
         course = _addNotesToCourse(allNotes, course);
-
         // Add course to list
         listCourses.add(course);
       }
@@ -200,10 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       final int numberDays = prefs.numberWeeks * DateTime.daysPerWeek;
       for (int day = 0; day < numberDays; day++) {
-        listElement[dayDate.millisecondsSinceEpoch] = [];
+        int dateValue = Date.dateToInt(dayDate);
+        listElement[dateValue] = [];
         dayDate = dayDate.add(Duration(days: 1));
       }
-      print(dayDate.toString());
     }
 
     // Init variable to add headers
@@ -216,7 +215,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (Date.notSameDay(course.dateStart, lastDate)) {
         if (i != 0) {
-          listElement[lastDate.millisecondsSinceEpoch] = listCourseDay;
+          int dateValue = Date.dateToInt(lastDate);
+          listElement[dateValue] = listCourseDay;
           listCourseDay = [];
         }
         lastDate = Date.dateFromDateTime(course.dateStart);
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: (_courses?.length == 0 ?? true)
                     ? _buildNoResult()
                     : CourseList(
-                        courses: _courses,
+                        coursesData: _courses,
                         isHorizontal: prefs.isHorizontalView,
                         numberWeeks: prefs.numberWeeks,
                         noteColor: Color(prefs.theme.noteColor),

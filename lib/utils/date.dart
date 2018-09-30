@@ -76,4 +76,27 @@ class Date {
         DateFormat.MMMEd(locale.languageCode).format(dateTime) +
         ')';
   }
+
+  static int dateToInt(DateTime dt) {
+    int year = dt.year;
+    String month = "${dt.month}";
+    if (month.length == 1)
+      month = "0" + month;
+
+    String day = "${dt.day}";
+    if (day.length == 1)
+      day = "0" + day;
+    
+    return int.parse("$year$month$day");
+  }
+
+  static DateTime intToDate(int dateInt) {
+    String dateValue = dateInt.toString();
+  
+    int year = int.parse(dateValue.substring(0, 4));
+    int month = int.parse(dateValue.substring(4, 6));
+    int day = int.parse(dateValue.substring(6, 8));
+
+    return DateTime(year, month, day);
+  }
 }

@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
+import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
 import 'package:myagenda/widgets/ui/empty_day.dart';
 
 class CourseList extends StatelessWidget {
-  final Map<int, List<BaseCourse>> courses;
+  final Map<int, List<BaseCourse>> coursesData;
   final int numberWeeks;
   final bool isHorizontal;
   final Color noteColor;
 
   const CourseList({
     Key key,
-    @required this.courses,
+    @required this.coursesData,
     @required this.numberWeeks,
     @required this.noteColor,
     this.isHorizontal = false,
@@ -26,6 +27,10 @@ class CourseList extends StatelessWidget {
 
     if (courses != null && courses.length > 0) {
       courses.forEach((course) {
+
+        if (course is Course && course.dateStart.day == 26)
+          print("OK COURSE");
+
         if (course == null)
           widgets.add(const EmptyDay());
         else if (course is CourseHeader)
@@ -58,8 +63,8 @@ class CourseList extends StatelessWidget {
     // Build horizontal view
     DateTime lastDate;
     elements.forEach((date, courses) {
-      if (lastDate == null || lastDate.millisecondsSinceEpoch != date)
-        lastDate = DateTime.fromMillisecondsSinceEpoch(date);
+      if (lastDate == null || Date.dateToInt(lastDate) != date)
+        lastDate = Date.intToDate(date);
 
       tabs.add(
         Padding(
@@ -79,15 +84,8 @@ class CourseList extends StatelessWidget {
     return DefaultTabController(
       length: elements.length,
       child: Column(children: [
-        TabBar(
-          isScrollable: true,
-          tabs: tabs,
-        ),
-        Expanded(
-          child: TabBarView(
-            children: listTabView,
-          ),
-        ),
+        TabBar(isScrollable: true, tabs: tabs),
+        Expanded(child: TabBarView(children: listTabView)),
       ]),
     );
   }
@@ -97,8 +95,8 @@ class CourseList extends StatelessWidget {
     final List<BaseCourse> listChildren = [];
     DateTime lastDate;
     elements.forEach((date, courses) {
-      if (lastDate == null || lastDate.millisecondsSinceEpoch != date)
-        lastDate = DateTime.fromMillisecondsSinceEpoch(date);
+      if (lastDate == null || Date.dateToInt(lastDate) != date)
+        lastDate = Date.intToDate(date);
 
       listChildren.add(CourseHeader(lastDate));
       if (courses != null && courses.length > 0)
@@ -114,8 +112,8 @@ class CourseList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: (isHorizontal)
-          ? _buildHorizontal(context, courses)
-          : _buildVertical(context, courses),
+          ? _buildHorizontal(context, coursesData)
+          : _buildVertical(context, coursesData),
     );
   }
 }
