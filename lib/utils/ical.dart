@@ -12,10 +12,9 @@ const String UID = "UID";
 class Ical {
   static List<IcalModel> parseToIcal(String icalData) {
     List<String> lines = icalData.split("\n");
-
     Duration timezoneOffset = DateTime.now().timeZoneOffset;
 
-    List<IcalModel> events = List();
+    List<IcalModel> events = [];
     IcalModel event;
 
     String lastProp;
