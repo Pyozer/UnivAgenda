@@ -172,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
           listCourses.add(_addNotesToCourse(allNotes, customCourse));
         });
       } else {
-        print(course);
         listCourses.add(_addNotesToCourse(allNotes, course));
       }
     }
