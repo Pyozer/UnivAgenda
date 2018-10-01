@@ -27,10 +27,6 @@ class CourseList extends StatelessWidget {
 
     if (courses != null && courses.length > 0) {
       courses.forEach((course) {
-
-        if (course is Course && course.dateStart.day == 26)
-          print("OK COURSE");
-
         if (course == null)
           widgets.add(const EmptyDay());
         else if (course is CourseHeader)
