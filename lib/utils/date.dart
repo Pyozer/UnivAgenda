@@ -30,7 +30,7 @@ class Date {
     return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
   }
 
-  static String dateFromNow(DateTime date, [Locale locale]) {
+  static String dateFromNow(DateTime date, [Locale locale, bool shortDate = false]) {
     if (locale == null) locale = kDefaultLocal;
 
     DateTime dateTimeToday = DateTime.now();
@@ -39,17 +39,25 @@ class Date {
         ? ["Aujourd'hui", "Demain"]
         : ["Today", "Tomorrow"];
 
-    if (dateTimeToday.day == date.day &&
-        dateTimeToday.month == date.month &&
-        dateTimeToday.year == date.year)
+    if (!notSameDay(dateTimeToday, date))
       return lang[0];
     else if ((dateTimeToday.day + 1) == date.day &&
         dateTimeToday.month == date.month &&
         dateTimeToday.year == date.year) return lang[1];
 
-    final dateFormat = (dateTimeToday.year == date.year)
-        ? DateFormat.MMMMEEEEd(locale.languageCode)
-        : DateFormat.yMMMMEEEEd(locale.languageCode);
+    DateFormat dateFormat;
+    
+    if (dateTimeToday.year == date.year) {
+      if (shortDate)
+        dateFormat = DateFormat.MMMEd(locale.languageCode);
+        else
+        dateFormat = DateFormat.MMMMEEEEd(locale.languageCode);
+    } else {
+      if (shortDate)
+        dateFormat = DateFormat.yMMMEd(locale.languageCode);
+        else
+        dateFormat = DateFormat.yMMMMEEEEd(locale.languageCode);
+    }
 
     return capitalize(dateFormat.format(date));
   }

@@ -52,10 +52,12 @@ class CourseList extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final langCode = Translations.of(context).locale.languageCode;
+    final locale = Translations.of(context).locale;
     final textTheme = Theme.of(context).textTheme;
+
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
+
     // Build horizontal view
     DateTime lastDate;
     elements.forEach((date, courses) {
@@ -66,7 +68,7 @@ class CourseList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: Text(
-            DateFormat.MEd(langCode).format(lastDate),
+            Date.dateFromNow(lastDate, locale, true),
             style: textTheme.title,
           ),
         ),
