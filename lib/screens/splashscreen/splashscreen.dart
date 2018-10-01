@@ -128,14 +128,15 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void _setError() {
-    setState(() {
-      _isPrefsLoaded = false;
-      _isError = true;
-    });
+    if (mounted)
+      setState(() {
+        _isPrefsLoaded = false;
+        _isError = true;
+      });
   }
 
   void _goToNext(String route) {
-    Navigator.of(context).pushReplacementNamed(route);
+    if (mounted) Navigator.of(context).pushReplacementNamed(route);
   }
 
   @override
