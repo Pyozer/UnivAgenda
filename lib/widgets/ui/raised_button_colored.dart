@@ -24,16 +24,17 @@ class RaisedButtonColored extends StatelessWidget {
     return RaisedButton(
       shape: shape ??
           const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8.0),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
       onPressed: onPressed,
-      child: Text(text.toUpperCase()),
-      color: Theme.of(context).accentColor,
+      child: Text(
+        text.toUpperCase(),
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      color: accentColor,
       textColor: color,
       padding: padding ??
-          const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
     );
   }
 }
