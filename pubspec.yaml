@@ -57,17 +57,17 @@ flutter:
     - res/locales/fr.json
 
   fonts:
-     - family: OpenSans
+     - family: GoogleSans
        fonts:
-          - asset: res/fonts/OpenSans-Regular.ttf
+          - asset: res/fonts/GoogleSans-Regular.ttf
             style: normal
             weight: 500
 
-          - asset: res/fonts/OpenSans-SemiBold.ttf
+          - asset: res/fonts/GoogleSans-Medium.ttf
             style: normal
             weight: 600
 
-          - asset: res/fonts/OpenSans-Bold.ttf
+          - asset: res/fonts/GoogleSans-Bold.ttf
             style: normal
             weight: 700
 

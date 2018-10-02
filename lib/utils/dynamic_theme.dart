@@ -32,7 +32,7 @@ class DynamicTheme extends StatelessWidget {
     Color accentColor,
   }) {
     return ThemeData(
-        fontFamily: 'OpenSans',
+        fontFamily: 'GoogleSans',
         brightness: brightness,
         primarySwatch: _findMainColor(primaryColor),
         primaryColor: primaryColor,
