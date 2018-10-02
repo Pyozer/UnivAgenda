@@ -7,7 +7,7 @@ import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
 class DialogPredefined {
-  static show(
+  static Future<bool> show(
     BuildContext context,
     String title,
     String text,
@@ -30,10 +30,23 @@ class DialogPredefined {
         false;
   }
 
-  static showEndTimeError(BuildContext context) {
+  static Future<bool> showSimpleMessage(
+      BuildContext context, String title, String message) async {
     final translate = Translations.of(context);
 
-    show(
+    return await show(
+      context,
+      title,
+      message,
+      translate.get(StringKey.OK),
+      null,
+    );
+  }
+
+  static Future<bool> showEndTimeError(BuildContext context) async {
+    final translate = Translations.of(context);
+
+    return await show(
       context,
       translate.get(StringKey.ERROR_END_TIME),
       translate.get(StringKey.ERROR_END_TIME_TEXT),
@@ -54,10 +67,11 @@ class DialogPredefined {
     );
   }
 
-  static showProgressDialog(BuildContext context, String message) {
+  static Future<bool> showProgressDialog(
+      BuildContext context, String message) async {
     final translate = Translations.of(context);
 
-    showDialog(
+    return await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

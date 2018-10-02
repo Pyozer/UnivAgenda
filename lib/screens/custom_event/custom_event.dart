@@ -152,6 +152,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       if (_eventDateEnd.isBefore(_eventDateStart)) {
         DialogPredefined.showEndTimeError(context);
         return;
+      } else if (_isEventRecurrent && _selectedWeekdays.length == 0) {
+        DialogPredefined.showSimpleMessage(context, "Error",
+            "You select recurrent event but there is no day selected...");
+        return;
       }
 
       final course = CustomCourse(
@@ -227,6 +231,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       actions: [
         IconButton(
           icon: const Icon(Icons.check),
+          tooltip: translations.get(StringKey.SAVE),
           onPressed: () => _onSubmit(context),
         )
       ],
