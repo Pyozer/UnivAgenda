@@ -42,7 +42,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   @override
   void initState() {
     super.initState();
-
+    // Init view
     if (widget.course != null) {
       _eventDateStart = widget.course.dateStart;
       _eventDateEnd = widget.course.dateEnd;
@@ -60,7 +60,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _eventColor = widget.course.color ?? materialColors[0];
     } else {
       _eventDateStart = DateTime.now();
-      _eventDateEnd = DateTime.now().add(Duration(hours: 1));
+      _eventDateEnd = DateTime.now();
       _eventColor = materialColors[0];
     }
   }
@@ -141,9 +141,8 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   }
 
   String _validateTextField(String value) {
-    if (value.isEmpty) {
+    if (value.isEmpty)
       return Translations.of(context).get(StringKey.REQUIRE_FIELD);
-    }
     return null;
   }
 
@@ -276,13 +275,35 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               ),
               const Divider(height: 4.0),
               ListTile(
-                leading: const Icon(Icons.date_range),
-                title: _buildDateTimeField(
-                  translations.get(StringKey.DATE_EVENT),
-                  Date.extractDate(_eventDateStart, _locale),
-                  _onDateTap,
+                leading: const Icon(Icons.repeat),
+                title: Text(translations.get(StringKey.EVENT_REPEAT)),
+                trailing: Switch(
+                  value: _isEventRecurrent,
+                  activeColor: theme.accentColor,
+                  onChanged: (value) {
+                    setState(() {
+                      _isEventRecurrent = value;
+                    });
+                  },
                 ),
               ),
+              const Divider(height: 4.0),
+              _isEventRecurrent
+                  ? Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Wrap(
+                        spacing: 5.0,
+                        children: _buildWeekDaySelection(),
+                      ),
+                    )
+                  : ListTile(
+                      leading: const Icon(Icons.date_range),
+                      title: _buildDateTimeField(
+                        translations.get(StringKey.DATE_EVENT),
+                        Date.extractDate(_eventDateStart, _locale),
+                        _onDateTap,
+                      ),
+                    ),
               const Divider(height: 4.0),
               Row(
                 children: <Widget>[
@@ -309,29 +330,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   ),
                 ],
               ),
-              const Divider(height: 4.0),
-              ListTile(
-                leading: const Icon(Icons.repeat),
-                title: Text(translations.get(StringKey.EVENT_REPEAT)),
-                trailing: Switch(
-                  value: _isEventRecurrent,
-                  activeColor: theme.accentColor,
-                  onChanged: (value) {
-                    setState(() {
-                      _isEventRecurrent = value;
-                    });
-                  },
-                ),
-              ),
-              _isEventRecurrent
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Wrap(
-                        spacing: 5.0,
-                        children: _buildWeekDaySelection(),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
               const Divider(height: 4.0),
               ListTile(
                 leading: const Icon(Icons.color_lens),

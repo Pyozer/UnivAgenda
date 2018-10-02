@@ -18,10 +18,11 @@ class CircleText extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              color: isSelected ? Colors.grey[200] : Colors.grey[900]),
+            color: isSelected ? Colors.grey[200] : Colors.grey[900],
+          ),
         ),
         backgroundColor: isSelected ? Colors.grey[700] : Colors.grey[300],
-        radius: 18.0,
+        radius: 20.0,
       ),
     );
   }
