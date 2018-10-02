@@ -22,7 +22,7 @@ class CircleText extends StatelessWidget {
           ),
         ),
         backgroundColor: isSelected ? Colors.grey[700] : Colors.grey[300],
-        radius: 20.0,
+        radius: 19.0,
       ),
     );
   }
