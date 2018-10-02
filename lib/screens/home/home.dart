@@ -45,19 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     prefs = PreferencesProvider.of(context);
 
     // Define type of view
     _isHorizontal = prefs.isHorizontalView;
 
     // Load cached ical
-    final cachedIcal = prefs.cachedIcal;
-    if (cachedIcal != null && cachedIcal.isNotEmpty) {
-      _prepareList(cachedIcal);
-    } else {
-      _prepareList("");
-    }
+    _prepareList(prefs.cachedIcal ?? "");
 
     if (prefs.calendar != _lastPrefsCalendar ||
         prefs.numberWeeks != _lastNumberWeeks) {
@@ -133,23 +127,21 @@ class _HomeScreenState extends State<HomeScreen> {
   List<CustomCourse> _generateRepeatedCourses(CustomCourse course) {
     List<CustomCourse> courses = [];
 
-    final daysPerWeek = DateTime.daysPerWeek;
-    int numberDay = daysPerWeek * prefs.numberWeeks;
+    final int numberDay = DateTime.daysPerWeek * prefs.numberWeeks;
+    final Duration addOneDay = Duration(days: 1);
 
     DateTime dayDate = DateTime.now();
-    int weekDay;
     for (int day = 0; day < numberDay; day++) {
-      weekDay = dayDate.weekday;
       // Check if actual day is in weekdays's course list
-      if (course.weekdaysRepeat.contains(weekDay)) {
+      if (course.weekdaysRepeat.contains(dayDate.weekday)) {
         CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
         courseRepeated.dateStart =
             Date.setTimeFromOther(dayDate, course.dateStart);
         courseRepeated.dateEnd = Date.setTimeFromOther(dayDate, course.dateEnd);
-
+        // Add course to list
         courses.add(courseRepeated);
       }
-      dayDate = dayDate.add(Duration(days: 1));
+      dayDate = dayDate.add(addOneDay);
     }
 
     return courses;
@@ -209,8 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     for (Course course in listCourses) {
       int dateValue = Date.dateToInt(course.dateStart);
-      if (listElement[dateValue] == null)
-        listElement[dateValue] = [];
+      if (listElement[dateValue] == null) listElement[dateValue] = [];
 
       listElement[dateValue].add(course);
     }
