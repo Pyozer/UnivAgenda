@@ -159,8 +159,7 @@ class _DetailCourseState extends State<DetailCourse> {
 
       final note = Note(
         courseUid: _course.uid,
-        text: _noteToAdd,
-        dateExpiration: _course.dateEnd,
+        text: _noteToAdd
       );
       _noteToAdd = "";
 

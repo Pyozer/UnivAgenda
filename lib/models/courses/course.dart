@@ -85,7 +85,8 @@ class Course extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Course && runtimeType == other.runtimeType && uid == other.uid;
+      (other is Course && uid == other.uid) ||
+      (other is String && uid == other);
 
   @override
   int get hashCode => uid.hashCode;

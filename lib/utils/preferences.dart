@@ -322,9 +322,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         .then((prefs) => prefs.setString(PrefKey.cachedIcal, _cachedIcal));
   }
 
-  List<Note> get notes =>
-      _notes?.where((note) => !note.isExpired())?.toList() ??
-      PrefKey.defaultNotes;
+  List<Note> get notes {
+    List<CustomCourse> events = customEvents;
+    // Get all notes who have their courseUID in events list (not expired)
+    return _notes?.where((note) => events.contains(note.courseUid))?.toList() ??
+        PrefKey.defaultNotes;
+  }
 
   List<Note> notesOfCourse(Course course) {
     return notes.where((note) => note.courseUid == course.uid).toList();
@@ -334,8 +337,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (notes == newNotes) return;
 
     newNotes ??= PrefKey.defaultNotes;
-    // Remove expired notes
-    newNotes.removeWhere((note) => note.isExpired());
 
     _updatePref(() {
       _notes = newNotes;
@@ -379,7 +380,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (customEvents == newCustomEvents) return;
 
     newCustomEvents ??= PrefKey.defaultCustomEvents;
-    newCustomEvents.removeWhere((event) => event.isFinish());
+    newCustomEvents.removeWhere(
+        (event) => event.isFinish() && event.weekdaysRepeat.length == 0);
 
     _updatePref(() {
       _customEvents = newCustomEvents;
@@ -398,7 +400,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void addCustomEvent(CustomCourse eventToAdd, [state = true]) {
     if (eventToAdd == null) return;
 
-    List<Course> newEvents = customEvents;
+    List<CustomCourse> newEvents = customEvents;
     newEvents.add(eventToAdd);
 
     setCustomEvents(newEvents, state);
@@ -407,7 +409,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void removeCustomEvent(CustomCourse eventToRemove, [state = true]) {
     if (eventToRemove == null) return;
 
-    List<Course> newEvents = customEvents;
+    List<CustomCourse> newEvents = customEvents;
     newEvents.removeWhere((event) => (event == eventToRemove));
 
     setCustomEvents(newEvents, state);
@@ -588,8 +590,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     List<Note> actualNotes = [];
     List<String> notesStr = prefs.getStringList(PrefKey.notes) ?? [];
     notesStr.forEach((noteJsonStr) {
-      final note = Note.fromJsonStr(noteJsonStr);
-      if (!note.isExpired()) actualNotes.add(note);
+      actualNotes.add(Note.fromJsonStr(noteJsonStr));
     });
     setNotes(actualNotes, false);
 
@@ -597,8 +598,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     List<String> customEventsStr =
         prefs.getStringList(PrefKey.customEvent) ?? [];
     customEventsStr.forEach((eventJsonStr) {
-      final event = CustomCourse.fromJsonStr(eventJsonStr);
-      if (!event.isFinish()) actualEvents.add(event);
+      actualEvents.add(CustomCourse.fromJsonStr(eventJsonStr));
     });
 
     // Set update state true/false on last to force rebuild
