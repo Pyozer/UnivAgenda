@@ -1,3 +1,12 @@
+## Version 4.0.1
+
+- Ajout de la possibilité d'ajouter des événements récurrents
+- Possibilité d'afficher tous les jours
+- Possibilité de cacher le nom du groupe afficher avant la liste des cours.
+- Ajout du nom du groupe dans le menu latéral
+- Correction de bugs
+- Amélioration des performances
+  
 ## Version 4.0.0
 
 - Refonte totale de l'application avec Flutter (Android/iOS)
