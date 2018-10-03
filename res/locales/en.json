@@ -174,5 +174,8 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
 
-  "no_events": "No events."
+  "no_events": "No events.",
+
+  "error": "Error",
+  "error_event_recurrent_zero": "You select recurrent event but there is no day selected!"
 }

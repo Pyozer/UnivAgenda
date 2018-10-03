@@ -153,8 +153,12 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
         DialogPredefined.showEndTimeError(context);
         return;
       } else if (_isEventRecurrent && _selectedWeekdays.length == 0) {
-        DialogPredefined.showSimpleMessage(context, "Error",
-            "You select recurrent event but there is no day selected...");
+        final translate = Translations.of(context);
+        DialogPredefined.showSimpleMessage(
+          context,
+          translate.get(StringKey.ERROR),
+          translate.get(StringKey.ERROR_EVENT_RECURRENT_ZERO),
+        );
         return;
       }
 

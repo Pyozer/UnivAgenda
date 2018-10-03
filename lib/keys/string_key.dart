@@ -182,4 +182,7 @@ class StringKey {
   static const SUNDAY = 'sunday';
 
   static const NO_EVENTS = "no_events";
+
+  static const ERROR = "error";
+  static const ERROR_EVENT_RECURRENT_ZERO = "error_event_recurrent_zero";
 }
