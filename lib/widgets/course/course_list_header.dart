@@ -15,12 +15,13 @@ class CourseListHeader extends StatelessWidget {
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     final translations = Translations.of(mainContext);
 
-    bool btnPositivePressed = await DialogPredefined.show(
-        mainContext,
-        translations.get(StringKey.CHANGE_AGENDA),
-        translations.get(StringKey.CHANGE_AGENDA_TEXT),
-        translations.get(StringKey.CHANGE),
-        translations.get(StringKey.CANCEL));
+    bool btnPositivePressed = await DialogPredefined.showTextDialog(
+      mainContext,
+      translations.get(StringKey.CHANGE_AGENDA),
+      translations.get(StringKey.CHANGE_AGENDA_TEXT),
+      translations.get(StringKey.CHANGE),
+      translations.get(StringKey.CANCEL),
+    );
 
     if (btnPositivePressed) {
       Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);

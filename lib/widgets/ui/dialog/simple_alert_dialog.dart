@@ -5,21 +5,21 @@ class SimpleAlertDialog extends StatelessWidget {
   static final boldText = const TextStyle(fontWeight: FontWeight.w600);
 
   final String title;
-  final String text;
+  final Widget content;
   final String btnPositive;
   final String btnNegative;
 
   const SimpleAlertDialog(
-      {Key key, this.title, this.text, this.btnPositive, this.btnNegative})
+      {Key key, this.title, this.content, this.btnPositive, this.btnNegative})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: const EdgeInsets.all(20.0),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+      contentPadding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0),
       title: Text(title, style: boldText),
-      content: Text(text, textAlign: TextAlign.justify),
+      content: content,
       actions: <Widget>[
         (btnNegative != null)
             ? FlatButton(
@@ -30,9 +30,9 @@ class SimpleAlertDialog extends StatelessWidget {
               )
             : const SizedBox.shrink(),
         Padding(
-          padding: const EdgeInsets.only(right: 6.0),
+          padding: const EdgeInsets.only(right: 7.0),
           child: RaisedButtonColored(
-            text: btnPositive,
+            text: btnPositive.toUpperCase(),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

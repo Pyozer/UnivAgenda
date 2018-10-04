@@ -7,10 +7,10 @@ import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
 class DialogPredefined {
-  static Future<bool> show(
+  static Future<bool> showContentDialog(
     BuildContext context,
     String title,
-    String text,
+    Widget content,
     String btnPositive,
     String btnNegative, [
     dismissable = true,
@@ -21,7 +21,7 @@ class DialogPredefined {
           builder: (BuildContext context) {
             return SimpleAlertDialog(
               title: title,
-              text: text,
+              content: content,
               btnNegative: btnNegative,
               btnPositive: btnPositive,
             );
@@ -30,11 +30,29 @@ class DialogPredefined {
         false;
   }
 
+  static Future<bool> showTextDialog(
+    BuildContext context,
+    String title,
+    String text,
+    String btnPositive,
+    String btnNegative, [
+    dismissable = true,
+  ]) async {
+    return await showContentDialog(
+      context,
+      title,
+      Text(text, textAlign: TextAlign.justify),
+      btnPositive,
+      btnNegative,
+      dismissable,
+    );
+  }
+
   static Future<bool> showSimpleMessage(
       BuildContext context, String title, String message) async {
     final translate = Translations.of(context);
 
-    return await show(
+    return await showTextDialog(
       context,
       title,
       message,
@@ -46,7 +64,7 @@ class DialogPredefined {
   static Future<bool> showEndTimeError(BuildContext context) async {
     final translate = Translations.of(context);
 
-    return await show(
+    return await showTextDialog(
       context,
       translate.get(StringKey.ERROR_END_TIME),
       translate.get(StringKey.ERROR_END_TIME_TEXT),
@@ -58,7 +76,7 @@ class DialogPredefined {
   static Future<bool> showDeleteEventConfirm(BuildContext context) async {
     final translate = Translations.of(context);
 
-    return await show(
+    return await showTextDialog(
       context,
       translate.get(StringKey.CONFIRM_EVENT_DELETE),
       translate.get(StringKey.CONFIRM_EVENT_DELETE_TEXT),

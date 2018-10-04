@@ -115,53 +115,43 @@ class _DetailCourseState extends State<DetailCourse> {
     PreferencesProvider.of(context).removeNote(note, false);
   }
 
-  void _openAddNote() {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        final translate = Translations.of(context);
+  void _openAddNote() async {
+    final translate = Translations.of(context);
 
-        return AlertDialog(
-          title: Text(translate.get(StringKey.ADD_NOTE)),
-          content: Form(
-            key: _formKey,
-            child: TextFormField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                  hintText: translate.get(StringKey.ADD_NOTE_PLACEHOLDER)),
-              validator: (val) => val.trim().isEmpty
-                  ? translate.get(StringKey.ADD_NOTE_EMPTY)
-                  : null,
-              onSaved: (val) => _noteToAdd = val.trim(),
-            ),
-          ),
-          actions: [
-            FlatButton(
-              child: Text(translate.get(StringKey.CANCEL).toUpperCase()),
-              onPressed: () => Navigator.of(dialogContext).pop(),
-            ),
-            FlatButton(
-              child:
-                  Text(translate.get(StringKey.ADD_NOTE_SUBMIT).toUpperCase()),
-              onPressed: () => _submitAddNote(dialogContext),
-            )
-          ],
-        );
-      },
+    var formContent = Form(
+      key: _formKey,
+      child: TextFormField(
+        maxLength: 350,
+        maxLines: 6,
+        keyboardType: TextInputType.multiline,
+        decoration: InputDecoration(
+          hintText: translate.get(StringKey.ADD_NOTE_PLACEHOLDER),
+        ),
+        validator: (val) => (val.trim().isEmpty)
+            ? translate.get(StringKey.ADD_NOTE_EMPTY)
+            : null,
+        onSaved: (val) => _noteToAdd = val.trim(),
+      ),
     );
+
+    bool isDialogPositive = await DialogPredefined.showContentDialog(
+      context,
+      translate.get(StringKey.ADD_NOTE),
+      formContent,
+      translate.get(StringKey.ADD_NOTE_SUBMIT),
+      translate.get(StringKey.CANCEL),
+    );
+
+    if (isDialogPositive) _submitAddNote();
   }
 
-  void _submitAddNote(BuildContext context) {
+  void _submitAddNote() {
     final form = _formKey.currentState;
 
     if (form.validate()) {
       form.save();
 
-      final note = Note(
-        courseUid: _course.uid,
-        text: _noteToAdd
-      );
+      final note = Note(courseUid: _course.uid, text: _noteToAdd);
       _noteToAdd = "";
 
       setState(() {
@@ -169,7 +159,6 @@ class _DetailCourseState extends State<DetailCourse> {
       });
 
       PreferencesProvider.of(context).addNote(note, false);
-      Navigator.of(context).pop();
     }
   }
 
