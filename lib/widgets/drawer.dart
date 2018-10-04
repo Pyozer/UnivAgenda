@@ -5,6 +5,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
@@ -48,12 +49,12 @@ class MainDrawer extends StatelessWidget {
                 : const Color(0x18000000),
           ),
           DrawerElement(
-            icon: Icons.location_city,
+            icon: OMIcons.search,
             title: translations.get(StringKey.FINDROOM),
             routeDest: RouteKey.FINDROOM,
           ),
           DrawerElement(
-            icon: Icons.info_outline,
+            icon: OMIcons.info,
             title: translations.get(StringKey.ABOUT),
             routeDest: RouteKey.ABOUT,
           ),
@@ -64,23 +65,23 @@ class MainDrawer extends StatelessWidget {
           ),
           const Divider(),
           DrawerElement(
-            icon: Icons.settings,
+            icon: OMIcons.settings,
             title: translations.get(StringKey.SETTINGS),
             routeDest: RouteKey.SETTINGS,
           ),
           DrawerElement(
-            icon: Icons.help,
+            icon: OMIcons.liveHelp,
             title: translations.get(StringKey.HELP_FEEDBACK),
             routeDest: RouteKey.HELP,
           ),
           DrawerElement(
-            icon: Icons.monetization_on,
+            icon: OMIcons.monetizationOn,
             title: translations.get(StringKey.SUPPORTME),
             routeDest: RouteKey.SUPPORTME,
           ),
           const Divider(),
           DrawerElement(
-            icon: Icons.exit_to_app,
+            icon: OMIcons.exitToApp,
             title: translations.get(StringKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () {

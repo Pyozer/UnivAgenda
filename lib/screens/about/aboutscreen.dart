@@ -11,6 +11,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -152,7 +153,7 @@ class AboutScreen extends StatelessWidget {
                   style: txtTheme),
               Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: const Icon(Icons.favorite, color: Colors.red))
+                  child: const Icon(OMIcons.favorite, color: Colors.red))
             ]));
   }
 

@@ -14,6 +14,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course_note/add_note_button.dart';
 import 'package:myagenda/widgets/course_note/course_note.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DetailCourse extends StatefulWidget {
   final Course course;
@@ -46,12 +47,12 @@ class _DetailCourseState extends State<DetailCourse> {
 
     List<Widget> listInfo = [
       ListTile(
-        leading: const Icon(Icons.access_time),
+        leading: const Icon(OMIcons.accessTime),
         title: Text('$timeStart  –  $timeEnd'),
         subtitle: Text(date),
       ),
       ListTile(
-        leading: const Icon(Icons.group),
+        leading: const Icon(OMIcons.group),
         title: Text(
           _course.description,
           maxLines: 2,
@@ -62,18 +63,18 @@ class _DetailCourseState extends State<DetailCourse> {
 
     if (_course.location != null && _course.location.isNotEmpty)
       listInfo.add(ListTile(
-          leading: const Icon(Icons.location_on),
+          leading: const Icon(OMIcons.locationOn),
           title: Text(_course.location)));
 
     if (_course.isExam())
       listInfo.add(ListTile(
-          leading: const Icon(Icons.description),
+          leading: const Icon(OMIcons.description),
           title: Text(translate.get(StringKey.COURSE_TEST))));
 
     if (_course.color != null)
       listInfo.add(
         ListTile(
-          leading: const Icon(Icons.color_lens),
+          leading: const Icon(OMIcons.colorLens),
           title: Text(translate.get(StringKey.EVENT_COLOR)),
           trailing: CircleColor(color: _course.color, circleSize: 28.0),
         ),
@@ -180,7 +181,7 @@ class _DetailCourseState extends State<DetailCourse> {
     final actionsAppbar = (_course is CustomCourse)
         ? [
             IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(OMIcons.delete),
               onPressed: () async {
                 bool isConfirm =
                     await DialogPredefined.showDeleteEventConfirm(context);
@@ -191,7 +192,7 @@ class _DetailCourseState extends State<DetailCourse> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(OMIcons.edit),
               onPressed: () async {
                 CustomCourse editedCourse = await Navigator.of(context).push(
                   CustomRoute<CustomCourse>(

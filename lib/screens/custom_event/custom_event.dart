@@ -9,6 +9,7 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:uuid/uuid.dart';
 
 class CustomEventScreen extends StatefulWidget {
@@ -234,7 +235,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       title: translations.get(StringKey.ADD_EVENT),
       actions: [
         IconButton(
-          icon: const Icon(Icons.check),
+          icon: const Icon(OMIcons.check),
           tooltip: translations.get(StringKey.SAVE),
           onPressed: () => _onSubmit(context),
         )
@@ -248,7 +249,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _titleController,
                 decoration: _buildInputDecoration(
-                  Icons.title,
+                  OMIcons.title,
                   translations.get(StringKey.TITLE_EVENT),
                 ),
                 validator: _validateTextField,
@@ -261,7 +262,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _descController,
                 decoration: _buildInputDecoration(
-                  Icons.description,
+                  OMIcons.description,
                   translations.get(StringKey.DESC_EVENT),
                 ),
                 validator: _validateTextField,
@@ -276,7 +277,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _locationController,
                 decoration: _buildInputDecoration(
-                  Icons.location_on,
+                  OMIcons.locationOn,
                   translations.get(StringKey.LOCATION_EVENT),
                 ),
                 validator: _validateTextField,
@@ -284,7 +285,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               ),
               const Divider(height: 4.0),
               ListTile(
-                leading: const Icon(Icons.repeat),
+                leading: const Icon(OMIcons.repeat),
                 title: Text(translations.get(StringKey.EVENT_REPEAT)),
                 trailing: Switch(
                   value: _isEventRecurrent,
@@ -306,7 +307,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                       ),
                     )
                   : ListTile(
-                      leading: const Icon(Icons.date_range),
+                      leading: const Icon(OMIcons.dateRange),
                       title: _buildDateTimeField(
                         translations.get(StringKey.DATE_EVENT),
                         Date.extractDate(_eventDateStart, _locale),
@@ -318,7 +319,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 children: <Widget>[
                   Expanded(
                     child: ListTile(
-                      leading: const Icon(Icons.access_time),
+                      leading: const Icon(OMIcons.accessTime),
                       title: _buildDateTimeField(
                         translations.get(StringKey.START_TIME_EVENT),
                         Date.extractTime(_eventDateStart, _locale),
@@ -329,7 +330,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   Container(width: 16.0),
                   Expanded(
                     child: ListTile(
-                      leading: const Icon(Icons.access_time),
+                      leading: const Icon(OMIcons.accessTime),
                       title: _buildDateTimeField(
                         translations.get(StringKey.END_TIME_EVENT),
                         Date.extractTime(_eventDateEnd, _locale),
@@ -341,7 +342,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
               ),
               const Divider(height: 4.0),
               ListTile(
-                leading: const Icon(Icons.color_lens),
+                leading: const Icon(OMIcons.colorLens),
                 title: Text(translations.get(StringKey.EVENT_COLOR)),
                 trailing: Switch(
                   value: _isCustomColor,

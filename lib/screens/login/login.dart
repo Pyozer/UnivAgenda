@@ -14,6 +14,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -189,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final username = _buildTextField(
       translations.get(StringKey.LOGIN_USERNAME),
-      Icons.person_outline,
+      OMIcons.person,
       false,
       _usernameController,
       () => FocusScope.of(context).requestFocus(_passwordNode),
@@ -198,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final password = _buildTextField(
       translations.get(StringKey.LOGIN_PASSWORD),
-      Icons.lock_outline,
+      OMIcons.lock,
       true,
       _passwordController,
       _onSubmit,
@@ -208,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final loginButton = FloatingActionButton(
       onPressed: _onSubmit,
-      child: const Icon(Icons.send),
+      child: const Icon(OMIcons.send),
       backgroundColor: theme.accentColor,
     );
 

@@ -15,6 +15,7 @@ import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/setting_card.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 enum MenuItem { REFRESH }
 
@@ -206,7 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: translations.get(StringKey.SETTINGS),
       actions: <Widget>[
         PopupMenuButton<MenuItem>(
-          icon: const Icon(Icons.more_vert),
+          icon: const Icon(OMIcons.moreVert),
           onSelected: (MenuItem result) {
             if (result == MenuItem.REFRESH) _forceRefreshResources();
           },

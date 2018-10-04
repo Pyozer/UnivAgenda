@@ -23,6 +23,7 @@ import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -224,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
         if (customCourse != null) prefs.addCustomEvent(customCourse);
       },
-      child: const Icon(Icons.add),
+      child: const Icon(OMIcons.add),
     );
   }
 
@@ -254,12 +255,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final refreshBtn = (_isHorizontal)
         ? IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(OMIcons.refresh),
             onPressed: _fetchData,
           )
         : const SizedBox.shrink();
 
-    final iconView = _isHorizontal ? Icons.view_day : Icons.view_week;
+    final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
