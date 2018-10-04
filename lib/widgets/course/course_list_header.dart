@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseListHeader extends StatelessWidget {
   final String text;
@@ -14,29 +15,16 @@ class CourseListHeader extends StatelessWidget {
   Future<Null> _onHeaderTap(BuildContext mainContext) async {
     final translations = Translations.of(mainContext);
 
-    return showDialog<Null>(
-      context: mainContext,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(translations.get(StringKey.CHANGE_AGENDA)),
-          content: Text(translations.get(StringKey.CHANGE_AGENDA_TEXT)),
-          actions: [
-            FlatButton(
-              child: Text(translations.get(StringKey.CANCEL).toUpperCase()),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            FlatButton(
-              child: Text(translations.get(StringKey.CHANGE).toUpperCase()),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);
-              },
-            )
-          ],
-        );
-      },
-    );
+    bool btnPositivePressed = await DialogPredefined.show(
+        mainContext,
+        translations.get(StringKey.CHANGE_AGENDA),
+        translations.get(StringKey.CHANGE_AGENDA_TEXT),
+        translations.get(StringKey.CHANGE),
+        translations.get(StringKey.CANCEL));
+
+    if (btnPositivePressed) {
+      Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);
+    }
   }
 
   @override
