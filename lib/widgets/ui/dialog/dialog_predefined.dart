@@ -14,6 +14,7 @@ class DialogPredefined {
     String btnPositive,
     String btnNegative, [
     dismissable = true,
+    EdgeInsets contentPadding,
   ]) async {
     return await showDialog<bool>(
           context: context,
@@ -24,6 +25,7 @@ class DialogPredefined {
               content: content,
               btnNegative: btnNegative,
               btnPositive: btnPositive,
+              contentPadding: contentPadding,
             );
           },
         ) ??

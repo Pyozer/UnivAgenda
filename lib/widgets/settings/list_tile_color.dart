@@ -5,6 +5,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class ListTileColor extends StatefulWidget {
   final String title;
@@ -80,31 +81,23 @@ class _ListTileColorState extends State<ListTileColor> {
 
     final translate = Translations.of(context);
 
-    await showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(widget.titleDialog ?? widget.title),
-          contentPadding: const EdgeInsets.all(8.0),
-          content: MaterialColorPicker(
-            onColorChange: _onColorChange,
-            selectedColor: _inputColor,
-            colors: widget.colors,
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: _closeDialog,
-              child: Text(translate.get(StringKey.CANCEL).toUpperCase()),
-            ),
-            FlatButton(
-              onPressed: _onSubmit,
-              child: Text(translate.get(StringKey.SUBMIT).toUpperCase()),
-            ),
-          ],
-        );
-      },
+    var colorPicker = MaterialColorPicker(
+      onColorChange: _onColorChange,
+      selectedColor: _inputColor,
+      colors: widget.colors,
     );
+
+    bool isDialogPositive = await DialogPredefined.showContentDialog(
+      context,
+      widget.titleDialog ?? widget.title,
+      colorPicker,
+      translate.get(StringKey.SUBMIT),
+      translate.get(StringKey.CANCEL),
+      true,
+      const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.0)
+    );
+
+    if (isDialogPositive) _onSubmit();
   }
 
   @override

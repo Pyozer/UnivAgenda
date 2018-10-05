@@ -8,16 +8,17 @@ class SimpleAlertDialog extends StatelessWidget {
   final Widget content;
   final String btnPositive;
   final String btnNegative;
+  final EdgeInsets contentPadding;
 
   const SimpleAlertDialog(
-      {Key key, this.title, this.content, this.btnPositive, this.btnNegative})
+      {Key key, this.title, this.content, this.btnPositive, this.btnNegative, this.contentPadding})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: const EdgeInsets.all(20.0),
-      contentPadding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0),
+      contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0),
       title: Text(title, style: boldText),
       content: content,
       actions: <Widget>[
