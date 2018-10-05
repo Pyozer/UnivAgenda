@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
-import 'package:myagenda/widgets/settings/list_tile_input.dart';
+import 'package:myagenda/widgets/settings/list_tile_number.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
@@ -110,14 +109,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_DISPLAY),
       children: [
-        ListTileInput(
+        ListTileNumber(
           title: translations.get(StringKey.NUMBER_WEEK),
-          defaultValue: prefs.numberWeeks.toString(),
+          defaultValue: prefs.numberWeeks,
+          minValue: 1,
+          maxValue: 16,
           inputType:
               TextInputType.numberWithOptions(decimal: false, signed: true),
-          onChange: (value) {
-            prefs.setNumberWeeks(isNumeric(value) ? int.parse(value) : -1);
-          },
+          onChange: prefs.setNumberWeeks,
         ),
         SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
