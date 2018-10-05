@@ -62,16 +62,11 @@ class _ListTileColorState extends State<ListTileColor> {
     });
   }
 
-  void _closeDialog() {
-    Navigator.of(context).pop(_submitColor);
-  }
-
   void _onSubmit() {
     widget.onColorChange(_inputColor);
     setState(() {
       _submitColor = _inputColor;
     });
-    _closeDialog();
   }
 
   Future<Null> _openDialog() async {
