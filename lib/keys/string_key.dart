@@ -185,4 +185,7 @@ class StringKey {
 
   static const ERROR = "error";
   static const ERROR_EVENT_RECURRENT_ZERO = "error_event_recurrent_zero";
+
+  static const DATA_PRIVACY = "data_privacy";
+  static const DATA_PRIVACY_TEXT = "data_privacy_text";
 }

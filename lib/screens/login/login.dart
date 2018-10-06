@@ -12,6 +12,7 @@ import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -22,8 +23,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordNode = FocusNode();
@@ -87,9 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final prefs = PreferencesProvider.of(context);
     prefs.setUserLogged(false);
-    
+
     _startTimeout();
-    
+
     // Login process
     final loginResult =
         await LoginCAS(prefs.university.loginUrl, username, password).login();
@@ -126,14 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
     await prefs.initResAndGroup();
 
-    _scaffoldKey.currentState.removeCurrentSnackBar();
     // Redirect user if no error
     prefs.setUserLogged(true);
     Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
   }
 
   void _showMessage(String msg) {
-    _scaffoldKey?.currentState?.showSnackBar(SnackBar(content: Text(msg)));
+    DialogPredefined.showSimpleMessage(
+      context,
+      Translations.of(context).get(StringKey.ERROR),
+      msg,
+    );
   }
 
   Widget _buildTextField(
@@ -164,12 +166,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void _startTimeout() async {
     // Start timout of 30sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
-    await Future.delayed(Duration(seconds: 30));
+    await Future.delayed(const Duration(seconds: 30));
     if (mounted) {
       setState(() {
         _isLoading = false;
       });
     }
+  }
+
+  void _onDataPrivcacy() {
+    final translations = Translations.of(context);
+    DialogPredefined.showSimpleMessage(
+      context,
+      translations.get(StringKey.DATA_PRIVACY),
+      translations.get(StringKey.DATA_PRIVACY_TEXT),
+    );
   }
 
   @override
@@ -217,7 +228,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (prefs.university == null) prefs.setUniversity(listUniversity[0]);
 
     return Scaffold(
-      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(
@@ -227,15 +237,12 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [logo, const SizedBox(height: 8.0), titleApp],
-                ),
-                flex: 3,
-              ),
-              Expanded(
-                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    logo,
+                    const SizedBox(height: 8.0),
+                    titleApp,
+                    const SizedBox(height: 42.0),
                     Dropdown(
                       items: prefs.getAllUniversity(),
                       value: prefs.university.name,
@@ -251,16 +258,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                     ),
                     const SizedBox(height: 32.0),
-                    _isLoading ? CircularProgressIndicator() : loginButton
+                    _isLoading ? const CircularProgressIndicator() : loginButton
                   ],
                 ),
-                flex: 7,
               ),
               const SizedBox(height: 12.0),
-              FlatButton(
-                child: Text(translations.get(StringKey.HELP_FEEDBACK)),
-                onPressed: () => Navigator.of(context).pushNamed(RouteKey.HELP),
-              )
+              Wrap(
+                spacing: 8.0,
+                alignment: WrapAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text(translations.get(StringKey.DATA_PRIVACY)),
+                    onPressed: _onDataPrivcacy,
+                  ),
+                  FlatButton(
+                    child: Text(translations.get(StringKey.HELP_FEEDBACK)),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(RouteKey.HELP),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
