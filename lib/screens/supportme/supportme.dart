@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_admob/firebase_admob.dart';
@@ -12,6 +13,7 @@ import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 const testDevices = [
   '9b34e796f34721de',
+  'A06E32F3C7D52D5960D56350238129A8'
 ]; // Android Emulator
 
 class SupportMeScreen extends StatefulWidget {
@@ -36,6 +38,8 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
   BannerAd _bannerAd;
   InterstitialAd _interstitialAd;
 
+  bool _bannerAdLoaded = false;
+
   static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     testDevices: testDevices,
     childDirected: true,
@@ -51,6 +55,9 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
       adUnitId: bannerID,
       size: AdSize.banner,
       targetingInfo: targetingInfo,
+      listener: (event) {
+        _bannerAdLoaded = (event == MobileAdEvent.loaded);
+      },
     )
       ..load()
       ..show(anchorType: AnchorType.bottom);
@@ -59,7 +66,6 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
   @override
   void dispose() {
     _bannerAd?.dispose();
-    //_interstitialAd?.dispose();
     super.dispose();
   }
 
@@ -69,9 +75,9 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     _interstitialAd = InterstitialAd(
       adUnitId: interstitialID,
       targetingInfo: targetingInfo,
-    );
-    _interstitialAd.load();
-    _interstitialAd.show();
+    )
+      ..load()
+      ..show();
 
     AnalyticsProvider.of(context).analytics.logEvent(
       name: 'open_fullad',
@@ -111,44 +117,61 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     _scaffoldKey?.currentState?.showSnackBar(SnackBar(content: Text(msg)));
   }
 
+  Future<bool> _onWillPop() async {
+    int nbAttempt = -1;
+    while (!_bannerAdLoaded && nbAttempt++ < 6) {
+      await Future.delayed(Duration(milliseconds: 500));
+    }
+
+    try {
+      await _bannerAd?.dispose();
+      _bannerAd = null;
+    } catch (_) {}
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final translations = Translations.of(context);
 
-    return AppbarPage(
-      scaffoldKey: _scaffoldKey,
-      title: translations.get(StringKey.SUPPORTME),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                translations.get(StringKey.SUPPORTME_TEXT),
-                style: Theme.of(context).textTheme.subhead,
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 24.0),
-              Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                spacing: 8.0,
-                runSpacing: 8.0,
-                children: <Widget>[
-                  RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_UNIDAYS),
-                    onPressed: _openUnidays,
-                  ),
-                  RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_HEADER),
-                    onPressed: _openPayPal,
-                  ),
-                  RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_AD),
-                    onPressed: _openFullAd,
-                  ),
-                ],
-              )
-            ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: AppbarPage(
+        scaffoldKey: _scaffoldKey,
+        title: translations.get(StringKey.SUPPORTME),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  translations.get(StringKey.SUPPORTME_TEXT),
+                  style: Theme.of(context).textTheme.subhead,
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(height: 24.0),
+                Wrap(
+                  alignment: WrapAlignment.spaceEvenly,
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: <Widget>[
+                    RaisedButtonColored(
+                      text: translations.get(StringKey.SUPPORTME_UNIDAYS),
+                      onPressed: _openUnidays,
+                    ),
+                    RaisedButtonColored(
+                      text: translations.get(StringKey.SUPPORTME_HEADER),
+                      onPressed: _openPayPal,
+                    ),
+                    RaisedButtonColored(
+                      text: translations.get(StringKey.SUPPORTME_AD),
+                      onPressed: _openFullAd,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
