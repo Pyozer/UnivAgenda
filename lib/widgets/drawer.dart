@@ -5,10 +5,31 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key key}) : super(key: key);
+
+  void _onDisconnectPressed(BuildContext context) async {
+    final translations = Translations.of(context);
+    final prefs = PreferencesProvider.of(context);
+
+    bool logoutConfirm = await DialogPredefined.showTextDialog(
+      context,
+      translations.get(StringKey.LOGOUT),
+      translations.get(StringKey.LOGOUT_CONFIRM),
+      translations.get(StringKey.YES),
+      translations.get(StringKey.NO),
+      true,
+      TextAlign.left
+    );
+
+    if (logoutConfirm) {
+      prefs.disconnectUser();
+      Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +105,7 @@ class MainDrawer extends StatelessWidget {
             icon: OMIcons.exitToApp,
             title: translations.get(StringKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
-            onTap: () {
-              prefs.disconnectUser();
-              Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
-            },
+            onTap: () => _onDisconnectPressed(context),
           )
         ],
       ),

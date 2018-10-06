@@ -39,6 +39,7 @@
   "help_feedback": "Help & Feedback",
   "supportme": "Support me",
   "logout": "Logout",
+  "logout_confirm": "Are you really sure you want to disconnect?",
 
   "add_event": "Add event",
 

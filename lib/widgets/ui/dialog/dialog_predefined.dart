@@ -45,11 +45,12 @@ class DialogPredefined {
     String btnPositive,
     String btnNegative, [
     dismissable = true,
+    TextAlign textAlign,
   ]) async {
     return await showContentDialog(
       context,
       title,
-      Text(text, textAlign: TextAlign.justify),
+      Text(text, textAlign: textAlign ?? TextAlign.justify),
       btnPositive,
       btnNegative,
       dismissable,
