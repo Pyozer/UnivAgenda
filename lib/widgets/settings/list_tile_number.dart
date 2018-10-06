@@ -88,6 +88,8 @@ class _ListTileNumberState extends State<ListTileNumber> {
       ),
       translate.get(StringKey.SUBMIT),
       translate.get(StringKey.CANCEL),
+      true,
+      const EdgeInsets.all(0.0)
     );
 
     if (isDialogPositive) _onSubmit();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class SimpleAlertDialog extends StatelessWidget {
@@ -18,7 +19,7 @@ class SimpleAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: const EdgeInsets.all(20.0),
-      contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0),
+      contentPadding: contentPadding ?? DialogPredefined.kContentPadding,
       title: Text(title, style: boldText),
       content: content,
       actions: <Widget>[

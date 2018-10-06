@@ -7,6 +7,9 @@ import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
 class DialogPredefined {
+  static final kContentPadding =
+      const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0);
+
   static Future<bool> showContentDialog(
     BuildContext context,
     String title,
@@ -22,10 +25,13 @@ class DialogPredefined {
           builder: (BuildContext context) {
             return SimpleAlertDialog(
               title: title,
-              content: content,
+              content: SingleChildScrollView(
+                padding: contentPadding ?? kContentPadding,
+                child: content,
+              ),
               btnNegative: btnNegative,
               btnPositive: btnPositive,
-              contentPadding: contentPadding,
+              contentPadding: const EdgeInsets.all(0.0),
             );
           },
         ) ??
