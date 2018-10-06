@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class CircleText extends StatelessWidget {
   final String text;
@@ -10,6 +11,18 @@ class CircleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = isDarkTheme(Theme.of(context).brightness);
+
+    Color textColor;
+    Color bgColor;
+    if (isDark) {
+      textColor = isSelected ? Colors.grey[900] : Colors.grey[200];
+      bgColor = isSelected ? Colors.grey[300] : Colors.grey[700];
+    } else {
+      textColor = isSelected ? Colors.grey[200] : Colors.grey[900];
+      bgColor = isSelected ? Colors.grey[700] : Colors.grey[300];
+    }
+
     return GestureDetector(
       onTap: () {
         onChange(!isSelected);
@@ -17,11 +30,9 @@ class CircleText extends StatelessWidget {
       child: CircleAvatar(
         child: Text(
           text,
-          style: TextStyle(
-            color: isSelected ? Colors.grey[200] : Colors.grey[900],
-          ),
+          style: TextStyle(color: textColor),
         ),
-        backgroundColor: isSelected ? Colors.grey[700] : Colors.grey[300],
+        backgroundColor: bgColor,
         radius: 19.0,
       ),
     );
