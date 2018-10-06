@@ -98,28 +98,28 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   PrefsCalendar get calendar => _prefsCalendar;
 
-  setCampus(String newCampus, [state = true]) {
+  setCampus(String newCampus, [state = false]) {
     if (calendar.campus == newCampus) return;
 
     changeGroupPref(
         newCampus, calendar.department, calendar.year, calendar.group, state);
   }
 
-  setDepartment(String newDepartment, [state = true]) {
+  setDepartment(String newDepartment, [state = false]) {
     if (calendar.department == newDepartment) return;
 
     changeGroupPref(
         calendar.campus, newDepartment, calendar.year, calendar.group, state);
   }
 
-  setYear(String newYear, [state = true]) {
+  setYear(String newYear, [state = false]) {
     if (calendar.year == newYear) return;
 
     changeGroupPref(
         calendar.campus, calendar.department, newYear, calendar.group, state);
   }
 
-  setGroup(String newGroup, [state = true]) {
+  setGroup(String newGroup, [state = false]) {
     if (calendar.group == newGroup) return;
 
     changeGroupPref(
@@ -131,7 +131,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     String newDepartment,
     String newYear,
     String newGroup, [
-    state = true,
+    state = false,
   ]) {
     // Check if values are correct together
     PrefsCalendar values = checkDataValues(
@@ -234,7 +234,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
-  setNumberWeeks(int newNumberWeeks, [state = true]) {
+  setNumberWeeks(int newNumberWeeks, [state = false]) {
     if (numberWeeks == newNumberWeeks) return;
 
     int intValue =
@@ -252,7 +252,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   PrefsTheme get theme => _prefsTheme;
 
-  setDarkTheme(bool darkTheme, [state = true]) {
+  setDarkTheme(bool darkTheme, [state = false]) {
     if (theme.darkTheme == darkTheme) return;
 
     _updatePref(() {
@@ -263,7 +263,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme));
   }
 
-  setPrimaryColor(int newPrimaryColor, [state = true]) {
+  setPrimaryColor(int newPrimaryColor, [state = false]) {
     if (theme.primaryColor == newPrimaryColor) return;
 
     _updatePref(() {
@@ -274,7 +274,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor));
   }
 
-  setAccentColor(int newAccentColor, [state = true]) {
+  setAccentColor(int newAccentColor, [state = false]) {
     if (theme.accentColor == newAccentColor) return;
 
     _updatePref(() {
@@ -285,7 +285,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor));
   }
 
-  setNoteColor(int newNoteColor, [state = true]) {
+  setNoteColor(int newNoteColor, [state = false]) {
     if (theme.noteColor == newNoteColor) return;
 
     _updatePref(() {
@@ -298,7 +298,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   bool get isFirstBoot => _firstBoot ?? PrefKey.defaultFirstBoot;
 
-  setFirstBoot(bool firstBoot, [state = true]) {
+  setFirstBoot(bool firstBoot, [state = false]) {
     if (isFirstBoot == firstBoot) return;
 
     _updatePref(() {
@@ -324,16 +324,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   List<Note> get notes {
     List<CustomCourse> events = customEvents;
-    // Get all notes who have their courseUID in events list (not expired)
-    return _notes?.where((note) => events.contains(note.courseUid))?.toList() ??
+    // Get all notes who have their courseUID in events list or not expired
+    return _notes
+            ?.where((note) =>
+                events.contains(note.courseUid) || !note.isNoteExpired())
+            ?.toList() ??
         PrefKey.defaultNotes;
   }
 
-  List<Note> notesOfCourse(Course course) {
-    return notes.where((note) => note.courseUid == course.uid).toList();
-  }
-
-  setNotes(List<Note> newNotes, [state = true]) {
+  setNotes(List<Note> newNotes, [state = false]) {
     if (notes == newNotes) return;
 
     newNotes ??= PrefKey.defaultNotes;
@@ -352,7 +351,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addNote(Note noteToAdd, [state = true]) {
+  void addNote(Note noteToAdd, [state = false]) {
     if (noteToAdd == null) return;
     List<Note> newNotes = notes;
     newNotes.add(noteToAdd);
@@ -360,7 +359,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setNotes(newNotes, state);
   }
 
-  void removeNote(Note noteToRemove, [state = true]) {
+  void removeNote(Note noteToRemove, [state = false]) {
     if (noteToRemove == null) return;
 
     List<Note> newNotes = notes;
@@ -372,16 +371,16 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   List<CustomCourse> get customEvents =>
       _customEvents
           ?.where(
-              (event) => !event.isFinish() || event.weekdaysRepeat.length > 0)
+              (event) => !event.isFinish() || event.isRecurrentEvent())
           ?.toList() ??
       PrefKey.defaultCustomEvents;
 
-  setCustomEvents(List<CustomCourse> newCustomEvents, [state = true]) {
+  setCustomEvents(List<CustomCourse> newCustomEvents, [state = false]) {
     if (customEvents == newCustomEvents) return;
 
     newCustomEvents ??= PrefKey.defaultCustomEvents;
     newCustomEvents.removeWhere(
-        (event) => event.isFinish() && event.weekdaysRepeat.length == 0);
+        (event) => event.isFinish() && !event.isRecurrentEvent());
 
     _updatePref(() {
       _customEvents = newCustomEvents;
@@ -397,7 +396,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addCustomEvent(CustomCourse eventToAdd, [state = true]) {
+  void addCustomEvent(CustomCourse eventToAdd, [state = false]) {
     if (eventToAdd == null) return;
 
     List<CustomCourse> newEvents = customEvents;
@@ -406,7 +405,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCustomEvents(newEvents, state);
   }
 
-  void removeCustomEvent(CustomCourse eventToRemove, [state = true]) {
+  void removeCustomEvent(CustomCourse eventToRemove, [state = false]) {
     if (eventToRemove == null) return;
 
     List<CustomCourse> newEvents = customEvents;
@@ -415,7 +414,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCustomEvents(newEvents, state);
   }
 
-  void editCustomEvent(CustomCourse eventEdited, [state = true]) {
+  void editCustomEvent(CustomCourse eventEdited, [state = false]) {
     if (eventEdited == null) return;
 
     removeCustomEvent(eventEdited, false);
@@ -424,7 +423,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   bool get isUserLogged => _userLogged ?? PrefKey.defaultUserLogged;
 
-  setUserLogged(bool userLogged, [state = true]) {
+  setUserLogged(bool userLogged, [state = false]) {
     if (isUserLogged == userLogged) return;
 
     _updatePref(() {
@@ -437,7 +436,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   bool get isHorizontalView => _horizontalView ?? PrefKey.defaultHorizontalView;
 
-  setHorizontalView(bool horizontalView, [state = true]) {
+  setHorizontalView(bool horizontalView, [state = false]) {
     if (isHorizontalView == horizontalView) return;
 
     _updatePref(() {
@@ -451,7 +450,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool get isDisplayAllDays =>
       _isDisplayAllDays ?? PrefKey.defaultDisplayAllDays;
 
-  setDisplayAllDays(bool displayAllDays, [state = true]) {
+  setDisplayAllDays(bool displayAllDays, [state = false]) {
     if (isDisplayAllDays == displayAllDays) return;
 
     _updatePref(() {
@@ -464,7 +463,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   bool get isHeaderGroupVisible => _isHeaderGroup ?? PrefKey.defaultHeaderGroup;
 
-  setHeaderGroupVisible(bool headerGroup, [state = true]) {
+  setHeaderGroupVisible(bool headerGroup, [state = false]) {
     if (isHeaderGroupVisible == headerGroup) return;
 
     _updatePref(() {
@@ -519,7 +518,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
-  setResources(Map<String, dynamic> newResources, [state = true]) {
+  setResources(Map<String, dynamic> newResources, [state = false]) {
     if (resources == newResources) return;
 
     _updatePref(() {
@@ -557,7 +556,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   disconnectUser([state = false]) {
-    setUserLogged(false, false);
+    setUserLogged(false);
     setResources(PrefKey.defaultResources);
   }
 
@@ -571,20 +570,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
 
     // Init number of weeks to display
-    setNumberWeeks(prefs.getInt(PrefKey.numberWeeks), false);
+    setNumberWeeks(prefs.getInt(PrefKey.numberWeeks));
 
     // Init theme preferences
-    setHorizontalView(prefs.getBool(PrefKey.isHorizontalView), false);
-    setDarkTheme(prefs.getBool(PrefKey.isDarkTheme), false);
-    setPrimaryColor(prefs.getInt(PrefKey.primaryColor), false);
-    setAccentColor(prefs.getInt(PrefKey.accentColor), false);
-    setNoteColor(prefs.getInt(PrefKey.noteColor), false);
+    setHorizontalView(prefs.getBool(PrefKey.isHorizontalView));
+    setDarkTheme(prefs.getBool(PrefKey.isDarkTheme));
+    setPrimaryColor(prefs.getInt(PrefKey.primaryColor));
+    setAccentColor(prefs.getInt(PrefKey.accentColor));
+    setNoteColor(prefs.getInt(PrefKey.noteColor));
 
     // Init other prefs
-    setCachedIcal(prefs.getString(PrefKey.cachedIcal), false);
-    setUserLogged(prefs.getBool(PrefKey.isUserLogged), false);
-    setFirstBoot(prefs.getBool(PrefKey.isFirstBoot), false);
-    setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays), false);
+    setCachedIcal(prefs.getString(PrefKey.cachedIcal));
+    setUserLogged(prefs.getBool(PrefKey.isUserLogged));
+    setFirstBoot(prefs.getBool(PrefKey.isFirstBoot));
+    setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
 
     // Init saved notes
     List<Note> actualNotes = [];
@@ -592,7 +591,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     notesStr.forEach((noteJsonStr) {
       actualNotes.add(Note.fromJsonStr(noteJsonStr));
     });
-    setNotes(actualNotes, false);
+    setNotes(actualNotes);
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =
@@ -643,9 +642,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         final String year = prefs.getString(PrefKey.year);
         final String group = prefs.getString(PrefKey.group);
         // Update
-        setResources(localResources, false);
+        setResources(localResources);
         // Check values and resave group prefs (useful if issue)
-        changeGroupPref(campus, department, year, group, false);
+        changeGroupPref(campus, department, year, group);
       }
     }
 

@@ -47,17 +47,15 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
     if (widget.course != null) {
       _eventDateStart = widget.course.dateStart;
       _eventDateEnd = widget.course.dateEnd;
-      _eventColor = widget.course.color;
+
       _titleController.text = widget.course.title;
       _descController.text = widget.course.description;
       _locationController.text = widget.course.location;
-      if (widget.course.weekdaysRepeat.length > 0) {
-        _isEventRecurrent = true;
-      }
+
+      _isEventRecurrent = widget.course.isRecurrentEvent();
       _selectedWeekdays = widget.course.weekdaysRepeat;
-      if (widget.course.color != null) {
-        _isCustomColor = true;
-      }
+      
+      _isCustomColor = widget.course.color != null;
       _eventColor = widget.course.color ?? materialColors[0];
     } else {
       _eventDateStart = DateTime.now();

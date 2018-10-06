@@ -112,7 +112,7 @@ class _DetailCourseState extends State<DetailCourse> {
     setState(() {
       _course.notes.remove(note);
     });
-    PreferencesProvider.of(context).removeNote(note, false);
+    PreferencesProvider.of(context).removeNote(note);
   }
 
   void _openAddNote() async {
@@ -151,14 +151,18 @@ class _DetailCourseState extends State<DetailCourse> {
     if (form.validate()) {
       form.save();
 
-      final note = Note(courseUid: _course.uid, text: _noteToAdd);
-      _noteToAdd = "";
+      DateTime dateEndNote = _course.dateEnd;
+      if (_course is CustomCourse && (_course as CustomCourse).isRecurrentEvent()) {
+        dateEndNote = null;
+      }
+      final note = Note(courseUid: _course.uid, text: _noteToAdd, dateEnd: dateEndNote);
 
+      _noteToAdd = "";
       setState(() {
         _course.notes.insert(0, note);
       });
 
-      PreferencesProvider.of(context).addNote(note, false);
+      PreferencesProvider.of(context).addNote(note, true);
     }
   }
 
@@ -175,7 +179,7 @@ class _DetailCourseState extends State<DetailCourse> {
                 bool isConfirm =
                     await DialogPredefined.showDeleteEventConfirm(context);
                 if (isConfirm) {
-                  PreferencesProvider.of(context).removeCustomEvent(_course);
+                  PreferencesProvider.of(context).removeCustomEvent(_course, true);
                   Navigator.of(context).pop();
                 }
               },
@@ -191,7 +195,7 @@ class _DetailCourseState extends State<DetailCourse> {
                 );
 
                 if (editedCourse != null) {
-                  PreferencesProvider.of(context).editCustomEvent(editedCourse);
+                  PreferencesProvider.of(context).editCustomEvent(editedCourse, true);
                   setState(() {
                     _course = editedCourse;
                   });

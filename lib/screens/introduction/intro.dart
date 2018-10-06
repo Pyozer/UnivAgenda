@@ -86,7 +86,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   void _onDone(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
-    prefs.setFirstBoot(false, false);
+    prefs.setFirstBoot(false);
 
     Navigator.pushReplacementNamed(
       context,

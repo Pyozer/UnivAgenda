@@ -63,7 +63,7 @@ class CourseRow extends StatelessWidget {
             bool isConfirm =
                 await DialogPredefined.showDeleteEventConfirm(context);
             if (isConfirm)
-              PreferencesProvider.of(context).removeCustomEvent(course);
+              PreferencesProvider.of(context).removeCustomEvent(course, true);
           }
         },
         child: Container(

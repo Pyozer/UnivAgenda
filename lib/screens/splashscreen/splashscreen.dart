@@ -19,7 +19,6 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   bool _isPrefsLoaded = false;
-
   bool _isError = false;
 
   @override
@@ -73,7 +72,7 @@ class SplashScreenState extends State<SplashScreen> {
 
     // If user was connected but university is null, disconnect him
     if (prefs.university == null && prefs.isUserLogged)
-      prefs.setUserLogged(false, false);
+      prefs.setUserLogged(false);
 
     // If university is null, take the first of list
     if (prefs.university == null)
@@ -97,8 +96,8 @@ class SplashScreenState extends State<SplashScreen> {
       final resourcesGet = responseRes.httpResponse.body;
       Map<String, dynamic> ressources = json.decode(resourcesGet);
 
-      prefs.setResources(ressources, false);
-      prefs.setResourcesDate(startTime, false);
+      prefs.setResources(ressources);
+      prefs.setResourcesDate(startTime);
     }
 
     prefs.forceSetStat();

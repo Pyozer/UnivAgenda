@@ -14,8 +14,7 @@ class Course extends BaseCourse {
   DateTime dateStart;
   DateTime dateEnd;
   Color color;
-  bool isCustomEvent;
-
+  
   Course(this.uid, this.title, this.description, this.location, this.dateStart,
       this.dateEnd,
       {this.notes = const [], this.color});

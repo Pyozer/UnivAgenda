@@ -4,11 +4,12 @@ class Note {
   DateTime dateCreation;
   String courseUid;
   String text;
+  DateTime dateEnd;
 
-  Note({this.courseUid, this.text, this.dateCreation})
+  Note({this.courseUid, this.text, this.dateCreation, this.dateEnd})
       : assert(text != null),
         assert(courseUid != null) {
-    if (dateCreation == null) dateCreation = DateTime.now();
+    dateCreation ??= DateTime.now();
   }
 
   factory Note.fromJsonStr(String jsonStr) {
@@ -21,16 +22,30 @@ class Note {
         text: json['text'],
         dateCreation:
             DateTime.fromMillisecondsSinceEpoch(json['date_creation']),
+        dateEnd: json['date_end'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['date_end'])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
         'courseUid': courseUid,
         'text': text,
-        'date_creation': dateCreation.millisecondsSinceEpoch
+        'date_creation': dateCreation.millisecondsSinceEpoch,
+        'date_end': dateEnd?.millisecondsSinceEpoch ?? null,
       };
 
   @override
-  String toString() => this.toJson().toString();
+  String toString() => {
+        'courseUid': courseUid,
+        'text': text,
+        'date_creation': dateCreation.toIso8601String(),
+        'date_end': dateEnd?.toIso8601String() ?? "null",
+      }.toString();
+
+  bool isNoteExpired() {
+    if (dateEnd == null) return false;
+    return dateEnd.isBefore(DateTime.now());
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -38,12 +53,14 @@ class Note {
       other is Note &&
           runtimeType == other.runtimeType &&
           dateCreation == other.dateCreation &&
+          dateEnd == other.dateEnd &&
           courseUid == other.courseUid &&
           text == other.text;
 
   @override
   int get hashCode =>
       dateCreation.hashCode ^
+      dateEnd.hashCode ^
       courseUid.hashCode ^
       text.hashCode;
 }

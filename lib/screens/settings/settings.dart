@@ -47,8 +47,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final resourcesGetStr = response.httpResponse.body;
       Map<String, dynamic> resourcesGet = json.decode(resourcesGetStr);
       if (resourcesGet.length > 0) {
-        prefs.setResources(resourcesGet);
         prefs.setResourcesDate();
+        prefs.setResources(resourcesGet,  true);
       }
     }
     // Close loading dialog
@@ -68,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_CAMPUS),
           selectedValue: calendar.campus,
           values: prefs.getAllCampus(),
-          onChange: (value) => prefs.setCampus(value),
+          onChange: (value) => prefs.setCampus(value, true),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
           selectedValue: calendar.department,
           values: prefs.getCampusDepartments(calendar.campus),
-          onChange: (value) => prefs.setDepartment(value),
+          onChange: (value) => prefs.setDepartment(value, true),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -84,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           titleDialog: translations.get(StringKey.SELECT_YEAR),
           selectedValue: calendar.year,
           values: prefs.getYears(calendar.campus, calendar.department),
-          onChange: (value) => prefs.setYear(value),
+          onChange: (value) => prefs.setYear(value, true),
         ),
         const ListDivider(),
         ListTileChoices(
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             calendar.department,
             calendar.year,
           ),
-          onChange: (value) => prefs.setGroup(value),
+          onChange: (value) => prefs.setGroup(value, true),
         )
       ],
     );
@@ -116,14 +116,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           maxValue: 16,
           inputType:
               TextInputType.numberWithOptions(decimal: false, signed: true),
-          onChange: prefs.setNumberWeeks,
+          onChange: (value) => prefs.setNumberWeeks(value, true),
         ),
         SwitchListTile(
           title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
           subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
           value: prefs.isDisplayAllDays,
           activeColor: Theme.of(context).accentColor,
-          onChanged: (value) => prefs.setDisplayAllDays(value),
+          onChanged: (value) => prefs.setDisplayAllDays(value, true),
         ),
         const ListDivider(),
         SwitchListTile(
@@ -132,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           subtitle: Text(translations.get(StringKey.DISPLAY_HEADER_GROUP_DESC)),
           value: prefs.isHeaderGroupVisible,
           activeColor: Theme.of(context).accentColor,
-          onChanged: (value) => prefs.setHeaderGroupVisible(value),
+          onChanged: (value) => prefs.setHeaderGroupVisible(value, true),
         ),
       ],
     );
@@ -150,21 +150,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
           activeColor: Theme.of(context).accentColor,
-          onChanged: (value) => prefs.setDarkTheme(value),
+          onChanged: (value) => prefs.setDarkTheme(value, true),
         ),
         const ListDivider(),
         ListTileColor(
           title: translations.get(StringKey.PRIMARY_COLOR),
           description: translations.get(StringKey.PRIMARY_COLOR_DESC),
           selectedColor: Color(prefs.theme.primaryColor),
-          onColorChange: (color) => prefs.setPrimaryColor(color.value),
+          onColorChange: (color) => prefs.setPrimaryColor(color.value, true),
         ),
         const ListDivider(),
         ListTileColor(
           title: translations.get(StringKey.ACCENT_COLOR),
           description: translations.get(StringKey.ACCENT_COLOR_DESC),
           selectedColor: Color(prefs.theme.accentColor),
-          onColorChange: (color) => prefs.setAccentColor(color.value),
+          onColorChange: (color) => prefs.setAccentColor(color.value, true),
           colors: [
             Colors.redAccent,
             Colors.pinkAccent,
@@ -192,7 +192,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: translations.get(StringKey.NOTE_COLOR),
           description: translations.get(StringKey.NOTE_COLOR_DESC),
           selectedColor: Color(prefs.theme.noteColor),
-          onColorChange: (color) => prefs.setNoteColor(color.value),
+          onColorChange: (color) => prefs.setNoteColor(color.value, true),
         )
       ],
     );

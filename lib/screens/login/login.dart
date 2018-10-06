@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _setLoading(true);
 
     final prefs = PreferencesProvider.of(context);
-    prefs.setUserLogged(false, false);
+    prefs.setUserLogged(false);
     
     _startTimeout();
     
@@ -121,19 +121,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
-    prefs.setResources(ressources, false);
+    prefs.setResources(ressources);
     prefs.setResourcesDate();
 
     await prefs.initResAndGroup();
 
     _scaffoldKey.currentState.removeCurrentSnackBar();
     // Redirect user if no error
-    prefs.setUserLogged(true, false);
+    prefs.setUserLogged(true);
     Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
   }
 
   void _showMessage(String msg) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
+    _scaffoldKey?.currentState?.showSnackBar(SnackBar(content: Text(msg)));
   }
 
   Widget _buildTextField(

@@ -74,6 +74,8 @@ class CustomCourse extends Course {
     return jsonMap;
   }
 
+  bool isRecurrentEvent() => weekdaysRepeat.length > 0;
+
   @override
   String toString() {
     return toJson().toString();

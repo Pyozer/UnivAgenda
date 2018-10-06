@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return null;
       }
       _prepareList(response.httpResponse.body);
-      prefs.setCachedIcal(response.httpResponse.body, false);
+      prefs.setCachedIcal(response.httpResponse.body);
     }
 
     return null;
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
-    final courseNotes = prefs.notesOfCourse(course);
+    final courseNotes = notes.where((note) => note.courseUid == course.uid).toList();
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
     // Add notes to the course
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
-      if (course.weekdaysRepeat.length > 0) {
+      if (course.isRecurrentEvent()) {
         List<CustomCourse> customCourses = _generateRepeatedCourses(course);
         customCourses.forEach((customCourse) {
           listCourses.add(_addNotesToCourse(allNotes, customCourse));
@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fullscreenDialog: true,
               routeName: RouteKey.ADD_EVENT),
         );
-        if (customCourse != null) prefs.addCustomEvent(customCourse);
+        if (customCourse != null) prefs.addCustomEvent(customCourse, true);
       },
       child: const Icon(OMIcons.add),
     );
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isHorizontal = !prefs.isHorizontalView;
     });
-    prefs.setHorizontalView(!prefs.isHorizontalView, false);
+    prefs.setHorizontalView(!prefs.isHorizontalView);
   }
 
   Widget _buildNoResult() {
