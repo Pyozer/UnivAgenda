@@ -45,41 +45,57 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   List<PageViewModel> _buildPages(BuildContext context) {
     final translations = Translations.of(context);
+    final dotActiveColor = Theme.of(context).accentColor;
+    final dotSize = const Size.fromRadius(6.5);
     return [
       PageViewModel(
         translations.get(StringKey.INTRO_WELCOME_TITLE),
         translations.get(StringKey.INTRO_WELCOME_DESC),
         Hero(tag: Asset.LOGO, child: Image.asset(Asset.LOGO, width: kIconSize)),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_LOGIN_TITLE),
         translations.get(StringKey.INTRO_LOGIN_DESC),
         Image.asset(Asset.INTRO_LOGIN, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_AGENDA_TITLE),
         translations.get(StringKey.INTRO_AGENDA_DESC),
         Image.asset(Asset.INTRO_GROUP, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_CUSTOM_TITLE),
         translations.get(StringKey.INTRO_CUSTOM_DESC),
         Image.asset(Asset.INTRO_THEME, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_NOTE_TITLE),
         translations.get(StringKey.INTRO_NOTE_DESC),
         Image.asset(Asset.INTRO_NOTE, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_EVENT_TITLE),
         translations.get(StringKey.INTRO_EVENT_DESC),
         Image.asset(Asset.INTRO_EVENT, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       ),
       PageViewModel(
         translations.get(StringKey.INTRO_OFFLINE_TITLE),
         translations.get(StringKey.INTRO_OFFLINE_DESC),
         Image.asset(Asset.INTRO_INTERNET, height: kIconSize),
+        progressSize: dotSize,
+        progressColor: dotActiveColor,
       )
     ];
   }
@@ -96,15 +112,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return IntroScreen.IntroductionScreen(
       pages: _buildPages(context),
       onDone: () => _onDone(context),
       showSkipButton: true,
-      skipText: translations.get(StringKey.SKIP),
-      nextText: translations.get(StringKey.NEXT),
-      doneText: translations.get(StringKey.DONE),
-    ); //Material App
+      next: const Icon(Icons.arrow_forward),
+    );
   }
 }

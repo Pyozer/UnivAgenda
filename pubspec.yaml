@@ -19,7 +19,7 @@ dependencies:
   firebase_admob: ^0.6.1
 
   flutter_material_color_picker: ^0.0.4
-  introduction_screen: ^0.0.3
+  introduction_screen: ^0.0.4
 
   outline_material_icons: ^0.1.0
 
