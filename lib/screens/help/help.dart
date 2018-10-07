@@ -38,7 +38,6 @@ class HelpScreen extends StatelessWidget {
           CustomRoute(
             builder: (context) => HelpDetailsScreen(helpItem: item),
             fullscreenDialog: true,
-            routeName: RouteKey.HELP_DETAIL
           ),
         );
       },

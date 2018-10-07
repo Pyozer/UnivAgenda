@@ -184,9 +184,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
               onPressed: () async {
                 CustomCourse editedCourse = await Navigator.of(context).push(
                   CustomRoute<CustomCourse>(
-                      builder: (context) => CustomEventScreen(course: _course),
-                      fullscreenDialog: true,
-                      routeName: RouteKey.EDIT_EVENT),
+                    builder: (context) => CustomEventScreen(course: _course),
+                    fullscreenDialog: true,
+                  ),
                 );
 
                 if (editedCourse != null) {

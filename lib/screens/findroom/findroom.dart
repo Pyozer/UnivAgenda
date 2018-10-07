@@ -126,14 +126,14 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
   void _onSearchPressed() {
     Navigator.of(context).push(
       CustomRoute(
-          builder: (context) => FindRoomResults(
-                campus: _selectedCampus,
-                department: _selectedDepartment,
-                startTime: _selectedStartTime,
-                endTime: _selectedEndTime,
-              ),
-          fullscreenDialog: true,
-          routeName: RouteKey.FINDROOM_RESULT),
+        builder: (context) => FindRoomResults(
+              campus: _selectedCampus,
+              department: _selectedDepartment,
+              startTime: _selectedStartTime,
+              endTime: _selectedEndTime,
+            ),
+        fullscreenDialog: true,
+      ),
     );
   }
 

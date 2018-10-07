@@ -211,9 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () async {
         final customCourse = await Navigator.of(context).push(
           CustomRoute(
-              builder: (context) => CustomEventScreen(),
-              fullscreenDialog: true,
-              routeName: RouteKey.ADD_EVENT),
+            builder: (context) => CustomEventScreen(),
+            fullscreenDialog: true,
+          ),
         );
         if (customCourse != null) prefs.addCustomEvent(customCourse, true);
       },
