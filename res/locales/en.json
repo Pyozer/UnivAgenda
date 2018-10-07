@@ -33,6 +33,8 @@
   "accent_color_desc": "Choose accent color of the app.",
   "note_color": "Note indicator color",
   "note_color_desc": "Color indicating if a note is present.",
+  "generate_event_color": "Add dynamic color on events",
+  "generate_event_color_text": "Generate a color based on event title.",
 
   "about": "About",
   "introduction": "Introduction",

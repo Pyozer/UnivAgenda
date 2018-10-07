@@ -21,6 +21,7 @@ class PrefKey {
   static const isHorizontalView = 'is_horizontal_view';
   static const isDisplayAllDays = 'is_display_all_days';
   static const isHeaderGroup = 'is_header_group';
+  static const isGenerateEventColor = 'is_generate_event_color';
 
   static const cachedIcal = 'cached_ical';
   static const listUniversity = 'list_university';
@@ -41,6 +42,7 @@ class PrefKey {
   static const defaultHorizontalView = false;
   static const defaultDisplayAllDays = false;
   static const defaultHeaderGroup = true;
+  static const defaultGenerateEventColor = false;
 
   static const defaultCachedIcal = null;
   static const List<University> defaultListUniversity = [];

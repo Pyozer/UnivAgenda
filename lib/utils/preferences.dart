@@ -95,6 +95,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Last date that the resources has ben updated
   DateTime _resourcesDate;
 
+  /// Generate or not a event color
+  bool _isGenerateEventColor;
+
   PrefsCalendar get calendar => _prefsCalendar;
 
   setCampus(String newCampus, [state = false]) {
@@ -559,6 +562,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setResources(PrefKey.defaultResources);
   }
 
+  bool get isGenerateEventColor =>
+      _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
+
+  setGenerateEventColor(bool generateEventColor, [state = false]) {
+    if (isGenerateEventColor == generateEventColor) return;
+
+    _updatePref(() {
+      _isGenerateEventColor = generateEventColor ?? PrefKey.defaultGenerateEventColor;
+    }, state);
+
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor));
+  }
+
   Future<Null> initFromDisk([state = false]) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -583,6 +600,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setUserLogged(prefs.getBool(PrefKey.isUserLogged));
     setFirstBoot(prefs.getBool(PrefKey.isFirstBoot));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
+    setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
 
     // Init saved notes
     List<Note> actualNotes = [];

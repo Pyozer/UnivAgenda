@@ -32,12 +32,14 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = PreferencesProvider.of(context);
+
     Color bgColorRow;
     if (course.color != null)
       bgColorRow = course.color;
     else if (course.isExam())
       bgColorRow = Colors.red[600];
-    else if (true) // TODO: Get value from preferences
+    else if (prefs.isGenerateEventColor)
       bgColorRow = getColorFromString(course.title);
 
     String courseDate = course.dateForDisplay();
@@ -65,8 +67,7 @@ class CourseRow extends StatelessWidget {
           if (course is CustomCourse) {
             bool isConfirm =
                 await DialogPredefined.showDeleteEventConfirm(context);
-            if (isConfirm)
-              PreferencesProvider.of(context).removeCustomEvent(course, true);
+            if (isConfirm) prefs.removeCustomEvent(course, true);
           }
         },
         child: Container(
