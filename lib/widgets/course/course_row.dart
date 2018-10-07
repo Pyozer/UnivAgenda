@@ -24,9 +24,9 @@ class CourseRow extends StatelessWidget {
   void _onCourseTap(BuildContext context) {
     Navigator.of(context).push(
       CustomRoute<Course>(
-          builder: (context) => DetailCourse(course: course),
-          fullscreenDialog: true,
-          routeName: RouteKey.DETAIL_EVENT),
+        builder: (context) => DetailCourse(course: course),
+        fullscreenDialog: true,
+      ),
     );
   }
 
