@@ -1,3 +1,14 @@
+## Version 4.0.2
+
+- Possibilité de mettre une couleur sur les cours
+- Amélioration de l'analytics
+- Amélioration de la vue "Ajouter un événement"
+- Amélioration de l'introduction
+- Réduction taille des images
+- Ajout d'un bouton "Données et vie privée"
+- Correction de bugs
+- Amélioration des performances
+
 ## Version 4.0.1
 
 - Ajout de la possibilité d'ajouter des événements récurrents
