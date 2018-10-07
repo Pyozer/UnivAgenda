@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
-import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';

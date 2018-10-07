@@ -9,7 +9,6 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:uuid/uuid.dart';
 
