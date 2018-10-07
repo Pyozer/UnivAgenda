@@ -65,25 +65,28 @@ class _ListTileChoicesState extends State<ListTileChoices> {
 
   Future<Null> _openDialog() async {
     await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-              title: Text(widget.titleDialog ?? widget.title),
-              children: [
-                RadioList(
-                    values: widget.values,
-                    selectedValue: _selectedChoice,
-                    onChange: _onRadioListChange)
-              ]);
-        });
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text(widget.titleDialog ?? widget.title),
+          children: [
+            RadioList(
+                values: widget.values,
+                selectedValue: _selectedChoice,
+                onChange: _onRadioListChange)
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: ListTileTitle(widget.title),
-        subtitle: Text(_selectedChoice),
-        onTap: _openDialog);
+      title: ListTileTitle(widget.title),
+      subtitle: Text(_selectedChoice),
+      onTap: _openDialog,
+    );
   }
 }

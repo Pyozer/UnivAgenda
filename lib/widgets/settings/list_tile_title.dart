@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ListTileTitle extends StatelessWidget {
-
   final String title;
 
   const ListTileTitle(this.title, {Key key}) : super(key: key);
