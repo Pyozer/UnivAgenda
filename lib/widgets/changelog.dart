@@ -7,7 +7,6 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 
 class ChangeLog extends StatelessWidget {
-
   Future<String> _fetchData() async {
     final response = await HttpRequest.get(Url.changelog);
     if (response.isSuccess)
@@ -24,7 +23,7 @@ class ChangeLog extends StatelessWidget {
           (snapshot.hasData)
               ? Markdown(
                   data: snapshot.data,
-                  onTapLink: (String href) => openLink(href))
+                  onTapLink: (String href) => openLink(null, href, null))
               : Center(
                   child: CircularProgressIndicator(),
                 ),

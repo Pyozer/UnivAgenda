@@ -5,10 +5,10 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/analytics.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 const testDevices = [
@@ -20,7 +20,7 @@ class SupportMeScreen extends StatefulWidget {
   _SupportMeScreenState createState() => _SupportMeScreenState();
 }
 
-class _SupportMeScreenState extends State<SupportMeScreen> {
+class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   static final String appId = Platform.isAndroid
       ? 'ca-app-pub-4423812191493105~7454106275'
       : 'ca-app-pub-4423812191493105~7975305867';
@@ -57,6 +57,8 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
       targetingInfo: targetingInfo,
       listener: (event) {
         _bannerAdLoaded = (event == MobileAdEvent.loaded);
+        if (event == MobileAdEvent.clicked)
+          analyticsProvider.sendAdClicked(AnalyticsValue.bannerAd);
       },
     )
       ..load()
@@ -73,23 +75,24 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     _interstitialAd?.dispose();
 
     _interstitialAd = InterstitialAd(
-      adUnitId: interstitialID,
-      targetingInfo: targetingInfo,
-    )
+        adUnitId: interstitialID,
+        targetingInfo: targetingInfo,
+        listener: (event) {
+          if (event == MobileAdEvent.clicked) {
+            analyticsProvider.sendAdClicked(AnalyticsValue.fullscreenAd);
+          }
+        })
       ..load()
       ..show();
 
-    AnalyticsProvider.of(context).analytics.logEvent(
-      name: 'open_fullad',
-      parameters: <String, dynamic>{},
-    );
+    analyticsProvider.sendAdOpen(AnalyticsValue.fullscreenAd);
   }
 
   void _openPayPal() {
     _openLink(
       Url.paypal,
       StringKey.SUPPORTME_PAYPAL_ERROR,
-      'open_paypal',
+      AnalyticsValue.paypal,
     );
   }
 
@@ -97,20 +100,16 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     _openLink(
       Url.unidays,
       StringKey.SUPPORTME_PAYPAL_ERROR,
-      'open_unidays',
+      AnalyticsValue.unidays,
     );
   }
 
   void _openLink(String url, String errorKey, String analyticsEvent) async {
     try {
-      await openLink(url);
+      await openLink(context, url, analyticsEvent);
     } catch (_) {
-      _showSnackBar(Translations.of(context).get(errorKey) + url);
+      _showSnackBar(translations.get(errorKey) + url);
     }
-    AnalyticsProvider.of(context).analytics.logEvent(
-      name: analyticsEvent,
-      parameters: <String, dynamic>{},
-    );
   }
 
   void _showSnackBar(String msg) {
@@ -133,8 +132,6 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppbarPage(
@@ -147,7 +144,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
               children: <Widget>[
                 Text(
                   translations.get(StringKey.SUPPORTME_TEXT),
-                  style: Theme.of(context).textTheme.subhead,
+                  style: theme.textTheme.subhead,
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 24.0),

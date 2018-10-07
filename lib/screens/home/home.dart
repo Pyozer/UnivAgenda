@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
@@ -37,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<int, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
-  bool _isAnalyticsSended = false;
-
   PreferencesProviderState prefs;
   PrefsCalendar _lastPrefsCalendar;
   int _lastNumberWeeks;
@@ -60,24 +59,16 @@ class _HomeScreenState extends State<HomeScreen> {
       _lastNumberWeeks = prefs.numberWeeks;
       // Load ical from network
       _fetchData();
+      // Send analytics to have stats of prefs users
+      _sendAnalyticsEvent();
     }
-
-    // Send analytics to have stats of group users
-    if (!_isAnalyticsSended) _sendAnalyticsEvent();
   }
 
-  Future<Null> _sendAnalyticsEvent() async {
-    AnalyticsProvider.of(context).analytics.logEvent(
-      name: 'user_group',
-      parameters: <String, String>{
-        'university': prefs.university.name,
-        'campus': prefs.calendar.campus,
-        'department': prefs.calendar.department,
-        'year': prefs.calendar.year,
-        'group': prefs.calendar.group,
-      },
-    );
-    _isAnalyticsSended = true;
+  void _sendAnalyticsEvent() async {
+    // User group, display and colors prefs
+    AnalyticsProvider.of(context).sendUserPrefsGroup(prefs);
+    AnalyticsProvider.of(context).sendUserPrefsDisplay(prefs);
+    AnalyticsProvider.of(context).sendUserPrefsColor(prefs);
   }
 
   Future<Null> _fetchData() async {
@@ -116,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
     // Get all note of the course
-    final courseNotes = notes.where((note) => note.courseUid == course.uid).toList();
+    final courseNotes =
+        notes.where((note) => note.courseUid == course.uid).toList();
     // Sorts notes by date desc
     courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
     // Add notes to the course
@@ -273,7 +265,11 @@ class _HomeScreenState extends State<HomeScreen> {
       fab: _buildFab(context),
       body: RefreshIndicator(
         key: _refreshKey,
-        onRefresh: _fetchData,
+        onRefresh: () async {
+          AnalyticsProvider.of(context)
+              .sendForceRefresh(AnalyticsValue.refreshCourses);
+          return await _fetchData();
+        },
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [

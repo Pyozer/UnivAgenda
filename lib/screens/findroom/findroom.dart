@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/findroom/findroom_result.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
@@ -17,7 +16,7 @@ class FindRoomScreen extends StatefulWidget {
   _FindRoomScreenState createState() => _FindRoomScreenState();
 }
 
-class _FindRoomScreenState extends State<FindRoomScreen> {
+class _FindRoomScreenState extends BaseState<FindRoomScreen> {
   List<String> _campus = [];
   List<String> _departments = [];
 
@@ -35,7 +34,6 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   void _initData() {
-    final prefs = PreferencesProvider.of(context);
     // Init start/end time
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
@@ -51,10 +49,8 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   void _initDepartmentValue() {
-    final prefs = PreferencesProvider.of(context);
     // Get list of all department of selected campus
-    _departments =
-        prefs.getCampusDepartments(_selectedCampus);
+    _departments = prefs.getCampusDepartments(_selectedCampus);
     // Define preselected department depends on preferences
     final prefDepart = prefs.calendar.department;
     _selectedDepartment =
@@ -89,7 +85,7 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   }
 
   Text _buildHeader(String text) {
-    return Text(text, style: Theme.of(context).textTheme.subhead);
+    return Text(text, style: theme.textTheme.subhead);
   }
 
   Widget _buildTimePicker(TimeOfDay time, ValueChanged<TimeOfDay> onChange) {
@@ -130,22 +126,19 @@ class _FindRoomScreenState extends State<FindRoomScreen> {
   void _onSearchPressed() {
     Navigator.of(context).push(
       CustomRoute(
-        builder: (context) => FindRoomResults(
-              campus: _selectedCampus,
-              department: _selectedDepartment,
-              startTime: _selectedStartTime,
-              endTime: _selectedEndTime,
-            ),
-        fullscreenDialog: true,
-        routeName: RouteKey.FINDROOM_RESULT
-      ),
+          builder: (context) => FindRoomResults(
+                campus: _selectedCampus,
+                department: _selectedDepartment,
+                startTime: _selectedStartTime,
+                endTime: _selectedEndTime,
+              ),
+          fullscreenDialog: true,
+          routeName: RouteKey.FINDROOM_RESULT),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return AppbarPage(
       title: translations.get(StringKey.FINDROOM),
       body: Container(

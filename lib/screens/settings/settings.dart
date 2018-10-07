@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/settings/list_tile_number.dart';
@@ -23,21 +23,14 @@ class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   _forceRefreshResources() async {
-    final translate = Translations.of(context);
     // Show progress dialog
     DialogPredefined.showProgressDialog(
       context,
-      translate.get(StringKey.LOADING_RESOURCES),
+      translations.get(StringKey.LOADING_RESOURCES),
     );
-
-    final prefs = PreferencesProvider.of(context);
 
     final response = await HttpRequest.get(
       Url.resourcesUrl(prefs.university.resourcesFile),
@@ -51,13 +44,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         prefs.setResources(resourcesGet,  true);
       }
     }
+    // Send to analytics user force refresh calendar resources
+    analyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
+
     // Close loading dialog
     Navigator.pop(context);
   }
 
   Widget _buildSettingsGeneral() {
-    final translations = Translations.of(context);
-    final prefs = PreferencesProvider.of(context);
     final calendar = prefs.calendar;
 
     return SettingCard(
@@ -103,9 +97,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsDisplay() {
-    final translations = Translations.of(context);
-    final prefs = PreferencesProvider.of(context);
-
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_DISPLAY),
       children: [
@@ -122,7 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
           subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
           value: prefs.isDisplayAllDays,
-          activeColor: Theme.of(context).accentColor,
+          activeColor: theme.accentColor,
           onChanged: (value) => prefs.setDisplayAllDays(value, true),
         ),
         const ListDivider(),
@@ -131,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTileTitle(translations.get(StringKey.DISPLAY_HEADER_GROUP)),
           subtitle: Text(translations.get(StringKey.DISPLAY_HEADER_GROUP_DESC)),
           value: prefs.isHeaderGroupVisible,
-          activeColor: Theme.of(context).accentColor,
+          activeColor: theme.accentColor,
           onChanged: (value) => prefs.setHeaderGroupVisible(value, true),
         ),
       ],
@@ -139,9 +130,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsColors() {
-    final translations = Translations.of(context);
-    final prefs = PreferencesProvider.of(context);
-
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_COLORS),
       children: [
@@ -149,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
           subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
-          activeColor: Theme.of(context).accentColor,
+          activeColor: theme.accentColor,
           onChanged: (value) => prefs.setDarkTheme(value, true),
         ),
         const ListDivider(),
@@ -200,8 +188,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return AppbarPage(
       title: translations.get(StringKey.SETTINGS),
       actions: <Widget>[

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/number_selector.dart';
@@ -34,7 +34,7 @@ class ListTileNumber extends StatefulWidget {
   _ListTileNumberState createState() => _ListTileNumberState();
 }
 
-class _ListTileNumberState extends State<ListTileNumber> {
+class _ListTileNumberState extends BaseState<ListTileNumber> {
   int _inputValue;
   int _submitInputValue;
 
@@ -75,22 +75,19 @@ class _ListTileNumberState extends State<ListTileNumber> {
       _inputValue = _submitInputValue;
     });
 
-    final translate = Translations.of(context);
-
     bool isDialogPositive = await DialogPredefined.showContentDialog(
-      context,
-      widget.titleDialog ?? widget.title,
-      NumberSelector(
-        min: widget.minValue,
-        max: widget.maxValue,
-        initialValue: _inputValue,
-        onChanged: _onInputChange,
-      ),
-      translate.get(StringKey.SUBMIT),
-      translate.get(StringKey.CANCEL),
-      true,
-      const EdgeInsets.all(0.0)
-    );
+        context,
+        widget.titleDialog ?? widget.title,
+        NumberSelector(
+          min: widget.minValue,
+          max: widget.maxValue,
+          initialValue: _inputValue,
+          onChanged: _onInputChange,
+        ),
+        translations.get(StringKey.SUBMIT),
+        translations.get(StringKey.CANCEL),
+        true,
+        const EdgeInsets.all(0.0));
 
     if (isDialogPositive) _onSubmit();
   }
@@ -98,8 +95,9 @@ class _ListTileNumberState extends State<ListTileNumber> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: ListTileTitle(widget.title),
-        subtitle: Text(_submitInputValue.toString()),
-        onTap: _openDialog);
+      title: ListTileTitle(widget.title),
+      subtitle: Text(_submitInputValue.toString()),
+      onTap: _openDialog,
+    );
   }
 }

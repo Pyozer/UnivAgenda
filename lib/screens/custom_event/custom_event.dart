@@ -4,8 +4,8 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -21,7 +21,7 @@ class CustomEventScreen extends StatefulWidget {
   _CustomEventScreenState createState() => _CustomEventScreenState();
 }
 
-class _CustomEventScreenState extends State<CustomEventScreen> {
+class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   final DateTime _firstDate = DateTime.now();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
@@ -29,7 +29,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   final TextEditingController _locationController = TextEditingController();
   final _locationNode = FocusNode();
 
-  Locale _locale;
   bool _isCustomColor = false;
   bool _isEventRecurrent = false;
   List<WeekDay> _selectedWeekdays = [];
@@ -77,6 +76,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _isEventRecurrent = value;
     });
   }
+
   void _onColorCustom(bool value) {
     setState(() {
       _isCustomColor = value;
@@ -89,7 +89,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       initialDate: _eventDateStart,
       firstDate: _firstDate,
       lastDate: DateTime(2030),
-      locale: _locale,
+      locale: translations.locale,
     );
 
     if (dateStart != null) {
@@ -145,12 +145,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   }
 
   void _onSubmit(BuildContext context) {
-    final translate = Translations.of(context);
-
     if (_titleController.text.isEmpty ||
         _descController.text.isEmpty ||
         _locationController.text.isEmpty) {
-      _showError(translate.get(StringKey.REQUIRE_FIELD));
+      _showError(translations.get(StringKey.REQUIRE_FIELD));
       return;
     }
     if (_eventDateEnd.isBefore(_eventDateStart)) {
@@ -158,7 +156,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       return;
     }
     if (_isEventRecurrent && _selectedWeekdays.length == 0) {
-      _showError(translate.get(StringKey.ERROR_EVENT_RECURRENT_ZERO));
+      _showError(translations.get(StringKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
 
@@ -180,7 +178,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   void _showError(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      Translations.of(context).get(StringKey.ERROR),
+      translations.get(StringKey.ERROR),
       msg,
     );
   }
@@ -198,8 +196,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   }
 
   List<Widget> _buildWeekDaySelection() {
-    final translations = Translations.of(context);
-
     List<String> weekDaysText = [
       translations.get(StringKey.MONDAY).substring(0, 1),
       translations.get(StringKey.TUESDAY).substring(0, 1),
@@ -234,10 +230,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-    _locale = translations.locale;
-    final theme = Theme.of(context);
-
     return AppbarPage(
       title: translations.get(StringKey.ADD_EVENT),
       actions: [
@@ -310,7 +302,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     leading: const Icon(OMIcons.dateRange),
                     title: _buildDateTimeField(
                       translations.get(StringKey.DATE_EVENT),
-                      Date.extractDate(_eventDateStart, _locale),
+                      Date.extractDate(_eventDateStart, translations.locale),
                     ),
                   ),
             const Divider(height: 0.0),
@@ -322,7 +314,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     leading: const Icon(OMIcons.accessTime),
                     title: _buildDateTimeField(
                       translations.get(StringKey.START_TIME_EVENT),
-                      Date.extractTime(_eventDateStart, _locale),
+                      Date.extractTime(_eventDateStart, translations.locale),
                     ),
                   ),
                 ),
@@ -332,7 +324,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     leading: const Icon(OMIcons.accessTime),
                     title: _buildDateTimeField(
                       translations.get(StringKey.END_TIME_EVENT),
-                      Date.extractTime(_eventDateEnd, _locale),
+                      Date.extractTime(_eventDateEnd, translations.locale),
                     ),
                   ),
                 ),

@@ -5,6 +5,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -54,24 +55,31 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildAuthor(BuildContext context) {
     final translations = Translations.of(context);
+
     return AboutCard(
       title: translations.get(StringKey.AUTHOR),
       lateralPadding: false,
       children: <Widget>[
         ListTile(
-          leading:
-              CircleImage(image: Image.asset(Asset.PICTURE_JC, width: 45.0)),
+          leading: CircleImage(
+            image: Image.asset(Asset.PICTURE_JC, width: 45.0),
+          ),
           title: const Text("Jean-Charles Moussé"),
           subtitle: Text(translations.get(StringKey.DEVELOPER)),
-          onTap: () => openLink(Url.myWebsite),
+          onTap: () => openLink(
+                context,
+                Url.myWebsite,
+                AnalyticsValue.websiteJC,
+              ),
         ),
         ListTile(
           leading: CircleImage(
-              image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0)),
+            image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0),
+          ),
           title: const Text("Justin Martin"),
           subtitle: Text(
-              "${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}"),
-          onTap: () => openLink(Url.myWebsite),
+            "${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}",
+          ),
         )
       ],
     );
@@ -92,15 +100,24 @@ class AboutScreen extends StatelessWidget {
           ),
           title: Text(Platform.isAndroid ? "Play Store" : "App Store"),
           subtitle: Text(translations.get(StringKey.ADD_NOTE_STORE)),
-          onTap: () =>
-              openLink(Platform.isAndroid ? Url.playstore : Url.appstore),
+          onTap: () => openLink(
+                context,
+                Platform.isAndroid ? Url.playstore : Url.appstore,
+                AnalyticsValue.store,
+              ),
         ),
         ListTile(
-          leading: Image.asset(isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
-              width: 30.0),
+          leading: Image.asset(
+            isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
+            width: 30.0,
+          ),
           title: Text(translations.get(StringKey.GITHUB_PROJECT)),
           subtitle: Text(translations.get(StringKey.GITHUB_PROJECT_DESC)),
-          onTap: () => openLink(Url.githubProjet),
+          onTap: () => openLink(
+                context,
+                Url.githubProjet,
+                AnalyticsValue.github,
+              ),
         ),
         ListTile(
           leading: Image.asset(
@@ -109,7 +126,7 @@ class AboutScreen extends StatelessWidget {
           ),
           title: const Text("Twitter"),
           subtitle: Text(translations.get(StringKey.TWITTER_DESC)),
-          onTap: () => openLink(Url.myTwitter),
+          onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
         ),
       ],
     );
@@ -168,9 +185,11 @@ class AboutScreen extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(Translations.of(context).get(StringKey.CHANGELOG),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 24.0)),
+                  child: Text(
+                    Translations.of(context).get(StringKey.CHANGELOG),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 24.0),
+                  ),
                 ),
                 Expanded(child: ChangeLog())
               ]);
@@ -192,8 +211,11 @@ class AboutScreen extends StatelessWidget {
             _buildWhatIsIt(context),
             _buildAuthor(context),
             _buildSocial(context),
-            _buildOther(context, () => _modalBottomSheet(context),
-                () => Navigator.pushNamed(context, RouteKey.LICENCES)),
+            _buildOther(
+              context,
+              () => _modalBottomSheet(context),
+              () => Navigator.pushNamed(context, RouteKey.LICENCES),
+            ),
             _buildFooter(context),
           ],
         ),

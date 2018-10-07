@@ -8,6 +8,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -101,6 +102,8 @@ class SplashScreenState extends State<SplashScreen> {
     }
 
     prefs.forceSetStat();
+
+    AnalyticsProvider.of(context).analytics.setUserId(prefs.installUID);
 
     final routeDest = (prefs.isFirstBoot)
         ? RouteKey.INTRO

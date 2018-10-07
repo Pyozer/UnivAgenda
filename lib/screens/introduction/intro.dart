@@ -5,8 +5,7 @@ import 'package:introduction_screen/model/page_view_model.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/screens/base_state.dart';
 
 const double kIconSize = 150.0;
 
@@ -14,7 +13,7 @@ class IntroductionScreen extends StatefulWidget {
   _IntroductionScreenState createState() => _IntroductionScreenState();
 }
 
-class _IntroductionScreenState extends State<IntroductionScreen> {
+class _IntroductionScreenState extends BaseState<IntroductionScreen> {
   @override
   void initState() {
     super.initState();
@@ -43,10 +42,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     ]);
   }
 
-  List<PageViewModel> _buildPages(BuildContext context) {
-    final translations = Translations.of(context);
-    final dotActiveColor = Theme.of(context).accentColor;
+  List<PageViewModel> _buildPages() {
+    final dotActiveColor = theme.accentColor;
     final dotSize = const Size.fromRadius(6.5);
+
     return [
       PageViewModel(
         translations.get(StringKey.INTRO_WELCOME_TITLE),
@@ -100,10 +99,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     ];
   }
 
-  void _onDone(BuildContext context) {
-    final prefs = PreferencesProvider.of(context);
+  void _onDone() {
     prefs.setFirstBoot(false);
-
     Navigator.pushReplacementNamed(
       context,
       prefs.isUserLogged ? RouteKey.HOME : RouteKey.LOGIN,
@@ -113,8 +110,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   @override
   Widget build(BuildContext context) {
     return IntroScreen.IntroductionScreen(
-      pages: _buildPages(context),
-      onDone: () => _onDone(context),
+      pages: _buildPages(),
+      onDone: _onDone,
       showSkipButton: true,
       next: const Icon(Icons.arrow_forward),
     );

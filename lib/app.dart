@@ -64,7 +64,7 @@ class App extends StatelessWidget {
                       return CustomRoute(
                         builder: (_) => routes[settings.name],
                         settings: settings,
-                        routeName: settings.name
+                        routeName: settings.name,
                       );
                     assert(false);
                   },

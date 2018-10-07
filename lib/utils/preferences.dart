@@ -9,6 +9,7 @@ import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class _MyInheritedPreferences extends InheritedWidget {
   _MyInheritedPreferences({
@@ -64,6 +65,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   /// Number of weeks to display
   int _numberWeeks;
+
+  /// Installation UID
+  String _installUID;
 
   /// Is app has been already launched
   bool _firstBoot;
@@ -295,6 +299,16 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor));
   }
 
+  String get installUID {
+    if (_installUID == null) {
+      _installUID = Uuid().v1();
+
+      SharedPreferences.getInstance()
+          .then((prefs) => prefs.setString(PrefKey.installUID, _installUID));
+    }
+    return _installUID;
+  }
+
   bool get isFirstBoot => _firstBoot ?? PrefKey.defaultFirstBoot;
 
   setFirstBoot(bool firstBoot, [state = false]) {
@@ -369,8 +383,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   List<CustomCourse> get customEvents =>
       _customEvents
-          ?.where(
-              (event) => !event.isFinish() || event.isRecurrentEvent())
+          ?.where((event) => !event.isFinish() || event.isRecurrentEvent())
           ?.toList() ??
       PrefKey.defaultCustomEvents;
 
@@ -378,8 +391,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (customEvents == newCustomEvents) return;
 
     newCustomEvents ??= PrefKey.defaultCustomEvents;
-    newCustomEvents.removeWhere(
-        (event) => event.isFinish() && !event.isRecurrentEvent());
+    newCustomEvents
+        .removeWhere((event) => event.isFinish() && !event.isRecurrentEvent());
 
     _updatePref(() {
       _customEvents = newCustomEvents;
@@ -581,6 +594,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Init other prefs
     setCachedIcal(prefs.getString(PrefKey.cachedIcal));
     setUserLogged(prefs.getBool(PrefKey.isUserLogged));
+    _installUID = prefs.getString(PrefKey.installUID);
     setFirstBoot(prefs.getBool(PrefKey.isFirstBoot));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
 

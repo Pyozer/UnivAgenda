@@ -98,7 +98,7 @@ class LicencesScreen extends StatelessWidget {
           title: libraryText,
           subtitle: authorText,
           trailing: licenseText,
-          onTap: license.url != null ? () => openLink(license.url) : null,
+          onTap: license.url != null ? () => openLink(context, license.url, license.library) : null,
         ),
       );
     }

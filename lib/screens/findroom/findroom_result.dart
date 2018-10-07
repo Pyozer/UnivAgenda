@@ -3,12 +3,12 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/room_result.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
-import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
@@ -30,7 +30,7 @@ class FindRoomResults extends StatefulWidget {
   FindRoomResultsState createState() => FindRoomResultsState();
 }
 
-class FindRoomResultsState extends State<FindRoomResults> {
+class FindRoomResultsState extends BaseState<FindRoomResults> {
   List<RoomResult> _searchResult;
   bool _isLoading = true;
 
@@ -41,8 +41,6 @@ class FindRoomResultsState extends State<FindRoomResults> {
   }
 
   void _search() async {
-    final prefs = PreferencesProvider.of(context);
-
     // All rooms available between times defined
     List<RoomResult> results = [];
 
@@ -107,11 +105,10 @@ class FindRoomResultsState extends State<FindRoomResults> {
           });
         }
 
-        final errorMsg = Translations.of(context).get(StringKey.NETWORK_ERROR);
+        final errorMsg = translations.get(StringKey.NETWORK_ERROR);
         Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
         return;
       }
-
       String icalStr = response.httpResponse.body;
 
       List<Course> listCourses = [];
@@ -173,10 +170,7 @@ class FindRoomResultsState extends State<FindRoomResults> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     Widget widget;
-
     if (_isLoading)
       widget = const Center(child: const CircularProgressIndicator());
     else if (_searchResult.length == 0)

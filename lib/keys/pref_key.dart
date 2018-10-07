@@ -16,6 +16,7 @@ class PrefKey {
   static const noteColor = 'note_color';
   static const isDarkTheme = 'is_dark_theme';
 
+  static const installUID = 'install_uid';
   static const isFirstBoot = 'is_first_boot';
   static const isUserLogged = 'is_user_logged';
   static const isHorizontalView = 'is_horizontal_view';

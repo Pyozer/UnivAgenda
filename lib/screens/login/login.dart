@@ -7,11 +7,10 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
@@ -22,7 +21,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends BaseState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordNode = FocusNode();
@@ -69,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onSubmit() async {
-    final translations = Translations.of(context);
     FocusScope.of(context).requestFocus(FocusNode());
 
     // Get username and password from inputs
@@ -83,10 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     _setLoading(true);
-
-    final prefs = PreferencesProvider.of(context);
     prefs.setUserLogged(false);
-
     _startTimeout();
 
     // Login process
@@ -133,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showMessage(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      Translations.of(context).get(StringKey.ERROR),
+      translations.get(StringKey.ERROR),
       msg,
     );
   }
@@ -156,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: isObscure,
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon: Icon(icon, color: Theme.of(context).accentColor),
+        prefixIcon: Icon(icon, color: theme.accentColor),
         contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
         border: InputBorder.none,
       ),
@@ -175,7 +170,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onDataPrivcacy() {
-    final translations = Translations.of(context);
     DialogPredefined.showSimpleMessage(
       context,
       translations.get(StringKey.DATA_PRIVACY),
@@ -185,10 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-    final theme = Theme.of(context);
-    final prefs = PreferencesProvider.of(context);
-
     final logo = Hero(
       tag: Asset.LOGO,
       child: Image.asset(Asset.LOGO, width: 100.0),

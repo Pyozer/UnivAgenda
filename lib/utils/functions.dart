@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 bool isNumeric(String s) {
@@ -15,11 +16,13 @@ bool isDarkTheme(Brightness brightness) {
   return brightness == Brightness.dark;
 }
 
-Future<void> openLink(String href) async {
+Future<void> openLink(BuildContext context, String href, String analyticsValue) async {
   if (await canLaunch(href))
     await launch(href);
   else
     throw 'Could not launch $href';
+    if (context != null && analyticsValue != null)
+  AnalyticsProvider.of(context).sendLinkClicked(analyticsValue);
 }
 
 String capitalize(String input) {
