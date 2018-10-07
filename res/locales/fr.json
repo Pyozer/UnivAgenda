@@ -33,6 +33,8 @@
   "accent_color_desc": "Choisi la couleur secondaire de l'application.",
   "note_color": "Couleur indicateur d'une note",
   "note_color_desc": "Couleur indiquant si une note est présente.",
+  "generate_event_color": "Mettre une couleur aux événements",
+  "generate_event_color_text": "Génère une couleur selon le titre de l'événement.",
 
   "about": "A propos",
   "introduction": "Introduction",

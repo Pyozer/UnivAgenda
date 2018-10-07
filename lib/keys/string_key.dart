@@ -33,6 +33,8 @@ class StringKey {
   static const ACCENT_COLOR_DESC = 'accent_color_desc';
   static const NOTE_COLOR = 'note_color';
   static const NOTE_COLOR_DESC = 'note_color_desc';
+  static const GENERATE_EVENT_COLOR = 'generate_event_color';
+  static const GENERATE_EVENT_COLOR_TEXT = 'generate_event_color_text';
 
   static const ABOUT = 'about';
   static const INTRO = 'introduction';

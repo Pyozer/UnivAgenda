@@ -181,7 +181,14 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           description: translations.get(StringKey.NOTE_COLOR_DESC),
           selectedColor: Color(prefs.theme.noteColor),
           onColorChange: (color) => prefs.setNoteColor(color.value, true),
-        )
+        ),
+        SwitchListTile(
+          title: ListTileTitle(translations.get(StringKey.GENERATE_EVENT_COLOR)),
+          subtitle: Text(translations.get(StringKey.GENERATE_EVENT_COLOR_TEXT)),
+          value: prefs.isGenerateEventColor,
+          activeColor: Theme.of(context).accentColor,
+          onChanged: (value) => prefs.setGenerateEventColor(value, true),
+        ),
       ],
     );
   }
