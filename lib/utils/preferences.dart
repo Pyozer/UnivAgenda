@@ -599,11 +599,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (isGenerateEventColor == generateEventColor) return;
 
     _updatePref(() {
-      _isGenerateEventColor = generateEventColor ?? PrefKey.defaultGenerateEventColor;
+      _isGenerateEventColor =
+          generateEventColor ?? PrefKey.defaultGenerateEventColor;
     }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor));
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor));
   }
 
   Future<Null> initFromDisk([state = false]) async {
@@ -655,20 +656,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<Null> initResAndGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // If user choose custom url ics, not init other group prefs
-    String urlIcs = prefs.getString(PrefKey.urlIcs);
-    if (urlIcs != null) {
-      setUrlIcs(urlIcs);
-      return null;
-    }
-
     // Init stored values
     var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ??
         PrefKey.defaultListUniversity;
-    String storedUniversityName = prefs.getString(PrefKey.university);
-    String storedResourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
 
-    // Check valuees
     // Decode json from local
     List<University> listUniversity = [];
     storedListUnivsStr.forEach((univStr) {
@@ -678,8 +669,18 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Update current list of university
     setListUniversity(listUniversity);
 
+    // If user choose custom url ics, not init other group prefs
+    String urlIcs = prefs.getString(PrefKey.urlIcs);
+    if (urlIcs != null) {
+      setUrlIcs(urlIcs);
+      return null;
+    }
+
     // If list of university is not empty
     if (listUniversity.length > 0) {
+      String storedUniversityName = prefs.getString(PrefKey.university);
+      String storedResourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
+
       // If no university store
       if (storedUniversityName == null || storedUniversityName.length == 0) {
         // Take first university of list
