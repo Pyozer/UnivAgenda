@@ -8,16 +8,14 @@ import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
@@ -30,30 +28,31 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends BaseState<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Map<int, List<BaseCourse>> _courses = {};
   bool _isHorizontal = false;
 
-  PreferencesProviderState prefs;
   PrefsCalendar _lastPrefsCalendar;
+  String _lastUrlIcs;
   int _lastNumberWeeks;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    prefs = PreferencesProvider.of(context);
-
     // Define type of view
     _isHorizontal = prefs.isHorizontalView;
 
     // Load cached ical
     _prepareList(prefs.cachedIcal ?? "");
 
-    if (prefs.calendar != _lastPrefsCalendar ||
+    if (prefs.urlIcs != _lastUrlIcs ||
+        prefs.calendar != _lastPrefsCalendar ||
         prefs.numberWeeks != _lastNumberWeeks) {
+      // Update local values
+      _lastUrlIcs = prefs.urlIcs;
       _lastPrefsCalendar = prefs.calendar;
       _lastNumberWeeks = prefs.numberWeeks;
       // Load ical from network
@@ -65,35 +64,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    AnalyticsProvider.of(context).sendUserPrefsGroup(prefs);
-    AnalyticsProvider.of(context).sendUserPrefsDisplay(prefs);
-    AnalyticsProvider.of(context).sendUserPrefsColor(prefs);
+    if (prefs.calendar.campus != null)
+      analyticsProvider.sendUserPrefsGroup(prefs);
+    analyticsProvider.sendUserPrefsDisplay(prefs);
+    analyticsProvider.sendUserPrefsColor(prefs);
   }
 
   Future<Null> _fetchData() async {
     _refreshKey?.currentState?.show();
 
     if (mounted) {
-      final calendar = prefs.calendar;
+      String url;
+      if (prefs.urlIcs == null) {
+        final calendar = prefs.calendar;
 
-      final resID = prefs.getGroupRes(
-        calendar.campus,
-        calendar.department,
-        calendar.year,
-        calendar.group,
-      );
+        final resID = prefs.getGroupRes(
+          calendar.campus,
+          calendar.department,
+          calendar.year,
+          calendar.group,
+        );
 
-      final url = IcalAPI.prepareURL(
-        prefs.university.agendaUrl,
-        resID,
-        prefs.numberWeeks,
-      );
+        url = IcalAPI.prepareURL(
+          prefs.university.agendaUrl,
+          resID,
+          prefs.numberWeeks,
+        );
+      } else {
+        url = prefs.urlIcs;
+      }
 
       final response = await HttpRequest.get(url);
 
-      if (!response.isSuccess) {
+      if (response.httpResponse.statusCode == 404) {
+          // TODO: Afficher message file not found
+      } else if (!response.isSuccess) {
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(Translations.of(context).get(StringKey.NETWORK_ERROR)),
+          content: Text(translations.get(StringKey.NETWORK_ERROR)),
         ));
         return null;
       }
@@ -127,8 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
       // Check if actual day is in weekdays's course list
       if (course.weekdaysRepeat.contains(dayDate.weekday)) {
         CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
-        courseRepeated.dateStart =
-            Date.setTimeFromOther(dayDate, course.dateStart);
+        courseRepeated.dateStart = Date.setTimeFromOther(
+          dayDate,
+          course.dateStart,
+        );
         courseRepeated.dateEnd = Date.setTimeFromOther(dayDate, course.dateEnd);
         // Add course to list
         courses.add(courseRepeated);
@@ -141,10 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _prepareList(String icalStr) {
     List<Course> listCourses = [];
-
     // Get all notes saved (expired notes removed by getNotes())
     List<Note> allNotes = prefs.notes;
-
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
 
@@ -228,8 +235,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildNoResult() {
-    final translations = Translations.of(context);
-
     return NoResult(
       title: translations.get(StringKey.COURSES_NORESULT),
       text: translations.get(StringKey.COURSES_NORESULT_TEXT),
@@ -242,8 +247,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     final refreshBtn = (_isHorizontal)
         ? IconButton(
             icon: const Icon(OMIcons.refresh),
@@ -265,14 +268,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         key: _refreshKey,
         onRefresh: () async {
-          AnalyticsProvider.of(context)
-              .sendForceRefresh(AnalyticsValue.refreshCourses);
+          analyticsProvider.sendForceRefresh(AnalyticsValue.refreshCourses);
           return await _fetchData();
         },
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            prefs.isHeaderGroupVisible
+            (prefs.isHeaderGroupVisible && prefs.urlIcs == null)
                 ? CourseListHeader(
                     "${prefs.calendar.year} - ${prefs.calendar.group}",
                   )

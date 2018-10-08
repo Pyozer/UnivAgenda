@@ -9,6 +9,7 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
+import 'package:myagenda/widgets/settings/list_tile_input.dart';
 import 'package:myagenda/widgets/settings/list_tile_number.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -24,7 +25,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends BaseState<SettingsScreen> {
-
   _forceRefreshResources() async {
     // Show progress dialog
     DialogPredefined.showProgressDialog(
@@ -41,7 +41,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       Map<String, dynamic> resourcesGet = json.decode(resourcesGetStr);
       if (resourcesGet.length > 0) {
         prefs.setResourcesDate();
-        prefs.setResources(resourcesGet,  true);
+        prefs.setResources(resourcesGet, true);
       }
     }
     // Send to analytics user force refresh calendar resources
@@ -53,47 +53,62 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   Widget _buildSettingsGeneral() {
     final calendar = prefs.calendar;
+    List<Widget> settingsGeneralElems;
+
+    if (prefs.urlIcs == null) {
+      settingsGeneralElems = [
+          ListTileChoices(
+            title: translations.get(StringKey.CAMPUS),
+            titleDialog: translations.get(StringKey.SELECT_CAMPUS),
+            selectedValue: calendar.campus,
+            values: prefs.getAllCampus(),
+            onChange: (value) => prefs.setCampus(value, true),
+          ),
+          const ListDivider(),
+          ListTileChoices(
+            title: translations.get(StringKey.DEPARTMENT),
+            titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
+            selectedValue: calendar.department,
+            values: prefs.getCampusDepartments(calendar.campus),
+            onChange: (value) => prefs.setDepartment(value, true),
+          ),
+          const ListDivider(),
+          ListTileChoices(
+            title: translations.get(StringKey.YEAR),
+            titleDialog: translations.get(StringKey.SELECT_YEAR),
+            selectedValue: calendar.year,
+            values: prefs.getYears(calendar.campus, calendar.department),
+            onChange: (value) => prefs.setYear(value, true),
+          ),
+          const ListDivider(),
+          ListTileChoices(
+            title: translations.get(StringKey.GROUP),
+            titleDialog: translations.get(StringKey.SELECT_GROUP),
+            selectedValue: calendar.group,
+            values: prefs.getGroups(
+              calendar.campus,
+              calendar.department,
+              calendar.year,
+            ),
+            onChange: (value) => prefs.setGroup(value, true),
+          )
+        ];
+    } else {
+      settingsGeneralElems = [
+        // TODO: Add real translations
+        ListTileInput(
+            title: translations.get(StringKey.GROUP),
+            titleDialog: translations.get(StringKey.SELECT_GROUP),
+            defaultValue: prefs.urlIcs,
+            onChange: (value) => prefs.setUrlIcs(value, true),
+          )
+      ];
+    }
 
     return SettingCard(
-      header: translations.get(StringKey.SETTINGS_GENERAL),
-      children: [
-        ListTileChoices(
-          title: translations.get(StringKey.CAMPUS),
-          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-          selectedValue: calendar.campus,
-          values: prefs.getAllCampus(),
-          onChange: (value) => prefs.setCampus(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.DEPARTMENT),
-          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-          selectedValue: calendar.department,
-          values: prefs.getCampusDepartments(calendar.campus),
-          onChange: (value) => prefs.setDepartment(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.YEAR),
-          titleDialog: translations.get(StringKey.SELECT_YEAR),
-          selectedValue: calendar.year,
-          values: prefs.getYears(calendar.campus, calendar.department),
-          onChange: (value) => prefs.setYear(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.GROUP),
-          titleDialog: translations.get(StringKey.SELECT_GROUP),
-          selectedValue: calendar.group,
-          values: prefs.getGroups(
-            calendar.campus,
-            calendar.department,
-            calendar.year,
-          ),
-          onChange: (value) => prefs.setGroup(value, true),
-        )
-      ],
-    );
+        header: translations.get(StringKey.SETTINGS_GENERAL),
+        children: settingsGeneralElems,
+      );
   }
 
   Widget _buildSettingsDisplay() {
@@ -105,8 +120,6 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           defaultValue: prefs.numberWeeks,
           minValue: 1,
           maxValue: 16,
-          inputType:
-              TextInputType.numberWithOptions(decimal: false, signed: true),
           onChange: (value) => prefs.setNumberWeeks(value, true),
         ),
         SwitchListTile(
@@ -183,7 +196,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           onColorChange: (color) => prefs.setNoteColor(color.value, true),
         ),
         SwitchListTile(
-          title: ListTileTitle(translations.get(StringKey.GENERATE_EVENT_COLOR)),
+          title:
+              ListTileTitle(translations.get(StringKey.GENERATE_EVENT_COLOR)),
           subtitle: Text(translations.get(StringKey.GENERATE_EVENT_COLOR_TEXT)),
           value: prefs.isGenerateEventColor,
           activeColor: Theme.of(context).accentColor,

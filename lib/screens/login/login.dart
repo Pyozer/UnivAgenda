@@ -22,13 +22,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends BaseState<LoginScreen> {
+  final _urlIcsController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordNode = FocusNode();
 
   bool _isLoading = false;
 
-  String university;
+  String _selectedUniversity;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   dispose() {
+    _urlIcsController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
     _passwordNode.dispose();
@@ -73,9 +75,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Get username and password from inputs
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
+    final urlIcs = _urlIcsController.text.trim();
 
     // Check fields values
-    if (username.isEmpty || password.isEmpty) {
+    if ((_isUrlIcs() && urlIcs.isEmpty) ||
+        (!_isUrlIcs() && (username.isEmpty || password.isEmpty))) {
       _showMessage(translations.get(StringKey.REQUIRE_FIELD));
       return;
     }
@@ -84,39 +88,45 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     prefs.setUserLogged(false);
     _startTimeout();
 
-    // Login process
-    final loginResult =
-        await LoginCAS(prefs.university.loginUrl, username, password).login();
+    if (!_isUrlIcs()) {
+      // Login process
+      final loginResult =
+          await LoginCAS(prefs.university.loginUrl, username, password).login();
 
-    if (loginResult.result == LoginResultType.LOGIN_FAIL) {
-      _setLoading(false);
-      _showMessage(loginResult.message);
-      return;
-    } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
-      _setLoading(false);
-      _showMessage(
-        translations.get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
+      if (loginResult.result == LoginResultType.LOGIN_FAIL) {
+        _setLoading(false);
+        _showMessage(loginResult.message);
+        return;
+      } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
+        _setLoading(false);
+        _showMessage(
+          translations
+              .get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
+        );
+        return;
+      } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
+        _setLoading(false);
+        _showMessage(translations.get(StringKey.UNKNOWN_ERROR));
+        return;
+      }
+
+      final response = await HttpRequest.get(
+        Url.resourcesUrl(prefs.university.resourcesFile),
       );
-      return;
-    } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
-      _setLoading(false);
-      _showMessage(translations.get(StringKey.UNKNOWN_ERROR));
-      return;
+
+      if (!response.isSuccess) {
+        _setLoading(false);
+        _showMessage(translations.get(StringKey.GET_RES_ERROR));
+        return;
+      }
+
+      Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
+      prefs.setResources(ressources);
+      prefs.setResourcesDate();
+    } else {
+      prefs.setUrlIcs(urlIcs);
+      // TODO: Checker url fourni
     }
-
-    final response = await HttpRequest.get(
-      Url.resourcesUrl(prefs.university.resourcesFile),
-    );
-
-    if (!response.isSuccess) {
-      _setLoading(false);
-      _showMessage(translations.get(StringKey.GET_RES_ERROR));
-      return;
-    }
-
-    Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
-    prefs.setResources(ressources);
-    prefs.setResourcesDate();
 
     await prefs.initResAndGroup();
 
@@ -177,6 +187,17 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
   }
 
+  bool _isUrlIcs() {
+    return _selectedUniversity == translations.get(StringKey.OTHER);
+  }
+
+  void _onUniversitySelected(String value) {
+    setState(() {
+      _selectedUniversity = value;
+    });
+    prefs.setUniversity(_isUrlIcs() ? null : value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final logo = Hero(
@@ -187,6 +208,15 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     final titleApp = Text(
       translations.get(StringKey.APP_NAME),
       style: theme.textTheme.title.copyWith(fontSize: 28.0),
+    );
+
+    final urlICsInput = _buildTextField(
+      translations.get(StringKey.LOGIN_USERNAME),
+      OMIcons.event,
+      false,
+      _urlIcsController,
+      _onSubmit,
+      TextInputAction.done,
     );
 
     final username = _buildTextField(
@@ -215,7 +245,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     var listUniversity = prefs.getAllUniversity();
-    if (prefs.university == null) prefs.setUniversity(listUniversity[0]);
+    listUniversity.add(translations.get(StringKey.OTHER));
+
+    if (_selectedUniversity == null) _selectedUniversity = listUniversity[0];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -234,9 +266,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                     titleApp,
                     const SizedBox(height: 42.0),
                     Dropdown(
-                      items: prefs.getAllUniversity(),
-                      value: prefs.university.name,
-                      onChanged: (value) => prefs.setUniversity(value, true),
+                      items: listUniversity,
+                      value: _selectedUniversity,
+                      onChanged: _onUniversitySelected,
                     ),
                     Card(
                       shape: const OutlineInputBorder(),
@@ -244,7 +276,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
                           child: Column(
-                            children: [username, const ListDivider(), password],
+                            children: (_isUrlIcs())
+                                ? [urlICsInput]
+                                : [username, const ListDivider(), password],
                           )),
                     ),
                     const SizedBox(height: 32.0),

@@ -22,7 +22,7 @@ class MainDrawer extends StatelessWidget {
       translations.get(StringKey.YES),
       translations.get(StringKey.NO),
       true,
-      TextAlign.left
+      TextAlign.left,
     );
 
     if (logoutConfirm) {
@@ -63,16 +63,19 @@ class MainDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
-          CourseListHeader(
-            "${prefs.calendar.year} - ${prefs.calendar.group}",
-            bgColor: prefs.theme.darkTheme
-                ? const Color(0x21FFFFFF)
-                : const Color(0x18000000),
-          ),
+          prefs.urlIcs == null
+              ? CourseListHeader(
+                  "${prefs.calendar.year} - ${prefs.calendar.group}",
+                  bgColor: prefs.theme.darkTheme
+                      ? const Color(0x21FFFFFF)
+                      : const Color(0x18000000),
+                )
+              : const SizedBox.shrink(),
           DrawerElement(
             icon: OMIcons.search,
             title: translations.get(StringKey.FINDROOM),
             routeDest: RouteKey.FINDROOM,
+            enabled: prefs.urlIcs == null,
           ),
           DrawerElement(
             icon: OMIcons.info,
@@ -106,7 +109,7 @@ class MainDrawer extends StatelessWidget {
             title: translations.get(StringKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () => _onDisconnectPressed(context),
-          )
+          ),
         ],
       ),
     );

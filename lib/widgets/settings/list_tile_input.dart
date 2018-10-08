@@ -1,39 +1,36 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/number_selector.dart';
 
-class ListTileNumber extends StatefulWidget {
+class ListTileInput extends StatefulWidget {
   final String title;
   final String titleDialog;
-  final ValueChanged<int> onChange;
-  final int defaultValue;
-  final int minValue;
-  final int maxValue;
-  
-  const ListTileNumber({
+  final ValueChanged<String> onChange;
+  final String defaultValue;
+  final TextInputType inputType;
+
+  const ListTileInput({
     Key key,
     @required this.title,
     this.titleDialog,
     this.onChange,
     this.defaultValue,
-    this.minValue = 0,
-    @required this.maxValue,
+    this.inputType,
   })  : assert(title != null),
-        assert(maxValue != null && maxValue > minValue),
         super(key: key);
 
   @override
-  _ListTileNumberState createState() => _ListTileNumberState();
+  _ListTileInputState createState() => _ListTileInputState();
 }
 
-class _ListTileNumberState extends BaseState<ListTileNumber> {
-  int _inputValue;
-  int _submitInputValue;
+class _ListTileInputState extends BaseState<ListTileInput> {
+  String _inputValue;
+  String _submitInputValue;
 
   @override
   void initState() {
@@ -42,14 +39,14 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
   }
 
   @protected
-  void didUpdateWidget(covariant ListTileNumber oldWidget) {
+  void didUpdateWidget(covariant ListTileInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initSelectedValue();
   }
 
   void _initSelectedValue() {
     setState(() {
-      _inputValue = widget.defaultValue ?? widget.minValue;
+      _inputValue = widget.defaultValue ?? "";
       _submitInputValue = _inputValue;
     });
   }
@@ -75,11 +72,9 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
     bool isDialogPositive = await DialogPredefined.showContentDialog(
         context,
         widget.titleDialog ?? widget.title,
-        NumberSelector(
-          min: widget.minValue,
-          max: widget.maxValue,
-          initialValue: _inputValue,
+        TextField(
           onChanged: _onInputChange,
+          controller: TextEditingController(text: _inputValue),
         ),
         translations.get(StringKey.SUBMIT),
         translations.get(StringKey.CANCEL),

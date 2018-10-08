@@ -63,6 +63,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Agenda preferences (campus, department, year, group)
   PrefsCalendar _prefsCalendar = PrefsCalendar();
 
+  /// Url of custom ics file (if user choose "Other" in login page)
+  String _urlIcs;
+
   /// Number of weeks to display
   int _numberWeeks;
 
@@ -236,6 +239,19 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       year: year,
       group: group,
     );
+  }
+
+  String get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
+
+  setUrlIcs(String newUrlIcs, [state = false]) {
+    if (urlIcs == newUrlIcs) return;
+
+    _updatePref(() {
+      _urlIcs = newUrlIcs;
+    }, state);
+
+    SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString(PrefKey.urlIcs, _urlIcs));
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
@@ -572,6 +588,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   disconnectUser([state = false]) {
     setUserLogged(false);
+    setUrlIcs(null);
     setResources(PrefKey.defaultResources);
   }
 
@@ -637,6 +654,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Future<Null> initResAndGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // If user choose custom url ics, not init other group prefs
+    String urlIcs = prefs.getString(PrefKey.urlIcs);
+    if (urlIcs != null) {
+      setUrlIcs(urlIcs);
+      return null;
+    }
 
     // Init stored values
     var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ??

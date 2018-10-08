@@ -8,6 +8,7 @@ class PrefKey {
   static const department = 'department';
   static const year = 'year';
   static const group = 'group';
+  static const urlIcs = "url_ics";
 
   static const numberWeeks = 'number_weeks';
 
@@ -45,6 +46,7 @@ class PrefKey {
   static const defaultHeaderGroup = true;
   static const defaultGenerateEventColor = false;
 
+  static const defaultUrlIcs = null;
   static const defaultCachedIcal = null;
   static const List<University> defaultListUniversity = [];
   static const Map<String, dynamic> defaultResources = {};
