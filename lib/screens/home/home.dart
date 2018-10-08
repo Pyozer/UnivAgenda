@@ -96,9 +96,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
       final response = await HttpRequest.get(url);
 
-      if (response.httpResponse.statusCode == 404) {
-          // TODO: Afficher message file not found
-      } else if (!response.isSuccess) {
+      if (!response.isSuccess) {
+        _scaffoldKey?.currentState?.hideCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
           content: Text(translations.get(StringKey.NETWORK_ERROR)),
         ));
