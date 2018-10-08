@@ -159,10 +159,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       textInputAction: inputAction,
       autofocus: false,
       obscureText: isObscure,
+      maxLines: null,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon, color: theme.accentColor),
-        contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
+        contentPadding: const EdgeInsets.fromLTRB(0.0, 18.0, 18.0, 18.0),
         border: InputBorder.none,
       ),
     );
