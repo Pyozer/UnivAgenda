@@ -125,7 +125,14 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       prefs.setResourcesDate();
     } else {
       prefs.setUrlIcs(urlIcs);
-      // TODO: Checker url fourni
+
+      final response = await HttpRequest.get(urlIcs);
+
+      if (!response.isSuccess) {
+        _setLoading(false);
+        _showMessage(translations.get(StringKey.FILE_404));
+        return;
+      }
     }
 
     await prefs.initResAndGroup();
