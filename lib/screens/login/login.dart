@@ -211,7 +211,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final urlICsInput = _buildTextField(
-      translations.get(StringKey.LOGIN_USERNAME),
+      translations.get(StringKey.URL_ICS),
       OMIcons.event,
       false,
       _urlIcsController,

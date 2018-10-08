@@ -191,4 +191,6 @@ class StringKey {
 
   static const DATA_PRIVACY = "data_privacy";
   static const DATA_PRIVACY_TEXT = "data_privacy_text";
+
+  static const URL_ICS = "url_ics";
 }

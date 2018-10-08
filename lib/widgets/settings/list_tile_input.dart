@@ -13,15 +13,17 @@ class ListTileInput extends StatefulWidget {
   final ValueChanged<String> onChange;
   final String defaultValue;
   final TextInputType inputType;
+  final String hintText;
 
-  const ListTileInput({
-    Key key,
-    @required this.title,
-    this.titleDialog,
-    this.onChange,
-    this.defaultValue,
-    this.inputType,
-  })  : assert(title != null),
+  const ListTileInput(
+      {Key key,
+      @required this.title,
+      this.titleDialog,
+      this.onChange,
+      this.defaultValue,
+      this.inputType,
+      this.hintText})
+      : assert(title != null),
         super(key: key);
 
   @override
@@ -70,16 +72,17 @@ class _ListTileInputState extends BaseState<ListTileInput> {
     });
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
-        context,
-        widget.titleDialog ?? widget.title,
-        TextField(
-          onChanged: _onInputChange,
-          controller: TextEditingController(text: _inputValue),
-        ),
-        translations.get(StringKey.SUBMIT),
-        translations.get(StringKey.CANCEL),
-        true,
-        const EdgeInsets.all(0.0));
+      context,
+      widget.titleDialog ?? widget.title,
+      TextField(
+        onChanged: _onInputChange,
+        controller: TextEditingController(text: _inputValue),
+        decoration: InputDecoration(hintText: widget.hintText),
+      ),
+      translations.get(StringKey.SUBMIT),
+      translations.get(StringKey.CANCEL),
+      true,
+    );
 
     if (isDialogPositive) _onSubmit();
   }
@@ -88,7 +91,10 @@ class _ListTileInputState extends BaseState<ListTileInput> {
   Widget build(BuildContext context) {
     return ListTile(
       title: ListTileTitle(widget.title),
-      subtitle: Text(_submitInputValue.toString()),
+      subtitle: Text(
+        _submitInputValue.toString(),
+        overflow: TextOverflow.ellipsis,
+      ),
       onTap: _openDialog,
     );
   }

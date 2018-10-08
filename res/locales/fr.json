@@ -183,5 +183,7 @@
   "error_event_recurrent_zero": "Vous avez défini l'événement comme récurrent mais aucun jour n'est selectionné !",
 
   "data_privacy": "Données & vie privée",
-  "data_privacy_text": "MyAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne."
+  "data_privacy_text": "MyAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
+
+  "url_ics": "Url du fichier agenda (.ics)"
 }
