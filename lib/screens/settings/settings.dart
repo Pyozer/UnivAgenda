@@ -99,7 +99,28 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           title: translations.get(StringKey.URL_ICS),
           hintText: translations.get(StringKey.URL_ICS),
           defaultValue: prefs.urlIcs,
-          onChange: (value) => prefs.setUrlIcs(value, true),
+          onChange: (value) async {
+            // Check before update prefs, if url is good
+            DialogPredefined.showProgressDialog(
+              context,
+              translations.get(StringKey.CHECKING_ICS_URL),
+            );
+
+            final response = await HttpRequest.get(value);
+            // Close progressDialog
+            Navigator.of(context).pop();
+            // If request failed, url is bad (or no internet)
+            if (!response.isSuccess) {
+              DialogPredefined.showSimpleMessage(
+                context,
+                translations.get(StringKey.ERROR),
+                translations.get(StringKey.FILE_404),
+              );
+            } else {
+              // If success request, update preferences
+              prefs.setUrlIcs(value, true);
+            }
+          },
         )
       ];
     }
@@ -208,9 +229,9 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AppbarPage(
-      title: translations.get(StringKey.SETTINGS),
-      actions: <Widget>[
+    var actions;
+    if (prefs.urlIcs == null) {
+      actions = [
         PopupMenuButton<MenuItem>(
           icon: const Icon(OMIcons.moreVert),
           onSelected: (MenuItem result) {
@@ -222,8 +243,13 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
                   child: Text(translations.get(StringKey.REFRESH_AGENDAS)),
                 ),
               ],
-        )
-      ],
+        ),
+      ];
+    }
+
+    return AppbarPage(
+      title: translations.get(StringKey.SETTINGS),
+      actions: actions,
       body: ListView(
         children: [
           _buildSettingsGeneral(),

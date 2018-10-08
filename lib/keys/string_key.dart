@@ -194,4 +194,5 @@ class StringKey {
 
   static const URL_ICS = "url_ics";
   static const FILE_404 = "file_404";
+  static const CHECKING_ICS_URL = "checking_ics_url";
 }
