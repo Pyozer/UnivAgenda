@@ -90,6 +90,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     _startTimeout();
 
     if (!_isUrlIcs()) {
+      prefs.setUniversity(_selectedUniversity);
+      prefs.setUrlIcs(null);
       // Login process
       final loginResult =
           await LoginCAS(prefs.university.loginUrl, username, password).login();
@@ -125,6 +127,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       prefs.setResources(ressources);
       prefs.setResourcesDate();
     } else {
+      prefs.setUniversity(null);
       prefs.setUrlIcs(urlIcs);
 
       final response = await HttpRequest.get(urlIcs);
@@ -261,7 +264,12 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     var listUniversity = prefs.getAllUniversity();
     listUniversity.add(translations.get(StringKey.OTHER));
 
-    if (_selectedUniversity == null) _selectedUniversity = listUniversity[0];
+    if (_selectedUniversity == null) {
+      if (prefs.university != null && listUniversity.contains(prefs.university))
+        _selectedUniversity = prefs.university.name;
+      else
+        _selectedUniversity = listUniversity[0];
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
