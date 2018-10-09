@@ -7,6 +7,7 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/settings/list_tile_input.dart';
@@ -109,12 +110,21 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             final response = await HttpRequest.get(value);
             // Close progressDialog
             Navigator.of(context).pop();
+            
             // If request failed, url is bad (or no internet)
+            String error;
             if (!response.isSuccess) {
+              error = translations.get(StringKey.FILE_404);
+            } else if (!Ical.isValidIcal(response.httpResponse.body)) {
+              error = translations.get(StringKey.WRONG_ICS_FORMAT);
+            }
+
+            // If error, display message
+            if (error != null) {
               DialogPredefined.showSimpleMessage(
                 context,
                 translations.get(StringKey.ERROR),
-                translations.get(StringKey.FILE_404),
+                error,
               );
             } else {
               // If success request, update preferences

@@ -10,8 +10,17 @@ const String LOCATION = "LOCATION";
 const String UID = "UID";
 
 class Ical {
+  static bool isValidIcal(String ical) {
+    List<String> icalLines = ical.trim().split('\n');
+
+    return (icalLines.first == "BEGIN:VCALENDAR" &&
+        icalLines.last == "END:VCALENDAR");
+  }
+
   static List<IcalModel> parseToIcal(String icalData) {
-    if (icalData == null || icalData.trim().length == 0) return [];
+    if (icalData == null ||
+        icalData.trim().length == 0 ||
+        !isValidIcal(icalData)) return [];
 
     List<String> lines = icalData.split("\n");
     Duration timezoneOffset = DateTime.now().timeZoneOffset;

@@ -9,6 +9,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -131,6 +132,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       if (!response.isSuccess) {
         _setLoading(false);
         _showMessage(translations.get(StringKey.FILE_404));
+        return;
+      }
+      if (!Ical.isValidIcal(response.httpResponse.body)) {
+        _setLoading(false);
+        _showMessage(translations.get(StringKey.WRONG_ICS_FORMAT));
         return;
       }
     }

@@ -187,5 +187,6 @@
 
   "url_ics": "Url du fichier agenda (.ics)",
   "file_404": "Le fichier .ics n'a pas été trouvé !\nVérifiez l'url saisie.",
+  "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",
   "checking_ics_url": "Vérification de l'url du fichier .ics..."
 }
