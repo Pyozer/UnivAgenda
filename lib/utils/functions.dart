@@ -17,13 +17,17 @@ bool isDarkTheme(Brightness brightness) {
   return brightness == Brightness.dark;
 }
 
-Future<void> openLink(BuildContext context, String href, String analyticsValue) async {
+Future<void> openLink(
+  BuildContext context,
+  String href,
+  String analyticsValue,
+) async {
   if (await canLaunch(href))
     await launch(href);
   else
     throw 'Could not launch $href';
-    if (context != null && analyticsValue != null)
-  AnalyticsProvider.of(context).sendLinkClicked(analyticsValue);
+  if (context != null && analyticsValue != null)
+    AnalyticsProvider.of(context).sendLinkClicked(analyticsValue);
 }
 
 String capitalize(String input) {
@@ -46,11 +50,15 @@ Color createColorFromText(String text) {
 }
 
 Color getColorFromString(String string) {
+  List<Color> colors = [];
+  for (MaterialColor colorSwatch in materialColors)
+    for (int i = 200; i < 800; i += 200) colors.add(colorSwatch[i]);
+
   var sum = 0;
   for (var i = 0; i < string.length; i++) {
     sum += string.codeUnitAt(i);
   }
   int colorIndex = sum % materialColors.length;
 
-  return materialColors[colorIndex];
+  return colors[colorIndex];
 }
