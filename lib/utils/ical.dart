@@ -11,16 +11,19 @@ const String UID = "UID";
 
 class Ical {
   static bool isValidIcal(String ical) {
-    List<String> icalLines = ical.trim().split('\n');
+    if (ical != null && ical.trimLeft().startsWith("BEGIN:VCALENDAR"))
+      if (ical.trimRight().endsWith("END:VCALENDAR"))
+        return true;
 
-    return (icalLines.first == "BEGIN:VCALENDAR" &&
-        icalLines.last == "END:VCALENDAR");
+    return false;
   }
 
   static List<IcalModel> parseToIcal(String icalData) {
-    if (icalData == null ||
-        icalData.trim().length == 0 ||
-        !isValidIcal(icalData)) return [];
+    if (icalData == null || icalData.trim().length == 0)
+      return [];
+      
+    if (!isValidIcal(icalData))
+      throw("Wrong ICS file format !");
 
     List<String> lines = icalData.split("\n");
     Duration timezoneOffset = DateTime.now().timeZoneOffset;

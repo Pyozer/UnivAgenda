@@ -6,6 +6,7 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
+import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -19,6 +20,7 @@ import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -46,6 +48,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     _isHorizontal = prefs.isHorizontalView;
 
     // Load cached ical
+    if (!Ical.isValidIcal(prefs.cachedIcal)) prefs.setCachedIcal("");
     _prepareList(prefs.cachedIcal ?? "");
 
     if (prefs.urlIcs != _lastUrlIcs ||
@@ -93,18 +96,18 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       } else {
         url = prefs.urlIcs;
       }
-
       final response = await HttpRequest.get(url);
 
       if (!response.isSuccess) {
-        _scaffoldKey?.currentState?.hideCurrentSnackBar();
+        _scaffoldKey?.currentState?.removeCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
           content: Text(translations.get(StringKey.NETWORK_ERROR)),
         ));
         return null;
       }
-      _prepareList(response.httpResponse.body);
-      prefs.setCachedIcal(response.httpResponse.body);
+      final String icalStr = response.httpResponse.body;
+      _prepareList(icalStr);
+      prefs.setCachedIcal(icalStr);
     }
 
     return null;
@@ -167,15 +170,25 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Parse string ical to object
-    for (final icalModel in Ical.parseToIcal(icalStr)) {
-      // Transform IcalModel to Course
-      Course course = Course.fromIcalModel(icalModel);
-      // Check if course is not finish
-      if (!course.isFinish()) {
-        // Get all notes of the course
-        course = _addNotesToCourse(allNotes, course);
-        // Add course to list
-        listCourses.add(course);
+    List<IcalModel> icalModels = Ical.parseToIcal(icalStr);
+    if (icalModels == null) {
+      DialogPredefined.showICSFormatError(context);
+    } else {
+      final actualDate = DateTime.now();
+      final maxDate = actualDate.add(
+        Duration(days: Date.calcDaysToEndDate(actualDate, prefs.numberWeeks)),
+      );
+
+      for (final icalModel in icalModels) {
+        // Transform IcalModel to Course
+        Course course = Course.fromIcalModel(icalModel);
+        // Check if course is not finish
+        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+          // Get all notes of the course
+          course = _addNotesToCourse(allNotes, course);
+          // Add course to list
+          listCourses.add(course);
+        }
       }
     }
 
@@ -189,7 +202,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     if (prefs.isDisplayAllDays) {
       DateTime dayDate = Date.dateFromDateTime(DateTime.now());
 
-      final int numberDays = prefs.numberWeeks * DateTime.daysPerWeek;
+      final int numberDays = Date.calcDaysToEndDate(dayDate, prefs.numberWeeks);
       for (int day = 0; day < numberDays; day++) {
         int dateValue = Date.dateToInt(dayDate);
         listElement[dateValue] = [];

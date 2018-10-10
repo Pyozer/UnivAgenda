@@ -94,6 +94,18 @@ class DialogPredefined {
     );
   }
 
+  static Future<bool> showICSFormatError(BuildContext context) async {
+    final translate = Translations.of(context);
+
+    return await showTextDialog(
+      context,
+      translate.get(StringKey.ERROR),
+      translate.get(StringKey.WRONG_ICS_FORMAT),
+      translate.get(StringKey.OK),
+      null,
+    );
+  }
+
   static Future<bool> showProgressDialog(
       BuildContext context, String message) async {
     final translate = Translations.of(context);

@@ -1,15 +1,15 @@
 import 'package:intl/intl.dart';
+import 'package:myagenda/utils/date.dart';
 
 class IcalAPI {
   static String prepareURL(String baseUrl, int resID, int numberWeeks) {
     final date = DateTime.now();
 
-    final numDays = (numberWeeks == 0) ? 0 : 7 * numberWeeks + 7 - date.weekday;
-    final durationToAdd = Duration(days: numDays);
+    final addDaysToEnd = Duration(days: Date.calcDaysToEndDate(date, numberWeeks));
 
     final dateFormat = DateFormat("yyyy-MM-dd");
     final startDate = dateFormat.format(date);
-    final endDate = dateFormat.format(date.add(durationToAdd));
+    final endDate = dateFormat.format(date.add(addDaysToEnd));
     
     baseUrl = baseUrl.replaceAll("%res%", resID.toString());
     baseUrl = baseUrl.replaceAll("%startDate%", startDate);

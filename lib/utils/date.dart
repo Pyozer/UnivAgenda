@@ -26,11 +26,13 @@ class Date {
     return changeTime(date, time.hour, time.minute, time.second);
   }
 
-  static DateTime changeTime(DateTime dt, int hour, int minute, [int second = 0]) {
+  static DateTime changeTime(DateTime dt, int hour, int minute,
+      [int second = 0]) {
     return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
   }
 
-  static String dateFromNow(DateTime date, [Locale locale, bool shortDate = false]) {
+  static String dateFromNow(DateTime date,
+      [Locale locale, bool shortDate = false]) {
     if (locale == null) locale = kDefaultLocal;
 
     DateTime dateTimeToday = DateTime.now();
@@ -46,16 +48,16 @@ class Date {
         dateTimeToday.year == date.year) return lang[1];
 
     DateFormat dateFormat;
-    
+
     if (dateTimeToday.year == date.year) {
       if (shortDate)
         dateFormat = DateFormat.MMMEd(locale.languageCode);
-        else
+      else
         dateFormat = DateFormat.MMMMEEEEd(locale.languageCode);
     } else {
       if (shortDate)
         dateFormat = DateFormat.yMMMEd(locale.languageCode);
-        else
+      else
         dateFormat = DateFormat.yMMMMEEEEd(locale.languageCode);
     }
 
@@ -88,23 +90,25 @@ class Date {
   static int dateToInt(DateTime dt) {
     int year = dt.year;
     String month = "${dt.month}";
-    if (month.length == 1)
-      month = "0" + month;
+    if (month.length == 1) month = "0" + month;
 
     String day = "${dt.day}";
-    if (day.length == 1)
-      day = "0" + day;
-    
+    if (day.length == 1) day = "0" + day;
+
     return int.parse("$year$month$day");
   }
 
   static DateTime intToDate(int dateInt) {
     String dateValue = dateInt.toString();
-  
+
     int year = int.parse(dateValue.substring(0, 4));
     int month = int.parse(dateValue.substring(4, 6));
     int day = int.parse(dateValue.substring(6, 8));
 
     return DateTime(year, month, day);
+  }
+
+  static int calcDaysToEndDate(DateTime startDate, int numberWeeks) {
+    return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
   }
 }
