@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
@@ -110,7 +112,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
         Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
         return;
       }
-      String icalStr = response.httpResponse.body;
+      String icalStr = utf8.decode(response.httpResponse.bodyBytes);
 
       List<Course> listCourses = [];
 

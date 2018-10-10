@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
@@ -112,7 +113,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         ));
         return null;
       }
-      final String icalStr = response.httpResponse.body;
+      final String icalStr = utf8.decode(response.httpResponse.bodyBytes);
       _prepareList(icalStr);
       prefs.setCachedIcal(icalStr);
     }
