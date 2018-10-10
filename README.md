@@ -1,6 +1,6 @@
 # MyAgenda
 
-Application pour avoir l'**agenda de l'Université du Maine** sur son téléphone.
+Application pour avoir l'agenda de l'**Université du Maine** (Le Mans Université), Université de **Tours**, de **Rennes**, l'**INSA de Rennes**. De plus d'autres Universités peuvent être ajoutés facilement, sur demande. Vous pouvez aussi, mettre à la place, un lien vers un fichier ICAL (pour l'EFREI par exemple).
 Elle sera disponible pour **Android** mais aussi **iOS**.
 
 ## Fonctionnement de l'application
@@ -8,7 +8,8 @@ Elle sera disponible pour **Android** mais aussi **iOS**.
 MyAgenda utilise les dernière données provenant de l'**ENT**. En effet, elle récupère un fichier ICS (ical), le traite et l'affiche.
 Ce fichier contient la liste des événements (cours) du groupe que vous avez choisis sur l'application (dans les paramètres).
 
-Pour accéder à l'application, **vous devez vous connecter** en utilisant vos identifiants de l'Université du Maine. Une fois connecté, il ne vous sera plus demandé vos identifiants.
+Si vous choisissez d'utiliser une Université, pour accéder à l'application **vous devez vous connecter** en utilisant vos identifiants Universitaire.
+Sinon, si vous avez choisi "Autre" dans le choix d'Université, il vous suffit de saisir le lien vers le fichier ICAL.
 
 ## Fonctionnalitées
 
@@ -24,7 +25,7 @@ Par ex: Chercher les salles libres entre 11h00 et 12h30 dans le département Inf
 
 Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la couleur **principale**, la couleur **secondaires** (pour les boutons, switch, etc..) ou encore la couleur de l'**indicateur de présence d'une note** (affiché sur le bord droit d'un cours/événement perso). De plus vous pouvez choisir le **nombre de semaine** à afficher.
 
-## Screenshots
+## Screenshots (old version)
 
 <img title="Page connexion" src="<https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png>" width="300" />
 

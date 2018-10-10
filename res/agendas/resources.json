@@ -1,6 +1,6 @@
 [
   {
-    "university": "Université du Maine",
+    "university": "Le Mans Université",
     "agendaUrl": "http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-lemans.fr/cas/login",
     "resourcesFile": "resources_univ_maine.json"

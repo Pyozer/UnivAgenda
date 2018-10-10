@@ -7,12 +7,14 @@ You can't find your university in the list?
 It is highly possible that your university has not been added.
 Indeed, each university is added one by one and manually.
 
-Currently is present only the University of Maine, Tours, Rennes and INSA Rennes.
+Currently is present only Le Mans University, University of Tours, Rennes and INSA Rennes.
 
 It may be that yours was not added because:
 
 - No one has asked to add it, so it has not been added.
 - Or because your university uses a system that does not allow the application to be able to get the calendars.
+
+If you can't wait and you want to have your calendar into the app, you can use an URL of an ICAL file (Get the link from the Calendar Export feature of your University website).
 
 ## Solution
 
