@@ -528,16 +528,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setListUniversityFromJSONString(String listUnivJson, [state = false]) {
     List resJson = json.decode(listUnivJson);
     List<University> univ = resJson.map((m) => University.fromJson(m)).toList();
-    setListUniversity(univ, state);
-    writeFile(PrefKey.listUniversityFile, listUnivJson);
-  }
-
-  setListUniversity(List<University> listUniv, [state = false]) {
-    if (listUniversity == listUniv) return;
+    
+    if (listUniversity == univ) return;
 
     _updatePref(() {
-      _listUniversity = listUniv ?? PrefKey.defaultListUniversity;
+      _listUniversity = univ ?? PrefKey.defaultListUniversity;
     }, state);
+
+    writeFile(PrefKey.listUniversityFile, listUnivJson);
   }
 
   University get university => _university;
