@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -40,10 +38,9 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
     if (response.isSuccess && mounted) {
       final resourcesGetStr = response.httpResponse.body;
-      Map<String, dynamic> resourcesGet = json.decode(resourcesGetStr);
-      if (resourcesGet.length > 0) {
+      if (resourcesGetStr.trim().length > 0) {
         prefs.setResourcesDate();
-        prefs.setResources(resourcesGet, true);
+        prefs.setResources(resourcesGetStr, true);
       }
     }
     // Send to analytics user force refresh calendar resources
@@ -111,7 +108,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             final response = await HttpRequest.get(value);
             // Close progressDialog
             Navigator.of(context).pop();
-            
+
             // If request failed, url is bad (or no internet)
             String error;
             if (!response.isSuccess) {

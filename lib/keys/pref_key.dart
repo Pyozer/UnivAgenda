@@ -26,9 +26,6 @@ class PrefKey {
   static const isHeaderGroup = 'is_header_group';
   static const isGenerateEventColor = 'is_generate_event_color';
 
-  static const cachedIcal = 'cached_ical';
-  static const listUniversity = 'list_university';
-  static const resources = 'resources';
   static const resourcesDate = 'ressources_date';
 
   static const notes = 'notes';
@@ -51,9 +48,15 @@ class PrefKey {
   static const defaultUrlIcs = null;
   static const defaultCachedIcal = "";
   static const List<University> defaultListUniversity = [];
+  static const String defaultListUniversityJson = "[]";
   static const Map<String, dynamic> defaultResources = {};
+  static const String defaultResourcesJson = "{}";
   static const int defaultResourcesDate = 0;
   static const List<Note> defaultNotes = [];
   static const List<CustomCourse> defaultCustomEvents = [];
+
+  static const String listUniversityFile = 'university.json';
+  static const String resourcesFile = 'resources.json';
+  static const String cachedIcalFile = 'cached_ical.ics';
 
 }

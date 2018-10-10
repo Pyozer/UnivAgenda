@@ -123,8 +123,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
 
-      Map<String, dynamic> ressources = json.decode(response.httpResponse.body);
-      prefs.setResources(ressources);
+      prefs.setResources(response.httpResponse.body);
       prefs.setResourcesDate();
     } else {
       prefs.setUrlIcs(urlIcs);
@@ -136,11 +135,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         _showMessage(translations.get(StringKey.FILE_404));
         return;
       }
-      if (!Ical.isValidIcal(response.httpResponse.body)) {
+      String ical = utf8.decode(response.httpResponse.bodyBytes);
+      if (!Ical.isValidIcal(ical)) {
         _setLoading(false);
         _showMessage(translations.get(StringKey.WRONG_ICS_FORMAT));
         return;
       }
+      prefs.setCachedIcal(ical);
     }
 
     await prefs.initResAndGroup();

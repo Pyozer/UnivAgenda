@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 bool isNumeric(String s) {
@@ -62,4 +64,24 @@ Color getColorFromString(String string) {
   int colorIndex = sum % materialColors.length;
 
   return colors[colorIndex];
+}
+
+Future<String> readFile(String filename, String defaultValue) async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    return await File('$path/$filename')?.readAsString() ?? defaultValue;
+  } catch (_) {
+    return defaultValue;
+  }
+}
+
+Future<void> writeFile(String filename, dynamic content) async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    await File('$path/$filename')?.writeAsString(content);
+  } catch (_) {}
+
+  return;
 }

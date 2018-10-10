@@ -8,6 +8,7 @@ import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:myagenda/models/preferences/university.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -367,8 +368,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _cachedIcal = icalToCache ?? null;
     }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setString(PrefKey.cachedIcal, _cachedIcal));
+    writeFile(PrefKey.cachedIcalFile, _cachedIcal);
   }
 
   List<Note> get notes {
@@ -525,24 +525,19 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   List<University> get listUniversity =>
       _listUniversity ?? PrefKey.defaultListUniversity;
 
+  setListUniversityFromJSONString(String listUnivJson, [state = false]) {
+    List resJson = json.decode(listUnivJson);
+    List<University> univ = resJson.map((m) => University.fromJson(m)).toList();
+    setListUniversity(univ, state);
+    writeFile(PrefKey.listUniversityFile, listUnivJson);
+  }
+
   setListUniversity(List<University> listUniv, [state = false]) {
     if (listUniversity == listUniv) return;
 
     _updatePref(() {
       _listUniversity = listUniv ?? PrefKey.defaultListUniversity;
     }, state);
-
-    SharedPreferences.getInstance().then((prefs) {
-      List<String> univsJSON = [];
-      _listUniversity.forEach((univ) {
-        if (univ != null) {
-          String univJSONStr = json.encode(univ.toJson());
-          univsJSON.add(univJSONStr);
-        }
-      });
-
-      prefs.setStringList(PrefKey.listUniversity, univsJSON);
-    });
   }
 
   University get university => _university;
@@ -566,7 +561,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
-  setResources(Map<String, dynamic> newResources, [state = false]) {
+  setResources(String newResourcesJson, [state = false]) {
+    Map<String, dynamic> newResources = json.decode(newResourcesJson);
     if (resources == newResources) return;
 
     _updatePref(() {
@@ -582,10 +578,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         calendar.group,
         state,
       );
-
-    SharedPreferences.getInstance().then(
-      (prefs) => prefs.setString(PrefKey.resources, json.encode(_resources)),
-    );
+    // Update cache file
+    writeFile(PrefKey.resourcesFile, newResourcesJson);
   }
 
   DateTime get resourcesDate => _resourcesDate ?? DateTime(1970);
@@ -606,7 +600,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   disconnectUser([state = false]) {
     setUserLogged(false);
     setUrlIcs(null);
-    setResources(PrefKey.defaultResources);
+    setResources(PrefKey.defaultResourcesJson);
     setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
@@ -645,7 +639,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setNoteColor(prefs.getInt(PrefKey.noteColor));
 
     // Init other prefs
-    setCachedIcal(prefs.getString(PrefKey.cachedIcal));
+    setCachedIcal(
+        await readFile(PrefKey.cachedIcalFile, PrefKey.defaultCachedIcal));
     setUserLogged(prefs.getBool(PrefKey.isUserLogged));
     _installUID = prefs.getString(PrefKey.installUID);
     setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
@@ -675,19 +670,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<Null> initResAndGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Init stored values
-    var storedListUnivsStr = prefs.getStringList(PrefKey.listUniversity) ??
-        PrefKey.defaultListUniversity;
-
-    // Decode json from local
-    List<University> listUniversity = [];
-    storedListUnivsStr.forEach((univStr) {
-      Map<String, dynamic> jsonMap = json.decode(univStr);
-      listUniversity.add(University.fromJson(jsonMap));
-    });
-    // Update current list of university
-    setListUniversity(listUniversity);
-
     // If user choose custom url ics, not init other group prefs
     String urlIcs = prefs.getString(PrefKey.urlIcs);
     if (urlIcs != null) {
@@ -695,10 +677,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       return null;
     }
 
+    // Init list university stored values
+    String listUnivStored = await readFile(
+        PrefKey.listUniversityFile, PrefKey.defaultListUniversityJson);
+    setListUniversityFromJSONString(listUnivStored);
+
     // If list of university is not empty
     if (listUniversity.length > 0) {
       String storedUniversityName = prefs.getString(PrefKey.university);
-      String storedResourcesStr = prefs.getString(PrefKey.resources) ?? "{}";
 
       // If no university store
       if (storedUniversityName == null || storedUniversityName.length == 0) {
@@ -708,16 +694,18 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       setUniversity(storedUniversityName);
 
       // Parse local resources to Map
-      Map<String, dynamic> localResources = json.decode(storedResourcesStr);
+      String storedResourcesStr =
+          await readFile(PrefKey.resourcesFile, PrefKey.defaultResourcesJson);
+
       // If local resources aren't empty
-      if (localResources.length > 0) {
+      if (storedResourcesStr.trim().length > 0) {
         // Init group preferences
         final String campus = prefs.getString(PrefKey.campus);
         final String department = prefs.getString(PrefKey.department);
         final String year = prefs.getString(PrefKey.year);
         final String group = prefs.getString(PrefKey.group);
         // Update
-        setResources(localResources);
+        setResources(storedResourcesStr);
         // Check values and resave group prefs (useful if issue)
         changeGroupPref(campus, department, year, group);
       }

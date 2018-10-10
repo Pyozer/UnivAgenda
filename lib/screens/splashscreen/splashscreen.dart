@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
-import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/http/http_request.dart';
@@ -60,10 +58,7 @@ class SplashScreenState extends State<SplashScreen> {
           return;
         }
         // Update university list
-        List responseJson = json.decode(responseUniv.httpResponse.body);
-        List<University> listUniv =
-            responseJson.map((m) => University.fromJson(m)).toList();
-        prefs.setListUniversity(listUniv);
+        prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
         prefs.setResourcesDate(startTime);
       }
 
@@ -99,9 +94,7 @@ class SplashScreenState extends State<SplashScreen> {
 
       // Update resources with new data get
       final resourcesGet = responseRes.httpResponse.body;
-      Map<String, dynamic> ressources = json.decode(resourcesGet);
-
-      prefs.setResources(ressources);
+      prefs.setResources(resourcesGet);
       prefs.setResourcesDate(startTime);
     }
 
