@@ -39,7 +39,7 @@ class CourseRow extends StatelessWidget {
     else if (course.isExam())
       bgColorRow = Colors.red[600];
     else if (prefs.isGenerateEventColor)
-      bgColorRow = getColorFromString(course.title);
+      bgColorRow = getColorFromString(course.titleClear());
 
     String courseDate = course.dateForDisplay();
     if (course.isStarted()) {

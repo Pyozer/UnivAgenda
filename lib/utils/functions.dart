@@ -51,8 +51,9 @@ Color createColorFromText(String text) {
 
 Color getColorFromString(String string) {
   List<Color> colors = [];
-  for (MaterialColor colorSwatch in materialColors)
-    for (int i = 200; i < 800; i += 200) colors.add(colorSwatch[i]);
+  for (int i = 400; i < 800; i += 200)
+    for (MaterialColor colorSwatch in materialColors)
+      colors.add(colorSwatch[i]);
 
   var sum = 0;
   for (var i = 0; i < string.length; i++) {

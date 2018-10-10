@@ -48,6 +48,10 @@ class Course extends BaseCourse {
     return '$startTime - $endTime';
   }
 
+  String titleClear() {
+    return title.replaceAll('TP', '').replaceAll('TD', '').replaceAll('TDm', '').replaceAll('CM', '').replaceAll('-  -', '-');
+  }
+
   factory Course.fromIcalModel(IcalModel ical) => Course(
       ical.uid?.trim(),
       ical.summary?.trim(),
