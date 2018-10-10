@@ -127,7 +127,6 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       prefs.setResources(ressources);
       prefs.setResourcesDate();
     } else {
-      prefs.setUniversity(null);
       prefs.setUrlIcs(urlIcs);
 
       final response = await HttpRequest.get(urlIcs);

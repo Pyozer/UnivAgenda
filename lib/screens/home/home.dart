@@ -48,10 +48,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     // Define type of view
     _isHorizontal = prefs.isHorizontalView;
 
-    // Load cached ical
-    if (!Ical.isValidIcal(prefs.cachedIcal)) prefs.setCachedIcal(PrefKey.defaultCachedIcal);
-    _prepareList(prefs.cachedIcal ?? PrefKey.defaultCachedIcal);
-
+    bool isPrefsDifferents = false;
     if (prefs.urlIcs != _lastUrlIcs ||
         prefs.calendar != _lastPrefsCalendar ||
         prefs.numberWeeks != _lastNumberWeeks) {
@@ -59,6 +56,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       _lastUrlIcs = prefs.urlIcs;
       _lastPrefsCalendar = prefs.calendar;
       _lastNumberWeeks = prefs.numberWeeks;
+      isPrefsDifferents = true;
+    }
+
+    // Load cached ical
+    if (isPrefsDifferents || !Ical.isValidIcal(prefs.cachedIcal))
+      prefs.setCachedIcal(PrefKey.defaultCachedIcal);
+    _prepareList(prefs.cachedIcal ?? PrefKey.defaultCachedIcal);
+
+    if (isPrefsDifferents) {
       // Load ical from network
       _fetchData();
       // Send analytics to have stats of prefs users

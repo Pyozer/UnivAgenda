@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/analytics.dart';
@@ -128,6 +129,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
               );
             } else {
               // If success request, update preferences
+              prefs.setCachedIcal(PrefKey.defaultCachedIcal);
               prefs.setUrlIcs(value, true);
             }
           },

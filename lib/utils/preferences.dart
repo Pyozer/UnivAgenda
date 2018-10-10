@@ -162,8 +162,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       prefs.setString(PrefKey.year, values.year);
       prefs.setString(PrefKey.group, values.group);
     });
-
-    setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
   List<String> getAllUniversity() {
@@ -254,8 +252,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setString(PrefKey.urlIcs, _urlIcs));
-
-    setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;

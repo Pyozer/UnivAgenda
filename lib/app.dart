@@ -49,6 +49,7 @@ class App extends StatelessWidget {
               themedWidgetBuilder: (context, theme) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
+                  showPerformanceOverlay: true,
                   title: "MyAgenda",
                   theme: theme,
                   localizationsDelegates: [
