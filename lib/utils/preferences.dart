@@ -590,6 +590,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setUserLogged(false);
     setUrlIcs(null);
     setResources(PrefKey.defaultResources);
+    setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
   bool get isGenerateEventColor =>

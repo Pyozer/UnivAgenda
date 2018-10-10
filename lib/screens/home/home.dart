@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/courses/base_course.dart';
@@ -48,8 +49,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     _isHorizontal = prefs.isHorizontalView;
 
     // Load cached ical
-    if (!Ical.isValidIcal(prefs.cachedIcal)) prefs.setCachedIcal("");
-    _prepareList(prefs.cachedIcal ?? "");
+    if (!Ical.isValidIcal(prefs.cachedIcal)) prefs.setCachedIcal(PrefKey.defaultCachedIcal);
+    _prepareList(prefs.cachedIcal ?? PrefKey.defaultCachedIcal);
 
     if (prefs.urlIcs != _lastUrlIcs ||
         prefs.calendar != _lastPrefsCalendar ||

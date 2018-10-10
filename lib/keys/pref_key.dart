@@ -47,7 +47,7 @@ class PrefKey {
   static const defaultGenerateEventColor = false;
 
   static const defaultUrlIcs = null;
-  static const defaultCachedIcal = null;
+  static const defaultCachedIcal = "";
   static const List<University> defaultListUniversity = [];
   static const Map<String, dynamic> defaultResources = {};
   static const int defaultResourcesDate = 0;
