@@ -72,8 +72,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Installation UID
   String _installUID;
 
-  /// Is app has been already launched
-  bool _firstBoot;
+  /// App launch counter
+  int _appLaunchCounter;
+
+  /// Is intro already view
+  bool _isIntroDone;
 
   /// Is the user if logged
   bool _userLogged;
@@ -328,17 +331,31 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     return _installUID;
   }
 
-  bool get isFirstBoot => _firstBoot ?? PrefKey.defaultFirstBoot;
+  int get appLaunchCounter =>
+      _appLaunchCounter ?? PrefKey.defaultAppLaunchCounter;
 
-  setFirstBoot(bool firstBoot, [state = false]) {
-    if (isFirstBoot == firstBoot) return;
+  setAppLaunchCounter(int newAppLaunchCounter, [state = false]) {
+    if (newAppLaunchCounter == _appLaunchCounter) return;
 
     _updatePref(() {
-      _firstBoot = firstBoot ?? PrefKey.defaultFirstBoot;
+      _appLaunchCounter = newAppLaunchCounter;
+    }, state);
+
+    SharedPreferences.getInstance().then(
+        (prefs) => prefs.setInt(PrefKey.appLaunchCounter, _appLaunchCounter));
+  }
+
+  bool get isIntroDone => _isIntroDone ?? PrefKey.defaultIntroDone;
+
+  setIntroDone(bool newIntroDone, [state = false]) {
+    if (newIntroDone == _isIntroDone) return;
+
+    _updatePref(() {
+      _isIntroDone = newIntroDone;
     }, state);
 
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isFirstBoot, _firstBoot));
+        .then((prefs) => prefs.setBool(PrefKey.isIntroDone, _isIntroDone));
   }
 
   String get cachedIcal => _cachedIcal ?? null;
@@ -631,7 +648,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCachedIcal(prefs.getString(PrefKey.cachedIcal));
     setUserLogged(prefs.getBool(PrefKey.isUserLogged));
     _installUID = prefs.getString(PrefKey.installUID);
-    setFirstBoot(prefs.getBool(PrefKey.isFirstBoot));
+    setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
+    setIntroDone(prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
     setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
 
@@ -727,7 +745,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       calendar == other.calendar &&
       numberWeeks == other.numberWeeks &&
       theme == other.theme &&
-      isFirstBoot == other.isFirstBoot &&
+      appLaunchCounter == other.appLaunchCounter &&
+      isIntroDone == other.isIntroDone &&
       cachedIcal == other.cachedIcal &&
       notes == other.notes &&
       customEvents == other.customEvents &&
@@ -741,7 +760,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsCalendar.hashCode ^
       _numberWeeks.hashCode ^
       _prefsTheme.hashCode ^
-      _firstBoot.hashCode ^
+      _appLaunchCounter.hashCode ^
+      isIntroDone.hashCode ^
       _cachedIcal.hashCode ^
       _notes.hashCode ^
       _customEvents.hashCode ^

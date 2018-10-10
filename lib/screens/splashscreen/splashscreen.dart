@@ -109,7 +109,7 @@ class SplashScreenState extends State<SplashScreen> {
 
     AnalyticsProvider.of(context).analytics.setUserId(prefs.installUID);
 
-    final routeDest = (prefs.isFirstBoot)
+    final routeDest = (!prefs.isIntroDone)
         ? RouteKey.INTRO
         : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 

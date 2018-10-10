@@ -18,7 +18,8 @@ class PrefKey {
   static const isDarkTheme = 'is_dark_theme';
 
   static const installUID = 'install_uid';
-  static const isFirstBoot = 'is_first_boot';
+  static const appLaunchCounter = 'app_launch_counter';
+  static const isIntroDone = 'is_intro_done';
   static const isUserLogged = 'is_user_logged';
   static const isHorizontalView = 'is_horizontal_view';
   static const isDisplayAllDays = 'is_display_all_days';
@@ -39,7 +40,8 @@ class PrefKey {
   static const defaultNoteColor = 0xFFFF5252;
 
   static const defaultDarkTheme = false;
-  static const defaultFirstBoot = true;
+  static const defaultAppLaunchCounter = 0;
+  static const defaultIntroDone = false;
   static const defaultUserLogged = false;
   static const defaultHorizontalView = false;
   static const defaultDisplayAllDays = false;

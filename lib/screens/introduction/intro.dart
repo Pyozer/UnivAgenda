@@ -100,7 +100,7 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
   }
 
   void _onDone() {
-    prefs.setFirstBoot(false);
+    prefs.setIntroDone(true);
     Navigator.pushReplacementNamed(
       context,
       prefs.isUserLogged ? RouteKey.HOME : RouteKey.LOGIN,
