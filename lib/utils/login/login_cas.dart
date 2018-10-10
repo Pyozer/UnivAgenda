@@ -19,6 +19,11 @@ class LoginCAS extends LoginProcess {
     if (ltInput?.attributes?.containsKey("value") ?? false)
       lt = ltInput.attributes['value'];
 
+    final executionInput = document.querySelector('input[name="execution"]');
+    String execution = "e1s1";
+    if (executionInput?.attributes?.containsKey("value") ?? false)
+      execution = executionInput.attributes['value'];
+
     // POST data
     Map<String, String> postParams = {
       "_eventId": "submit",
@@ -26,7 +31,7 @@ class LoginCAS extends LoginProcess {
       "submit": "LOGIN",
       "username": username,
       "password": password,
-      "execution": "e1s1"
+      "execution": execution,
     };
 
     // Get JSESSIONID from previous request header
