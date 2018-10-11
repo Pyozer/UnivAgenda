@@ -60,7 +60,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Load cached ical
-    if (!isPrefsDifferents && Ical.isValidIcal(prefs.cachedIcal))
+    if (Ical.isValidIcal(prefs.cachedIcal))
       _prepareList(prefs.cachedIcal);
     else
       _courses = null;

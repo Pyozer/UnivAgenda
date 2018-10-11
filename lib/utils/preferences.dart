@@ -169,7 +169,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   List<String> getAllUniversity() {
-    return _listUniversity.map((univ) => univ.name).toList();
+    return _listUniversity?.map((univ) => univ.name)?.toList() ?? [];
   }
 
   University findUniversity(String university) {
