@@ -141,9 +141,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
   }
 
   Widget _buildSettingsDisplay() {
-    return SettingCard(
-      header: translations.get(StringKey.SETTINGS_DISPLAY),
-      children: [
+    List<Widget> settingsDisplayItems = [
         ListTileNumber(
           title: translations.get(StringKey.NUMBER_WEEK),
           defaultValue: prefs.numberWeeks,
@@ -158,6 +156,10 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           activeColor: theme.accentColor,
           onChanged: (value) => prefs.setDisplayAllDays(value, true),
         ),
+    ];
+
+    if (prefs.urlIcs == null) {
+      settingsDisplayItems.addAll([
         const ListDivider(),
         SwitchListTile(
           title:
@@ -166,8 +168,13 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           value: prefs.isHeaderGroupVisible,
           activeColor: theme.accentColor,
           onChanged: (value) => prefs.setHeaderGroupVisible(value, true),
-        ),
-      ],
+        )
+      ]);
+    }
+
+    return SettingCard(
+      header: translations.get(StringKey.SETTINGS_DISPLAY),
+      children: settingsDisplayItems,
     );
   }
 
