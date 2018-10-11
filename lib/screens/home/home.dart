@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/courses/base_course.dart';
@@ -36,7 +35,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Map<int, List<BaseCourse>> _courses = {};
+  Map<int, List<BaseCourse>> _courses;
   bool _isHorizontal = false;
 
   PrefsCalendar _lastPrefsCalendar;
@@ -61,9 +60,10 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Load cached ical
-    if (isPrefsDifferents || !Ical.isValidIcal(prefs.cachedIcal))
-      prefs.setCachedIcal(PrefKey.defaultCachedIcal);
-    _prepareList(prefs.cachedIcal ?? PrefKey.defaultCachedIcal);
+    if (!isPrefsDifferents && Ical.isValidIcal(prefs.cachedIcal))
+      _prepareList(prefs.cachedIcal);
+    else
+      _courses = null;
 
     if (isPrefsDifferents) {
       // Load ical from network
@@ -232,6 +232,13 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
   }
 
+  void _switchTypeView() {
+    setState(() {
+      _isHorizontal = !prefs.isHorizontalView;
+    });
+    prefs.setHorizontalView(!prefs.isHorizontalView);
+  }
+
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
@@ -245,13 +252,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       },
       child: const Icon(OMIcons.add),
     );
-  }
-
-  void _switchTypeView() {
-    setState(() {
-      _isHorizontal = !prefs.isHorizontalView;
-    });
-    prefs.setHorizontalView(!prefs.isHorizontalView);
   }
 
   Widget _buildNoResult() {
@@ -275,6 +275,19 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         : const SizedBox.shrink();
 
     final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;
+
+    var content;
+    if (_courses == null) // data not loaded
+      content = const Center(child: CircularProgressIndicator());
+    else if (_courses.length == 0) // No course found
+      content = _buildNoResult();
+    else
+      content = CourseList(
+        coursesData: _courses,
+        isHorizontal: prefs.isHorizontalView,
+        numberWeeks: prefs.numberWeeks,
+        noteColor: Color(prefs.theme.noteColor),
+      );
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
@@ -300,18 +313,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
-            Expanded(
-              child: Container(
-                child: (_courses?.length == 0 ?? true)
-                    ? _buildNoResult()
-                    : CourseList(
-                        coursesData: _courses,
-                        isHorizontal: prefs.isHorizontalView,
-                        numberWeeks: prefs.numberWeeks,
-                        noteColor: Color(prefs.theme.noteColor),
-                      ),
-              ),
-            ),
+            Expanded(child: Container(child: content)),
           ],
         ),
       ),
