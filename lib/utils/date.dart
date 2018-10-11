@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myagenda/models/simple_duration.dart';
 import 'package:myagenda/utils/functions.dart';
 
 class Date {
@@ -110,5 +111,14 @@ class Date {
 
   static int calcDaysToEndDate(DateTime startDate, int numberWeeks) {
     return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
+  }
+
+  static SimpleDuration calculateDuration(DateTime startDate, DateTime endDate) {
+    var diff = endDate.millisecondsSinceEpoch - startDate.millisecondsSinceEpoch; 
+
+    var hours   = (diff / 3.6e6).floor();
+    var minutes = ((diff % 3.6e6) / 6e4).floor();
+
+    return SimpleDuration(hours, minutes);
   }
 }

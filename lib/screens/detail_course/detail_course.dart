@@ -43,11 +43,21 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     final timeEnd = Date.extractTime(_course.dateEnd, locale);
     final date = Date.dateFromNow(_course.dateStart, locale);
 
+    var duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
+    String durationStr = "";
+    if (duration.hours > 0)
+      durationStr += "${duration.hours}h";
+    durationStr += "${duration.minutes}min";
+
     List<Widget> listInfo = [
       ListTile(
         leading: const Icon(OMIcons.accessTime),
         title: Text('$timeStart  –  $timeEnd'),
         subtitle: Text(date),
+      ),
+      ListTile(
+        leading: const Icon(OMIcons.timelapse),
+        title: Text(durationStr),
       ),
       ListTile(
         leading: const Icon(OMIcons.group),
