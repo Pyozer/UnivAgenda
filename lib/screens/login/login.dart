@@ -76,7 +76,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Get username and password from inputs
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
-    final urlIcs = _urlIcsController.text.trim();
+    String urlIcs = _urlIcsController.text.trim();
 
     // Check fields values
     if ((_isUrlIcs() && urlIcs.isEmpty) ||
@@ -126,6 +126,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       prefs.setResources(response.httpResponse.body);
       prefs.setResourcesDate();
     } else {
+      urlIcs = urlIcs.replaceFirst('webcal', 'http');
       prefs.setUrlIcs(urlIcs);
 
       final response = await HttpRequest.get(urlIcs);
