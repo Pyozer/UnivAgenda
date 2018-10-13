@@ -6,39 +6,31 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/analytics.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-class SplashScreenState extends State<SplashScreen> {
-  bool _isPrefsLoaded = false;
+class SplashScreenState extends BaseState<SplashScreen> {
   bool _isError = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_isPrefsLoaded) {
+  void initState() {
+    super.initState();
+    print("TEST CALLED");
+    Future.delayed(Duration(milliseconds: 100)).then((_) {
       _initPreferences();
-      _startTimeout();
-    }
+    });
   }
 
   void _initPreferences() async {
-    _isPrefsLoaded = true;
-    setState(() {
-      _isError = false;
-    });
+    _setError(false);
     _startTimeout();
 
     final startTime = DateTime.now();
-
-    final prefs = PreferencesProvider.of(context);
 
     // Load preferences from disk
     await prefs.initFromDisk();
@@ -46,29 +38,25 @@ class SplashScreenState extends State<SplashScreen> {
     // Update resources if they are empty or older than 6 hours
     int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
 
-    // If user haven't choose custom ics file
-    if (prefs.urlIcs == null) {
-      // If university list is empty or cache is older than 6 hours
-      if (prefs.listUniversity.length == 0 || oldRes >= 6) {
-        // Request lastest university list
-        final responseUniv = await HttpRequest.get(Url.listUniversity);
-        // If request failed and there is no list University
-        if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
-          _setError();
-          return;
-        }
-        // Update university list
-        prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
-        prefs.setResourcesDate(startTime);
-      }
-
-      // If list university still empty, set error
-      if (prefs.listUniversity.length == 0) {
+    // If university list is empty or cache is older than 6 hours
+    if (prefs.listUniversity.length == 0 || oldRes >= 6) {
+      // Request lastest university list
+      final responseUniv = await HttpRequest.get(Url.listUniversity);
+      // If request failed and there is no list University
+      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
         _setError();
         return;
       }
+      // Update university list
+      prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
+      prefs.setResourcesDate(startTime);
     }
 
+    // If list university still empty, set error
+    if (prefs.listUniversity.length == 0) {
+      _setError();
+      return;
+    }
     // If user was connected but university or ics url are null, disconnect him
     if (prefs.urlIcs == null && prefs.university == null && prefs.isUserLogged)
       prefs.setUserLogged(false);
@@ -98,39 +86,33 @@ class SplashScreenState extends State<SplashScreen> {
       prefs.setResourcesDate(startTime);
     }
 
-    prefs.forceSetStat();
-
-    AnalyticsProvider.of(context).analytics.setUserId(prefs.installUID);
+    analyticsProvider.analytics.setUserId(prefs.installUID);
+    prefs.forceSetState();
 
     final routeDest = (!prefs.isIntroDone)
         ? RouteKey.INTRO
         : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 
     // Wait minimum 1.5 secondes
-    final diffMs = DateTime.now().difference(startTime).inMilliseconds;
-    final waitTime = diffMs < 1500 ? 1500 - diffMs : 0;
+    final diffMs = 1500 - DateTime.now().difference(startTime).inMilliseconds;
+    final waitTime = diffMs < 0 ? 0 : diffMs;
 
-    Future.delayed(Duration(milliseconds: waitTime)).then((_) {
-      _goToNext(routeDest);
-    });
+    await Future.delayed(Duration(milliseconds: waitTime));
+    _goToNext(routeDest);
   }
 
   void _startTimeout() async {
-    // Start timout of 30sec. If widget still mounted, set error
+    // Start timout of 20sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
-    await Future.delayed(Duration(seconds: 30));
-    if (mounted) {
-      setState(() {
-        _isError = true;
-      });
-    }
+    await Future.delayed(Duration(seconds: 20));
+    print("test");
+    _setError();
   }
 
-  void _setError() {
+  void _setError([bool isError = true]) {
     if (mounted)
       setState(() {
-        _isPrefsLoaded = false;
-        _isError = true;
+        _isError = isError;
       });
   }
 
@@ -140,8 +122,6 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-
     return AppbarPage(
       body: Container(
         padding: const EdgeInsets.all(32.0),

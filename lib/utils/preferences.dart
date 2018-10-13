@@ -528,7 +528,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setListUniversityFromJSONString(String listUnivJson, [state = false]) {
     List resJson = json.decode(listUnivJson);
     List<University> univ = resJson.map((m) => University.fromJson(m)).toList();
-    
+
     if (listUniversity == univ) return;
 
     _updatePref(() {
@@ -668,17 +668,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<Null> initResAndGroup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    // Init list university stored values
+    String listUnivStored = await readFile(
+        PrefKey.listUniversityFile, PrefKey.defaultListUniversityJson);
+    setListUniversityFromJSONString(listUnivStored);
+
     // If user choose custom url ics, not init other group prefs
     String urlIcs = prefs.getString(PrefKey.urlIcs);
     if (urlIcs != null) {
       setUrlIcs(urlIcs);
       return null;
     }
-
-    // Init list university stored values
-    String listUnivStored = await readFile(
-        PrefKey.listUniversityFile, PrefKey.defaultListUniversityJson);
-    setListUniversityFromJSONString(listUnivStored);
 
     // If list of university is not empty
     if (listUniversity.length > 0) {
@@ -694,9 +694,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       // Parse local resources to Map
       String storedResourcesStr =
           await readFile(PrefKey.resourcesFile, PrefKey.defaultResourcesJson);
+      storedResourcesStr.trim();
 
       // If local resources aren't empty
-      if (storedResourcesStr.trim().length > 0) {
+      if (storedResourcesStr.length > 0 &&
+          storedResourcesStr != PrefKey.defaultResourcesJson) {
+        print(storedResourcesStr);
         // Init group preferences
         final String campus = prefs.getString(PrefKey.campus);
         final String department = prefs.getString(PrefKey.department);
@@ -719,9 +722,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       f();
   }
 
-  void forceSetStat() {
+  void forceSetState() {
     setState(() {
-      // nothing, just forc to rebuild
+      // nothing, just force to rebuild
     });
   }
 
