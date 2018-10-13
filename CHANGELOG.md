@@ -1,3 +1,9 @@
+## Version 4.0.3
+
+- Amélioration du stockage des ressources
+- Possibilité de mettre le lien d'un fichier ICS (permet d'utiliser l'appli même si son université n'est pas ajouté)
+- Correction de bugs (splashscreen, loader, encodage)
+  
 ## Version 4.0.2
 
 - Possibilité de mettre une couleur sur les cours

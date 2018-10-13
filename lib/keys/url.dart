@@ -9,7 +9,7 @@ class Url {
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
 
   static final myWebsite = 'https://pyozer.github.io';
-  static final justinWebsite = 'https://pyozer.github.io';
+  static final justinWebsite = 'http://phenixos-lab.ddns.net/Perso';
   static final myTwitter = 'https://twitter.com/jc_mousse';
   static final githubProjet = 'https://github.com/pyozer/myagenda_flutter';
 
