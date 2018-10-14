@@ -20,7 +20,6 @@ class SplashScreenState extends BaseState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    print("TEST CALLED");
     Future.delayed(Duration(milliseconds: 100)).then((_) {
       _initPreferences();
     });
@@ -105,7 +104,6 @@ class SplashScreenState extends BaseState<SplashScreen> {
     // Start timout of 20sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
     await Future.delayed(Duration(seconds: 20));
-    print("test");
     _setError();
   }
 

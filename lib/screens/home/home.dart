@@ -40,7 +40,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   PrefsCalendar _lastPrefsCalendar;
   String _lastUrlIcs;
-  int _lastNumberWeeks;
+  int _lastNumberWeeks = 0;
 
   @override
   void didChangeDependencies() {
@@ -51,7 +51,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     bool isPrefsDifferents = false;
     if (prefs.urlIcs != _lastUrlIcs ||
         prefs.calendar != _lastPrefsCalendar ||
-        prefs.numberWeeks != _lastNumberWeeks) {
+        prefs.numberWeeks > _lastNumberWeeks) {
       // Update local values
       _lastUrlIcs = prefs.urlIcs;
       _lastPrefsCalendar = prefs.calendar;
@@ -65,7 +65,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     else
       _courses = null;
 
-    if (isPrefsDifferents) {
+    // Update courses if prefs changes or cached ical older than 15min
+    if (isPrefsDifferents || prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
       // Load ical from network
       _fetchData();
       // Send analytics to have stats of prefs users

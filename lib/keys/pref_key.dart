@@ -27,6 +27,7 @@ class PrefKey {
   static const isGenerateEventColor = 'is_generate_event_color';
 
   static const resourcesDate = 'ressources_date';
+  static const cachedIcalDate = 'cached_ical_date';
 
   static const notes = 'notes';
   static const customEvent = 'custom_events';
@@ -52,6 +53,7 @@ class PrefKey {
   static const Map<String, dynamic> defaultResources = {};
   static const String defaultResourcesJson = "{}";
   static const int defaultResourcesDate = 0;
+  static const int defaultCachedIcalDate = 0;
   static const List<Note> defaultNotes = [];
   static const List<CustomCourse> defaultCustomEvents = [];
 

@@ -106,6 +106,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Last date that the resources has ben updated
   DateTime _resourcesDate;
 
+  /// Last date that the ical cache has ben updated
+  DateTime _cachedIcalDate;
+
   /// Generate or not a event color
   bool _isGenerateEventColor;
 
@@ -369,6 +372,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     writeFile(PrefKey.cachedIcalFile, _cachedIcal);
+    setCachedIcalDate(); // Set ical last update date to now
   }
 
   List<Note> get notes {
@@ -580,7 +584,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     writeFile(PrefKey.resourcesFile, newResourcesJson);
   }
 
-  DateTime get resourcesDate => _resourcesDate ?? DateTime(1970);
+  DateTime get resourcesDate =>
+      _resourcesDate ??
+      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
 
   setResourcesDate([newResDate, state = false]) {
     newResDate ??= DateTime.now();
@@ -592,6 +598,23 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setInt(
           PrefKey.resourcesDate, _resourcesDate.millisecondsSinceEpoch);
+    });
+  }
+
+  DateTime get cachedIcalDate =>
+      _cachedIcalDate ??
+      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
+
+  setCachedIcalDate([newCachedIcalDate, state = false]) {
+    newCachedIcalDate ??= DateTime.now();
+
+    _updatePref(() {
+      _cachedIcalDate = newCachedIcalDate;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setInt(
+          PrefKey.cachedIcalDate, _cachedIcalDate.millisecondsSinceEpoch);
     });
   }
 
@@ -625,6 +648,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     final int resourcesDate =
         prefs.getInt(PrefKey.resourcesDate) ?? PrefKey.defaultResourcesDate;
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
+
+    final int cachedIcalDate =
+        prefs.getInt(PrefKey.cachedIcalDate) ?? PrefKey.defaultCachedIcalDate;
+    setCachedIcalDate(DateTime.fromMillisecondsSinceEpoch(cachedIcalDate));
 
     // Init number of weeks to display
     setNumberWeeks(prefs.getInt(PrefKey.numberWeeks));
@@ -699,7 +726,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       // If local resources aren't empty
       if (storedResourcesStr.length > 0 &&
           storedResourcesStr != PrefKey.defaultResourcesJson) {
-        print(storedResourcesStr);
         // Init group preferences
         final String campus = prefs.getString(PrefKey.campus);
         final String department = prefs.getString(PrefKey.department);
@@ -742,6 +768,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       isUserLogged == other.isUserLogged &&
       isHorizontalView == other.isHorizontalView &&
       listUniversity == other.listUniversity &&
+      cachedIcalDate == other.cachedIcalDate &&
+      resourcesDate == other.resourcesDate &&
       resources == other.resources;
 
   @override
@@ -750,12 +778,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _numberWeeks.hashCode ^
       _prefsTheme.hashCode ^
       _appLaunchCounter.hashCode ^
-      isIntroDone.hashCode ^
+      _isIntroDone.hashCode ^
       _cachedIcal.hashCode ^
       _notes.hashCode ^
       _customEvents.hashCode ^
       _userLogged.hashCode ^
       _horizontalView.hashCode ^
       _listUniversity.hashCode ^
+      _resourcesDate.hashCode ^
+      _cachedIcalDate.hashCode ^
       _resources.hashCode;
 }
