@@ -34,6 +34,7 @@ class AnalyticsValue {
   static final String unidays = "unidays_link";
   static final String paypal = "paypal_link";
   static final String websiteJC = "website_jc_link";
+  static final String websiteJustin = "website_justin_link";
   static final String twitter = "twitter_link";
   static final String github = "github_link";
   static final String store = "store_link";

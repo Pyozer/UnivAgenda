@@ -80,6 +80,11 @@ class AboutScreen extends StatelessWidget {
           subtitle: Text(
             "${translations.get(StringKey.DEVELOPER)}, ${translations.get(StringKey.RIGHTS)}",
           ),
+          onTap: () => openLink(
+                context,
+                Url.justinWebsite,
+                AnalyticsValue.websiteJustin,
+              ),
         )
       ],
     );
