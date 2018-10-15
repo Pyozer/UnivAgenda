@@ -196,4 +196,7 @@ class StringKey {
   static const FILE_404 = "file_404";
   static const CHECKING_ICS_URL = "checking_ics_url";
   static const WRONG_ICS_FORMAT = "wrong_ics_format";
+
+  static const CUSTOM_EVENT_EXIT_UNSAVED = "custom_event_exit_unsaved";
+  static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = "custom_event_exit_unsaved_text";
 }

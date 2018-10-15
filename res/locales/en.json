@@ -188,5 +188,7 @@
   "url_ics": "Url of calendar file (.ics)",
   "file_404": "The .ics file could not be found !\nCheck the entered url.",
   "wrong_ics_format": "The .ics file has an incorrect format !",
-  "checking_ics_url": "Checking .ics file URL..."
+  "checking_ics_url": "Checking .ics file URL...",
+  "custom_event_exit_unsaved": "Do you want quit ?",
+  "custom_event_exit_unsaved_text": "You have not saved your actual event, if you quit, you will lose it."
 }

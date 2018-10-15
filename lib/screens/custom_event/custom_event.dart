@@ -371,8 +371,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     if (hasChanges) {
       bool confirmQuit = await DialogPredefined.showTextDialog(
         context,
-        "Do you want quit ?",
-        "You have not saved your actual event, if you quit, you will lose it.",
+        translations.get(StringKey.CUSTOM_EVENT_EXIT_UNSAVED),
+        translations.get(StringKey.CUSTOM_EVENT_EXIT_UNSAVED_TEXT),
         translations.get(StringKey.YES),
         translations.get(StringKey.NO),
       );
