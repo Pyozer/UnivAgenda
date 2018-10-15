@@ -14,14 +14,21 @@ class Course extends BaseCourse {
   DateTime dateStart;
   DateTime dateEnd;
   Color color;
-  
-  Course(this.uid, this.title, this.description, this.location, this.dateStart,
-      this.dateEnd,
-      {this.notes = const [], this.color});
 
-  bool hasNote() {
-    return (notes != null && notes.length > 0);
+  Course(
+    this.uid,
+    this.title,
+    this.description,
+    this.location,
+    this.dateStart,
+    this.dateEnd, {
+    this.notes,
+    this.color,
+  }) {
+    this.notes ??= [];
   }
+
+  bool hasNote() => (notes?.length ?? 0) > 0;
 
   bool isFinish() {
     return dateEnd.isBefore(DateTime.now());
@@ -40,6 +47,8 @@ class Course extends BaseCourse {
     return title.contains(RegExp('exam', caseSensitive: false));
   }
 
+  bool hasColor() => color != null;
+
   @override
   String dateForDisplay([Locale locale]) {
     final startTime = Date.extractTime(dateStart, locale);
@@ -49,26 +58,37 @@ class Course extends BaseCourse {
   }
 
   String titleClear() {
-    return title.replaceAll('TP', '').replaceAll('TD', '').replaceAll('TDm', '').replaceAll('CM', '').replaceAll('-  -', '-');
+    return title
+        .replaceAll('TP', '')
+        .replaceAll('TD', '')
+        .replaceAll('TDm', '')
+        .replaceAll('CM', '')
+        .replaceAll('-  -', '-');
   }
 
   factory Course.fromIcalModel(IcalModel ical) => Course(
-      ical.uid?.trim(),
-      ical.summary?.trim(),
-      ical.description?.trim(),
-      ical.location?.trim(),
-      ical.dtstart,
-      ical.dtend);
-
-  factory Course.fromJson(Map<String, dynamic> json) => Course(
-        json['uid'],
-        json['title'],
-        json['description'],
-        json['location'],
-        DateTime.fromMillisecondsSinceEpoch(json['date_start']),
-        DateTime.fromMillisecondsSinceEpoch(json['date_end']),
-        color: Color(json['color']),
+        ical.uid?.trim(),
+        ical.summary?.trim(),
+        ical.description?.trim(),
+        ical.location?.trim(),
+        ical.dtstart,
+        ical.dtend,
       );
+
+  factory Course.fromJson(Map<String, dynamic> json) {
+    Color courseColor;
+    if (json['color'] != null) courseColor = Color(json['color']);
+
+    return Course(
+      json['uid'],
+      json['title'],
+      json['description'],
+      json['location'],
+      DateTime.fromMillisecondsSinceEpoch(json['date_start']),
+      DateTime.fromMillisecondsSinceEpoch(json['date_end']),
+      color: courseColor,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'uid': uid,
@@ -88,9 +108,26 @@ class Course extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Course && uid == other.uid) ||
-      (other is String && uid == other);
+      super == other &&
+          other is Course &&
+          runtimeType == other.runtimeType &&
+          uid == other.uid &&
+          title == other.title &&
+          description == other.description &&
+          location == other.location &&
+          notes == other.notes &&
+          dateStart == other.dateStart &&
+          dateEnd == other.dateEnd &&
+          color == other.color;
 
   @override
-  int get hashCode => uid.hashCode;
+  int get hashCode =>
+      uid.hashCode ^
+      title.hashCode ^
+      description.hashCode ^
+      location.hashCode ^
+      notes.hashCode ^
+      dateStart.hashCode ^
+      dateEnd.hashCode ^
+      color.hashCode;
 }

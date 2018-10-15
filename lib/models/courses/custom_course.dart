@@ -15,27 +15,26 @@ class CustomCourse extends Course {
     String location,
     DateTime dateStart,
     DateTime dateEnd, {
-    List<Note> notes = const [],
+    List<Note> notes,
     Color color,
-    this.weekdaysRepeat = const [],
+    this.weekdaysRepeat,
   }) : super(uid, title, description, location, dateStart, dateEnd,
-            notes: notes, color: color);
+            notes: notes, color: color) {
+    this.weekdaysRepeat ??= [];
+  }
 
   factory CustomCourse.fromJsonStr(String jsonStr) {
     Map courseMap = json.decode(jsonStr);
     return CustomCourse.fromJson(courseMap);
   }
 
-  factory CustomCourse.fromJson(Map<String, dynamic> jsonInput) {
-    Color courseColor;
-    if (jsonInput['color'] != null) {
-      courseColor = Color(jsonInput['color']);
-    }
+  factory CustomCourse.fromJson(Map<String, dynamic> json) {
+    Course course = Course.fromJson(json);
 
     List<WeekDay> listWeekDays = [];
-    if (jsonInput['weekdays_repeat'] != null &&
-        jsonInput['weekdays_repeat'].trim() != "") {
-      List<int> weekDays = jsonInput['weekdays_repeat']
+    if (json['weekdays_repeat'] != null &&
+        json['weekdays_repeat'].trim() != "") {
+      List<int> weekDays = json['weekdays_repeat']
           .toString()
           .split(',')
           .map((value) => int.parse(value))
@@ -47,13 +46,13 @@ class CustomCourse extends Course {
     }
 
     return CustomCourse(
-      jsonInput['uid'],
-      jsonInput['title'],
-      jsonInput['description'],
-      jsonInput['location'],
-      DateTime.fromMillisecondsSinceEpoch(jsonInput['date_start']),
-      DateTime.fromMillisecondsSinceEpoch(jsonInput['date_end']),
-      color: courseColor,
+      course.uid,
+      course.title,
+      course.description,
+      course.location,
+      course.dateStart,
+      course.dateEnd,
+      color: course.color,
       weekdaysRepeat: listWeekDays,
     );
   }
@@ -74,10 +73,21 @@ class CustomCourse extends Course {
     return jsonMap;
   }
 
-  bool isRecurrentEvent() => weekdaysRepeat.length > 0;
+  bool isRecurrentEvent() => (weekdaysRepeat?.length ?? 0) > 0;
 
   @override
   String toString() {
     return toJson().toString();
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is CustomCourse &&
+          runtimeType == other.runtimeType &&
+          weekdaysRepeat.length != other.weekdaysRepeat.length;
+
+  @override
+  int get hashCode => super.hashCode ^ weekdaysRepeat.hashCode;
 }

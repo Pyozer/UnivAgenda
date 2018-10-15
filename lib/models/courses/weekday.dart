@@ -1,7 +1,7 @@
 class WeekDay {
-  final int weekDay;
+  final int value;
 
-  const WeekDay._(this.weekDay);
+  const WeekDay._(this.value);
 
   static final monday = WeekDay._(DateTime.monday);
   static final tuesday = WeekDay._(DateTime.tuesday);
@@ -10,8 +10,6 @@ class WeekDay {
   static final friday = WeekDay._(DateTime.friday);
   static final saturday = WeekDay._(DateTime.saturday);
   static final sunday = WeekDay._(DateTime.sunday);
-
-  int get value => weekDay;
 
   static get count => values.length;
 
@@ -27,13 +25,18 @@ class WeekDay {
   }
 
   @override
-  bool operator ==(Object other) {
-    return (other is WeekDay && other.value == value) ||
-        (other is int && other == value);
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WeekDay &&
+          runtimeType == other.runtimeType &&
+          value == other.value) ||
+      (other is int && other == value);
+
+  @override
+  int get hashCode => value.hashCode;
 
   @override
   String toString() {
-      return value.toString();
-    }
+    return wednesday.toString();
+  }
 }
