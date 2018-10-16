@@ -461,7 +461,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (eventToRemove == null) return;
 
     List<CustomCourse> newEvents = customEvents;
-    newEvents.removeWhere((event) => (event == eventToRemove));
+    newEvents.removeWhere((event) => (event.uid == eventToRemove.uid));
 
     setCustomEvents(newEvents, state);
   }
