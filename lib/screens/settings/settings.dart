@@ -51,47 +51,25 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
   }
 
   Widget _buildSettingsGeneral() {
-    final calendar = prefs.calendar;
+    final groupKeys = prefs.groupKeys;
     List<Widget> settingsGeneralElems;
 
     if (prefs.urlIcs == null) {
-      settingsGeneralElems = [
-        ListTileChoices(
-          title: translations.get(StringKey.CAMPUS),
-          titleDialog: translations.get(StringKey.SELECT_CAMPUS),
-          selectedValue: calendar.campus,
-          values: prefs.getAllCampus(),
-          onChange: (value) => prefs.setCampus(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.DEPARTMENT),
-          titleDialog: translations.get(StringKey.SELECT_DEPARTMENT),
-          selectedValue: calendar.department,
-          values: prefs.getCampusDepartments(calendar.campus),
-          onChange: (value) => prefs.setDepartment(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.YEAR),
-          titleDialog: translations.get(StringKey.SELECT_YEAR),
-          selectedValue: calendar.year,
-          values: prefs.getYears(calendar.campus, calendar.department),
-          onChange: (value) => prefs.setYear(value, true),
-        ),
-        const ListDivider(),
-        ListTileChoices(
-          title: translations.get(StringKey.GROUP),
-          titleDialog: translations.get(StringKey.SELECT_GROUP),
-          selectedValue: calendar.group,
-          values: prefs.getGroups(
-            calendar.campus,
-            calendar.department,
-            calendar.year,
-          ),
-          onChange: (value) => prefs.setGroup(value, true),
-        )
-      ];
+      settingsGeneralElems = [];
+
+      List<List<String>> allGroupKeys = prefs.getAllGroupKeys();
+      for (int level = 0; level < allGroupKeys.length; level++) {
+        settingsGeneralElems.add(ListTileChoices(
+          title: "",
+          titleDialog: "",
+          selectedValue: groupKeys[level],
+          values: allGroupKeys[level],
+          onChange: (value) {
+            groupKeys[level] = value;
+            prefs.setGroupKeys(groupKeys, true);
+          },
+        ));
+      }
     } else {
       settingsGeneralElems = [
         ListTileInput(
@@ -142,20 +120,20 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   Widget _buildSettingsDisplay() {
     List<Widget> settingsDisplayItems = [
-        ListTileNumber(
-          title: translations.get(StringKey.NUMBER_WEEK),
-          defaultValue: prefs.numberWeeks,
-          minValue: 1,
-          maxValue: 16,
-          onChange: (value) => prefs.setNumberWeeks(value, true),
-        ),
-        SwitchListTile(
-          title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
-          subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
-          value: prefs.isDisplayAllDays,
-          activeColor: theme.accentColor,
-          onChanged: (value) => prefs.setDisplayAllDays(value, true),
-        ),
+      ListTileNumber(
+        title: translations.get(StringKey.NUMBER_WEEK),
+        defaultValue: prefs.numberWeeks,
+        minValue: 1,
+        maxValue: 16,
+        onChange: (value) => prefs.setNumberWeeks(value, true),
+      ),
+      SwitchListTile(
+        title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
+        subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
+        value: prefs.isDisplayAllDays,
+        activeColor: theme.accentColor,
+        onChanged: (value) => prefs.setDisplayAllDays(value, true),
+      ),
     ];
 
     if (prefs.urlIcs == null) {

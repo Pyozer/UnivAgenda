@@ -38,7 +38,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   Map<int, List<BaseCourse>> _courses;
   bool _isHorizontal = false;
 
-  PrefsCalendar _lastPrefsCalendar;
+  List<String> _lastGroupKeys;
   String _lastUrlIcs;
   int _lastNumberWeeks = 0;
 
@@ -50,11 +50,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     bool isPrefsDifferents = false;
     if (prefs.urlIcs != _lastUrlIcs ||
-        prefs.calendar != _lastPrefsCalendar ||
+        prefs.groupKeys != _lastGroupKeys ||
         prefs.numberWeeks > _lastNumberWeeks) {
       // Update local values
       _lastUrlIcs = prefs.urlIcs;
-      _lastPrefsCalendar = prefs.calendar;
+      _lastGroupKeys = prefs.groupKeys;
       _lastNumberWeeks = prefs.numberWeeks;
       isPrefsDifferents = true;
     }
@@ -76,7 +76,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    if (prefs.calendar.campus != null)
+    if (prefs.groupKeys.length > 0)
       analyticsProvider.sendUserPrefsGroup(prefs);
     analyticsProvider.sendUserPrefsDisplay(prefs);
     analyticsProvider.sendUserPrefsColor(prefs);
@@ -88,14 +88,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     if (mounted) {
       String url;
       if (prefs.urlIcs == null) {
-        final calendar = prefs.calendar;
-
-        final resID = prefs.getGroupRes(
-          calendar.campus,
-          calendar.department,
-          calendar.year,
-          calendar.group,
-        );
+        final resID = prefs.getGroupResID();
 
         url = IcalAPI.prepareURL(
           prefs.university.agendaUrl,
@@ -310,7 +303,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           children: [
             (prefs.isHeaderGroupVisible && prefs.urlIcs == null)
                 ? CourseListHeader(
-                    "${prefs.calendar.year} - ${prefs.calendar.group}",
+                    "${prefs.groupKeys.first} - ${prefs.groupKeys.last}",
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),

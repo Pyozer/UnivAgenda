@@ -36,6 +36,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     // Init start/end time
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
+    /*
     // Get list of all campus
     _campus = prefs.getAllCampus();
     // Define preselected campus depends on preferences
@@ -43,10 +44,12 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
     _initDepartmentValue();
+    */
 
     _alreadyLoaded = true;
   }
 
+/*
   void _initDepartmentValue() {
     // Get list of all department of selected campus
     _departments = prefs.getCampusDepartments(_selectedCampus);
@@ -55,6 +58,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     _selectedDepartment =
         _departments.contains(prefDepart) ? prefDepart : _departments[0];
   }
+  */
 
   Widget _buildDropdown(String title, List<String> items, String value,
       ValueChanged<String> onChanged) {
@@ -152,7 +156,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
               (String campus) {
                 setState(() {
                   _selectedCampus = campus;
-                  _initDepartmentValue();
+                  /*_initDepartmentValue();*/
                 });
               },
             ),

@@ -40,9 +40,9 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _search();
+    //_search();
   }
-
+/*
   void _search() async {
     // All rooms available between times defined
     List<RoomResult> results = [];
@@ -163,7 +163,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
       });
     }
   }
-
+*/
   Widget _buildListResults() {
     return ListView.builder(
       shrinkWrap: true,

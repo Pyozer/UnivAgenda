@@ -13,10 +13,7 @@ class AnalyticsEvent {
 class AnalyticsValue {
   // Prefs groups
   static final String university = "university";
-  static final String campus = "campus";
-  static final String department = "department";
-  static final String year = "year";
-  static final String group = "group";
+  static final String groupKeys = "groupKeys";
   // Prefs display
   static final String numberWeeks = "number_weeks";
   static final String displayAllDays = "display_all_day";

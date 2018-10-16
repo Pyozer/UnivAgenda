@@ -1,9 +1,11 @@
 class Url {
+  //static final listUniversity =
+  //    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
   static final listUniversity =
-      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
+      "https://pastebin.com/raw/tSMPqFft";
   
-  static resourcesUrl(String resourceFilename) =>
-      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/$resourceFilename";
+  static resourcesUrl(String resourceFilename) => resourceFilename;
+  //    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/$resourceFilename";
 
   static final helpList =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";

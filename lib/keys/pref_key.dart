@@ -4,10 +4,7 @@ import 'package:myagenda/models/preferences/university.dart';
 
 class PrefKey {
   static const university = 'university';
-  static const campus = 'campus';
-  static const department = 'department';
-  static const year = 'year';
-  static const group = 'group';
+  static const groupKeys = 'groupKeys';
   static const urlIcs = "url_ics";
 
   static const numberWeeks = 'number_weeks';

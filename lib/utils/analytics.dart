@@ -22,11 +22,7 @@ class AnalyticsProvider extends InheritedWidget {
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsGroup,
       parameters: <String, String>{
-        AnalyticsValue.university: prefs.university.name,
-        AnalyticsValue.campus: prefs.calendar.campus,
-        AnalyticsValue.department: prefs.calendar.department,
-        AnalyticsValue.year: prefs.calendar.year,
-        AnalyticsValue.group: prefs.calendar.group,
+        AnalyticsValue.groupKeys: prefs.groupKeys.toString(),
       },
     );
   }

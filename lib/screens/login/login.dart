@@ -89,12 +89,14 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     prefs.setUserLogged(false);
     _startTimeout();
 
-    if (!_isUrlIcs()) {
+    if (!_isUrlIcs() && mounted) {
       prefs.setUniversity(_selectedUniversity);
       prefs.setUrlIcs(null);
       // Login process
       final loginResult =
           await LoginCAS(prefs.university.loginUrl, username, password).login();
+
+      if (!mounted) return;
 
       if (loginResult.result == LoginResultType.LOGIN_FAIL) {
         _setLoading(false);
@@ -117,6 +119,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         Url.resourcesUrl(prefs.university.resourcesFile),
       );
 
+      if (!mounted) return;
+
       if (!response.isSuccess) {
         _setLoading(false);
         _showMessage(translations.get(StringKey.GET_RES_ERROR));
@@ -125,11 +129,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       prefs.setResources(response.httpResponse.body);
       prefs.setResourcesDate();
-    } else {
+    } else if (mounted) {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
       prefs.setUrlIcs(urlIcs);
 
       final response = await HttpRequest.get(urlIcs);
+
+      if (!mounted) return;
 
       if (!response.isSuccess) {
         _setLoading(false);
@@ -149,7 +155,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     // Redirect user if no error
     prefs.setUserLogged(true);
-    Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
+    if (mounted) Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
   }
 
   void _showMessage(String msg) {
