@@ -9,7 +9,6 @@ import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
-import 'package:myagenda/models/preferences/prefs_calendar.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
