@@ -60,8 +60,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       List<List<String>> allGroupKeys = prefs.getAllGroupKeys();
       for (int level = 0; level < allGroupKeys.length; level++) {
         settingsGeneralElems.add(ListTileChoices(
-          title: "",
-          titleDialog: "",
+          title: "Element ${level + 1}",
           selectedValue: groupKeys[level],
           values: allGroupKeys[level],
           onChange: (value) {
