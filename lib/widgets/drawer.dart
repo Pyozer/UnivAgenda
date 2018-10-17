@@ -65,7 +65,7 @@ class MainDrawer extends StatelessWidget {
           ),
           prefs.urlIcs == null
               ? CourseListHeader(
-                  "${prefs.groupKeys.first} - ${prefs.groupKeys.last}",
+                  "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
                   bgColor: prefs.theme.darkTheme
                       ? const Color(0x21FFFFFF)
                       : const Color(0x18000000),

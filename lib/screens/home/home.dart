@@ -302,7 +302,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           children: [
             (prefs.isHeaderGroupVisible && prefs.urlIcs == null)
                 ? CourseListHeader(
-                    "${prefs.groupKeys.first} - ${prefs.groupKeys.last}",
+                    "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
