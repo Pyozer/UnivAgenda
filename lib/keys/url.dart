@@ -1,11 +1,9 @@
 class Url {
-  //static final listUniversity =
-  //    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
   static final listUniversity =
-      "https://pastebin.com/raw/tSMPqFft";
-  
-  static resourcesUrl(String resourceFilename) => resourceFilename;
-  //    "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/$resourceFilename";
+      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
+
+  static resourcesUrl(String resourceFilename) =>
+      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/$resourceFilename";
 
   static final helpList =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
@@ -18,9 +16,11 @@ class Url {
   static final paypal = 'https://paypal.me/jeancharlesmousse';
   static final unidays = 'https://myunidays.com/r/Bdf7mZIQGak';
 
-  static final playstore = "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
-  static final appstore = "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
+  static final playstore =
+      "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
+  static final appstore =
+      "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
 
-  static final changelog = 'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
-
+  static final changelog =
+      'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
 }

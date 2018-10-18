@@ -16,9 +16,8 @@ class FindRoomScreen extends StatefulWidget {
 }
 
 class _FindRoomScreenState extends BaseState<FindRoomScreen> {
-  List<String> _campus = [];
+  List<String> _roomKeys = [];
 
-  String _selectedCampus;
   TimeOfDay _selectedStartTime;
   TimeOfDay _selectedEndTime;
 
@@ -35,9 +34,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
 
-    // Get list of all campus
-    _campus = prefs.getAllRoomsKeys();
-    _selectedCampus = _campus[0];
+    _roomKeys = prefs.checkDataValues(["Rooms"]); // Find a room by default
 
     _alreadyLoaded = true;
   }
@@ -112,7 +109,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindRoomResults(
-              campus: _selectedCampus,
+              groupKeySearch: _roomKeys,
               startTime: _selectedStartTime,
               endTime: _selectedEndTime,
             ),
@@ -123,47 +120,59 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> dropdownChoices = [];
+
+    List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
+    for (var level = 0; level < allGroupKeys.length - 1; level++) {
+      dropdownChoices.add(
+        _buildDropdown(
+          level == 0 ? "Search base" : "Element $level",
+          allGroupKeys[level],
+          _roomKeys[level],
+          (String newKey) {
+            setState(() {
+              _roomKeys[level] = newKey;
+              _roomKeys = prefs.checkDataValues(_roomKeys);
+            });
+          },
+        ),
+      );
+    }
+
     return AppbarPage(
       title: translations.get(StringKey.FINDROOM),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildDropdown(
-              translations.get(StringKey.CAMPUS),
-              _campus,
-              _selectedCampus,
-              (String campus) {
-                setState(() {
-                  _selectedCampus = campus;
-                });
-              },
-            ),
-            Row(
-              children: <Widget>[
-                _buildTimePart(
-                  translations.get(StringKey.START_TIME_EVENT),
-                  _selectedStartTime,
-                  (newStartTime) {
-                    _onTimeChange(newStartTime, _selectedEndTime);
-                  },
-                ),
-                Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0)),
-                _buildTimePart(
-                  translations.get(StringKey.END_TIME_EVENT),
-                  _selectedEndTime,
-                  (newEndTime) {
-                    _onTimeChange(_selectedStartTime, newEndTime);
-                  },
-                ),
-              ],
-            ),
-            RaisedButtonColored(
-              onPressed: _onSearchPressed,
-              text: translations.get(StringKey.SEARCH),
-            ),
-          ],
+          children: []
+            ..addAll(dropdownChoices)
+            ..addAll([
+              Row(
+                children: <Widget>[
+                  _buildTimePart(
+                    translations.get(StringKey.START_TIME_EVENT),
+                    _selectedStartTime,
+                    (newStartTime) {
+                      _onTimeChange(newStartTime, _selectedEndTime);
+                    },
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0)),
+                  _buildTimePart(
+                    translations.get(StringKey.END_TIME_EVENT),
+                    _selectedEndTime,
+                    (newEndTime) {
+                      _onTimeChange(_selectedStartTime, newEndTime);
+                    },
+                  ),
+                ],
+              ),
+              RaisedButtonColored(
+                onPressed: _onSearchPressed,
+                text: translations.get(StringKey.SEARCH),
+              ),
+            ]),
         ),
       ),
     );

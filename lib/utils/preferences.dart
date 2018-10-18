@@ -138,7 +138,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  List<List<String>> getAllGroupKeys() {
+  List<List<String>> getAllGroupKeys(List<String> groupKeys) {
     List<List<String>> allGroupKeys = [];
 
     dynamic resources = _resources;
@@ -182,23 +182,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     return checkedGroupKeys;
   }
 
-  List<String> getAllRoomsKeys() {
-    List<String> roomsKeys = [];
-    if (resources.containsKey('Rooms')) {
-      resources['Rooms'].keys.forEach((roomKey) {
-        roomsKeys.add(roomKey);
-      });
-    }
-    return roomsKeys;
-  }
+  List<Room> getRoomsOfSpecificPlace(List<String> groupKeySearch) {
+    dynamic resources = _resources;
+    groupKeySearch.sublist(0, groupKeySearch.length - 1).forEach((key) {
+      if (!(resources is int)) {
+        resources = resources[key];
+      }
+    });
 
-  List<Room> getRoomsOfCampus(String campus) {
-    List<Room> rooms = [];
-
-    if (resources.containsKey('Rooms') && resources['Rooms'].containsKey(campus))
-      rooms.addAll(getRoom(resources['Rooms'][campus]));
-    
-    return rooms;
+    return getRoom(resources);
   }
 
   List<Room> getRoom(Map<String, dynamic> roomResources) {
@@ -206,7 +198,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     roomResources.keys.forEach((key) {
       if (roomResources[key] is int)
         rooms.add(Room(key, roomResources[key]));
-      else 
+      else
         rooms.addAll(getRoom(roomResources[key]));
     });
     return rooms;

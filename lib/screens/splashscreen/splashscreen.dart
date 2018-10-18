@@ -16,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends BaseState<SplashScreen> {
   bool _isError = false;
+  String _errorMsg;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
       if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
-        _setError();
+        _setError(true, "Impossible to retrieve university list, retry.");
         return;
       }
       // Update university list
@@ -53,7 +54,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
 
     // If list university still empty, set error
     if (prefs.listUniversity.length == 0) {
-      _setError();
+      _setError(true, "University list is empty.. retry.");
       return;
     }
     // If user was connected but university or ics url are null, disconnect him
@@ -75,7 +76,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       );
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
-        _setError();
+        _setError(true, "Impossible to retrieve agenda resources, retry.");
         return;
       }
 
@@ -107,10 +108,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
     _setError();
   }
 
-  void _setError([bool isError = true]) {
+  void _setError([bool isError = true, String errorMsg]) {
     if (mounted)
       setState(() {
         _isError = isError;
+        _errorMsg = errorMsg;
       });
   }
 
@@ -140,7 +142,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            translations.get(StringKey.NETWORK_ERROR),
+                            _errorMsg ?? translations.get(StringKey.NETWORK_ERROR),
                             style: Theme.of(context).textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),

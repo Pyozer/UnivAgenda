@@ -57,7 +57,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     if (prefs.urlIcs == null) {
       settingsGeneralElems = [];
 
-      List<List<String>> allGroupKeys = prefs.getAllGroupKeys();
+      List<List<String>> allGroupKeys = prefs.getAllGroupKeys(prefs.groupKeys);
       for (int level = 0; level < allGroupKeys.length; level++) {
         settingsGeneralElems.add(ListTileChoices(
           title: "Element ${level + 1}",

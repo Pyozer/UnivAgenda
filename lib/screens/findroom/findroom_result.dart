@@ -18,13 +18,13 @@ import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindRoomResults extends StatefulWidget {
-  final String campus;
+  final List<String> groupKeySearch;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
   const FindRoomResults({
     Key key,
-    this.campus,
+    this.groupKeySearch,
     this.startTime,
     this.endTime,
   }) : super(key: key);
@@ -47,7 +47,8 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
     List<RoomResult> results = [];
 
     // Get all room of a campus
-    final List<Room> rooms = prefs.getRoomsOfCampus(widget.campus);
+    final List<Room> rooms =
+        prefs.getRoomsOfSpecificPlace(widget.groupKeySearch);
 
     if (rooms.length == 0) {
       if (mounted) {
