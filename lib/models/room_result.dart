@@ -1,5 +1,7 @@
+import 'package:myagenda/models/room.dart';
+
 class RoomResult {
-  final String room;
+  final Room room;
   final DateTime startAvailable;
   final DateTime endAvailable;
 

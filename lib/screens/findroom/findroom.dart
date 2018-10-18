@@ -17,10 +17,8 @@ class FindRoomScreen extends StatefulWidget {
 
 class _FindRoomScreenState extends BaseState<FindRoomScreen> {
   List<String> _campus = [];
-  List<String> _departments = [];
 
   String _selectedCampus;
-  String _selectedDepartment;
   TimeOfDay _selectedStartTime;
   TimeOfDay _selectedEndTime;
 
@@ -36,29 +34,13 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     // Init start/end time
     _selectedStartTime = TimeOfDay.now();
     _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
-    /*
-    // Get list of all campus
-    _campus = prefs.getAllCampus();
-    // Define preselected campus depends on preferences
-    final prefCampus = prefs.calendar.campus;
-    _selectedCampus = _campus.contains(prefCampus) ? prefCampus : _campus[0];
 
-    _initDepartmentValue();
-    */
+    // Get list of all campus
+    _campus = prefs.getAllRoomsKeys();
+    _selectedCampus = _campus[0];
 
     _alreadyLoaded = true;
   }
-
-/*
-  void _initDepartmentValue() {
-    // Get list of all department of selected campus
-    _departments = prefs.getCampusDepartments(_selectedCampus);
-    // Define preselected department depends on preferences
-    final prefDepart = prefs.calendar.department;
-    _selectedDepartment =
-        _departments.contains(prefDepart) ? prefDepart : _departments[0];
-  }
-  */
 
   Widget _buildDropdown(String title, List<String> items, String value,
       ValueChanged<String> onChanged) {
@@ -131,7 +113,6 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
       CustomRoute(
         builder: (context) => FindRoomResults(
               campus: _selectedCampus,
-              department: _selectedDepartment,
               startTime: _selectedStartTime,
               endTime: _selectedEndTime,
             ),
@@ -156,17 +137,6 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
               (String campus) {
                 setState(() {
                   _selectedCampus = campus;
-                  /*_initDepartmentValue();*/
-                });
-              },
-            ),
-            _buildDropdown(
-              translations.get(StringKey.DEPARTMENT),
-              _departments,
-              _selectedDepartment,
-              (String department) {
-                setState(() {
-                  _selectedDepartment = department;
                 });
               },
             ),

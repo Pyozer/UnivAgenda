@@ -7,6 +7,7 @@ import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:myagenda/models/preferences/university.dart';
+import 'package:myagenda/models/room.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -179,6 +180,36 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }
 
     return checkedGroupKeys;
+  }
+
+  List<String> getAllRoomsKeys() {
+    List<String> roomsKeys = [];
+    if (resources.containsKey('Rooms')) {
+      resources['Rooms'].keys.forEach((roomKey) {
+        roomsKeys.add(roomKey);
+      });
+    }
+    return roomsKeys;
+  }
+
+  List<Room> getRoomsOfCampus(String campus) {
+    List<Room> rooms = [];
+
+    if (resources.containsKey('Rooms') && resources['Rooms'].containsKey(campus))
+      rooms.addAll(getRoom(resources['Rooms'][campus]));
+    
+    return rooms;
+  }
+
+  List<Room> getRoom(Map<String, dynamic> roomResources) {
+    List<Room> rooms = [];
+    roomResources.keys.forEach((key) {
+      if (roomResources[key] is int)
+        rooms.add(Room(key, roomResources[key]));
+      else 
+        rooms.addAll(getRoom(roomResources[key]));
+    });
+    return rooms;
   }
 
   String get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;

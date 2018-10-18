@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/ical_model.dart';
+import 'package:myagenda/models/room.dart';
 import 'package:myagenda/models/room_result.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -18,14 +19,12 @@ import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindRoomResults extends StatefulWidget {
   final String campus;
-  final String department;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
   const FindRoomResults({
     Key key,
     this.campus,
-    this.department,
     this.startTime,
     this.endTime,
   }) : super(key: key);
@@ -40,16 +39,17 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //_search();
+    _search();
   }
-/*
+
   void _search() async {
     // All rooms available between times defined
     List<RoomResult> results = [];
 
-    final departmentRes = prefs.getYears(widget.campus, widget.department);
+    // Get all room of a campus
+    final List<Room> rooms = prefs.getRoomsOfCampus(widget.campus);
 
-    if (!(departmentRes?.contains("Salles") ?? false)) {
+    if (rooms.length == 0) {
       if (mounted) {
         setState(() {
           _searchResult = results;
@@ -80,22 +80,10 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
       });
     }
 
-    // Get all room in the department in the campus
-    final rooms = prefs.getGroups(
-      widget.campus,
-      widget.department,
-      "Salles",
-    );
-
     // Check for every rooms if available
     for (final room in rooms) {
-      int resRoom = prefs.getGroupRes(
-        widget.campus,
-        widget.department,
-        "Salles",
-        room,
-      );
-      String url = IcalAPI.prepareURL(prefs.university.agendaUrl, resRoom, 0);
+      String url =
+          IcalAPI.prepareURL(prefs.university.agendaUrl, room.resourceId, 0);
 
       // Get data
       final response = await HttpRequest.get(url);
@@ -122,7 +110,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
         DialogPredefined.showICSFormatError(context);
         return;
       }
-      
+
       for (final icalModel in icalModels) {
         // Transform IcalModel to Course
         // Add course to list
@@ -163,7 +151,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
       });
     }
   }
-*/
+
   Widget _buildListResults() {
     return ListView.builder(
       shrinkWrap: true,
@@ -225,7 +213,7 @@ class ResultCard extends StatelessWidget {
     return Card(
       elevation: 3.0,
       child: ListTile(
-        title: Text(roomResult.room),
+        title: Text(roomResult.room.name),
         subtitle: Text(text),
       ),
     );
