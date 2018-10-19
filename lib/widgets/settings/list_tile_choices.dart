@@ -85,7 +85,11 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   Widget build(BuildContext context) {
     return ListTile(
       title: ListTileTitle(widget.title),
-      subtitle: Text(_selectedChoice),
+      subtitle: Text(
+        _selectedChoice,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      ),
       onTap: _openDialog,
     );
   }
