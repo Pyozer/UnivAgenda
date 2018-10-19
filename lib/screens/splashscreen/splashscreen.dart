@@ -43,7 +43,8 @@ class SplashScreenState extends BaseState<SplashScreen> {
       // Request lastest university list
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
-      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
+      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0 ||
+          responseUniv.httpResponse == null) {
         _setError(true, "Impossible to retrieve university list, retry.");
         return;
       }
@@ -102,9 +103,9 @@ class SplashScreenState extends BaseState<SplashScreen> {
   }
 
   void _startTimeout() async {
-    // Start timout of 20sec. If widget still mounted, set error
+    // Start timout of 40sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
-    await Future.delayed(Duration(seconds: 20));
+    await Future.delayed(Duration(seconds: 40));
     _setError();
   }
 
@@ -142,7 +143,8 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg ?? translations.get(StringKey.NETWORK_ERROR),
+                            _errorMsg ??
+                                translations.get(StringKey.NETWORK_ERROR),
                             style: Theme.of(context).textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
