@@ -12,10 +12,10 @@ class Dropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
+      child: ListTile(
+        title: DropdownButtonHideUnderline(
           child: DropdownButton(
+            isExpanded: true,
             value: value,
             items: items.map((String value) {
               return DropdownMenuItem<String>(
