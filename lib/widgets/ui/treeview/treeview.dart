@@ -32,19 +32,35 @@ class _TreeViewState extends State<TreeView> {
     });
   }
 
-  _checkAllNodeChild(Node parent) {
-    parent.children.forEach((child) {
+  _checkAllNodeChild(Node node, bool checked) {
+    node.checked = checked;
+    node.children.forEach((child) {
       if (child.children.length == 0)
-        _toggleCheckBox(child);
+        _checkNodeCheckBox(child, checked);
       else
-        _checkAllNodeChild(child);
+        _checkAllNodeChild(child, checked);
     });
   }
 
-  _toggleCheckBox(Node child) {
+  _checkNodeCheckBox(Node node, bool checked) {
     setState(() {
-      child.checked = !child.checked;
+      node.checked = checked;
     });
+  }
+
+  _checkParentNodeCheckBox(Node node) {
+    var nodeParent = node.parent;
+    while (nodeParent != null) {
+      bool isChildrenChecked = true;
+      for (Node child in nodeParent.children) {
+        if (!child.checked) {
+          isChildrenChecked = false;
+          break;
+        }
+      }
+      _checkNodeCheckBox(nodeParent, isChildrenChecked);
+      nodeParent = nodeParent.parent;
+    }
   }
 
   List<Widget> _generateChildren(Node origin, int level) {
@@ -53,13 +69,19 @@ class _TreeViewState extends State<TreeView> {
       children.add(TreeNode(
         level: level,
         node: origin,
-        onChanged: (checked) => _toggleCheckBox(origin),
+        onChanged: (checked) {
+          _checkNodeCheckBox(origin, checked);
+          _checkParentNodeCheckBox(origin);
+        },
       ));
     } else {
       children.add(TreeNode(
         level: level,
         node: origin,
-        onChanged: (checked) => _checkAllNodeChild(origin),
+        onChanged: (checked) {
+          _checkAllNodeChild(origin, checked);
+          _checkParentNodeCheckBox(origin);
+        },
       ));
       origin.children.forEach((child) {
         children.addAll(_generateChildren(child, level + 1));
