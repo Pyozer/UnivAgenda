@@ -123,7 +123,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     List<Widget> dropdownChoices = [];
 
     List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
-    for (var level = 0; level < allGroupKeys.length - 1; level++) {
+    for (var level = 0; level < 2; level++) {
       dropdownChoices.add(
         _buildDropdown(
           level == 0 ? "Search base" : "Element $level",
