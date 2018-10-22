@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/widgets/ui/treeview/node.dart';
 import 'package:myagenda/widgets/ui/treeview/treenode.dart';
@@ -5,14 +7,21 @@ import 'package:myagenda/widgets/ui/treeview/treenode.dart';
 class TreeView extends StatefulWidget {
   final Map<String, dynamic> dataSource;
   final String treeTitle;
+  final ValueChanged<List<Node>> onCheckedChanged;
 
-  const TreeView({Key key, this.treeTitle, this.dataSource}) : super(key: key);
+  const TreeView(
+      {Key key,
+      @required this.treeTitle,
+      @required this.dataSource,
+      @required this.onCheckedChanged})
+      : super(key: key);
 
   _TreeViewState createState() => _TreeViewState();
 }
 
 class _TreeViewState extends State<TreeView> {
   Node _tree;
+  List<Node> _selectedNodes = [];
 
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -46,6 +55,11 @@ class _TreeViewState extends State<TreeView> {
     setState(() {
       node.checked = checked;
     });
+    if (checked)
+      _selectedNodes.add(node);
+    else
+      _selectedNodes.remove(node);
+    widget.onCheckedChanged(_selectedNodes);
   }
 
   _checkParentNodeCheckBox(Node node) {

@@ -18,13 +18,13 @@ import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindRoomResults extends StatefulWidget {
-  final List<String> groupKeySearch;
+  final List<Room> searchResources;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
   const FindRoomResults({
     Key key,
-    this.groupKeySearch,
+    this.searchResources,
     this.startTime,
     this.endTime,
   }) : super(key: key);
@@ -46,11 +46,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
     // All rooms available between times defined
     List<RoomResult> results = [];
 
-    // Get all room of a campus
-    final List<Room> rooms =
-        prefs.getRoomsOfSpecificPlace(widget.groupKeySearch);
-
-    if (rooms.length == 0) {
+    if (widget.searchResources.length == 0) {
       if (mounted) {
         setState(() {
           _searchResult = results;
@@ -82,7 +78,7 @@ class FindRoomResultsState extends BaseState<FindRoomResults> {
     }
 
     // Check for every rooms if available
-    for (final room in rooms) {
+    for (final room in widget.searchResources) {
       String url =
           IcalAPI.prepareURL(prefs.university.agendaUrl, room.resourceId, 0);
 

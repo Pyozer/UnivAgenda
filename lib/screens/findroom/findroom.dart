@@ -5,6 +5,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/findroom/findroom_result.dart';
+import 'package:myagenda/screens/findroom/findroom_select.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
@@ -108,7 +109,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
   void _onSearchPressed() {
     Navigator.of(context).push(
       CustomRoute(
-        builder: (context) => FindRoomResults(
+        builder: (context) => FindRoomFilter(
               groupKeySearch: _roomKeys,
               startTime: _selectedStartTime,
               endTime: _selectedEndTime,
