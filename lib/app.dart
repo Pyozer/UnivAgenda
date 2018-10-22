@@ -22,7 +22,7 @@ import 'package:firebase_analytics/observer.dart';
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
   RouteKey.HOME: HomeScreen(),
-  RouteKey.FINDROOM: FindSchedulesScreen(),
+  RouteKey.FINDSCHEDULES: FindSchedulesScreen(),
   RouteKey.SETTINGS: SettingsScreen(),
   RouteKey.HELP: HelpScreen(),
   RouteKey.ABOUT: AboutScreen(),

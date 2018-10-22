@@ -140,7 +140,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     }
 
     return AppbarPage(
-      title: translations.get(StringKey.FINDROOM),
+      title: translations.get(StringKey.FINDSCHEDULES),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

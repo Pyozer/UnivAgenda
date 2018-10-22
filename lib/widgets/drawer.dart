@@ -73,8 +73,8 @@ class MainDrawer extends StatelessWidget {
               : const SizedBox.shrink(),
           DrawerElement(
             icon: OMIcons.search,
-            title: translations.get(StringKey.FINDROOM),
-            routeDest: RouteKey.FINDROOM,
+            title: translations.get(StringKey.FINDSCHEDULES),
+            routeDest: RouteKey.FINDSCHEDULES,
             enabled: prefs.urlIcs == null,
           ),
           DrawerElement(

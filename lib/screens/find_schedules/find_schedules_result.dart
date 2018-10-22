@@ -169,14 +169,14 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       widget = const Center(child: const CircularProgressIndicator());
     else if (_searchResult.length == 0)
       widget = NoResult(
-        title: translations.get(StringKey.FINDROOM_NORESULT),
-        text: translations.get(StringKey.FINDROOM_NORESULT_TEXT),
+        title: translations.get(StringKey.FINDSCHEDULES_NORESULT),
+        text: translations.get(StringKey.FINDSCHEDULES_NORESULT_TEXT),
       );
     else
       widget = _buildListResults();
 
     return AppbarPage(
-      title: translations.get(StringKey.FINDROOM_RESULTS),
+      title: translations.get(StringKey.FINDSCHEDULES_RESULTS),
       body: widget,
     );
   }
@@ -194,18 +194,18 @@ class ResultCard extends StatelessWidget {
 
     String info = '';
     if (roomResult.startAvailable != null) {
-      info = "${translation.get(StringKey.FINDROOM_FROM)} ";
+      info = "${translation.get(StringKey.FINDSCHEDULES_FROM)} ";
       info += Date.extractTimeWithDate(roomResult.startAvailable, locale);
     }
 
     if (roomResult.endAvailable != null) {
-      info += " ${translation.get(StringKey.FINDROOM_TO)} ";
+      info += " ${translation.get(StringKey.FINDSCHEDULES_TO)} ";
       info += Date.extractTimeWithDate(roomResult.endAvailable, locale);
     }
 
     final text = (info.length > 0)
         ? capitalize(info.trim())
-        : translation.get(StringKey.FINDROOM_AVAILABLE);
+        : translation.get(StringKey.FINDSCHEDULES_AVAILABLE);
 
     return Card(
       elevation: 3.0,

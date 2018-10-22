@@ -3,7 +3,7 @@ class StringKey {
 
   static const DRAWER = 'drawer';
 
-  static const FINDROOM = 'findroom';
+  static const FINDSCHEDULES = 'findschedules';
 
   static const SETTINGS = 'settings';
   static const SETTINGS_GENERAL = 'settings_general';
@@ -137,12 +137,12 @@ class StringKey {
   static const YES = 'yes';
   static const NO = 'no';
 
-  static const FINDROOM_FROM = 'findroom_from';
-  static const FINDROOM_TO = 'findroom_to';
-  static const FINDROOM_AVAILABLE = 'findroom_available';
-  static const FINDROOM_NORESULT = 'findroom_noresult';
-  static const FINDROOM_NORESULT_TEXT = 'findroom_noresult_text';
-  static const FINDROOM_RESULTS = 'findroom_results';
+  static const FINDSCHEDULES_FROM = 'findschedules_from';
+  static const FINDSCHEDULES_TO = 'findschedules_to';
+  static const FINDSCHEDULES_AVAILABLE = 'findschedules_available';
+  static const FINDSCHEDULES_NORESULT = 'findschedules_noresult';
+  static const FINDSCHEDULES_NORESULT_TEXT = 'findschedules_noresult_text';
+  static const FINDSCHEDULES_RESULTS = 'findschedules_results';
 
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
