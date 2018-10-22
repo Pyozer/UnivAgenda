@@ -1,8 +1,8 @@
-class Room {
+class Resource {
   final String name;
   final int resourceId;
 
-  Room(this.name, this.resourceId);
+  Resource(this.name, this.resourceId);
 
   String toString() {
     return "{ name: $name, resId: $resourceId }";

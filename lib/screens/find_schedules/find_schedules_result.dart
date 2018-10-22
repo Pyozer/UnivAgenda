@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
+import 'package:myagenda/models/findschedules_result.dart';
 import 'package:myagenda/models/ical_model.dart';
-import 'package:myagenda/models/room.dart';
-import 'package:myagenda/models/room_result.dart';
+import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
@@ -18,7 +18,7 @@ import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindSchedulesResults extends StatefulWidget {
-  final List<Room> searchResources;
+  final List<Resource> searchResources;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
@@ -33,7 +33,7 @@ class FindSchedulesResults extends StatefulWidget {
 }
 
 class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
-  List<RoomResult> _searchResult;
+  List<FindSchedulesResult> _searchResult;
   bool _isLoading = true;
 
   @override
@@ -44,7 +44,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
 
   void _search() async {
     // All rooms available between times defined
-    List<RoomResult> results = [];
+    List<FindSchedulesResult> results = [];
 
     if (widget.searchResources.length == 0) {
       if (mounted) {
@@ -137,7 +137,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
 
       // If no course during chosen hours, mean that room is available
       if (listCourses.length == 0) {
-        results.add(RoomResult(room, startNoCourse, endNoCourse));
+        results.add(FindSchedulesResult(room, startNoCourse, endNoCourse));
       }
     }
 
@@ -156,7 +156,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       itemCount: _searchResult.length,
       itemBuilder: (context, index) {
         return ResultCard(
-          roomResult: _searchResult[index],
+          findResult: _searchResult[index],
         );
       },
     );
@@ -183,9 +183,9 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
 }
 
 class ResultCard extends StatelessWidget {
-  final RoomResult roomResult;
+  final FindSchedulesResult findResult;
 
-  const ResultCard({Key key, this.roomResult}) : super(key: key);
+  const ResultCard({Key key, this.findResult}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -193,14 +193,14 @@ class ResultCard extends StatelessWidget {
     final locale = translation.locale;
 
     String info = '';
-    if (roomResult.startAvailable != null) {
+    if (findResult.startAvailable != null) {
       info = "${translation.get(StringKey.FINDSCHEDULES_FROM)} ";
-      info += Date.extractTimeWithDate(roomResult.startAvailable, locale);
+      info += Date.extractTimeWithDate(findResult.startAvailable, locale);
     }
 
-    if (roomResult.endAvailable != null) {
+    if (findResult.endAvailable != null) {
       info += " ${translation.get(StringKey.FINDSCHEDULES_TO)} ";
-      info += Date.extractTimeWithDate(roomResult.endAvailable, locale);
+      info += Date.extractTimeWithDate(findResult.endAvailable, locale);
     }
 
     final text = (info.length > 0)
@@ -210,7 +210,7 @@ class ResultCard extends StatelessWidget {
     return Card(
       elevation: 3.0,
       child: ListTile(
-        title: Text(roomResult.room.name),
+        title: Text(findResult.resource.name),
         subtitle: Text(text),
       ),
     );

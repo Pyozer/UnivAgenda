@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/room.dart';
+import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
@@ -28,9 +28,9 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   List<Node> _selectedResources = [];
 
   _onSubmit() {
-    List<Room> searchResources = [];
+    List<Resource> searchResources = [];
     _selectedResources.forEach((node) {
-      searchResources.add(Room(node.key, node.value));
+      searchResources.add(Resource(node.key, node.value));
     });
 
     Navigator.of(context).push(
