@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/widgets/ui/treeview/node.dart';
 import 'package:myagenda/widgets/ui/treeview/treenode.dart';
