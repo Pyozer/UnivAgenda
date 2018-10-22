@@ -124,9 +124,13 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
 
     List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
     for (var level = 0; level < 2; level++) {
+      final menuTitle = level == 0
+          ? translations.get(StringKey.FINDSCHEDULES_SEARCH_ORIGIN)
+          : translations.get(StringKey.FINDSCHEDULES_FILTER) + " $level";
+
       dropdownChoices.add(
         _buildDropdown(
-          level == 0 ? "Search origin" : "Filter $level",
+          menuTitle,
           allGroupKeys[level],
           _roomKeys[level],
           (String newKey) {

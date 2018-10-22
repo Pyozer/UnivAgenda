@@ -132,6 +132,8 @@
 
   "findschedules_from": "De",
   "findschedules_to": "jusqu'à",
+  "findschedules_search_origin": "Base de recherche",
+  "findschedules_filter": "Filtre",
   "findschedules_available": "Disponible",
   "findschedules_noresult": "Aucun créneau trouvée",
   "findschedules_noresult_text": "Aucun créneau n'a été trouvé, essayez de changer les horaires de recherches.",

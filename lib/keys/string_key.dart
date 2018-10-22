@@ -139,6 +139,8 @@ class StringKey {
 
   static const FINDSCHEDULES_FROM = 'findschedules_from';
   static const FINDSCHEDULES_TO = 'findschedules_to';
+  static const FINDSCHEDULES_SEARCH_ORIGIN = 'findschedules_search_origin';
+  static const FINDSCHEDULES_FILTER = 'findschedules_filter';
   static const FINDSCHEDULES_AVAILABLE = 'findschedules_available';
   static const FINDSCHEDULES_NORESULT = 'findschedules_noresult';
   static const FINDSCHEDULES_NORESULT_TEXT = 'findschedules_noresult_text';

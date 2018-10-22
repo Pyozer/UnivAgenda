@@ -132,6 +132,8 @@
 
   "findschedules_from": "From",
   "findschedules_to": "to",
+  "findschedules_search_origin": "Search origin",
+  "findschedules_filter": "Filter",
   "findschedules_available": "Available",
   "findschedules_noresult": "No schedules found",
   "findschedules_noresult_text": "No empty schedules were found, try changing the search times.",
