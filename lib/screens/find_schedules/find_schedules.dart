@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/screens/findroom/findroom_result.dart';
-import 'package:myagenda/screens/findroom/findroom_select.dart';
+import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
-class FindRoomScreen extends StatefulWidget {
+class FindSchedulesScreen extends StatefulWidget {
   @override
-  _FindRoomScreenState createState() => _FindRoomScreenState();
+  _FindSchedulesScreenState createState() => _FindSchedulesScreenState();
 }
 
-class _FindRoomScreenState extends BaseState<FindRoomScreen> {
+class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   List<String> _roomKeys = [];
 
   TimeOfDay _selectedStartTime;
@@ -109,7 +108,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
   void _onSearchPressed() {
     Navigator.of(context).push(
       CustomRoute(
-        builder: (context) => FindRoomFilter(
+        builder: (context) => FindSchedulesFilter(
               groupKeySearch: _roomKeys,
               startTime: _selectedStartTime,
               endTime: _selectedEndTime,
@@ -127,7 +126,7 @@ class _FindRoomScreenState extends BaseState<FindRoomScreen> {
     for (var level = 0; level < 2; level++) {
       dropdownChoices.add(
         _buildDropdown(
-          level == 0 ? "Search base" : "Element $level",
+          level == 0 ? "Search origin" : "Filter $level",
           allGroupKeys[level],
           _roomKeys[level],
           (String newKey) {

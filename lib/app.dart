@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
 import 'package:myagenda/screens/about/licences/licences.dart';
-import 'package:myagenda/screens/findroom/findroom.dart';
+import 'package:myagenda/screens/find_schedules/find_schedules.dart';
 import 'package:myagenda/screens/help/help.dart';
 import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/screens/introduction/intro.dart';
@@ -22,7 +22,7 @@ import 'package:firebase_analytics/observer.dart';
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
   RouteKey.HOME: HomeScreen(),
-  RouteKey.FINDROOM: FindRoomScreen(),
+  RouteKey.FINDROOM: FindSchedulesScreen(),
   RouteKey.SETTINGS: SettingsScreen(),
   RouteKey.HELP: HelpScreen(),
   RouteKey.ABOUT: AboutScreen(),

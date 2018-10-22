@@ -3,28 +3,28 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/room.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/screens/findroom/findroom_result.dart';
+import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/widgets/ui/treeview/node.dart';
 import 'package:myagenda/widgets/ui/treeview/treeview.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-class FindRoomFilter extends StatefulWidget {
+class FindSchedulesFilter extends StatefulWidget {
   final List<String> groupKeySearch;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
-  const FindRoomFilter({
+  const FindSchedulesFilter({
     Key key,
     this.groupKeySearch,
     this.startTime,
     this.endTime,
   }) : super(key: key);
 
-  FindRoomFilterState createState() => FindRoomFilterState();
+  FindSchedulesFilterState createState() => FindSchedulesFilterState();
 }
 
-class FindRoomFilterState extends BaseState<FindRoomFilter> {
+class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   List<Node> _selectedResources = [];
 
   _onSubmit() {
@@ -35,7 +35,7 @@ class FindRoomFilterState extends BaseState<FindRoomFilter> {
 
     Navigator.of(context).push(
       CustomRoute(
-        builder: (context) => FindRoomResults(
+        builder: (context) => FindSchedulesResults(
               searchResources: searchResources,
               startTime: widget.startTime,
               endTime: widget.endTime,

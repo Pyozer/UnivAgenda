@@ -3,7 +3,7 @@
 
   "drawer": "Menu de navigation",
 
-  "findroom": "Trouver une salle",
+  "findschedules": "Trouver un créneaux",
 
   "settings": "Paramètres",
   "settings_general": "Général",
@@ -130,12 +130,12 @@
   "yes": "Oui",
   "no": "Non",
 
-  "findroom_from": "De",
-  "findroom_to": "jusqu'à",
-  "findroom_available": "Disponible",
-  "findroom_noresult": "Aucune salle trouvée",
-  "findroom_noresult_text": "Aucune salle n'est disponible. Ou bien il y a aucune donnée sur les salles ce département.",
-  "findroom_results": "Salle(s) trouvée(s)",
+  "findschedules_from": "De",
+  "findschedules_to": "jusqu'à",
+  "findschedules_available": "Disponible",
+  "findschedules_noresult": "Aucun créneau trouvée",
+  "findschedules_noresult_text": "Aucun créneau n'a été trouvé, essayez de changer les horaires de recherches.",
+  "findschedules_results": "Créneaux libres trouvées",
 
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",

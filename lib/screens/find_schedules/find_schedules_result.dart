@@ -17,22 +17,22 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
 
-class FindRoomResults extends StatefulWidget {
+class FindSchedulesResults extends StatefulWidget {
   final List<Room> searchResources;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
 
-  const FindRoomResults({
+  const FindSchedulesResults({
     Key key,
     this.searchResources,
     this.startTime,
     this.endTime,
   }) : super(key: key);
 
-  FindRoomResultsState createState() => FindRoomResultsState();
+  FindSchedulesResultsState createState() => FindSchedulesResultsState();
 }
 
-class FindRoomResultsState extends BaseState<FindRoomResults> {
+class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
   List<RoomResult> _searchResult;
   bool _isLoading = true;
 

@@ -3,7 +3,7 @@
 
   "drawer": "Navigation menu",
 
-  "findroom": "Find a room",
+  "findschedules": "Find schedules",
 
   "settings": "Settings",
   "settings_general": "General",
@@ -130,12 +130,12 @@
   "yes": "Yes",
   "no": "No",
 
-  "findroom_from": "From",
-  "findroom_to": "to",
-  "findroom_available": "Available",
-  "findroom_noresult": "No room found",
-  "findroom_noresult_text": "No room is available. Or there is no data for rooms of this department.",
-  "findroom_results": "Room(s) found",
+  "findschedules_from": "From",
+  "findschedules_to": "to",
+  "findschedules_available": "Available",
+  "findschedules_noresult": "No schedules found",
+  "findschedules_noresult_text": "No empty schedules were found, try changing the search times.",
+  "findschedules_results": "Empty schedules found",
 
   "courses_noresult": "No course to display",
   "courses_noresult_text": "Try to edit number of weeks in settings.",
