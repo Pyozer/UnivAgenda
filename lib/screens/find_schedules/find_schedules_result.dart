@@ -94,7 +94,11 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
         }
 
         final errorMsg = translations.get(StringKey.NETWORK_ERROR);
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
+        DialogPredefined.showSimpleMessage(
+          context,
+          translations.get(StringKey.ERROR),
+          errorMsg,
+        );
         return;
       }
       String icalStr = utf8.decode(response.httpResponse.bodyBytes);
