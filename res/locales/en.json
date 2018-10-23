@@ -138,6 +138,7 @@
   "findschedules_noresult": "No schedules found",
   "findschedules_noresult_text": "No empty schedules were found, try changing the search times.",
   "findschedules_results": "Empty schedules found",
+  "findschedules_filter_selection": "Search where ?",
 
   "courses_noresult": "No course to display",
   "courses_noresult_text": "Try to edit number of weeks in settings.",

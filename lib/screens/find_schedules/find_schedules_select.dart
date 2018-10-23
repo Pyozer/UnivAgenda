@@ -51,7 +51,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     var selectSecond = widget.groupKeySearch[1];
 
     return AppbarPage(
-      title: translations.get(StringKey.FINDSCHEDULES_RESULTS),
+      title: translations.get(StringKey.FINDSCHEDULES_FILTER_SELECTION),
       actions: <Widget>[
         IconButton(
           icon: const Icon(OMIcons.check),

@@ -138,6 +138,7 @@
   "findschedules_noresult": "Aucun créneau trouvée",
   "findschedules_noresult_text": "Aucun créneau n'a été trouvé, essayez de changer les horaires de recherches.",
   "findschedules_results": "Créneaux libres trouvées",
+  "findschedules_filter_selection": "Où chercher ?",
 
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",

@@ -145,6 +145,7 @@ class StringKey {
   static const FINDSCHEDULES_NORESULT = 'findschedules_noresult';
   static const FINDSCHEDULES_NORESULT_TEXT = 'findschedules_noresult_text';
   static const FINDSCHEDULES_RESULTS = 'findschedules_results';
+  static const FINDSCHEDULES_FILTER_SELECTION = 'findschedules_filter_selection';
 
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
