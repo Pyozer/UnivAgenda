@@ -7,6 +7,7 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
@@ -18,8 +19,8 @@ class FindSchedulesScreen extends StatefulWidget {
 class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   List<String> _roomKeys = [];
 
-  TimeOfDay _selectedStartTime;
-  TimeOfDay _selectedEndTime;
+  TimeOfDay _startTime;
+  TimeOfDay _endTime;
 
   bool _alreadyLoaded = false;
 
@@ -31,11 +32,10 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
 
   void _initData() {
     // Init start/end time
-    _selectedStartTime = TimeOfDay.now();
-    _selectedEndTime = Date.addTimeToTime(_selectedStartTime, 1);
+    _startTime = TimeOfDay.now();
+    _endTime = Date.addTimeToTime(_startTime, 0, 30);
 
     _roomKeys = prefs.checkDataValues(["Rooms"]); // Find a room by default
-
     _alreadyLoaded = true;
   }
 
@@ -61,8 +61,8 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   void _onTimeChange(TimeOfDay startTime, TimeOfDay endTime) {
     if (startTime != null && endTime != null)
       setState(() {
-        _selectedStartTime = startTime;
-        _selectedEndTime = endTime;
+        _startTime = startTime;
+        _endTime = endTime;
       });
   }
 
@@ -106,12 +106,25 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   }
 
   void _onSearchPressed() {
+    // Get actual datetime
+    final date = DateTime.now();
+
+    // Create DateTime from today with chosen hours
+    var startTime = Date.changeTime(date, _startTime.hour, _startTime.minute);
+    var endTime = Date.changeTime(date, _endTime.hour, _endTime.minute);
+
+    // Check data
+    if (endTime.isBefore(startTime)) {
+      DialogPredefined.showEndTimeError(context);
+      return;
+    }
+
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindSchedulesFilter(
               groupKeySearch: _roomKeys,
-              startTime: _selectedStartTime,
-              endTime: _selectedEndTime,
+              startTime: startTime,
+              endTime: endTime,
             ),
         fullscreenDialog: true,
       ),
@@ -156,18 +169,17 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
                 children: <Widget>[
                   _buildTimePart(
                     translations.get(StringKey.START_TIME_EVENT),
-                    _selectedStartTime,
+                    _startTime,
                     (newStartTime) {
-                      _onTimeChange(newStartTime, _selectedEndTime);
+                      _onTimeChange(newStartTime, _endTime);
                     },
                   ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0)),
+                  const SizedBox(width: 32.0),
                   _buildTimePart(
                     translations.get(StringKey.END_TIME_EVENT),
-                    _selectedEndTime,
+                    _endTime,
                     (newEndTime) {
-                      _onTimeChange(_selectedStartTime, newEndTime);
+                      _onTimeChange(_startTime, newEndTime);
                     },
                   ),
                 ],

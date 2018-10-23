@@ -11,8 +11,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class FindSchedulesFilter extends StatefulWidget {
   final List<String> groupKeySearch;
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  final DateTime startTime;
+  final DateTime endTime;
 
   const FindSchedulesFilter({
     Key key,

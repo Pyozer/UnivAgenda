@@ -19,8 +19,8 @@ import 'package:myagenda/widgets/ui/no_result.dart';
 
 class FindSchedulesResults extends StatefulWidget {
   final List<Resource> searchResources;
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  final DateTime startTime;
+  final DateTime endTime;
 
   const FindSchedulesResults({
     Key key,
@@ -37,9 +37,12 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
   bool _isLoading = true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _search();
+  void initState() {
+    super.initState();
+    print(widget.searchResources);
+    Future.delayed(Duration.zero).then((_) {
+      _search();
+    });
   }
 
   void _search() async {
@@ -53,21 +56,6 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
           _isLoading = false;
         });
       }
-      return;
-    }
-
-    // Get actual datetime
-    final date = DateTime.now();
-
-    // Create DateTime from today with chosen hours
-    DateTime dateTimeStart = DateTime(date.year, date.month, date.day,
-        widget.startTime.hour, widget.startTime.minute);
-    DateTime dateTimeEnd = DateTime(date.year, date.month, date.day,
-        widget.endTime.hour, widget.endTime.minute);
-
-    // Check data
-    if (dateTimeEnd.isBefore(dateTimeStart)) {
-      DialogPredefined.showEndTimeError(context);
       return;
     }
 
@@ -93,11 +81,10 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
           });
         }
 
-        final errorMsg = translations.get(StringKey.NETWORK_ERROR);
         DialogPredefined.showSimpleMessage(
           context,
           translations.get(StringKey.ERROR),
-          errorMsg,
+          translations.get(StringKey.NETWORK_ERROR),
         );
         return;
       }
@@ -126,10 +113,10 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       DateTime endNoCourse;
 
       listCourses.removeWhere((course) {
-        bool isBeforeHours = course.dateEnd.isBefore(dateTimeStart) ||
-            course.dateEnd == dateTimeStart;
-        bool isAfterHours = course.dateStart.isAfter(dateTimeEnd) ||
-            course.dateStart == dateTimeEnd;
+        bool isBeforeHours = course.dateEnd.isBefore(widget.startTime) ||
+            course.dateEnd == widget.startTime;
+        bool isAfterHours = course.dateStart.isAfter(widget.endTime) ||
+            course.dateStart == widget.endTime;
 
         if (isBeforeHours &&
             (startNoCourse == null || course.dateEnd.isAfter(startNoCourse)))
@@ -159,9 +146,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       itemCount: _searchResult.length,
       itemBuilder: (context, index) {
-        return ResultCard(
-          findResult: _searchResult[index],
-        );
+        return ResultCard(findResult: _searchResult[index]);
       },
     );
   }
