@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/resource.dart';
@@ -25,7 +27,7 @@ class FindSchedulesFilter extends StatefulWidget {
 }
 
 class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
-  List<Node> _selectedResources = [];
+  HashSet<Node> _selectedResources = HashSet();
 
   _onSubmit() {
     List<Resource> searchResources = [];
@@ -55,9 +57,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
       actions: <Widget>[
         IconButton(
           icon: const Icon(OMIcons.check),
-          onPressed: () {
-            _onSubmit();
-          },
+          onPressed: _onSubmit,
         )
       ],
       body: TreeView(
