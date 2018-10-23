@@ -13,10 +13,12 @@ class Date {
   }
 
   static TimeOfDay addTimeToTime(TimeOfDay time, [hours = 0, minutes = 0]) {
-    return TimeOfDay(
-      hour: (time.hour + hours) % 24,
-      minute: (time.minute + minutes) % 24,
-    );
+    minutes += time.minute;
+    int nbHours = minutes ~/ 60;
+    minutes -= nbHours * 60;
+    nbHours += hours + time.hour;
+
+    return TimeOfDay(hour: nbHours % 24, minute: minutes % 60);
   }
 
   static DateTime dateFromDateTime(DateTime dt) {
@@ -113,10 +115,12 @@ class Date {
     return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
   }
 
-  static SimpleDuration calculateDuration(DateTime startDate, DateTime endDate) {
-    var diff = endDate.millisecondsSinceEpoch - startDate.millisecondsSinceEpoch; 
+  static SimpleDuration calculateDuration(
+      DateTime startDate, DateTime endDate) {
+    var diff =
+        endDate.millisecondsSinceEpoch - startDate.millisecondsSinceEpoch;
 
-    var hours   = (diff / 3.6e6).floor();
+    var hours = (diff / 3.6e6).floor();
     var minutes = ((diff % 3.6e6) / 6e4).floor();
 
     return SimpleDuration(hours, minutes);
