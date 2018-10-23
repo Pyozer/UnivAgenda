@@ -126,7 +126,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     for (var level = 0; level < 2; level++) {
       final menuTitle = level == 0
           ? translations.get(StringKey.FINDSCHEDULES_SEARCH_ORIGIN)
-          : translations.get(StringKey.FINDSCHEDULES_FILTER) + " $level";
+          : translations.get(StringKey.FINDSCHEDULES_FILTER);
 
       dropdownChoices.add(
         _buildDropdown(
