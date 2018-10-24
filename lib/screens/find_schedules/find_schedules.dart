@@ -32,8 +32,8 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
 
   void _initData() {
     // Init start/end time
-    _startTime = TimeOfDay.now();
-    _endTime = Date.addTimeToTime(_startTime, 0, 30);
+    _startTime = TimeOfDay(hour: 13, minute: 30);
+    _endTime = TimeOfDay(hour: 15, minute: 0);
 
     _roomKeys = prefs.checkDataValues(["Rooms"]); // Find a room by default
     _alreadyLoaded = true;
