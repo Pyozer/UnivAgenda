@@ -23,6 +23,7 @@ dependencies:
   introduction_screen: ^0.0.4
 
   outline_material_icons: ^0.1.0
+  time_machine: ^0.9.4
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,9 @@ flutter:
 
     - res/locales/en.json
     - res/locales/fr.json
+
+    - packages/time_machine/data/cultures/cultures.bin
+    - packages/time_machine/data/tzdb/tzdb.bin
 
   fonts:
      - family: GoogleSans

@@ -93,7 +93,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       List<Course> listCourses = [];
 
       // Parse string ical to object
-      List<IcalModel> icalModels = Ical.parseToIcal(icalStr);
+      List<IcalModel> icalModels = await Ical.parseToIcal(icalStr);
       if (icalModels == null) {
         DialogPredefined.showICSFormatError(context);
         return;

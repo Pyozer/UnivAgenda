@@ -107,7 +107,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         return null;
       }
       final String icalStr = utf8.decode(response.httpResponse.bodyBytes);
-      _prepareList(icalStr);
+      await _prepareList(icalStr);
       prefs.setCachedIcal(icalStr);
     }
 
@@ -151,7 +151,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     return courses;
   }
 
-  void _prepareList(String icalStr) {
+  Future<void> _prepareList(String icalStr) async {
     List<Course> listCourses = [];
     // Get all notes saved (expired notes removed by getNotes())
     List<Note> allNotes = prefs.notes;
@@ -171,7 +171,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Parse string ical to object
-    List<IcalModel> icalModels = Ical.parseToIcal(icalStr);
+    List<IcalModel> icalModels = await Ical.parseToIcal(icalStr);
     if (icalModels == null) {
       DialogPredefined.showICSFormatError(context);
     } else {
