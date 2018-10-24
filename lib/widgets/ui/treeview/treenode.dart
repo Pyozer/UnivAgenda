@@ -11,12 +11,12 @@ class TreeNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: level * 20.0),
-      child: CheckboxListTile(
-        onChanged: onChanged,
-        value: node.checked,
-        title: Text(node.key, overflow: TextOverflow.ellipsis),
+    return CheckboxListTile(
+      onChanged: onChanged,
+      value: node.checked,
+      title: Padding(
+        padding: EdgeInsets.only(left: level * 20.0),
+        child: Text(node.key, overflow: TextOverflow.ellipsis),
       ),
     );
   }
