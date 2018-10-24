@@ -10,15 +10,6 @@
   "settings_display": "Display",
   "settings_colors": "Colors",
 
-  "campus": "Campus",
-  "select_campus": "Select your campus",
-  "department": "Department",
-  "select_department": "Select your department",
-  "year": "Year",
-  "select_year": "Select your year",
-  "group": "Group",
-  "select_group": "Select your group",
-
   "number_week": "Number of week",
   "display_all_days": "Display all days",
   "display_all_days_desc": "Show every day of the week.",
@@ -120,7 +111,7 @@
   "require_field": "You must fill the text field.",
 
   "error_end_time": "Error time selected",
-  "error_end_time_text": "The end time availability must be after the start time !",
+  "error_end_time_text": "The end time must be after the start time. Note that MyAgenda does not yet support multi-day events.",
 
   "confirm_event_delete": "Delete this event ?",
   "confirm_event_delete_text": "By deleting this event, you will can't get it back.",

@@ -10,15 +10,6 @@
   "settings_display": "Affichage",
   "settings_colors": "Couleurs",
 
-  "campus": "Campus",
-  "select_campus": "Choisi ton campus",
-  "department": "Département",
-  "select_department": "Choisi ton département",
-  "year": "Année",
-  "select_year": "Choisi ton année",
-  "group": "Groupe",
-  "select_group": "Choisi ton groupe",
-
   "number_week": "Nombre de semaines",
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine.",
@@ -120,10 +111,10 @@
   "require_field": "Vous devez remplir le champ de texte.",
 
   "error_end_time": "Heure de fin",
-  "error_end_time_text": "L'heure de fin choisi est avant l'heure de début !",
+  "error_end_time_text": "L'heure de fin doit être après l'heure de début. Notez que MyAgenda ne prend pas encore en charge les événements de plusieurs jours.",
 
   "confirm_event_delete": "Supprimer cette événement ?",
-  "confirm_event_delete_text": "Si vous suppriemr cette événement, vous ne pourrez pas le récupérer.",
+  "confirm_event_delete_text": "Si vous supprimer cette événement, vous ne pourrez pas le récupérer.",
 
   "ok": "Ok",
   "search": "Rechercher",

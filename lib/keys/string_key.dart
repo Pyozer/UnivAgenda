@@ -10,15 +10,6 @@ class StringKey {
   static const SETTINGS_DISPLAY = 'settings_display';
   static const SETTINGS_COLORS = 'settings_colors';
 
-  static const CAMPUS = 'campus';
-  static const SELECT_CAMPUS = 'select_campus';
-  static const DEPARTMENT = 'department';
-  static const SELECT_DEPARTMENT = 'select_department';
-  static const YEAR = 'year';
-  static const SELECT_YEAR = 'select_year';
-  static const GROUP = 'group';
-  static const SELECT_GROUP = 'select_group';
-
   static const NUMBER_WEEK = 'number_week';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
