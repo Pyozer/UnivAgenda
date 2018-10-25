@@ -62,19 +62,19 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
               alignment: WrapAlignment.spaceEvenly,
               spacing: 8.0,
               runSpacing: 8.0,
-              children: <Widget>[
-                RaisedButtonColored(
-                  text: translations.get(StringKey.SUPPORTME_UNIDAYS),
-                  onPressed: _openUnidays,
-                ),
+              children: [
                 RaisedButtonColored(
                   text: translations.get(StringKey.SUPPORTME_PAYPAL),
                   onPressed: _openPayPal,
                 ),
+                RaisedButtonColored(
+                  text: translations.get(StringKey.SUPPORTME_UNIDAYS),
+                  onPressed: _openUnidays,
+                ),
               ],
             ),
             const SizedBox(height: 32.0),
-            Text(translations.get(StringKey.SUPPORTME_UNIDAYS_LINK),),
+            Text(translations.get(StringKey.SUPPORTME_UNIDAYS_LINK)),
             TextField(
               controller: _unidayTextController,
               maxLines: null,
