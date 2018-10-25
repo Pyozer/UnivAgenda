@@ -8,11 +8,6 @@
         android:label="MyAgenda"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="true">
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4423812191493105~7454106275"/>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

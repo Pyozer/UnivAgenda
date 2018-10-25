@@ -17,7 +17,6 @@ dependencies:
   uuid: ^1.0.3
   html: ^0.13.3+3
   firebase_analytics: ^1.0.4
-  firebase_admob: ^0.6.1+1
 
   flutter_material_color_picker: ^0.0.4
   introduction_screen: ^0.0.4

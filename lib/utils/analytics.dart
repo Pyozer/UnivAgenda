@@ -75,18 +75,6 @@ class AnalyticsProvider extends InheritedWidget {
     );
   }
 
-  void sendAdClicked(String value) {
-    analytics.logEvent(
-        name: AnalyticsEvent.ad,
-        parameters: <String, String>{value: AnalyticsAction.click});
-  }
-
-  void sendAdOpen(String value) {
-    analytics.logEvent(
-        name: AnalyticsEvent.ad,
-        parameters: <String, String>{value: AnalyticsAction.open});
-  }
-
   @override
   bool updateShouldNotify(AnalyticsProvider oldWidget) {
     return false;

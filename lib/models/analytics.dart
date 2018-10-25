@@ -7,7 +7,6 @@ class AnalyticsEvent {
   static final String refresh = "refresh";
 
   static final String link = "link";
-  static final String ad = "ad";
 }
 
 class AnalyticsValue {
@@ -24,9 +23,6 @@ class AnalyticsValue {
   static final String primaryColor = "primary_color";
   static final String accentColor = "accent_color";
   static final String noteColor = "note_color";
-  // Ad events
-  static final String bannerAd = "banner_ad";
-  static final String fullscreenAd = "fullscreen_ad";
   // URL Links
   static final String unidays = "unidays_link";
   static final String paypal = "paypal_link";
