@@ -166,6 +166,7 @@ class StringKey {
   static const SUPPORTME_HEADER = 'supportme_header';
   static const SUPPORTME_TEXT = 'supportme_text';
   static const SUPPORTME_UNIDAYS = 'supportme_unidays';
+  static const SUPPORTME_PAYPAL = 'supportme_paypal';
   static const SUPPORTME_PAYPAL_ERROR = 'supportme_paypal_error';
   static const SUPPORTME_UNIDAYS_ERROR = 'supportme_unidays_error';
 

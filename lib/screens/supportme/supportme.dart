@@ -68,7 +68,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
                     onPressed: _openUnidays,
                   ),
                   RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_HEADER),
+                    text: translations.get(StringKey.SUPPORTME_PAYPAL),
                     onPressed: _openPayPal,
                   ),
                 ],
