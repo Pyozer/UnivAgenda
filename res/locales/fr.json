@@ -158,6 +158,7 @@
 
   "supportme_header": "Don",
   "supportme_text": "Tu veux récompenser tout le travail fourni pour réaliser et maintenir MyAgenda ?\n\nTu peux me faire un don PayPal ou bien sans débourser aucun centimes, t'inscrire sur Unidays avec mon lien de parrainage.\n\nInfo: Unidays permet d'avoir des réductions illimités sur de nombreux sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc..).\n\nMerci.",
+  "supportme_unidays_link": "Lien Unidays :",
   "supportme_unidays": "Unidays",
   "supportme_paypal": "Don Paypal",
   "supportme_paypal_error": "Impossible d'ouvrir le site PayPal...\nLien: ",

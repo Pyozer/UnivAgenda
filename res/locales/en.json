@@ -158,6 +158,7 @@
 
   "supportme_header": "Donation",
   "supportme_text": "Do you want to reward all the work done to achieve and maintain MyAgenda?\n\nYou can give me a PayPal donation or without paying any pennies, register on Unidays with my referral link.\n\nInfo: Unidays allows unlimited discounts on many sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc. ..).\n\nThank you.",
+  "supportme_unidays_link": "Unidays link :",
   "supportme_unidays": "Unidays",
   "supportme_paypal": "Paypal donation",
   "supportme_paypal_error": "Can not open the PayPal website...\nLink: ",

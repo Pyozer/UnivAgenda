@@ -13,6 +13,7 @@ class SupportMeScreen extends StatefulWidget {
 
 class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _unidayTextController = TextEditingController(text: Url.unidays);
 
   void _openPayPal() {
     _openLink(
@@ -48,33 +49,41 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.SUPPORTME),
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                translations.get(StringKey.SUPPORTME_TEXT),
-                style: theme.textTheme.subhead,
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 24.0),
-              Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                spacing: 8.0,
-                runSpacing: 8.0,
-                children: <Widget>[
-                  RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_UNIDAYS),
-                    onPressed: _openUnidays,
-                  ),
-                  RaisedButtonColored(
-                    text: translations.get(StringKey.SUPPORTME_PAYPAL),
-                    onPressed: _openPayPal,
-                  ),
-                ],
-              )
-            ],
-          ),
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              translations.get(StringKey.SUPPORTME_TEXT),
+              style: theme.textTheme.subhead,
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(height: 24.0),
+            Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: <Widget>[
+                RaisedButtonColored(
+                  text: translations.get(StringKey.SUPPORTME_UNIDAYS),
+                  onPressed: _openUnidays,
+                ),
+                RaisedButtonColored(
+                  text: translations.get(StringKey.SUPPORTME_PAYPAL),
+                  onPressed: _openPayPal,
+                ),
+              ],
+            ),
+            const SizedBox(height: 32.0),
+            Text(translations.get(StringKey.SUPPORTME_UNIDAYS_LINK),),
+            TextField(
+              controller: _unidayTextController,
+              maxLines: null,
+              onChanged: (_) {
+                // Force input to have always same value
+                _unidayTextController.text = Url.unidays;
+              },
+            )
+          ],
         ),
       ),
     );
