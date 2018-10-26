@@ -32,7 +32,7 @@ class CourseListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     if (text == null) return const SizedBox.shrink();
 
-    final textStyle = Theme.of(context).textTheme.title;
+    const textStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0);
 
     return InkWell(
       onTap: () => _onHeaderTap(context),
@@ -40,7 +40,7 @@ class CourseListHeader extends StatelessWidget {
         color: bgColor,
         padding: const EdgeInsets.all(12.0),
         alignment: Alignment.center,
-        child: Text(text, style: textStyle),
+        child: Text(text, style: textStyle, overflow: TextOverflow.ellipsis),
       ),
     );
   }
