@@ -42,7 +42,6 @@ function parseHTML() {
 
         var textContent = row.textContent.split('\n')[0];
         var level = textContent.split('   ').length;
-        console.log(textContent + ":" + level);
 
         var resDivs = row.getElementsByTagName('span');
         var resDiv = null;
@@ -56,7 +55,7 @@ function parseHTML() {
 
         if (resDiv != null) {
             resID = resDiv.getElementsByTagName('a')[0].getAttribute("href").replace(/\D/g, "");
-            spanText = resDiv.getElementsByTagName('a')[0].textContent;
+            spanText = resDiv.getElementsByTagName('a')[0].textContent.replace(/"/g, '\\"');
         }
         pushToLevel(element, new Node(spanText, resID), 1, level);
     }
