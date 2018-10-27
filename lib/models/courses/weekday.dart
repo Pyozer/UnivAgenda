@@ -37,6 +37,6 @@ class WeekDay {
 
   @override
   String toString() {
-    return wednesday.toString();
+    return value.toString();
   }
 }

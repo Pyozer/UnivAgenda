@@ -85,3 +85,29 @@ Future<void> writeFile(String filename, dynamic content) async {
 
   return;
 }
+
+bool listEquals(List a, List b) {
+  if (a == null && b == null) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+  
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i])
+      return false;
+  }
+
+  return true;
+}
+
+bool listEqualsNotOrdered(List a, List b) {
+  if (a == null && b == null) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+  
+  for (var i = 0; i < a.length; i++) {
+    if (b.indexOf(a[i]) == -1) // if b not contain value of a
+      return false;
+  }
+  
+  return true;
+}

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/models/note.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   List<WeekDay> weekdaysRepeat;
@@ -57,6 +58,9 @@ class CustomCourse extends Course {
     );
   }
 
+  factory CustomCourse.copy(CustomCourse cc) =>
+      CustomCourse.fromJson(cc.toJson());
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
 
@@ -83,10 +87,10 @@ class CustomCourse extends Course {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      super == other &&
-          other is CustomCourse &&
+      other is CustomCourse &&
+          super == (other) &&
           runtimeType == other.runtimeType &&
-          weekdaysRepeat.length != other.weekdaysRepeat.length;
+          listEqualsNotOrdered(weekdaysRepeat, other.weekdaysRepeat);
 
   @override
   int get hashCode => super.hashCode ^ weekdaysRepeat.hashCode;

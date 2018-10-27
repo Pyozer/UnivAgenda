@@ -33,6 +33,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   bool _isColor = false;
   CustomCourse _customCourse;
 
+  CustomCourse _baseCourse;
+
   @override
   void initState() {
     super.initState();
@@ -40,9 +42,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     _initFirstDate = Date.changeTime(date, 15, 0);
     _initEndDate = Date.changeTime(date, 16, 30);
 
+    _baseCourse = CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
+
     // Init view
     if (widget.course != null) {
-      _customCourse = widget.course;
+      _customCourse = CustomCourse.copy(widget.course);
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isColor = _customCourse.hasColor();
     } else
@@ -354,21 +358,12 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    bool hasChanges = false;
+    final _originCourse = (widget.course ?? _baseCourse);
+    bool isEquals = (_originCourse == _customCourse &&
+        _isColor == _originCourse.hasColor() &&
+        _isRecurrent == _originCourse.isRecurrentEvent());
 
-    if (widget.course != null && widget.course != _customCourse)
-      hasChanges = true;
-
-    if (_customCourse.title.isNotEmpty ||
-        _customCourse.description.isNotEmpty ||
-        _customCourse.location.isNotEmpty ||
-        _customCourse.dateStart != _initFirstDate ||
-        _customCourse.dateEnd != _initEndDate ||
-        (_isRecurrent && _customCourse.isRecurrentEvent()) ||
-        _isColor) {
-      hasChanges = true;
-    }
-    if (hasChanges) {
+    if (!isEquals) {
       bool confirmQuit = await DialogPredefined.showTextDialog(
         context,
         translations.get(StringKey.CUSTOM_EVENT_EXIT_UNSAVED),

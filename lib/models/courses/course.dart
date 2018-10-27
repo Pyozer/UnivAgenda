@@ -4,6 +4,7 @@ import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class Course extends BaseCourse {
   String uid;
@@ -108,14 +109,13 @@ class Course extends BaseCourse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      super == other &&
-          other is Course &&
+      other is Course &&
           runtimeType == other.runtimeType &&
           uid == other.uid &&
           title == other.title &&
           description == other.description &&
           location == other.location &&
-          notes == other.notes &&
+          listEqualsNotOrdered(notes, other.notes) &&
           dateStart == other.dateStart &&
           dateEnd == other.dateEnd &&
           color == other.color;
