@@ -33,6 +33,8 @@ Node.prototype.toString = function nodeToString() {
 }
 
 function pushToLevel(element, valueToPush, actualLevel, levelTarget) {
+    if (!element)
+        return;
     if (element.children == null) {
         element.children = [];
     }
@@ -55,6 +57,7 @@ function parseHTML() {
         var level = row.getAttribute('aria-level');
         var resID = row.getAttribute('data-resId');
         var resName = row.getAttribute('data-resName');
+        console.log(level, resID, resName);
         pushToLevel(element, new Node(resName, resID), 1, level);
     }
 
