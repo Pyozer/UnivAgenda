@@ -3,24 +3,18 @@
     "university": "Le Mans Université",
     "agendaUrl": "http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-lemans.fr/cas/login",
-    "resourcesFile": "resources_univ_maine.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_maine.json"
   },
   {
     "university": "Université de Tours",
     "agendaUrl": "http://ade.univ-tours.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=21&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-tours.fr/cas/login",
-    "resourcesFile": "resources_univ_tours.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_tours.json"
   },
   {
     "university": "Université de Rennes",
     "agendaUrl": "https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/cal.jsp?projectId=2&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://sso-cas.univ-rennes1.fr/login",
-    "resourcesFile": "resources_univ_rennes.json"
-  },
-  {
-    "university": "INSA de Rennes",
-    "agendaUrl": "http://edt.insa-rennes.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=8&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
-    "loginUrl": "https://cas.insa-rennes.fr/cas/login",
-    "resourcesFile": "resources_insa_rennes.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_rennes.json"
   }
 ]
