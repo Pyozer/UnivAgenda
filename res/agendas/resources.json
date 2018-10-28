@@ -3,7 +3,7 @@
     "university": "Le Mans Université",
     "agendaUrl": "http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-lemans.fr/cas/login",
-    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_maine.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_lemans.json"
   },
   {
     "university": "Université de Tours",
