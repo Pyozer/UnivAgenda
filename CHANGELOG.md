@@ -3,6 +3,10 @@
 - Amélioration du stockage des ressources
 - Possibilité de mettre le lien d'un fichier ICS (permet d'utiliser l'appli même si son université n'est pas ajouté)
 - Correction de bugs (splashscreen, loader, encodage)
+- Gestion totalement dynamique des resources
+- Amélioration de la recherche de créneaux disponibles
+- Amélioration diverses de l'application
+- Lancement de la version Beta
   
 ## Version 4.0.2
 
