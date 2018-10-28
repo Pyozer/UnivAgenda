@@ -16,12 +16,6 @@ class LicencesScreen extends StatelessWidget {
       url: "${git}flutter/cupertino_icons",
     ),
     Licence(
-      "Firebase AdMob",
-      "Flutter Team",
-      license: "BSD Licence",
-      url: "${git}flutter/plugins/tree/master/packages/firebase_admob",
-    ),
-    Licence(
       "Firebase Analytics",
       "Flutter Team",
       license: "BSD Licence",
@@ -63,16 +57,40 @@ class LicencesScreen extends StatelessWidget {
       url: "${git}Pyozer/introduction_screen",
     ),
     Licence(
+      "Outline Material Icons",
+      "Lucas Levin",
+      license: "Apache 2.0",
+      url: "${git}lucaslcode/outline_material_icons",
+    ),
+    Licence(
+      "Path Provider",
+      "Flutter Team",
+      license: "BSD",
+      url: "${git}flutter/plugins/tree/master/packages/path_provider",
+    ),
+    Licence(
       "Shared Preferences",
       "Flutter Team",
       license: "BSD Licence",
       url: "${git}flutter/plugins/tree/master/packages/shared_preferences",
     ),
     Licence(
+      "Time Machine",
+      "Dana Ferguson",
+      license: "Apache 2.0",
+      url: "${git}Dana-Ferguson/time_machine",
+    ),
+    Licence(
       "URL Launcher",
       "Flutter Team",
       license: "BSD Licence",
       url: "${git}flutter/plugins/tree/master/packages/url_launcher",
+    ),
+    Licence(
+      "UUID",
+      "Yulian Kuncheff",
+      license: "MIT",
+      url: "${git}Daegalus/dart-uuid",
     ),
   ];
 
@@ -98,7 +116,9 @@ class LicencesScreen extends StatelessWidget {
           title: libraryText,
           subtitle: authorText,
           trailing: licenseText,
-          onTap: license.url != null ? () => openLink(context, license.url, license.library) : null,
+          onTap: license.url != null
+              ? () => openLink(context, license.url, license.library)
+              : null,
         ),
       );
     }
