@@ -33,21 +33,20 @@ Node.prototype.toString = function nodeToString() {
 }
 
 function pushToLevel(element, valueToPush, actualLevel, levelTarget) {
-    if (!element)
-        return;
     if (element.children == null) {
         element.children = [];
     }
     let level = element.children.length - 1;
+    let next = element.children[level];
     if (actualLevel == levelTarget)
         element.children.push(valueToPush);
-    else {
-        pushToLevel(element.children[level < 0 ? 0 : level], valueToPush, actualLevel + 1, levelTarget);
+    else if (next != null) {
+        pushToLevel(element.children[level], valueToPush, actualLevel + 1, levelTarget);
     }
 }
 
 function parseHTML() {
-    var rows = document.querySelectorAll('div[class^="x-grid3-row"][data-resId][data-resName]');
+    var rows = document.querySelectorAll('div[class^="x-grid3-row"]');
 
     var element = new Tree();
 
@@ -55,9 +54,13 @@ function parseHTML() {
         var row = rows[i];
 
         var level = row.getAttribute('aria-level');
-        var resID = row.getAttribute('data-resId');
-        var resName = row.getAttribute('data-resName');
-        console.log(level, resID, resName);
+        var resID = row.getAttribute('data-resid');
+        var resName = row.getAttribute('data-resname').replace(/"/g, "");
+        if (resID == null)
+            resID = -1;
+        if (resName == null)
+            resName = "null";
+
         pushToLevel(element, new Node(resName, resID), 1, level);
     }
 

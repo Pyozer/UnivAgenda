@@ -1,5 +1,5 @@
 function displayResourcesId() {
-    var rows = document.querySelectorAll("div[class^='x-grid3-row']:not([data-resName])")
+    var rows = document.querySelectorAll("div[class^='x-grid3-row']:not([data-resname]):not([data-resid])")
 
     // For each row
     for (var i = 0; i < rows.length; i++) {
@@ -12,9 +12,9 @@ function displayResourcesId() {
             var rowNode = rowNodes[0];
             // Get resource id from id attribute
             var resID = rowNode.getAttribute('id').replace('Direct Planning Tree_', '');
-            var resName = rowNode.getElementsByClassName('x-tree3-node-text')[0].innerHTML;
-            row.setAttribute('data-resId', resID);
-            row.setAttribute('data-resName', resName);
+            var nameElem = rowNode.getElementsByClassName('x-tree3-node-text')[0];
+            row.setAttribute('data-resid', resID);
+            row.setAttribute('data-resname', nameElem.innerHTML.replace(/"/g, '').replace(/\s\s+/g, ' '));
         }
     }
 }
