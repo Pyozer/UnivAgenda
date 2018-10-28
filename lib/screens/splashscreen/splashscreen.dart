@@ -72,9 +72,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
         prefs.urlIcs == null &&
         prefs.university != null &&
         (prefs.resources.length == 0 || oldRes >= 6)) {
-      final responseRes = await HttpRequest.get(
-        Url.resourcesUrl(prefs.university.resourcesFile),
-      );
+      final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
         _setError(true, "Impossible to retrieve agenda resources, retry.");

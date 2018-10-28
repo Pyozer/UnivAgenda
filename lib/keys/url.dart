@@ -2,9 +2,6 @@ class Url {
   static final listUniversity =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
 
-  static resourcesUrl(String resourceFilename) =>
-      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/$resourceFilename";
-
   static final helpList =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -32,9 +31,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       translations.get(StringKey.LOADING_RESOURCES),
     );
 
-    final response = await HttpRequest.get(
-      Url.resourcesUrl(prefs.university.resourcesFile),
-    );
+    final response = await HttpRequest.get(prefs.university.resourcesFile);
 
     if (response.isSuccess && mounted) {
       final resourcesGetStr = response.httpResponse.body;

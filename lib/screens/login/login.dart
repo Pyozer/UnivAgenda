@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
@@ -115,9 +114,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
 
-      final response = await HttpRequest.get(
-        Url.resourcesUrl(prefs.university.resourcesFile),
-      );
+      final response = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!mounted) return;
 
