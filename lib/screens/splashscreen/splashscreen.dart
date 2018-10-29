@@ -80,9 +80,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
       }
 
       // Update resources with new data get
-      final resourcesGet = responseRes.httpResponse.body;
-      prefs.setResources(resourcesGet);
-      prefs.setResourcesDate(startTime);
+      if (responseRes.httpResponse != null) {
+        final resourcesGet = responseRes.httpResponse.body;
+        prefs.setResources(resourcesGet);
+        prefs.setResourcesDate(startTime);
+      }
     }
 
     analyticsProvider.analytics.setUserId(prefs.installUID);
