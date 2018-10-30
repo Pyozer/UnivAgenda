@@ -132,7 +132,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
             Expanded(
               flex: 6,
               child: Center(
-                child: Image.asset(Asset.LOGO, width: 192.0),
+                child: Image.asset(
+                  Asset.LOGO,
+                  width: 192.0,
+                  semanticLabel: "Logo",
+                ),
               ),
             ),
             Expanded(
