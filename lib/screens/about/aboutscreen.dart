@@ -30,7 +30,11 @@ class AboutScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: Hero(
               tag: Asset.LOGO,
-              child: Image.asset(Asset.LOGO, width: 80.0),
+              child: Image.asset(
+                Asset.LOGO,
+                width: 80.0,
+                semanticLabel: "Logo",
+              ),
             ),
           ),
           Text(appName, style: txtTheme),
@@ -62,7 +66,11 @@ class AboutScreen extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: CircleImage(
-            image: Image.asset(Asset.PICTURE_JC, width: 45.0),
+            image: Image.asset(
+              Asset.PICTURE_JC,
+              width: 45.0,
+              semanticLabel: "Photo Jean-Charles Moussé",
+            ),
           ),
           title: const Text("Jean-Charles Moussé"),
           subtitle: Text(translations.get(StringKey.DEVELOPER)),
@@ -74,7 +82,11 @@ class AboutScreen extends StatelessWidget {
         ),
         ListTile(
           leading: CircleImage(
-            image: Image.asset(Asset.PICTURE_JUSTIN, width: 45.0),
+            image: Image.asset(
+              Asset.PICTURE_JUSTIN,
+              width: 45.0,
+              semanticLabel: "Photo Justin Martin",
+            ),
           ),
           title: const Text("Justin Martin"),
           subtitle: Text(
@@ -94,6 +106,8 @@ class AboutScreen extends StatelessWidget {
     final isDark = isDarkTheme(Theme.of(context).brightness);
     final translations = Translations.of(context);
 
+    final store = Platform.isAndroid ? "Play Store" : "App Store";
+
     return AboutCard(
       title: Translations.of(context).get(StringKey.SOCIAL),
       lateralPadding: false,
@@ -102,8 +116,9 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(
             Platform.isAndroid ? Asset.PLAYSTORE : Asset.APPSTORE,
             width: Platform.isAndroid ? 30.0 : 32.0,
+            semanticLabel: store,
           ),
-          title: Text(Platform.isAndroid ? "Play Store" : "App Store"),
+          title: Text(store),
           subtitle: Text(translations.get(StringKey.ADD_NOTE_STORE)),
           onTap: () => openLink(
                 context,
@@ -115,6 +130,7 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(
             isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
             width: 30.0,
+            semanticLabel: "Logo GitHub",
           ),
           title: Text(translations.get(StringKey.GITHUB_PROJECT)),
           subtitle: Text(translations.get(StringKey.GITHUB_PROJECT_DESC)),
@@ -128,6 +144,7 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(
             isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
             width: 30.0,
+            semanticLabel: "Logo Twitter",
           ),
           title: const Text("Twitter"),
           subtitle: Text(translations.get(StringKey.TWITTER_DESC)),
@@ -171,8 +188,10 @@ class AboutScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(Translations.of(context).get(StringKey.MADE_WITH),
-                  style: txtTheme),
+              Text(
+                Translations.of(context).get(StringKey.MADE_WITH),
+                style: txtTheme,
+              ),
               Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: const Icon(OMIcons.favorite, color: Colors.red))

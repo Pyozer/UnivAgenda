@@ -223,7 +223,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   Widget build(BuildContext context) {
     final logo = Hero(
       tag: Asset.LOGO,
-      child: Image.asset(Asset.LOGO, width: 100.0),
+      child: Image.asset(
+        Asset.LOGO,
+        width: 100.0,
+        semanticLabel: "Logo",
+      ),
     );
 
     final titleApp = Text(
