@@ -39,27 +39,24 @@ class AppbarPage extends StatelessWidget {
 }
 
 class AppbarSubTitle extends StatelessWidget {
-  final String subtitle;
+  final Widget child;
 
-  const AppbarSubTitle({Key key, @required this.subtitle}) : super(key: key);
+  const AppbarSubTitle({Key key, @required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
-
     return Row(
       children: [
         Expanded(
           child: Material(
-            color: theme.primaryColor,
+            color: Theme.of(context).primaryColor,
             elevation: 4.0,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
                 vertical: 16.0,
               ),
-              child: Text(subtitle, style: textStyle),
+              child: child,
             ),
           ),
         ),

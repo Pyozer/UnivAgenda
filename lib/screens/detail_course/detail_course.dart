@@ -45,8 +45,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     var duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
     String durationStr = "";
-    if (duration.hours > 0)
-      durationStr += "${duration.hours}h";
+    if (duration.hours > 0) durationStr += "${duration.hours}h";
     durationStr += "${duration.minutes}min";
 
     List<Widget> listInfo = [
@@ -209,6 +208,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
           ]
         : null;
 
+    final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
+
     return AppbarPage(
       title: translations.get(StringKey.COURSE_DETAILS),
       elevation: 0.0,
@@ -216,7 +217,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(subtitle: _course.title),
+            AppbarSubTitle(
+              child: Text(_course.title, style: textStyle),
+            ),
             Expanded(
               child: ListView(
                 shrinkWrap: true,

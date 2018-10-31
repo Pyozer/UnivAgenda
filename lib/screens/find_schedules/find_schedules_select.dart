@@ -7,6 +7,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
 import 'package:myagenda/utils/custom_route.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/widgets/ui/treeview/node.dart';
 import 'package:myagenda/widgets/ui/treeview/treeview.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -27,7 +28,20 @@ class FindSchedulesFilter extends StatefulWidget {
 }
 
 class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
+  final _searchController = TextEditingController();
+
+  String _treeTitle;
+  Map<String, dynamic> _treeValues = {};
   HashSet<Node> _selectedResources = HashSet();
+
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    final selectFirst = widget.groupKeySearch[0];
+    final selectSecond = widget.groupKeySearch[1];
+
+    _treeTitle = selectSecond;
+    _treeValues = prefs.resources[selectFirst][selectSecond];
+  }
 
   _onSubmit() {
     List<Resource> searchResources = [];
@@ -47,25 +61,68 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     );
   }
 
+  _resourcesFilter(search) {}
+
+  Widget _buildAppbarSub() {
+    final bgBrightness =
+        ThemeData.estimateBrightnessForColor(theme.primaryColor);
+    final isBgDark = isDarkTheme(bgBrightness);
+    final color = isBgDark ? Colors.white : Colors.black;
+
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _searchController,
+            keyboardType: TextInputType.text,
+            style: TextStyle(color: color),
+            cursorColor: color,
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: color),
+              ),
+              hintStyle: TextStyle(color: Colors.white),
+              hintText: translations.get(StringKey.SEARCH),
+            ),
+            onChanged: (search) {
+              // TODO : SEARCH
+              _resourcesFilter(search);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var selectFirst = widget.groupKeySearch[0];
-    var selectSecond = widget.groupKeySearch[1];
-
     return AppbarPage(
       title: translations.get(StringKey.FINDSCHEDULES_FILTER_SELECTION),
+      elevation: 0.0,
       actions: <Widget>[
         IconButton(
           icon: const Icon(OMIcons.check),
           onPressed: _onSubmit,
-        )
+        ),
       ],
-      body: TreeView(
-        treeTitle: selectSecond,
-        dataSource: prefs.resources[selectFirst][selectSecond],
-        onCheckedChanged: (listNode) {
-          _selectedResources = listNode;
-        },
+      body: Container(
+        child: Column(
+          children: [
+            AppbarSubTitle(
+              child: _buildAppbarSub(),
+            ),
+            Expanded(
+              child: TreeView(
+                treeTitle: _treeTitle,
+                dataSource: _treeValues,
+                onCheckedChanged: (listNode) {
+                  _selectedResources = listNode;
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
