@@ -28,8 +28,7 @@ class FindSchedulesFilter extends StatefulWidget {
 }
 
 class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
-  final _searchController = TextEditingController();
-
+  String _search;
   String _treeTitle;
   Map<String, dynamic> _treeValues = {};
   HashSet<Node> _selectedResources = HashSet();
@@ -74,7 +73,6 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
       children: [
         Expanded(
           child: TextField(
-            controller: _searchController,
             keyboardType: TextInputType.text,
             style: TextStyle(color: color),
             cursorColor: color,
@@ -86,8 +84,9 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
               hintText: translations.get(StringKey.SEARCH),
             ),
             onChanged: (search) {
-              // TODO : SEARCH
-              _resourcesFilter(search);
+              setState(() {
+                _search = search;
+              });
             },
           ),
         )
@@ -116,6 +115,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
               child: TreeView(
                 treeTitle: _treeTitle,
                 dataSource: _treeValues,
+                search: _search,
                 onCheckedChanged: (listNode) {
                   _selectedResources = listNode;
                 },

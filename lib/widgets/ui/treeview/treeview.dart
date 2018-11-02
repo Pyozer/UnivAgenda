@@ -8,24 +8,28 @@ class TreeView extends StatefulWidget {
   final Map<String, dynamic> dataSource;
   final String treeTitle;
   final ValueChanged<HashSet<Node>> onCheckedChanged;
+  final String search;
 
-  const TreeView(
-      {Key key,
-      @required this.treeTitle,
-      @required this.dataSource,
-      @required this.onCheckedChanged})
-      : super(key: key);
+  const TreeView({
+    Key key,
+    @required this.treeTitle,
+    @required this.dataSource,
+    @required this.onCheckedChanged,
+    this.search,
+  }) : super(key: key);
 
   _TreeViewState createState() => _TreeViewState();
 }
 
 class _TreeViewState extends State<TreeView> {
   Node _tree;
+  Node _treeFiltered;
   HashSet<Node> _selectedNodes = HashSet();
 
   void didChangeDependencies() {
     super.didChangeDependencies();
     _tree = Node(key: widget.treeTitle);
+    _treeFiltered = Node(key: widget.treeTitle);
     buildTree(_tree, widget.dataSource);
   }
 
@@ -108,8 +112,27 @@ class _TreeViewState extends State<TreeView> {
     return children;
   }
 
+  findNode(Node n, String s) {
+    print(n.key + ': ' + n.key.toLowerCase().contains(s).toString());
+    if (n.key.toLowerCase().contains(s)) {
+      _treeFiltered.children.add(n);
+    } else {
+      for (Node child in n.children) {
+        findNode(child, s);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.search != null) {
+      print(widget.search);
+      _treeFiltered.children.clear();
+      for (Node child in _tree.children) {
+        findNode(child, widget.search.toLowerCase());
+      }
+      return ListView(children: _generateChildren(_treeFiltered, 0));
+    }
     return ListView(children: _generateChildren(_tree, 0));
   }
 }
