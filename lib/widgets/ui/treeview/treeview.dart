@@ -31,6 +31,15 @@ class _TreeViewState extends State<TreeView> {
     buildTree(_tree, widget.dataSource);
   }
 
+  void didUpdateWidget(covariant TreeView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final search = widget.search?.trim()?.toLowerCase();
+    if (search != null && search.length > 0)
+      _filterTree(_tree, search);
+    else
+      _setAllNodeVisible(_tree);
+  }
+
   buildTree(Node origin, Map<String, dynamic> resources) {
     resources.keys.forEach((key) {
       Node child = Node(key: key, parent: origin);
@@ -123,6 +132,7 @@ class _TreeViewState extends State<TreeView> {
 
   bool _filterTree(Node node, String search) {
     node.isHidden = false;
+    node.isExpanded = true;
 
     final nodeKey = node.key.toLowerCase();
     if (nodeKey.contains(search)) return true;
@@ -131,7 +141,6 @@ class _TreeViewState extends State<TreeView> {
     for (Node child in node.children) {
       child.isHidden = !_filterTree(child, search);
       hiddenChild += child.isHidden ? 1 : 0;
-      child.isExpanded = true;
     }
 
     if (node.children.length > hiddenChild) return true;
@@ -143,18 +152,13 @@ class _TreeViewState extends State<TreeView> {
   _setAllNodeVisible(Node node) {
     node.isHidden = false;
     for (Node child in node.children) {
+      child.isExpanded = false;
       _setAllNodeVisible(child);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final search = widget.search?.trim()?.toLowerCase();
-    if (search != null && search.length > 0) {
-      _filterTree(_tree, search);
-    } else {
-      _setAllNodeVisible(_tree);
-    }
     return ListView(children: _generateChildren(_tree, 0));
   }
 }
