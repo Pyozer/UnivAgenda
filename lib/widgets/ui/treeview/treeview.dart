@@ -85,6 +85,12 @@ class _TreeViewState extends State<TreeView> {
     }
   }
 
+  _onNodeExpandChange(Node node) {
+    setState(() {
+      node.isExpanded = !node.isExpanded;
+    });
+  }
+
   List<Widget> _generateChildren(Node origin, int level) {
     List<Widget> children = [];
     if (origin.children.length == 0) {
@@ -95,6 +101,7 @@ class _TreeViewState extends State<TreeView> {
           _checkNodeCheckBox(origin, checked);
           _checkParentNodeCheckBox(origin);
         },
+        onExpandChanged: () => _onNodeExpandChange(origin),
       ));
     } else {
       children.add(TreeNode(
@@ -104,16 +111,18 @@ class _TreeViewState extends State<TreeView> {
           _checkAllNodeChild(origin, checked);
           _checkParentNodeCheckBox(origin);
         },
+        onExpandChanged: () => _onNodeExpandChange(origin),
       ));
-      origin.children.forEach((child) {
-        children.addAll(_generateChildren(child, level + 1));
-      });
+      if (origin.isExpanded) {
+        origin.children.forEach((child) {
+          children.addAll(_generateChildren(child, level + 1));
+        });
+      }
     }
     return children;
   }
 
   findNode(Node n, String s) {
-    print(n.key + ': ' + n.key.toLowerCase().contains(s).toString());
     if (n.key.toLowerCase().contains(s)) {
       _treeFiltered.children.add(n);
     } else {

@@ -4,6 +4,7 @@ class Node {
   List<Node> children;
   Node parent;
   bool checked = false;
+  bool isExpanded = true;
 
   Node({this.key, this.value, this.children, this.parent}) {
     key ??= "";
