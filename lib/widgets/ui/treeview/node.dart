@@ -5,6 +5,7 @@ class Node {
   Node parent;
   bool checked;
   bool isExpanded;
+  bool isHidden;
 
   Node({
     this.key = "",
@@ -13,6 +14,7 @@ class Node {
     this.parent,
     this.checked = false,
     this.isExpanded = false,
+    this.isHidden = false
   }) {
     children ??= [];
   }

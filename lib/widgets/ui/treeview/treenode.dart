@@ -5,11 +5,12 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class TreeNode extends StatelessWidget {
   final int level;
   final Node node;
+  final String title;
   final ValueChanged<bool> onChanged;
   final Function onExpandChanged;
 
   const TreeNode(
-      {Key key, this.level, this.node, this.onChanged, this.onExpandChanged})
+      {Key key, this.level, this.node, this.title, this.onChanged, this.onExpandChanged})
       : super(key: key);
 
   @override
@@ -39,7 +40,7 @@ class TreeNode extends StatelessWidget {
             expandBtn,
             Expanded(
               child: Text(
-                node.key,
+                title ?? node.key,
                 overflow: TextOverflow.ellipsis,
                 style: textStyle,
               ),

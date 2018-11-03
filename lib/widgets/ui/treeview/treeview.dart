@@ -23,13 +23,11 @@ class TreeView extends StatefulWidget {
 
 class _TreeViewState extends State<TreeView> {
   Node _tree;
-  Node _treeFiltered;
   HashSet<Node> _selectedNodes = HashSet();
 
   void didChangeDependencies() {
     super.didChangeDependencies();
     _tree = Node(key: widget.treeTitle, isExpanded: true);
-    _treeFiltered = Node(key: widget.treeTitle, isExpanded: true);
     buildTree(_tree, widget.dataSource);
   }
 
@@ -58,9 +56,7 @@ class _TreeViewState extends State<TreeView> {
   _checkNodeCheckBox(Node node, bool checked) {
     if (node.checked == checked) return;
 
-    setState(() {
-      node.checked = checked;
-    });
+    setState(() => node.checked = checked);
 
     if (checked)
       _selectedNodes.add(node);
@@ -93,6 +89,9 @@ class _TreeViewState extends State<TreeView> {
 
   List<Widget> _generateChildren(Node origin, int level) {
     List<Widget> children = [];
+
+    if (origin.isHidden) return children;
+
     if (origin.children.length == 0) {
       children.add(TreeNode(
         level: level,
@@ -122,25 +121,39 @@ class _TreeViewState extends State<TreeView> {
     return children;
   }
 
-  findNode(Node n, String s) {
-    if (n.key.toLowerCase().contains(s)) {
-      _treeFiltered.children.add(n);
-    } else {
-      for (Node child in n.children) {
-        findNode(child, s);
-      }
+  bool _filterTree(Node node, String search) {
+    node.isHidden = false;
+
+    final nodeKey = node.key.toLowerCase();
+    if (nodeKey.contains(search)) return true;
+
+    int hiddenChild = 0;
+    for (Node child in node.children) {
+      child.isHidden = !_filterTree(child, search);
+      hiddenChild += child.isHidden ? 1 : 0;
+      child.isExpanded = true;
+    }
+
+    if (node.children.length > hiddenChild) return true;
+
+    node.isHidden = true;
+    return false;
+  }
+
+  _setAllNodeVisible(Node node) {
+    node.isHidden = false;
+    for (Node child in node.children) {
+      _setAllNodeVisible(child);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.search != null) {
-      print(widget.search);
-      _treeFiltered.children.clear();
-      for (Node child in _tree.children) {
-        findNode(child, widget.search.toLowerCase());
-      }
-      return ListView(children: _generateChildren(_treeFiltered, 0));
+    final search = widget.search?.trim()?.toLowerCase();
+    if (search != null && search.length > 0) {
+      _filterTree(_tree, search);
+    } else {
+      _setAllNodeVisible(_tree);
     }
     return ListView(children: _generateChildren(_tree, 0));
   }
