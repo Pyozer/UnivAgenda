@@ -60,8 +60,6 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     );
   }
 
-  _resourcesFilter(search) {}
-
   Widget _buildAppbarSub() {
     final bgBrightness =
         ThemeData.estimateBrightnessForColor(theme.primaryColor);
@@ -100,17 +98,12 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
       title: translations.get(StringKey.FINDSCHEDULES_FILTER_SELECTION),
       elevation: 0.0,
       actions: <Widget>[
-        IconButton(
-          icon: const Icon(OMIcons.check),
-          onPressed: _onSubmit,
-        ),
+        IconButton(icon: const Icon(OMIcons.check), onPressed: _onSubmit),
       ],
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(
-              child: _buildAppbarSub(),
-            ),
+            AppbarSubTitle(child: _buildAppbarSub()),
             Expanded(
               child: TreeView(
                 treeTitle: _treeTitle,

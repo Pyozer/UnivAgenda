@@ -3,11 +3,17 @@ class Node {
   dynamic value;
   List<Node> children;
   Node parent;
-  bool checked = false;
-  bool isExpanded = true;
+  bool checked;
+  bool isExpanded;
 
-  Node({this.key, this.value, this.children, this.parent}) {
-    key ??= "";
+  Node({
+    this.key = "",
+    this.value,
+    this.children,
+    this.parent,
+    this.checked = false,
+    this.isExpanded = false,
+  }) {
     children ??= [];
   }
 

@@ -28,8 +28,8 @@ class _TreeViewState extends State<TreeView> {
 
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tree = Node(key: widget.treeTitle);
-    _treeFiltered = Node(key: widget.treeTitle);
+    _tree = Node(key: widget.treeTitle, isExpanded: true);
+    _treeFiltered = Node(key: widget.treeTitle, isExpanded: true);
     buildTree(_tree, widget.dataSource);
   }
 
