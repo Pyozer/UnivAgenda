@@ -33,11 +33,12 @@ class _TreeViewState extends State<TreeView> {
 
   void didUpdateWidget(covariant TreeView oldWidget) {
     super.didUpdateWidget(oldWidget);
+    
     final search = widget.search?.trim()?.toLowerCase();
-    if (search != null && search.length > 0)
+    _setAllNodeVisible(_tree);
+    if (search != null && search.length > 0) {
       _filterTree(_tree, search);
-    else
-      _setAllNodeVisible(_tree);
+    }
   }
 
   buildTree(Node origin, Map<String, dynamic> resources) {
