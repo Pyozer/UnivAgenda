@@ -44,7 +44,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
       if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
-        _setError(true, "Impossible to retrieve university list, retry.");
+        _setError(true, StringKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
         return;
       }
       // Update university list
@@ -56,7 +56,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
 
     // If list university still empty, set error
     if (prefs.listUniversity.length == 0) {
-      _setError(true, "University list is empty.. retry.");
+      _setError(true, StringKey.ERROR_UNIV_LIST_EMPTY);
       return;
     }
     // If user was connected but university or ics url are null, disconnect him
@@ -76,7 +76,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
-        _setError(true, "Impossible to retrieve agenda resources, retry.");
+        _setError(true, StringKey.ERROR_RES_LIST_RETRIEVE_FAIL);
         return;
       }
 
@@ -110,11 +110,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
     _setError();
   }
 
-  void _setError([bool isError = true, String errorMsg]) {
+  void _setError([bool isError = true, String errorMsgKey]) {
     if (mounted)
       setState(() {
         _isError = isError;
-        _errorMsg = errorMsg;
+        _errorMsg = errorMsgKey != null ? translations.get(errorMsgKey) : null;
       });
   }
 

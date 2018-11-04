@@ -186,5 +186,9 @@
   "checking_ics_url": "Vérification de l'url du fichier .ics...",
 
   "custom_event_exit_unsaved": "Voulez-vous vraiment quitter ?",
-  "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !"
+  "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !",
+
+  "error_univ_list_empty": "Liste des universités vide... réessayez.",
+  "error_univ_list_retrieve_fail": "Impossible de récupérer la liste des Universités, réessayez.",
+  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez."
 }
