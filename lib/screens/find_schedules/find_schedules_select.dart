@@ -74,11 +74,9 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
             keyboardType: TextInputType.text,
             style: TextStyle(color: color),
             cursorColor: color,
+            maxLines: 1,
             decoration: InputDecoration(
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: color),
-              ),
-              hintStyle: TextStyle(color: Colors.white),
+              hintStyle: TextStyle(color: color),
               hintText: translations.get(StringKey.SEARCH),
             ),
             onChanged: (search) {
