@@ -33,7 +33,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     } else if (widget.value == null) {
       icon = Icons.indeterminate_check_box;
       nextState = false;
-      color = widget.activeColor ?? Theme.of(context).accentColor;
+      color = widget.uncheckedColor ?? Colors.grey[600];
     } else {
       icon = Icons.check_box_outline_blank;
       nextState = true;
