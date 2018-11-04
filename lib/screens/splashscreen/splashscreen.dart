@@ -43,14 +43,15 @@ class SplashScreenState extends BaseState<SplashScreen> {
       // Request lastest university list
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
-      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0 ||
-          responseUniv.httpResponse == null) {
+      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
         _setError(true, "Impossible to retrieve university list, retry.");
         return;
       }
       // Update university list
-      prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
-      prefs.setResourcesDate(startTime);
+      if (responseUniv.httpResponse != null) {
+        prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
+        prefs.setResourcesDate(startTime);
+      }
     }
 
     // If list university still empty, set error
