@@ -67,7 +67,7 @@ class _TreeViewState extends State<TreeView> {
 
     setState(() => node.checked = checked);
 
-    if (checked)
+    if (checked == true)
       _selectedNodes.add(node);
     else
       _selectedNodes.remove(node);
@@ -78,14 +78,13 @@ class _TreeViewState extends State<TreeView> {
   _checkParentNodeCheckBox(Node node) {
     var nodeParent = node.parent;
     while (nodeParent != null) {
-      bool isChildrenChecked = true;
+      int nbCheck = 0;
       for (Node child in nodeParent.children) {
-        if (!child.checked) {
-          isChildrenChecked = false;
-          break;
-        }
+        nbCheck += (child.checked == true) ? 1 : 0;
       }
-      _checkNodeCheckBox(nodeParent, isChildrenChecked);
+      final nbrChild = nodeParent.children.length;
+      var check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
+      _checkNodeCheckBox(nodeParent, check);
       nodeParent = nodeParent.parent;
     }
   }
