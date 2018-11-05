@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:myagenda/models/ical_model.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:time_machine/time_machine.dart';
 
 const String BEGINVEVENT = "BEGIN:VEVENT";
@@ -39,13 +40,13 @@ class Ical {
         lastProp = BEGINVEVENT;
       } else if (line.startsWith(ENDVEVENT)) {
         // Remove exported indicator of description
-        event.description = event.description
+        event.description = capitalize(event.description
             .replaceAll(RegExp(r'\\n'), ' ')
             .split('(Export')[0]
             .replaceAll(RegExp(r'\s\s+'), ' ')
             .replaceAll('\\', ' ')
             .replaceAll('_', ' ')
-            .trim();
+            .trim());
 
         events.add(event);
         lastProp = ENDVEVENT;
@@ -56,10 +57,10 @@ class Ical {
         event.dtend = _getDateValue(line);
         lastProp = DTEND;
       } else if (line.startsWith(SUMMARY)) {
-        event.summary = _getValue(line);
+        event.summary = capitalize(_getValue(line));
         lastProp = SUMMARY;
       } else if (line.startsWith(LOCATION)) {
-        event.location = _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ');
+        event.location = capitalize(_getValue(line).replaceAll('\\', ' ').replaceAll('_', ' '));
         lastProp = LOCATION;
       } else if (line.startsWith(UID)) {
         event.uid = _getValue(line);
