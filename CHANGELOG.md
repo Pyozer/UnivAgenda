@@ -1,6 +1,6 @@
 ## Version 4.0.4
 
-- Grosse amélioration de la TreeView (recherche créneaux libres)
+- Amélioration de la TreeView (recherche créneaux libres)
   - Ajout d'une recherche lors du choix de resources
   - Ajout de la possibilité d'ouvrir/fermer les groupes de resources
   - Meilleur visibilité des groupes

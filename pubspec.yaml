@@ -1,5 +1,5 @@
 name: myagenda
-description: Application pour voir simplement son agenda universitaire.
+description: Application pour voir son agenda universitaire à tout moment et facilement.
 version: 4.0.4
 
 dependencies:
