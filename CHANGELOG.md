@@ -1,3 +1,12 @@
+## Version 4.0.4
+
+- Grosse amélioration de la TreeView (recherche créneaux libres)
+  - Ajout d'une recherche lors du choix de resources
+  - Ajout de la possibilité d'ouvrir/fermer les groupes de resources
+  - Meilleur visibilité des groupes
+- Amélioration de l'affichage des cours (caractères '\', '_' supprimés)
+- Correction de bugs sur le splashscreen
+  
 ## Version 4.0.3
 
 - Amélioration du stockage des ressources
