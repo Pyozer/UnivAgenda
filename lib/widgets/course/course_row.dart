@@ -56,6 +56,12 @@ class CourseRow extends StatelessWidget {
           textStyle.copyWith(color: isBgDark ? Colors.white : Colors.black);
     }
 
+    var subtitle = course.location;
+    // Location and description not empty
+    if (subtitle.length > 0 && course.description.length > 0)
+      subtitle += " - ";
+    subtitle += course.description;
+
     return Card(
       elevation: course.isStarted() ? 4.0 : 3.0,
       color: bgColorRow,
@@ -89,7 +95,7 @@ class CourseRow extends StatelessWidget {
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      '${course.location} - ${course.description}',
+                      subtitle,
                       style: textStyle.copyWith(fontSize: 14.0),
                     ),
                     const SizedBox(height: 4.0),
