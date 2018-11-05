@@ -194,4 +194,8 @@ class StringKey {
 
   static const CUSTOM_EVENT_EXIT_UNSAVED = "custom_event_exit_unsaved";
   static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = "custom_event_exit_unsaved_text";
+
+  static const ERROR_UNIV_LIST_EMPTY = "error_univ_list_empty";
+  static const ERROR_UNIV_LIST_RETRIEVE_FAIL = "error_univ_list_retrieve_fail";
+  static const ERROR_RES_LIST_RETRIEVE_FAIL = "error_res_list_retrieve_fail";
 }

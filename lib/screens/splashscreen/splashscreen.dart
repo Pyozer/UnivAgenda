@@ -43,19 +43,20 @@ class SplashScreenState extends BaseState<SplashScreen> {
       // Request lastest university list
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
-      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0 ||
-          responseUniv.httpResponse == null) {
-        _setError(true, "Impossible to retrieve university list, retry.");
+      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
+        _setError(true, StringKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
         return;
       }
       // Update university list
-      prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
-      prefs.setResourcesDate(startTime);
+      if (responseUniv.httpResponse != null) {
+        prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
+        prefs.setResourcesDate(startTime);
+      }
     }
 
     // If list university still empty, set error
     if (prefs.listUniversity.length == 0) {
-      _setError(true, "University list is empty.. retry.");
+      _setError(true, StringKey.ERROR_UNIV_LIST_EMPTY);
       return;
     }
     // If user was connected but university or ics url are null, disconnect him
@@ -75,14 +76,16 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
-        _setError(true, "Impossible to retrieve agenda resources, retry.");
+        _setError(true, StringKey.ERROR_RES_LIST_RETRIEVE_FAIL);
         return;
       }
 
       // Update resources with new data get
-      final resourcesGet = responseRes.httpResponse.body;
-      prefs.setResources(resourcesGet);
-      prefs.setResourcesDate(startTime);
+      if (responseRes.httpResponse != null) {
+        final resourcesGet = responseRes.httpResponse.body;
+        prefs.setResources(resourcesGet);
+        prefs.setResourcesDate(startTime);
+      }
     }
 
     analyticsProvider.analytics.setUserId(prefs.installUID);
@@ -107,11 +110,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
     _setError();
   }
 
-  void _setError([bool isError = true, String errorMsg]) {
+  void _setError([bool isError = true, String errorMsgKey]) {
     if (mounted)
       setState(() {
         _isError = isError;
-        _errorMsg = errorMsg;
+        _errorMsg = errorMsgKey != null ? translations.get(errorMsgKey) : null;
       });
   }
 
@@ -130,7 +133,11 @@ class SplashScreenState extends BaseState<SplashScreen> {
             Expanded(
               flex: 6,
               child: Center(
-                child: Image.asset(Asset.LOGO, width: 192.0),
+                child: Image.asset(
+                  Asset.LOGO,
+                  width: 192.0,
+                  semanticLabel: "Logo",
+                ),
               ),
             ),
             Expanded(

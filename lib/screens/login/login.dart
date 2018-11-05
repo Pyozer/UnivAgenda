@@ -223,7 +223,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   Widget build(BuildContext context) {
     final logo = Hero(
       tag: Asset.LOGO,
-      child: Image.asset(Asset.LOGO, width: 100.0),
+      child: Image.asset(
+        Asset.LOGO,
+        width: 100.0,
+        semanticLabel: "Logo",
+      ),
     );
 
     final titleApp = Text(
@@ -278,8 +282,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(
-              left: 32.0, top: 32.0, right: 32.0, bottom: 8.0),
+          padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 8.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
@@ -295,6 +298,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                       items: listUniversity,
                       value: _selectedUniversity,
                       onChanged: _onUniversitySelected,
+                      isExpanded: false,
                     ),
                     Card(
                       shape: const OutlineInputBorder(),

@@ -39,7 +39,6 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
   @override
   void initState() {
     super.initState();
-    print(widget.searchResources);
     Future.delayed(Duration.zero).then((_) {
       _search();
     });

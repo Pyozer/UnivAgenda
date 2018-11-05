@@ -8,13 +8,15 @@ class TreeView extends StatefulWidget {
   final Map<String, dynamic> dataSource;
   final String treeTitle;
   final ValueChanged<HashSet<Node>> onCheckedChanged;
+  final String search;
 
-  const TreeView(
-      {Key key,
-      @required this.treeTitle,
-      @required this.dataSource,
-      @required this.onCheckedChanged})
-      : super(key: key);
+  const TreeView({
+    Key key,
+    @required this.treeTitle,
+    @required this.dataSource,
+    @required this.onCheckedChanged,
+    this.search,
+  }) : super(key: key);
 
   _TreeViewState createState() => _TreeViewState();
 }
@@ -25,8 +27,18 @@ class _TreeViewState extends State<TreeView> {
 
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tree = Node(key: widget.treeTitle);
+    _tree = Node(key: widget.treeTitle, isExpanded: true);
     buildTree(_tree, widget.dataSource);
+  }
+
+  void didUpdateWidget(covariant TreeView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final search = widget.search?.trim()?.toLowerCase();
+    _setAllNodeVisible(_tree);
+    if (search != null && search.length > 0) {
+      _filterTree(_tree, search);
+    }
   }
 
   buildTree(Node origin, Map<String, dynamic> resources) {
@@ -54,11 +66,9 @@ class _TreeViewState extends State<TreeView> {
   _checkNodeCheckBox(Node node, bool checked) {
     if (node.checked == checked) return;
 
-    setState(() {
-      node.checked = checked;
-    });
+    setState(() => node.checked = checked);
 
-    if (checked)
+    if (checked == true)
       _selectedNodes.add(node);
     else
       _selectedNodes.remove(node);
@@ -69,20 +79,29 @@ class _TreeViewState extends State<TreeView> {
   _checkParentNodeCheckBox(Node node) {
     var nodeParent = node.parent;
     while (nodeParent != null) {
-      bool isChildrenChecked = true;
+      int nbCheck = 0;
       for (Node child in nodeParent.children) {
-        if (!child.checked) {
-          isChildrenChecked = false;
-          break;
-        }
+        if (child.checked == true)
+          nbCheck += 1;
       }
-      _checkNodeCheckBox(nodeParent, isChildrenChecked);
+      final nbrChild = nodeParent.children.length;
+      var check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
+      _checkNodeCheckBox(nodeParent, check);
       nodeParent = nodeParent.parent;
     }
   }
 
+  _onNodeExpandChange(Node node) {
+    setState(() {
+      node.isExpanded = !node.isExpanded;
+    });
+  }
+
   List<Widget> _generateChildren(Node origin, int level) {
     List<Widget> children = [];
+
+    if (origin.isHidden) return children;
+
     if (origin.children.length == 0) {
       children.add(TreeNode(
         level: level,
@@ -91,6 +110,7 @@ class _TreeViewState extends State<TreeView> {
           _checkNodeCheckBox(origin, checked);
           _checkParentNodeCheckBox(origin);
         },
+        onExpandChanged: () => _onNodeExpandChange(origin),
       ));
     } else {
       children.add(TreeNode(
@@ -100,12 +120,42 @@ class _TreeViewState extends State<TreeView> {
           _checkAllNodeChild(origin, checked);
           _checkParentNodeCheckBox(origin);
         },
+        onExpandChanged: () => _onNodeExpandChange(origin),
       ));
-      origin.children.forEach((child) {
-        children.addAll(_generateChildren(child, level + 1));
-      });
+      if (origin.isExpanded) {
+        origin.children.forEach((child) {
+          children.addAll(_generateChildren(child, level + 1));
+        });
+      }
     }
     return children;
+  }
+
+  bool _filterTree(Node node, String search) {
+    node.isHidden = false;
+    node.isExpanded = true;
+
+    final nodeKey = node.key.toLowerCase();
+    if (nodeKey.contains(search)) return true;
+
+    int hiddenChild = 0;
+    for (Node child in node.children) {
+      child.isHidden = !_filterTree(child, search);
+      hiddenChild += child.isHidden ? 1 : 0;
+    }
+
+    if (node.children.length > hiddenChild) return true;
+
+    node.isHidden = true;
+    return false;
+  }
+
+  _setAllNodeVisible(Node node) {
+    node.isHidden = false;
+    for (Node child in node.children) {
+      child.isExpanded = false;
+      _setAllNodeVisible(child);
+    }
   }
 
   @override

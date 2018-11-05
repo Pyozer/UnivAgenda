@@ -3,10 +3,19 @@ class Node {
   dynamic value;
   List<Node> children;
   Node parent;
-  bool checked = false;
+  bool checked;
+  bool isExpanded;
+  bool isHidden;
 
-  Node({this.key, this.value, this.children, this.parent}) {
-    key ??= "";
+  Node({
+    this.key = "",
+    this.value,
+    this.children,
+    this.parent,
+    this.checked = false,
+    this.isExpanded = false,
+    this.isHidden = false
+  }) {
     children ??= [];
   }
 
