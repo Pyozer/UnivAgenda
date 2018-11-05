@@ -43,6 +43,8 @@ class Ical {
             .replaceAll(RegExp(r'\\n'), ' ')
             .split('(Export')[0]
             .replaceAll(RegExp(r'\s\s+'), ' ')
+            .replaceAll('\\', ' ')
+            .replaceAll('_', ' ')
             .trim();
 
         events.add(event);
@@ -57,7 +59,7 @@ class Ical {
         event.summary = _getValue(line);
         lastProp = SUMMARY;
       } else if (line.startsWith(LOCATION)) {
-        event.location = _getValue(line);
+        event.location = _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ');
         lastProp = LOCATION;
       } else if (line.startsWith(UID)) {
         event.uid = _getValue(line);
@@ -74,7 +76,7 @@ class Ical {
     return events;
   }
 
-  static _getValue(String line) {
+  static String _getValue(String line) {
     // Gets the first index where a space occours
     final index = line.indexOf(":");
     return line.substring(index + 1); // Gets the value part
