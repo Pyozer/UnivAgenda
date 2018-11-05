@@ -33,7 +33,7 @@ class _TreeViewState extends State<TreeView> {
 
   void didUpdateWidget(covariant TreeView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     final search = widget.search?.trim()?.toLowerCase();
     _setAllNodeVisible(_tree);
     if (search != null && search.length > 0) {
@@ -81,7 +81,8 @@ class _TreeViewState extends State<TreeView> {
     while (nodeParent != null) {
       int nbCheck = 0;
       for (Node child in nodeParent.children) {
-        nbCheck += (child.checked == true) ? 1 : 0;
+        if (child.checked == true)
+          nbCheck += 1;
       }
       final nbrChild = nodeParent.children.length;
       var check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
