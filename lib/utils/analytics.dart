@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/models/analytics.dart';
+import 'package:myagenda/utils/preferences.dart';
 
 class AnalyticsProvider extends InheritedWidget {
   AnalyticsProvider(this.analytics, this.observer, {Key key, this.child})
@@ -17,38 +18,39 @@ class AnalyticsProvider extends InheritedWidget {
         as AnalyticsProvider);
   }
 
-  void sendUserPrefsGroup(var prefs) {
+  void sendUserPrefsGroup(PreferencesProviderState prefs) {
     // User group prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsGroup,
-      parameters: <String, String>{
-        AnalyticsValue.groupKeys: prefs.groupKeys.toString(),
-      },
+      parameters: {
+        AnalyticsValue.groupKeys: prefs.groupKeys.join(','),
+        AnalyticsValue.university: prefs.university ?? prefs.urlIcs ?? "Unknown",
+      } 
     );
   }
 
-  void sendUserPrefsDisplay(var prefs) {
+  void sendUserPrefsDisplay(PreferencesProviderState prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsDisplay,
-      parameters: <String, dynamic>{
-        AnalyticsValue.numberWeeks: prefs.numberWeeks,
-        AnalyticsValue.displayAllDays: prefs.isDisplayAllDays,
-        AnalyticsValue.headerGroup: prefs.isHeaderGroupVisible,
-        AnalyticsValue.horizontalView: prefs.isHorizontalView,
+      parameters: <String, String>{
+        AnalyticsValue.numberWeeks: prefs.numberWeeks.toString(),
+        AnalyticsValue.displayAllDays: prefs.isDisplayAllDays.toString(),
+        AnalyticsValue.headerGroup: prefs.isHeaderGroupVisible.toString(),
+        AnalyticsValue.horizontalView: prefs.isHorizontalView.toString(),
       },
     );
   }
 
-  void sendUserPrefsColor(var prefs) {
+  void sendUserPrefsColor(PreferencesProviderState prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsColors,
-      parameters: <String, dynamic>{
-        AnalyticsValue.darkTheme: prefs.theme.darkTheme,
-        AnalyticsValue.primaryColor: prefs.theme.primaryColor,
-        AnalyticsValue.accentColor: prefs.theme.accentColor,
-        AnalyticsValue.noteColor: prefs.theme.noteColor,
+      parameters: <String, String>{
+        AnalyticsValue.darkTheme: prefs.theme.darkTheme.toString(),
+        AnalyticsValue.primaryColor: Color(prefs.theme.primaryColor).toString(),
+        AnalyticsValue.accentColor: Color(prefs.theme.accentColor).toString(),
+        AnalyticsValue.noteColor: Color(prefs.theme.noteColor).toString(),
       },
     );
   }
