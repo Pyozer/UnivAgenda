@@ -24,7 +24,7 @@ class AnalyticsProvider extends InheritedWidget {
       name: AnalyticsEvent.userPrefsGroup,
       parameters: {
         AnalyticsValue.groupKeys: prefs.groupKeys.join(','),
-        AnalyticsValue.university: prefs.university ?? prefs.urlIcs ?? "Unknown",
+        AnalyticsValue.university: prefs.university?.name ?? prefs.urlIcs ?? "Unknown",
       } 
     );
   }

@@ -27,6 +27,8 @@ class Ical {
     if (!isValidIcal(icalData)) throw ("Wrong ICS file format !");
 
     await TimeMachine.initialize({'rootBundle': rootBundle});
+    var tzdb = await DateTimeZoneProviders.tzdb;
+    DateTimeZone paris = await tzdb["Europe/Paris"];
 
     List<String> lines = icalData.split("\n");
     List<IcalModel> events = [];
@@ -51,10 +53,10 @@ class Ical {
         events.add(event);
         lastProp = ENDVEVENT;
       } else if (line.startsWith(DTSTART)) {
-        event.dtstart = _getDateValue(line);
+        event.dtstart = _getDateValue(line, paris);
         lastProp = DTSTART;
       } else if (line.startsWith(DTEND)) {
-        event.dtend = _getDateValue(line);
+        event.dtend = _getDateValue(line, paris);
         lastProp = DTEND;
       } else if (line.startsWith(SUMMARY)) {
         event.summary = capitalize(_getValue(line));
@@ -83,9 +85,9 @@ class Ical {
     return line.substring(index + 1); // Gets the value part
   }
 
-  static DateTime _getDateValue(String line) {
+  static DateTime _getDateValue(String line, DateTimeZone timezone) {
     final d = DateTime.parse(_getValue(line).toString().substring(0, 15));
     final dUTC = Instant.utc(d.year, d.month, d.day, d.hour, d.minute);
-    return dUTC.toDateTimeLocal();
+    return dUTC.inZone(timezone).toDateTimeLocal();
   }
 }
