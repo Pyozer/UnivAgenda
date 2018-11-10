@@ -27,6 +27,7 @@ class AppbarPage extends StatelessWidget {
       appBar: (title != null)
           ? AppBar(
               title: Text(title),
+              centerTitle: true,
               actions: actions ?? [],
               elevation: elevation,
             )

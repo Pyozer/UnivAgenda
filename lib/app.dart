@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/screens/about/aboutscreen.dart';
@@ -39,6 +40,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.transparent,
+    ));
+
     return AnalyticsProvider(
       analytics,
       observer,
@@ -47,6 +52,14 @@ class App extends StatelessWidget {
           builder: (context) {
             return DynamicTheme(
               themedWidgetBuilder: (context, theme) {
+                SystemUiOverlayStyle style = theme.brightness == Brightness.dark
+                    ? SystemUiOverlayStyle.light
+                    : SystemUiOverlayStyle.dark;
+
+                SystemChrome.setSystemUIOverlayStyle(style.copyWith(
+                  statusBarColor: Colors.transparent,
+                ));
+
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: "MyAgenda",
