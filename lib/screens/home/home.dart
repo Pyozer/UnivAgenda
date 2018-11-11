@@ -7,7 +7,6 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
-import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
@@ -65,7 +64,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       _courses = null;
 
     // Update courses if prefs changes or cached ical older than 15min
-    if (isPrefsDifferents || prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
+    if (isPrefsDifferents ||
+        prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
       // Load ical from network
       _fetchData();
       // Send analytics to have stats of prefs users
@@ -75,8 +75,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    if (prefs.groupKeys.length > 0)
-      analyticsProvider.sendUserPrefsGroup(prefs);
+    if (prefs.groupKeys.length > 0) analyticsProvider.sendUserPrefsGroup(prefs);
     analyticsProvider.sendUserPrefsDisplay(prefs);
     analyticsProvider.sendUserPrefsColor(prefs);
   }
@@ -171,25 +170,25 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Parse string ical to object
-    List<IcalModel> icalModels = await Ical.parseToIcal(icalStr);
-    if (icalModels == null) {
-      DialogPredefined.showICSFormatError(context);
-    } else {
-      final actualDate = DateTime.now();
-      final maxDate = actualDate.add(
-        Duration(days: Date.calcDaysToEndDate(actualDate, prefs.numberWeeks)),
-      );
+    List<Course> courseFromIcal = await Ical.parseToIcal(icalStr);
 
-      for (final icalModel in icalModels) {
-        // Transform IcalModel to Course
-        Course course = Course.fromIcalModel(icalModel);
-        // Check if course is not finish
-        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
-          // Get all notes of the course
-          course = _addNotesToCourse(allNotes, course);
-          // Add course to list
-          listCourses.add(course);
-        }
+    if (courseFromIcal == null) {
+      DialogPredefined.showICSFormatError(context);
+      return;
+    }
+
+    final actualDate = DateTime.now();
+    final maxDate = actualDate.add(
+      Duration(days: Date.calcDaysToEndDate(actualDate, prefs.numberWeeks)),
+    );
+
+    for (Course course in courseFromIcal) {
+      // Check if course is not finish
+      if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+        // Get all notes of the course
+        course = _addNotesToCourse(allNotes, course);
+        // Add course to list
+        listCourses.add(course);
       }
     }
 

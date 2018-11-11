@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:myagenda/models/ical_model.dart';
+import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:time_machine/time_machine.dart';
 
@@ -21,7 +21,7 @@ class Ical {
     return false;
   }
 
-  static Future<List<IcalModel>> parseToIcal(String icalData) async {
+  static Future<List<Course>> parseToIcal(String icalData) async {
     if (icalData == null || icalData.trim().length == 0) return [];
 
     if (!isValidIcal(icalData)) throw ("Wrong ICS file format !");
@@ -31,14 +31,14 @@ class Ical {
     DateTimeZone paris = await tzdb["Europe/Paris"];
 
     List<String> lines = icalData.split("\n");
-    List<IcalModel> events = [];
-    IcalModel event;
+    List<Course> events = [];
+    Course event;
 
     String lastProp;
 
     lines.forEach((line) {
       if (line.startsWith(BEGINVEVENT)) {
-        event = IcalModel();
+        event = Course.empty();
         lastProp = BEGINVEVENT;
       } else if (line.startsWith(ENDVEVENT)) {
         // Remove exported indicator of description
@@ -53,19 +53,20 @@ class Ical {
         events.add(event);
         lastProp = ENDVEVENT;
       } else if (line.startsWith(DTSTART)) {
-        event.dtstart = _getDateValue(line, paris);
+        event.dateStart = _getDateValue(line, paris);
         lastProp = DTSTART;
       } else if (line.startsWith(DTEND)) {
-        event.dtend = _getDateValue(line, paris);
+        event.dateEnd = _getDateValue(line, paris);
         lastProp = DTEND;
       } else if (line.startsWith(SUMMARY)) {
-        event.summary = capitalize(_getValue(line));
+        event.title = capitalize(_getValue(line)).trim();
         lastProp = SUMMARY;
       } else if (line.startsWith(LOCATION)) {
-        event.location = capitalize(_getValue(line).replaceAll('\\', ' ').replaceAll('_', ' '));
+        event.location = capitalize(
+            _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ').trim());
         lastProp = LOCATION;
       } else if (line.startsWith(UID)) {
-        event.uid = _getValue(line);
+        event.uid = _getValue(line).trim();
         lastProp = UID;
       } else if (line.startsWith(DESCRIPTION) || lastProp == DESCRIPTION) {
         if (lastProp == DESCRIPTION)

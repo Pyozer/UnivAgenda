@@ -45,8 +45,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     var duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
     String durationStr = "";
-    if (duration.hours > 0) durationStr += "${duration.hours}h";
-    durationStr += "${duration.minutes}min";
+    if (duration.hour > 0) durationStr += "${duration.hour}h";
+    durationStr += "${duration.minute}min";
 
     List<Widget> listInfo = [
       ListTile(

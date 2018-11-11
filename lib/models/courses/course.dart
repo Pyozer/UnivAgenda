@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:myagenda/models/courses/base_course.dart';
-import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -28,6 +27,8 @@ class Course extends BaseCourse {
   }) {
     this.notes ??= [];
   }
+
+  factory Course.empty() => Course("", "", "", "", null, null);
 
   bool hasNote() => (notes?.length ?? 0) > 0;
 
@@ -66,15 +67,6 @@ class Course extends BaseCourse {
         .replaceAll('CM', '')
         .replaceAll('-  -', '-');
   }
-
-  factory Course.fromIcalModel(IcalModel ical) => Course(
-        ical.uid?.trim(),
-        ical.summary?.trim(),
-        ical.description?.trim(),
-        ical.location?.trim(),
-        ical.dtstart,
-        ical.dtend,
-      );
 
   factory Course.fromJson(Map<String, dynamic> json) {
     Color courseColor;

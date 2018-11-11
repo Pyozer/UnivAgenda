@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/findschedules_result.dart';
-import 'package:myagenda/models/ical_model.dart';
 import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -89,19 +88,11 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       }
       String icalStr = utf8.decode(response.httpResponse.bodyBytes);
 
-      List<Course> listCourses = [];
-
       // Parse string ical to object
-      List<IcalModel> icalModels = await Ical.parseToIcal(icalStr);
-      if (icalModels == null) {
+      List<Course> listCourses = await Ical.parseToIcal(icalStr);
+      if (listCourses == null) {
         DialogPredefined.showICSFormatError(context);
         return;
-      }
-
-      for (final icalModel in icalModels) {
-        // Transform IcalModel to Course
-        // Add course to list
-        listCourses.add(Course.fromIcalModel(icalModel));
       }
 
       // Sort list by date start
