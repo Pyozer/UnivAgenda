@@ -1,3 +1,10 @@
+## Version 4.0.5
+
+- Ajout du titre au centre de l'Appbar
+- Ajout de la statusbar transparente
+- Correction de certaines vue (layout)
+- Correction de bugs
+
 ## Version 4.0.4
 
 - Amélioration de la TreeView (recherche créneaux libres)
