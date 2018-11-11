@@ -15,7 +15,7 @@ class CourseNote extends StatelessWidget {
     List<Widget> elems = [
       Expanded(
         child: Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
           child: Text(
             note.text,
             style: Theme.of(context).textTheme.body1,
@@ -25,8 +25,7 @@ class CourseNote extends StatelessWidget {
       )
     ];
 
-    if (onDelete != null) {
-      elems.add(Container(color: Colors.grey, height: 18.0, width: 1.0));
+    if (onDelete != null)
       elems.add(
         IconButton(
           icon: Icon(OMIcons.delete),
@@ -34,7 +33,6 @@ class CourseNote extends StatelessWidget {
           tooltip: Translations.of(context).get(StringKey.DELETE),
         ),
       );
-    }
     return elems;
   }
 
