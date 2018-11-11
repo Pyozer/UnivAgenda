@@ -304,9 +304,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               Row(
                 children: <Widget>[
                   Expanded(
+                    flex: 11,
                     child: ListTile(
                       onTap: _onStartTimeTap,
-                      leading: const Icon(OMIcons.accessTime),
+                      leading: const Icon(OMIcons.timelapse),
                       title: _buildDateTimeField(
                         translations.get(StringKey.START_TIME_EVENT),
                         Date.extractTime(
@@ -315,9 +316,9 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                     ),
                   ),
                   Expanded(
+                    flex: 9,
                     child: ListTile(
                       onTap: _onEndTimeTap,
-                      leading: const Icon(OMIcons.accessTime),
                       title: _buildDateTimeField(
                         translations.get(StringKey.END_TIME_EVENT),
                         Date.extractTime(
