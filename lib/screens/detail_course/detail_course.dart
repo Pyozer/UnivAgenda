@@ -70,28 +70,28 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     if (_course.location != null && _course.location.isNotEmpty)
       listInfo.add(ListTile(
-          leading: const Icon(OMIcons.locationOn),
-          title: Text(_course.location)));
+        leading: const Icon(OMIcons.locationOn),
+        title: Text(_course.location),
+      ));
 
     if (_course.isExam())
       listInfo.add(ListTile(
-          leading: const Icon(OMIcons.description),
-          title: Text(translations.get(StringKey.COURSE_TEST))));
+        leading: const Icon(OMIcons.description),
+        title: Text(translations.get(StringKey.COURSE_TEST)),
+      ));
 
     if (_course.color != null)
-      listInfo.add(
-        ListTile(
-          leading: const Icon(OMIcons.colorLens),
-          title: Text(translations.get(StringKey.EVENT_COLOR)),
-          trailing: CircleColor(color: _course.color, circleSize: 28.0),
-        ),
-      );
+      listInfo.add(ListTile(
+        leading: const Icon(OMIcons.colorLens),
+        title: Text(translations.get(StringKey.EVENT_COLOR)),
+        trailing: CircleColor(color: _course.color, circleSize: 28.0),
+      ));
 
     listInfo.add(Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
+      children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, top: 4.0, bottom: 8.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
           child: Text(
             translations.get(StringKey.NOTES),
             style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
@@ -160,8 +160,11 @@ class _DetailCourseState extends BaseState<DetailCourse> {
           (_course as CustomCourse).isRecurrentEvent()) {
         dateEndNote = null;
       }
-      final note =
-          Note(courseUid: _course.uid, text: _noteToAdd, dateEnd: dateEndNote);
+      final note = Note(
+        courseUid: _course.uid,
+        text: _noteToAdd,
+        dateEnd: dateEndNote,
+      );
 
       _noteToAdd = "";
       setState(() {
@@ -225,7 +228,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
                 shrinkWrap: true,
                 children: _buildInfo(),
               ),
-            )
+            ),
           ],
         ),
       ),
