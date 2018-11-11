@@ -15,7 +15,7 @@ class CourseRowHeader extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 16.0,
         right: 16.0,
-        bottom: 16.0,
+        bottom: 5.0,
         top: 20.0,
       ),
       child: Text(

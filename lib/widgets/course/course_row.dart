@@ -65,7 +65,7 @@ class CourseRow extends StatelessWidget {
     return Card(
       elevation: course.isStarted() ? 4.0 : 3.0,
       color: bgColorRow,
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: InkWell(
         onTap: () => _onCourseTap(context),
         onLongPress: () async {
