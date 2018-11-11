@@ -183,41 +183,46 @@ class AboutScreen extends StatelessWidget {
     final txtTheme = Theme.of(context).textTheme.subhead;
 
     return Container(
-        padding: const EdgeInsets.only(bottom: 24.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                Translations.of(context).get(StringKey.MADE_WITH),
-                style: txtTheme,
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: const Icon(OMIcons.favorite, color: Colors.red))
-            ]));
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            Translations.of(context).get(StringKey.MADE_WITH),
+            style: txtTheme,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: const Icon(OMIcons.favorite, color: Colors.red),
+          )
+        ],
+      ),
+    );
   }
 
   //It doesn't need any key , we can easily create it.
   void _modalBottomSheet(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (builder) {
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    Translations.of(context).get(StringKey.CHANGELOG),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w700, fontSize: 24.0),
-                  ),
-                ),
-                Expanded(child: ChangeLog())
-              ]);
-        });
+      context: context,
+      builder: (builder) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                Translations.of(context).get(StringKey.CHANGELOG),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: 24.0),
+              ),
+            ),
+            Expanded(child: ChangeLog())
+          ],
+        );
+      },
+    );
   }
 
   @override

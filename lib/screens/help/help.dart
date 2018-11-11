@@ -91,7 +91,7 @@ class HelpScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
               child: RaisedButtonColored(
                 onPressed: () => _sendFeedback(context),
                 padding: const EdgeInsets.symmetric(

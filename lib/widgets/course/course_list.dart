@@ -42,7 +42,7 @@ class CourseList extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       children: widgets,
-      padding: EdgeInsets.only(bottom: 12.0, top: isHorizontal ? 12.0 : 0.0),
+      padding: EdgeInsets.only(bottom: 36.0, top: isHorizontal ? 12.0 : 0.0),
     );
   }
 

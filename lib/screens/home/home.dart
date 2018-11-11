@@ -217,11 +217,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       listElement[dateValue].add(course);
     }
 
-    if (mounted) {
-      setState(() {
-        _courses = listElement;
-      });
-    }
+    if (!mounted) return;
+    
+    setState(() {
+      _courses = listElement;
+    });
   }
 
   void _switchTypeView() {
@@ -305,7 +305,9 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
-            Expanded(child: Container(child: content)),
+            Expanded(
+              child: Container(child: content),
+            ),
           ],
         ),
       ),

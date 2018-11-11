@@ -32,7 +32,7 @@ class AppbarPage extends StatelessWidget {
               elevation: elevation,
             )
           : null,
-      body: SafeArea(child: body),
+      body: body,
       drawer: drawer,
       floatingActionButton: fab,
     );
@@ -53,10 +53,7 @@ class AppbarSubTitle extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             elevation: 4.0,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 16.0,
-              ),
+              padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
               child: child,
             ),
           ),
