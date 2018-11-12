@@ -75,7 +75,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    if (prefs.groupKeys.length > 0) analyticsProvider.sendUserPrefsGroup(prefs);
+    analyticsProvider.sendUserPrefsGroup(prefs);
     analyticsProvider.sendUserPrefsDisplay(prefs);
     analyticsProvider.sendUserPrefsColor(prefs);
   }
