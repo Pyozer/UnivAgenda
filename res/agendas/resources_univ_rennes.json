@@ -1344,7 +1344,30 @@
         "Licence pro SETA Systèmes Embarqués pour les transports et l'Automobile": 12786,
         "Licence pro SPH services et produits pour l'habitat": 11545,
         "M1 EEEA Electronique Energie Electrique Automatique": 11474,
-        "M1 INFORMATIQUE": 11286,
+        "M1 INFORMATIQUE": {
+          "M1 CNN" : {
+            "S1 M1_CNN" : 17251,
+            "S1 M2_CNN" : 17270
+          },
+          "M1 CCS ALL OPTION" : 11458,
+          "M1 CSE" : 8740,
+          "M1 INFO - TC : {
+            "M1 IL 1" : {
+              "IL1 Groupe 1" : 13774, 
+              "IL1 Groupe 2" : 13776,
+              "IL1 Groupe 3" : 20263
+            },
+            "M1 IL 2" : {
+              "IL2 Groupe 1" : 15009,
+              "IL2 Groupe 2" : 15008
+            },
+            "M1 SSR" : {
+              "SSR Groupe 1" : 13734,
+              "SSR Groupe 2" : 13750,
+              "SSR Groupe 3" : 16054
+            }
+          }
+        }    
         "M1 MIAGE (60)": 13652,
         "M2 SIF": 13083,
         "M2 CCN": 9308,
