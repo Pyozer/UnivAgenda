@@ -21,8 +21,6 @@ class CustomEventScreen extends StatefulWidget {
 }
 
 class _CustomEventScreenState extends BaseState<CustomEventScreen> {
-  final _initDate = DateTime.now();
-
   final _descNode = FocusNode();
   final _locationNode = FocusNode();
 
@@ -77,7 +75,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     DateTime dateStart = await showDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
-      firstDate: DateTime(_initFirstDate.year, _initFirstDate.month, _initFirstDate.day),
+      firstDate: Date.dateFromDateTime(_initFirstDate),
       lastDate: DateTime(2030),
       locale: translations.locale,
     );
