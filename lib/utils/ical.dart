@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:time_machine/time_machine.dart';
