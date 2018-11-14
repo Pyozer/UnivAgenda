@@ -19,6 +19,7 @@ import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:time_machine/time_machine.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
@@ -43,6 +44,8 @@ class App extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
+
+    TimeMachine.initialize({'rootBundle': rootBundle});
 
     return AnalyticsProvider(
       analytics,
