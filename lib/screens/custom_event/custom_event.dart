@@ -77,7 +77,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     DateTime dateStart = await showDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
-      firstDate: _initDate,
+      firstDate: DateTime(_initFirstDate.year, _initFirstDate.month, _initFirstDate.day),
       lastDate: DateTime(2030),
       locale: translations.locale,
     );
