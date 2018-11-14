@@ -301,7 +301,6 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                       isExpanded: false,
                     ),
                     Card(
-                      shape: const OutlineInputBorder(),
                       elevation: 4.0,
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
