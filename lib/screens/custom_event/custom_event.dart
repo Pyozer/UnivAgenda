@@ -213,7 +213,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppbarPage(
-        title: translations.get(StringKey.ADD_EVENT),
+        title: translations.get(widget.course == null ? StringKey.ADD_EVENT : StringKey.EDIT_EVENT),
         actions: [
           IconButton(
             icon: const Icon(OMIcons.check),

@@ -35,6 +35,7 @@
   "logout_confirm": "Are you really sure you want to disconnect?",
 
   "add_event": "Add event",
+  "edit_event": "Edit event",
 
   "cancel": "Cancel",
   "save": "Save",
