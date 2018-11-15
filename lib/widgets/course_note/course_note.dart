@@ -26,13 +26,11 @@ class CourseNote extends StatelessWidget {
     ];
 
     if (onDelete != null)
-      elems.add(
-        IconButton(
-          icon: Icon(OMIcons.delete),
-          onPressed: () => onDelete(note),
-          tooltip: Translations.of(context).get(StringKey.DELETE),
-        ),
-      );
+      elems.add(IconButton(
+        icon: const Icon(OMIcons.delete),
+        onPressed: () => onDelete(note),
+        tooltip: Translations.of(context).get(StringKey.DELETE),
+      ));
     return elems;
   }
 
@@ -41,9 +39,7 @@ class CourseNote extends StatelessWidget {
     return Card(
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
-      child: Row(
-        children: _buildElements(context),
-      ),
+      child: Row(children: _buildElements(context)),
     );
   }
 }
