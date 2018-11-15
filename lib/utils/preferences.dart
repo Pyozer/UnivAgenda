@@ -99,6 +99,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// List of all custom events
   List<CustomCourse> _customEvents;
 
+  /// List of hidden courses
+  List<String> _hiddenEvents;
+
   /// Resources (contain all agenda with their ID)
   Map<String, dynamic> _resources;
 
@@ -541,6 +544,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setInt(
           PrefKey.cachedIcalDate, _cachedIcalDate.millisecondsSinceEpoch);
+    });
+  }
+
+  List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
+
+  setHiddenEvents([newHiddenEvents, state = false]) {
+    newHiddenEvents ??= [];
+
+    _updatePref(() {
+      _hiddenEvents = newHiddenEvents;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setStringList(PrefKey.hiddenEvent, _hiddenEvents);
     });
   }
 
