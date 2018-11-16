@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
@@ -552,6 +553,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setHiddenEvents([newHiddenEvents, state = false]) {
     newHiddenEvents ??= [];
 
+    print(newHiddenEvents);
     _updatePref(() {
       _hiddenEvents = newHiddenEvents;
     }, state);
@@ -559,6 +561,23 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setStringList(PrefKey.hiddenEvent, _hiddenEvents);
     });
+  }
+
+  void addHiddenEvent(Course course, {allSameEvent = false}) {
+    hiddenEvents.add(allSameEvent ? course.title : course.uid);
+    setHiddenEvents(hiddenEvents);
+  }
+
+  void removeHiddenEvent(Course course, {allSameEvent = false}) {
+    hiddenEvents.remove(allSameEvent ? course.title : course.uid);
+    setHiddenEvents(hiddenEvents);
+  }
+
+  bool isCourseHidden(Course course) {
+    return hiddenEvents
+            .where((e) => e == course.uid || e == course.title)
+            .length >
+        0;
   }
 
   disconnectUser([state = false]) {
@@ -623,6 +642,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       actualNotes.add(Note.fromJsonStr(noteJsonStr));
     });
     setNotes(actualNotes);
+
+    // Init hidden courses
+    List<String> hiddenEvents = prefs.getStringList(PrefKey.hiddenEvent) ?? [];
+    setHiddenEvents(hiddenEvents);
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =

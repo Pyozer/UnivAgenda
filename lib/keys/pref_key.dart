@@ -46,18 +46,17 @@ class PrefKey {
 
   static const defaultUrlIcs = null;
   static const defaultCachedIcal = "";
-  static const List<University> defaultListUniversity = [];
+  static List<University> defaultListUniversity = [];
   static const String defaultListUniversityJson = "[]";
-  static const Map<String, dynamic> defaultResources = {};
+  static Map<String, dynamic> defaultResources = {};
   static const String defaultResourcesJson = "{}";
   static const int defaultResourcesDate = 0;
   static const int defaultCachedIcalDate = 0;
-  static const List<Note> defaultNotes = [];
-  static const List<CustomCourse> defaultCustomEvents = [];
-  static const List<String> defaultHiddenEvents = [];
+  static List<Note> defaultNotes = [];
+  static List<CustomCourse> defaultCustomEvents = [];
+  static List<String> defaultHiddenEvents = [];
 
   static const String listUniversityFile = 'university.json';
   static const String resourcesFile = 'resources.json';
   static const String cachedIcalFile = 'cached_ical.ics';
-
 }

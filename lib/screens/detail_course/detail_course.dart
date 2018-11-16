@@ -172,26 +172,33 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     }
   }
 
-  _onEditCourse() async {
-    CustomCourse editedCourse = await Navigator.of(context).push(
-      CustomRoute<CustomCourse>(
-        builder: (context) => CustomEventScreen(course: _course),
-        fullscreenDialog: true,
-      ),
-    );
-
-    if (editedCourse != null && mounted) {
-      prefs.editCustomEvent(editedCourse, true);
-      setState(() {
-        _course = editedCourse;
-      });
-    }
-  }
-
   void _onMenuChoose(CourseMenuItem choice) async {
     if (choice == CourseMenuItem.HIDE) {
-      // Hide
-
+      bool isOnlyThis = await DialogPredefined.showTextDialog(
+        context,
+        "Hide course",
+        "Are you sure do you want to hide this course ?",
+        "Only this",
+        "All same courses",
+        
+      );
+      if (isOnlyThis != null) {
+        prefs.addHiddenEvent(widget.course, allSameEvent: !isOnlyThis);
+        setState(() {});
+      }
+    }
+    if (choice == CourseMenuItem.UNHIDE) {
+      bool isOnlyThis = await DialogPredefined.showTextDialog(
+        context,
+        "Set visible course",
+        "Are you sure do you want to set visible this course ?",
+        "Only this",
+        "All same courses",
+      );
+      if (isOnlyThis != null) {
+        prefs.removeHiddenEvent(widget.course, allSameEvent: !isOnlyThis);
+        setState(() {});
+      }
     }
     if (choice == CourseMenuItem.EDIT) {
       CustomCourse editedCourse = await Navigator.of(context).push(
@@ -203,9 +210,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
       if (editedCourse != null) {
         prefs.editCustomEvent(editedCourse, true);
-        setState(() {
-          _course = editedCourse;
-        });
+        setState(() => _course = editedCourse);
       }
     }
     if (choice == CourseMenuItem.DELETE) {
@@ -229,13 +234,24 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildAppbarAction() {
-    List<PopupMenuEntry<CourseMenuItem>> actions = [
-      _buildMenu<CourseMenuItem>(
-        CourseMenuItem.HIDE,
-        OMIcons.visibilityOff,
-        'Hide',
-      )
-    ];
+    List<PopupMenuEntry<CourseMenuItem>> actions = [];
+    if (prefs.isCourseHidden(widget.course)) {
+      actions.add(
+        _buildMenu<CourseMenuItem>(
+          CourseMenuItem.UNHIDE,
+          OMIcons.visibility,
+          'Unhide',
+        ),
+      );
+    } else {
+      actions.add(
+        _buildMenu<CourseMenuItem>(
+          CourseMenuItem.HIDE,
+          OMIcons.visibilityOff,
+          'Hide',
+        ),
+      );
+    }
 
     if (_course is CustomCourse) {
       actions.addAll([
@@ -287,4 +303,4 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 }
 
-enum CourseMenuItem { EDIT, HIDE, DELETE }
+enum CourseMenuItem { EDIT, HIDE, UNHIDE, DELETE }
