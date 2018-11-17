@@ -28,7 +28,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     // Show progress dialog
     DialogPredefined.showProgressDialog(
       context,
-      translations.get(StringKey.LOADING_RESOURCES),
+      translation(StrKey.LOADING_RESOURCES),
     );
 
     final response = await HttpRequest.get(prefs.university.resourcesFile);
@@ -69,14 +69,14 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     } else {
       settingsGeneralElems = [
         ListTileInput(
-          title: translations.get(StringKey.URL_ICS),
-          hintText: translations.get(StringKey.URL_ICS),
+          title: translation(StrKey.URL_ICS),
+          hintText: translation(StrKey.URL_ICS),
           defaultValue: prefs.urlIcs,
           onChange: (value) async {
             // Check before update prefs, if url is good
             DialogPredefined.showProgressDialog(
               context,
-              translations.get(StringKey.CHECKING_ICS_URL),
+              translation(StrKey.CHECKING_ICS_URL),
             );
 
             final response = await HttpRequest.get(value);
@@ -86,16 +86,16 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             // If request failed, url is bad (or no internet)
             String error;
             if (!response.isSuccess) {
-              error = translations.get(StringKey.FILE_404);
+              error = translation(StrKey.FILE_404);
             } else if (!Ical.isValidIcal(response.httpResponse.body)) {
-              error = translations.get(StringKey.WRONG_ICS_FORMAT);
+              error = translation(StrKey.WRONG_ICS_FORMAT);
             }
 
             // If error, display message
             if (error != null) {
               DialogPredefined.showSimpleMessage(
                 context,
-                translations.get(StringKey.ERROR),
+                translation(StrKey.ERROR),
                 error,
               );
             } else {
@@ -109,7 +109,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
 
     return SettingCard(
-      header: translations.get(StringKey.SETTINGS_GENERAL),
+      header: translation(StrKey.SETTINGS_GENERAL),
       children: settingsGeneralElems,
     );
   }
@@ -117,15 +117,15 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
   Widget _buildSettingsDisplay() {
     List<Widget> settingsDisplayItems = [
       ListTileNumber(
-        title: translations.get(StringKey.NUMBER_WEEK),
+        title: translation(StrKey.NUMBER_WEEK),
         defaultValue: prefs.numberWeeks,
         minValue: 1,
         maxValue: 16,
         onChange: (value) => prefs.setNumberWeeks(value, true),
       ),
       SwitchListTile(
-        title: ListTileTitle(translations.get(StringKey.DISPLAY_ALL_DAYS)),
-        subtitle: Text(translations.get(StringKey.DISPLAY_ALL_DAYS_DESC)),
+        title: ListTileTitle(translation(StrKey.DISPLAY_ALL_DAYS)),
+        subtitle: Text(translation(StrKey.DISPLAY_ALL_DAYS_DESC)),
         value: prefs.isDisplayAllDays,
         activeColor: theme.accentColor,
         onChanged: (value) => prefs.setDisplayAllDays(value, true),
@@ -137,8 +137,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         const ListDivider(),
         SwitchListTile(
           title:
-              ListTileTitle(translations.get(StringKey.DISPLAY_HEADER_GROUP)),
-          subtitle: Text(translations.get(StringKey.DISPLAY_HEADER_GROUP_DESC)),
+              ListTileTitle(translation(StrKey.DISPLAY_HEADER_GROUP)),
+          subtitle: Text(translation(StrKey.DISPLAY_HEADER_GROUP_DESC)),
           value: prefs.isHeaderGroupVisible,
           activeColor: theme.accentColor,
           onChanged: (value) => prefs.setHeaderGroupVisible(value, true),
@@ -147,33 +147,33 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
 
     return SettingCard(
-      header: translations.get(StringKey.SETTINGS_DISPLAY),
+      header: translation(StrKey.SETTINGS_DISPLAY),
       children: settingsDisplayItems,
     );
   }
 
   Widget _buildSettingsColors() {
     return SettingCard(
-      header: translations.get(StringKey.SETTINGS_COLORS),
+      header: translation(StrKey.SETTINGS_COLORS),
       children: [
         SwitchListTile(
-          title: ListTileTitle(translations.get(StringKey.DARK_THEME)),
-          subtitle: Text(translations.get(StringKey.DARK_THEME_DESC)),
+          title: ListTileTitle(translation(StrKey.DARK_THEME)),
+          subtitle: Text(translation(StrKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
           activeColor: theme.accentColor,
           onChanged: (value) => prefs.setDarkTheme(value, true),
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.get(StringKey.PRIMARY_COLOR),
-          description: translations.get(StringKey.PRIMARY_COLOR_DESC),
+          title: translation(StrKey.PRIMARY_COLOR),
+          description: translation(StrKey.PRIMARY_COLOR_DESC),
           selectedColor: Color(prefs.theme.primaryColor),
           onColorChange: (color) => prefs.setPrimaryColor(color.value, true),
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.get(StringKey.ACCENT_COLOR),
-          description: translations.get(StringKey.ACCENT_COLOR_DESC),
+          title: translation(StrKey.ACCENT_COLOR),
+          description: translation(StrKey.ACCENT_COLOR_DESC),
           selectedColor: Color(prefs.theme.accentColor),
           onColorChange: (color) => prefs.setAccentColor(color.value, true),
           colors: [
@@ -200,15 +200,15 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.get(StringKey.NOTE_COLOR),
-          description: translations.get(StringKey.NOTE_COLOR_DESC),
+          title: translation(StrKey.NOTE_COLOR),
+          description: translation(StrKey.NOTE_COLOR_DESC),
           selectedColor: Color(prefs.theme.noteColor),
           onColorChange: (color) => prefs.setNoteColor(color.value, true),
         ),
         SwitchListTile(
           title:
-              ListTileTitle(translations.get(StringKey.GENERATE_EVENT_COLOR)),
-          subtitle: Text(translations.get(StringKey.GENERATE_EVENT_COLOR_TEXT)),
+              ListTileTitle(translation(StrKey.GENERATE_EVENT_COLOR)),
+          subtitle: Text(translation(StrKey.GENERATE_EVENT_COLOR_TEXT)),
           value: prefs.isGenerateEventColor,
           activeColor: Theme.of(context).accentColor,
           onChanged: (value) => prefs.setGenerateEventColor(value, true),
@@ -230,7 +230,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
                 PopupMenuItem<MenuItem>(
                   value: MenuItem.REFRESH,
-                  child: Text(translations.get(StringKey.REFRESH_AGENDAS)),
+                  child: Text(translation(StrKey.REFRESH_AGENDAS)),
                 ),
               ],
         ),
@@ -238,7 +238,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
 
     return AppbarPage(
-      title: translations.get(StringKey.SETTINGS),
+      title: translation(StrKey.SETTINGS),
       actions: actions,
       body: ListView(
         children: [

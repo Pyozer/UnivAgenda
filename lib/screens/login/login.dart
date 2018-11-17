@@ -80,7 +80,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Check fields values
     if ((_isUrlIcs() && urlIcs.isEmpty) ||
         (!_isUrlIcs() && (username.isEmpty || password.isEmpty))) {
-      _showMessage(translations.get(StringKey.REQUIRE_FIELD));
+      _showMessage(translation(StrKey.REQUIRE_FIELD));
       return;
     }
 
@@ -104,13 +104,12 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
         _showMessage(
-          translations
-              .get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
+          translation(StrKey.LOGIN_SERVER_ERROR, {'university': prefs.university.name}),
         );
         return;
       } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.UNKNOWN_ERROR));
+        _showMessage(translation(StrKey.UNKNOWN_ERROR));
         return;
       }
 
@@ -120,7 +119,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.GET_RES_ERROR));
+        _showMessage(translation(StrKey.GET_RES_ERROR));
         return;
       }
 
@@ -136,13 +135,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.FILE_404));
+        _showMessage(translation(StrKey.FILE_404));
         return;
       }
       String ical = utf8.decode(response.httpResponse.bodyBytes);
       if (!Ical.isValidIcal(ical)) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.WRONG_ICS_FORMAT));
+        _showMessage(translation(StrKey.WRONG_ICS_FORMAT));
         return;
       }
       prefs.setCachedIcal(ical);
@@ -158,7 +157,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void _showMessage(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      translations.get(StringKey.ERROR),
+      translation(StrKey.ERROR),
       msg,
     );
   }
@@ -203,13 +202,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void _onDataPrivcacy() {
     DialogPredefined.showSimpleMessage(
       context,
-      translations.get(StringKey.DATA_PRIVACY),
-      translations.get(StringKey.DATA_PRIVACY_TEXT),
+      translation(StrKey.DATA_PRIVACY),
+      translation(StrKey.DATA_PRIVACY_TEXT),
     );
   }
 
   bool _isUrlIcs() {
-    return _selectedUniversity == translations.get(StringKey.OTHER);
+    return _selectedUniversity == translation(StrKey.OTHER);
   }
 
   void _onUniversitySelected(String value) {
@@ -231,12 +230,12 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final titleApp = Text(
-      translations.get(StringKey.APP_NAME),
+      translation(StrKey.APP_NAME),
       style: theme.textTheme.title.copyWith(fontSize: 28.0),
     );
 
     final urlICsInput = _buildTextField(
-      translations.get(StringKey.URL_ICS),
+      translation(StrKey.URL_ICS),
       OMIcons.event,
       false,
       _urlIcsController,
@@ -245,7 +244,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final username = _buildTextField(
-      translations.get(StringKey.LOGIN_USERNAME),
+      translation(StrKey.LOGIN_USERNAME),
       OMIcons.person,
       false,
       _usernameController,
@@ -254,7 +253,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final password = _buildTextField(
-      translations.get(StringKey.LOGIN_PASSWORD),
+      translation(StrKey.LOGIN_PASSWORD),
       OMIcons.lock,
       true,
       _passwordController,
@@ -270,7 +269,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     var listUniversity = prefs.getAllUniversity();
-    listUniversity.add(translations.get(StringKey.OTHER));
+    listUniversity.add(translation(StrKey.OTHER));
 
     if (_selectedUniversity == null) {
       if (prefs.university != null && listUniversity.contains(prefs.university))
@@ -321,11 +320,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                 alignment: WrapAlignment.center,
                 children: <Widget>[
                   FlatButton(
-                    child: Text(translations.get(StringKey.DATA_PRIVACY)),
+                    child: Text(translation(StrKey.DATA_PRIVACY)),
                     onPressed: _onDataPrivcacy,
                   ),
                   FlatButton(
-                    child: Text(translations.get(StringKey.HELP_FEEDBACK)),
+                    child: Text(translation(StrKey.HELP_FEEDBACK)),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(RouteKey.HELP),
                   ),

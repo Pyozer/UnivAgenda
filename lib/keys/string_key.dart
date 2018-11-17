@@ -1,4 +1,4 @@
-class StringKey {
+class StrKey {
   static const APP_NAME = 'app_name';
 
   static const DRAWER = 'drawer';

@@ -101,7 +101,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       if (!response.isSuccess) {
         _scaffoldKey?.currentState?.removeCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(translations.get(StringKey.NETWORK_ERROR)),
+          content: Text(translation(StrKey.NETWORK_ERROR)),
         ));
         return null;
       }
@@ -248,10 +248,10 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   Widget _buildNoResult() {
     return NoResult(
-      title: translations.get(StringKey.COURSES_NORESULT),
-      text: translations.get(StringKey.COURSES_NORESULT_TEXT),
+      title: translation(StrKey.COURSES_NORESULT),
+      text: translation(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
-        text: translations.get(StringKey.REFRESH),
+        text: translation(StrKey.REFRESH),
         onPressed: _fetchData,
       ),
     );
@@ -283,7 +283,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.get(StringKey.APP_NAME),
+      title: translation(StrKey.APP_NAME),
       actions: <Widget>[
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)

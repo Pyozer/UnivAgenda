@@ -37,7 +37,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildInfo() {
-    final locale = translations.locale;
+    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
 
     final timeStart = Date.extractTime(_course.dateStart, locale);
     final timeEnd = Date.extractTime(_course.dateEnd, locale);
@@ -77,13 +77,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (_course.isExam())
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.description),
-        title: Text(translations.get(StringKey.COURSE_TEST)),
+        title: Text(translation(StrKey.COURSE_TEST)),
       ));
 
     if (_course.color != null)
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.colorLens),
-        title: Text(translations.get(StringKey.EVENT_COLOR)),
+        title: Text(translation(StrKey.EVENT_COLOR)),
         trailing: CircleColor(color: _course.color, circleSize: 28.0),
       ));
 
@@ -93,8 +93,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
           child: Text(
-            translations.get(StringKey.NOTES),
-            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+            translation(StrKey.NOTES),
+            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
           ),
         ),
         AddNoteButton(onPressed: _openAddNote)
@@ -129,21 +129,20 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         maxLines: 6,
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
-          hintText: translations.get(StringKey.ADD_NOTE_PLACEHOLDER),
+          hintText: translation(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
-        validator: (val) => (val.trim().isEmpty)
-            ? translations.get(StringKey.ADD_NOTE_EMPTY)
-            : null,
+        validator: (val) =>
+            (val.trim().isEmpty) ? translation(StrKey.ADD_NOTE_EMPTY) : null,
         onSaved: (val) => _noteToAdd = val.trim(),
       ),
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
-      translations.get(StringKey.ADD_NOTE),
+      translation(StrKey.ADD_NOTE),
       formContent,
-      translations.get(StringKey.ADD_NOTE_SUBMIT),
-      translations.get(StringKey.CANCEL),
+      translation(StrKey.ADD_NOTE_SUBMIT),
+      translation(StrKey.CANCEL),
     );
 
     if (isDialogPositive) _submitAddNote();
@@ -214,7 +213,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
 
     return AppbarPage(
-      title: translations.get(StringKey.COURSE_DETAILS),
+      title: translation(StrKey.COURSE_DETAILS),
       elevation: 0.0,
       actions: actionsAppbar,
       body: Container(

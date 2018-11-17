@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
@@ -14,7 +15,7 @@ class ListTileNumber extends StatefulWidget {
   final int defaultValue;
   final int minValue;
   final int maxValue;
-  
+
   const ListTileNumber({
     Key key,
     @required this.title,
@@ -81,8 +82,8 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
           initialValue: _inputValue,
           onChanged: _onInputChange,
         ),
-        translations.get(StringKey.SUBMIT),
-        translations.get(StringKey.CANCEL),
+        FlutterI18n.translate(context, StrKey.SUBMIT),
+        FlutterI18n.translate(context, StrKey.CANCEL),
         true,
         const EdgeInsets.all(0.0));
 

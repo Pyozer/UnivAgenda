@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/licence.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
 
 class LicencesScreen extends StatelessWidget {
   static const git = "https://github.com/";
@@ -129,7 +129,7 @@ class LicencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: Translations.of(context).get(StringKey.OPENSOURCE_LICENCES),
+      title: FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
       body: Container(
         child: ListView(
           children: ListTile.divideTiles(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
@@ -7,7 +8,6 @@ import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseRow extends StatelessWidget {
@@ -43,7 +43,8 @@ class CourseRow extends StatelessWidget {
 
     String courseDate = course.dateForDisplay();
     if (course.isStarted()) {
-      courseDate += " - ${Translations.of(context).get(StringKey.IN_PROGRESS)}";
+      courseDate +=
+          " - ${FlutterI18n.translate(context, StrKey.IN_PROGRESS)}";
     }
 
     TextStyle textStyle = TextStyle();
@@ -58,8 +59,7 @@ class CourseRow extends StatelessWidget {
 
     var subtitle = course.location;
     // Location and description not empty
-    if (subtitle.length > 0 && course.description.length > 0)
-      subtitle += " - ";
+    if (subtitle.length > 0 && course.description.length > 0) subtitle += " - ";
     subtitle += course.description;
 
     return Card(

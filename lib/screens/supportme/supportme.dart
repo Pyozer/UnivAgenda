@@ -18,7 +18,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openPayPal() {
     _openLink(
       Url.paypal,
-      StringKey.SUPPORTME_PAYPAL_ERROR,
+      StrKey.SUPPORTME_PAYPAL_ERROR,
       AnalyticsValue.paypal,
     );
   }
@@ -26,7 +26,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openUnidays() {
     _openLink(
       Url.unidays,
-      StringKey.SUPPORTME_PAYPAL_ERROR,
+      StrKey.SUPPORTME_PAYPAL_ERROR,
       AnalyticsValue.unidays,
     );
   }
@@ -35,7 +35,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
     try {
       await openLink(context, url, analyticsEvent);
     } catch (_) {
-      _showSnackBar(translations.get(errorKey) + url);
+      _showSnackBar(translation(errorKey) + url);
     }
   }
 
@@ -47,13 +47,13 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   Widget build(BuildContext context) {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.get(StringKey.SUPPORTME),
+      title: translation(StrKey.SUPPORTME),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
         child: Column(
           children: <Widget>[
             Text(
-              translations.get(StringKey.SUPPORTME_TEXT),
+              translation(StrKey.SUPPORTME_TEXT),
               style: theme.textTheme.subhead,
               textAlign: TextAlign.justify,
             ),
@@ -64,17 +64,17 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
               runSpacing: 8.0,
               children: [
                 RaisedButtonColored(
-                  text: translations.get(StringKey.SUPPORTME_PAYPAL),
+                  text: translation(StrKey.SUPPORTME_PAYPAL),
                   onPressed: _openPayPal,
                 ),
                 RaisedButtonColored(
-                  text: translations.get(StringKey.SUPPORTME_UNIDAYS),
+                  text: translation(StrKey.SUPPORTME_UNIDAYS),
                   onPressed: _openUnidays,
                 ),
               ],
             ),
             const SizedBox(height: 32.0),
-            Text(translations.get(StringKey.SUPPORTME_UNIDAYS_LINK)),
+            Text(translation(StrKey.SUPPORTME_UNIDAYS_LINK)),
             TextField(
               controller: _unidayTextController,
               maxLines: null,

@@ -16,10 +16,10 @@ import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
@@ -68,7 +68,7 @@ class App extends StatelessWidget {
                   title: "MyAgenda",
                   theme: theme,
                   localizationsDelegates: [
-                    const TranslationsDelegate(),
+                    FlutterI18nDelegate(false, 'en', 'res/locales'),
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],

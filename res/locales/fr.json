@@ -146,7 +146,7 @@
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
   "login_submit": "Connexion",
-  "login_server_error": "Problème de connexion avec le serveur de l'%s% !",
+  "login_server_error": "Problème de connexion avec {university} !",
 
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 

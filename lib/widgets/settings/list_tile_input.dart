@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
@@ -79,8 +80,8 @@ class _ListTileInputState extends BaseState<ListTileInput> {
         controller: TextEditingController(text: _inputValue),
         decoration: InputDecoration(hintText: widget.hintText),
       ),
-      translations.get(StringKey.SUBMIT),
-      translations.get(StringKey.CANCEL),
+      FlutterI18n.translate(context, StrKey.SUBMIT),
+      FlutterI18n.translate(context, StrKey.CANCEL),
       true,
     );
 
