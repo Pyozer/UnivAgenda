@@ -109,7 +109,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       await _prepareList(icalStr);
       prefs.setCachedIcal(icalStr);
     }
-
     return null;
   }
 
@@ -156,9 +155,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     List<Note> allNotes = prefs.notes;
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
+    // Get list of hidden courses
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
       if (course.isRecurrentEvent()) {
         List<CustomCourse> customCourses = _generateRepeatedCourses(course);
         customCourses.forEach((customCourse) {
@@ -183,6 +184,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
 
     for (Course course in courseFromIcal) {
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
       // Check if course is not finish
       if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
         // Get all notes of the course
@@ -218,7 +220,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     if (!mounted) return;
-    
+
     setState(() {
       _courses = listElement;
     });
@@ -228,20 +230,22 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     setState(() {
       _isHorizontal = !prefs.isHorizontalView;
     });
-    prefs.setHorizontalView(!prefs.isHorizontalView);
+    prefs.setHorizontalView(_isHorizontal);
+  }
+
+  void _onFabPressed() async {
+    final customCourse = await Navigator.of(context).push(
+      CustomRoute(
+        builder: (context) => CustomEventScreen(),
+        fullscreenDialog: true,
+      ),
+    );
+    if (customCourse != null) prefs.addCustomEvent(customCourse, true);
   }
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () async {
-        final customCourse = await Navigator.of(context).push(
-          CustomRoute(
-            builder: (context) => CustomEventScreen(),
-            fullscreenDialog: true,
-          ),
-        );
-        if (customCourse != null) prefs.addCustomEvent(customCourse, true);
-      },
+      onPressed: _onFabPressed,
       child: const Icon(OMIcons.add),
     );
   }
@@ -260,10 +264,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final refreshBtn = (_isHorizontal)
-        ? IconButton(
-            icon: const Icon(OMIcons.refresh),
-            onPressed: _fetchData,
-          )
+        ? IconButton(icon: const Icon(OMIcons.refresh), onPressed: _fetchData)
         : const SizedBox.shrink();
 
     final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;
@@ -284,7 +285,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translations.get(StringKey.APP_NAME),
-      actions: <Widget>[
+      actions: [
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
       ],
@@ -305,9 +306,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
-            Expanded(
-              child: Container(child: content),
-            ),
+            Expanded(child: Container(child: content)),
           ],
         ),
       ),

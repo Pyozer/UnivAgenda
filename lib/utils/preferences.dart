@@ -574,10 +574,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   bool isCourseHidden(Course course) {
-    return hiddenEvents
-            .where((e) => e == course.uid || e == course.title)
-            .length >
-        0;
+    return hiddenEvents.any((e) => e == course.uid || e == course.title);
   }
 
   disconnectUser([state = false]) {

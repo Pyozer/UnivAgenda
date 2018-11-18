@@ -7,33 +7,27 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-bool isNumeric(String s) {
-  return int.tryParse(s) != null;
-}
+bool isNumeric(String s) => int.tryParse(s) != null;
 
-Brightness getBrightness(bool isDark) {
-  return isDark ? Brightness.dark : Brightness.light;
-}
+Brightness getBrightness(bool isDark) =>
+    isDark ? Brightness.dark : Brightness.light;
 
-bool isDarkTheme(Brightness brightness) {
-  return brightness == Brightness.dark;
-}
+bool isDarkTheme(Brightness brightness) => brightness == Brightness.dark;
 
-Future<void> openLink(
-  BuildContext context,
-  String href,
-  String analyticsValue,
-) async {
-  if (await canLaunch(href))
+Future<void> openLink(BuildContext ctx, String href, String analytic) async {
+  if (await canLaunch(href)) {
     await launch(href);
-  else
-    throw 'Could not launch $href';
-  if (context != null && analyticsValue != null)
-    AnalyticsProvider.of(context).sendLinkClicked(analyticsValue);
+  } else {
+    Scaffold.of(ctx).showSnackBar(
+      SnackBar(content: Text('Could not launch $href')),
+    );
+  }
+  if (ctx != null && analytic != null)
+    AnalyticsProvider.of(ctx).sendLinkClicked(analytic);
 }
 
 String capitalize(String input) {
-  if (input == null) throw new ArgumentError("string: $input");
+  if (input == null) throw ArgumentError("string: $input");
   if (input.length == 0) return input;
   if (input.length == 1) return input[0].toUpperCase();
 
@@ -42,10 +36,10 @@ String capitalize(String input) {
 
 Color createColorFromText(String text) {
   var hash = 0;
-  for (var i = 0; i < text.length; i++) {
-    hash = text.codeUnitAt(i) + ((hash << 5) - hash);
-  }
-  var c = (hash & 0x00FFFFFF).toRadixString(16).toUpperCase();
+  text.split('').forEach((char) {
+    hash = char.codeUnitAt(0) + ((hash << 5) - hash);
+  });
+  final c = (hash & 0x00FFFFFF).toRadixString(16).toUpperCase();
 
   String colorHexStr = "00000".substring(0, 6 - c.length) + c;
   return Color(int.parse("0xFF$colorHexStr"));
@@ -53,17 +47,13 @@ Color createColorFromText(String text) {
 
 Color getColorFromString(String string) {
   List<Color> colors = [];
-  for (int i = 400; i < 800; i += 200)
-    for (MaterialColor colorSwatch in materialColors)
-      colors.add(colorSwatch[i]);
+  for (MaterialColor colorSwatch in materialColors)
+    for (int i = 400; i < 800; i += 200) colors.add(colorSwatch[i]);
 
   var sum = 0;
-  for (var i = 0; i < string.length; i++) {
-    sum += string.codeUnitAt(i);
-  }
-  int colorIndex = sum % materialColors.length;
+  string.codeUnits.forEach((code) => sum += code);
 
-  return colors[colorIndex];
+  return colors[sum % materialColors.length];
 }
 
 Future<String> readFile(String filename, String defaultValue) async {
@@ -90,12 +80,8 @@ bool listEquals(List a, List b) {
   if (a == null && b == null) return true;
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;
-  
-  for (var i = 0; i < a.length; i++) {
-    if (a[i] != b[i])
-      return false;
-  }
 
+  for (int i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
   return true;
 }
 
@@ -103,11 +89,8 @@ bool listEqualsNotOrdered(List a, List b) {
   if (a == null && b == null) return true;
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;
-  
-  for (var i = 0; i < a.length; i++) {
-    if (b.indexOf(a[i]) == -1) // if b not contain value of a
-      return false;
-  }
-  
+
+  for (var i = 0; i < a.length; i++) if (b.indexOf(a[i]) == -1) return false;
+
   return true;
 }

@@ -14,6 +14,7 @@ class Course extends BaseCourse {
   DateTime dateStart;
   DateTime dateEnd;
   Color color;
+  bool isHidden;
 
   Course(
     this.uid,
@@ -24,6 +25,7 @@ class Course extends BaseCourse {
     this.dateEnd, {
     this.notes,
     this.color,
+    this.isHidden = false
   }) {
     this.notes ??= [];
   }
