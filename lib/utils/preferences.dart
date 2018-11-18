@@ -550,12 +550,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
 
-  setHiddenEvents([newHiddenEvents, state = false]) {
+  setHiddenEvents([List<String> newHiddenEvents, state = false]) {
     newHiddenEvents ??= [];
 
     print(newHiddenEvents);
     _updatePref(() {
-      _hiddenEvents = newHiddenEvents;
+      _hiddenEvents = newHiddenEvents.toSet().toList();
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -563,19 +563,18 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addHiddenEvent(Course course, {allSameEvent = false}) {
-    hiddenEvents.add(allSameEvent ? course.title : course.uid);
+  void addHiddenEvent(Course course) {
+    hiddenEvents.add(course.title);
     setHiddenEvents(hiddenEvents);
   }
 
-  void removeHiddenEvent(Course course, {allSameEvent = false}) {
-    hiddenEvents.remove(allSameEvent ? course.title : course.uid);
+  void removeHiddenEvent(Course course) {
+    hiddenEvents.remove(course.title);
     setHiddenEvents(hiddenEvents);
   }
 
-  bool isCourseHidden(Course course) {
-    return hiddenEvents.any((e) => e == course.uid || e == course.title);
-  }
+  bool isCourseHidden(Course course) =>
+      hiddenEvents.any((e) => e == course.title);
 
   disconnectUser([state = false]) {
     setUserLogged(false);

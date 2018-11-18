@@ -175,20 +175,20 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   void _onMenuChoose(CourseMenuItem choice) async {
     bool isHide = choice == CourseMenuItem.HIDE;
     if (isHide || choice == CourseMenuItem.UNHIDE) {
-      bool isOnlyThis = await DialogPredefined.showTextDialog(
+      bool isDialogOk = await DialogPredefined.showTextDialog(
         context,
         isHide ? "Hide course" : "Set visible course",
         isHide
-            ? "Are you sure do you want to hide this course ?"
-            : "Are you sure do you want to set visible this course ?",
-        "Only this",
-        "All same courses",
+            ? "Are you sure do you want to hide this course and all future with same title ?"
+            : "Are you sure do you want to set visible this course and all future with same title ?",
+        translations.get(StringKey.YES),
+        translations.get(StringKey.NO),
       );
-      if (isOnlyThis != null) {
+      if (isDialogOk) {
         if (isHide) {
-          prefs.addHiddenEvent(widget.course, allSameEvent: !isOnlyThis);
+          prefs.addHiddenEvent(widget.course);
         } else {
-          prefs.removeHiddenEvent(widget.course, allSameEvent: !isOnlyThis);
+          prefs.removeHiddenEvent(widget.course);
         }
         setState(() {});
       }
