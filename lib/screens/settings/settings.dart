@@ -146,6 +146,16 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       ]);
     }
 
+    settingsDisplayItems.add(
+      SwitchListTile(
+        title: ListTileTitle(translations.get(StringKey.FULL_HIDDEN_EVENT)),
+        subtitle: Text(translations.get(StringKey.FULL_HIDDEN_EVENT_DESC)),
+        value: prefs.isFullHiddenEvent,
+        activeColor: theme.accentColor,
+        onChanged: (value) => prefs.setFullHiddenEvent(value, true),
+      )
+    );
+
     return SettingCard(
       header: translations.get(StringKey.SETTINGS_DISPLAY),
       children: settingsDisplayItems,

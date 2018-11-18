@@ -91,6 +91,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Display the group header
   bool _isHeaderGroup;
 
+  /// Totally hide hidden courses or display as very small
+  bool _isFullHiddenEvent;
+
   /// Last ical loaded
   String _cachedIcal;
 
@@ -576,6 +579,20 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool isCourseHidden(Course course) =>
       hiddenEvents.any((e) => e == course.title);
 
+  bool get isFullHiddenEvent =>
+      _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+
+  setFullHiddenEvent(bool fullHiddenEvent, [state = false]) {
+    if (isFullHiddenEvent == fullHiddenEvent) return;
+
+    _updatePref(() {
+      _isFullHiddenEvent = fullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent));
+  }
+
   disconnectUser([state = false]) {
     setUserLogged(false);
     setUrlIcs(null);
@@ -630,6 +647,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setIntroDone(prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
     setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
+    setFullHiddenEvent(prefs.getBool(PrefKey.isFullHiddenEvents));
 
     // Init saved notes
     List<Note> actualNotes = [];

@@ -22,6 +22,7 @@ class PrefKey {
   static const isDisplayAllDays = 'is_display_all_days';
   static const isHeaderGroup = 'is_header_group';
   static const isGenerateEventColor = 'is_generate_event_color';
+  static const isFullHiddenEvents = 'is_full_hidden_event';
 
   static const resourcesDate = 'ressources_date';
   static const cachedIcalDate = 'cached_ical_date';
@@ -43,6 +44,7 @@ class PrefKey {
   static const defaultDisplayAllDays = false;
   static const defaultHeaderGroup = true;
   static const defaultGenerateEventColor = false;
+  static const defaultFullHiddenEvent = false;
 
   static const defaultUrlIcs = null;
   static const defaultCachedIcal = "";

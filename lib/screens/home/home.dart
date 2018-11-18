@@ -155,18 +155,22 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     List<Note> allNotes = prefs.notes;
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
-    // Get list of hidden courses
+    // Is full hide or just display as very small
+    bool isFullHidden = prefs.isFullHiddenEvent;
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
       if (prefs.isCourseHidden(course)) course.isHidden = true;
-      if (course.isRecurrentEvent()) {
-        List<CustomCourse> customCourses = _generateRepeatedCourses(course);
-        customCourses.forEach((customCourse) {
-          listCourses.add(_addNotesToCourse(allNotes, customCourse));
-        });
-      } else {
-        listCourses.add(_addNotesToCourse(allNotes, course));
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        if (course.isRecurrentEvent()) {
+          List<CustomCourse> customCourses = _generateRepeatedCourses(course);
+          customCourses.forEach((customCourse) {
+            listCourses.add(_addNotesToCourse(allNotes, customCourse));
+          });
+        } else {
+          listCourses.add(_addNotesToCourse(allNotes, course));
+        }
       }
     }
 
@@ -185,12 +189,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     for (Course course in courseFromIcal) {
       if (prefs.isCourseHidden(course)) course.isHidden = true;
-      // Check if course is not finish
-      if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
-        // Get all notes of the course
-        course = _addNotesToCourse(allNotes, course);
-        // Add course to list
-        listCourses.add(course);
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        // Check if course is not finish
+        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+          // Get all notes of the course
+          course = _addNotesToCourse(allNotes, course);
+          // Add course to list
+          listCourses.add(course);
+        }
       }
     }
 
