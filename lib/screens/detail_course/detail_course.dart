@@ -186,9 +186,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       );
       if (isDialogOk) {
         if (isHide) {
-          prefs.addHiddenEvent(widget.course);
+          prefs.addHiddenEvent(widget.course.title);
         } else {
-          prefs.removeHiddenEvent(widget.course);
+          prefs.removeHiddenEvent(widget.course.title);
         }
         setState(() {});
       }

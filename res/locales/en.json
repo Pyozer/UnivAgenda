@@ -17,6 +17,8 @@
   "display_header_group_desc": "Show your group before courses.",
   "full_hidden_event": "Hidden events",
   "full_hidden_event_desc": "Totally hide these events",
+  "manage_hidden_event": "Manage hidden events",
+  "manage_hidden_event_desc": "Delete filter(s) used to hide events",
 
   "dark_theme": "Dark theme",
   "dark_theme_desc": "App colors will be darker.",

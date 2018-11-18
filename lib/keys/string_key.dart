@@ -17,6 +17,8 @@ class StringKey {
   static const DISPLAY_HEADER_GROUP_DESC = 'display_header_group_desc';
   static const FULL_HIDDEN_EVENT = 'full_hidden_event';
   static const FULL_HIDDEN_EVENT_DESC = 'full_hidden_event_desc';
+  static const MANAGE_HIDDEN_EVENT = 'manage_hidden_event';
+  static const MANAGE_HIDDEN_EVENT_DESC = 'manage_hidden_event_desc';
 
   static const DARK_THEME = 'dark_theme';
   static const DARK_THEME_DESC = 'dark_theme_desc';

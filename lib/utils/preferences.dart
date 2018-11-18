@@ -565,14 +565,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addHiddenEvent(Course course) {
-    hiddenEvents.add(course.title);
-    setHiddenEvents(hiddenEvents);
+  void addHiddenEvent(String title, [bool state = false]) {
+    hiddenEvents.add(title);
+    setHiddenEvents(hiddenEvents, state);
   }
 
-  void removeHiddenEvent(Course course) {
-    hiddenEvents.remove(course.title);
-    setHiddenEvents(hiddenEvents);
+  void removeHiddenEvent(String title, [bool state = false]) {
+    hiddenEvents.remove(title);
+    setHiddenEvents(hiddenEvents, state);
   }
 
   bool isCourseHidden(Course course) =>
