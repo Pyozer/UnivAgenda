@@ -115,8 +115,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: store,
           ),
           title: Text(store),
-          subtitle:
-              Text(FlutterI18n.translate(context, StrKey.ADD_NOTE_STORE)),
+          subtitle: Text(FlutterI18n.translate(context, StrKey.ADD_NOTE_STORE)),
           onTap: () => openLink(
                 context,
                 Platform.isAndroid ? Url.playstore : Url.appstore,
@@ -130,8 +129,8 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: "Logo GitHub",
           ),
           title: Text(FlutterI18n.translate(context, StrKey.GITHUB_PROJECT)),
-          subtitle: Text(
-              FlutterI18n.translate(context, StrKey.GITHUB_PROJECT_DESC)),
+          subtitle:
+              Text(FlutterI18n.translate(context, StrKey.GITHUB_PROJECT_DESC)),
           onTap: () => openLink(
                 context,
                 Url.githubProjet,
@@ -145,8 +144,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: "Logo Twitter",
           ),
           title: const Text("Twitter"),
-          subtitle:
-              Text(FlutterI18n.translate(context, StrKey.TWITTER_DESC)),
+          subtitle: Text(FlutterI18n.translate(context, StrKey.TWITTER_DESC)),
           onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
         ),
       ],
@@ -194,7 +192,7 @@ class AboutScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: const Icon(OMIcons.favorite, color: Colors.red),
-          )
+          ),
         ],
       ),
     );
@@ -214,7 +212,9 @@ class AboutScreen extends StatelessWidget {
               child: Text(
                 FlutterI18n.translate(context, StrKey.CHANGELOG),
                 style: const TextStyle(
-                    fontWeight: FontWeight.w700, fontSize: 24.0),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24.0,
+                ),
               ),
             ),
             Expanded(child: ChangeLog())
@@ -226,12 +226,9 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return AppbarPage(
       title: FlutterI18n.translate(context, StrKey.ABOUT),
       body: Container(
-        color: !isDarkTheme(theme.brightness) ? Colors.grey[200] : null,
         child: ListView(
           children: [
             _buildHeader(context),
