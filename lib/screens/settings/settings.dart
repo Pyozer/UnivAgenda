@@ -118,6 +118,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     List<Widget> settingsDisplayItems = [
       ListTileNumber(
         title: translation(StrKey.NUMBER_WEEK),
+        subtitle: translationPlural(StrKey.NUMBER_WEEK_DESC, prefs.numberWeeks),
         defaultValue: prefs.numberWeeks,
         minValue: 1,
         maxValue: 16,
@@ -136,8 +137,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       settingsDisplayItems.addAll([
         const ListDivider(),
         SwitchListTile(
-          title:
-              ListTileTitle(translation(StrKey.DISPLAY_HEADER_GROUP)),
+          title: ListTileTitle(translation(StrKey.DISPLAY_HEADER_GROUP)),
           subtitle: Text(translation(StrKey.DISPLAY_HEADER_GROUP_DESC)),
           value: prefs.isHeaderGroupVisible,
           activeColor: theme.accentColor,
@@ -206,8 +206,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           onColorChange: (color) => prefs.setNoteColor(color.value, true),
         ),
         SwitchListTile(
-          title:
-              ListTileTitle(translation(StrKey.GENERATE_EVENT_COLOR)),
+          title: ListTileTitle(translation(StrKey.GENERATE_EVENT_COLOR)),
           subtitle: Text(translation(StrKey.GENERATE_EVENT_COLOR_TEXT)),
           value: prefs.isGenerateEventColor,
           activeColor: Theme.of(context).accentColor,

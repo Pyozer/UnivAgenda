@@ -11,21 +11,25 @@
   "settings_colors": "Couleurs",
 
   "number_week": "Nombre de semaines",
+  "number_week_desc": {
+    "times-1": "{times} semaine",
+    "times-2": "{times} semaines"
+  },
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine.",
   "display_header_group": "Afficher votre groupe",
-  "display_header_group_desc": "Votre groupe sera visible en en-tête des cours.",
+  "display_header_group_desc": "Groupe visible en en-tête de liste",
 
   "dark_theme": "Thème sombre",
-  "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
+  "dark_theme_desc": "Application en mode nuit",
   "primary_color": "Couleur principale",
-  "primary_color_desc": "Choisi la couleur principale de l'application.",
+  "primary_color_desc": "Couleur de la barre navigation",
   "accent_color": "Couleur secondaire",
-  "accent_color_desc": "Choisi la couleur secondaire de l'application.",
+  "accent_color_desc": "Couleur secondaire (ex: boutons)",
   "note_color": "Couleur indicateur d'une note",
-  "note_color_desc": "Couleur indiquant si une note est présente.",
-  "generate_event_color": "Mettre une couleur aux événements",
-  "generate_event_color_text": "Génère une couleur selon le titre de l'événement.",
+  "note_color_desc": "Indicateur de présence d'une note",
+  "generate_event_color": "Événements colorés",
+  "generate_event_color_text": "Couleur à chaque événement",
 
   "about": "A propos",
   "introduction": "Introduction",

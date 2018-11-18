@@ -11,6 +11,7 @@ class StrKey {
   static const SETTINGS_COLORS = 'settings_colors';
 
   static const NUMBER_WEEK = 'number_week';
+  static const NUMBER_WEEK_DESC = 'number_week_desc';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
   static const DISPLAY_HEADER_GROUP = 'display_header_group';

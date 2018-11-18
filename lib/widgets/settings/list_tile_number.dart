@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
@@ -10,6 +9,7 @@ import 'package:myagenda/widgets/ui/number_selector.dart';
 
 class ListTileNumber extends StatefulWidget {
   final String title;
+  final String subtitle;
   final String titleDialog;
   final ValueChanged<int> onChange;
   final int defaultValue;
@@ -19,6 +19,7 @@ class ListTileNumber extends StatefulWidget {
   const ListTileNumber({
     Key key,
     @required this.title,
+    this.subtitle,
     this.titleDialog,
     this.onChange,
     this.defaultValue,
@@ -82,8 +83,8 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
           initialValue: _inputValue,
           onChanged: _onInputChange,
         ),
-        FlutterI18n.translate(context, StrKey.SUBMIT),
-        FlutterI18n.translate(context, StrKey.CANCEL),
+        translation(StrKey.SUBMIT),
+        translation(StrKey.CANCEL),
         true,
         const EdgeInsets.all(0.0));
 
@@ -94,7 +95,7 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
   Widget build(BuildContext context) {
     return ListTile(
       title: ListTileTitle(widget.title),
-      subtitle: Text(_submitInputValue.toString()),
+      subtitle: Text(widget.subtitle ?? _submitInputValue.toString()),
       onTap: _openDialog,
     );
   }

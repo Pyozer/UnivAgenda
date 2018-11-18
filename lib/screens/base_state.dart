@@ -11,6 +11,9 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   String translation(String key, [Map<String, String> params]) =>
       FlutterI18n.translate(context, key, params);
 
+  String translationPlural(String key, int count) =>
+      FlutterI18n.plural(context, "$key.times", count);
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
