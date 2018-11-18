@@ -151,6 +151,7 @@
   "login_password": "Password",
   "login_submit": "Login",
   "login_server_error": "Trouble connecting with the {university} server!",
+  "login_credential_error": "It looks like the username or password is incorrect!",
 
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 
@@ -166,8 +167,7 @@
   "supportme_unidays_link": "Unidays link :",
   "supportme_unidays": "Unidays",
   "supportme_paypal": "Paypal donation",
-  "supportme_paypal_error": "Can not open the PayPal website...\nLink: ",
-  "supportme_unidays_error": "Can not open the Unidays website...\nLink: ",
+  "supportme_link_error": "Can not open the {site} website...\nLink: ",
 
   "monday": "Monday",
   "tuesday": "Tuesday",
@@ -181,6 +181,7 @@
 
   "error": "Error",
   "error_event_recurrent_zero": "You select recurrent event but there is no day selected!",
+  "error_json_parse": "Error processing JSON, contact us to solve the problem!",
 
   "data_privacy": "Data & privacy",
   "data_privacy_text": "MyAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",

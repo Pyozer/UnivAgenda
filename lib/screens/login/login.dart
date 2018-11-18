@@ -99,7 +99,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (loginResult.result == LoginResultType.LOGIN_FAIL) {
         _setLoading(false);
-        _showMessage(loginResult.message);
+        _showMessage(translation(StrKey.LOGIN_CREDENTIAL_ERROR));
         return;
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
@@ -128,8 +128,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         prefs.setResources(response.httpResponse.body);
       } catch (_) {
         _setLoading(false);
-        _showMessage(
-            "Error when try to parse JSON, contact us to solve problem !");
+        _showMessage(translation(StrKey.ERROR_JSON_PARSE));
         return;
       }
       prefs.setResourcesDate();

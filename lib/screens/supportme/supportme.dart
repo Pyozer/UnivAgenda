@@ -18,7 +18,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openPayPal() {
     _openLink(
       Url.paypal,
-      StrKey.SUPPORTME_PAYPAL_ERROR,
+      translation(StrKey.SUPPORTME_LINK_ERROR, {'link': "Paypal"}),
       AnalyticsValue.paypal,
     );
   }
@@ -26,7 +26,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openUnidays() {
     _openLink(
       Url.unidays,
-      StrKey.SUPPORTME_PAYPAL_ERROR,
+      translation(StrKey.SUPPORTME_LINK_ERROR, {'link': "Unidays"}),
       AnalyticsValue.unidays,
     );
   }

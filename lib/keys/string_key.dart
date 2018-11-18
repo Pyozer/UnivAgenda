@@ -155,6 +155,7 @@ class StrKey {
   static const LOGIN_PASSWORD = 'login_password';
   static const LOGIN_SUBMIT = 'login_submit';
   static const LOGIN_SERVER_ERROR = 'login_server_error';
+  static const LOGIN_CREDENTIAL_ERROR = 'login_credential_error';
 
   static const NO_EMAIL_APP = 'no_email_app';
 
@@ -170,8 +171,7 @@ class StrKey {
   static const SUPPORTME_UNIDAYS_LINK = 'supportme_unidays_link';
   static const SUPPORTME_UNIDAYS = 'supportme_unidays';
   static const SUPPORTME_PAYPAL = 'supportme_paypal';
-  static const SUPPORTME_PAYPAL_ERROR = 'supportme_paypal_error';
-  static const SUPPORTME_UNIDAYS_ERROR = 'supportme_unidays_error';
+  static const SUPPORTME_LINK_ERROR = 'supportme_link_error';
 
   static const MONDAY = 'monday';
   static const TUESDAY = 'tuesday';
@@ -185,6 +185,7 @@ class StrKey {
 
   static const ERROR = "error";
   static const ERROR_EVENT_RECURRENT_ZERO = "error_event_recurrent_zero";
+  static const ERROR_JSON_PARSE = "error_json_parse";
 
   static const DATA_PRIVACY = "data_privacy";
   static const DATA_PRIVACY_TEXT = "data_privacy_text";
