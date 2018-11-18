@@ -556,7 +556,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setHiddenEvents([List<String> newHiddenEvents, state = false]) {
     newHiddenEvents ??= [];
 
-    print(newHiddenEvents);
     _updatePref(() {
       _hiddenEvents = newHiddenEvents.toSet().toList();
     }, state);
