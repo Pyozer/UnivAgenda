@@ -104,7 +104,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
         _showMessage(
-          translation(StrKey.LOGIN_SERVER_ERROR, {'university': prefs.university.name}),
+          translation(
+              StrKey.LOGIN_SERVER_ERROR, {'university': prefs.university.name}),
         );
         return;
       } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
@@ -123,7 +124,14 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
 
-      prefs.setResources(response.httpResponse.body);
+      try {
+        prefs.setResources(response.httpResponse.body);
+      } catch (_) {
+        _setLoading(false);
+        _showMessage(
+            "Error when try to parse JSON, contact us to solve problem !");
+        return;
+      }
       prefs.setResourcesDate();
     } else if (mounted) {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
