@@ -213,12 +213,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     for (Course course in listCourses) {
       int dateValue = Date.dateToInt(course.dateStart);
       if (listElement[dateValue] == null) listElement[dateValue] = [];
-
       listElement[dateValue].add(course);
     }
 
     if (!mounted) return;
-    
+
     setState(() {
       _courses = listElement;
     });
@@ -284,7 +283,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: translation(StrKey.APP_NAME),
-      actions: <Widget>[
+      actions: [
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
       ],
@@ -305,9 +304,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
-            Expanded(
-              child: Container(child: content),
-            ),
+            Expanded(child: Container(child: content)),
           ],
         ),
       ),
