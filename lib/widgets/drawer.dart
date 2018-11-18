@@ -20,8 +20,7 @@ class MainDrawer extends StatelessWidget {
       FlutterI18n.translate(context, StrKey.LOGOUT_CONFIRM),
       FlutterI18n.translate(context, StrKey.YES),
       FlutterI18n.translate(context, StrKey.NO),
-      true,
-      TextAlign.left,
+      true
     );
 
     if (logoutConfirm) {
