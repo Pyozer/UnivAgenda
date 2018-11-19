@@ -20,13 +20,12 @@ class AnalyticsProvider extends InheritedWidget {
 
   void sendUserPrefsGroup(PreferencesProviderState prefs) {
     // User group prefs
-    analytics.logEvent(
-      name: AnalyticsEvent.userPrefsGroup,
-      parameters: {
-        AnalyticsValue.groupKeys: prefs.groupKeys?.join(',') ?? "Ical file",
-        AnalyticsValue.university: prefs.university?.name ?? prefs.urlIcs ?? "Unknown",
-      } 
-    );
+    analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
+      AnalyticsValue.groupKeys:
+          prefs.urlIcs != null ? "Ical File" : prefs.groupKeys?.join(',') ?? "",
+      AnalyticsValue.university:
+          prefs.urlIcs ?? prefs.university?.name ?? "Unknown",
+    });
   }
 
   void sendUserPrefsDisplay(PreferencesProviderState prefs) {
