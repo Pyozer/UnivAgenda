@@ -73,9 +73,17 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
       scaffoldKey: _scaffoldKey,
       title: translation(StrKey.HIDDEN_EVENT),
       body: prefs.hiddenEvents.length == 0
-          ? NoResult(
-              title: translation(StrKey.NO_HIDDEN_EVENT),
-              text: translation(StrKey.NO_HIDDEN_EVENT_TEXT),
+          ? Center(
+              child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  NoResult(
+                    title: translation(StrKey.NO_HIDDEN_EVENT),
+                    text: translation(StrKey.NO_HIDDEN_EVENT_TEXT),
+                  ),
+                ],
+              ),
             )
           : ListView.builder(
               itemCount: prefs.hiddenEvents.length,
