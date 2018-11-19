@@ -16,7 +16,7 @@ class StrKey {
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
   static const DISPLAY_HEADER_GROUP = 'display_header_group';
   static const DISPLAY_HEADER_GROUP_DESC = 'display_header_group_desc';
-  static const FULL_HIDDEN_EVENT = 'full_hidden_event';
+  static const HIDDEN_EVENT = 'hidden_event';
   static const FULL_HIDDEN_EVENT_DESC = 'full_hidden_event_desc';
   static const MANAGE_HIDDEN_EVENT = 'manage_hidden_event';
   static const MANAGE_HIDDEN_EVENT_DESC = 'manage_hidden_event_desc';
@@ -45,6 +45,7 @@ class StrKey {
   static const CANCEL = 'cancel';
   static const SAVE = 'save';
   static const SUBMIT = 'submit';
+  static const ADD = 'add';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
   static const REFRESH_AGENDAS = 'refresh_agendas';
@@ -205,4 +206,9 @@ class StrKey {
   static const ERROR_UNIV_LIST_EMPTY = "error_univ_list_empty";
   static const ERROR_UNIV_LIST_RETRIEVE_FAIL = "error_univ_list_retrieve_fail";
   static const ERROR_RES_LIST_RETRIEVE_FAIL = "error_res_list_retrieve_fail";
+
+  static const NO_HIDDEN_EVENT = "no_hidden_event";
+  static const NO_HIDDEN_EVENT_TEXT = "no_hidden_event_text";
+  static const ADD_HIDDEN_EVENT = "add_hidden_event";
+
 }

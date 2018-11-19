@@ -150,7 +150,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
     settingsDisplayItems.addAll([
       SwitchListTile(
-        title: ListTileTitle(translation(StrKey.FULL_HIDDEN_EVENT)),
+        title: ListTileTitle(translation(StrKey.HIDDEN_EVENT)),
         subtitle: Text(translation(StrKey.FULL_HIDDEN_EVENT_DESC)),
         value: prefs.isFullHiddenEvent,
         activeColor: theme.accentColor,

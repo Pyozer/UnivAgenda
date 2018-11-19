@@ -19,7 +19,7 @@
   "display_all_days_desc": "Show every day of the week",
   "display_header_group": "Display header group",
   "display_header_group_desc": "Show your group before courses",
-  "full_hidden_event": "Hidden events",
+  "hidden_event": "Hidden events",
   "full_hidden_event_desc": "Totally hide these events",
   "manage_hidden_event": "Manage hidden events",
   "manage_hidden_event_desc": "Delete filter(s) used to hide events",
@@ -48,6 +48,11 @@
   "cancel": "Cancel",
   "save": "Save",
   "submit": "Submit",
+  "add": "Add",
+  "change": "Change",
+  "refresh": "Refresh",
+  "refresh_agendas": "Refresh calendars",
+  "send_feedback": "Send feedback",
 
   "what_is_it": "What is it?",
   "about_what": "This app is linked to the agenda of the University of Le Mans, Tours and Rennes. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
@@ -70,10 +75,6 @@
   "skip": "Skip",
   "next": "Next",
   "done": "Got it",
-  "change": "Change",
-  "refresh": "Refresh",
-  "refresh_agendas": "Refresh calendars",
-  "send_feedback": "Send feedback",
 
   "intro_welcome_title": "Welcome !",
   "intro_welcome_desc": "MyAgenda allows you to access to your calendar of your University, directly on your device!",
@@ -199,5 +200,9 @@
 
   "error_univ_list_empty": "University list is empty.. retry.",
   "error_univ_list_retrieve_fail": "Impossible to retrieve university list, retry.",
-  "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry."
+  "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry.",
+
+  "no_hidden_event": "No filter",
+  "no_hidden_event_text": "There is no added filter to hide events. You can hide an event from the event's page or directly here.",
+  "add_hidden_event": "Title of the event"
 }

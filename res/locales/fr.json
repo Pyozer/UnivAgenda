@@ -19,7 +19,7 @@
   "display_all_days_desc": "Affiche chaque jour de la semaine",
   "display_header_group": "Afficher votre groupe",
   "display_header_group_desc": "Votre groupe sera visible en en-tête des cours",
-  "full_hidden_event": "Événéments masqués",
+  "hidden_event": "Événéments masqués",
   "full_hidden_event_desc": "Totalement masquer ces événements",
   "manage_hidden_event": "Gérer événéments masqués",
   "manage_hidden_event_desc": "Supprimer filtre(s) servant à masquer",
@@ -48,6 +48,7 @@
   "cancel": "Annuler",
   "save": "Sauvegarder",
   "submit": "Valider",
+  "add": "Ajouter",
   "change": "Changer",
   "refresh": "Rafraichir",
   "refresh_agendas": "Actualiser les agendas",
@@ -200,5 +201,9 @@
 
   "error_univ_list_empty": "Liste des universités vide... réessayez.",
   "error_univ_list_retrieve_fail": "Impossible de récupérer la liste des Universités, réessayez.",
-  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez."
+  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez.",
+  
+  "no_hidden_event": "Aucun filtre",
+  "no_hidden_event_text": "Il n'y a aucun filtre d'ajouté pour masquer un/plusieurs événement(s). Vous pouvez masquer un événement depuis la page de celui-ci ou bien directement ici.",
+  "add_hidden_event": "Titre de l'événement"
 }
