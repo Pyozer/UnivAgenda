@@ -176,10 +176,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (isHide || choice == CourseMenuItem.UNHIDE) {
       bool isDialogOk = await DialogPredefined.showTextDialog(
         context,
-        isHide ? "Hide course" : "Set visible course",
-        isHide
-            ? "Are you sure do you want to hide this course and all future with same title ?"
-            : "Are you sure do you want to set visible this course and all future with same title ?",
+        translation(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
+        translation(isHide ? StrKey.HIDE_EVENT_TEXT : StrKey.UNHIDE_EVENT_TEXT),
         translation(StrKey.YES),
         translation(StrKey.NO),
       );
@@ -232,7 +230,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       _buildMenu<CourseMenuItem>(
         isHidden ? CourseMenuItem.UNHIDE : CourseMenuItem.HIDE,
         isHidden ? OMIcons.visibility : OMIcons.visibilityOff,
-        isHidden ? 'Unhide' : 'Hide',
+        translation(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
       ),
     );
 
@@ -241,12 +239,12 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         _buildMenu<CourseMenuItem>(
           CourseMenuItem.EDIT,
           OMIcons.edit,
-          'Edit',
+          translation(StrKey.EDIT),
         ),
         _buildMenu<CourseMenuItem>(
           CourseMenuItem.DELETE,
           OMIcons.delete,
-          'Delete',
+          translation(StrKey.DELETE),
         )
       ]);
     }
@@ -270,14 +268,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(
-              child: Text(_course.title, style: textStyle),
-            ),
+            AppbarSubTitle(child: Text(_course.title, style: textStyle)),
             Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: _buildInfo(),
-              ),
+              child: ListView(shrinkWrap: true, children: _buildInfo()),
             ),
           ],
         ),

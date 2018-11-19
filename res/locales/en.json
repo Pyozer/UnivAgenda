@@ -10,6 +10,7 @@
   "settings_display": "Display",
   "settings_colors": "Colors",
 
+  "element": "Element {number}",
   "number_week": "Number of week",
   "number_week_desc": {
     "times-1": "{times} week",
@@ -44,11 +45,13 @@
 
   "add_event": "Add event",
   "edit_event": "Edit event",
-
+  
   "cancel": "Cancel",
   "save": "Save",
   "submit": "Submit",
   "add": "Add",
+  "delete": "Delete",
+  "edit": "Edit",
   "change": "Change",
   "refresh": "Refresh",
   "refresh_agendas": "Refresh calendars",
@@ -106,7 +109,7 @@
   "add_note_empty": "Note can't be empty.",
   "add_note_submit": "+ Note",
   "add_note_btn": "New",
-  "delete": "Delete",
+
   "event_repeat": "Recurrent event",
   "event_color": "Event color",
   "event_color_desc": "Background color of this event",
@@ -202,7 +205,14 @@
   "error_univ_list_retrieve_fail": "Impossible to retrieve university list, retry.",
   "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry.",
 
+  "hide": "Hide",
+  "unhide": "Unhide",
+  "hide_event": "Hide event",
+  "hide_event_text": "Are you sure you want to hide this event and all others with the same title?",
+  "unhide_event": "Set the event visible",
+  "unhide_event_text": "Are you sure you want to set visible this event and all others with the same title?",
   "no_hidden_event": "No filter",
-  "no_hidden_event_text": "There is no added filter to hide events. You can hide an event from the event's page or directly here.",
+  "no_hidden_event_text": "There is no added filter to hide events.\nYou can hide an event from the event's page or directly here.",
   "add_hidden_event": "Title of the event"
+
 }

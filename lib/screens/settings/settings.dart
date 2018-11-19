@@ -44,7 +44,6 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
     // Send to analytics user force refresh calendar resources
     analyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
-
     // Close loading dialog
     Navigator.pop(context);
   }
@@ -59,7 +58,10 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       List<List<String>> allGroupKeys = prefs.getAllGroupKeys(prefs.groupKeys);
       for (int level = 0; level < allGroupKeys.length; level++) {
         settingsGeneralElems.add(ListTileChoices(
-          title: "Element ${level + 1}",
+          title: translation(
+            StrKey.ELEMENT,
+            {'number': (level + 1).toString()},
+          ),
           selectedValue: groupKeys[level],
           values: allGroupKeys[level],
           onChange: (value) {

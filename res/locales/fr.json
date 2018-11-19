@@ -10,6 +10,7 @@
   "settings_display": "Affichage",
   "settings_colors": "Couleurs",
 
+  "element": "Élement {number}",
   "number_week": "Nombre de semaines",
   "number_week_desc": {
     "times-1": "{times} semaine",
@@ -18,7 +19,7 @@
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine",
   "display_header_group": "Afficher votre groupe",
-  "display_header_group_desc": "Votre groupe sera visible en en-tête des cours",
+  "display_header_group_desc": "Groupe visible en en-tête des cours",
   "hidden_event": "Événéments masqués",
   "full_hidden_event_desc": "Totalement masquer ces événements",
   "manage_hidden_event": "Gérer événéments masqués",
@@ -49,6 +50,8 @@
   "save": "Sauvegarder",
   "submit": "Valider",
   "add": "Ajouter",
+  "delete": "Supprimer",
+  "edit": "Modifier",
   "change": "Changer",
   "refresh": "Rafraichir",
   "refresh_agendas": "Actualiser les agendas",
@@ -106,7 +109,7 @@
   "add_note_empty": "La note ne peut être vide.",
   "add_note_submit": "Ajouter",
   "add_note_btn": "+ note",
-  "delete": "Supprimer",
+
   "event_repeat": "Événement récurrent",
   "event_color": "Couleur de l'événement",
   "event_color_desc": "Couleur de fond de l'événement",
@@ -203,7 +206,13 @@
   "error_univ_list_retrieve_fail": "Impossible de récupérer la liste des Universités, réessayez.",
   "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez.",
   
+  "hide": "Masquer",
+  "unhide": "Démasquer",
+  "hide_event": "Masquer l'événement",
+  "hide_event_text": "Êtes-vous sûr de vouloir masquer cet événement et tous les autres avec le même titre ?",
+  "unhide_event": "Rendre visible l'événement",
+  "unhide_event_text": "Êtes-vous sûr de vouloir rendre visible cet événement et tous les autres avec le même titre ?",
   "no_hidden_event": "Aucun filtre",
-  "no_hidden_event_text": "Il n'y a aucun filtre d'ajouté pour masquer un/plusieurs événement(s). Vous pouvez masquer un événement depuis la page de celui-ci ou bien directement ici.",
+  "no_hidden_event_text": "Il n'y a aucun filtre d'ajouté pour masquer un/plusieurs événement(s).\nVous pouvez masquer un événement depuis la page de celui-ci ou bien directement ici.",
   "add_hidden_event": "Titre de l'événement"
 }
