@@ -190,8 +190,8 @@
   "file_404": "The .ics file could not be found !\nCheck the entered url.",
   "wrong_ics_format": "The .ics file has an incorrect format !",
   "checking_ics_url": "Checking .ics file URL...",
-  "custom_event_exit_unsaved": "Do you want quit ?",
-  "custom_event_exit_unsaved_text": "You have not saved your actual event, if you quit, you will lose it.",
+  "custom_event_exit_unsaved": "Are you sure ?",
+  "custom_event_exit_unsaved_text": "You have not saved your changes, they will be lost!",
 
   "error_univ_list_empty": "University list is empty.. retry.",
   "error_univ_list_retrieve_fail": "Impossible to retrieve university list, retry.",

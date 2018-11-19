@@ -191,7 +191,7 @@
   "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",
   "checking_ics_url": "Vérification de l'url du fichier .ics...",
 
-  "custom_event_exit_unsaved": "Voulez-vous vraiment quitter ?",
+  "custom_event_exit_unsaved": "Êtes-vous sûr ?",
   "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !",
 
   "error_univ_list_empty": "Liste des universités vide... réessayez.",
