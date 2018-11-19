@@ -597,6 +597,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
+    setHeaderGroupVisible(prefs.getBool(PrefKey.isHeaderGroup));
     setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
 
     // Init saved notes
