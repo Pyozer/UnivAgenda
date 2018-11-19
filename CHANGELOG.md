@@ -1,9 +1,11 @@
 ## Version 4.0.6
 
 - Ajout de la possibilité de masquer un événement
-- Légères modifications sur l'écran de connexion (design, errors)
+- Suppression de l'ombre de la barre de navigation
+- Légères modifications sur l'écran de connexion
 - Correction de divers bugs
-- Modification de divers textes
+- Modification de quelques texte
+- Amélioration du code
 
 ## Version 4.0.5
 
