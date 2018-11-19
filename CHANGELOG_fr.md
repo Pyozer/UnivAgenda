@@ -3,6 +3,7 @@
 - Ajout de la possibilité de masquer un événement
 - Suppression de l'ombre de la barre de navigation
 - Légères modifications sur l'écran de connexion
+- Ajout d'un changelog traduit (EN, FR)
 - Correction de divers bugs
 - Modification de quelques texte
 - Amélioration du code

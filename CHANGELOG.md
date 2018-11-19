@@ -3,6 +3,7 @@
 - Added the ability to hide an event
 - Remove the shadow from the navigation bar
 - Slight changes on the login screen
+- Add localized changelog (EN, FR)
 - Fixed various bugs
 - Modification of some text
 - Improvement of the code
