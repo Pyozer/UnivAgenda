@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';

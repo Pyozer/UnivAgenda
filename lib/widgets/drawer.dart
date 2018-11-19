@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
