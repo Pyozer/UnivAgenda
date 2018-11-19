@@ -124,8 +124,9 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: "Logo GitHub",
           ),
           title: Text(FlutterI18n.translate(context, StrKey.GITHUB_PROJECT)),
-          subtitle:
-              Text(FlutterI18n.translate(context, StrKey.GITHUB_PROJECT_DESC)),
+          subtitle: Text(
+            FlutterI18n.translate(context, StrKey.GITHUB_PROJECT_DESC),
+          ),
           onTap: () => openLink(
                 context,
                 Url.githubProjet,
@@ -146,6 +147,14 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
+  String getAppInfo(PackageInfo info) {
+    if (info == null) return "...";
+    String str = info.version;
+    if (info.buildNumber != null && info.buildNumber.isNotEmpty)
+      str += " (${info.buildNumber})";
+    return str;
+  }
+
   Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
       VoidCallback onLicensesTap) {
     return AboutCard(
@@ -154,24 +163,25 @@ class AboutScreen extends StatelessWidget {
         children: [
           ListTile(
             title: Text(FlutterI18n.translate(context, StrKey.CHANGELOG)),
-            subtitle:
-                Text(FlutterI18n.translate(context, StrKey.CHANGELOG_DESC)),
+            subtitle: Text(
+              FlutterI18n.translate(context, StrKey.CHANGELOG_DESC),
+            ),
             onTap: onChangeLogTap,
           ),
           ListTile(
             title: Text(
-                FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES)),
-            subtitle: Text(FlutterI18n.translate(
-                context, StrKey.OPENSOURCE_LICENCES_DESC)),
+              FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
+            ),
+            subtitle: Text(
+              FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES_DESC),
+            ),
             onTap: onLicensesTap,
           ),
           ListTile(
               title: Text(FlutterI18n.translate(context, StrKey.VERSION)),
               subtitle: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
-                builder: (_, snapshot) {
-                  return Text(snapshot.hasData ? snapshot.data.version : "...");
-                },
+                builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
               ))
         ]);
   }
