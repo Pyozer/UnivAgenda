@@ -14,6 +14,7 @@ import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:package_info/package_info.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -166,7 +167,12 @@ class AboutScreen extends StatelessWidget {
           ),
           ListTile(
               title: Text(FlutterI18n.translate(context, StrKey.VERSION)),
-              subtitle: const Text("4.0.5"))
+              subtitle: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (_, snapshot) {
+                  return Text(snapshot.hasData ? snapshot.data.version : "...");
+                },
+              ))
         ]);
   }
 

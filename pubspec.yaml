@@ -17,6 +17,7 @@ dependencies:
   html: ^0.13.3+3
   firebase_analytics: ^1.0.6
   flutter_i18n: ^0.5.0
+  package_info: ^0.3.2
 
   flutter_material_color_picker: ^0.0.4
   introduction_screen: ^0.0.4
