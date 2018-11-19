@@ -104,7 +104,7 @@
   "add_note": "New note",
   "add_note_placeholder": "Enter the note",
   "add_note_empty": "Note can't be empty.",
-  "add_note_submit": "Add note",
+  "add_note_submit": "+ Note",
   "add_note_btn": "New",
   "delete": "Delete",
   "event_repeat": "Recurrent event",
