@@ -132,7 +132,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
           children: [
             Expanded(
               flex: 6,
-              child: Center(child: Logo(size: 160.0)),
+              child: Center(child: Logo(size: 150.0)),
             ),
             Expanded(
               flex: 4,
