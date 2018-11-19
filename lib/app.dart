@@ -39,6 +39,14 @@ class App extends StatelessWidget {
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
+  Locale _resolveFallback(Locale locale, Iterable<Locale> supportedLocales) {
+    return supportedLocales.firstWhere(
+        (supported) =>
+            supported.languageCode == locale.languageCode ||
+            supported.countryCode == locale.countryCode,
+        orElse: () => supportedLocales.first);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -72,7 +80,8 @@ class App extends StatelessWidget {
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-                  supportedLocales: [const Locale('en'), const Locale('fr')],
+                  supportedLocales: FlutterI18nDelegate.supportedLocales,
+                  localeResolutionCallback: _resolveFallback,
                   navigatorObservers: [observer],
                   initialRoute: RouteKey.SPLASHSCREEN,
                   onGenerateRoute: (RouteSettings settings) {
