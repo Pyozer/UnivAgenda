@@ -6,6 +6,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -15,13 +16,12 @@ class MainDrawer extends StatelessWidget {
     final prefs = PreferencesProvider.of(context);
 
     bool logoutConfirm = await DialogPredefined.showTextDialog(
-      context,
-      FlutterI18n.translate(context, StrKey.LOGOUT),
-      FlutterI18n.translate(context, StrKey.LOGOUT_CONFIRM),
-      FlutterI18n.translate(context, StrKey.YES),
-      FlutterI18n.translate(context, StrKey.NO),
-      true
-    );
+        context,
+        FlutterI18n.translate(context, StrKey.LOGOUT),
+        FlutterI18n.translate(context, StrKey.LOGOUT_CONFIRM),
+        FlutterI18n.translate(context, StrKey.YES),
+        FlutterI18n.translate(context, StrKey.NO),
+        true);
 
     if (logoutConfirm) {
       prefs.disconnectUser();
@@ -43,10 +43,7 @@ class MainDrawer extends StatelessWidget {
             margin: EdgeInsets.zero,
             child: Column(
               children: [
-                Hero(
-                  tag: Asset.LOGO,
-                  child: Image.asset(Asset.LOGO, width: 65.0),
-                ),
+                Logo(size: 65.0),
                 const Padding(padding: const EdgeInsets.only(top: 13.0)),
                 Text(
                   FlutterI18n.translate(context, StrKey.APP_NAME),

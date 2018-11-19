@@ -6,6 +6,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 
 const double kIconSize = 150.0;
 
@@ -60,11 +61,7 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
       PageViewModel(
         translation(StrKey.INTRO_WELCOME_TITLE),
         translation(StrKey.INTRO_WELCOME_DESC),
-        _wrapImage(
-          Hero(
-              tag: Asset.LOGO,
-              child: Image.asset(Asset.LOGO, width: kIconSize)),
-        ),
+        _wrapImage(Logo(size: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),

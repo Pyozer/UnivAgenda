@@ -12,6 +12,7 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -28,14 +29,7 @@ class AboutScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: Hero(
-              tag: Asset.LOGO,
-              child: Image.asset(
-                Asset.LOGO,
-                width: 80.0,
-                semanticLabel: "Logo",
-              ),
-            ),
+            child: Logo(size: 80.0),
           ),
           Text(appName, style: txtTheme),
         ],
