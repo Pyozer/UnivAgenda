@@ -14,6 +14,7 @@ import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -227,18 +228,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final logo = Hero(
-      tag: Asset.LOGO,
-      child: Image.asset(
-        Asset.LOGO,
-        width: 100.0,
-        semanticLabel: "Logo",
-      ),
-    );
-
     final titleApp = Text(
       translation(StrKey.APP_NAME),
-      style: theme.textTheme.title.copyWith(fontSize: 28.0),
+      style: theme.textTheme.title.copyWith(fontSize: 26.0),
     );
 
     final urlICsInput = _buildTextField(
@@ -271,7 +263,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     final loginButton = FloatingActionButton(
       onPressed: _onSubmit,
-      child: const Icon(OMIcons.send),
+      child: const Icon(Icons.send),
       backgroundColor: theme.accentColor,
     );
 
@@ -288,18 +280,24 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 8.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    logo,
-                    const SizedBox(height: 8.0),
+                    Logo(size: 100.0),
+                    const SizedBox(height: 12.0),
                     titleApp,
-                    const SizedBox(height: 42.0),
+                    const SizedBox(height: 52.0),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
                     Dropdown(
                       items: listUniversity,
                       value: _selectedUniversity,
@@ -316,7 +314,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                                 : [username, const ListDivider(), password],
                           )),
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 24.0),
                     _isLoading ? const CircularProgressIndicator() : loginButton
                   ],
                 ),
@@ -325,7 +323,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
               Wrap(
                 spacing: 8.0,
                 alignment: WrapAlignment.center,
-                children: <Widget>[
+                children: [
                   FlatButton(
                     child: Text(translation(StrKey.DATA_PRIVACY)),
                     onPressed: _onDataPrivcacy,
