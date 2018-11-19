@@ -4,6 +4,8 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/screens/settings/manage_hidden_events.dart';
+import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
@@ -145,6 +147,28 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         )
       ]);
     }
+
+    settingsDisplayItems.addAll([
+      SwitchListTile(
+        title: ListTileTitle(translation(StrKey.FULL_HIDDEN_EVENT)),
+        subtitle: Text(translation(StrKey.FULL_HIDDEN_EVENT_DESC)),
+        value: prefs.isFullHiddenEvent,
+        activeColor: theme.accentColor,
+        onChanged: (value) => prefs.setFullHiddenEvent(value, true),
+      ),
+      ListTile(
+        title: ListTileTitle(translation(StrKey.MANAGE_HIDDEN_EVENT)),
+        subtitle: Text(translation(StrKey.MANAGE_HIDDEN_EVENT_DESC)),
+        onTap: () {
+          Navigator.of(context).push(
+            CustomRoute(
+              fullscreenDialog: true,
+              builder: (_) => ManageHiddenEvents(),
+            ),
+          );
+        },
+      )
+    ]);
 
     return SettingCard(
       header: translation(StrKey.SETTINGS_DISPLAY),

@@ -22,12 +22,14 @@ class PrefKey {
   static const isDisplayAllDays = 'is_display_all_days';
   static const isHeaderGroup = 'is_header_group';
   static const isGenerateEventColor = 'is_generate_event_color';
+  static const isFullHiddenEvents = 'is_full_hidden_event';
 
   static const resourcesDate = 'ressources_date';
   static const cachedIcalDate = 'cached_ical_date';
 
   static const notes = 'notes';
   static const customEvent = 'custom_events';
+  static const hiddenEvent = 'hidden_events';
 
   static const defaultNumberWeeks = 4;
   static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
@@ -42,20 +44,21 @@ class PrefKey {
   static const defaultDisplayAllDays = false;
   static const defaultHeaderGroup = true;
   static const defaultGenerateEventColor = false;
+  static const defaultFullHiddenEvent = false;
 
   static const defaultUrlIcs = null;
   static const defaultCachedIcal = "";
-  static const List<University> defaultListUniversity = [];
+  static List<University> defaultListUniversity = [];
   static const String defaultListUniversityJson = "[]";
-  static const Map<String, dynamic> defaultResources = {};
+  static Map<String, dynamic> defaultResources = {};
   static const String defaultResourcesJson = "{}";
   static const int defaultResourcesDate = 0;
   static const int defaultCachedIcalDate = 0;
-  static const List<Note> defaultNotes = [];
-  static const List<CustomCourse> defaultCustomEvents = [];
+  static List<Note> defaultNotes = [];
+  static List<CustomCourse> defaultCustomEvents = [];
+  static List<String> defaultHiddenEvents = [];
 
   static const String listUniversityFile = 'university.json';
   static const String resourcesFile = 'resources.json';
   static const String cachedIcalFile = 'cached_ical.ics';
-
 }

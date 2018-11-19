@@ -109,7 +109,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       await _prepareList(icalStr);
       prefs.setCachedIcal(icalStr);
     }
-
     return null;
   }
 
@@ -156,16 +155,22 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     List<Note> allNotes = prefs.notes;
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
+    // Is full hide or just display as very small
+    bool isFullHidden = prefs.isFullHiddenEvent;
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
-      if (course.isRecurrentEvent()) {
-        List<CustomCourse> customCourses = _generateRepeatedCourses(course);
-        customCourses.forEach((customCourse) {
-          listCourses.add(_addNotesToCourse(allNotes, customCourse));
-        });
-      } else {
-        listCourses.add(_addNotesToCourse(allNotes, course));
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        if (course.isRecurrentEvent()) {
+          List<CustomCourse> customCourses = _generateRepeatedCourses(course);
+          customCourses.forEach((customCourse) {
+            listCourses.add(_addNotesToCourse(allNotes, customCourse));
+          });
+        } else {
+          listCourses.add(_addNotesToCourse(allNotes, course));
+        }
       }
     }
 
@@ -183,12 +188,16 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
 
     for (Course course in courseFromIcal) {
-      // Check if course is not finish
-      if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
-        // Get all notes of the course
-        course = _addNotesToCourse(allNotes, course);
-        // Add course to list
-        listCourses.add(course);
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        // Check if course is not finish
+        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+          // Get all notes of the course
+          course = _addNotesToCourse(allNotes, course);
+          // Add course to list
+          listCourses.add(course);
+        }
       }
     }
 
@@ -227,20 +236,22 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     setState(() {
       _isHorizontal = !prefs.isHorizontalView;
     });
-    prefs.setHorizontalView(!prefs.isHorizontalView);
+    prefs.setHorizontalView(_isHorizontal);
+  }
+
+  void _onFabPressed() async {
+    final customCourse = await Navigator.of(context).push(
+      CustomRoute(
+        builder: (context) => CustomEventScreen(),
+        fullscreenDialog: true,
+      ),
+    );
+    if (customCourse != null) prefs.addCustomEvent(customCourse, true);
   }
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () async {
-        final customCourse = await Navigator.of(context).push(
-          CustomRoute(
-            builder: (context) => CustomEventScreen(),
-            fullscreenDialog: true,
-          ),
-        );
-        if (customCourse != null) prefs.addCustomEvent(customCourse, true);
-      },
+      onPressed: _onFabPressed,
       child: const Icon(OMIcons.add),
     );
   }
@@ -259,10 +270,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final refreshBtn = (_isHorizontal)
-        ? IconButton(
-            icon: const Icon(OMIcons.refresh),
-            onPressed: _fetchData,
-          )
+        ? IconButton(icon: const Icon(OMIcons.refresh), onPressed: _fetchData)
         : const SizedBox.shrink();
 
     final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;

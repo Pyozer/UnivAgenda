@@ -39,9 +39,7 @@ class CourseNote extends StatelessWidget {
     return Card(
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
-      child: Row(
-        children: _buildElements(context),
-      ),
+      child: Row(children: _buildElements(context)),
     );
   }
 }
