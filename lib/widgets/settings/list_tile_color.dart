@@ -100,7 +100,10 @@ class _ListTileColorState extends State<ListTileColor> {
     return ListTile(
       title: ListTileTitle(widget.title),
       subtitle: Text(widget.description ?? ""),
-      trailing: CircleColor(color: _submitColor, circleSize: sizeColor),
+      trailing: Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: CircleColor(color: _submitColor, circleSize: sizeColor),
+      ),
       onTap: _openDialog,
     );
   }
