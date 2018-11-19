@@ -6,14 +6,14 @@
 - Fixed various bugs
 - Modification of some text
 - Improvement of the code
-
+ 
 ## Version 4.0.5
 
 - Adding the title in the center of the Appbar
 - Added transparent statusbar
 - Fixed some view (layout)
 - Bugfix
-
+ 
 ## Version 4.0.4
 
 - Improvement of the TreeView (search slots free)
@@ -32,7 +32,7 @@
 - Improved search for available slots
 - Various improvement of the application
 - Launch of Beta version
-  
+ 
 ## Version 4.0.2
 
 - Ability to put a color on the courses
@@ -43,7 +43,7 @@
 - Added a button "Data and privacy"
 - Bugfix
 - Performance improvement
-
+ 
 ## Version 4.0.1
 
 - Added the ability to add recurring events
@@ -52,7 +52,7 @@
 - Adding the name of the group in the side menu
 - Performance improvement
 - Bugfix
-  
+ 
 ## Version 4.0.0
 
 - Total redesign of the application with Flutter (Android / iOS)
@@ -68,11 +68,11 @@
 - Modification of the "Add an event" screen
 - Added the possibility to make a Feedback
 - Reintegration of the horizontal display
-
+ 
 ## Version 3.0.3
 
 - Fix: Repaired HTTP bug on Android P (9.0)
-
+ 
 ## Version 3.0.2
 
 - Add: Connection to the ENT (security)
@@ -82,7 +82,7 @@
 ## Version 3.0.1
 
 - Addition: Possibility to find a free room
-
+ 
 ## Version 3.0.0
 
 - Passage all in native (more than WebView)
@@ -90,44 +90,44 @@
 - Add: Notes on the courses
 - Code improvements
 - Modification of the logo
-
+ 
 ## Version 2.1.7
 
 - Add: Introduction (1st launch)
-
+ 
 ## Version 2.1.6
 
 - Added: 48 custom themes
 - Addition: Horizontal view
 - Change of server
-
+ 
 ## Version 2.1.5
 
 - Fix: Bug that crashed (STAPS)
-
+ 
 ## Version 2.1.4
 
 - Added: S4 for Info 2
 - Addition: S4 for MMI 2
 - Add: IPLP & PEL for GB 2
-
+ 
 ## Version 2.1.3
 
 - Improvement: "About" page
 - Improvement: "Update" page
 - slight change of colors
 - Shaping the Changelog
-
+ 
 ## Version 2.1.2
 
 - Add: Google Analytics
 - Loading the cache now invisible
-
+ 
 ## Version 2.1.1
 
 - Addition: Integration of STAPS (Le Mans)
 - Added: Changelog Display
-
+ 
 ## Version 2.1.0
 
 - Server modification

@@ -13,7 +13,7 @@
 - Ajout de la statusbar transparente
 - Correction de certaines vue (layout)
 - Correction de bugs
-
+ 
 ## Version 4.0.4
 
 - Amélioration de la TreeView (recherche créneaux libres)
@@ -32,7 +32,7 @@
 - Amélioration de la recherche de créneaux disponibles
 - Amélioration diverses de l'application
 - Lancement de la version Beta
-  
+
 ## Version 4.0.2
 
 - Possibilité de mettre une couleur sur les cours
@@ -43,7 +43,7 @@
 - Ajout d'un bouton "Données et vie privée"
 - Correction de bugs
 - Amélioration des performances
-
+ 
 ## Version 4.0.1
 
 - Ajout de la possibilité d'ajouter des événements récurrents
@@ -52,7 +52,7 @@
 - Ajout du nom du groupe dans le menu latéral
 - Correction de bugs
 - Amélioration des performances
-  
+ 
 ## Version 4.0.0
 
 - Refonte totale de l'application avec Flutter (Android/iOS)
@@ -68,11 +68,11 @@
 - Modification de l'écran "Ajouter un événement"
 - Ajout de la possibilité de faire un Feedback
 - Réintégration de l'affichage horizontal
-
+ 
 ## Version 3.0.3
 
 - Fix: Bug HTTP réparé sur Android P (9.0)
-
+ 
 ## Version 3.0.2
 
 - Ajout: Connexion à l'ENT (sécurité)
@@ -82,7 +82,7 @@
 ## Version 3.0.1
 
 - Ajout: Possibilité de trouver une salle libre
-
+ 
 ## Version 3.0.0
 
 - Passage tout en natif (plus de WebView)
@@ -90,50 +90,50 @@
 - Ajout: Notes sur les cours
 - Améliorations du code
 - Modification du logo
-
+ 
 ## Version 2.1.7
 
 - Ajout: Introduction (1er lancement)
-
+ 
 ## Version 2.1.6
 
 - Ajout: 48 thèmes personnalisés
 - Ajout: Vue horizontale
 - Changement de serveur
-
+ 
 ## Version 2.1.5
 
 - Fix: Bug qui faisait crash (STAPS)
-
+ 
 ## Version 2.1.4
 
 - Ajout: S4 pour les Info 2
 - Ajout: S4 pour les MMI 2
 - Ajout: IPLP & PEL pour les GB 2
-
+ 
 ## Version 2.1.3
 
 - Amélioration: Page "A propos"
 - Amélioration: Page "Mise à jour"
 - Légère modification des couleurs
 - Mise en forme du Changelog
-
+ 
 ## Version 2.1.2
 
 - Ajout: Google Analytics
 - Chargement du cache désormais invisible
-
+ 
 ## Version 2.1.1
 
 - Ajout: Intégration des STAPS (Le Mans)
 - Ajout: Affichage du Changelog
-
+ 
 ## Version 2.1.0
 
 - Modification du serveur
 - Modification de la page Mise à jour
 - Légère modification du logo
-  
+ 
 ## Version 2.0.9
 
 - Gestion du cache amélioré
