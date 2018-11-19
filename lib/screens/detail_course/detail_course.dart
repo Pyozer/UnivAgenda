@@ -215,11 +215,10 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   PopupMenuItem<T> _buildMenu<T>(T value, IconData icon, String title) {
     return PopupMenuItem<T>(
       value: value,
-      child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        Icon(icon),
-        const SizedBox(width: 24.0),
-        Text(title, maxLines: 1, overflow: TextOverflow.ellipsis)
-      ]),
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+      ),
     );
   }
 
