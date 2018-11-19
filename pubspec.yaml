@@ -8,7 +8,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
   http: ^0.12.0
   shared_preferences: ^0.4.3
   path_provider: ^0.4.1
@@ -16,7 +15,9 @@ dependencies:
   flutter_markdown: ^0.2.0
   uuid: ^1.0.3
   html: ^0.13.3+3
-  firebase_analytics: ^1.0.5
+  firebase_analytics: ^1.0.6
+  flutter_i18n: ^0.5.0
+  package_info: ^0.3.2
 
   flutter_material_color_picker: ^0.0.4
   introduction_screen: ^0.0.4
@@ -34,30 +35,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - res/images/icon_circle.png
-    - res/images/jeancharles-mousse.jpg
-    - res/images/justin-martin.jpg
-
-    - res/images/intro_login.png
-    - res/images/intro_event.png
-    - res/images/intro_group.png
-    - res/images/intro_internet.png
-    - res/images/intro_note.png
-    - res/images/intro_theme.png
-
-    - res/images/GitHub-Mark.png
-    - res/images/GitHub-Mark-Light.png
-
-    - res/images/Twitter_Logo_Blue.png
-    - res/images/Twitter_Logo_White.png
-
-    - res/images/appstore.png
-    - res/images/playstore.png
-
-    - res/images/sad_icon.png
-
-    - res/locales/en.json
-    - res/locales/fr.json
+    - res/images/
+    - res/locales/
 
     - packages/time_machine/data/cultures/cultures.bin
     - packages/time_machine/data/tzdb/tzdb.bin

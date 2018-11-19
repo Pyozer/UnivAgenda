@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
 import 'package:myagenda/widgets/ui/empty_day.dart';
@@ -51,7 +50,7 @@ class CourseList extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final locale = Translations.of(context).locale;
+    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
     final textTheme = Theme.of(context).textTheme;
 
     List<Widget> listTabView = [];

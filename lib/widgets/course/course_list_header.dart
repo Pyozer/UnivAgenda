@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseListHeader extends StatelessWidget {
@@ -12,19 +12,17 @@ class CourseListHeader extends StatelessWidget {
 
   const CourseListHeader(this.text, {Key key, this.bgColor}) : super(key: key);
 
-  Future<Null> _onHeaderTap(BuildContext mainContext) async {
-    final translations = Translations.of(mainContext);
-
+  Future<Null> _onHeaderTap(BuildContext context) async {
     bool btnPositivePressed = await DialogPredefined.showTextDialog(
-      mainContext,
-      translations.get(StringKey.CHANGE_AGENDA),
-      translations.get(StringKey.CHANGE_AGENDA_TEXT),
-      translations.get(StringKey.CHANGE),
-      translations.get(StringKey.CANCEL),
+      context,
+      FlutterI18n.translate(context, StrKey.CHANGE_AGENDA),
+      FlutterI18n.translate(context, StrKey.CHANGE_AGENDA_TEXT),
+      FlutterI18n.translate(context, StrKey.CHANGE),
+      FlutterI18n.translate(context, StrKey.CANCEL),
     );
 
     if (btnPositivePressed) {
-      Navigator.of(mainContext).pushNamed(RouteKey.SETTINGS);
+      Navigator.of(context).pushNamed(RouteKey.SETTINGS);
     }
   }
 

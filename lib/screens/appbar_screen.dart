@@ -5,7 +5,6 @@ class AppbarPage extends StatelessWidget {
   final Widget body;
   final Widget drawer;
   final Widget fab;
-  final double elevation;
   final List<Widget> actions;
   final Key scaffoldKey;
 
@@ -16,7 +15,6 @@ class AppbarPage extends StatelessWidget {
       this.scaffoldKey,
       this.drawer,
       this.fab,
-      this.elevation = 4.0,
       this.actions})
       : super(key: key);
 
@@ -29,7 +27,7 @@ class AppbarPage extends StatelessWidget {
               title: Text(title),
               centerTitle: true,
               actions: actions ?? [],
-              elevation: elevation,
+              elevation: 0.0,
             )
           : null,
       body: body,
@@ -51,7 +49,7 @@ class AppbarSubTitle extends StatelessWidget {
         Expanded(
           child: Material(
             color: Theme.of(context).primaryColor,
-            elevation: 4.0,
+            elevation: 0.0,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
               child: child,

@@ -1,4 +1,4 @@
-class StringKey {
+class StrKey {
   static const APP_NAME = 'app_name';
 
   static const DRAWER = 'drawer';
@@ -10,11 +10,17 @@ class StringKey {
   static const SETTINGS_DISPLAY = 'settings_display';
   static const SETTINGS_COLORS = 'settings_colors';
 
+  static const ELEMENT = 'element';
   static const NUMBER_WEEK = 'number_week';
+  static const NUMBER_WEEK_DESC = 'number_week_desc';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
   static const DISPLAY_HEADER_GROUP = 'display_header_group';
   static const DISPLAY_HEADER_GROUP_DESC = 'display_header_group_desc';
+  static const HIDDEN_EVENT = 'hidden_event';
+  static const FULL_HIDDEN_EVENT_DESC = 'full_hidden_event_desc';
+  static const MANAGE_HIDDEN_EVENT = 'manage_hidden_event';
+  static const MANAGE_HIDDEN_EVENT_DESC = 'manage_hidden_event_desc';
 
   static const DARK_THEME = 'dark_theme';
   static const DARK_THEME_DESC = 'dark_theme_desc';
@@ -35,10 +41,14 @@ class StringKey {
   static const LOGOUT_CONFIRM = 'logout_confirm';
 
   static const ADD_EVENT = 'add_event';
+  static const EDIT_EVENT = 'edit_event';
 
   static const CANCEL = 'cancel';
   static const SAVE = 'save';
   static const SUBMIT = 'submit';
+  static const ADD = 'add';
+  static const DELETE = 'delete';
+  static const EDIT = 'edit';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
   static const REFRESH_AGENDAS = 'refresh_agendas';
@@ -98,9 +108,7 @@ class StringKey {
   static const ADD_NOTE_PLACEHOLDER = 'add_note_placeholder';
   static const ADD_NOTE_EMPTY = 'add_note_empty';
   static const ADD_NOTE_SUBMIT = 'add_note_submit';
-
   static const ADD_NOTE_BTN = 'add_note_btn';
-  static const DELETE = 'delete';
 
   static const EVENT_REPEAT = 'event_repeat';
 
@@ -153,6 +161,7 @@ class StringKey {
   static const LOGIN_PASSWORD = 'login_password';
   static const LOGIN_SUBMIT = 'login_submit';
   static const LOGIN_SERVER_ERROR = 'login_server_error';
+  static const LOGIN_CREDENTIAL_ERROR = 'login_credential_error';
 
   static const NO_EMAIL_APP = 'no_email_app';
 
@@ -168,8 +177,7 @@ class StringKey {
   static const SUPPORTME_UNIDAYS_LINK = 'supportme_unidays_link';
   static const SUPPORTME_UNIDAYS = 'supportme_unidays';
   static const SUPPORTME_PAYPAL = 'supportme_paypal';
-  static const SUPPORTME_PAYPAL_ERROR = 'supportme_paypal_error';
-  static const SUPPORTME_UNIDAYS_ERROR = 'supportme_unidays_error';
+  static const SUPPORTME_LINK_ERROR = 'supportme_link_error';
 
   static const MONDAY = 'monday';
   static const TUESDAY = 'tuesday';
@@ -183,6 +191,7 @@ class StringKey {
 
   static const ERROR = "error";
   static const ERROR_EVENT_RECURRENT_ZERO = "error_event_recurrent_zero";
+  static const ERROR_JSON_PARSE = "error_json_parse";
 
   static const DATA_PRIVACY = "data_privacy";
   static const DATA_PRIVACY_TEXT = "data_privacy_text";
@@ -198,4 +207,15 @@ class StringKey {
   static const ERROR_UNIV_LIST_EMPTY = "error_univ_list_empty";
   static const ERROR_UNIV_LIST_RETRIEVE_FAIL = "error_univ_list_retrieve_fail";
   static const ERROR_RES_LIST_RETRIEVE_FAIL = "error_res_list_retrieve_fail";
+
+  static const HIDE = "hide";
+  static const UNHIDE = "unhide";
+  static const HIDE_EVENT = "hide_event";
+  static const HIDE_EVENT_TEXT = "hide_event_text";
+  static const UNHIDE_EVENT = "unhide_event";
+  static const UNHIDE_EVENT_TEXT = "unhide_event_text";
+  static const NO_HIDDEN_EVENT = "no_hidden_event";
+  static const NO_HIDDEN_EVENT_TEXT = "no_hidden_event_text";
+  static const ADD_HIDDEN_EVENT = "add_hidden_event";
+
 }

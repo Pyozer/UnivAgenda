@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
@@ -45,12 +45,11 @@ class DialogPredefined {
     String btnPositive,
     String btnNegative, [
     dismissable = true,
-    TextAlign textAlign,
   ]) async {
     return await showContentDialog(
       context,
       title,
-      Text(text, textAlign: textAlign ?? TextAlign.justify),
+      Text(text),
       btnPositive,
       btnNegative,
       dismissable,
@@ -59,63 +58,53 @@ class DialogPredefined {
 
   static Future<bool> showSimpleMessage(
       BuildContext context, String title, String message) async {
-    final translate = Translations.of(context);
-
     return await showTextDialog(
       context,
       title,
       message,
-      translate.get(StringKey.OK),
+      FlutterI18n.translate(context, StrKey.OK),
       null,
     );
   }
 
   static Future<bool> showEndTimeError(BuildContext context) async {
-    final translate = Translations.of(context);
-
     return await showTextDialog(
       context,
-      translate.get(StringKey.ERROR_END_TIME),
-      translate.get(StringKey.ERROR_END_TIME_TEXT),
-      translate.get(StringKey.OK),
+      FlutterI18n.translate(context, StrKey.ERROR_END_TIME),
+      FlutterI18n.translate(context, StrKey.ERROR_END_TIME_TEXT),
+      FlutterI18n.translate(context, StrKey.OK),
       null,
     );
   }
 
   static Future<bool> showDeleteEventConfirm(BuildContext context) async {
-    final translate = Translations.of(context);
-
     return await showTextDialog(
       context,
-      translate.get(StringKey.CONFIRM_EVENT_DELETE),
-      translate.get(StringKey.CONFIRM_EVENT_DELETE_TEXT),
-      translate.get(StringKey.YES),
-      translate.get(StringKey.NO),
+      FlutterI18n.translate(context, StrKey.CONFIRM_EVENT_DELETE),
+      FlutterI18n.translate(context, StrKey.CONFIRM_EVENT_DELETE_TEXT),
+      FlutterI18n.translate(context, StrKey.YES),
+      FlutterI18n.translate(context, StrKey.NO),
     );
   }
 
   static Future<bool> showICSFormatError(BuildContext context) async {
-    final translate = Translations.of(context);
-
     return await showTextDialog(
       context,
-      translate.get(StringKey.ERROR),
-      translate.get(StringKey.WRONG_ICS_FORMAT),
-      translate.get(StringKey.OK),
+      FlutterI18n.translate(context, StrKey.ERROR),
+      FlutterI18n.translate(context, StrKey.WRONG_ICS_FORMAT),
+      FlutterI18n.translate(context, StrKey.OK),
       null,
     );
   }
 
   static Future<bool> showProgressDialog(
       BuildContext context, String message) async {
-    final translate = Translations.of(context);
-
     return await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return ProgressDialog(
-          title: translate.get(StringKey.LOADING),
+          title: FlutterI18n.translate(context, StrKey.LOADING),
           text: message,
         );
       },

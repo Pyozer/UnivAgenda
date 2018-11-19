@@ -10,22 +10,31 @@
   "settings_display": "Display",
   "settings_colors": "Colors",
 
+  "element": "Element {number}",
   "number_week": "Number of week",
+  "number_week_desc": {
+    "times-1": "{times} week",
+    "times-2": "{times} weeks"
+  },
   "display_all_days": "Display all days",
-  "display_all_days_desc": "Show every day of the week.",
+  "display_all_days_desc": "Show every day of the week",
   "display_header_group": "Display header group",
-  "display_header_group_desc": "Show your group before courses.",
+  "display_header_group_desc": "Show your group before courses",
+  "hidden_event": "Hidden events",
+  "full_hidden_event_desc": "Totally hide these events",
+  "manage_hidden_event": "Manage hidden events",
+  "manage_hidden_event_desc": "Delete filter(s) used to hide events",
 
   "dark_theme": "Dark theme",
-  "dark_theme_desc": "App colors will be darker.",
+  "dark_theme_desc": "App background will be darker",
   "primary_color": "Primary color",
-  "primary_color_desc": "Choose primary color of the app.",
-  "accent_color": "Accent color",
-  "accent_color_desc": "Choose accent color of the app.",
+  "primary_color_desc": "Choose the appbar color",
+  "accent_color": "Secondary color",
+  "accent_color_desc": "Color of buttons and some texts",
   "note_color": "Note indicator color",
-  "note_color_desc": "Color indicating if a note is present.",
-  "generate_event_color": "Add dynamic color on events",
-  "generate_event_color_text": "Generate a color based on event title.",
+  "note_color_desc": "Color of indicator if a note is present",
+  "generate_event_color": "Colored events",
+  "generate_event_color_text": "All event will have a color",
 
   "about": "About",
   "introduction": "Introduction",
@@ -35,10 +44,18 @@
   "logout_confirm": "Are you really sure you want to disconnect?",
 
   "add_event": "Add event",
-
+  "edit_event": "Edit event",
+  
   "cancel": "Cancel",
   "save": "Save",
   "submit": "Submit",
+  "add": "Add",
+  "delete": "Delete",
+  "edit": "Edit",
+  "change": "Change",
+  "refresh": "Refresh",
+  "refresh_agendas": "Refresh calendars",
+  "send_feedback": "Send feedback",
 
   "what_is_it": "What is it?",
   "about_what": "This app is linked to the agenda of the University of Le Mans, Tours and Rennes. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
@@ -61,10 +78,6 @@
   "skip": "Skip",
   "next": "Next",
   "done": "Got it",
-  "change": "Change",
-  "refresh": "Refresh",
-  "refresh_agendas": "Refresh calendars",
-  "send_feedback": "Send feedback",
 
   "intro_welcome_title": "Welcome !",
   "intro_welcome_desc": "MyAgenda allows you to access to your calendar of your University, directly on your device!",
@@ -94,9 +107,9 @@
   "add_note": "New note",
   "add_note_placeholder": "Enter the note",
   "add_note_empty": "Note can't be empty.",
-  "add_note_submit": "Add note",
+  "add_note_submit": "+ Note",
   "add_note_btn": "New",
-  "delete": "Delete",
+
   "event_repeat": "Recurrent event",
   "event_color": "Event color",
   "event_color_desc": "Background color of this event",
@@ -145,7 +158,8 @@
   "login_username": "ENT Username",
   "login_password": "Password",
   "login_submit": "Login",
-  "login_server_error": "Trouble connecting with the %s% server!",
+  "login_server_error": "Trouble connecting with the {university} server!",
+  "login_credential_error": "It looks like the username or password is incorrect!",
 
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 
@@ -161,8 +175,7 @@
   "supportme_unidays_link": "Unidays link :",
   "supportme_unidays": "Unidays",
   "supportme_paypal": "Paypal donation",
-  "supportme_paypal_error": "Can not open the PayPal website...\nLink: ",
-  "supportme_unidays_error": "Can not open the Unidays website...\nLink: ",
+  "supportme_link_error": "Can not open the {site} website...\nLink: ",
 
   "monday": "Monday",
   "tuesday": "Tuesday",
@@ -176,6 +189,7 @@
 
   "error": "Error",
   "error_event_recurrent_zero": "You select recurrent event but there is no day selected!",
+  "error_json_parse": "Error processing JSON, contact us to solve the problem!",
 
   "data_privacy": "Data & privacy",
   "data_privacy_text": "MyAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
@@ -184,10 +198,21 @@
   "file_404": "The .ics file could not be found !\nCheck the entered url.",
   "wrong_ics_format": "The .ics file has an incorrect format !",
   "checking_ics_url": "Checking .ics file URL...",
-  "custom_event_exit_unsaved": "Do you want quit ?",
-  "custom_event_exit_unsaved_text": "You have not saved your actual event, if you quit, you will lose it.",
+  "custom_event_exit_unsaved": "Are you sure ?",
+  "custom_event_exit_unsaved_text": "You have not saved your changes, they will be lost!",
 
   "error_univ_list_empty": "University list is empty.. retry.",
   "error_univ_list_retrieve_fail": "Impossible to retrieve university list, retry.",
-  "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry."
+  "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry.",
+
+  "hide": "Hide",
+  "unhide": "Unhide",
+  "hide_event": "Hide event",
+  "hide_event_text": "Are you sure you want to hide this event and all others with the same title?",
+  "unhide_event": "Set the event visible",
+  "unhide_event_text": "Are you sure you want to set visible this event and all others with the same title?",
+  "no_hidden_event": "No filter",
+  "no_hidden_event_text": "There is no added filter to hide events.\nYou can hide an event from the event's page or directly here.",
+  "add_hidden_event": "Title of the event"
+
 }

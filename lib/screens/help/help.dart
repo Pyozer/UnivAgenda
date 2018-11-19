@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/help_item.dart';
@@ -9,7 +10,6 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/no_result_help.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,26 +44,26 @@ class HelpScreen extends StatelessWidget {
   }
 
   void _sendFeedback(BuildContext context) async {
-    final translations = Translations.of(context);
-
     var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback MyAgenda';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       _scaffoldKey?.currentState?.showSnackBar(
-        SnackBar(content: Text(translations.get(StringKey.NO_EMAIL_APP))),
+        SnackBar(
+            content:
+                Text(FlutterI18n.translate(context, StrKey.NO_EMAIL_APP))),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final translations = Translations.of(context);
-    final lang = translations.locale?.languageCode?.substring(0, 2) ?? "en";
+    final lang =
+        Localizations.localeOf(context).languageCode?.substring(0, 2) ?? "en";
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.get(StringKey.HELP_FEEDBACK),
+      title: FlutterI18n.translate(context, StrKey.HELP_FEEDBACK),
       body: Container(
         child: Column(
           children: [
@@ -98,7 +98,8 @@ class HelpScreen extends StatelessWidget {
                   vertical: 12.0,
                   horizontal: 40.0,
                 ),
-                text: translations.get(StringKey.SEND_FEEDBACK).toUpperCase(),
+                text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK)
+                    .toUpperCase(),
               ),
             ),
           ],

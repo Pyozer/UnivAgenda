@@ -16,9 +16,10 @@ import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:time_machine/time_machine.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
@@ -38,11 +39,21 @@ class App extends StatelessWidget {
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
+  Locale _resolveFallback(Locale locale, Iterable<Locale> supportedLocales) {
+    return supportedLocales.firstWhere(
+        (supported) =>
+            supported.languageCode == locale.languageCode ||
+            supported.countryCode == locale.countryCode,
+        orElse: () => supportedLocales.first);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
+
+    TimeMachine.initialize({'rootBundle': rootBundle});
 
     return AnalyticsProvider(
       analytics,
@@ -65,11 +76,12 @@ class App extends StatelessWidget {
                   title: "MyAgenda",
                   theme: theme,
                   localizationsDelegates: [
-                    const TranslationsDelegate(),
+                    FlutterI18nDelegate(false, 'en', 'res/locales'),
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-                  supportedLocales: [const Locale('en'), const Locale('fr')],
+                  supportedLocales: FlutterI18nDelegate.supportedLocales,
+                  localeResolutionCallback: _resolveFallback,
                   navigatorObservers: [observer],
                   initialRoute: RouteKey.SPLASHSCREEN,
                   onGenerateRoute: (RouteSettings settings) {

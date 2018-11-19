@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -14,6 +13,7 @@ import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,7 +80,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Check fields values
     if ((_isUrlIcs() && urlIcs.isEmpty) ||
         (!_isUrlIcs() && (username.isEmpty || password.isEmpty))) {
-      _showMessage(translations.get(StringKey.REQUIRE_FIELD));
+      _showMessage(translation(StrKey.REQUIRE_FIELD));
       return;
     }
 
@@ -99,18 +99,18 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (loginResult.result == LoginResultType.LOGIN_FAIL) {
         _setLoading(false);
-        _showMessage(loginResult.message);
+        _showMessage(translation(StrKey.LOGIN_CREDENTIAL_ERROR));
         return;
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
         _showMessage(
-          translations
-              .get(StringKey.LOGIN_SERVER_ERROR, [prefs.university.name]),
+          translation(
+              StrKey.LOGIN_SERVER_ERROR, {'university': prefs.university.name}),
         );
         return;
       } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.UNKNOWN_ERROR));
+        _showMessage(translation(StrKey.UNKNOWN_ERROR));
         return;
       }
 
@@ -120,11 +120,17 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.GET_RES_ERROR));
+        _showMessage(translation(StrKey.GET_RES_ERROR));
         return;
       }
 
-      prefs.setResources(response.httpResponse.body);
+      try {
+        prefs.setResources(response.httpResponse.body);
+      } catch (_) {
+        _setLoading(false);
+        _showMessage(translation(StrKey.ERROR_JSON_PARSE));
+        return;
+      }
       prefs.setResourcesDate();
     } else if (mounted) {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
@@ -136,13 +142,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.FILE_404));
+        _showMessage(translation(StrKey.FILE_404));
         return;
       }
       String ical = utf8.decode(response.httpResponse.bodyBytes);
       if (!Ical.isValidIcal(ical)) {
         _setLoading(false);
-        _showMessage(translations.get(StringKey.WRONG_ICS_FORMAT));
+        _showMessage(translation(StrKey.WRONG_ICS_FORMAT));
         return;
       }
       prefs.setCachedIcal(ical);
@@ -158,7 +164,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void _showMessage(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      translations.get(StringKey.ERROR),
+      translation(StrKey.ERROR),
       msg,
     );
   }
@@ -203,13 +209,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void _onDataPrivcacy() {
     DialogPredefined.showSimpleMessage(
       context,
-      translations.get(StringKey.DATA_PRIVACY),
-      translations.get(StringKey.DATA_PRIVACY_TEXT),
+      translation(StrKey.DATA_PRIVACY),
+      translation(StrKey.DATA_PRIVACY_TEXT),
     );
   }
 
   bool _isUrlIcs() {
-    return _selectedUniversity == translations.get(StringKey.OTHER);
+    return _selectedUniversity == translation(StrKey.OTHER);
   }
 
   void _onUniversitySelected(String value) {
@@ -221,22 +227,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final logo = Hero(
-      tag: Asset.LOGO,
-      child: Image.asset(
-        Asset.LOGO,
-        width: 100.0,
-        semanticLabel: "Logo",
-      ),
-    );
-
     final titleApp = Text(
-      translations.get(StringKey.APP_NAME),
-      style: theme.textTheme.title.copyWith(fontSize: 28.0),
+      translation(StrKey.APP_NAME),
+      style: theme.textTheme.title.copyWith(fontSize: 26.0),
     );
 
     final urlICsInput = _buildTextField(
-      translations.get(StringKey.URL_ICS),
+      translation(StrKey.URL_ICS),
       OMIcons.event,
       false,
       _urlIcsController,
@@ -245,7 +242,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final username = _buildTextField(
-      translations.get(StringKey.LOGIN_USERNAME),
+      translation(StrKey.LOGIN_USERNAME),
       OMIcons.person,
       false,
       _usernameController,
@@ -254,7 +251,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final password = _buildTextField(
-      translations.get(StringKey.LOGIN_PASSWORD),
+      translation(StrKey.LOGIN_PASSWORD),
       OMIcons.lock,
       true,
       _passwordController,
@@ -265,12 +262,12 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     final loginButton = FloatingActionButton(
       onPressed: _onSubmit,
-      child: const Icon(OMIcons.send),
+      child: const Icon(Icons.send),
       backgroundColor: theme.accentColor,
     );
 
     var listUniversity = prefs.getAllUniversity();
-    listUniversity.add(translations.get(StringKey.OTHER));
+    listUniversity.add(translation(StrKey.OTHER));
 
     if (_selectedUniversity == null) {
       if (prefs.university != null && listUniversity.contains(prefs.university))
@@ -282,18 +279,24 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 8.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    logo,
-                    const SizedBox(height: 8.0),
+                    Logo(size: 100.0),
+                    const SizedBox(height: 12.0),
                     titleApp,
-                    const SizedBox(height: 42.0),
+                    const SizedBox(height: 52.0),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
                     Dropdown(
                       items: listUniversity,
                       value: _selectedUniversity,
@@ -301,7 +304,6 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                       isExpanded: false,
                     ),
                     Card(
-                      shape: const OutlineInputBorder(),
                       elevation: 4.0,
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
@@ -311,7 +313,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                                 : [username, const ListDivider(), password],
                           )),
                     ),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 24.0),
                     _isLoading ? const CircularProgressIndicator() : loginButton
                   ],
                 ),
@@ -320,13 +322,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
               Wrap(
                 spacing: 8.0,
                 alignment: WrapAlignment.center,
-                children: <Widget>[
+                children: [
                   FlatButton(
-                    child: Text(translations.get(StringKey.DATA_PRIVACY)),
+                    child: Text(translation(StrKey.DATA_PRIVACY)),
                     onPressed: _onDataPrivcacy,
                   ),
                   FlatButton(
-                    child: Text(translations.get(StringKey.HELP_FEEDBACK)),
+                    child: Text(translation(StrKey.HELP_FEEDBACK)),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(RouteKey.HELP),
                   ),

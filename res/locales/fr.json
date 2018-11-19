@@ -10,22 +10,31 @@
   "settings_display": "Affichage",
   "settings_colors": "Couleurs",
 
+  "element": "Élement {number}",
   "number_week": "Nombre de semaines",
+  "number_week_desc": {
+    "times-1": "{times} semaine",
+    "times-2": "{times} semaines"
+  },
   "display_all_days": "Afficher tous les jours",
-  "display_all_days_desc": "Affiche chaque jour de la semaine.",
+  "display_all_days_desc": "Affiche chaque jour de la semaine",
   "display_header_group": "Afficher votre groupe",
-  "display_header_group_desc": "Votre groupe sera visible en en-tête des cours.",
+  "display_header_group_desc": "Groupe visible en en-tête des cours",
+  "hidden_event": "Événéments masqués",
+  "full_hidden_event_desc": "Totalement masquer ces événements",
+  "manage_hidden_event": "Gérer événéments masqués",
+  "manage_hidden_event_desc": "Supprimer filtre(s) servant à masquer",
 
   "dark_theme": "Thème sombre",
-  "dark_theme_desc": "Le fond deviendra sombre, comme un mode nuit.",
+  "dark_theme_desc": "Application en mode nuit",
   "primary_color": "Couleur principale",
-  "primary_color_desc": "Choisi la couleur principale de l'application.",
+  "primary_color_desc": "Couleur de la barre navigation",
   "accent_color": "Couleur secondaire",
-  "accent_color_desc": "Choisi la couleur secondaire de l'application.",
+  "accent_color_desc": "Couleur secondaire (ex: boutons)",
   "note_color": "Couleur indicateur d'une note",
-  "note_color_desc": "Couleur indiquant si une note est présente.",
-  "generate_event_color": "Mettre une couleur aux événements",
-  "generate_event_color_text": "Génère une couleur selon le titre de l'événement.",
+  "note_color_desc": "Indicateur de présence d'une note",
+  "generate_event_color": "Événements colorés",
+  "generate_event_color_text": "Couleur à chaque événement",
 
   "about": "A propos",
   "introduction": "Introduction",
@@ -35,10 +44,14 @@
   "logout_confirm": "Êtes-vous vraiment sûr de vouloir vous déconnecter ?",
 
   "add_event": "Ajouter un événement",
+  "edit_event": "Modifier l'événement",
 
   "cancel": "Annuler",
   "save": "Sauvegarder",
   "submit": "Valider",
+  "add": "Ajouter",
+  "delete": "Supprimer",
+  "edit": "Modifier",
   "change": "Changer",
   "refresh": "Rafraichir",
   "refresh_agendas": "Actualiser les agendas",
@@ -72,7 +85,7 @@
   "intro_login_title": "Connexion",
   "intro_login_desc": "Les agendas sont réservés aux étudiants, vous devrez vous connecter. Sélectionnez votre université et entrez les mêmes identifiants que pour l'ENT.",
 
-  "intro_agenda_title": "Choisi ton agenda",
+  "intro_agenda_title": "Choisis ton agenda",
   "intro_agenda_desc": "Dans les paramètres, vous pouvez choisir votre campus, département, année et groupe pour afficher le calendrier correspondant.",
 
   "intro_customization_title": "Personnalisation",
@@ -95,8 +108,8 @@
   "add_note_placeholder": "Entrez la note à ajouter",
   "add_note_empty": "La note ne peut être vide.",
   "add_note_submit": "Ajouter",
-  "add_note_btn": "Nouvelle note",
-  "delete": "Supprimer",
+  "add_note_btn": "+ note",
+
   "event_repeat": "Événement récurrent",
   "event_color": "Couleur de l'événement",
   "event_color_desc": "Couleur de fond de l'événement",
@@ -145,7 +158,8 @@
   "login_username": "Identifiant ENT",
   "login_password": "Mot de passe",
   "login_submit": "Connexion",
-  "login_server_error": "Problème de connexion avec le serveur de l'%s% !",
+  "login_server_error": "Problème de connexion avec {university} !",
+  "login_credential_error": "Il semblerait que l'identifiant ou le mot de passe soient incorrect !",
 
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 
@@ -161,8 +175,7 @@
   "supportme_unidays_link": "Lien Unidays :",
   "supportme_unidays": "Unidays",
   "supportme_paypal": "Don Paypal",
-  "supportme_paypal_error": "Impossible d'ouvrir le site PayPal...\nLien: ",
-  "supportme_unidays_error": "Impossible d'ouvrir le site Unidays...\nLien: ",
+  "supportme_link_error": "Impossible d'ouvrir le site {site}...\nLien: ",
 
   "monday": "Lundi",
   "tuesday": "Mardi",
@@ -176,6 +189,7 @@
 
   "error": "Erreur",
   "error_event_recurrent_zero": "Vous avez défini l'événement comme récurrent mais aucun jour n'est selectionné !",
+  "error_json_parse": "Erreur lors du traitement du JSON, contactez-nous pour résoudre le problème !",
 
   "data_privacy": "Données & vie privée",
   "data_privacy_text": "MyAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
@@ -185,10 +199,20 @@
   "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",
   "checking_ics_url": "Vérification de l'url du fichier .ics...",
 
-  "custom_event_exit_unsaved": "Voulez-vous vraiment quitter ?",
+  "custom_event_exit_unsaved": "Êtes-vous sûr ?",
   "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !",
 
   "error_univ_list_empty": "Liste des universités vide... réessayez.",
   "error_univ_list_retrieve_fail": "Impossible de récupérer la liste des Universités, réessayez.",
-  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez."
+  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez.",
+  
+  "hide": "Masquer",
+  "unhide": "Démasquer",
+  "hide_event": "Masquer l'événement",
+  "hide_event_text": "Êtes-vous sûr de vouloir masquer cet événement et tous les autres avec le même titre ?",
+  "unhide_event": "Rendre visible l'événement",
+  "unhide_event_text": "Êtes-vous sûr de vouloir rendre visible cet événement et tous les autres avec le même titre ?",
+  "no_hidden_event": "Aucun filtre",
+  "no_hidden_event_text": "Il n'y a aucun filtre d'ajouté pour masquer un/plusieurs événement(s).\nVous pouvez masquer un événement depuis la page de celui-ci ou bien directement ici.",
+  "add_hidden_event": "Titre de l'événement"
 }

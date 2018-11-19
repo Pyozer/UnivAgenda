@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
       if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
-        _setError(true, StringKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
+        _setError(true, StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
         return;
       }
       // Update university list
@@ -56,7 +56,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
 
     // If list university still empty, set error
     if (prefs.listUniversity.length == 0) {
-      _setError(true, StringKey.ERROR_UNIV_LIST_EMPTY);
+      _setError(true, StrKey.ERROR_UNIV_LIST_EMPTY);
       return;
     }
     // If user was connected but university or ics url are null, disconnect him
@@ -76,7 +76,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
-        _setError(true, StringKey.ERROR_RES_LIST_RETRIEVE_FAIL);
+        _setError(true, StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
         return;
       }
 
@@ -114,7 +114,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     if (mounted)
       setState(() {
         _isError = isError;
-        _errorMsg = errorMsgKey != null ? translations.get(errorMsgKey) : null;
+        _errorMsg = errorMsgKey != null ? translation(errorMsgKey) : null;
       });
   }
 
@@ -129,16 +129,10 @@ class SplashScreenState extends BaseState<SplashScreen> {
         padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
+          children: [
             Expanded(
               flex: 6,
-              child: Center(
-                child: Image.asset(
-                  Asset.LOGO,
-                  width: 192.0,
-                  semanticLabel: "Logo",
-                ),
-              ),
+              child: Center(child: Logo(size: 160.0)),
             ),
             Expanded(
               flex: 4,
@@ -148,14 +142,13 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg ??
-                                translations.get(StringKey.NETWORK_ERROR),
+                            _errorMsg ?? translation(StrKey.NETWORK_ERROR),
                             style: Theme.of(context).textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
                           RaisedButtonColored(
-                            text: translations.get(StringKey.RETRY),
+                            text: translation(StrKey.RETRY),
                             onPressed: _initPreferences,
                           )
                         ],

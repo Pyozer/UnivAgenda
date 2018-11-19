@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:time_machine/time_machine.dart';
@@ -26,10 +25,6 @@ class Ical {
 
     if (!isValidIcal(icalData)) throw ("Wrong ICS file format !");
 
-    await TimeMachine.initialize({'rootBundle': rootBundle});
-    var tzdb = await DateTimeZoneProviders.tzdb;
-    DateTimeZone paris = await tzdb["Europe/Paris"];
-
     List<String> lines = icalData.split("\n");
     List<Course> events = [];
     Course event;
@@ -53,10 +48,10 @@ class Ical {
         events.add(event);
         lastProp = ENDVEVENT;
       } else if (line.startsWith(DTSTART)) {
-        event.dateStart = _getDateValue(line, paris);
+        event.dateStart = _getDateValue(line);
         lastProp = DTSTART;
       } else if (line.startsWith(DTEND)) {
-        event.dateEnd = _getDateValue(line, paris);
+        event.dateEnd = _getDateValue(line);
         lastProp = DTEND;
       } else if (line.startsWith(SUMMARY)) {
         event.title = capitalize(_getValue(line)).trim();
@@ -86,9 +81,9 @@ class Ical {
     return line.substring(index + 1); // Gets the value part
   }
 
-  static DateTime _getDateValue(String line, DateTimeZone timezone) {
+  static DateTime _getDateValue(String line) {
     final d = DateTime.parse(_getValue(line).toString().substring(0, 15));
     final dUTC = Instant.utc(d.year, d.month, d.day, d.hour, d.minute);
-    return dUTC.inZone(timezone).toDateTimeLocal();
+    return dUTC.inZone(DateTimeZone.local).toDateTimeLocal();
   }
 }

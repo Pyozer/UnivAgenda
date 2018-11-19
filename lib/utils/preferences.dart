@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
@@ -90,6 +91,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Display the group header
   bool _isHeaderGroup;
 
+  /// Totally hide hidden courses or display as very small
+  bool _isFullHiddenEvent;
+
   /// Last ical loaded
   String _cachedIcal;
 
@@ -98,6 +102,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   /// List of all custom events
   List<CustomCourse> _customEvents;
+
+  /// List of hidden courses
+  List<String> _hiddenEvents;
 
   /// Resources (contain all agenda with their ID)
   Map<String, dynamic> _resources;
@@ -544,6 +551,47 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
+  List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
+
+  setHiddenEvents([List<String> newHiddenEvents, state = false]) {
+    newHiddenEvents ??= [];
+
+    _updatePref(() {
+      _hiddenEvents = newHiddenEvents.toSet().toList();
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setStringList(PrefKey.hiddenEvent, _hiddenEvents);
+    });
+  }
+
+  void addHiddenEvent(String title, [bool state = false]) {
+    hiddenEvents.add(title);
+    setHiddenEvents(hiddenEvents, state);
+  }
+
+  void removeHiddenEvent(String title, [bool state = false]) {
+    hiddenEvents.remove(title);
+    setHiddenEvents(hiddenEvents, state);
+  }
+
+  bool isCourseHidden(Course course) =>
+      hiddenEvents.any((e) => e == course.title);
+
+  bool get isFullHiddenEvent =>
+      _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+
+  setFullHiddenEvent(bool fullHiddenEvent, [state = false]) {
+    if (isFullHiddenEvent == fullHiddenEvent) return;
+
+    _updatePref(() {
+      _isFullHiddenEvent = fullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+    }, state);
+
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent));
+  }
+
   disconnectUser([state = false]) {
     setUserLogged(false);
     setUrlIcs(null);
@@ -597,7 +645,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
+    setHeaderGroupVisible(prefs.getBool(PrefKey.isHeaderGroup));
     setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
+    setFullHiddenEvent(prefs.getBool(PrefKey.isFullHiddenEvents));
 
     // Init saved notes
     List<Note> actualNotes = [];
@@ -606,6 +656,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       actualNotes.add(Note.fromJsonStr(noteJsonStr));
     });
     setNotes(actualNotes);
+
+    // Init hidden courses
+    List<String> hiddenEvents = prefs.getStringList(PrefKey.hiddenEvent) ?? [];
+    setHiddenEvents(hiddenEvents);
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =

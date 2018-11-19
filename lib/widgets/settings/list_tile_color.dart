@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
@@ -74,8 +74,6 @@ class _ListTileColorState extends State<ListTileColor> {
       _inputColor = _submitColor;
     });
 
-    final translate = Translations.of(context);
-
     var colorPicker = MaterialColorPicker(
       onColorChange: _onColorChange,
       selectedColor: _inputColor,
@@ -83,14 +81,13 @@ class _ListTileColorState extends State<ListTileColor> {
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
-      context,
-      widget.titleDialog ?? widget.title,
-      colorPicker,
-      translate.get(StringKey.SUBMIT),
-      translate.get(StringKey.CANCEL),
-      true,
-      const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.0)
-    );
+        context,
+        widget.titleDialog ?? widget.title,
+        colorPicker,
+        FlutterI18n.translate(context, StrKey.SUBMIT),
+        FlutterI18n.translate(context, StrKey.CANCEL),
+        true,
+        const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.0));
 
     if (isDialogPositive) _onSubmit();
   }
@@ -103,7 +100,10 @@ class _ListTileColorState extends State<ListTileColor> {
     return ListTile(
       title: ListTileTitle(widget.title),
       subtitle: Text(widget.description ?? ""),
-      trailing: CircleColor(color: _submitColor, circleSize: sizeColor),
+      trailing: Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: CircleColor(color: _submitColor, circleSize: sizeColor),
+      ),
       onTap: _openDialog,
     );
   }

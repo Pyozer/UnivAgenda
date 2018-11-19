@@ -58,8 +58,12 @@ class CustomCourse extends Course {
     );
   }
 
-  factory CustomCourse.copy(CustomCourse cc) =>
-      CustomCourse.fromJson(cc.toJson());
+  factory CustomCourse.copy(CustomCourse cc) {
+    CustomCourse copied = CustomCourse.fromJson(cc.toJson());
+    List notesCopied = json.decode(json.encode(cc.notes));
+    copied.notes = notesCopied.map((e) => Note.fromJson(e)).toList();
+    return copied;
+  }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();

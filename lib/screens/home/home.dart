@@ -75,7 +75,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    if (prefs.groupKeys.length > 0) analyticsProvider.sendUserPrefsGroup(prefs);
+    analyticsProvider.sendUserPrefsGroup(prefs);
     analyticsProvider.sendUserPrefsDisplay(prefs);
     analyticsProvider.sendUserPrefsColor(prefs);
   }
@@ -101,7 +101,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       if (!response.isSuccess) {
         _scaffoldKey?.currentState?.removeCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(translations.get(StringKey.NETWORK_ERROR)),
+          content: Text(translation(StrKey.NETWORK_ERROR)),
         ));
         return null;
       }
@@ -109,7 +109,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       await _prepareList(icalStr);
       prefs.setCachedIcal(icalStr);
     }
-
     return null;
   }
 
@@ -156,16 +155,22 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     List<Note> allNotes = prefs.notes;
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
+    // Is full hide or just display as very small
+    bool isFullHidden = prefs.isFullHiddenEvent;
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
-      if (course.isRecurrentEvent()) {
-        List<CustomCourse> customCourses = _generateRepeatedCourses(course);
-        customCourses.forEach((customCourse) {
-          listCourses.add(_addNotesToCourse(allNotes, customCourse));
-        });
-      } else {
-        listCourses.add(_addNotesToCourse(allNotes, course));
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        if (course.isRecurrentEvent()) {
+          List<CustomCourse> customCourses = _generateRepeatedCourses(course);
+          customCourses.forEach((customCourse) {
+            listCourses.add(_addNotesToCourse(allNotes, customCourse));
+          });
+        } else {
+          listCourses.add(_addNotesToCourse(allNotes, course));
+        }
       }
     }
 
@@ -183,12 +188,16 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
 
     for (Course course in courseFromIcal) {
-      // Check if course is not finish
-      if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
-        // Get all notes of the course
-        course = _addNotesToCourse(allNotes, course);
-        // Add course to list
-        listCourses.add(course);
+      if (prefs.isCourseHidden(course)) course.isHidden = true;
+
+      if (!course.isHidden || course.isHidden && !isFullHidden) {
+        // Check if course is not finish
+        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+          // Get all notes of the course
+          course = _addNotesToCourse(allNotes, course);
+          // Add course to list
+          listCourses.add(course);
+        }
       }
     }
 
@@ -213,12 +222,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     for (Course course in listCourses) {
       int dateValue = Date.dateToInt(course.dateStart);
       if (listElement[dateValue] == null) listElement[dateValue] = [];
-
       listElement[dateValue].add(course);
     }
 
     if (!mounted) return;
-    
+
     setState(() {
       _courses = listElement;
     });
@@ -228,30 +236,32 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     setState(() {
       _isHorizontal = !prefs.isHorizontalView;
     });
-    prefs.setHorizontalView(!prefs.isHorizontalView);
+    prefs.setHorizontalView(_isHorizontal);
+  }
+
+  void _onFabPressed() async {
+    final customCourse = await Navigator.of(context).push(
+      CustomRoute(
+        builder: (context) => CustomEventScreen(),
+        fullscreenDialog: true,
+      ),
+    );
+    if (customCourse != null) prefs.addCustomEvent(customCourse, true);
   }
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () async {
-        final customCourse = await Navigator.of(context).push(
-          CustomRoute(
-            builder: (context) => CustomEventScreen(),
-            fullscreenDialog: true,
-          ),
-        );
-        if (customCourse != null) prefs.addCustomEvent(customCourse, true);
-      },
+      onPressed: _onFabPressed,
       child: const Icon(OMIcons.add),
     );
   }
 
   Widget _buildNoResult() {
     return NoResult(
-      title: translations.get(StringKey.COURSES_NORESULT),
-      text: translations.get(StringKey.COURSES_NORESULT_TEXT),
+      title: translation(StrKey.COURSES_NORESULT),
+      text: translation(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
-        text: translations.get(StringKey.REFRESH),
+        text: translation(StrKey.REFRESH),
         onPressed: _fetchData,
       ),
     );
@@ -260,10 +270,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final refreshBtn = (_isHorizontal)
-        ? IconButton(
-            icon: const Icon(OMIcons.refresh),
-            onPressed: _fetchData,
-          )
+        ? IconButton(icon: const Icon(OMIcons.refresh), onPressed: _fetchData)
         : const SizedBox.shrink();
 
     final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;
@@ -283,8 +290,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.get(StringKey.APP_NAME),
-      actions: <Widget>[
+      title: translation(StrKey.APP_NAME),
+      actions: [
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
       ],
@@ -305,9 +312,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   )
                 : const SizedBox.shrink(),
             const Divider(height: 0.0),
-            Expanded(
-              child: Container(child: content),
-            ),
+            Expanded(child: Container(child: content)),
           ],
         ),
       ),

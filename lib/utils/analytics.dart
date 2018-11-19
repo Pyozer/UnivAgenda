@@ -23,7 +23,7 @@ class AnalyticsProvider extends InheritedWidget {
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsGroup,
       parameters: {
-        AnalyticsValue.groupKeys: prefs.groupKeys.join(','),
+        AnalyticsValue.groupKeys: prefs.groupKeys?.join(',') ?? "Ical file",
         AnalyticsValue.university: prefs.university?.name ?? prefs.urlIcs ?? "Unknown",
       } 
     );

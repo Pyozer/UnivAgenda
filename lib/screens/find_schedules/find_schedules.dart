@@ -138,8 +138,8 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
     for (var level = 0; level < 2; level++) {
       final menuTitle = level == 0
-          ? translations.get(StringKey.FINDSCHEDULES_SEARCH_ORIGIN)
-          : translations.get(StringKey.FINDSCHEDULES_FILTER);
+          ? translation(StrKey.FINDSCHEDULES_SEARCH_ORIGIN)
+          : translation(StrKey.FINDSCHEDULES_FILTER);
 
       dropdownChoices.add(
         _buildDropdown(
@@ -157,7 +157,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     }
 
     return AppbarPage(
-      title: translations.get(StringKey.FINDSCHEDULES),
+      title: translation(StrKey.FINDSCHEDULES),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -168,7 +168,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               Row(
                 children: <Widget>[
                   _buildTimePart(
-                    translations.get(StringKey.START_TIME_EVENT),
+                    translation(StrKey.START_TIME_EVENT),
                     _startTime,
                     (newStartTime) {
                       _onTimeChange(newStartTime, _endTime);
@@ -176,7 +176,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
                   ),
                   const SizedBox(width: 32.0),
                   _buildTimePart(
-                    translations.get(StringKey.END_TIME_EVENT),
+                    translation(StrKey.END_TIME_EVENT),
                     _endTime,
                     (newEndTime) {
                       _onTimeChange(_startTime, newEndTime);
@@ -186,7 +186,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               ),
               RaisedButtonColored(
                 onPressed: _onSearchPressed,
-                text: translations.get(StringKey.SEARCH),
+                text: translation(StrKey.SEARCH),
               ),
             ]),
         ),

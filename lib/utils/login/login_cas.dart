@@ -20,7 +20,7 @@ class LoginCAS extends LoginProcess {
       lt = ltInput.attributes['value'];
 
     final executionInput = document.querySelector('input[name="execution"]');
-    String execution = "e1s1";
+    String execution;
     if (executionInput?.attributes?.containsKey("value") ?? false)
       execution = executionInput.attributes['value'];
 
@@ -31,8 +31,8 @@ class LoginCAS extends LoginProcess {
       "submit": "LOGIN",
       "username": username,
       "password": password,
-      "execution": execution,
     };
+    if (execution != null) postParams['execution'] = execution;
 
     // Get JSESSIONID from previous request header
     final cookie = response.httpResponse.headers["set-cookie"];

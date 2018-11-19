@@ -37,7 +37,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildInfo() {
-    final locale = translations.locale;
+    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
 
     final timeStart = Date.extractTime(_course.dateStart, locale);
     final timeEnd = Date.extractTime(_course.dateEnd, locale);
@@ -77,13 +77,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (_course.isExam())
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.description),
-        title: Text(translations.get(StringKey.COURSE_TEST)),
+        title: Text(translation(StrKey.COURSE_TEST)),
       ));
 
     if (_course.color != null)
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.colorLens),
-        title: Text(translations.get(StringKey.EVENT_COLOR)),
+        title: Text(translation(StrKey.EVENT_COLOR)),
         trailing: CircleColor(color: _course.color, circleSize: 28.0),
       ));
 
@@ -93,8 +93,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
           child: Text(
-            translations.get(StringKey.NOTES),
-            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
+            translation(StrKey.NOTES),
+            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
           ),
         ),
         AddNoteButton(onPressed: _openAddNote)
@@ -106,12 +106,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildListNotes() {
-    List<Widget> listNotes = [];
-
-    for (final note in _course.notes)
-      listNotes.add(CourseNote(note: note, onDelete: _onNoteDeleted));
-
-    return listNotes;
+    return _course.notes
+        .map((note) => CourseNote(note: note, onDelete: _onNoteDeleted))
+        .toList();
   }
 
   void _onNoteDeleted(Note note) {
@@ -129,21 +126,20 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         maxLines: 6,
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
-          hintText: translations.get(StringKey.ADD_NOTE_PLACEHOLDER),
+          hintText: translation(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
-        validator: (val) => (val.trim().isEmpty)
-            ? translations.get(StringKey.ADD_NOTE_EMPTY)
-            : null,
+        validator: (val) =>
+            (val.trim().isEmpty) ? translation(StrKey.ADD_NOTE_EMPTY) : null,
         onSaved: (val) => _noteToAdd = val.trim(),
       ),
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
-      translations.get(StringKey.ADD_NOTE),
+      translation(StrKey.ADD_NOTE),
       formContent,
-      translations.get(StringKey.ADD_NOTE_SUBMIT),
-      translations.get(StringKey.CANCEL),
+      translation(StrKey.ADD_NOTE_SUBMIT),
+      translation(StrKey.CANCEL),
     );
 
     if (isDialogPositive) _submitAddNote();
@@ -175,59 +171,106 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     }
   }
 
+  void _onMenuChoose(CourseMenuItem choice) async {
+    bool isHide = choice == CourseMenuItem.HIDE;
+    if (isHide || choice == CourseMenuItem.UNHIDE) {
+      bool isDialogOk = await DialogPredefined.showTextDialog(
+        context,
+        translation(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
+        translation(isHide ? StrKey.HIDE_EVENT_TEXT : StrKey.UNHIDE_EVENT_TEXT),
+        translation(StrKey.YES),
+        translation(StrKey.NO),
+      );
+      if (isDialogOk) {
+        if (isHide) {
+          prefs.addHiddenEvent(widget.course.title);
+        } else {
+          prefs.removeHiddenEvent(widget.course.title);
+        }
+        setState(() {});
+      }
+    }
+
+    if (choice == CourseMenuItem.EDIT) {
+      CustomCourse editedCourse = await Navigator.of(context).push(
+        CustomRoute<CustomCourse>(
+          builder: (context) => CustomEventScreen(course: _course),
+          fullscreenDialog: true,
+        ),
+      );
+      if (editedCourse != null) {
+        prefs.editCustomEvent(editedCourse, true);
+        setState(() => _course = editedCourse);
+      }
+    }
+    if (choice == CourseMenuItem.DELETE) {
+      bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
+      if (isConfirm) {
+        prefs.removeCustomEvent(_course, true);
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
+  PopupMenuItem<T> _buildMenu<T>(T value, IconData icon, String title) {
+    return PopupMenuItem<T>(
+      value: value,
+      child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        Icon(icon),
+        const SizedBox(width: 24.0),
+        Text(title, maxLines: 1, overflow: TextOverflow.ellipsis)
+      ]),
+    );
+  }
+
+  List<Widget> _buildAppbarAction() {
+    List<PopupMenuEntry<CourseMenuItem>> actions = [];
+    bool isHidden = prefs.isCourseHidden(widget.course);
+    actions.add(
+      _buildMenu<CourseMenuItem>(
+        isHidden ? CourseMenuItem.UNHIDE : CourseMenuItem.HIDE,
+        isHidden ? OMIcons.visibility : OMIcons.visibilityOff,
+        translation(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
+      ),
+    );
+
+    if (_course is CustomCourse) {
+      actions.addAll([
+        _buildMenu<CourseMenuItem>(
+          CourseMenuItem.EDIT,
+          OMIcons.edit,
+          translation(StrKey.EDIT),
+        ),
+        _buildMenu<CourseMenuItem>(
+          CourseMenuItem.DELETE,
+          OMIcons.delete,
+          translation(StrKey.DELETE),
+        )
+      ]);
+    }
+
+    return [
+      PopupMenuButton<CourseMenuItem>(
+        icon: const Icon(OMIcons.moreVert),
+        onSelected: _onMenuChoose,
+        itemBuilder: (_) => actions,
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final actionsAppbar = (_course is CustomCourse)
-        ? [
-            IconButton(
-              icon: const Icon(OMIcons.delete),
-              onPressed: () async {
-                bool isConfirm =
-                    await DialogPredefined.showDeleteEventConfirm(context);
-                if (isConfirm) {
-                  prefs.removeCustomEvent(_course, true);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-            IconButton(
-              icon: const Icon(OMIcons.edit),
-              onPressed: () async {
-                CustomCourse editedCourse = await Navigator.of(context).push(
-                  CustomRoute<CustomCourse>(
-                    builder: (context) => CustomEventScreen(course: _course),
-                    fullscreenDialog: true,
-                  ),
-                );
-
-                if (editedCourse != null) {
-                  prefs.editCustomEvent(editedCourse, true);
-                  setState(() {
-                    _course = editedCourse;
-                  });
-                }
-              },
-            )
-          ]
-        : null;
-
     final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
 
     return AppbarPage(
-      title: translations.get(StringKey.COURSE_DETAILS),
-      elevation: 0.0,
-      actions: actionsAppbar,
+      title: translation(StrKey.COURSE_DETAILS),
+      actions: _buildAppbarAction(),
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(
-              child: Text(_course.title, style: textStyle),
-            ),
+            AppbarSubTitle(child: Text(_course.title, style: textStyle)),
             Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: _buildInfo(),
-              ),
+              child: ListView(shrinkWrap: true, children: _buildInfo()),
             ),
           ],
         ),
@@ -235,3 +278,5 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     );
   }
 }
+
+enum CourseMenuItem { EDIT, HIDE, UNHIDE, DELETE }
