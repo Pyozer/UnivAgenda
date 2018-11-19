@@ -94,8 +94,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   Widget build(BuildContext context) {
     return AppbarPage(
       title: translation(StrKey.FINDSCHEDULES_FILTER_SELECTION),
-      elevation: 0.0,
-      actions: <Widget>[
+      actions: [
         IconButton(icon: const Icon(OMIcons.check), onPressed: _onSubmit),
       ],
       body: Container(

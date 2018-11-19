@@ -214,7 +214,6 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     return AppbarPage(
       title: translation(StrKey.COURSE_DETAILS),
-      elevation: 0.0,
       actions: actionsAppbar,
       body: Container(
         child: Column(
