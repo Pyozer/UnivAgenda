@@ -20,4 +20,6 @@ class Url {
 
   static final changelog =
       'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
+  static final changelog_fr =
+      'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG_fr.md';
 }

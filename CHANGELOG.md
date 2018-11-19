@@ -1,140 +1,140 @@
 ## Version 4.0.6
 
-- Ajout de la possibilité de masquer un événement
-- Suppression de l'ombre de la barre de navigation
-- Légères modifications sur l'écran de connexion
-- Correction de divers bugs
-- Modification de quelques texte
-- Amélioration du code
+- Added the ability to hide an event
+- Remove the shadow from the navigation bar
+- Slight changes on the login screen
+- Fixed various bugs
+- Modification of some text
+- Improvement of the code
 
 ## Version 4.0.5
 
-- Ajout du titre au centre de l'Appbar
-- Ajout de la statusbar transparente
-- Correction de certaines vue (layout)
-- Correction de bugs
+- Adding the title in the center of the Appbar
+- Added transparent statusbar
+- Fixed some view (layout)
+- Bugfix
 
 ## Version 4.0.4
 
-- Amélioration de la TreeView (recherche créneaux libres)
-  - Ajout d'une recherche lors du choix de resources
-  - Ajout de la possibilité d'ouvrir/fermer les groupes de resources
-  - Meilleur visibilité des groupes
-- Amélioration de l'affichage des cours (caractères '\', '_' supprimés)
-- Correction de bugs sur le splashscreen
-  
+- Improvement of the TreeView (search slots free)
+  - Added search when choosing resources
+  - Added ability to open / close resource groups
+  - Better visibility of groups
+- Improved course display (characters '\', '_' deleted)
+- Bug fixes on the splashscreen
+  
 ## Version 4.0.3
 
-- Amélioration du stockage des ressources
-- Possibilité de mettre le lien d'un fichier ICS (permet d'utiliser l'appli même si son université n'est pas ajouté)
-- Correction de bugs (splashscreen, loader, encodage)
-- Gestion totalement dynamique des resources
-- Amélioration de la recherche de créneaux disponibles
-- Amélioration diverses de l'application
-- Lancement de la version Beta
-  
+- Improved storage of resources
+- Ability to put the link of an ICS file (allows to use the app even if its university is not added)
+- Bug fixes (splashscreen, loader, encoding)
+- Totally dynamic management of resources
+- Improved search for available slots
+- Various improvement of the application
+- Launch of Beta version
+  
 ## Version 4.0.2
 
-- Possibilité de mettre une couleur sur les cours
-- Amélioration de l'analytics
-- Amélioration de la vue "Ajouter un événement"
-- Amélioration de l'introduction
-- Réduction taille des images
-- Ajout d'un bouton "Données et vie privée"
-- Correction de bugs
-- Amélioration des performances
+- Ability to put a color on the courses
+- Improved analytics
+- Improved view "Add event"
+- Improvement of the introduction
+- Reduce image size
+- Added a button "Data and privacy"
+- Bugfix
+- Performance improvement
 
 ## Version 4.0.1
 
-- Ajout de la possibilité d'ajouter des événements récurrents
-- Possibilité d'afficher tous les jours
-- Possibilité de cacher le nom du groupe afficher avant la liste des cours.
-- Ajout du nom du groupe dans le menu latéral
-- Correction de bugs
-- Amélioration des performances
-  
+- Added the ability to add recurring events
+- Possibility to display every day
+- Ability to hide the group name display before the list of courses.
+- Adding the name of the group in the side menu
+- Performance improvement
+- Bugfix
+  
 ## Version 4.0.0
 
-- Refonte totale de l'application avec Flutter (Android/iOS)
-- Amélioration de la personnalisation (couleur, thème sombre)
-- Mise à jour / Ajout de nouveaux agenda (STAPS L3, ...)
-- Ajout d'un écran pour voir en détail un cours
-- Possibilité de mettre plusieurs notes
-- Amélioration de la recherche d'une salle libre
-- Ajout des bibliothèques utilisés (licences)
-- Modification de l'écran "A propos"
-- Modification de l'écran "Paramètres"
-- Modification de l'écran "Connexion"
-- Modification de l'écran "Ajouter un événement"
-- Ajout de la possibilité de faire un Feedback
-- Réintégration de l'affichage horizontal
+- Total redesign of the application with Flutter (Android / iOS)
+- Improved customization (color, dark theme)
+- Update / Add new agenda (STAPS L3, ...)
+- Added a screen to view a course in detail
+- Ability to put several notes
+- Improved search for a free room
+- Adding used libraries (licenses)
+- Changing the "About" screen
+- Changing the "Settings" screen
+- Modification of the "Connection" screen
+- Modification of the "Add an event" screen
+- Added the possibility to make a Feedback
+- Reintegration of the horizontal display
 
 ## Version 3.0.3
 
-- Fix: Bug HTTP réparé sur Android P (9.0)
+- Fix: Repaired HTTP bug on Android P (9.0)
 
 ## Version 3.0.2
 
-- Ajout: Connexion à l'ENT (sécurité)
-- Modification: Changement URL de l'agenda (année 2018-2019)
-- Modification: Mise à jour pour support API 28
-  
+- Add: Connection to the ENT (security)
+- Modification: Change URL of the agenda (year 2018-2019)
+- Modification: Update for API Support 28
+  
 ## Version 3.0.1
 
-- Ajout: Possibilité de trouver une salle libre
+- Addition: Possibility to find a free room
 
 ## Version 3.0.0
 
-- Passage tout en natif (plus de WebView)
-- Ajout: Evènements personnalisés
-- Ajout: Notes sur les cours
-- Améliorations du code
-- Modification du logo
+- Passage all in native (more than WebView)
+- Add: Custom events
+- Add: Notes on the courses
+- Code improvements
+- Modification of the logo
 
 ## Version 2.1.7
 
-- Ajout: Introduction (1er lancement)
+- Add: Introduction (1st launch)
 
 ## Version 2.1.6
 
-- Ajout: 48 thèmes personnalisés
-- Ajout: Vue horizontale
-- Changement de serveur
+- Added: 48 custom themes
+- Addition: Horizontal view
+- Change of server
 
 ## Version 2.1.5
 
-- Fix: Bug qui faisait crash (STAPS)
+- Fix: Bug that crashed (STAPS)
 
 ## Version 2.1.4
 
-- Ajout: S4 pour les Info 2
-- Ajout: S4 pour les MMI 2
-- Ajout: IPLP & PEL pour les GB 2
+- Added: S4 for Info 2
+- Addition: S4 for MMI 2
+- Add: IPLP & PEL for GB 2
 
 ## Version 2.1.3
 
-- Amélioration: Page "A propos"
-- Amélioration: Page "Mise à jour"
-- Légère modification des couleurs
-- Mise en forme du Changelog
+- Improvement: "About" page
+- Improvement: "Update" page
+- slight change of colors
+- Shaping the Changelog
 
 ## Version 2.1.2
 
-- Ajout: Google Analytics
-- Chargement du cache désormais invisible
+- Add: Google Analytics
+- Loading the cache now invisible
 
 ## Version 2.1.1
 
-- Ajout: Intégration des STAPS (Le Mans)
-- Ajout: Affichage du Changelog
+- Addition: Integration of STAPS (Le Mans)
+- Added: Changelog Display
 
 ## Version 2.1.0
 
-- Modification du serveur
-- Modification de la page Mise à jour
-- Légère modification du logo
-  
+- Server modification
+- Modification of the Update page
+- slight modification of the logo
+  
 ## Version 2.0.9
 
-- Gestion du cache amélioré
-- Fix: Bug du scroll dans A propos réglé
+- Improved cache management
+- Fix: Bug of scroll in About set

@@ -158,32 +158,34 @@ class AboutScreen extends StatelessWidget {
   Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
       VoidCallback onLicensesTap) {
     return AboutCard(
-        title: FlutterI18n.translate(context, StrKey.OTHER),
-        lateralPadding: false,
-        children: [
-          ListTile(
-            title: Text(FlutterI18n.translate(context, StrKey.CHANGELOG)),
-            subtitle: Text(
-              FlutterI18n.translate(context, StrKey.CHANGELOG_DESC),
-            ),
-            onTap: onChangeLogTap,
+      title: FlutterI18n.translate(context, StrKey.OTHER),
+      lateralPadding: false,
+      children: [
+        ListTile(
+          title: Text(FlutterI18n.translate(context, StrKey.CHANGELOG)),
+          subtitle: Text(
+            FlutterI18n.translate(context, StrKey.CHANGELOG_DESC),
           ),
-          ListTile(
-            title: Text(
-              FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
-            ),
-            subtitle: Text(
-              FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES_DESC),
-            ),
-            onTap: onLicensesTap,
+          onTap: onChangeLogTap,
+        ),
+        ListTile(
+          title: Text(
+            FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
           ),
-          ListTile(
-              title: Text(FlutterI18n.translate(context, StrKey.VERSION)),
-              subtitle: FutureBuilder<PackageInfo>(
-                future: PackageInfo.fromPlatform(),
-                builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
-              ))
-        ]);
+          subtitle: Text(
+            FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES_DESC),
+          ),
+          onTap: onLicensesTap,
+        ),
+        ListTile(
+          title: Text(FlutterI18n.translate(context, StrKey.VERSION)),
+          subtitle: FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildFooter(BuildContext context) {
