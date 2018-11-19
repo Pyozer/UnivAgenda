@@ -1,25 +1,25 @@
 class Url {
-  static final listUniversity =
+  static const listUniversity =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
 
-  static final helpList =
+  static const helpList =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
 
-  static final myWebsite = 'https://pyozer.github.io';
-  static final justinWebsite = 'http://phenixos-lab.ddns.net/Perso';
-  static final myTwitter = 'https://twitter.com/jc_mousse';
-  static final githubProjet = 'https://github.com/pyozer/myagenda_flutter';
+  static const myWebsite = 'https://pyozer.github.io';
+  static const justinWebsite = 'http://phenixos-lab.ddns.net/Perso';
+  static const myTwitter = 'https://twitter.com/jc_mousse';
+  static const githubProjet = 'https://github.com/pyozer/myagenda_flutter';
 
-  static final paypal = 'https://paypal.me/pools/c/89AGEV3MfE';
-  static final unidays = 'https://myunidays.com/r/Bdf7mZIQGak';
+  static const paypal = 'https://paypal.me/pools/c/89AGEV3MfE';
+  static const unidays = 'https://myunidays.com/r/Bdf7mZIQGak';
 
-  static final playstore =
+  static const playstore =
       "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
-  static final appstore =
+  static const appstore =
       "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";
 
-  static final changelog =
+  static const changelog =
       'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG.md';
-  static final changelog_fr =
+  static const changelogFr =
       'https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/CHANGELOG_fr.md';
 }

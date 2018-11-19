@@ -12,7 +12,7 @@ class ChangeLog extends StatelessWidget {
 
     String changeLogUrl = Url.changelog;
     if (locale.countryCode == "fr")
-        changeLogUrl = Url.changelog_fr;
+        changeLogUrl = Url.changelogFr;
 
     final response = await HttpRequest.get(changeLogUrl);
     if (response.isSuccess)
