@@ -112,9 +112,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   void _onNoteDeleted(Note note) {
-    setState(() {
-      _course.notes.remove(note);
-    });
+    setState(() => _course.notes.remove(note));
     prefs.removeNote(note);
   }
 
@@ -128,8 +126,11 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         decoration: InputDecoration(
           hintText: translation(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
-        validator: (val) =>
-            (val.trim().isEmpty) ? translation(StrKey.ADD_NOTE_EMPTY) : null,
+        validator: (value) {
+          return value.trim().isEmpty
+              ? translation(StrKey.ADD_NOTE_EMPTY)
+              : null;
+        },
         onSaved: (val) => _noteToAdd = val.trim(),
       ),
     );
@@ -143,6 +144,29 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     );
 
     if (isDialogPositive) _submitAddNote();
+  }
+
+  Future<String> _openRenameDialog([String currentValue = ""]) async {
+    String inputValue = currentValue;
+    final formContent = TextField(
+      controller: TextEditingController(text: currentValue),
+      maxLength: 60,
+      maxLines: null,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        hintText: translation(StrKey.NEW_EVENT_TITLE),
+      ),
+      onChanged: (value) => inputValue = value,
+    );
+
+    bool isDialogPositive = await DialogPredefined.showContentDialog(
+      context,
+      translation(StrKey.RENAME_EVENT),
+      formContent,
+      translation(StrKey.RENAME),
+      translation(StrKey.CANCEL),
+    );
+    return isDialogPositive ? inputValue : null;
   }
 
   void _submitAddNote() {
@@ -163,17 +187,14 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       );
 
       _noteToAdd = "";
-      setState(() {
-        _course.notes.insert(0, note);
-      });
-
+      setState(() => _course.notes.insert(0, note));
       prefs.addNote(note, true);
     }
   }
 
-  void _onMenuChoose(CourseMenuItem choice) async {
-    bool isHide = choice == CourseMenuItem.HIDE;
-    if (isHide || choice == CourseMenuItem.UNHIDE) {
+  void _onMenuChoose(MenuItem choice) async {
+    bool isHide = choice == MenuItem.HIDE;
+    if (isHide || choice == MenuItem.UNHIDE) {
       bool isDialogOk = await DialogPredefined.showTextDialog(
         context,
         translation(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
@@ -182,16 +203,15 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         translation(StrKey.NO),
       );
       if (isDialogOk) {
-        if (isHide) {
+        if (isHide)
           prefs.addHiddenEvent(widget.course.title);
-        } else {
+        else
           prefs.removeHiddenEvent(widget.course.title);
-        }
         setState(() {});
       }
     }
 
-    if (choice == CourseMenuItem.EDIT) {
+    if (choice == MenuItem.EDIT) {
       CustomCourse editedCourse = await Navigator.of(context).push(
         CustomRoute<CustomCourse>(
           builder: (context) => CustomEventScreen(course: _course),
@@ -203,17 +223,30 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         setState(() => _course = editedCourse);
       }
     }
-    if (choice == CourseMenuItem.DELETE) {
+    if (choice == MenuItem.DELETE) {
       bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
       if (isConfirm) {
         prefs.removeCustomEvent(_course, true);
         Navigator.of(context).pop();
       }
     }
+    if (choice == MenuItem.RENAME) {
+      String rename = await _openRenameDialog(widget.course.getTitle());
+      if (rename != null) {
+        if (rename.length > 0) {
+          widget.course.renamedTitle = rename;
+          prefs.addRenamedEvent(widget.course.title, rename);
+        } else {
+          widget.course.renamedTitle = null;
+          prefs.removeRenamedEvent(widget.course.title);
+        }
+        setState(() {});
+      }
+    }
   }
 
-  PopupMenuItem<T> _buildMenu<T>(T value, IconData icon, String title) {
-    return PopupMenuItem<T>(
+  PopupMenuItem<MenuItem> _item(MenuItem value, IconData icon, String title) {
+    return PopupMenuItem<MenuItem>(
       value: value,
       child: ListTile(
         leading: Icon(icon),
@@ -223,33 +256,26 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildAppbarAction() {
-    List<PopupMenuEntry<CourseMenuItem>> actions = [];
     bool isHidden = prefs.isCourseHidden(widget.course);
-    actions.add(
-      _buildMenu<CourseMenuItem>(
-        isHidden ? CourseMenuItem.UNHIDE : CourseMenuItem.HIDE,
+
+    List<PopupMenuEntry<MenuItem>> actions = [
+      _item(
+        isHidden ? MenuItem.UNHIDE : MenuItem.HIDE,
         isHidden ? OMIcons.visibility : OMIcons.visibilityOff,
         translation(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
       ),
-    );
+      _item(MenuItem.RENAME, OMIcons.title, translation(StrKey.RENAME)),
+    ];
 
     if (_course is CustomCourse) {
       actions.addAll([
-        _buildMenu<CourseMenuItem>(
-          CourseMenuItem.EDIT,
-          OMIcons.edit,
-          translation(StrKey.EDIT),
-        ),
-        _buildMenu<CourseMenuItem>(
-          CourseMenuItem.DELETE,
-          OMIcons.delete,
-          translation(StrKey.DELETE),
-        )
+        _item(MenuItem.EDIT, OMIcons.edit, translation(StrKey.EDIT)),
+        _item(MenuItem.DELETE, OMIcons.delete, translation(StrKey.DELETE))
       ]);
     }
 
     return [
-      PopupMenuButton<CourseMenuItem>(
+      PopupMenuButton<MenuItem>(
         icon: const Icon(OMIcons.moreVert),
         onSelected: _onMenuChoose,
         itemBuilder: (_) => actions,
@@ -267,10 +293,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(child: Text(_course.title, style: textStyle)),
-            Expanded(
-              child: ListView(shrinkWrap: true, children: _buildInfo()),
-            ),
+            AppbarSubTitle(child: Text(_course.getTitle(), style: textStyle)),
+            Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
           ],
         ),
       ),
@@ -278,4 +302,4 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 }
 
-enum CourseMenuItem { EDIT, HIDE, UNHIDE, DELETE }
+enum MenuItem { EDIT, HIDE, UNHIDE, DELETE, RENAME }

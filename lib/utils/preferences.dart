@@ -106,6 +106,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// List of hidden courses
   List<String> _hiddenEvents;
 
+  /// List of renamed courses
+  Map<String, String> _renamedEvents;
+
   /// Resources (contain all agenda with their ID)
   Map<String, dynamic> _resources;
 
@@ -553,11 +556,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
 
-  setHiddenEvents([List<String> newHiddenEvents, state = false]) {
-    newHiddenEvents ??= [];
-
+  setHiddenEvents(List<String> newHiddenEvents, [state = false]) {
     _updatePref(() {
-      _hiddenEvents = newHiddenEvents.toSet().toList();
+      _hiddenEvents = newHiddenEvents?.toSet()?.toList() ?? PrefKey.defaultHiddenEvents;
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -573,6 +574,28 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void removeHiddenEvent(String title, [bool state = false]) {
     hiddenEvents.remove(title);
     setHiddenEvents(hiddenEvents, state);
+  }
+
+  Map<String, String> get renamedEvents => _renamedEvents ?? PrefKey.defaultRenamedEvent;
+
+  setRenamedEvents(Map<String, String> newRenamedEvents, [state = false]) {
+    _updatePref(() {
+      _renamedEvents = newRenamedEvents ?? PrefKey.defaultRenamedEvent;
+    }, state);
+ 
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString(PrefKey.renamedEvent, json.encode(_renamedEvents));
+    });
+  }
+
+  void addRenamedEvent(String eventTitle, String newTitle, [bool state = false]) {
+    renamedEvents[eventTitle] = newTitle;
+    setRenamedEvents(renamedEvents, state);
+  }
+
+  void removeRenamedEvent(String eventTitle, [bool state = false]) {
+    renamedEvents.remove(eventTitle);
+    setRenamedEvents(renamedEvents, state);
   }
 
   bool isCourseHidden(Course course) =>
@@ -660,6 +683,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Init hidden courses
     List<String> hiddenEvents = prefs.getStringList(PrefKey.hiddenEvent) ?? [];
     setHiddenEvents(hiddenEvents);
+    // Renamed events
+    Map<String, dynamic> renamedEvents = json.decode(prefs.getString(PrefKey.renamedEvent) ?? "{}");
+    setRenamedEvents(renamedEvents.cast<String, String>());
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =

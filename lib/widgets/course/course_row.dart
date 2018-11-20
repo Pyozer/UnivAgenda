@@ -54,7 +54,7 @@ class CourseRow extends StatelessWidget {
     else if (course.isExam())
       bgColorRow = Colors.red[600];
     else if (prefs.isGenerateEventColor)
-      bgColorRow = getColorFromString(course.titleClear());
+      bgColorRow = getColorFromString(course.getTitle());
 
     String courseDate = course.dateForDisplay();
     if (course.isStarted())
@@ -95,7 +95,7 @@ class CourseRow extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _text(course.title, style, 15.0, FontWeight.w700),
+                          _text(course.getTitle(), style, 15.0, FontWeight.w700),
                           const SizedBox(height: 4.0),
                           _text(subtitle, style, 14.0),
                           const SizedBox(height: 4.0),

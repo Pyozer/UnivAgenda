@@ -49,6 +49,7 @@ class StrKey {
   static const ADD = 'add';
   static const DELETE = 'delete';
   static const EDIT = 'edit';
+  static const RENAME = 'rename';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
   static const REFRESH_AGENDAS = 'refresh_agendas';
@@ -218,4 +219,6 @@ class StrKey {
   static const NO_HIDDEN_EVENT_TEXT = "no_hidden_event_text";
   static const ADD_HIDDEN_EVENT = "add_hidden_event";
 
+  static const NEW_EVENT_TITLE = "new_event_title";
+  static const RENAME_EVENT = "rename_event";
 }

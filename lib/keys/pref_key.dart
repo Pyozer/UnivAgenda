@@ -30,6 +30,7 @@ class PrefKey {
   static const notes = 'notes';
   static const customEvent = 'custom_events';
   static const hiddenEvent = 'hidden_events';
+  static const renamedEvent = 'renamed_events';
 
   static const defaultNumberWeeks = 4;
   static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
@@ -57,6 +58,7 @@ class PrefKey {
   static List<Note> defaultNotes = [];
   static List<CustomCourse> defaultCustomEvents = [];
   static List<String> defaultHiddenEvents = [];
+  static Map<String, String> defaultRenamedEvent = {};
 
   static const String listUniversityFile = 'university.json';
   static const String resourcesFile = 'resources.json';

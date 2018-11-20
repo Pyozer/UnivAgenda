@@ -10,6 +10,7 @@ class Course extends BaseCourse {
   String title;
   String description;
   String location;
+  String renamedTitle;
   List<Note> notes;
   DateTime dateStart;
   DateTime dateEnd;
@@ -25,7 +26,8 @@ class Course extends BaseCourse {
     this.dateEnd, {
     this.notes,
     this.color,
-    this.isHidden = false
+    this.isHidden = false,
+    this.renamedTitle
   }) {
     this.notes ??= [];
   }
@@ -69,6 +71,8 @@ class Course extends BaseCourse {
         .replaceAll('CM', '')
         .replaceAll('-  -', '-');
   }
+
+  String getTitle() => this.renamedTitle ?? this.title;
 
   factory Course.fromJson(Map<String, dynamic> json) {
     Color courseColor;

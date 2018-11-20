@@ -52,6 +52,7 @@
   "add": "Ajouter",
   "delete": "Supprimer",
   "edit": "Modifier",
+  "rename": "Renommer",
   "change": "Changer",
   "refresh": "Rafraichir",
   "refresh_agendas": "Actualiser les agendas",
@@ -214,5 +215,8 @@
   "unhide_event_text": "Êtes-vous sûr de vouloir rendre visible cet événement et tous les autres avec le même titre ?",
   "no_hidden_event": "Aucun filtre",
   "no_hidden_event_text": "Il n'y a aucun filtre d'ajouté pour masquer un/plusieurs événement(s).\nVous pouvez masquer un événement depuis la page de celui-ci ou bien directement ici.",
-  "add_hidden_event": "Titre de l'événement"
+  "add_hidden_event": "Titre de l'événement",
+
+  "new_event_title": "Nouveau titre (vide pour remettre à zéro)",
+  "rename_event": "Renommer l'événement"
 }

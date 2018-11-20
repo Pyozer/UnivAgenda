@@ -220,6 +220,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     for (Course course in listCourses) {
+      course.renamedTitle = prefs.renamedEvents[course.title];
       int dateValue = Date.dateToInt(course.dateStart);
       if (listElement[dateValue] == null) listElement[dateValue] = [];
       listElement[dateValue].add(course);

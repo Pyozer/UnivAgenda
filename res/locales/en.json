@@ -52,6 +52,7 @@
   "add": "Add",
   "delete": "Delete",
   "edit": "Edit",
+  "rename": "Rename",
   "change": "Change",
   "refresh": "Refresh",
   "refresh_agendas": "Refresh calendars",
@@ -213,6 +214,8 @@
   "unhide_event_text": "Are you sure you want to set visible this event and all others with the same title?",
   "no_hidden_event": "No filter",
   "no_hidden_event_text": "There is no added filter to hide events.\nYou can hide an event from the event's page or directly here.",
-  "add_hidden_event": "Title of the event"
+  "add_hidden_event": "Title of the event",
 
+  "new_event_title": "New event title (empty to reset)",
+  "rename_event": "Rename the event"
 }
