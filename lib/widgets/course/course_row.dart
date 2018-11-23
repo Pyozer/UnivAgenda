@@ -61,11 +61,8 @@ class CourseRow extends StatelessWidget {
       courseDate += " - ${FlutterI18n.translate(context, StrKey.IN_PROGRESS)}";
 
     TextStyle style = TextStyle();
-    if (bgColorRow != null) {
-      final bgBrightness = ThemeData.estimateBrightnessForColor(bgColorRow);
-      bool isDark = isDarkTheme(bgBrightness);
-      style = style.copyWith(color: isDark ? Colors.white : Colors.black);
-    }
+    if (bgColorRow != null)
+      style = style.copyWith(color: getColorDependOfBackground(bgColorRow));
 
     var subtitle = course.location;
     // Location and description not empty

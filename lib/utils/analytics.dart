@@ -35,7 +35,6 @@ class AnalyticsProvider extends InheritedWidget {
       parameters: <String, String>{
         AnalyticsValue.numberWeeks: prefs.numberWeeks.toString(),
         AnalyticsValue.displayAllDays: prefs.isDisplayAllDays.toString(),
-        AnalyticsValue.headerGroup: prefs.isHeaderGroupVisible.toString(),
         AnalyticsValue.horizontalView: prefs.isHorizontalView.toString(),
       },
     );

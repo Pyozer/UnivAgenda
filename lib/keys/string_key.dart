@@ -15,8 +15,6 @@ class StrKey {
   static const NUMBER_WEEK_DESC = 'number_week_desc';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
-  static const DISPLAY_HEADER_GROUP = 'display_header_group';
-  static const DISPLAY_HEADER_GROUP_DESC = 'display_header_group_desc';
   static const HIDDEN_EVENT = 'hidden_event';
   static const FULL_HIDDEN_EVENT_DESC = 'full_hidden_event_desc';
   static const MANAGE_HIDDEN_EVENT = 'manage_hidden_event';

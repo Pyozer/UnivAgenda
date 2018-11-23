@@ -20,7 +20,6 @@ class PrefKey {
   static const isUserLogged = 'is_user_logged';
   static const isHorizontalView = 'is_horizontal_view';
   static const isDisplayAllDays = 'is_display_all_days';
-  static const isHeaderGroup = 'is_header_group';
   static const isGenerateEventColor = 'is_generate_event_color';
   static const isFullHiddenEvents = 'is_full_hidden_event';
 
@@ -43,7 +42,6 @@ class PrefKey {
   static const defaultUserLogged = false;
   static const defaultHorizontalView = false;
   static const defaultDisplayAllDays = false;
-  static const defaultHeaderGroup = true;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;
 

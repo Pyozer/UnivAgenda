@@ -137,19 +137,6 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       ),
     ];
 
-    if (prefs.urlIcs == null) {
-      settingsDisplayItems.addAll([
-        const ListDivider(),
-        SwitchListTile(
-          title: ListTileTitle(translation(StrKey.DISPLAY_HEADER_GROUP)),
-          subtitle: Text(translation(StrKey.DISPLAY_HEADER_GROUP_DESC)),
-          value: prefs.isHeaderGroupVisible,
-          activeColor: theme.accentColor,
-          onChanged: (value) => prefs.setHeaderGroupVisible(value, true),
-        )
-      ]);
-    }
-
     settingsDisplayItems.addAll([
       SwitchListTile(
         title: ListTileTitle(translation(StrKey.HIDDEN_EVENT)),

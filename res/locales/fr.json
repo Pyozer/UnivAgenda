@@ -18,8 +18,6 @@
   },
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine",
-  "display_header_group": "Afficher votre groupe",
-  "display_header_group_desc": "Groupe visible en en-tête des cours",
   "hidden_event": "Événéments masqués",
   "full_hidden_event_desc": "Totalement masquer ces événements",
   "manage_hidden_event": "Gérer événéments masqués",

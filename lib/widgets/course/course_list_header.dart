@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseListHeader extends StatelessWidget {
@@ -30,9 +31,9 @@ class CourseListHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     if (text == null) return const SizedBox.shrink();
 
-    const textStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0);
+    final textStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0, color: getColorDependOfBackground(bgColor ?? Theme.of(context).primaryColor));
 
-    return InkWell(
+    return GestureDetector(
       onTap: () => _onHeaderTap(context),
       child: Container(
         color: bgColor,

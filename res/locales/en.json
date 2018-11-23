@@ -18,8 +18,6 @@
   },
   "display_all_days": "Display all days",
   "display_all_days_desc": "Show every day of the week",
-  "display_header_group": "Display header group",
-  "display_header_group_desc": "Show your group before courses",
   "hidden_event": "Hidden events",
   "full_hidden_event_desc": "Totally hide these events",
   "manage_hidden_event": "Manage hidden events",

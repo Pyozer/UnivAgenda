@@ -304,18 +304,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           analyticsProvider.sendForceRefresh(AnalyticsValue.refreshCourses);
           return await _fetchData();
         },
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            (prefs.isHeaderGroupVisible && prefs.urlIcs == null)
-                ? CourseListHeader(
-                    "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
-                  )
-                : const SizedBox.shrink(),
-            const Divider(height: 0.0),
-            Expanded(child: Container(child: content)),
-          ],
-        ),
+        child: Container(child: content),
       ),
     );
   }

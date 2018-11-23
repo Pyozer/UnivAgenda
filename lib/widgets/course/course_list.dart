@@ -51,7 +51,6 @@ class CourseList extends StatelessWidget {
     }
 
     final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
-    final textTheme = Theme.of(context).textTheme;
 
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
@@ -67,7 +66,7 @@ class CourseList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
           child: Text(
             Date.dateFromNow(lastDate, locale, true),
-            style: textTheme.title,
+            style: Theme.of(context).primaryTextTheme.title,
           ),
         ),
       );
@@ -80,7 +79,16 @@ class CourseList extends StatelessWidget {
     return DefaultTabController(
       length: elements.length,
       child: Column(children: [
-        TabBar(isScrollable: true, tabs: tabs),
+        Container(
+          color: Theme.of(context).primaryColor,
+          child: TabBar(
+            isScrollable: true,
+            tabs: tabs,
+            indicatorColor: Theme.of(context).primaryTextTheme.title.color,
+            indicatorPadding: const EdgeInsets.only(bottom: 0.85),
+            indicatorWeight: 2.5,
+          ),
+        ),
         Expanded(child: TabBarView(children: listTabView)),
       ]),
     );

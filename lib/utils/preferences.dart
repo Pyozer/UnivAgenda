@@ -88,9 +88,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Display all week days even if no event
   bool _isDisplayAllDays;
 
-  /// Display the group header
-  bool _isHeaderGroup;
-
   /// Totally hide hidden courses or display as very small
   bool _isFullHiddenEvent;
 
@@ -456,19 +453,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         (prefs) => prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays));
   }
 
-  bool get isHeaderGroupVisible => _isHeaderGroup ?? PrefKey.defaultHeaderGroup;
-
-  setHeaderGroupVisible(bool headerGroup, [state = false]) {
-    if (isHeaderGroupVisible == headerGroup) return;
-
-    _updatePref(() {
-      _isHeaderGroup = headerGroup ?? PrefKey.defaultHeaderGroup;
-    }, state);
-
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isHeaderGroup, _isHeaderGroup));
-  }
-
   List<University> get listUniversity =>
       _listUniversity ?? PrefKey.defaultListUniversity;
 
@@ -668,7 +652,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
-    setHeaderGroupVisible(prefs.getBool(PrefKey.isHeaderGroup));
     setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
     setFullHiddenEvent(prefs.getBool(PrefKey.isFullHiddenEvents));
 

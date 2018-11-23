@@ -60,8 +60,8 @@ class MainDrawer extends StatelessWidget {
               ? CourseListHeader(
                   "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
                   bgColor: prefs.theme.darkTheme
-                      ? const Color(0x21FFFFFF)
-                      : const Color(0x18000000),
+                      ? const Color(0xFF484848)
+                      : const Color(0xFFF3F3F3),
                 )
               : const SizedBox.shrink(),
           DrawerElement(
