@@ -14,14 +14,19 @@ Brightness getBrightness(bool isDark) =>
 
 bool isDarkTheme(Brightness brightness) => brightness == Brightness.dark;
 
+Color getColorDependOfBackground(Color bgColor, {Color ifLight, Color ifDark}) {
+  return (ThemeData.estimateBrightnessForColor(bgColor) == Brightness.dark)
+      ? ifDark ?? Colors.white
+      : ifLight ?? Colors.black;
+}
+
 Future<void> openLink(BuildContext ctx, String href, String analytic) async {
-  if (await canLaunch(href)) {
+  if (await canLaunch(href))
     await launch(href);
-  } else {
+  else
     Scaffold.of(ctx).showSnackBar(
       SnackBar(content: Text('Could not launch $href')),
     );
-  }
   if (ctx != null && analytic != null)
     AnalyticsProvider.of(ctx).sendLinkClicked(analytic);
 }

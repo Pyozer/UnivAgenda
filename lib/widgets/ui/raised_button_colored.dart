@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/utils/functions.dart';
 
 class RaisedButtonColored extends StatelessWidget {
   final VoidCallback onPressed;
@@ -18,8 +19,7 @@ class RaisedButtonColored extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accentColor = Theme.of(context).accentColor;
-    final brightness = ThemeData.estimateBrightnessForColor(accentColor);
-    final color = (brightness == Brightness.dark) ? Colors.white : Colors.black;
+    final color = getColorDependOfBackground(accentColor);
 
     return RaisedButton(
       shape: shape ??

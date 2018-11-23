@@ -61,10 +61,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   }
 
   Widget _buildAppbarSub() {
-    final bgBrightness =
-        ThemeData.estimateBrightnessForColor(theme.primaryColor);
-    final isBgDark = isDarkTheme(bgBrightness);
-    final color = isBgDark ? Colors.white : Colors.black;
+    final color = getColorDependOfBackground(theme.primaryColor);
 
     return Row(
       mainAxisSize: MainAxisSize.max,
