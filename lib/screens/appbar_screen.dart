@@ -39,8 +39,9 @@ class AppbarPage extends StatelessWidget {
 
 class AppbarSubTitle extends StatelessWidget {
   final Widget child;
+  final EdgeInsets padding;
 
-  const AppbarSubTitle({Key key, @required this.child}) : super(key: key);
+  const AppbarSubTitle({Key key, @required this.child, this.padding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class AppbarSubTitle extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             elevation: 0.0,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
+              padding: padding ?? const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
               child: child,
             ),
           ),

@@ -63,27 +63,20 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   Widget _buildAppbarSub() {
     final color = getColorDependOfBackground(theme.primaryColor);
 
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: TextField(
-            keyboardType: TextInputType.text,
-            style: TextStyle(color: color),
-            cursorColor: color,
-            maxLines: 1,
-            decoration: InputDecoration(
-              hintStyle: TextStyle(color: color),
-              hintText: translation(StrKey.SEARCH),
-            ),
-            onChanged: (search) {
-              setState(() {
-                _search = search;
-              });
-            },
-          ),
-        )
-      ],
+    return TextField(
+      keyboardType: TextInputType.text,
+      style: TextStyle(color: color),
+      cursorColor: color,
+      decoration: InputDecoration(
+          hintStyle: TextStyle(color: color),
+          hintText: translation(StrKey.SEARCH),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0)),
+      onChanged: (search) {
+        setState(() {
+          _search = search;
+        });
+      },
     );
   }
 
@@ -92,12 +85,15 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     return AppbarPage(
       title: translation(StrKey.FINDSCHEDULES_FILTER_SELECTION),
       actions: [
-        IconButton(icon: const Icon(OMIcons.check), onPressed: _onSubmit),
+        IconButton(icon: const Icon(OMIcons.search), onPressed: _onSubmit),
       ],
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(child: _buildAppbarSub()),
+            AppbarSubTitle(
+              child: _buildAppbarSub(),
+              padding: EdgeInsets.zero,
+            ),
             Expanded(
               child: TreeView(
                 treeTitle: _treeTitle,
