@@ -1,42 +1,33 @@
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/preferences.dart';
 
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
 class DynamicTheme extends StatelessWidget {
   final ThemedWidgetBuilder themedWidgetBuilder;
+  final ThemeData theme;
 
   const DynamicTheme({
     Key key,
-    this.themedWidgetBuilder,
+    @required this.theme,
+    @required this.themedWidgetBuilder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferencesProvider.of(context);
     return themedWidgetBuilder(
       context,
-      _buildTheme(
-        brightness: getBrightness(prefs.theme.darkTheme),
-        primaryColor: Color(prefs.theme.primaryColor),
-        accentColor: Color(prefs.theme.accentColor),
+      ThemeData(
+        fontFamily: theme.textTheme.display1.fontFamily,
+        canvasColor: theme.canvasColor,
+        brightness: theme.brightness,
+        primarySwatch: _findMainColor(theme.primaryColor),
+        primaryColor: theme.primaryColor,
+        accentColor: theme.accentColor,
+        toggleableActiveColor: theme.accentColor,
+        textSelectionHandleColor: theme.accentColor,
       ),
     );
-  }
-
-  ThemeData _buildTheme({
-    Brightness brightness,
-    Color primaryColor,
-    Color accentColor,
-  }) {
-    return ThemeData(
-        fontFamily: 'GoogleSans',
-        brightness: brightness,
-        primarySwatch: _findMainColor(primaryColor),
-        primaryColor: primaryColor,
-        accentColor: accentColor);
   }
 
   MaterialColor _findMainColor(Color shadeColor) {
@@ -45,22 +36,17 @@ class DynamicTheme extends StatelessWidget {
     for (final mainColor in materialColors)
       if (_isShadeOfMain(mainColor, shadeColor)) return mainColor;
 
-    return null;
+    Map<int, Color> shades = {50: shadeColor};
+    for (var i = 100; i <= 900; i += 100)
+      shades.putIfAbsent(i, () => shadeColor);
+
+    return MaterialColor(shadeColor.value, shades);
   }
 
   bool _isShadeOfMain(MaterialColor mainColor, Color shadeColor) {
-    List<Color> shades = [
-      mainColor.shade50,
-      mainColor.shade100,
-      mainColor.shade200,
-      mainColor.shade300,
-      mainColor.shade400,
-      mainColor.shade500,
-      mainColor.shade600,
-      mainColor.shade700,
-      mainColor.shade800,
-      mainColor.shade900,
-    ];
+    List<Color> shades = [mainColor.shade50];
+    for (var i = 100; i <= 900; i += 100) shades.add(mainColor[i]);
+
     for (var shade in shades) if (shade == shadeColor) return true;
     return false;
   }

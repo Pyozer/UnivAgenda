@@ -15,6 +15,7 @@ import 'package:myagenda/screens/supportme/supportme.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/dynamic_theme.dart';
+import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -35,16 +36,16 @@ final routes = {
 };
 
 class App extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static var analytics = FirebaseAnalytics();
+  static var observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   Locale _resolveFallback(Locale locale, Iterable<Locale> supportedLocales) {
     return supportedLocales.firstWhere(
-        (supported) =>
-            supported.languageCode == locale.languageCode ||
-            supported.countryCode == locale.countryCode,
-        orElse: () => supportedLocales.first);
+      (supported) =>
+          supported.languageCode == locale.languageCode ||
+          supported.countryCode == locale.countryCode,
+      orElse: () => supportedLocales.first,
+    );
   }
 
   @override
@@ -61,7 +62,18 @@ class App extends StatelessWidget {
       child: PreferencesProvider(
         child: Builder(
           builder: (context) {
+            final themePrefs = PreferencesProvider.of(context).theme;
+
+            final theme = ThemeData(
+              fontFamily: 'GoogleSans',
+              brightness: getBrightness(themePrefs.darkTheme),
+              primaryColor: Color(themePrefs.primaryColor),
+              accentColor: Color(themePrefs.accentColor),
+              canvasColor: !themePrefs.darkTheme ? Colors.white : null,
+            );
+
             return DynamicTheme(
+              theme: theme,
               themedWidgetBuilder: (context, theme) {
                 SystemUiOverlayStyle style = theme.brightness == Brightness.dark
                     ? SystemUiOverlayStyle.light
