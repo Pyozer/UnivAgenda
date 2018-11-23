@@ -17,7 +17,6 @@ import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
-import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/no_result.dart';
