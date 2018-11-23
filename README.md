@@ -1,7 +1,9 @@
 # MyAgenda
 
-Application pour avoir l'agenda de l'**Université du Maine** (Le Mans Université), Université de **Tours** et de **Rennes**. De plus d'autres Universités peuvent être ajoutés facilement, sur demande. Vous pouvez aussi, mettre à la place, un lien vers un fichier ICAL si votre université n'est pas disponible (pour l'Efrei / Efreitech par exemple).
-Elle sera disponible pour **Android** mais aussi **iOS**.
+Application pour avoir l'agenda de l'**Université du Maine** (Le Mans Université), Université de **Tours** et de **Rennes**. De plus, d'autres Universités peuvent être ajoutés facilement, sur demande. Vous pouvez aussi, mettre à la place, un lien vers un fichier ICAL si votre université n'est pas disponible (pour l'**Efrei / Efreitech** par exemple).
+Elle est disponible pour **Android** sur le PlayStore. Malheureusement au vu du prix d'un compte developpeur Apple, elle n'est pas disponible sur **iOS**.
+
+<a href='https://play.google.com/store/apps/details?id=com.pyozer.myagenda&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="75"/></a>
 
 ## Fonctionnement de l'application
 
