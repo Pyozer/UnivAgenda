@@ -52,13 +52,13 @@ Color createColorFromText(String text) {
 
 Color getColorFromString(String string) {
   List<Color> colors = [];
-  for (MaterialColor colorSwatch in app_material_colors)
+  for (MaterialColor colorSwatch in appMaterialColors)
     for (int i = 400; i < 800; i += 200) colors.add(colorSwatch[i]);
 
   var sum = 0;
   string.codeUnits.forEach((code) => sum += code);
 
-  return colors[sum % app_material_colors.length];
+  return colors[sum % appMaterialColors.length];
 }
 
 Future<String> readFile(String filename, String defaultValue) async {

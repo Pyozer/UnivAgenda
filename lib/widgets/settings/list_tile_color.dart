@@ -53,7 +53,7 @@ class _ListTileColorState extends State<ListTileColor> {
     // Specified color OR 1st color of specified colors OR 1st material color
     _inputColor = widget.selectedColor ??
         ((widget.colors != null) ? widget.colors[0] : null) ??
-        app_material_colors[0];
+        appMaterialColors[0];
     _submitColor = _inputColor;
   }
 
@@ -78,7 +78,7 @@ class _ListTileColorState extends State<ListTileColor> {
     var colorPicker = MaterialColorPicker(
       onColorChange: _onColorChange,
       selectedColor: _inputColor,
-      colors: widget.colors ?? app_material_colors,
+      colors: widget.colors ?? appMaterialColors,
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(

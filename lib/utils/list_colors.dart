@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final List<ColorSwatch> app_material_colors = <ColorSwatch>[
+final List<ColorSwatch> appMaterialColors = <ColorSwatch>[
   Colors.red,
   Colors.pink,
   Colors.purple,

@@ -33,7 +33,7 @@ class DynamicTheme extends StatelessWidget {
   MaterialColor _findMainColor(Color shadeColor) {
     if (shadeColor == null) return null;
 
-    for (final mainColor in app_material_colors)
+    for (final mainColor in appMaterialColors)
       if (_isShadeOfMain(mainColor, shadeColor)) return mainColor;
 
     Map<int, Color> shades = {50: shadeColor};
