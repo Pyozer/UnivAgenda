@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/list_colors.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
@@ -52,7 +53,7 @@ class _ListTileColorState extends State<ListTileColor> {
     // Specified color OR 1st color of specified colors OR 1st material color
     _inputColor = widget.selectedColor ??
         ((widget.colors != null) ? widget.colors[0] : null) ??
-        materialColors[0];
+        app_material_colors[0];
     _submitColor = _inputColor;
   }
 
@@ -77,7 +78,7 @@ class _ListTileColorState extends State<ListTileColor> {
     var colorPicker = MaterialColorPicker(
       onColorChange: _onColorChange,
       selectedColor: _inputColor,
-      colors: widget.colors,
+      colors: widget.colors ?? app_material_colors,
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(

@@ -1,5 +1,5 @@
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:myagenda/utils/list_colors.dart';
 
 typedef Widget ThemedWidgetBuilder(BuildContext context, ThemeData data);
 
@@ -33,7 +33,7 @@ class DynamicTheme extends StatelessWidget {
   MaterialColor _findMainColor(Color shadeColor) {
     if (shadeColor == null) return null;
 
-    for (final mainColor in materialColors)
+    for (final mainColor in app_material_colors)
       if (_isShadeOfMain(mainColor, shadeColor)) return mainColor;
 
     Map<int, Color> shades = {50: shadeColor};

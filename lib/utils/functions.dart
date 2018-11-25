@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/utils/analytics.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:myagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,13 +52,13 @@ Color createColorFromText(String text) {
 
 Color getColorFromString(String string) {
   List<Color> colors = [];
-  for (MaterialColor colorSwatch in materialColors)
+  for (MaterialColor colorSwatch in app_material_colors)
     for (int i = 400; i < 800; i += 200) colors.add(colorSwatch[i]);
 
   var sum = 0;
   string.codeUnits.forEach((code) => sum += code);
 
-  return colors[sum % materialColors.length];
+  return colors[sum % app_material_colors.length];
 }
 
 Future<String> readFile(String filename, String defaultValue) async {
