@@ -43,7 +43,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
       ValueChanged<String> onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+      children: [
         _buildHeader(title),
         Card(
           elevation: 3.0,
@@ -93,7 +93,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+        children: [
           _buildHeader(title),
           _buildTimePicker(time, onChange),
         ],
@@ -126,7 +126,6 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               startTime: startTime,
               endTime: endTime,
             ),
-        fullscreenDialog: true,
       ),
     );
   }
@@ -158,38 +157,45 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
 
     return AppbarPage(
       title: translation(StrKey.FINDSCHEDULES),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: []
-            ..addAll(dropdownChoices)
-            ..addAll([
-              Row(
-                children: <Widget>[
-                  _buildTimePart(
-                    translation(StrKey.START_TIME_EVENT),
-                    _startTime,
-                    (newStartTime) {
-                      _onTimeChange(newStartTime, _endTime);
-                    },
-                  ),
-                  const SizedBox(width: 32.0),
-                  _buildTimePart(
-                    translation(StrKey.END_TIME_EVENT),
-                    _endTime,
-                    (newEndTime) {
-                      _onTimeChange(_startTime, newEndTime);
-                    },
-                  ),
-                ],
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: []
+                  ..addAll(dropdownChoices)
+                  ..addAll([
+                    Row(
+                      children: [
+                        _buildTimePart(
+                          translation(StrKey.START_TIME_EVENT),
+                          _startTime,
+                          (startTime) => _onTimeChange(startTime, _endTime),
+                        ),
+                        const SizedBox(width: 32.0),
+                        _buildTimePart(
+                          translation(StrKey.END_TIME_EVENT),
+                          _endTime,
+                          (endTime) => _onTimeChange(_startTime, endTime),
+                        ),
+                      ],
+                    ),
+                  ]),
               ),
-              RaisedButtonColored(
-                onPressed: _onSearchPressed,
-                text: translation(StrKey.SEARCH),
-              ),
-            ]),
-        ),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: RaisedButtonColored(
+              onPressed: _onSearchPressed,
+              shape: const Border(),
+              padding: const EdgeInsets.symmetric(vertical: 18.0),
+              text: translation(StrKey.SEARCH),
+            ),
+          ),
+        ],
       ),
     );
   }

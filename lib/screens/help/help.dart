@@ -48,11 +48,9 @@ class HelpScreen extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      _scaffoldKey?.currentState?.showSnackBar(
-        SnackBar(
-            content:
-                Text(FlutterI18n.translate(context, StrKey.NO_EMAIL_APP))),
-      );
+      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text(FlutterI18n.translate(context, StrKey.NO_EMAIL_APP)),
+      ));
     }
   }
 
@@ -90,16 +88,13 @@ class HelpScreen extends StatelessWidget {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
+            SizedBox(
+              width: double.infinity,
               child: RaisedButtonColored(
                 onPressed: () => _sendFeedback(context),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 40.0,
-                ),
-                text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK)
-                    .toUpperCase(),
+                shape: const Border(),
+                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK),
               ),
             ),
           ],
