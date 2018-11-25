@@ -68,6 +68,13 @@ class CourseList extends StatelessWidget {
 
     final theme = Theme.of(context);
 
+    final baseStyle = theme.primaryTextTheme.title;
+    final unselectedStyle = baseStyle.copyWith(
+      fontSize: 17.0,
+      color: baseStyle.color.withAlpha(180),
+    );
+    final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
+
     return DefaultTabController(
       length: elements.length,
       child: Column(
@@ -77,11 +84,13 @@ class CourseList extends StatelessWidget {
             child: TabBar(
               isScrollable: true,
               tabs: tabs,
-              labelColor: theme.accentColor,
-              labelStyle: theme.textTheme.title.copyWith(fontSize: 17.0),
-              unselectedLabelColor: theme.textTheme.title.color,
+              labelColor: labelStyle.color,
+              labelStyle: labelStyle,
+              unselectedLabelColor: theme.primaryTextTheme.caption.color,
+              unselectedLabelStyle: unselectedStyle,
               indicatorPadding: const EdgeInsets.only(bottom: 0.85),
               indicatorWeight: 2.5,
+              indicatorColor: labelStyle.color,
             ),
           ),
           Expanded(child: TabBarView(children: listTabView)),

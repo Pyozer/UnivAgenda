@@ -70,9 +70,9 @@ class CourseRow extends StatelessWidget {
     subtitle += course.description;
 
     return Card(
-      elevation: course.isStarted() ? 4.0 : 3.0,
+      elevation: course.isStarted() ? 4.0 : 2.0,
       color: bgColorRow,
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      margin: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10.0),
       child: InkWell(
         onTap: () => _onCourseTap(context),
         onLongPress: () {
@@ -92,10 +92,10 @@ class CourseRow extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _text(course.getTitle(), style, 15.0, FontWeight.w700),
-                          const SizedBox(height: 4.0),
+                          _text(course.getTitle(), style, 15.0, FontWeight.w600),
+                          const SizedBox(height: 3.0),
                           _text(subtitle, style, 14.0),
-                          const SizedBox(height: 4.0),
+                          const SizedBox(height: 5.0),
                           _text(courseDate, style, 14.0),
                         ],
                       ),

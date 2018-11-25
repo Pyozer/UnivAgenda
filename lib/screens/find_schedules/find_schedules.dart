@@ -9,7 +9,7 @@ import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
+import 'package:myagenda/widgets/ui/large_rounded_button.dart';
 
 class FindSchedulesScreen extends StatefulWidget {
   @override
@@ -186,14 +186,9 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               ),
             ),
           ),
-          SizedBox(
-            width: double.infinity,
-            child: RaisedButtonColored(
-              onPressed: _onSearchPressed,
-              shape: const Border(),
-              padding: const EdgeInsets.symmetric(vertical: 18.0),
-              text: translation(StrKey.SEARCH),
-            ),
+          LargeRoundedButton(
+            onPressed: _onSearchPressed,
+            text: translation(StrKey.SEARCH),
           ),
         ],
       ),

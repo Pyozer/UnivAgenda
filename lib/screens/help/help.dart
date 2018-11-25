@@ -10,8 +10,8 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/widgets/ui/large_rounded_button.dart';
 import 'package:myagenda/widgets/ui/no_result_help.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends StatelessWidget {
@@ -88,14 +88,9 @@ class HelpScreen extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              child: RaisedButtonColored(
-                onPressed: () => _sendFeedback(context),
-                shape: const Border(),
-                padding: const EdgeInsets.symmetric(vertical: 18.0),
-                text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK),
-              ),
+            LargeRoundedButton(
+              onPressed: () => _sendFeedback(context),
+              text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK),
             ),
           ],
         ),
