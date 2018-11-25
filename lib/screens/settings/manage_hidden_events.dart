@@ -77,7 +77,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
               child: ListView(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                children: <Widget>[
+                children: [
                   NoResult(
                     title: translation(StrKey.NO_HIDDEN_EVENT),
                     text: translation(StrKey.NO_HIDDEN_EVENT_TEXT),

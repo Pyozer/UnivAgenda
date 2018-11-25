@@ -35,7 +35,7 @@ class NoResult extends StatelessWidget {
         padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             header ?? defaultHeader ?? const SizedBox.shrink(),
             const SizedBox(height: 40.0),
             Text(

@@ -51,7 +51,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
         child: Column(
-          children: <Widget>[
+          children: [
             Text(
               translation(StrKey.SUPPORTME_TEXT),
               style: theme.textTheme.subhead,

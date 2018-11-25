@@ -22,7 +22,7 @@ class SimpleAlertDialog extends StatelessWidget {
       contentPadding: contentPadding ?? DialogPredefined.kContentPadding,
       title: Text(title, style: boldText),
       content: content,
-      actions: <Widget>[
+      actions: [
         (btnNegative != null)
             ? FlatButton(
                 child: Text(btnNegative.toUpperCase(), style: boldText),

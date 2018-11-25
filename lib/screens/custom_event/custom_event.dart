@@ -303,7 +303,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                     ),
               const Divider(height: 0.0),
               Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                     flex: 11,
                     child: ListTile(

@@ -47,7 +47,7 @@ class TreeNode extends StatelessWidget {
           padding: EdgeInsets.only(left: level * 20.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
+            children: [
               expandBtn,
               Expanded(
                 child: Text(
