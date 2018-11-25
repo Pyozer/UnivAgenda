@@ -46,9 +46,7 @@ class CourseList extends StatelessWidget {
   }
 
   Widget _buildHorizontal(context, Map<int, List<BaseCourse>> elements) {
-    if (elements.length < 1) {
-      return const SizedBox.shrink();
-    }
+    if (elements.length < 1) return const SizedBox.shrink();
 
     final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
 
@@ -61,36 +59,34 @@ class CourseList extends StatelessWidget {
       if (lastDate == null || Date.dateToInt(lastDate) != date)
         lastDate = Date.intToDate(date);
 
-      tabs.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-          child: Text(
-            Date.dateFromNow(lastDate, locale, true),
-            style: Theme.of(context).primaryTextTheme.title,
-          ),
-        ),
-      );
+      tabs.add(Tab(text: Date.dateFromNow(lastDate, locale, true)));
 
       listTabView.add(
         _buildListCours(context, courses),
       );
     });
 
+    final theme = Theme.of(context);
+
     return DefaultTabController(
       length: elements.length,
-      child: Column(children: [
-        Container(
-          color: Theme.of(context).primaryColor,
-          child: TabBar(
-            isScrollable: true,
-            tabs: tabs,
-            indicatorColor: Theme.of(context).primaryTextTheme.title.color,
-            indicatorPadding: const EdgeInsets.only(bottom: 0.85),
-            indicatorWeight: 2.5,
+      child: Column(
+        children: [
+          Container(
+            color: theme.primaryColor,
+            child: TabBar(
+              isScrollable: true,
+              tabs: tabs,
+              labelColor: theme.accentColor,
+              labelStyle: theme.textTheme.title.copyWith(fontSize: 17.0),
+              unselectedLabelColor: theme.textTheme.title.color,
+              indicatorPadding: const EdgeInsets.only(bottom: 0.85),
+              indicatorWeight: 2.5,
+            ),
           ),
-        ),
-        Expanded(child: TabBarView(children: listTabView)),
-      ]),
+          Expanded(child: TabBarView(children: listTabView)),
+        ],
+      ),
     );
   }
 
@@ -103,10 +99,7 @@ class CourseList extends StatelessWidget {
         lastDate = Date.intToDate(date);
 
       listChildren.add(CourseHeader(lastDate));
-      if (courses != null && courses.length > 0)
-        listChildren.addAll(courses);
-      else
-        listChildren.add(null);
+      if (courses != null && courses.length > 0) listChildren.addAll(courses);
     });
 
     return _buildListCours(context, listChildren);
