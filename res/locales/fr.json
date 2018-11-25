@@ -159,6 +159,8 @@
   "login_submit": "Connexion",
   "login_server_error": "Problème de connexion avec {university} !",
   "login_credential_error": "Il semblerait que l'identifiant ou le mot de passe soient incorrect !",
+  "login_successfull": "Connexion réussi !",
+  "login_successfull_text": "Un groupe par defaut vous a été attribué.\nVous pouvez changer celui-ci via les paramètres de l'application.",
 
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 

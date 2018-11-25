@@ -159,6 +159,8 @@
   "login_submit": "Login",
   "login_server_error": "Trouble connecting with the {university} server!",
   "login_credential_error": "It looks like the username or password is incorrect!",
+  "login_successful": "Login successful!",
+  "login_successful_text": "A default group has been assigned to you.\nYou can change this one in the application settings.",
 
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 

@@ -24,6 +24,10 @@ import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
+  final bool isFromLogin;
+
+  const HomeScreen({Key key, this.isFromLogin = false}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -38,6 +42,14 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   List<String> _lastGroupKeys;
   String _lastUrlIcs;
   int _lastNumberWeeks = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.isFromLogin)
+      _showDefaultGroupDialog();
+  }
 
   @override
   void didChangeDependencies() {
@@ -77,6 +89,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     analyticsProvider.sendUserPrefsGroup(prefs);
     analyticsProvider.sendUserPrefsDisplay(prefs);
     analyticsProvider.sendUserPrefsColor(prefs);
+  }
+
+  void _showDefaultGroupDialog() async {
+    await Future.delayed(const Duration(seconds: 1));
+    DialogPredefined.showSimpleMessage(
+      context,
+      translation(StrKey.LOGIN_SUCCESSFUL),
+      translation(StrKey.LOGIN_SUCCESSFUL_TEXT),
+    );
   }
 
   Future<Null> _fetchData() async {

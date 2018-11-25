@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/screens/home/home.dart';
+import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/login/login_base.dart';
@@ -104,8 +106,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
         _showMessage(
-          translation(
-              StrKey.LOGIN_SERVER_ERROR, {'university': prefs.university.name}),
+          translation(StrKey.LOGIN_SERVER_ERROR, {
+            'university': prefs.university.name,
+          }),
         );
         return;
       } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
@@ -158,7 +161,10 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     // Redirect user if no error
     prefs.setUserLogged(true);
-    if (mounted) Navigator.of(context).pushReplacementNamed(RouteKey.HOME);
+    if (mounted)
+      Navigator.of(context).pushReplacement(
+        CustomRoute(builder: (_) => HomeScreen(isFromLogin: true)),
+      );
   }
 
   void _showMessage(String msg) {
