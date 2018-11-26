@@ -69,7 +69,6 @@ class App extends StatelessWidget {
               brightness: getBrightness(themePrefs.darkTheme),
               primaryColor: Color(themePrefs.primaryColor),
               accentColor: Color(themePrefs.accentColor),
-              canvasColor: !themePrefs.darkTheme ? Colors.white : null,
             );
 
             return DynamicTheme(
