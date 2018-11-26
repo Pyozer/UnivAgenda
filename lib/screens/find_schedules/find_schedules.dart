@@ -10,6 +10,7 @@ import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/large_rounded_button.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class FindSchedulesScreen extends StatefulWidget {
   @override
@@ -188,7 +189,14 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
           ),
           LargeRoundedButton(
             onPressed: _onSearchPressed,
-            text: translation(StrKey.SEARCH),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(OMIcons.search),
+                const SizedBox(width: 16.0),
+                Text(translation(StrKey.SEARCH)),
+              ],
+            ),
           ),
         ],
       ),
