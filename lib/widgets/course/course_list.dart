@@ -88,7 +88,7 @@ class CourseList extends StatelessWidget {
               labelStyle: labelStyle,
               unselectedLabelColor: theme.primaryTextTheme.caption.color,
               unselectedLabelStyle: unselectedStyle,
-              indicatorPadding: const EdgeInsets.only(bottom: 0.85),
+              indicatorPadding: const EdgeInsets.only(bottom: 0.2),
               indicatorWeight: 2.5,
               indicatorColor: labelStyle.color,
             ),
