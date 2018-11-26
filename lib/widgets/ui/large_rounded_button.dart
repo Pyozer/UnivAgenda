@@ -4,9 +4,11 @@ import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 class LargeRoundedButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Widget child;
 
-  const LargeRoundedButton({Key key, this.text, this.onPressed})
-      : super(key: key);
+  const LargeRoundedButton({Key key, this.text, this.onPressed, this.child})
+      : assert(text != null || child != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class LargeRoundedButton extends StatelessWidget {
         ),
         padding: const EdgeInsets.fromLTRB(36.0, 14.0, 36.0, 14.0),
         text: text,
+        child: child,
       ),
     );
   }

@@ -4,16 +4,18 @@ import 'package:myagenda/utils/functions.dart';
 class RaisedButtonColored extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final Widget child;
   final ShapeBorder shape;
   final EdgeInsets padding;
 
   const RaisedButtonColored({
     Key key,
-    @required this.text,
+    this.text,
+    this.child,
     this.onPressed,
     this.shape,
     this.padding,
-  })  : assert(text != null),
+  })  : assert(text != null || child != null),
         super(key: key);
 
   @override
@@ -27,10 +29,12 @@ class RaisedButtonColored extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
       onPressed: onPressed,
-      child: Text(
-        text.toUpperCase(),
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
+      child: text != null
+          ? Text(
+              text.toUpperCase(),
+              style: const TextStyle(fontWeight: FontWeight.w600)
+            )
+          : child,
       color: accentColor,
       textColor: color,
       padding: padding ??
