@@ -26,11 +26,11 @@ class DrawerIcon extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildLine(color, 22.0),
-          const SizedBox(height: 4.2),
-          _buildLine(color, 16.0),
-          const SizedBox(height: 4.2),
-          _buildLine(color, 22.0),
+          _buildLine(color, 20.0),
+          const SizedBox(height: 4.0),
+          _buildLine(color, 14.0),
+          const SizedBox(height: 4.0),
+          _buildLine(color, 20.0),
         ],
       ),
     );
