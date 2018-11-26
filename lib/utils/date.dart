@@ -11,15 +11,6 @@ class Date {
     return a.year != b.year || a.month != b.month || a.day != b.day;
   }
 
-  static TimeOfDay addTimeToTime(TimeOfDay time, [hours = 0, minutes = 0]) {
-    minutes += time.minute;
-    int nbHours = minutes ~/ 60;
-    minutes -= nbHours * 60;
-    nbHours += hours + time.hour;
-
-    return TimeOfDay(hour: nbHours % 24, minute: minutes % 60);
-  }
-
   static DateTime dateFromDateTime(DateTime dt) {
     return DateTime(dt.year, dt.month, dt.day);
   }

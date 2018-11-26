@@ -21,7 +21,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 100)).then((_) {
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
       _initPreferences();
     });
   }
@@ -132,7 +132,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
           children: [
             Expanded(
               flex: 6,
-              child: Center(child: Logo(size: 150.0)),
+              child: const Center(child: Logo(size: 150.0)),
             ),
             Expanded(
               flex: 4,
@@ -143,7 +143,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         children: [
                           Text(
                             _errorMsg ?? translation(StrKey.NETWORK_ERROR),
-                            style: Theme.of(context).textTheme.subhead,
+                            style: theme.textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
