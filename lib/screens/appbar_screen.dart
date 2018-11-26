@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/widgets/ui/drawer_icon.dart';
 
 class AppbarPage extends StatelessWidget {
   final String title;
@@ -6,7 +7,8 @@ class AppbarPage extends StatelessWidget {
   final Widget drawer;
   final Widget fab;
   final List<Widget> actions;
-  final Key scaffoldKey;
+  final bool useCustomMenuIcon;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   const AppbarPage(
       {Key key,
@@ -15,8 +17,13 @@ class AppbarPage extends StatelessWidget {
       this.scaffoldKey,
       this.drawer,
       this.fab,
-      this.actions})
+      this.actions,
+      this.useCustomMenuIcon = false})
       : super(key: key);
+
+  void _openDrawer() {
+    scaffoldKey?.currentState?.openDrawer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +35,9 @@ class AppbarPage extends StatelessWidget {
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
+              leading: (useCustomMenuIcon)
+                  ? DrawerIcon(onPressed: _openDrawer)
+                  : null,
             )
           : null,
       body: body,
@@ -41,7 +51,8 @@ class AppbarSubTitle extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
 
-  const AppbarSubTitle({Key key, @required this.child, this.padding}) : super(key: key);
+  const AppbarSubTitle({Key key, @required this.child, this.padding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,8 @@ class AppbarSubTitle extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             elevation: 0.0,
             child: Padding(
-              padding: padding ?? const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
+              padding:
+                  padding ?? const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
               child: child,
             ),
           ),

@@ -317,6 +317,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
       ],
       drawer: MainDrawer(),
+      useCustomMenuIcon: true,
       fab: _buildFab(context),
       body: RefreshIndicator(
         key: _refreshKey,
