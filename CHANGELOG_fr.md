@@ -1,3 +1,11 @@
+## Version 4.0.7
+
+- Ajout de la possibilité de renommer un événement
+- Suppression de l'affichage du groupe entête (inutile)
+- Jours de la vue horizontales désormais dans la barre de navigation
+- Amélioration de la gestion des thèmes
+- Amélioration du code
+
 ## Version 4.0.6
 
 - Ajout de la possibilité de masquer un événement

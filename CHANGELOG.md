@@ -1,3 +1,11 @@
+## Version 4.0.7
+
+- Added the ability to rename an event
+- Removed the display of the group header (unnecessary)
+- Horizontal view days now in the navigation bar
+- Improved theme management
+- Improvement of the code
+  
 ## Version 4.0.6
 
 - Added the ability to hide an event
