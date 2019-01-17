@@ -8,6 +8,8 @@
 build/
 gen/
 
+feather/
+
 .flutter-plugins
 pubspec.lock
 

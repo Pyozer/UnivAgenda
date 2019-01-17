@@ -19,7 +19,6 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:time_machine/time_machine.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 
 final routes = {
@@ -40,6 +39,8 @@ class App extends StatelessWidget {
   static var observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   Locale _resolveFallback(Locale locale, Iterable<Locale> supportedLocales) {
+    if (locale == null) return supportedLocales.first;
+    
     return supportedLocales.firstWhere(
       (supported) =>
           supported.languageCode == locale.languageCode ||
@@ -53,8 +54,6 @@ class App extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
-
-    TimeMachine.initialize({'rootBundle': rootBundle});
 
     return AnalyticsProvider(
       analytics,
@@ -91,7 +90,7 @@ class App extends StatelessWidget {
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-                  supportedLocales: FlutterI18nDelegate.supportedLocales,
+                  supportedLocales: const [Locale('fr'), Locale('en')],
                   localeResolutionCallback: _resolveFallback,
                   navigatorObservers: [observer],
                   initialRoute: RouteKey.SPLASHSCREEN,

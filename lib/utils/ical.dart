@@ -1,6 +1,6 @@
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/functions.dart';
-import 'package:time_machine/time_machine.dart';
+import 'package:timezone/standalone.dart';
 
 const String BEGINVEVENT = "BEGIN:VEVENT";
 const String ENDVEVENT = "END:VEVENT";
@@ -83,7 +83,7 @@ class Ical {
 
   static DateTime _getDateValue(String line) {
     final d = DateTime.parse(_getValue(line).toString().substring(0, 15));
-    final dUTC = Instant.utc(d.year, d.month, d.day, d.hour, d.minute);
-    return dUTC.inZone(DateTimeZone.local).toDateTimeLocal();
+    final utcDate = TZDateTime.utc(d.year, d.month, d.day, d.hour, d.minute, d.millisecond);
+    return utcDate.toLocal();
   }
 }

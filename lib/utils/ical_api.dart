@@ -7,7 +7,7 @@ class IcalAPI {
 
     final addDaysToEnd = Duration(days: Date.calcDaysToEndDate(date, numberWeeks));
 
-    final dateFormat = DateFormat("yyyy-MM-dd");
+    final dateFormat = DateFormat("yyyy-MM-dd", 'en');
     final startDate = dateFormat.format(date);
     final endDate = dateFormat.format(date.add(addDaysToEnd));
     
