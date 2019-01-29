@@ -1,3 +1,9 @@
+## Version 4.0.8
+
+- Add month and week view
+- Fix success login dialog
+- Improve code
+
 ## Version 4.0.7
 
 - Added the ability to rename an event

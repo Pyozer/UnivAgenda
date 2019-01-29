@@ -1,3 +1,9 @@
+## Version 4.0.8
+
+- Ajout d'une vue par mois et semaine (calendrier)
+- Problème du texte manquant sur le dialog après connexion réparé
+- Amélioration du code
+
 ## Version 4.0.7
 
 - Ajout de la possibilité de renommer un événement
