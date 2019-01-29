@@ -12,7 +12,7 @@ class Event extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       margin: const EdgeInsets.only(top: 2.0),
       decoration: BoxDecoration(
-        color: color,
+        color: color ?? Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(3.0),
       ),
       child: Text(

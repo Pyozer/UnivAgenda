@@ -11,10 +11,10 @@ import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
 import 'package:myagenda/widgets/ui/screen_message/empty_day.dart';
 
-class CourseList extends StatelessWidget {
+class CourseList extends StatefulWidget {
   final Map<int, List<BaseCourse>> coursesData;
   final int numberWeeks;
-  final CalendarType calendarType;
+  final CalendarType calType;
   final Color noteColor;
 
   const CourseList({
@@ -22,11 +22,26 @@ class CourseList extends StatelessWidget {
     @required this.coursesData,
     @required this.numberWeeks,
     @required this.noteColor,
-    this.calendarType = CalendarType.VERTICAL,
+    this.calType = CalendarType.VERTICAL,
   }) : super(key: key);
+
+  _CourseListState createState() => _CourseListState();
+}
+
+class _CourseListState extends State<CourseList> {
+  DateTime _lastDatePos;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastDatePos = DateTime.now();
+  }
 
   Widget _buildListCours(BuildContext context, List<BaseCourse> courses) {
     List<Widget> widgets = [];
+
+    bool classicView = (widget.calType == CalendarType.HORIZONTAL ||
+        widget.calType == CalendarType.VERTICAL);
 
     if (courses != null && courses.length > 0) {
       courses.forEach((course) {
@@ -35,11 +50,11 @@ class CourseList extends StatelessWidget {
         else if (course is CourseHeader)
           widgets.add(CourseRowHeader(coursHeader: course));
         else if (course is Course)
-          widgets.add(CourseRow(course: course, noteColor: noteColor));
+          widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
       });
     } else {
       widgets.add(const EmptyDay(
-        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 26.0),
+        padding: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 16.0),
       ));
     }
 
@@ -47,8 +62,8 @@ class CourseList extends StatelessWidget {
       shrinkWrap: true,
       children: widgets,
       padding: EdgeInsets.only(
-        bottom: 36.0,
-        top: calendarType == CalendarType.HORIZONTAL ? 12.0 : 0.0,
+        bottom: classicView ? 36.0 : 2.0,
+        top: widget.calType == CalendarType.VERTICAL ? 0.0 : 12.0,
       ),
     );
   }
@@ -136,7 +151,8 @@ class CourseList extends StatelessWidget {
     );
   }
 
-  List<Course> _getDayEvents(DateTime day, Map<DateTime, List<BaseCourse>> data) {
+  List<Course> _getDayEvents(
+      DateTime day, Map<DateTime, List<BaseCourse>> data) {
     DateTime key = data.keys
         .firstWhere((d) => DateUtils.isSameDay(day, d), orElse: () => null);
     if (key != null)
@@ -158,15 +174,19 @@ class CourseList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Calendar(
-        monthView: calendarType == CalendarType.MONTH_VIEW,
+        monthView: widget.calType == CalendarType.MONTH_VIEW,
         firstDate: DateTime(today.year, today.month, today.day),
+        initialSelectedDate: _lastDatePos,
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
               return Event(title: e.title, color: e.getColor(isGenColor));
             }).toList(),
-        onDateSelected: (date) => showDialog(
-              context: context,
-              builder: (dCtx) => buildDialog(dCtx, date, events),
-            ),
+        onDateSelected: (date) {
+          showDialog(
+            context: context,
+            builder: (dCtx) => buildDialog(dCtx, date, events),
+          );
+          setState(() => _lastDatePos = date);
+        },
       ),
     );
   }
@@ -174,12 +194,12 @@ class CourseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var content;
-    if (calendarType == CalendarType.VERTICAL)
-      content = _buildVertical(context, coursesData);
-    else if (calendarType == CalendarType.HORIZONTAL)
-      content = _buildHorizontal(context, coursesData);
+    if (widget.calType == CalendarType.VERTICAL)
+      content = _buildVertical(context, widget.coursesData);
+    else if (widget.calType == CalendarType.HORIZONTAL)
+      content = _buildHorizontal(context, widget.coursesData);
     else
-      content = _buildCalendar(context, coursesData);
+      content = _buildCalendar(context, widget.coursesData);
 
     return Container(child: content);
   }

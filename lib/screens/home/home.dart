@@ -305,7 +305,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     else
       content = CourseList(
         coursesData: _courses,
-        calendarType: prefs.calendarType,
+        calType: prefs.calendarType,
         numberWeeks: prefs.numberWeeks,
         noteColor: Color(prefs.theme.noteColor),
       );
