@@ -1,3 +1,4 @@
+import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/models/preferences/university.dart';
@@ -18,11 +19,11 @@ class PrefKey {
   static const appLaunchCounter = 'app_launch_counter';
   static const isIntroDone = 'is_intro_done';
   static const isUserLogged = 'is_user_logged';
-  static const isHorizontalView = 'is_horizontal_view';
   static const isDisplayAllDays = 'is_display_all_days';
   static const isGenerateEventColor = 'is_generate_event_color';
   static const isFullHiddenEvents = 'is_full_hidden_event';
 
+  static const calendarType = 'calendar_type';
   static const resourcesDate = 'ressources_date';
   static const cachedIcalDate = 'cached_ical_date';
 
@@ -40,10 +41,10 @@ class PrefKey {
   static const defaultAppLaunchCounter = 0;
   static const defaultIntroDone = false;
   static const defaultUserLogged = false;
-  static const defaultHorizontalView = false;
   static const defaultDisplayAllDays = false;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;
+  static const defaultCalendarType = CalendarType.VERTICAL;
 
   static const defaultUrlIcs = null;
   static const defaultCachedIcal = "";

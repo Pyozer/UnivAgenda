@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
+import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Map<int, List<BaseCourse>> _courses;
-  bool _isHorizontal = false;
+  CalendarType _calendarType = CalendarType.HORIZONTAL;
 
   List<String> _lastGroupKeys;
   String _lastUrlIcs;
@@ -47,15 +48,14 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   void initState() {
     super.initState();
 
-    if (widget.isFromLogin)
-      _showDefaultGroupDialog();
+    if (widget.isFromLogin) _showDefaultGroupDialog();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Define type of view
-    _isHorizontal = prefs.isHorizontalView;
+    _calendarType = prefs.calendarType;
 
     bool isPrefsDifferents = false;
     if (prefs.urlIcs != _lastUrlIcs ||
@@ -255,9 +255,9 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   void _switchTypeView() {
     setState(() {
-      _isHorizontal = !prefs.isHorizontalView;
+      _calendarType = nextCalendarType(_calendarType);
     });
-    prefs.setHorizontalView(_isHorizontal);
+    prefs.setCalendarType(_calendarType);
   }
 
   void _onFabPressed() async {
@@ -290,11 +290,12 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final refreshBtn = (_isHorizontal)
-        ? IconButton(icon: const Icon(OMIcons.refresh), onPressed: _fetchData)
-        : const SizedBox.shrink();
+    final refreshBtn = IconButton(
+      icon: const Icon(OMIcons.refresh),
+      onPressed: _fetchData,
+    );
 
-    final iconView = _isHorizontal ? OMIcons.viewDay : OMIcons.viewCarousel;
+    final iconView = getCalendarTypeIcon(_calendarType);
 
     var content;
     if (_courses == null) // data not loaded
@@ -304,7 +305,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     else
       content = CourseList(
         coursesData: _courses,
-        isHorizontal: prefs.isHorizontalView,
+        calendarType: prefs.calendarType,
         numberWeeks: prefs.numberWeeks,
         noteColor: Color(prefs.theme.noteColor),
       );

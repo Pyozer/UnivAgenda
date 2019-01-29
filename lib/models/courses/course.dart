@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:myagenda/utils/date.dart';
@@ -27,7 +28,7 @@ class Course extends BaseCourse {
     this.notes,
     this.color,
     this.isHidden = false,
-    this.renamedTitle
+    this.renamedTitle,
   }) {
     this.notes ??= [];
   }
@@ -54,6 +55,16 @@ class Course extends BaseCourse {
   }
 
   bool hasColor() => color != null;
+
+  Color getColor(bool isGenerateEventColor) {
+    Color bgColorRow;
+    if (color != null)
+      bgColorRow = color;
+    else if (isExam())
+      bgColorRow = Colors.red[600];
+    else if (isGenerateEventColor) bgColorRow = getColorFromString(getTitle());
+    return bgColorRow;
+  }
 
   @override
   String dateForDisplay([Locale locale]) {

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
+import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/note.dart';
@@ -83,7 +84,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool _userLogged;
 
   /// If agenda is in horizontal mode
-  bool _horizontalView;
+  CalendarType _calendarType;
 
   /// Display all week days even if no event
   bool _isDisplayAllDays;
@@ -426,17 +427,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         .then((prefs) => prefs.setBool(PrefKey.isUserLogged, _userLogged));
   }
 
-  bool get isHorizontalView => _horizontalView ?? PrefKey.defaultHorizontalView;
+  CalendarType get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
 
-  setHorizontalView(bool horizontalView, [state = false]) {
-    if (isHorizontalView == horizontalView) return;
+  setCalendarType(CalendarType newCalendarType, [state = false]) {
+    if (calendarType == newCalendarType) return;
 
     _updatePref(() {
-      _horizontalView = horizontalView ?? PrefKey.defaultHorizontalView;
+      _calendarType = newCalendarType ?? PrefKey.defaultCalendarType;
     }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setBool(PrefKey.isHorizontalView, _horizontalView));
+    SharedPreferences.getInstance().then((prefs) =>
+        prefs.setString(PrefKey.calendarType, _calendarType.toString()));
   }
 
   bool get isDisplayAllDays =>
@@ -542,7 +543,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   setHiddenEvents(List<String> newHiddenEvents, [state = false]) {
     _updatePref(() {
-      _hiddenEvents = newHiddenEvents?.toSet()?.toList() ?? PrefKey.defaultHiddenEvents;
+      _hiddenEvents =
+          newHiddenEvents?.toSet()?.toList() ?? PrefKey.defaultHiddenEvents;
     }, state);
 
     SharedPreferences.getInstance().then((prefs) {
@@ -560,19 +562,21 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setHiddenEvents(hiddenEvents, state);
   }
 
-  Map<String, String> get renamedEvents => _renamedEvents ?? PrefKey.defaultRenamedEvent;
+  Map<String, String> get renamedEvents =>
+      _renamedEvents ?? PrefKey.defaultRenamedEvent;
 
   setRenamedEvents(Map<String, String> newRenamedEvents, [state = false]) {
     _updatePref(() {
       _renamedEvents = newRenamedEvents ?? PrefKey.defaultRenamedEvent;
     }, state);
- 
+
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString(PrefKey.renamedEvent, json.encode(_renamedEvents));
     });
   }
 
-  void addRenamedEvent(String eventTitle, String newTitle, [bool state = false]) {
+  void addRenamedEvent(String eventTitle, String newTitle,
+      [bool state = false]) {
     renamedEvents[eventTitle] = newTitle;
     setRenamedEvents(renamedEvents, state);
   }
@@ -638,7 +642,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setNumberWeeks(prefs.getInt(PrefKey.numberWeeks));
 
     // Init theme preferences
-    setHorizontalView(prefs.getBool(PrefKey.isHorizontalView));
+    setCalendarType(calendarTypeFromStr(prefs.getString(PrefKey.calendarType)));
     setDarkTheme(prefs.getBool(PrefKey.isDarkTheme));
     setPrimaryColor(prefs.getInt(PrefKey.primaryColor));
     setAccentColor(prefs.getInt(PrefKey.accentColor));
@@ -667,7 +671,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     List<String> hiddenEvents = prefs.getStringList(PrefKey.hiddenEvent) ?? [];
     setHiddenEvents(hiddenEvents);
     // Renamed events
-    Map<String, dynamic> renamedEvents = json.decode(prefs.getString(PrefKey.renamedEvent) ?? "{}");
+    Map<String, dynamic> renamedEvents =
+        json.decode(prefs.getString(PrefKey.renamedEvent) ?? "{}");
     setRenamedEvents(renamedEvents.cast<String, String>());
 
     List<CustomCourse> actualEvents = [];
@@ -752,7 +757,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       notes == other.notes &&
       customEvents == other.customEvents &&
       isUserLogged == other.isUserLogged &&
-      isHorizontalView == other.isHorizontalView &&
+      calendarType == other.calendarType &&
       listUniversity == other.listUniversity &&
       cachedIcalDate == other.cachedIcalDate &&
       resourcesDate == other.resourcesDate &&
@@ -769,7 +774,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _notes.hashCode ^
       _customEvents.hashCode ^
       _userLogged.hashCode ^
-      _horizontalView.hashCode ^
+      _calendarType.hashCode ^
       _listUniversity.hashCode ^
       _resourcesDate.hashCode ^
       _cachedIcalDate.hashCode ^
