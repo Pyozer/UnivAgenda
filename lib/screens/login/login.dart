@@ -285,22 +285,23 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
               Expanded(
+                flex: 9,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Logo(size: 100.0),
+                    const Logo(size: 100.0),
                     const SizedBox(height: 12.0),
                     titleApp,
-                    const SizedBox(height: 52.0),
                   ],
                 ),
               ),
               Expanded(
+                flex: 11,
                 child: Column(
                   children: [
                     Dropdown(
@@ -314,7 +315,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
                           child: Column(
-                            children: (_isUrlIcs())
+                            children: _isUrlIcs()
                                 ? [urlICsInput]
                                 : [username, const ListDivider(), password],
                           )),
@@ -324,10 +325,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12.0),
-              Wrap(
-                spacing: 8.0,
-                alignment: WrapAlignment.center,
+              const SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   FlatButton(
                     child: Text(translation(StrKey.DATA_PRIVACY)),
