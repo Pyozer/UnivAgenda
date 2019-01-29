@@ -161,8 +161,8 @@ class StrKey {
   static const LOGIN_SUBMIT = 'login_submit';
   static const LOGIN_SERVER_ERROR = 'login_server_error';
   static const LOGIN_CREDENTIAL_ERROR = 'login_credential_error';
-  static const LOGIN_SUCCESSFUL = 'login_successful';
-  static const LOGIN_SUCCESSFUL_TEXT = 'login_successful_text';
+  static const LOGIN_SUCCESSFUL = 'login_successfull';
+  static const LOGIN_SUCCESSFUL_TEXT = 'login_successfull_text';
 
   static const NO_EMAIL_APP = 'no_email_app';
 
