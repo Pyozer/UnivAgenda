@@ -7,14 +7,14 @@ class CustomCheckbox extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  const CustomCheckbox(
-      {Key key,
-      this.width = 18.0,
-      this.activeColor,
-      this.uncheckedColor,
-      this.value,
-      @required this.onChanged})
-      : super(key: key);
+  const CustomCheckbox({
+    Key key,
+    this.width = 18.0,
+    this.activeColor,
+    this.uncheckedColor,
+    this.value,
+    @required this.onChanged,
+  }) : super(key: key);
 
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
@@ -42,9 +42,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
 
     return IconButton(
       icon: Icon(icon, color: color),
-      onPressed: () {
-        widget.onChanged(nextState);
-      },
+      onPressed: () => widget.onChanged(nextState),
     );
   }
 }

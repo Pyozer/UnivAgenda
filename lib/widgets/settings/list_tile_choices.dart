@@ -11,14 +11,14 @@ class ListTileChoices extends StatefulWidget {
   final ValueChanged<String> onChange;
   final String selectedValue;
 
-  const ListTileChoices(
-      {Key key,
-      @required this.title,
-      @required this.values,
-      this.titleDialog,
-      this.onChange,
-      this.selectedValue})
-      : super(key: key);
+  const ListTileChoices({
+    Key key,
+    @required this.title,
+    @required this.values,
+    this.titleDialog,
+    this.onChange,
+    this.selectedValue,
+  }) : super(key: key);
 
   @override
   _ListTileChoicesState createState() => _ListTileChoicesState();
@@ -42,42 +42,31 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   void initSelectedValue() {
     if (widget.selectedValue != null &&
         widget.values.contains(widget.selectedValue))
-      setState(() {
-        _selectedChoice = widget.selectedValue;
-      });
+      setState(() => _selectedChoice = widget.selectedValue);
     else if (widget.values.length > 0)
-      setState(() {
-        _selectedChoice = widget.values[0];
-      });
+      setState(() => _selectedChoice = widget.values[0]);
   }
 
   void _onRadioListChange(value) {
-    setState(() {
-      _selectedChoice = value;
-    });
-    _closeDialog();
-    widget.onChange(value);
-  }
-
-  void _closeDialog() {
+    setState(() => _selectedChoice = value);
     Navigator.of(context).pop();
+    widget.onChange(value);
   }
 
   Future<Null> _openDialog() async {
     await showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: Text(widget.titleDialog ?? widget.title),
-          children: [
-            RadioList(
+      builder: (context) => SimpleDialog(
+            title: Text(widget.titleDialog ?? widget.title),
+            children: [
+              RadioList(
                 values: widget.values,
                 selectedValue: _selectedChoice,
-                onChange: _onRadioListChange)
-          ],
-        );
-      },
+                onChange: _onRadioListChange,
+              )
+            ],
+          ),
     );
   }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
+
+const boldText = TextStyle(fontWeight: FontWeight.w600);
 
 class SimpleAlertDialog extends StatelessWidget {
-  static final boldText = const TextStyle(fontWeight: FontWeight.w600);
-
   final String title;
   final Widget content;
   final String btnPositive;
@@ -19,7 +19,7 @@ class SimpleAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       titlePadding: const EdgeInsets.all(20.0),
-      contentPadding: contentPadding ?? DialogPredefined.kContentPadding,
+      contentPadding: contentPadding ?? kContentPadding,
       title: Text(title, style: boldText),
       content: content,
       actions: [

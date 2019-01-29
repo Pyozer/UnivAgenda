@@ -6,9 +6,13 @@ class Dropdown extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool isExpanded;
 
-  const Dropdown(
-      {Key key, this.items, this.value, this.onChanged, this.isExpanded = true})
-      : super(key: key);
+  const Dropdown({
+    Key key,
+    this.items,
+    this.value,
+    this.onChanged,
+    this.isExpanded = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

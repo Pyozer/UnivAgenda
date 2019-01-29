@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class AboutCard extends StatelessWidget {
-  static const kPadding = 18.0;
-  static const kMargin = EdgeInsets.all(16.0);
+const kPadding = 18.0;
+const kMargin = EdgeInsets.all(16.0);
 
+class AboutCard extends StatelessWidget {
   final String title;
   final List<Widget> children;
   final bool lateralPadding;
   final EdgeInsets margin;
 
-  const AboutCard(
-      {Key key,
-      @required this.title,
-      this.children,
-      this.lateralPadding = true,
-      this.margin = kMargin})
-      : super(key: key);
+  const AboutCard({
+    Key key,
+    @required this.title,
+    this.children,
+    this.lateralPadding = true,
+    this.margin = kMargin,
+  }) : super(key: key);
 
   List<Widget> _buildChildren(BuildContext context) {
     final List<Widget> cardContent = [];
@@ -44,8 +44,8 @@ class AboutCard extends StatelessWidget {
       elevation: 4.0,
       margin: margin,
       shape: const RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(
-          const Radius.circular(6.0),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
         ),
       ),
       child: Container(

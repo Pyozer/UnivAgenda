@@ -10,14 +10,14 @@ class TreeNode extends StatelessWidget {
   final ValueChanged<bool> onChanged;
   final Function onExpandChanged;
 
-  const TreeNode(
-      {Key key,
-      this.level,
-      this.node,
-      this.title,
-      this.onChanged,
-      this.onExpandChanged})
-      : super(key: key);
+  const TreeNode({
+    Key key,
+    this.level,
+    this.node,
+    this.title,
+    this.onChanged,
+    this.onExpandChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,32 +37,35 @@ class TreeNode extends StatelessWidget {
           );
 
     return ListTile(
-        onTap: () {
+      onTap: () {
+        if (onChanged != null) {
           if (node.checked == null)
             onChanged(false);
           else
             onChanged(!node.checked);
-        },
-        title: Padding(
-          padding: EdgeInsets.only(left: level * 20.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              expandBtn,
-              Expanded(
-                child: Text(
-                  title ?? node.key,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle,
-                ),
+        }
+      },
+      title: Padding(
+        padding: EdgeInsets.only(left: level * 20.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            expandBtn,
+            Expanded(
+              child: Text(
+                title ?? node.key,
+                overflow: TextOverflow.ellipsis,
+                style: textStyle,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        trailing: CustomCheckbox(
-          value: node.checked,
-          onChanged: onChanged,
-          activeColor: Theme.of(context).accentColor,
-        ));
+      ),
+      trailing: CustomCheckbox(
+        value: node.checked,
+        onChanged: onChanged,
+        activeColor: Theme.of(context).accentColor,
+      ),
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ProgressDialog extends StatelessWidget {
-  static final boldText = const TextStyle(fontWeight: FontWeight.w600);
+const boldText = TextStyle(fontWeight: FontWeight.w600);
 
+class ProgressDialog extends StatelessWidget {
   final String title;
   final String text;
 
@@ -20,10 +20,7 @@ class ProgressDialog extends StatelessWidget {
             const SizedBox(width: 24.0),
             Expanded(
               child: Container(
-                child: Text(
-                  text,
-                  textAlign: TextAlign.justify,
-                ),
+                child: Text(text, textAlign: TextAlign.justify),
               ),
             ),
           ],

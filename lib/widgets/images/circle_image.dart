@@ -13,10 +13,7 @@ class CircleImage extends StatelessWidget {
     return Material(
       elevation: 3.0,
       shape: const CircleBorder(),
-      child: ClipOval(
-        child: image,
-        clipBehavior: Clip.antiAlias,
-      ),
+      child: ClipOval(child: image, clipBehavior: Clip.antiAlias),
     );
   }
 }

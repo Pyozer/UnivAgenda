@@ -76,7 +76,5 @@ class AnalyticsProvider extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(AnalyticsProvider oldWidget) {
-    return false;
-  }
+  bool updateShouldNotify(AnalyticsProvider oldWidget) => false;
 }

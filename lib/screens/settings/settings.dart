@@ -13,9 +13,9 @@ import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/settings/list_tile_input.dart';
 import 'package:myagenda/widgets/settings/list_tile_number.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:myagenda/widgets/settings/setting_card.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
-import 'package:myagenda/widgets/ui/setting_card.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 enum MenuItem { REFRESH }

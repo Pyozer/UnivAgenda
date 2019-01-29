@@ -10,8 +10,8 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/widgets/ui/large_rounded_button.dart';
-import 'package:myagenda/widgets/ui/no_result_help.dart';
+import 'package:myagenda/widgets/ui/button/large_rounded_button.dart';
+import 'package:myagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends StatelessWidget {

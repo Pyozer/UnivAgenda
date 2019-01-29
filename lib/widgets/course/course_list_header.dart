@@ -22,9 +22,8 @@ class CourseListHeader extends StatelessWidget {
       FlutterI18n.translate(context, StrKey.CANCEL),
     );
 
-    if (btnPositivePressed) {
+    if (btnPositivePressed)
       Navigator.of(context).pushNamed(RouteKey.SETTINGS);
-    }
   }
 
   @override

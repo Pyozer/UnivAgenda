@@ -6,10 +6,9 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
-class DialogPredefined {
-  static final kContentPadding =
-      const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0);
+const kContentPadding = EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0);
 
+class DialogPredefined {
   static Future<bool> showContentDialog(
     BuildContext context,
     String title,
@@ -22,18 +21,16 @@ class DialogPredefined {
     return await showDialog<bool>(
           context: context,
           barrierDismissible: dismissable,
-          builder: (BuildContext context) {
-            return SimpleAlertDialog(
-              title: title,
-              content: SingleChildScrollView(
-                padding: contentPadding ?? kContentPadding,
-                child: content,
+          builder: (_) => SimpleAlertDialog(
+                title: title,
+                content: SingleChildScrollView(
+                  padding: contentPadding ?? kContentPadding,
+                  child: content,
+                ),
+                btnNegative: btnNegative,
+                btnPositive: btnPositive,
+                contentPadding: EdgeInsets.zero,
               ),
-              btnNegative: btnNegative,
-              btnPositive: btnPositive,
-              contentPadding: const EdgeInsets.all(0.0),
-            );
-          },
         ) ??
         false;
   }
@@ -56,13 +53,12 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showSimpleMessage(
-      BuildContext context, String title, String message) async {
+  static Future<bool> showSimpleMessage(ctx, String title, String msg) async {
     return await showTextDialog(
-      context,
+      ctx,
       title,
-      message,
-      FlutterI18n.translate(context, StrKey.OK),
+      msg,
+      FlutterI18n.translate(ctx, StrKey.OK),
       null,
     );
   }
@@ -97,15 +93,14 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showProgressDialog(
-      BuildContext context, String message) async {
+  static Future<bool> showProgressDialog(context, String msg) async {
     return await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return ProgressDialog(
           title: FlutterI18n.translate(context, StrKey.LOADING),
-          text: message,
+          text: msg,
         );
       },
     );

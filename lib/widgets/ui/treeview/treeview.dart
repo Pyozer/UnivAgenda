@@ -18,6 +18,7 @@ class TreeView extends StatefulWidget {
     this.search,
   }) : super(key: key);
 
+  @override
   _TreeViewState createState() => _TreeViewState();
 }
 
@@ -36,19 +37,16 @@ class _TreeViewState extends State<TreeView> {
 
     final search = widget.search?.trim()?.toLowerCase();
     _setAllNodeVisible(_tree);
-    if (search != null && search.length > 0) {
-      _filterTree(_tree, search);
-    }
+    if (search != null && search.length > 0) _filterTree(_tree, search);
   }
 
-  buildTree(Node origin, Map<String, dynamic> resources) {
+  void buildTree(Node origin, Map<String, dynamic> resources) {
     resources.keys.forEach((key) {
       Node child = Node(key: key, parent: origin);
-      if (resources[key] is Map) {
+      if (resources[key] is Map)
         buildTree(child, resources[key]);
-      } else {
+      else
         child.value = resources[key];
-      }
       origin.children.add(child);
     });
   }
@@ -81,8 +79,7 @@ class _TreeViewState extends State<TreeView> {
     while (nodeParent != null) {
       int nbCheck = 0;
       for (Node child in nodeParent.children) {
-        if (child.checked == true)
-          nbCheck += 1;
+        if (child.checked == true) nbCheck += 1;
       }
       final nbrChild = nodeParent.children.length;
       var check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;

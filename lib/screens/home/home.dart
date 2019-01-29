@@ -20,8 +20,8 @@ import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/no_result.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
+import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
+import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -7,8 +7,8 @@ import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
-import 'package:myagenda/widgets/ui/raised_button_colored.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();

@@ -3,7 +3,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/no_result.dart';
+import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class ManageHiddenEvents extends StatefulWidget {

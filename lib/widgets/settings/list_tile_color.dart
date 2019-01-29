@@ -8,6 +8,9 @@ import 'package:myagenda/utils/list_colors.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
+const kSmallColorSize = 30.0;
+const kBigColorSize = 38.0;
+
 class ListTileColor extends StatefulWidget {
   final String title;
   final String titleDialog;
@@ -16,24 +19,21 @@ class ListTileColor extends StatefulWidget {
   final Color selectedColor;
   final List<ColorSwatch> colors;
 
-  const ListTileColor(
-      {Key key,
-      @required this.title,
-      this.titleDialog,
-      this.description,
-      this.onColorChange,
-      this.colors,
-      this.selectedColor})
-      : super(key: key);
+  const ListTileColor({
+    Key key,
+    @required this.title,
+    this.titleDialog,
+    this.description,
+    this.onColorChange,
+    this.colors,
+    this.selectedColor,
+  }) : super(key: key);
 
   @override
   _ListTileColorState createState() => _ListTileColorState();
 }
 
 class _ListTileColorState extends State<ListTileColor> {
-  final double kSmallColorSize = 30.0;
-  final double kBigColorSize = 38.0;
-
   Color _inputColor;
   Color _submitColor;
 
@@ -58,24 +58,18 @@ class _ListTileColorState extends State<ListTileColor> {
   }
 
   void _onColorChange(value) {
-    setState(() {
-      _inputColor = value;
-    });
+    setState(() => _inputColor = value);
   }
 
   void _onSubmit() {
     widget.onColorChange(_inputColor);
-    setState(() {
-      _submitColor = _inputColor;
-    });
+    setState(() => _submitColor = _inputColor);
   }
 
   Future<Null> _openDialog() async {
-    setState(() {
-      _inputColor = _submitColor;
-    });
+    setState(() => _inputColor = _submitColor);
 
-    var colorPicker = MaterialColorPicker(
+    final colorPicker = MaterialColorPicker(
       onColorChange: _onColorChange,
       selectedColor: _inputColor,
       colors: widget.colors ?? appMaterialColors,

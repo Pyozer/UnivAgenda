@@ -11,14 +11,11 @@ class ChangeLog extends StatelessWidget {
     Locale locale = Localizations.localeOf(context);
 
     String changeLogUrl = Url.changelog;
-    if (locale.countryCode == "fr")
-        changeLogUrl = Url.changelogFr;
+    if (locale.countryCode == "fr") changeLogUrl = Url.changelogFr;
 
     final response = await HttpRequest.get(changeLogUrl);
-    if (response.isSuccess)
-      return response.httpResponse.body;
-    else
-      return "## **NETWORK ERROR**";
+    if (response.isSuccess) return response.httpResponse.body;
+    return "## **NETWORK ERROR**";
   }
 
   @override
@@ -29,9 +26,7 @@ class ChangeLog extends StatelessWidget {
           ? Markdown(
               data: snapshot.data,
               onTapLink: (href) => openLink(null, href, null))
-          : Center(
-              child: CircularProgressIndicator(),
-            ),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

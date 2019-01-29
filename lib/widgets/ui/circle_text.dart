@@ -6,15 +6,18 @@ class CircleText extends StatelessWidget {
   final bool isSelected;
   final ValueChanged<bool> onChange;
 
-  CircleText({Key key, this.text, this.onChange, this.isSelected = false})
-      : super(key: key);
+  CircleText({
+    Key key,
+    this.text,
+    this.onChange,
+    this.isSelected = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool isDark = isDarkTheme(Theme.of(context).brightness);
 
-    Color textColor;
-    Color bgColor;
+    Color textColor, bgColor;
     if (isDark) {
       textColor = isSelected ? Colors.grey[900] : Colors.grey[200];
       bgColor = isSelected ? Colors.grey[300] : Colors.grey[700];
@@ -24,14 +27,9 @@ class CircleText extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () {
-        onChange(!isSelected);
-      },
+      onTap: () => onChange != null ? onChange(!isSelected) : null,
       child: CircleAvatar(
-        child: Text(
-          text,
-          style: TextStyle(color: textColor),
-        ),
+        child: Text(text, style: TextStyle(color: textColor)),
         backgroundColor: bgColor,
         radius: 19.0,
       ),

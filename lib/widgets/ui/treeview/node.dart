@@ -14,21 +14,19 @@ class Node {
     this.parent,
     this.checked = false,
     this.isExpanded = false,
-    this.isHidden = false
+    this.isHidden = false,
   }) {
     children ??= [];
   }
 
   String toString() {
-    if (children.length < 1)
-      return "\"$key\": $value,\n";
-    else {
-      var elemsStr = '';
-      this.children.forEach((elem) {
-        elemsStr += elem.toString();
-      });
-      return "\n\"$key\": {\n" + elemsStr + "\n},";
-    }
+    if (children.length < 1) return "\"$key\": $value,\n";
+
+    var elemsStr = '';
+    this.children.forEach((elem) {
+      elemsStr += elem.toString();
+    });
+    return "\n\"$key\": {\n" + elemsStr + "\n},";
   }
 
   @override

@@ -8,14 +8,14 @@ class NoResult extends StatelessWidget {
   final String text;
   final bool hasHeader;
 
-  const NoResult(
-      {Key key,
-      this.header,
-      this.footer,
-      @required this.title,
-      @required this.text,
-      this.hasHeader = true})
-      : super(key: key);
+  const NoResult({
+    Key key,
+    this.header,
+    this.footer,
+    @required this.title,
+    @required this.text,
+    this.hasHeader = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

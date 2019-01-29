@@ -10,14 +10,14 @@ class NumberSelector extends StatefulWidget {
   final int initialValue;
   final Color selectedColor;
 
-  const NumberSelector(
-      {Key key,
-      this.min = 0,
-      @required this.max,
-      this.onChanged,
-      this.initialValue = 0,
-      this.selectedColor})
-      : assert(max != null && max > min),
+  const NumberSelector({
+    Key key,
+    this.min = 0,
+    @required this.max,
+    this.onChanged,
+    this.initialValue = 0,
+    this.selectedColor,
+  })  : assert(max != null && max > min),
         assert(initialValue >= min && initialValue <= max),
         super(key: key);
 
@@ -32,8 +32,9 @@ class _NumberSelectorState extends State<NumberSelector> {
   void initState() {
     super.initState();
     _selectedValue = widget.initialValue ?? widget.min;
-    _controller =
-        ScrollController(initialScrollOffset: _calcOffset(_selectedValue));
+    _controller = ScrollController(
+      initialScrollOffset: _calcOffset(_selectedValue),
+    );
   }
 
   @override
@@ -44,7 +45,9 @@ class _NumberSelectorState extends State<NumberSelector> {
 
   double _calcOffset(int index) {
     int offsetIndex = 0 - widget.min;
-    double offset = (kItemheight * (index + offsetIndex)) - kVisibleHeight / 2 + kItemheight / 2;
+    double offset = (kItemheight * (index + offsetIndex)) -
+        kVisibleHeight / 2 +
+        kItemheight / 2;
     return offset > 0 ? offset : 0.0;
   }
 
@@ -57,9 +60,7 @@ class _NumberSelectorState extends State<NumberSelector> {
   }
 
   void _onItemSelected(int index) {
-    setState(() {
-      _selectedValue = index;
-    });
+    setState(() => _selectedValue = index);
     _goToElement(index);
     widget.onChanged(index);
   }
@@ -92,7 +93,6 @@ class _NumberSelectorState extends State<NumberSelector> {
 
   List<Widget> _generateListItem() {
     List<Widget> items = [];
-
     for (int i = widget.min; i <= widget.max; i++) items.add(_buildItem(i));
     return items;
   }

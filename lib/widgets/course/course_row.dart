@@ -14,11 +14,11 @@ class CourseRow extends StatelessWidget {
   final Course course;
   final Color noteColor;
 
-  CourseRow(
-      {Key key,
-      this.course,
-      this.noteColor = const Color(PrefKey.defaultNoteColor)})
-      : super(key: key);
+  CourseRow({
+    Key key,
+    this.course,
+    this.noteColor = const Color(PrefKey.defaultNoteColor),
+  }) : super(key: key);
 
   void _onCourseTap(BuildContext context) {
     Navigator.of(context).push(

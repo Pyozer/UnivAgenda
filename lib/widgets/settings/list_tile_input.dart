@@ -16,15 +16,15 @@ class ListTileInput extends StatefulWidget {
   final TextInputType inputType;
   final String hintText;
 
-  const ListTileInput(
-      {Key key,
-      @required this.title,
-      this.titleDialog,
-      this.onChange,
-      this.defaultValue,
-      this.inputType,
-      this.hintText})
-      : assert(title != null),
+  const ListTileInput({
+    Key key,
+    @required this.title,
+    this.titleDialog,
+    this.onChange,
+    this.defaultValue,
+    this.inputType,
+    this.hintText,
+  })  : assert(title != null),
         super(key: key);
 
   @override
@@ -55,22 +55,16 @@ class _ListTileInputState extends BaseState<ListTileInput> {
   }
 
   void _onInputChange(value) {
-    setState(() {
-      _inputValue = value;
-    });
+    setState(() => _inputValue = value);
   }
 
   void _onSubmit() {
     widget.onChange(_inputValue);
-    setState(() {
-      _submitInputValue = _inputValue;
-    });
+    setState(() => _submitInputValue = _inputValue);
   }
 
   Future<Null> _openDialog() async {
-    setState(() {
-      _inputValue = _submitInputValue;
-    });
+    setState(() => _inputValue = _submitInputValue);
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,

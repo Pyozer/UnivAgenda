@@ -14,7 +14,7 @@ import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/no_result.dart';
+import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 
 class FindSchedulesResults extends StatefulWidget {
   final List<Resource> searchResources;

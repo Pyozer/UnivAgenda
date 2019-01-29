@@ -20,7 +20,9 @@ class CourseRowHeader extends StatelessWidget {
           Locale(Localizations.localeOf(context).languageCode ?? 'en'),
         ),
         style: TextStyle(
-            fontWeight: FontWeight.w800, fontSize: 22.0),
+          fontWeight: FontWeight.w800,
+          fontSize: 22.0,
+        ),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),

@@ -27,7 +27,7 @@ class _RadioListState extends State<RadioList> {
 
   @override
   Widget build(BuildContext context) {
-    final int valuesSize = widget.values.length;
+    final valuesSize = widget.values.length;
 
     if (valuesSize == 0) return const SizedBox.shrink();
 
@@ -41,9 +41,7 @@ class _RadioListState extends State<RadioList> {
             groupValue: _selectedChoice,
             title: Text(widget.values[index]),
             onChanged: (String value) {
-              setState(() {
-                _selectedChoice = value;
-              });
+              setState(() => _selectedChoice = value);
               widget.onChange(widget.values[index]);
             },
           );

@@ -10,16 +10,16 @@ class AppbarPage extends StatelessWidget {
   final bool useCustomMenuIcon;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const AppbarPage(
-      {Key key,
-      this.title,
-      @required this.body,
-      this.scaffoldKey,
-      this.drawer,
-      this.fab,
-      this.actions,
-      this.useCustomMenuIcon = false})
-      : super(key: key);
+  const AppbarPage({
+    Key key,
+    this.title,
+    @required this.body,
+    this.scaffoldKey,
+    this.drawer,
+    this.fab,
+    this.actions,
+    this.useCustomMenuIcon = false,
+  }) : super(key: key);
 
   void _openDrawer() {
     scaffoldKey?.currentState?.openDrawer();

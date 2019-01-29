@@ -124,8 +124,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   University findUniversity(String university) {
-    return listUniversity.firstWhere((univ) => univ.name == university,
-        orElse: () => null);
+    return listUniversity.firstWhere(
+      (univ) => univ.name == university,
+      orElse: () => null,
+    );
   }
 
   List<String> get groupKeys => _prefsGroupKeys;
@@ -136,9 +138,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     if (checkedGroupKeys == groupKeys) return;
 
-    _updatePref(() {
-      _prefsGroupKeys = checkedGroupKeys;
-    }, state);
+    _updatePref(() => _prefsGroupKeys = checkedGroupKeys, state);
 
     SharedPreferences.getInstance().then((prefs) {
       prefs.setStringList(PrefKey.groupKeys, checkedGroupKeys);
@@ -194,9 +194,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setUrlIcs(String newUrlIcs, [state = false]) {
     if (urlIcs == newUrlIcs) return;
 
-    _updatePref(() {
-      _urlIcs = newUrlIcs;
-    }, state);
+    _updatePref(() => _urlIcs = newUrlIcs, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setString(PrefKey.urlIcs, _urlIcs));
@@ -212,9 +210,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
             ? PrefKey.defaultNumberWeeks
             : newNumberWeeks;
 
-    _updatePref(() {
-      _numberWeeks = intValue;
-    }, state);
+    _updatePref(() => _numberWeeks = intValue, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setInt(PrefKey.numberWeeks, _numberWeeks));
@@ -225,9 +221,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setDarkTheme(bool darkTheme, [state = false]) {
     if (theme.darkTheme == darkTheme) return;
 
-    _updatePref(() {
-      _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
-    }, state);
+    _updatePref(
+        () => _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme,
+        state);
 
     SharedPreferences.getInstance().then(
         (prefs) => prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme));
@@ -282,9 +278,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setAppLaunchCounter(int newAppLaunchCounter, [state = false]) {
     if (newAppLaunchCounter == _appLaunchCounter) return;
 
-    _updatePref(() {
-      _appLaunchCounter = newAppLaunchCounter;
-    }, state);
+    _updatePref(() => _appLaunchCounter = newAppLaunchCounter, state);
 
     SharedPreferences.getInstance().then(
         (prefs) => prefs.setInt(PrefKey.appLaunchCounter, _appLaunchCounter));
@@ -295,9 +289,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setIntroDone(bool newIntroDone, [state = false]) {
     if (newIntroDone == _isIntroDone) return;
 
-    _updatePref(() {
-      _isIntroDone = newIntroDone;
-    }, state);
+    _updatePref(() => _isIntroDone = newIntroDone, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setBool(PrefKey.isIntroDone, _isIntroDone));
@@ -308,9 +300,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setCachedIcal(String icalToCache, [state = false]) {
     if (cachedIcal == icalToCache) return;
 
-    _updatePref(() {
-      _cachedIcal = icalToCache ?? null;
-    }, state);
+    _updatePref(() => _cachedIcal = icalToCache ?? null, state);
 
     writeFile(PrefKey.cachedIcalFile, _cachedIcal);
     setCachedIcalDate(); // Set ical last update date to now
@@ -329,18 +319,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setNotes(List<Note> newNotes, [state = false]) {
     if (notes == newNotes) return;
 
-    newNotes ??= PrefKey.defaultNotes;
-
-    _updatePref(() {
-      _notes = newNotes;
-    }, state);
+    _updatePref(() => _notes = newNotes ?? PrefKey.defaultNotes, state);
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> notesJSON = [];
       _notes.forEach((note) {
         notesJSON.add(json.encode(note.toJson()));
       });
-
       prefs.setStringList(PrefKey.notes, notesJSON);
     });
   }
@@ -349,7 +334,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (noteToAdd == null) return;
     List<Note> newNotes = notes;
     newNotes.add(noteToAdd);
-
     setNotes(newNotes, state);
   }
 
@@ -375,9 +359,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     newCustomEvents
         .removeWhere((event) => event.isFinish() && !event.isRecurrentEvent());
 
-    _updatePref(() {
-      _customEvents = newCustomEvents;
-    }, state);
+    _updatePref(() => _customEvents = newCustomEvents, state);
 
     SharedPreferences.getInstance().then((prefs) {
       List<String> eventsJSON = [];
@@ -419,9 +401,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setUserLogged(bool userLogged, [state = false]) {
     if (isUserLogged == userLogged) return;
 
-    _updatePref(() {
-      _userLogged = userLogged ?? PrefKey.defaultUserLogged;
-    }, state);
+    _updatePref(
+        () => _userLogged = userLogged ?? PrefKey.defaultUserLogged, state);
 
     SharedPreferences.getInstance()
         .then((prefs) => prefs.setBool(PrefKey.isUserLogged, _userLogged));
@@ -476,12 +457,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if ((university?.name ?? "") == newUniversity) return;
 
     if (listUniversity.length > 0) {
-      var univ = findUniversity(newUniversity);
-
-      univ ??= _listUniversity[0];
-      _updatePref(() {
-        _university = univ;
-      }, state);
+      final univ = findUniversity(newUniversity);
+      _updatePref(() => _university = univ ?? _listUniversity[0], state);
 
       SharedPreferences.getInstance().then((prefs) {
         prefs.setString(PrefKey.university, _university.name);
@@ -512,13 +489,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setResourcesDate([newResDate, state = false]) {
     newResDate ??= DateTime.now();
 
-    _updatePref(() {
-      _resourcesDate = newResDate;
-    }, state);
+    _updatePref(() => _resourcesDate = newResDate, state);
 
     SharedPreferences.getInstance().then((prefs) {
       prefs.setInt(
-          PrefKey.resourcesDate, _resourcesDate.millisecondsSinceEpoch);
+        PrefKey.resourcesDate,
+        _resourcesDate.millisecondsSinceEpoch,
+      );
     });
   }
 
@@ -529,13 +506,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setCachedIcalDate([newCachedIcalDate, state = false]) {
     newCachedIcalDate ??= DateTime.now();
 
-    _updatePref(() {
-      _cachedIcalDate = newCachedIcalDate;
-    }, state);
+    _updatePref(() => _cachedIcalDate = newCachedIcalDate, state);
 
     SharedPreferences.getInstance().then((prefs) {
       prefs.setInt(
-          PrefKey.cachedIcalDate, _cachedIcalDate.millisecondsSinceEpoch);
+        PrefKey.cachedIcalDate,
+        _cachedIcalDate.millisecondsSinceEpoch,
+      );
     });
   }
 
@@ -575,8 +552,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addRenamedEvent(String eventTitle, String newTitle,
-      [bool state = false]) {
+  void addRenamedEvent(String eventTitle, String newTitle, [bool state = false]) {
     renamedEvents[eventTitle] = newTitle;
     setRenamedEvents(renamedEvents, state);
   }
@@ -586,11 +562,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setRenamedEvents(renamedEvents, state);
   }
 
-  bool isCourseHidden(Course course) =>
-      hiddenEvents.any((e) => e == course.title);
+  bool isCourseHidden(Course course) => hiddenEvents.any((e) => e == course.title);
 
-  bool get isFullHiddenEvent =>
-      _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+  bool get isFullHiddenEvent => _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
 
   setFullHiddenEvent(bool fullHiddenEvent, [state = false]) {
     if (isFullHiddenEvent == fullHiddenEvent) return;
@@ -610,8 +584,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
-  bool get isGenerateEventColor =>
-      _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
+  bool get isGenerateEventColor => _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
 
   setGenerateEventColor(bool generateEventColor, [state = false]) {
     if (isGenerateEventColor == generateEventColor) return;
@@ -622,7 +595,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     SharedPreferences.getInstance().then((prefs) =>
-        prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor));
+        prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor),);
   }
 
   Future<Null> initFromDisk([state = false]) async {
@@ -728,7 +701,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         setGroupKeys(groupKeys);
       }
     }
-
     return null;
   }
 

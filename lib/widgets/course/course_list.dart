@@ -6,9 +6,10 @@ import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/widgets/calendar/calendar_event.dart';
 import 'package:myagenda/widgets/course/course_row.dart';
 import 'package:myagenda/widgets/course/course_row_header.dart';
-import 'package:myagenda/widgets/ui/empty_day.dart';
+import 'package:myagenda/widgets/ui/screen_message/empty_day.dart';
 
 class CourseList extends StatelessWidget {
   final Map<int, List<BaseCourse>> coursesData;
@@ -135,8 +136,7 @@ class CourseList extends StatelessWidget {
     );
   }
 
-  List<Course> _getDayEvents(
-      DateTime day, Map<DateTime, List<BaseCourse>> data) {
+  List<Course> _getDayEvents(DateTime day, Map<DateTime, List<BaseCourse>> data) {
     DateTime key = data.keys
         .firstWhere((d) => DateUtils.isSameDay(day, d), orElse: () => null);
     if (key != null)
@@ -161,10 +161,7 @@ class CourseList extends StatelessWidget {
         monthView: calendarType == CalendarType.MONTH_VIEW,
         firstDate: DateTime(today.year, today.month, today.day),
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
-              return Event(
-                title: e.title,
-                color: e.getColor(isGenColor),
-              );
+              return Event(title: e.title, color: e.getColor(isGenColor));
             }).toList(),
         onDateSelected: (date) => showDialog(
               context: context,
@@ -185,29 +182,5 @@ class CourseList extends StatelessWidget {
       content = _buildCalendar(context, coursesData);
 
     return Container(child: content);
-  }
-}
-
-class Event extends StatelessWidget {
-  final String title;
-  final Color color;
-
-  const Event({Key key, this.title, this.color}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(2.0),
-      margin: const EdgeInsets.only(top: 2.0),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(3.0),
-      ),
-      child: Text(
-        title,
-        maxLines: 1,
-        style: const TextStyle(fontSize: 10.0, color: Colors.white),
-      ),
-    );
   }
 }

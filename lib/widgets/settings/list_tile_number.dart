@@ -57,22 +57,16 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
   }
 
   void _onInputChange(value) {
-    setState(() {
-      _inputValue = value;
-    });
+    setState(() => _inputValue = value);
   }
 
   void _onSubmit() {
     widget.onChange(_inputValue);
-    setState(() {
-      _submitInputValue = _inputValue;
-    });
+    setState(() => _submitInputValue = _inputValue);
   }
 
   Future<Null> _openDialog() async {
-    setState(() {
-      _inputValue = _submitInputValue;
-    });
+    setState(() => _inputValue = _submitInputValue);
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
         context,

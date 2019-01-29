@@ -4,9 +4,11 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/note.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
+typedef NoteChanged(Note note);
+
 class CourseNote extends StatelessWidget {
   final Note note;
-  final Function(Note note) onDelete;
+  final NoteChanged onDelete;
 
   const CourseNote({Key key, @required this.note, this.onDelete})
       : super(key: key);
