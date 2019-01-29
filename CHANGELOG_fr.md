@@ -2,6 +2,7 @@
 
 - Ajout d'une vue par mois et semaine (calendrier)
 - Problème du texte manquant sur le dialog après connexion réparé
+- Page de connexion améliorée (pour petits écrans)
 - Amélioration du code
 
 ## Version 4.0.7

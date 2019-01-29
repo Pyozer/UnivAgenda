@@ -2,6 +2,7 @@
 
 - Add month and week view
 - Fix success login dialog
+- Fix login screen layout (small devices)
 - Improve code
 
 ## Version 4.0.7
