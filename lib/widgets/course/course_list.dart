@@ -145,7 +145,7 @@ class _CourseListState extends State<CourseList> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
-        constraints: const BoxConstraints(maxHeight: 500),
+        constraints: const BoxConstraints(maxHeight: 480),
         child: _buildListCours(context, courseEvents),
       ),
     );

@@ -51,8 +51,8 @@ android {
         applicationId "com.pyozer.myagenda"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 20181127
-        versionName "4.0.7"
+        versionCode 20190129
+        versionName "4.0.8"
         signingConfig signingConfigs.config
     }
     buildTypes {

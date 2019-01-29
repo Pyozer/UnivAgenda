@@ -9,7 +9,7 @@ import 'package:myagenda/widgets/settings/list_tile_title.dart';
 class LicencesScreen extends StatelessWidget {
   static const git = "https://github.com/";
 
-  static const List<Licence> _libraries = [
+  static List<Licence> _libraries = [
     Licence(
       "Cupertino Icons",
       "Flutter Team",
@@ -21,6 +21,12 @@ class LicencesScreen extends StatelessWidget {
       "Flutter Team",
       license: "BSD Licence",
       url: "${git}flutter/plugins/tree/master/packages/firebase_analytics",
+    ),
+    Licence(
+      "Flutter Calendar",
+      "Eric Windmill / Jean-Charles Moussé",
+      license: "BSD Licence",
+      url: "${git}pyozer/flutter_calendar",
     ),
     Licence(
       "Flutter Launcher Icons",
@@ -38,6 +44,12 @@ class LicencesScreen extends StatelessWidget {
       "Jean-Charles Moussé",
       license: "MIT Licence",
       url: "${git}Pyozer/color_picker",
+    ),
+    Licence(
+      "Flutter i18n",
+      "Matteo Pietro Dazzi",
+      license: "MIT Licence",
+      url: "${git}ilteoood/flutter_i18n",
     ),
     Licence(
       "HTML",
@@ -64,6 +76,12 @@ class LicencesScreen extends StatelessWidget {
       url: "${git}lucaslcode/outline_material_icons",
     ),
     Licence(
+      "Package Info",
+      "Flutter Team",
+      license: "BSD",
+      url: "${git}flutter/plugins/tree/master/packages/package_info",
+    ),
+    Licence(
       "Path Provider",
       "Flutter Team",
       license: "BSD",
@@ -76,10 +94,10 @@ class LicencesScreen extends StatelessWidget {
       url: "${git}flutter/plugins/tree/master/packages/shared_preferences",
     ),
     Licence(
-      "Time Machine",
-      "Dana Ferguson",
-      license: "Apache 2.0",
-      url: "${git}Dana-Ferguson/time_machine",
+      "Timezone",
+      "Boris Kaul / Sam Rawlins",
+      license: "BSD Licence",
+      url: "${git}srawlins/timezone",
     ),
     Licence(
       "URL Launcher",
@@ -96,6 +114,7 @@ class LicencesScreen extends StatelessWidget {
   ];
 
   List<Widget> _buildList(BuildContext context) {
+    _libraries.sort((a, b) => a.library.compareTo(b.library));
     return _libraries.map((l) {
       return ListTile(
         title: ListTileTitle(l.library),
