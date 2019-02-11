@@ -29,11 +29,12 @@ Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la
 
 ## Screenshots
 
-<img title="Login page" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.png" width="300" />
-<img title="Home vertical" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_vertical.png" width="300" />
-<img title="Home horizontal" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_horizontal.png" width="300" />
-<img title="Home dark theme" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_dark.png" width="300" />
-<img title="Add custom event" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/add_event.png" width="300" />
-<img title="Find schedule" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/find.png" width="300" />
+<img title="Login page" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/login.webp" width="300" />
+<img title="Home vertical" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_month.webp" width="300" />
+<img title="Home horizontal" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_vertical.webp" width="300" />
+<img title="Home dark theme" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/home_horizontal_dark_colored.webp" width="300" />
+<img title="Add custom event" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/add_event.webp" width="300" />
+<img title="Event" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/event.webp" width="300" />
+<img title="Find schedule" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/search_room.webp" width="300" />
 <img title="Find schedule filter" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/find_select.png" width="300" />
-<img title="Find schedule results" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/find_result.png" width="300" />
+<img title="Find schedule results" src="https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/demo/search_room_results.webp" width="300" />
