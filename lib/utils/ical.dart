@@ -10,6 +10,18 @@ const String SUMMARY = "SUMMARY";
 const String DESCRIPTION = "DESCRIPTION";
 const String LOCATION = "LOCATION";
 const String UID = "UID";
+// No used, just to stop description
+const String SEQUENCE = "SEQUENCE";
+const String STATUS = "STATUS";
+const String TRANSP = "TRANSP";
+const String RRULE = "RRULE";
+const String DTSTAMP = "DTSTAMP";
+const String CATEGORIES = "CATEGORIES";
+const String GEO = "GEO";
+const String URL = "URL";
+const String CLASS = "CLASS";
+const String LASTMODIFIED = "LAST-MODIFIED";
+const String CREATED = "CREATED";
 
 class Ical {
   static bool isValidIcal(String ical) {
@@ -29,61 +41,76 @@ class Ical {
     List<Course> events = [];
     Course event;
 
-    String lastProp;
-
     lines.forEach((line) {
       if (line.startsWith(BEGINVEVENT)) {
         event = Course.empty();
-        lastProp = BEGINVEVENT;
       } else if (line.startsWith(ENDVEVENT)) {
         // Remove exported indicator of description
-        event.description = capitalize(event.description
-            .replaceAll(RegExp(r'\\n'), ' ')
-            .split('(Export')[0]
-            .replaceAll(RegExp(r'\s\s+'), ' ')
-            .replaceAll('\\', ' ')
-            .replaceAll('_', ' ')
-            .trim());
-
+        event?.description = capitalize(
+          event.description
+              .replaceAll(RegExp(r'\\n'), ' ')
+              .split('(Export')[0]
+              .replaceAll(RegExp(r'\s\s+'), ' ')
+              .replaceAll('\\', ' ')
+              .replaceAll('_', ' ')
+              .trim(),
+        );
         events.add(event);
-        lastProp = ENDVEVENT;
       } else if (line.startsWith(DTSTART)) {
-        event.dateStart = _getDateValue(line);
-        lastProp = DTSTART;
+        event?.dateStart = _getDateValue(line);
       } else if (line.startsWith(DTEND)) {
-        event.dateEnd = _getDateValue(line);
-        lastProp = DTEND;
+        event?.dateEnd = _getDateValue(line);
       } else if (line.startsWith(SUMMARY)) {
-        event.title = capitalize(_getValue(line)).trim();
-        lastProp = SUMMARY;
+        event?.title = capitalize(_getValue(line)).trim();
       } else if (line.startsWith(LOCATION)) {
-        event.location = capitalize(
-            _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ').trim());
-        lastProp = LOCATION;
+        event?.location = capitalize(
+          _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ').trim(),
+        );
       } else if (line.startsWith(UID)) {
-        event.uid = _getValue(line).trim();
-        lastProp = UID;
-      } else if (line.startsWith(DESCRIPTION) || lastProp == DESCRIPTION) {
-        if (lastProp == DESCRIPTION)
-          event.description += line.trim();
-        else
-          event.description += _getValue(line).trim();
-        lastProp = DESCRIPTION;
+        event?.uid = _getValue(line).trim();
+      } else if (_isDescTag(line)) {
+        event?.description ??= "";
+        event?.description += _getValue(line).trim();
       }
     });
 
     return events;
   }
 
+  static bool _isDescTag(String line) {
+    if (line.startsWith(DESCRIPTION)) return true;
+    return [
+          SEQUENCE,
+          STATUS,
+          TRANSP,
+          RRULE,
+          DTSTAMP,
+          CATEGORIES,
+          GEO,
+          URL,
+          CLASS,
+          CREATED,
+          LASTMODIFIED,
+        ].indexWhere((s) => line.startsWith(s)) <
+        0;
+  }
+
   static String _getValue(String line) {
     // Gets the first index where a space occours
     final index = line.indexOf(":");
-    return line.substring(index + 1); // Gets the value part
+    if (index < 0) return line;
+    return line.substring(index + 1).trim(); // Gets the value part
   }
 
   static DateTime _getDateValue(String line) {
-    final d = DateTime.parse(_getValue(line).toString().substring(0, 15));
-    final utcDate = TZDateTime.utc(d.year, d.month, d.day, d.hour, d.minute, d.millisecond);
-    return utcDate.toLocal();
+    final d = DateTime.parse(_getValue(line)).toUtc();
+    return TZDateTime.utc(
+      d.year,
+      d.month,
+      d.day,
+      d.hour,
+      d.minute,
+      d.second,
+    ).toLocal();
   }
 }
