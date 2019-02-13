@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/findschedules_result.dart';
@@ -13,6 +12,7 @@ import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 
@@ -81,8 +81,8 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
 
         DialogPredefined.showSimpleMessage(
           context,
-          translation(StrKey.ERROR),
-          translation(StrKey.NETWORK_ERROR),
+          translations.text(StrKey.ERROR),
+          translations.text(StrKey.NETWORK_ERROR),
         );
         return;
       }
@@ -148,14 +148,14 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       widget = const Center(child: const CircularProgressIndicator());
     else if (_searchResult.length == 0)
       widget = NoResult(
-        title: translation(StrKey.FINDSCHEDULES_NORESULT),
-        text: translation(StrKey.FINDSCHEDULES_NORESULT_TEXT),
+        title: translations.text(StrKey.FINDSCHEDULES_NORESULT),
+        text: translations.text(StrKey.FINDSCHEDULES_NORESULT_TEXT),
       );
     else
       widget = _buildListResults();
 
     return AppbarPage(
-      title: translation(StrKey.FINDSCHEDULES_RESULTS),
+      title: translations.text(StrKey.FINDSCHEDULES_RESULTS),
       body: widget,
     );
   }
@@ -168,22 +168,20 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
-
     String info = '';
     if (findResult.startAvailable != null) {
-      info = "${FlutterI18n.translate(context, StrKey.FINDSCHEDULES_FROM)} ";
-      info += Date.extractTimeWithDate(findResult.startAvailable, locale);
+      info = "${translations.text(StrKey.FINDSCHEDULES_FROM)} ";
+      info += Date.extractTimeWithDate(findResult.startAvailable);
     }
 
     if (findResult.endAvailable != null) {
-      info += " ${FlutterI18n.translate(context, StrKey.FINDSCHEDULES_TO)} ";
-      info += Date.extractTimeWithDate(findResult.endAvailable, locale);
+      info += " ${translations.text(StrKey.FINDSCHEDULES_TO)} ";
+      info += Date.extractTimeWithDate(findResult.endAvailable);
     }
 
     final text = (info.length > 0)
         ? capitalize(info.trim())
-        : FlutterI18n.translate(context, StrKey.FINDSCHEDULES_AVAILABLE);
+        : translations.text(StrKey.FINDSCHEDULES_AVAILABLE);
 
     return Card(
       elevation: 3.0,

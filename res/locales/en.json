@@ -12,10 +12,8 @@
 
   "element": "Element {number}",
   "number_week": "Number of week",
-  "number_week_desc": {
-    "times-1": "{times} week",
-    "times-2": "{times} weeks"
-  },
+  "number_week_desc_one": "{nbWeeks} week",
+  "number_week_desc_plural": "{nbWeeks} weeks",
   "display_all_days": "Display all days",
   "display_all_days_desc": "Show every day of the week",
   "hidden_event": "Hidden events",
@@ -186,6 +184,9 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
 
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+
   "no_events": "No events.",
 
   "error": "Error",
@@ -217,5 +218,6 @@
   "add_hidden_event": "Title of the event",
 
   "new_event_title": "New event title (empty to reset)",
-  "rename_event": "Rename the event"
+  "rename_event": "Rename the event",
+  "pasteButtonLabel": "Paste"
 }

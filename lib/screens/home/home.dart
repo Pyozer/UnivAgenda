@@ -17,6 +17,7 @@ import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
 import 'package:myagenda/widgets/drawer.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -95,8 +96,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     await Future.delayed(const Duration(seconds: 1));
     DialogPredefined.showSimpleMessage(
       context,
-      translation(StrKey.LOGIN_SUCCESSFUL),
-      translation(StrKey.LOGIN_SUCCESSFUL_TEXT),
+      translations.text(StrKey.LOGIN_SUCCESSFUL),
+      translations.text(StrKey.LOGIN_SUCCESSFUL_TEXT),
     );
   }
 
@@ -121,7 +122,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       if (!response.isSuccess) {
         _scaffoldKey?.currentState?.removeCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(translation(StrKey.NETWORK_ERROR)),
+          content: Text(translations.text(StrKey.NETWORK_ERROR)),
         ));
         return null;
       }
@@ -279,10 +280,10 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   Widget _buildNoResult() {
     return NoResult(
-      title: translation(StrKey.COURSES_NORESULT),
-      text: translation(StrKey.COURSES_NORESULT_TEXT),
+      title: translations.text(StrKey.COURSES_NORESULT),
+      text: translations.text(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
-        text: translation(StrKey.REFRESH),
+        text: translations.text(StrKey.REFRESH),
         onPressed: _fetchData,
       ),
     );
@@ -312,7 +313,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translation(StrKey.APP_NAME),
+      title: translations.text(StrKey.APP_NAME),
       actions: [
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)

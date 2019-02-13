@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/licence.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 
 class LicencesScreen extends StatelessWidget {
@@ -44,12 +44,6 @@ class LicencesScreen extends StatelessWidget {
       "Jean-Charles Moussé",
       license: "MIT Licence",
       url: "${git}Pyozer/color_picker",
-    ),
-    Licence(
-      "Flutter i18n",
-      "Matteo Pietro Dazzi",
-      license: "MIT Licence",
-      url: "${git}ilteoood/flutter_i18n",
     ),
     Licence(
       "HTML",
@@ -128,7 +122,7 @@ class LicencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
+      title: translations.text(StrKey.OPENSOURCE_LICENCES),
       body: Container(
         child: ListView(
           children: ListTile.divideTiles(

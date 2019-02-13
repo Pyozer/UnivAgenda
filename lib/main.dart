@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/app.dart';
 import 'package:flutter/foundation.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:timezone/timezone.dart';
 
 Future<List<int>> loadDefaultData() async {
@@ -14,6 +15,8 @@ void main() async {
 
   initializeDatabase(await loadDefaultData());
   setLocalLocation(getLocation('Europe/Paris'));
+
+  await translations.init();
 
   runApp(App());
 }

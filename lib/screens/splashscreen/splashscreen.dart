@@ -7,6 +7,7 @@ import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
 
@@ -114,7 +115,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     if (mounted)
       setState(() {
         _isError = isError;
-        _errorMsg = errorMsgKey != null ? translation(errorMsgKey) : null;
+        _errorMsg = errorMsgKey != null ? translations.text(errorMsgKey) : null;
       });
   }
 
@@ -142,13 +143,13 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg ?? translation(StrKey.NETWORK_ERROR),
+                            _errorMsg ?? translations.text(StrKey.NETWORK_ERROR),
                             style: theme.textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
                           RaisedButtonColored(
-                            text: translation(StrKey.RETRY),
+                            text: translations.text(StrKey.RETRY),
                             onPressed: _initPreferences,
                           )
                         ],

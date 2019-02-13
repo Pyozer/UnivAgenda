@@ -71,8 +71,6 @@ class _CourseListState extends State<CourseList> {
   Widget _buildHorizontal(context, Map<int, List<BaseCourse>> elements) {
     if (elements.length < 1) return const SizedBox.shrink();
 
-    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
-
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
 
@@ -82,7 +80,7 @@ class _CourseListState extends State<CourseList> {
       if (lastDate == null || Date.dateToInt(lastDate) != date)
         lastDate = Date.intToDate(date);
 
-      tabs.add(Tab(text: Date.dateFromNow(lastDate, locale, true)));
+      tabs.add(Tab(text: Date.dateFromNow(lastDate, true)));
 
       listTabView.add(
         _buildListCours(context, courses),

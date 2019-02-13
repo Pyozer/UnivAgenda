@@ -8,6 +8,7 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/treeview/node.dart';
 import 'package:myagenda/widgets/ui/treeview/treeview.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -69,7 +70,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
       cursorColor: color,
       decoration: InputDecoration(
           hintStyle: TextStyle(color: color),
-          hintText: translation(StrKey.SEARCH),
+          hintText: translations.text(StrKey.SEARCH),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0)),
       onChanged: (search) {
@@ -83,7 +84,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: translation(StrKey.FINDSCHEDULES_FILTER_SELECTION),
+      title: translations.text(StrKey.FINDSCHEDULES_FILTER_SELECTION),
       actions: [
         IconButton(icon: const Icon(OMIcons.search), onPressed: _onSubmit),
       ],

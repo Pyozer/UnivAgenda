@@ -12,10 +12,8 @@
 
   "element": "Élement {number}",
   "number_week": "Nombre de semaines",
-  "number_week_desc": {
-    "times-1": "{times} semaine",
-    "times-2": "{times} semaines"
-  },
+  "number_week_desc_one": "{nbWeeks} semaine",
+  "number_week_desc_plural": "{nbWeeks} semaines",
   "display_all_days": "Afficher tous les jours",
   "display_all_days_desc": "Affiche chaque jour de la semaine",
   "hidden_event": "Événéments masqués",
@@ -185,6 +183,9 @@
   "friday": "Vendredi",
   "saturday": "Samedi",
   "sunday": "Dimanche",
+
+  "today": "Aujourd'hui",
+  "tomorrow": "Demain",
 
   "no_events": "Aucun événement.",
 

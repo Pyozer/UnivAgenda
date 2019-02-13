@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -17,27 +18,27 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   void _addNewFilter() async {
     bool isSubmit = await DialogPredefined.showContentDialog(
       context,
-      translation(StrKey.ADD_HIDDEN_EVENT),
+      translations.text(StrKey.ADD_HIDDEN_EVENT),
       TextField(
         controller: _textController,
         maxLines: null,
         keyboardType: TextInputType.text,
         maxLength: 100,
         decoration: InputDecoration.collapsed(
-          hintText: translation(StrKey.ADD_HIDDEN_EVENT),
+          hintText: translations.text(StrKey.ADD_HIDDEN_EVENT),
         ),
       ),
-      translation(StrKey.ADD),
-      translation(StrKey.CANCEL),
+      translations.text(StrKey.ADD),
+      translations.text(StrKey.CANCEL),
     );
 
     if (isSubmit == true) {
       final String filter = _textController.text.trim();
       if (filter.isEmpty) {
         _scaffoldKey.currentState?.showSnackBar(SnackBar(
-          content: Text(translation(StrKey.REQUIRE_FIELD)),
+          content: Text(translations.text(StrKey.REQUIRE_FIELD)),
           action: SnackBarAction(
-            label: translation(StrKey.RETRY),
+            label: translations.text(StrKey.RETRY),
             onPressed: _addNewFilter,
           ),
         ));
@@ -71,7 +72,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   Widget build(BuildContext context) {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translation(StrKey.HIDDEN_EVENT),
+      title: translations.text(StrKey.HIDDEN_EVENT),
       body: prefs.hiddenEvents.length == 0
           ? Center(
               child: ListView(
@@ -79,8 +80,8 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   NoResult(
-                    title: translation(StrKey.NO_HIDDEN_EVENT),
-                    text: translation(StrKey.NO_HIDDEN_EVENT_TEXT),
+                    title: translations.text(StrKey.NO_HIDDEN_EVENT),
+                    text: translations.text(StrKey.NO_HIDDEN_EVENT_TEXT),
                   ),
                 ],
               ),

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/help_item.dart';
@@ -10,6 +9,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/large_rounded_button.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 class HelpScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<List<HelpItem>> _loadHelpData(String lang) async {
+  Future<List<HelpItem>> _loadHelpData() async {
     final response = await HttpRequest.get(Url.helpList);
 
     if (!response.isSuccess) throw Exception();
@@ -25,7 +25,10 @@ class HelpScreen extends StatelessWidget {
     List responseJson = json.decode(response.httpResponse.body);
 
     return responseJson
-        .map((itemJson) => HelpItem.fromJson(itemJson, lang))
+        .map((itemJson) => HelpItem.fromJson(
+              itemJson,
+              translations.currentLanguage,
+            ))
         .toList();
   }
 
@@ -49,25 +52,22 @@ class HelpScreen extends StatelessWidget {
       await launch(url);
     } else {
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(FlutterI18n.translate(context, StrKey.NO_EMAIL_APP)),
+        content: Text(translations.text(StrKey.NO_EMAIL_APP)),
       ));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final lang =
-        Localizations.localeOf(context).languageCode?.substring(0, 2) ?? "en";
-
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: FlutterI18n.translate(context, StrKey.HELP_FEEDBACK),
+      title: translations.text(StrKey.HELP_FEEDBACK),
       body: Container(
         child: Column(
           children: [
             Expanded(
               child: FutureBuilder<List<HelpItem>>(
-                future: _loadHelpData(lang),
+                future: _loadHelpData(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var helpItems = snapshot.data
@@ -90,7 +90,7 @@ class HelpScreen extends StatelessWidget {
             ),
             LargeRoundedButton(
               onPressed: () => _sendFeedback(context),
-              text: FlutterI18n.translate(context, StrKey.SEND_FEEDBACK),
+              text: translations.text(StrKey.SEND_FEEDBACK),
             ),
           ],
         ),

@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/list_colors.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_title.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
@@ -79,8 +79,8 @@ class _ListTileColorState extends State<ListTileColor> {
         context,
         widget.titleDialog ?? widget.title,
         colorPicker,
-        FlutterI18n.translate(context, StrKey.SUBMIT),
-        FlutterI18n.translate(context, StrKey.CANCEL),
+        translations.text(StrKey.SUBMIT),
+        translations.text(StrKey.CANCEL),
         true,
         const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.0));
 

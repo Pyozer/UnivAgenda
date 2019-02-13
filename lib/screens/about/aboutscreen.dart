@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -9,6 +8,7 @@ import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
 import 'package:myagenda/widgets/images/circle_image.dart';
 import 'package:myagenda/widgets/ui/about_card.dart';
@@ -20,7 +20,7 @@ class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
         Theme.of(context).textTheme.headline.copyWith(fontSize: 30.0);
-    final appName = FlutterI18n.translate(context, StrKey.APP_NAME);
+    final appName = translations.text(StrKey.APP_NAME);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 16.0),
@@ -40,10 +40,10 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildWhatIsIt(BuildContext context) {
     return AboutCard(
-      title: FlutterI18n.translate(context, StrKey.WHAT_IS_IT),
+      title: translations.text(StrKey.WHAT_IS_IT),
       children: [
         Text(
-          FlutterI18n.translate(context, StrKey.ABOUT_WHAT),
+          translations.text(StrKey.ABOUT_WHAT),
           style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.justify,
         )
@@ -53,7 +53,7 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildAuthor(BuildContext context) {
     return AboutCard(
-      title: FlutterI18n.translate(context, StrKey.AUTHOR),
+      title: translations.text(StrKey.AUTHOR),
       lateralPadding: false,
       children: [
         ListTile(
@@ -65,7 +65,7 @@ class AboutScreen extends StatelessWidget {
             ),
           ),
           title: const Text("Jean-Charles Moussé"),
-          subtitle: Text(FlutterI18n.translate(context, StrKey.DEVELOPER)),
+          subtitle: Text(translations.text(StrKey.DEVELOPER)),
           onTap: () => openLink(
                 context,
                 Url.myWebsite,
@@ -82,7 +82,7 @@ class AboutScreen extends StatelessWidget {
           ),
           title: const Text("Justin Martin"),
           subtitle: Text(
-            "${FlutterI18n.translate(context, StrKey.DEVELOPER)}, ${FlutterI18n.translate(context, StrKey.RIGHTS)}",
+            "${translations.text(StrKey.DEVELOPER)}, ${translations.text(StrKey.RIGHTS)}",
           ),
           onTap: () => openLink(
                 context,
@@ -100,7 +100,7 @@ class AboutScreen extends StatelessWidget {
     final store = Platform.isAndroid ? "Play Store" : "App Store";
 
     return AboutCard(
-      title: FlutterI18n.translate(context, StrKey.SOCIAL),
+      title: translations.text(StrKey.SOCIAL),
       lateralPadding: false,
       children: [
         ListTile(
@@ -110,7 +110,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: store,
           ),
           title: Text(store),
-          subtitle: Text(FlutterI18n.translate(context, StrKey.ADD_NOTE_STORE)),
+          subtitle: Text(translations.text(StrKey.ADD_NOTE_STORE)),
           onTap: () => openLink(
                 context,
                 Platform.isAndroid ? Url.playstore : Url.appstore,
@@ -123,9 +123,9 @@ class AboutScreen extends StatelessWidget {
             width: 30.0,
             semanticLabel: "Logo GitHub",
           ),
-          title: Text(FlutterI18n.translate(context, StrKey.GITHUB_PROJECT)),
+          title: Text(translations.text(StrKey.GITHUB_PROJECT)),
           subtitle: Text(
-            FlutterI18n.translate(context, StrKey.GITHUB_PROJECT_DESC),
+            translations.text(StrKey.GITHUB_PROJECT_DESC),
           ),
           onTap: () => openLink(
                 context,
@@ -140,7 +140,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: "Logo Twitter",
           ),
           title: const Text("Twitter"),
-          subtitle: Text(FlutterI18n.translate(context, StrKey.TWITTER_DESC)),
+          subtitle: Text(translations.text(StrKey.TWITTER_DESC)),
           onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
         ),
       ],
@@ -158,27 +158,27 @@ class AboutScreen extends StatelessWidget {
   Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
       VoidCallback onLicensesTap) {
     return AboutCard(
-      title: FlutterI18n.translate(context, StrKey.OTHER),
+      title: translations.text(StrKey.OTHER),
       lateralPadding: false,
       children: [
         ListTile(
-          title: Text(FlutterI18n.translate(context, StrKey.CHANGELOG)),
+          title: Text(translations.text(StrKey.CHANGELOG)),
           subtitle: Text(
-            FlutterI18n.translate(context, StrKey.CHANGELOG_DESC),
+            translations.text(StrKey.CHANGELOG_DESC),
           ),
           onTap: onChangeLogTap,
         ),
         ListTile(
           title: Text(
-            FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES),
+            translations.text(StrKey.OPENSOURCE_LICENCES),
           ),
           subtitle: Text(
-            FlutterI18n.translate(context, StrKey.OPENSOURCE_LICENCES_DESC),
+            translations.text(StrKey.OPENSOURCE_LICENCES_DESC),
           ),
           onTap: onLicensesTap,
         ),
         ListTile(
-          title: Text(FlutterI18n.translate(context, StrKey.VERSION)),
+          title: Text(translations.text(StrKey.VERSION)),
           subtitle: FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
@@ -198,7 +198,7 @@ class AboutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            FlutterI18n.translate(context, StrKey.MADE_WITH),
+            translations.text(StrKey.MADE_WITH),
             style: txtTheme,
           ),
           Padding(
@@ -222,7 +222,7 @@ class AboutScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                FlutterI18n.translate(context, StrKey.CHANGELOG),
+                translations.text(StrKey.CHANGELOG),
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 24.0,
@@ -239,7 +239,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: FlutterI18n.translate(context, StrKey.ABOUT),
+      title: translations.text(StrKey.ABOUT),
       body: Container(
         child: ListView(
           children: [

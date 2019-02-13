@@ -5,8 +5,12 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/utils/preferences.dart';
 
 class AnalyticsProvider extends InheritedWidget {
-  AnalyticsProvider(this.analytics, this.observer, {Key key, this.child})
-      : super(key: key, child: child);
+  AnalyticsProvider(
+    this.analytics,
+    this.observer, {
+    Key key,
+    this.child,
+  }) : super(key: key, child: child);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;

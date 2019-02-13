@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 
 class AddNoteButton extends StatelessWidget {
@@ -14,7 +14,7 @@ class AddNoteButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: RaisedButtonColored(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        text: FlutterI18n.translate(context, StrKey.ADD_NOTE_BTN),
+        text: translations.text(StrKey.ADD_NOTE_BTN),
         onPressed: onPressed,
       ),
     );

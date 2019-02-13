@@ -5,6 +5,7 @@ import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -36,9 +37,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   @override
   void initState() {
     super.initState();
-    final DateTime date = DateTime.now();
-    _initFirstDate = Date.changeTime(date, 15, 0);
-    _initEndDate = Date.changeTime(date, 16, 30);
+    _initFirstDate = DateTime.now().add(Duration(minutes: 30));
+    _initEndDate = _initFirstDate.add(Duration(hours: 1));
 
     _baseCourse = CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
 
@@ -60,15 +60,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onRecurrentDate(bool value) {
-    setState(() {
-      _isRecurrent = value;
-    });
+    setState(() => _isRecurrent = value);
   }
 
   void _onColorCustom(bool value) {
-    setState(() {
-      _isColor = value;
-    });
+    setState(() => _isColor = value);
   }
 
   void _onDateTap() async {
@@ -76,15 +72,18 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
-      lastDate: DateTime(2030),
-      locale: Locale(Localizations.localeOf(context).languageCode ?? 'en'),
+      lastDate: DateTime.now().add(Duration(days: 365*30)),
+      locale: translations.locale,
     );
 
     if (dateStart != null) {
       final newStart = Date.changeTime(dateStart, _customCourse.dateStart.hour,
           _customCourse.dateStart.minute);
 
-      _updateTimes(newStart, _customCourse.dateEnd);
+      final newEnd = Date.changeTime(dateStart, _customCourse.dateEnd.hour,
+          _customCourse.dateEnd.minute);
+
+      _updateTimes(newStart, newEnd);
     }
   }
 
@@ -136,15 +135,19 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     if (_customCourse.title.isEmpty ||
         _customCourse.description.isEmpty ||
         _customCourse.location.isEmpty) {
-      _showError(translation(StrKey.REQUIRE_FIELD));
+      _showError(translations.text(StrKey.REQUIRE_FIELD));
       return;
     }
     if (_customCourse.dateEnd.isBefore(_customCourse.dateStart)) {
       DialogPredefined.showEndTimeError(context);
       return;
     }
+    if (_customCourse.dateStart.isBefore(DateTime.now())) {
+      DialogPredefined.showEndTimeError(context);
+      return;
+    }
     if (_isRecurrent && _customCourse.weekdaysRepeat.length == 0) {
-      _showError(translation(StrKey.ERROR_EVENT_RECURRENT_ZERO));
+      _showError(translations.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
 
@@ -158,7 +161,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   void _showError(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      translation(StrKey.ERROR),
+      translations.text(StrKey.ERROR),
       msg,
     );
   }
@@ -177,13 +180,13 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
   List<Widget> _buildWeekDaySelection() {
     List<String> weekDaysText = [
-      translation(StrKey.MONDAY).substring(0, 1),
-      translation(StrKey.TUESDAY).substring(0, 1),
-      translation(StrKey.WEDNESDAY).substring(0, 1),
-      translation(StrKey.THURSDAY).substring(0, 1),
-      translation(StrKey.FRIDAY).substring(0, 1),
-      translation(StrKey.SATURDAY).substring(0, 1),
-      translation(StrKey.SUNDAY).substring(0, 1),
+      translations.text(StrKey.MONDAY).substring(0, 1),
+      translations.text(StrKey.TUESDAY).substring(0, 1),
+      translations.text(StrKey.WEDNESDAY).substring(0, 1),
+      translations.text(StrKey.THURSDAY).substring(0, 1),
+      translations.text(StrKey.FRIDAY).substring(0, 1),
+      translations.text(StrKey.SATURDAY).substring(0, 1),
+      translations.text(StrKey.SUNDAY).substring(0, 1),
     ];
 
     List<Widget> weekDayChips = [];
@@ -210,18 +213,16 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
-
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppbarPage(
-        title: translation(
+        title: translations.text(
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,
         ),
         actions: [
           IconButton(
             icon: const Icon(OMIcons.check),
-            tooltip: translation(StrKey.SAVE),
+            tooltip: translations.text(StrKey.SAVE),
             onPressed: () => _onSubmit(context),
           )
         ],
@@ -236,7 +237,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                 textInputAction: TextInputAction.next,
                 decoration: _buildInputDecoration(
                   OMIcons.title,
-                  translation(StrKey.TITLE_EVENT),
+                  translations.text(StrKey.TITLE_EVENT),
                 ),
                 onEditingComplete: () =>
                     FocusScope.of(context).requestFocus(_descNode),
@@ -252,7 +253,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                 },
                 decoration: _buildInputDecoration(
                   OMIcons.description,
-                  translation(StrKey.DESC_EVENT),
+                  translations.text(StrKey.DESC_EVENT),
                 ),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -269,7 +270,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                 },
                 decoration: _buildInputDecoration(
                   OMIcons.locationOn,
-                  translation(StrKey.LOCATION_EVENT),
+                  translations.text(StrKey.LOCATION_EVENT),
                 ),
                 onEditingComplete: _onDateTap,
               ),
@@ -277,7 +278,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               ListTile(
                 onTap: () => _onRecurrentDate(!_isRecurrent),
                 leading: const Icon(OMIcons.repeat),
-                title: Text(translation(StrKey.EVENT_REPEAT)),
+                title: Text(translations.text(StrKey.EVENT_REPEAT)),
                 trailing: Switch(
                   value: _isRecurrent,
                   activeColor: theme.accentColor,
@@ -297,8 +298,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                       onTap: _onDateTap,
                       leading: const Icon(OMIcons.dateRange),
                       title: _buildDateTimeField(
-                        translation(StrKey.DATE_EVENT),
-                        Date.extractDate(_customCourse.dateStart, locale),
+                        translations.text(StrKey.DATE_EVENT),
+                        Date.extractDate(_customCourse.dateStart),
                       ),
                     ),
               const Divider(height: 0.0),
@@ -310,8 +311,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                       onTap: _onStartTimeTap,
                       leading: const Icon(OMIcons.timelapse),
                       title: _buildDateTimeField(
-                        translation(StrKey.START_TIME_EVENT),
-                        Date.extractTime(_customCourse.dateStart, locale),
+                        translations.text(StrKey.START_TIME_EVENT),
+                        Date.extractTime(_customCourse.dateStart),
                       ),
                     ),
                   ),
@@ -320,8 +321,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                     child: ListTile(
                       onTap: _onEndTimeTap,
                       title: _buildDateTimeField(
-                        translation(StrKey.END_TIME_EVENT),
-                        Date.extractTime(_customCourse.dateEnd, locale),
+                        translations.text(StrKey.END_TIME_EVENT),
+                        Date.extractTime(_customCourse.dateEnd),
                       ),
                     ),
                   ),
@@ -331,7 +332,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               ListTile(
                 onTap: () => _onColorCustom(!_isColor),
                 leading: const Icon(OMIcons.colorLens),
-                title: Text(translation(StrKey.EVENT_COLOR)),
+                title: Text(translations.text(StrKey.EVENT_COLOR)),
                 trailing: Switch(
                   value: _isColor,
                   activeColor: theme.accentColor,
@@ -340,8 +341,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               ),
               _isColor
                   ? ListTileColor(
-                      title: translation(StrKey.EVENT_COLOR),
-                      description: translation(StrKey.EVENT_COLOR_DESC),
+                      title: translations.text(StrKey.EVENT_COLOR),
+                      description: translations.text(StrKey.EVENT_COLOR_DESC),
                       selectedColor: _customCourse.color,
                       onColorChange: (color) {
                         setState(() {
@@ -366,10 +367,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     if (!isEquals) {
       bool confirmQuit = await DialogPredefined.showTextDialog(
         context,
-        translation(StrKey.CUSTOM_EVENT_EXIT_UNSAVED),
-        translation(StrKey.CUSTOM_EVENT_EXIT_UNSAVED_TEXT),
-        translation(StrKey.YES),
-        translation(StrKey.NO),
+        translations.text(StrKey.CUSTOM_EVENT_EXIT_UNSAVED),
+        translations.text(StrKey.CUSTOM_EVENT_EXIT_UNSAVED_TEXT),
+        translations.text(StrKey.YES),
+        translations.text(StrKey.NO),
       );
       return confirmQuit;
     }

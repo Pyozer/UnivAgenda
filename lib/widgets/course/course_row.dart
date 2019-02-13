@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
@@ -8,6 +7,7 @@ import 'package:myagenda/screens/detail_course/detail_course.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseRow extends StatelessWidget {
@@ -58,7 +58,7 @@ class CourseRow extends StatelessWidget {
 
     String courseDate = course.dateForDisplay();
     if (course.isStarted())
-      courseDate += " - ${FlutterI18n.translate(context, StrKey.IN_PROGRESS)}";
+      courseDate += " - ${translations.text(StrKey.IN_PROGRESS)}";
 
     TextStyle style = TextStyle();
     if (bgColorRow != null)

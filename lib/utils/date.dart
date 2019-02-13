@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 
 class Date {
-  static const kDefaultLocal = Locale('en');
-
   static bool notSameDay(DateTime a, DateTime b) {
     return a.year != b.year || a.month != b.month || a.day != b.day;
   }
@@ -24,59 +22,53 @@ class Date {
     return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
   }
 
-  static String dateFromNow(DateTime date,
-      [Locale locale, bool shortDate = false]) {
-    if (locale == null) locale = kDefaultLocal;
-
+  static String dateFromNow(DateTime date, [bool shortDate = false]) {
     DateTime dateTimeToday = DateTime.now();
 
-    final lang = locale.languageCode == "fr"
-        ? ["Aujourd'hui", "Demain"]
-        : ["Today", "Tomorrow"];
+    final today = translations.text(StrKey.TODAY);
+    final tomorrow = translations.text(StrKey.TOMORROW);
 
     if (!notSameDay(dateTimeToday, date))
-      return lang[0];
+      return today;
     else if ((dateTimeToday.day + 1) == date.day &&
         dateTimeToday.month == date.month &&
-        dateTimeToday.year == date.year) return lang[1];
+        dateTimeToday.year == date.year) return tomorrow;
 
     DateFormat dateFormat;
 
     if (dateTimeToday.year == date.year) {
       if (shortDate)
-        dateFormat = DateFormat.MMMEd(locale.languageCode);
+        dateFormat = DateFormat.MMMEd();
       else
-        dateFormat = DateFormat.MMMMEEEEd(locale.languageCode);
+        dateFormat = DateFormat.MMMMEEEEd();
     } else {
       if (shortDate)
-        dateFormat = DateFormat.yMMMEd(locale.languageCode);
+        dateFormat = DateFormat.yMMMEd();
       else
-        dateFormat = DateFormat.yMMMMEEEEd(locale.languageCode);
+        dateFormat = DateFormat.yMMMMEEEEd();
     }
 
     return capitalize(dateFormat.format(date));
   }
 
-  static String extractTime(DateTime date, [Locale locale]) {
+  static String extractTime(DateTime date) {
     if (date == null) return "";
-    if (locale == null) locale = kDefaultLocal;
 
-    return DateFormat.Hm(locale.languageCode).format(date);
+    return DateFormat.Hm().format(date);
   }
 
-  static String extractDate(DateTime date, [Locale locale]) {
+  static String extractDate(DateTime date) {
     if (date == null) return "";
-    if (locale == null) locale = kDefaultLocal;
 
-    return DateFormat.yMMMMd(locale.languageCode).format(date);
+    return DateFormat.yMMMMd().format(date);
   }
 
-  static String extractTimeWithDate(DateTime dateTime, [Locale locale]) {
+  static String extractTimeWithDate(DateTime dateTime) {
     if (dateTime == null) return "";
 
-    return DateFormat.jm(locale.languageCode).format(dateTime) +
+    return DateFormat.jm().format(dateTime) +
         ' (' +
-        DateFormat.MMMEd(locale.languageCode).format(dateTime) +
+        DateFormat.MMMEd().format(dateTime) +
         ')';
   }
 
@@ -105,8 +97,7 @@ class Date {
     return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
   }
 
-  static TimeOfDay calculateDuration(
-      DateTime startDate, DateTime endDate) {
+  static TimeOfDay calculateDuration(DateTime startDate, DateTime endDate) {
     var diff =
         endDate.millisecondsSinceEpoch - startDate.millisecondsSinceEpoch;
 

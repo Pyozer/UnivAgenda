@@ -17,7 +17,6 @@ dependencies:
   html: ^0.13.3+3
   firebase_core: 0.3.0+1
   firebase_analytics: ^2.0.1
-  flutter_i18n: ^0.5.2
   package_info: ^0.4.0+1
   flutter_calendar:
     git: git://github.com/Pyozer/flutter_calendar.git
