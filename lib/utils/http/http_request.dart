@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+const successHTTPCode = [200, 304, 401];
+
 class HttpResult {
   final bool isSuccess;
   final http.Response httpResponse;
@@ -13,7 +15,8 @@ class HttpResult {
 }
 
 class HttpRequest {
-  static Future<HttpResult> get(String url, {Map<String, String> headers}) async {
+  static Future<HttpResult> get(String url,
+      {Map<String, String> headers}) async {
     http.Response response;
 
     try {
@@ -22,12 +25,14 @@ class HttpRequest {
       return HttpResult.fail();
     }
 
-    if (response.statusCode != 200) return HttpResult.fail();
+    if (!successHTTPCode.contains(response.statusCode))
+      return HttpResult.fail();
 
     return HttpResult.success(response);
   }
 
-  static Future<HttpResult> post(String url, {body, Map<String, String> headers}) async {
+  static Future<HttpResult> post(String url,
+      {body, Map<String, String> headers}) async {
     http.Response response;
 
     try {
@@ -36,7 +41,8 @@ class HttpRequest {
       return HttpResult.fail();
     }
 
-    if (response.statusCode != 200) return HttpResult.fail();
+    if (!successHTTPCode.contains(response.statusCode))
+      return HttpResult.fail();
 
     return HttpResult.success(response);
   }

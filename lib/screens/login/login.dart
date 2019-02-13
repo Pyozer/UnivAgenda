@@ -93,7 +93,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     if (!_isUrlIcs() && mounted) {
       prefs.setUniversity(_selectedUniversity);
       prefs.setUrlIcs(null);
-      
+
       // Login process
       final baseLogin = LoginCAS(prefs.university, username, password);
       final loginResult = await baseLogin.login();
@@ -102,7 +102,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (loginResult.result == LoginResultType.LOGIN_FAIL) {
         _setLoading(false);
-        _showMessage(translation(StrKey.LOGIN_CREDENTIAL_ERROR));
+        _showMessage(loginResult.message);
         return;
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);

@@ -23,7 +23,10 @@ class LoginCAS extends LoginProcess {
     // Extract fields value from HTML
     university.loginFields.forEach((field) {
       final fieldElem = document.querySelector('input[name="' + field + '"]');
-      postParams[field] = fieldElem?.attributes['value'] ?? "";
+      String fieldValue = "";
+      if (fieldElem?.attributes?.containsKey('value') ?? false)
+        fieldValue = fieldElem.attributes['value'];
+      postParams[field] = fieldValue;
     });
 
     // Get JSESSIONID from previous request header
@@ -47,10 +50,10 @@ class LoginCAS extends LoginProcess {
       university.statusTags.success,
     );
 
-    if (errorElement != null && successElement == null) {
+    if (errorElement != null) {
       // Display error to user
       return LoginResult(LoginResultType.LOGIN_FAIL, errorElement.innerHtml);
-    } else if (successElement != null && errorElement == null) {
+    } else if (successElement != null) {
       return LoginResult(LoginResultType.LOGIN_SUCCESS);
     } else {
       return LoginResult(LoginResultType.UNKNOWN_ERROR);
