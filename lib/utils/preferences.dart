@@ -120,12 +120,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool _isGenerateEventColor;
 
   List<String> getAllUniversity() {
-    return _listUniversity?.map((univ) => univ.name)?.toList() ?? [];
+    return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
   }
 
   University findUniversity(String university) {
     return listUniversity.firstWhere(
-      (univ) => univ.name == university,
+      (univ) => univ.university == university,
       orElse: () => null,
     );
   }
@@ -454,14 +454,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   University get university => _university;
 
   setUniversity(String newUniversity, [state = false]) {
-    if ((university?.name ?? "") == newUniversity) return;
+    if ((university?.university ?? "") == newUniversity) return;
 
     if (listUniversity.length > 0) {
       final univ = findUniversity(newUniversity);
       _updatePref(() => _university = univ ?? _listUniversity[0], state);
 
       SharedPreferences.getInstance().then((prefs) {
-        prefs.setString(PrefKey.university, _university.name);
+        prefs.setString(PrefKey.university, _university.university);
       });
     }
   }
@@ -552,7 +552,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     });
   }
 
-  void addRenamedEvent(String eventTitle, String newTitle, [bool state = false]) {
+  void addRenamedEvent(String eventTitle, String newTitle,
+      [bool state = false]) {
     renamedEvents[eventTitle] = newTitle;
     setRenamedEvents(renamedEvents, state);
   }
@@ -562,9 +563,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setRenamedEvents(renamedEvents, state);
   }
 
-  bool isCourseHidden(Course course) => hiddenEvents.any((e) => e == course.title);
+  bool isCourseHidden(Course course) =>
+      hiddenEvents.any((e) => e == course.title);
 
-  bool get isFullHiddenEvent => _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
+  bool get isFullHiddenEvent =>
+      _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
 
   setFullHiddenEvent(bool fullHiddenEvent, [state = false]) {
     if (isFullHiddenEvent == fullHiddenEvent) return;
@@ -584,7 +587,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCachedIcal(PrefKey.defaultCachedIcal);
   }
 
-  bool get isGenerateEventColor => _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
+  bool get isGenerateEventColor =>
+      _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
 
   setGenerateEventColor(bool generateEventColor, [state = false]) {
     if (isGenerateEventColor == generateEventColor) return;
@@ -594,8 +598,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
           generateEventColor ?? PrefKey.defaultGenerateEventColor;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) =>
-        prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor),);
+    SharedPreferences.getInstance().then(
+      (prefs) =>
+          prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor),
+    );
   }
 
   Future<Null> initFromDisk([state = false]) async {
@@ -664,7 +670,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init list university stored values
     String listUnivStored = await readFile(
-        PrefKey.listUniversityFile, PrefKey.defaultListUniversityJson);
+      PrefKey.listUniversityFile,
+      PrefKey.defaultListUniversityJson,
+    );
     setListUniversityFromJSONString(listUnivStored);
 
     // If user choose custom url ics, not init other group prefs
@@ -681,7 +689,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       // If no university store
       if (storedUniversityName == null || storedUniversityName.length == 0) {
         // Take first university of list
-        storedUniversityName = listUniversity[0].name;
+        storedUniversityName = listUniversity[0].university;
       }
       setUniversity(storedUniversityName);
 

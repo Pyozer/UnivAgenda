@@ -1,6 +1,6 @@
 class Url {
   static const listUniversity =
-      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
+      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/dev/res/agendas/resources.json";
 
   static const helpList =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";

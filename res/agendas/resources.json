@@ -3,18 +3,51 @@
     "university": "Le Mans Université",
     "agendaUrl": "http://edt.univ-lemans.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=1&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-lemans.fr/cas/login",
-    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_lemans.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_lemans.json",
+    "loginFields": [
+      "lt", "execution", "_eventId", "submit"
+    ],
+    "credentialFields": {
+      "username": "username",
+      "password": "password"
+    },
+    "statusTags": {
+      "error": ".errors h2",
+      "success": ".success"
+    }
   },
   {
     "university": "Université de Tours",
     "agendaUrl": "http://ade.univ-tours.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?projectId=21&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://cas.univ-tours.fr/cas/login",
-    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_tours.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_tours.json",
+    "loginFields": [
+      "lt", "execution", "_eventId", "submit"
+    ],
+    "credentialFields": {
+      "username": "username",
+      "password": "password"
+    },
+    "statusTags": {
+      "error": ".errors h2",
+      "success": ".success"
+    }
   },
   {
     "university": "Université de Rennes",
     "agendaUrl": "https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/cal.jsp?projectId=2&calType=ical&resources=%res%&firstDate=%startDate%&lastDate=%lastDate%",
     "loginUrl": "https://sso-cas.univ-rennes1.fr/login",
-    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_rennes.json"
+    "resourcesFile": "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources_univ_rennes.json",
+    "loginFields": [
+      "execution", "_eventId", "geolocation", "submit"
+    ],
+    "credentialFields": {
+      "username": "username",
+      "password": "password"
+    },
+    "statusTags": {
+      "error": "form .alert-danger span",
+      "success": "main .alert-success"
+    }
   }
 ]

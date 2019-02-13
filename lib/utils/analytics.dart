@@ -24,7 +24,7 @@ class AnalyticsProvider extends InheritedWidget {
       AnalyticsValue.groupKeys:
           prefs.urlIcs != null ? "Ical File" : prefs.groupKeys?.join(',') ?? "",
       AnalyticsValue.university:
-          prefs.urlIcs ?? prefs.university?.name ?? "Unknown",
+          prefs.urlIcs ?? prefs.university?.university ?? "Unknown",
     });
   }
 

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:myagenda/models/preferences/university.dart';
+
 enum LoginResultType { LOGIN_SUCCESS, LOGIN_FAIL, NETWORK_ERROR, UNKNOWN_ERROR }
 
 class LoginResult {
@@ -10,11 +12,11 @@ class LoginResult {
 }
 
 abstract class LoginProcess {
-  final String loginUrl;
+  final University university;
   final String username;
   final String password;
 
-  LoginProcess(this.loginUrl, this.username, this.password);
+  LoginProcess(this.university, this.username, this.password);
 
   Future<LoginResult> login();
 }

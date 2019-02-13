@@ -65,7 +65,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
 
     // If university is null, take the first of list
     if (prefs.urlIcs == null && prefs.university == null)
-      prefs.setUniversity(prefs.listUniversity[0].name);
+      prefs.setUniversity(prefs.listUniversity[0].university);
 
     // If user is connected and have an university but no resources
     // Or same as top but with cache older than 6 hours

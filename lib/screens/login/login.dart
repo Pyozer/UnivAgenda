@@ -93,9 +93,10 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     if (!_isUrlIcs() && mounted) {
       prefs.setUniversity(_selectedUniversity);
       prefs.setUrlIcs(null);
+      
       // Login process
-      final loginResult =
-          await LoginCAS(prefs.university.loginUrl, username, password).login();
+      final baseLogin = LoginCAS(prefs.university, username, password);
+      final loginResult = await baseLogin.login();
 
       if (!mounted) return;
 
@@ -107,7 +108,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         _setLoading(false);
         _showMessage(
           translation(StrKey.LOGIN_SERVER_ERROR, {
-            'university': prefs.university.name,
+            'university': prefs.university.university,
           }),
         );
         return;
@@ -277,7 +278,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     if (_selectedUniversity == null) {
       if (prefs.university != null && listUniversity.contains(prefs.university))
-        _selectedUniversity = prefs.university.name;
+        _selectedUniversity = prefs.university.university;
       else
         _selectedUniversity = listUniversity[0];
     }
