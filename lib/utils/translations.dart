@@ -72,9 +72,6 @@ class GlobalTranslations {
   /// Routine to change the language
   ///
   Future<void> setNewLanguage(Locale locale) async {
-    print(isSupported(locale));
-    print(locale);
-    print(locale?.languageCode);
     // Set the locale
     _locale = Locale(isSupported(locale) ? locale.languageCode : kDefaultLang);
 

@@ -230,7 +230,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     // Add all weekdays for X week(s) depends on numberWeek pref
     if (prefs.isDisplayAllDays) {
-      DateTime dayDate = Date.dateFromDateTime(DateTime.now());
+      DateTime dayDate = Date.dateFromDateTime(actualDate);
 
       final int numberDays = Date.calcDaysToEndDate(dayDate, prefs.numberWeeks);
       for (int day = 0; day < numberDays; day++) {
