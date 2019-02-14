@@ -89,9 +89,7 @@ class _TreeViewState extends State<TreeView> {
   }
 
   _onNodeExpandChange(Node node) {
-    setState(() {
-      node.isExpanded = !node.isExpanded;
-    });
+    setState(() => node.isExpanded = !node.isExpanded);
   }
 
   List<Widget> _generateChildren(Node origin, int level) {

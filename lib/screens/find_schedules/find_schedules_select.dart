@@ -73,11 +73,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
           hintText: translations.text(StrKey.SEARCH),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0)),
-      onChanged: (search) {
-        setState(() {
-          _search = search;
-        });
-      },
+      onChanged: (search) => setState(() => _search = search),
     );
   }
 

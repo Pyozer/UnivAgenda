@@ -345,9 +345,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                       description: translations.text(StrKey.EVENT_COLOR_DESC),
                       selectedColor: _customCourse.color,
                       onColorChange: (color) {
-                        setState(() {
-                          _customCourse.color = color;
-                        });
+                        setState(() => _customCourse.color = color);
                       },
                     )
                   : const SizedBox.shrink()

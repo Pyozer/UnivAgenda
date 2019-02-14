@@ -37,7 +37,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     await prefs.initFromDisk();
 
     // Update resources if they are empty or older than 6 hours
-    int oldRes = DateTime.now().difference(prefs.resourcesDate).inHours.abs();
+    int oldRes = startTime.difference(prefs.resourcesDate).inHours.abs();
 
     // If university list is empty or cache is older than 6 hours
     if (prefs.listUniversity.length == 0 || oldRes >= 6) {

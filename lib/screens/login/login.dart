@@ -67,9 +67,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void _setLoading(bool loading) {
-    setState(() {
-      _isLoading = loading;
-    });
+    setState(() => _isLoading = loading);
   }
 
   void _onSubmit() async {
@@ -208,9 +206,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // If not mounted anymore, do nothing
     await Future.delayed(const Duration(seconds: 30));
     if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
@@ -227,9 +223,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void _onUniversitySelected(String value) {
-    setState(() {
-      _selectedUniversity = value;
-    });
+    setState(() => _selectedUniversity = value);
     prefs.setUniversity(_isUrlIcs() ? null : value);
   }
 

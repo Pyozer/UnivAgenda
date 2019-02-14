@@ -57,11 +57,8 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       return;
     }
 
-    if (mounted) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
+    if (mounted)
+      setState(() => _isLoading = true);
 
     // Check for every rooms if available
     for (final room in widget.searchResources) {

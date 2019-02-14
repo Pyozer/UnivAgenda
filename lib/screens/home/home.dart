@@ -249,15 +249,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     if (!mounted) return;
 
-    setState(() {
-      _courses = listElement;
-    });
+    setState(() => _courses = listElement);
   }
 
   void _switchTypeView() {
-    setState(() {
-      _calendarType = nextCalendarType(_calendarType);
-    });
+    setState(() => _calendarType = nextCalendarType(_calendarType));
     prefs.setCalendarType(_calendarType);
   }
 
