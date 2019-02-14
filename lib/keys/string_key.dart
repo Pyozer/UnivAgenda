@@ -12,7 +12,8 @@ class StrKey {
 
   static const ELEMENT = 'element';
   static const NUMBER_WEEK = 'number_week';
-  static const NUMBER_WEEK_DESC = 'number_week_desc';
+  static const NUMBER_WEEK_DESC_ONE = 'number_week_desc_one';
+  static const NUMBER_WEEK_DESC_PLURAL = 'number_week_desc_plural';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
   static const HIDDEN_EVENT = 'hidden_event';
@@ -187,6 +188,9 @@ class StrKey {
   static const FRIDAY = 'friday';
   static const SATURDAY = 'saturday';
   static const SUNDAY = 'sunday';
+
+  static const TODAY = 'today';
+  static const TOMORROW = 'tomorrow';
 
   static const NO_EVENTS = "no_events";
 

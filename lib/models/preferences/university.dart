@@ -1,27 +1,51 @@
-class University {
-  final String name;
-  final String loginUrl;
-  final String agendaUrl;
-  final String resourcesFile;
+import 'package:myagenda/models/preferences/credentiel_fields.Dart';
+import 'package:myagenda/models/preferences/status_tags.Dart';
 
-  University(
-      this.name, this.loginUrl, this.agendaUrl, this.resourcesFile);
+class University {
+  String university;
+  String agendaUrl;
+  String loginUrl;
+  String resourcesFile;
+  List<String> loginFields;
+  CredentialFields credentialFields;
+  StatusTags statusTags;
+
+  University({
+    this.university,
+    this.agendaUrl,
+    this.loginUrl,
+    this.resourcesFile,
+    this.loginFields,
+    this.credentialFields,
+    this.statusTags,
+  });
 
   factory University.fromJson(Map<String, dynamic> json) => University(
-        json['university'],
-        json['loginUrl'],
-        json['agendaUrl'],
-        json['resourcesFile'],
+        university: json["university"],
+        agendaUrl: json["agendaUrl"],
+        loginUrl: json["loginUrl"],
+        resourcesFile: json["resourcesFile"],
+        loginFields: json["loginFields"] == null
+            ? null
+            : List<String>.from(json["loginFields"].map((x) => x)),
+        credentialFields: json["credentialFields"] == null
+            ? null
+            : CredentialFields.fromJson(json["credentialFields"]),
+        statusTags: json["statusTags"] == null
+            ? null
+            : StatusTags.fromJson(json["statusTags"]),
       );
 
   Map<String, dynamic> toJson() => {
-        'university': name,
-        'agendaUrl': agendaUrl,
-        'loginUrl': loginUrl,
-        'resourcesFile': resourcesFile
+        "university": university,
+        "agendaUrl": agendaUrl,
+        "loginUrl": loginUrl,
+        "resourcesFile": resourcesFile,
+        "loginFields": loginFields == null
+            ? null
+            : List<dynamic>.from(loginFields.map((x) => x)),
+        "credentialFields":
+            credentialFields == null ? null : credentialFields.toJson(),
+        "statusTags": statusTags == null ? null : statusTags.toJson(),
       };
-
-  String toString() {
-    return "$name, $agendaUrl, $loginUrl, $resourcesFile";
-  }
 }

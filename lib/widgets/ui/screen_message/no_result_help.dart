@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 
 class NoResultHelp extends StatelessWidget {
@@ -9,8 +9,8 @@ class NoResultHelp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NoResult(
-      title: FlutterI18n.translate(context, StrKey.HELP_NORESULT),
-      text: FlutterI18n.translate(context, StrKey.HELP_NORESULT_TEXT),
+      title: translations.text(StrKey.HELP_NORESULT),
+      text: translations.text(StrKey.HELP_NORESULT_TEXT),
     );
   }
 }

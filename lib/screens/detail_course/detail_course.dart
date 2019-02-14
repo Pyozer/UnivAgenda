@@ -9,6 +9,7 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course_note/add_note_button.dart';
 import 'package:myagenda/widgets/course_note/course_note.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -37,11 +38,9 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   }
 
   List<Widget> _buildInfo() {
-    final locale = Locale(Localizations.localeOf(context).languageCode ?? 'en');
-
-    final timeStart = Date.extractTime(_course.dateStart, locale);
-    final timeEnd = Date.extractTime(_course.dateEnd, locale);
-    final date = Date.dateFromNow(_course.dateStart, locale);
+    final timeStart = Date.extractTime(_course.dateStart);
+    final timeEnd = Date.extractTime(_course.dateEnd);
+    final date = Date.dateFromNow(_course.dateStart);
 
     var duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
     String durationStr = "";
@@ -77,13 +76,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (_course.isExam())
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.description),
-        title: Text(translation(StrKey.COURSE_TEST)),
+        title: Text(translations.text(StrKey.COURSE_TEST)),
       ));
 
     if (_course.color != null)
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.colorLens),
-        title: Text(translation(StrKey.EVENT_COLOR)),
+        title: Text(translations.text(StrKey.EVENT_COLOR)),
         trailing: CircleColor(color: _course.color, circleSize: 28.0),
       ));
 
@@ -93,7 +92,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
           child: Text(
-            translation(StrKey.NOTES),
+            translations.text(StrKey.NOTES),
             style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
           ),
         ),
@@ -124,11 +123,11 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         maxLines: 6,
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
-          hintText: translation(StrKey.ADD_NOTE_PLACEHOLDER),
+          hintText: translations.text(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
         validator: (value) {
           return value.trim().isEmpty
-              ? translation(StrKey.ADD_NOTE_EMPTY)
+              ? translations.text(StrKey.ADD_NOTE_EMPTY)
               : null;
         },
         onSaved: (val) => _noteToAdd = val.trim(),
@@ -137,10 +136,10 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
-      translation(StrKey.ADD_NOTE),
+      translations.text(StrKey.ADD_NOTE),
       formContent,
-      translation(StrKey.ADD_NOTE_SUBMIT),
-      translation(StrKey.CANCEL),
+      translations.text(StrKey.ADD_NOTE_SUBMIT),
+      translations.text(StrKey.CANCEL),
     );
 
     if (isDialogPositive) _submitAddNote();
@@ -154,17 +153,17 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       maxLines: null,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        hintText: translation(StrKey.NEW_EVENT_TITLE),
+        hintText: translations.text(StrKey.NEW_EVENT_TITLE),
       ),
       onChanged: (value) => inputValue = value,
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
-      translation(StrKey.RENAME_EVENT),
+      translations.text(StrKey.RENAME_EVENT),
       formContent,
-      translation(StrKey.RENAME),
-      translation(StrKey.CANCEL),
+      translations.text(StrKey.RENAME),
+      translations.text(StrKey.CANCEL),
     );
     return isDialogPositive ? inputValue : null;
   }
@@ -197,10 +196,10 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (isHide || choice == MenuItem.UNHIDE) {
       bool isDialogOk = await DialogPredefined.showTextDialog(
         context,
-        translation(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
-        translation(isHide ? StrKey.HIDE_EVENT_TEXT : StrKey.UNHIDE_EVENT_TEXT),
-        translation(StrKey.YES),
-        translation(StrKey.NO),
+        translations.text(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
+        translations.text(isHide ? StrKey.HIDE_EVENT_TEXT : StrKey.UNHIDE_EVENT_TEXT),
+        translations.text(StrKey.YES),
+        translations.text(StrKey.NO),
       );
       if (isDialogOk) {
         if (isHide)
@@ -262,15 +261,15 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       _item(
         isHidden ? MenuItem.UNHIDE : MenuItem.HIDE,
         isHidden ? OMIcons.visibility : OMIcons.visibilityOff,
-        translation(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
+        translations.text(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
       ),
-      _item(MenuItem.RENAME, OMIcons.title, translation(StrKey.RENAME)),
+      _item(MenuItem.RENAME, OMIcons.title, translations.text(StrKey.RENAME)),
     ];
 
     if (_course is CustomCourse) {
       actions.addAll([
-        _item(MenuItem.EDIT, OMIcons.edit, translation(StrKey.EDIT)),
-        _item(MenuItem.DELETE, OMIcons.delete, translation(StrKey.DELETE))
+        _item(MenuItem.EDIT, OMIcons.edit, translations.text(StrKey.EDIT)),
+        _item(MenuItem.DELETE, OMIcons.delete, translations.text(StrKey.DELETE))
       ]);
     }
 
@@ -288,7 +287,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
 
     return AppbarPage(
-      title: translation(StrKey.COURSE_DETAILS),
+      title: translations.text(StrKey.COURSE_DETAILS),
       actions: _buildAppbarAction(),
       body: Container(
         child: Column(

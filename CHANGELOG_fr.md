@@ -1,3 +1,10 @@
+## Version 4.0.9
+
+- Problème de connexion Université Rennes résolue
+- Bug d'ajout d'événements (date)
+- Bug champs de textes
+- Amélioration des traductions
+
 ## Version 4.0.8
 
 - Ajout d'une vue par mois et semaine (calendrier)

@@ -5,6 +5,7 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/functions.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 
 class SupportMeScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openPayPal() {
     _openLink(
       Url.paypal,
-      translation(StrKey.SUPPORTME_LINK_ERROR, {'link': "Paypal"}),
+      translations.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Paypal"}),
       AnalyticsValue.paypal,
     );
   }
@@ -26,7 +27,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   void _openUnidays() {
     _openLink(
       Url.unidays,
-      translation(StrKey.SUPPORTME_LINK_ERROR, {'link': "Unidays"}),
+      translations.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Unidays"}),
       AnalyticsValue.unidays,
     );
   }
@@ -35,7 +36,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
     try {
       await openLink(context, url, analyticsEvent);
     } catch (_) {
-      _showSnackBar(translation(errorKey) + url);
+      _showSnackBar(translations.text(errorKey) + url);
     }
   }
 
@@ -47,13 +48,13 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   Widget build(BuildContext context) {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translation(StrKey.SUPPORTME),
+      title: translations.text(StrKey.SUPPORTME),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
         child: Column(
           children: [
             Text(
-              translation(StrKey.SUPPORTME_TEXT),
+              translations.text(StrKey.SUPPORTME_TEXT),
               style: theme.textTheme.subhead,
               textAlign: TextAlign.justify,
             ),
@@ -64,17 +65,17 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
               runSpacing: 8.0,
               children: [
                 RaisedButtonColored(
-                  text: translation(StrKey.SUPPORTME_PAYPAL),
+                  text: translations.text(StrKey.SUPPORTME_PAYPAL),
                   onPressed: _openPayPal,
                 ),
                 RaisedButtonColored(
-                  text: translation(StrKey.SUPPORTME_UNIDAYS),
+                  text: translations.text(StrKey.SUPPORTME_UNIDAYS),
                   onPressed: _openUnidays,
                 ),
               ],
             ),
             const SizedBox(height: 32.0),
-            Text(translation(StrKey.SUPPORTME_UNIDAYS_LINK)),
+            Text(translations.text(StrKey.SUPPORTME_UNIDAYS_LINK)),
             TextField(
               controller: _unidayTextController,
               maxLines: null,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/note.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 typedef NoteChanged(Note note);
@@ -31,7 +31,7 @@ class CourseNote extends StatelessWidget {
       elems.add(IconButton(
         icon: const Icon(OMIcons.delete),
         onPressed: () => onDelete(note),
-        tooltip: FlutterI18n.translate(context, StrKey.DELETE),
+        tooltip: translations.text(StrKey.DELETE),
       ));
     return elems;
   }

@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:myagenda/utils/date.dart';
 
 abstract class BaseCourse {
-  String dateForDisplay([Locale locale]);
+  String dateForDisplay();
 }
 
 class CourseHeader extends BaseCourse {
@@ -12,8 +10,8 @@ class CourseHeader extends BaseCourse {
   CourseHeader(this.date);
 
   @override
-  String dateForDisplay([Locale locale]) {
-    return Date.dateFromNow(date, locale);
+  String dateForDisplay() {
+    return Date.dateFromNow(date);
   }
 
   @override

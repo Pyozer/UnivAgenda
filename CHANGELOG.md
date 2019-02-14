@@ -1,3 +1,10 @@
+## Version 4.0.9
+
+- Fix University of Rennes login issue
+- Fix date on add custom event
+- Fix textfield issue
+- Improvement of translation system
+
 ## Version 4.0.8
 
 - Add month and week view

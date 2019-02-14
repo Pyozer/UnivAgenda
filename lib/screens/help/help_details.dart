@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result_help.dart';
 
 class HelpDetailsScreen extends StatelessWidget {
@@ -26,7 +26,7 @@ class HelpDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: FlutterI18n.translate(context, StrKey.HELP_FEEDBACK),
+      title: translations.text(StrKey.HELP_FEEDBACK),
       body: FutureBuilder(
         future: _loadHelpPage(),
         builder: (context, snapshot) {

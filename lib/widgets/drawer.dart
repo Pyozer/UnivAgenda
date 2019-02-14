@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/utils/preferences.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list_header.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
@@ -16,10 +16,10 @@ class MainDrawer extends StatelessWidget {
 
     bool logoutConfirm = await DialogPredefined.showTextDialog(
         context,
-        FlutterI18n.translate(context, StrKey.LOGOUT),
-        FlutterI18n.translate(context, StrKey.LOGOUT_CONFIRM),
-        FlutterI18n.translate(context, StrKey.YES),
-        FlutterI18n.translate(context, StrKey.NO),
+        translations.text(StrKey.LOGOUT),
+        translations.text(StrKey.LOGOUT_CONFIRM),
+        translations.text(StrKey.YES),
+        translations.text(StrKey.NO),
         true);
 
     if (logoutConfirm) {
@@ -33,7 +33,7 @@ class MainDrawer extends StatelessWidget {
     final prefs = PreferencesProvider.of(context);
 
     return Drawer(
-      semanticLabel: FlutterI18n.translate(context, StrKey.DRAWER),
+      semanticLabel: translations.text(StrKey.DRAWER),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -45,7 +45,7 @@ class MainDrawer extends StatelessWidget {
                 Logo(size: 65.0),
                 const Padding(padding: const EdgeInsets.only(top: 13.0)),
                 Text(
-                  FlutterI18n.translate(context, StrKey.APP_NAME),
+                  translations.text(StrKey.APP_NAME),
                   style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w500,
@@ -66,40 +66,40 @@ class MainDrawer extends StatelessWidget {
               : const SizedBox.shrink(),
           DrawerElement(
             icon: OMIcons.search,
-            title: FlutterI18n.translate(context, StrKey.FINDSCHEDULES),
+            title: translations.text(StrKey.FINDSCHEDULES),
             routeDest: RouteKey.FINDSCHEDULES,
             enabled: prefs.urlIcs == null,
           ),
           DrawerElement(
             icon: OMIcons.info,
-            title: FlutterI18n.translate(context, StrKey.ABOUT),
+            title: translations.text(StrKey.ABOUT),
             routeDest: RouteKey.ABOUT,
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
-            title: FlutterI18n.translate(context, StrKey.INTRO),
+            title: translations.text(StrKey.INTRO),
             routeDest: RouteKey.INTRO,
           ),
           const Divider(),
           DrawerElement(
             icon: OMIcons.settings,
-            title: FlutterI18n.translate(context, StrKey.SETTINGS),
+            title: translations.text(StrKey.SETTINGS),
             routeDest: RouteKey.SETTINGS,
           ),
           DrawerElement(
             icon: OMIcons.liveHelp,
-            title: FlutterI18n.translate(context, StrKey.HELP_FEEDBACK),
+            title: translations.text(StrKey.HELP_FEEDBACK),
             routeDest: RouteKey.HELP,
           ),
           DrawerElement(
             icon: OMIcons.monetizationOn,
-            title: FlutterI18n.translate(context, StrKey.SUPPORTME),
+            title: translations.text(StrKey.SUPPORTME),
             routeDest: RouteKey.SUPPORTME,
           ),
           const Divider(),
           DrawerElement(
             icon: OMIcons.exitToApp,
-            title: FlutterI18n.translate(context, StrKey.LOGOUT),
+            title: translations.text(StrKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () => _onDisconnectPressed(context),
           ),

@@ -67,9 +67,9 @@ class Course extends BaseCourse {
   }
 
   @override
-  String dateForDisplay([Locale locale]) {
-    final startTime = Date.extractTime(dateStart, locale);
-    final endTime = Date.extractTime(dateEnd, locale);
+  String dateForDisplay() {
+    final startTime = Date.extractTime(dateStart);
+    final endTime = Date.extractTime(dateEnd);
 
     return '$startTime - $endTime';
   }

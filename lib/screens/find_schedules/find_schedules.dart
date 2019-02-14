@@ -7,6 +7,7 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/large_rounded_button.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
@@ -138,8 +139,8 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
     for (var level = 0; level < 2; level++) {
       final menuTitle = level == 0
-          ? translation(StrKey.FINDSCHEDULES_SEARCH_ORIGIN)
-          : translation(StrKey.FINDSCHEDULES_FILTER);
+          ? translations.text(StrKey.FINDSCHEDULES_SEARCH_ORIGIN)
+          : translations.text(StrKey.FINDSCHEDULES_FILTER);
 
       dropdownChoices.add(
         _buildDropdown(
@@ -157,7 +158,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     }
 
     return AppbarPage(
-      title: translation(StrKey.FINDSCHEDULES),
+      title: translations.text(StrKey.FINDSCHEDULES),
       body: Column(
         children: [
           Expanded(
@@ -171,13 +172,13 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
                     Row(
                       children: [
                         _buildTimePart(
-                          translation(StrKey.START_TIME_EVENT),
+                          translations.text(StrKey.START_TIME_EVENT),
                           _startTime,
                           (startTime) => _onTimeChange(startTime, _endTime),
                         ),
                         const SizedBox(width: 32.0),
                         _buildTimePart(
-                          translation(StrKey.END_TIME_EVENT),
+                          translations.text(StrKey.END_TIME_EVENT),
                           _endTime,
                           (endTime) => _onTimeChange(_startTime, endTime),
                         ),
@@ -194,7 +195,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               children: [
                 Icon(OMIcons.search),
                 const SizedBox(width: 16.0),
-                Text(translation(StrKey.SEARCH)),
+                Text(translations.text(StrKey.SEARCH)),
               ],
             ),
           ),

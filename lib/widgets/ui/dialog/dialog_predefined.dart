@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:myagenda/keys/string_key.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/progress_dialog.dart';
 import 'package:myagenda/widgets/ui/dialog/simple_alert_dialog.dart';
 
@@ -58,7 +58,7 @@ class DialogPredefined {
       ctx,
       title,
       msg,
-      FlutterI18n.translate(ctx, StrKey.OK),
+      translations.text(StrKey.OK),
       null,
     );
   }
@@ -66,9 +66,9 @@ class DialogPredefined {
   static Future<bool> showEndTimeError(BuildContext context) async {
     return await showTextDialog(
       context,
-      FlutterI18n.translate(context, StrKey.ERROR_END_TIME),
-      FlutterI18n.translate(context, StrKey.ERROR_END_TIME_TEXT),
-      FlutterI18n.translate(context, StrKey.OK),
+      translations.text(StrKey.ERROR_END_TIME),
+      translations.text(StrKey.ERROR_END_TIME_TEXT),
+      translations.text(StrKey.OK),
       null,
     );
   }
@@ -76,19 +76,19 @@ class DialogPredefined {
   static Future<bool> showDeleteEventConfirm(BuildContext context) async {
     return await showTextDialog(
       context,
-      FlutterI18n.translate(context, StrKey.CONFIRM_EVENT_DELETE),
-      FlutterI18n.translate(context, StrKey.CONFIRM_EVENT_DELETE_TEXT),
-      FlutterI18n.translate(context, StrKey.YES),
-      FlutterI18n.translate(context, StrKey.NO),
+      translations.text(StrKey.CONFIRM_EVENT_DELETE),
+      translations.text(StrKey.CONFIRM_EVENT_DELETE_TEXT),
+      translations.text(StrKey.YES),
+      translations.text(StrKey.NO),
     );
   }
 
   static Future<bool> showICSFormatError(BuildContext context) async {
     return await showTextDialog(
       context,
-      FlutterI18n.translate(context, StrKey.ERROR),
-      FlutterI18n.translate(context, StrKey.WRONG_ICS_FORMAT),
-      FlutterI18n.translate(context, StrKey.OK),
+      translations.text(StrKey.ERROR),
+      translations.text(StrKey.WRONG_ICS_FORMAT),
+      translations.text(StrKey.OK),
       null,
     );
   }
@@ -99,7 +99,7 @@ class DialogPredefined {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return ProgressDialog(
-          title: FlutterI18n.translate(context, StrKey.LOADING),
+          title: translations.text(StrKey.LOADING),
           text: msg,
         );
       },

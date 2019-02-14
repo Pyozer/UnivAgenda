@@ -12,6 +12,7 @@ import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
@@ -66,9 +67,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void _setLoading(bool loading) {
-    setState(() {
-      _isLoading = loading;
-    });
+    setState(() => _isLoading = loading);
   }
 
   void _onSubmit() async {
@@ -82,7 +81,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Check fields values
     if ((_isUrlIcs() && urlIcs.isEmpty) ||
         (!_isUrlIcs() && (username.isEmpty || password.isEmpty))) {
-      _showMessage(translation(StrKey.REQUIRE_FIELD));
+      _showMessage(translations.text(StrKey.REQUIRE_FIELD));
       return;
     }
 
@@ -93,27 +92,28 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     if (!_isUrlIcs() && mounted) {
       prefs.setUniversity(_selectedUniversity);
       prefs.setUrlIcs(null);
+
       // Login process
-      final loginResult =
-          await LoginCAS(prefs.university.loginUrl, username, password).login();
+      final baseLogin = LoginCAS(prefs.university, username, password);
+      final loginResult = await baseLogin.login();
 
       if (!mounted) return;
 
       if (loginResult.result == LoginResultType.LOGIN_FAIL) {
         _setLoading(false);
-        _showMessage(translation(StrKey.LOGIN_CREDENTIAL_ERROR));
+        _showMessage(loginResult.message);
         return;
       } else if (loginResult.result == LoginResultType.NETWORK_ERROR) {
         _setLoading(false);
         _showMessage(
-          translation(StrKey.LOGIN_SERVER_ERROR, {
-            'university': prefs.university.name,
+          translations.text(StrKey.LOGIN_SERVER_ERROR, {
+            'university': prefs.university.university,
           }),
         );
         return;
       } else if (loginResult.result != LoginResultType.LOGIN_SUCCESS) {
         _setLoading(false);
-        _showMessage(translation(StrKey.UNKNOWN_ERROR));
+        _showMessage(translations.text(StrKey.UNKNOWN_ERROR));
         return;
       }
 
@@ -123,7 +123,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translation(StrKey.GET_RES_ERROR));
+        _showMessage(translations.text(StrKey.GET_RES_ERROR));
         return;
       }
 
@@ -131,7 +131,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         prefs.setResources(response.httpResponse.body);
       } catch (_) {
         _setLoading(false);
-        _showMessage(translation(StrKey.ERROR_JSON_PARSE));
+        _showMessage(translations.text(StrKey.ERROR_JSON_PARSE));
         return;
       }
       prefs.setResourcesDate();
@@ -145,13 +145,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       if (!response.isSuccess) {
         _setLoading(false);
-        _showMessage(translation(StrKey.FILE_404));
+        _showMessage(translations.text(StrKey.FILE_404));
         return;
       }
       String ical = utf8.decode(response.httpResponse.bodyBytes);
       if (!Ical.isValidIcal(ical)) {
         _setLoading(false);
-        _showMessage(translation(StrKey.WRONG_ICS_FORMAT));
+        _showMessage(translations.text(StrKey.WRONG_ICS_FORMAT));
         return;
       }
       prefs.setCachedIcal(ical);
@@ -170,7 +170,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void _showMessage(String msg) {
     DialogPredefined.showSimpleMessage(
       context,
-      translation(StrKey.ERROR),
+      translations.text(StrKey.ERROR),
       msg,
     );
   }
@@ -206,40 +206,36 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // If not mounted anymore, do nothing
     await Future.delayed(const Duration(seconds: 30));
     if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
   void _onDataPrivcacy() {
     DialogPredefined.showSimpleMessage(
       context,
-      translation(StrKey.DATA_PRIVACY),
-      translation(StrKey.DATA_PRIVACY_TEXT),
+      translations.text(StrKey.DATA_PRIVACY),
+      translations.text(StrKey.DATA_PRIVACY_TEXT),
     );
   }
 
   bool _isUrlIcs() {
-    return _selectedUniversity == translation(StrKey.OTHER);
+    return _selectedUniversity == translations.text(StrKey.OTHER);
   }
 
   void _onUniversitySelected(String value) {
-    setState(() {
-      _selectedUniversity = value;
-    });
+    setState(() => _selectedUniversity = value);
     prefs.setUniversity(_isUrlIcs() ? null : value);
   }
 
   @override
   Widget build(BuildContext context) {
     final titleApp = Text(
-      translation(StrKey.APP_NAME),
+      translations.text(StrKey.APP_NAME),
       style: theme.textTheme.title.copyWith(fontSize: 26.0),
     );
 
     final urlICsInput = _buildTextField(
-      translation(StrKey.URL_ICS),
+      translations.text(StrKey.URL_ICS),
       OMIcons.event,
       false,
       _urlIcsController,
@@ -248,7 +244,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final username = _buildTextField(
-      translation(StrKey.LOGIN_USERNAME),
+      translations.text(StrKey.LOGIN_USERNAME),
       OMIcons.person,
       false,
       _usernameController,
@@ -257,7 +253,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     final password = _buildTextField(
-      translation(StrKey.LOGIN_PASSWORD),
+      translations.text(StrKey.LOGIN_PASSWORD),
       OMIcons.lock,
       true,
       _passwordController,
@@ -273,11 +269,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     );
 
     var listUniversity = prefs.getAllUniversity();
-    listUniversity.add(translation(StrKey.OTHER));
+    listUniversity.add(translations.text(StrKey.OTHER));
 
     if (_selectedUniversity == null) {
       if (prefs.university != null && listUniversity.contains(prefs.university))
-        _selectedUniversity = prefs.university.name;
+        _selectedUniversity = prefs.university.university;
       else
         _selectedUniversity = listUniversity[0];
     }
@@ -330,11 +326,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   FlatButton(
-                    child: Text(translation(StrKey.DATA_PRIVACY)),
+                    child: Text(translations.text(StrKey.DATA_PRIVACY)),
                     onPressed: _onDataPrivcacy,
                   ),
                   FlatButton(
-                    child: Text(translation(StrKey.HELP_FEEDBACK)),
+                    child: Text(translations.text(StrKey.HELP_FEEDBACK)),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(RouteKey.HELP),
                   ),

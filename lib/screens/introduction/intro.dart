@@ -6,6 +6,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
 
 const double kIconSize = 150.0;
@@ -59,50 +60,50 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
 
     return [
       PageViewModel(
-        translation(StrKey.INTRO_WELCOME_TITLE),
-        translation(StrKey.INTRO_WELCOME_DESC),
+        translations.text(StrKey.INTRO_WELCOME_TITLE),
+        translations.text(StrKey.INTRO_WELCOME_DESC),
         _wrapImage(Logo(size: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_LOGIN_TITLE),
-        translation(StrKey.INTRO_LOGIN_DESC),
+        translations.text(StrKey.INTRO_LOGIN_TITLE),
+        translations.text(StrKey.INTRO_LOGIN_DESC),
         _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_AGENDA_TITLE),
-        translation(StrKey.INTRO_AGENDA_DESC),
+        translations.text(StrKey.INTRO_AGENDA_TITLE),
+        translations.text(StrKey.INTRO_AGENDA_DESC),
         _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_CUSTOM_TITLE),
-        translation(StrKey.INTRO_CUSTOM_DESC),
+        translations.text(StrKey.INTRO_CUSTOM_TITLE),
+        translations.text(StrKey.INTRO_CUSTOM_DESC),
         _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_NOTE_TITLE),
-        translation(StrKey.INTRO_NOTE_DESC),
+        translations.text(StrKey.INTRO_NOTE_TITLE),
+        translations.text(StrKey.INTRO_NOTE_DESC),
         _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_EVENT_TITLE),
-        translation(StrKey.INTRO_EVENT_DESC),
+        translations.text(StrKey.INTRO_EVENT_TITLE),
+        translations.text(StrKey.INTRO_EVENT_DESC),
         _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
-        translation(StrKey.INTRO_OFFLINE_TITLE),
-        translation(StrKey.INTRO_OFFLINE_DESC),
+        translations.text(StrKey.INTRO_OFFLINE_TITLE),
+        translations.text(StrKey.INTRO_OFFLINE_DESC),
         _wrapImage(Image.asset(Asset.INTRO_INTERNET, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,

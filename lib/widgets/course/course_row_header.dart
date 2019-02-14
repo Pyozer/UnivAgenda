@@ -16,9 +16,7 @@ class CourseRowHeader extends StatelessWidget {
         top: 20.0,
       ),
       child: Text(
-        coursHeader.dateForDisplay(
-          Locale(Localizations.localeOf(context).languageCode ?? 'en'),
-        ),
+        coursHeader.dateForDisplay(),
         style: TextStyle(
           fontWeight: FontWeight.w800,
           fontSize: 22.0,
