@@ -4,47 +4,75 @@ import 'package:timezone/standalone.dart';
 
 const String BEGINVEVENT = "BEGIN:VEVENT";
 const String ENDVEVENT = "END:VEVENT";
-const String DTSTART = "DTSTART";
-const String DTEND = "DTEND";
-const String SUMMARY = "SUMMARY";
-const String DESCRIPTION = "DESCRIPTION";
-const String LOCATION = "LOCATION";
-const String UID = "UID";
-// No used, just to stop description
-const String SEQUENCE = "SEQUENCE";
-const String STATUS = "STATUS";
-const String TRANSP = "TRANSP";
-const String RRULE = "RRULE";
-const String DTSTAMP = "DTSTAMP";
-const String CATEGORIES = "CATEGORIES";
-const String GEO = "GEO";
-const String URL = "URL";
-const String CLASS = "CLASS";
-const String LASTMODIFIED = "LAST-MODIFIED";
-const String CREATED = "CREATED";
+const String DTSTART = "DTSTART:";
+const String DTEND = "DTEND:";
+const String SUMMARY = "SUMMARY:";
+const String DESCRIPTION = "DESCRIPTION:";
+const String LOCATION = "LOCATION:";
+const String UID = "UID:";
+const String SEQUENCE = "SEQUENCE:";
+const String STATUS = "STATUS:";
+const String TRANSP = "TRANSP:";
+const String RRULE = "RRULE:";
+const String DTSTAMP = "DTSTAMP:";
+const String CATEGORIES = "CATEGORIES:";
+const String GEO = "GEO:";
+const String URL = "URL:";
+const String CLASS = "CLASS:";
+const String LASTMODIFIED = "LAST-MODIFIED:";
+const String CREATED = "CREATED:";
+const String APPLE = "X-APPLE-STRUCTURED-LOCATION;";
+
+const allTags = [
+  BEGINVEVENT,
+  ENDVEVENT,
+  DTSTART,
+  DTEND,
+  SUMMARY,
+  DESCRIPTION,
+  LOCATION,
+  UID,
+  SEQUENCE,
+  STATUS,
+  TRANSP,
+  RRULE,
+  DTSTAMP,
+  CATEGORIES,
+  GEO,
+  URL,
+  CLASS,
+  LASTMODIFIED,
+  CREATED,
+  APPLE,
+];
 
 class Ical {
-  static bool isValidIcal(String ical) {
+  final String ical;
+  String _lastTag;
+
+  Ical(this.ical);
+
+  bool isValidIcal() {
     if (ical != null && ical.trimLeft().startsWith("BEGIN:VCALENDAR")) if (ical
         .trimRight()
         .endsWith("END:VCALENDAR")) return true;
-
     return false;
   }
 
-  static Future<List<Course>> parseToIcal(String icalData) async {
-    if (icalData == null || icalData.trim().length == 0) return [];
+  Future<List<Course>> parseToIcal() async {
+    if (ical == null || ical.trim().length == 0) return [];
 
-    if (!isValidIcal(icalData)) throw ("Wrong ICS file format !");
+    if (!isValidIcal()) throw ("Wrong ICS file format !");
 
-    List<String> lines = icalData.split("\n");
+    List<String> lines = ical.split("\n");
     List<Course> events = [];
     Course event;
 
     lines.forEach((line) {
-      if (line.startsWith(BEGINVEVENT)) {
+      line = line.trim();
+      if (isTag(line, BEGINVEVENT)) {
         event = Course.empty();
-      } else if (line.startsWith(ENDVEVENT)) {
+      } else if (isTag(line, ENDVEVENT)) {
         // Remove exported indicator of description
         event?.description = capitalize(
           event.description
@@ -56,19 +84,19 @@ class Ical {
               .trim(),
         );
         events.add(event);
-      } else if (line.startsWith(DTSTART)) {
+      } else if (isTag(line, DTSTART)) {
         event?.dateStart = _getDateValue(line);
-      } else if (line.startsWith(DTEND)) {
+      } else if (isTag(line, DTEND)) {
         event?.dateEnd = _getDateValue(line);
-      } else if (line.startsWith(SUMMARY)) {
+      } else if (isTag(line, SUMMARY)) {
         event?.title = capitalize(_getValue(line)).trim();
-      } else if (line.startsWith(LOCATION)) {
+      } else if (isTag(line, LOCATION)) {
         event?.location = capitalize(
           _getValue(line).replaceAll('\\', ' ').replaceAll('_', ' ').trim(),
         );
-      } else if (line.startsWith(UID)) {
+      } else if (isTag(line, UID)) {
         event?.uid = _getValue(line).trim();
-      } else if (_isDescTag(line)) {
+      } else if (isTag(line, DESCRIPTION)) {
         event?.description ??= "";
         event?.description += _getValue(line).trim();
       }
@@ -77,32 +105,26 @@ class Ical {
     return events;
   }
 
-  static bool _isDescTag(String line) {
-    if (line.startsWith(DESCRIPTION)) return true;
-    return [
-          SEQUENCE,
-          STATUS,
-          TRANSP,
-          RRULE,
-          DTSTAMP,
-          CATEGORIES,
-          GEO,
-          URL,
-          CLASS,
-          CREATED,
-          LASTMODIFIED,
-        ].indexWhere((s) => line.startsWith(s)) <
-        0;
+  bool isTag(String line, String tag) {
+    bool isTag = false;
+    if (line.startsWith(tag)) {
+      isTag = true;
+    } else {
+      bool isOtherTag = allTags.indexWhere((t) => line.startsWith(t)) > -1;
+      if (_lastTag == tag && !isOtherTag) isTag = true;
+    }
+    if (isTag) _lastTag = tag;
+    return isTag;
   }
 
-  static String _getValue(String line) {
+  String _getValue(String line) {
     // Gets the first index where a space occours
     final index = line.indexOf(":");
     if (index < 0) return line;
     return line.substring(index + 1).trim(); // Gets the value part
   }
 
-  static DateTime _getDateValue(String line) {
+  DateTime _getDateValue(String line) {
     final d = DateTime.parse(_getValue(line)).toUtc();
     return TZDateTime.utc(
       d.year,
