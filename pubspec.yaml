@@ -15,14 +15,15 @@ dependencies:
   flutter_markdown: ^0.2.0
   uuid: ^2.0.0
   html: ^0.13.3+3
-  firebase_core: 0.3.0+1
-  firebase_analytics: ^2.0.1
+  firebase_core: 0.3.1+1
+  firebase_analytics: ^2.0.2+1
   package_info: ^0.4.0+1
   flutter_calendar:
     git: git://github.com/Pyozer/flutter_calendar.git
+  device_calendar: ^0.1.1
 
   flutter_material_color_picker: ^0.0.5
-  introduction_screen: ^0.0.4
+  introduction_screen: ^0.0.5
 
   outline_material_icons: ^0.1.0
   timezone: ^0.5.2
