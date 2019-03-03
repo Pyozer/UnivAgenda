@@ -11,6 +11,7 @@ import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:uuid/uuid.dart';
+import 'package:device_calendar/device_calendar.dart' as Calendar;
 
 class CustomEventScreen extends StatefulWidget {
   final CustomCourse course;
@@ -31,6 +32,9 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   bool _isRecurrent = false;
   bool _isColor = false;
   CustomCourse _customCourse;
+  bool _syncCalendar = false;
+  List<Calendar.Calendar> _deviceCalendars = [];
+  Calendar.Calendar _selectedCalendar;
 
   CustomCourse _baseCourse;
 
@@ -52,6 +56,25 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
           CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
   }
 
+  void _getCalendars() async {
+    final calendarPlugin = Calendar.DeviceCalendarPlugin();
+    try {
+      var permissionsGranted = await calendarPlugin.hasPermissions();
+      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+        permissionsGranted = await calendarPlugin.requestPermissions();
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
+          // TODO: Display error message
+          return;
+        }
+      }
+
+      final calendarsResult = await calendarPlugin.retrieveCalendars();
+      setState(() => _deviceCalendars = calendarsResult.data ?? []);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   void dispose() {
     _descNode.dispose();
@@ -67,12 +90,17 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     setState(() => _isColor = value);
   }
 
+  void _onSyncCalendar(bool value) {
+    setState(() => _syncCalendar = value);
+    if (value) _getCalendars();
+  }
+
   void _onDateTap() async {
     DateTime dateStart = await showDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
-      lastDate: DateTime.now().add(Duration(days: 365*30)),
+      lastDate: DateTime.now().add(Duration(days: 365 * 30)),
       locale: translations.locale,
     );
 
@@ -80,8 +108,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       final newStart = Date.changeTime(dateStart, _customCourse.dateStart.hour,
           _customCourse.dateStart.minute);
 
-      final newEnd = Date.changeTime(dateStart, _customCourse.dateEnd.hour,
-          _customCourse.dateEnd.minute);
+      final newEnd = Date.changeTime(
+          dateStart, _customCourse.dateEnd.hour, _customCourse.dateEnd.minute);
 
       _updateTimes(newStart, newEnd);
     }
@@ -131,7 +159,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     );
   }
 
-  void _onSubmit(BuildContext context) {
+  void _onSubmit(BuildContext context) async {
     if (_customCourse.title.isEmpty ||
         _customCourse.description.isEmpty ||
         _customCourse.location.isEmpty) {
@@ -154,6 +182,23 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     _customCourse.uid ??= Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
+
+    if (_syncCalendar && _selectedCalendar != null) {
+      final eventToCreate = new Calendar.Event(
+        _selectedCalendar.id,
+        eventId: _customCourse.uid,
+        title: _customCourse.title,
+        description: _customCourse.description,
+        start: _customCourse.dateStart,
+        end: _customCourse.dateEnd,
+      );
+
+      final createEventResult = await Calendar.DeviceCalendarPlugin()
+          .createOrUpdateEvent(eventToCreate);
+      if (!createEventResult.isSuccess) {
+        // Event add failed added
+      }
+    }
 
     Navigator.of(context).pop(_customCourse);
   }
@@ -340,6 +385,28 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                 ),
               ),
               _isColor
+                  ? ListTileColor(
+                      title: translations.text(StrKey.EVENT_COLOR),
+                      description: translations.text(StrKey.EVENT_COLOR_DESC),
+                      selectedColor: _customCourse.color,
+                      onColorChange: (color) {
+                        setState(() => _customCourse.color = color);
+                      },
+                    )
+                  : const SizedBox.shrink(),
+              const Divider(height: 0.0),
+              ListTile(
+                onTap: () => _onSyncCalendar(!_syncCalendar),
+                leading: const Icon(OMIcons.colorLens), //TODO: Change icon
+                title: Text(translations.text(StrKey.SYNC_CALENDAR)),
+                trailing: Switch(
+                  value: _syncCalendar,
+                  activeColor: theme.accentColor,
+                  onChanged: _onSyncCalendar,
+                ),
+              ),
+              _syncCalendar
+                  // TODO: Create ListTile with choices
                   ? ListTileColor(
                       title: translations.text(StrKey.EVENT_COLOR),
                       description: translations.text(StrKey.EVENT_COLOR_DESC),

@@ -225,4 +225,7 @@ class StrKey {
 
   static const NEW_EVENT_TITLE = "new_event_title";
   static const RENAME_EVENT = "rename_event";
+
+  static const SYNC_CALENDAR = "sync_calendar";
+  static const CHOOSE_CALENDAR = "choose_calendar";
 }

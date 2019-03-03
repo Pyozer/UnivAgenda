@@ -219,5 +219,7 @@
 
   "new_event_title": "New event title (empty to reset)",
   "rename_event": "Rename the event",
-  "pasteButtonLabel": "Paste"
+
+  "sync_calendar": "Synchronize with calendar",
+  "choose_calendar": "Which calendar?"
 }

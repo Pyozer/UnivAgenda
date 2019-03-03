@@ -219,5 +219,8 @@
   "add_hidden_event": "Titre de l'événement",
 
   "new_event_title": "Nouveau titre (vide pour remettre à zéro)",
-  "rename_event": "Renommer l'événement"
+  "rename_event": "Renommer l'événement",
+
+  "sync_calendar": "Synchroniser avec le calendrier",
+  "choose_calendar": "Quel calendrier ?"
 }
