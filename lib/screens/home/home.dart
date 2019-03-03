@@ -70,7 +70,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Load cached ical
-    if (Ical.isValidIcal(prefs.cachedIcal))
+    if (Ical(prefs.cachedIcal).isValidIcal())
       _prepareList(prefs.cachedIcal);
     else
       _courses = null;
@@ -196,7 +196,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     }
 
     // Parse string ical to object
-    List<Course> courseFromIcal = await Ical.parseToIcal(icalStr);
+    List<Course> courseFromIcal = await Ical(icalStr).parseToIcal();
 
     if (courseFromIcal == null) {
       DialogPredefined.showICSFormatError(context);

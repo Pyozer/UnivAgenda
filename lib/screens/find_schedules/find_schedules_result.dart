@@ -86,7 +86,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       String icalStr = utf8.decode(response.httpResponse.bodyBytes);
 
       // Parse string ical to object
-      List<Course> listCourses = await Ical.parseToIcal(icalStr);
+      List<Course> listCourses = await Ical(icalStr).parseToIcal();
       if (listCourses == null) {
         DialogPredefined.showICSFormatError(context);
         return;

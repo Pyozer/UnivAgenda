@@ -92,7 +92,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             String error;
             if (!response.isSuccess) {
               error = translations.text(StrKey.FILE_404);
-            } else if (!Ical.isValidIcal(response.httpResponse.body)) {
+            } else if (!Ical(response.httpResponse.body).isValidIcal()) {
               error = translations.text(StrKey.WRONG_ICS_FORMAT);
             }
 

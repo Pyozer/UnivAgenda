@@ -125,7 +125,9 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
       pages: _buildPages(),
       onDone: _onDone,
       showSkipButton: true,
+      skip: Text(translations.text(StrKey.SKIP)),
       next: const Icon(Icons.arrow_forward),
+      done: Text(translations.text(StrKey.DONE)),
     );
   }
 }

@@ -149,7 +149,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
       String ical = utf8.decode(response.httpResponse.bodyBytes);
-      if (!Ical.isValidIcal(ical)) {
+      if (!Ical(ical).isValidIcal()) {
         _setLoading(false);
         _showMessage(translations.text(StrKey.WRONG_ICS_FORMAT));
         return;
