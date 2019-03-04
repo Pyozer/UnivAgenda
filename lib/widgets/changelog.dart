@@ -9,7 +9,7 @@ import 'package:myagenda/utils/translations.dart';
 
 class ChangeLog extends StatelessWidget {
   Future<String> _fetchData(BuildContext context) async {
-    String changeLogUrl = (translations.currentLanguage == "fr")
+    String changeLogUrl = (i18n.currentLanguage == "fr")
         ? Url.changelogFr
         : Url.changelog;
 

@@ -16,10 +16,10 @@ class MainDrawer extends StatelessWidget {
 
     bool logoutConfirm = await DialogPredefined.showTextDialog(
         context,
-        translations.text(StrKey.LOGOUT),
-        translations.text(StrKey.LOGOUT_CONFIRM),
-        translations.text(StrKey.YES),
-        translations.text(StrKey.NO),
+        i18n.text(StrKey.LOGOUT),
+        i18n.text(StrKey.LOGOUT_CONFIRM),
+        i18n.text(StrKey.YES),
+        i18n.text(StrKey.NO),
         true);
 
     if (logoutConfirm) {
@@ -33,7 +33,7 @@ class MainDrawer extends StatelessWidget {
     final prefs = PreferencesProvider.of(context);
 
     return Drawer(
-      semanticLabel: translations.text(StrKey.DRAWER),
+      semanticLabel: i18n.text(StrKey.DRAWER),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -45,7 +45,7 @@ class MainDrawer extends StatelessWidget {
                 Logo(size: 65.0),
                 const Padding(padding: const EdgeInsets.only(top: 13.0)),
                 Text(
-                  translations.text(StrKey.APP_NAME),
+                  i18n.text(StrKey.APP_NAME),
                   style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.w500,
@@ -66,40 +66,40 @@ class MainDrawer extends StatelessWidget {
               : const SizedBox.shrink(),
           DrawerElement(
             icon: OMIcons.search,
-            title: translations.text(StrKey.FINDSCHEDULES),
+            title: i18n.text(StrKey.FINDSCHEDULES),
             routeDest: RouteKey.FINDSCHEDULES,
             enabled: prefs.urlIcs == null,
           ),
           DrawerElement(
             icon: OMIcons.info,
-            title: translations.text(StrKey.ABOUT),
+            title: i18n.text(StrKey.ABOUT),
             routeDest: RouteKey.ABOUT,
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
-            title: translations.text(StrKey.INTRO),
+            title: i18n.text(StrKey.INTRO),
             routeDest: RouteKey.INTRO,
           ),
           const Divider(),
           DrawerElement(
             icon: OMIcons.settings,
-            title: translations.text(StrKey.SETTINGS),
+            title: i18n.text(StrKey.SETTINGS),
             routeDest: RouteKey.SETTINGS,
           ),
           DrawerElement(
             icon: OMIcons.liveHelp,
-            title: translations.text(StrKey.HELP_FEEDBACK),
+            title: i18n.text(StrKey.HELP_FEEDBACK),
             routeDest: RouteKey.HELP,
           ),
           DrawerElement(
             icon: OMIcons.monetizationOn,
-            title: translations.text(StrKey.SUPPORTME),
+            title: i18n.text(StrKey.SUPPORTME),
             routeDest: RouteKey.SUPPORTME,
           ),
           const Divider(),
           DrawerElement(
             icon: OMIcons.exitToApp,
-            title: translations.text(StrKey.LOGOUT),
+            title: i18n.text(StrKey.LOGOUT),
             routeDest: RouteKey.LOGIN,
             onTap: () => _onDisconnectPressed(context),
           ),

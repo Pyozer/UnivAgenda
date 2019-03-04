@@ -31,7 +31,7 @@ class CourseNote extends StatelessWidget {
       elems.add(IconButton(
         icon: const Icon(OMIcons.delete),
         onPressed: () => onDelete(note),
-        tooltip: translations.text(StrKey.DELETE),
+        tooltip: i18n.text(StrKey.DELETE),
       ));
     return elems;
   }

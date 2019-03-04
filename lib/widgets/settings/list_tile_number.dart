@@ -78,8 +78,8 @@ class _ListTileNumberState extends BaseState<ListTileNumber> {
           initialValue: _inputValue,
           onChanged: _onInputChange,
         ),
-        translations.text(StrKey.SUBMIT),
-        translations.text(StrKey.CANCEL),
+        i18n.text(StrKey.SUBMIT),
+        i18n.text(StrKey.CANCEL),
         true,
         const EdgeInsets.all(0.0));
 

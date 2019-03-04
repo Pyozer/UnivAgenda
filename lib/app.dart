@@ -46,7 +46,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: translations.supportedLocales(),
+      supportedLocales: i18n.supportedLocales(),
       navigatorObservers: [observer],
       initialRoute: RouteKey.SPLASHSCREEN,
       onGenerateRoute: (RouteSettings settings) {

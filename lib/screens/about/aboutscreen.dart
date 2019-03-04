@@ -20,7 +20,7 @@ class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
         Theme.of(context).textTheme.headline.copyWith(fontSize: 30.0);
-    final appName = translations.text(StrKey.APP_NAME);
+    final appName = i18n.text(StrKey.APP_NAME);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 16.0),
@@ -40,10 +40,10 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildWhatIsIt(BuildContext context) {
     return AboutCard(
-      title: translations.text(StrKey.WHAT_IS_IT),
+      title: i18n.text(StrKey.WHAT_IS_IT),
       children: [
         Text(
-          translations.text(StrKey.ABOUT_WHAT),
+          i18n.text(StrKey.ABOUT_WHAT),
           style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.justify,
         )
@@ -53,7 +53,7 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildAuthor(BuildContext context) {
     return AboutCard(
-      title: translations.text(StrKey.AUTHOR),
+      title: i18n.text(StrKey.AUTHOR),
       lateralPadding: false,
       children: [
         ListTile(
@@ -65,7 +65,7 @@ class AboutScreen extends StatelessWidget {
             ),
           ),
           title: const Text("Jean-Charles Moussé"),
-          subtitle: Text(translations.text(StrKey.DEVELOPER)),
+          subtitle: Text(i18n.text(StrKey.DEVELOPER)),
           onTap: () => openLink(
                 context,
                 Url.myWebsite,
@@ -82,7 +82,7 @@ class AboutScreen extends StatelessWidget {
           ),
           title: const Text("Justin Martin"),
           subtitle: Text(
-            "${translations.text(StrKey.DEVELOPER)}, ${translations.text(StrKey.RIGHTS)}",
+            "${i18n.text(StrKey.DEVELOPER)}, ${i18n.text(StrKey.RIGHTS)}",
           ),
           onTap: () => openLink(
                 context,
@@ -100,7 +100,7 @@ class AboutScreen extends StatelessWidget {
     final store = Platform.isAndroid ? "Play Store" : "App Store";
 
     return AboutCard(
-      title: translations.text(StrKey.SOCIAL),
+      title: i18n.text(StrKey.SOCIAL),
       lateralPadding: false,
       children: [
         ListTile(
@@ -110,7 +110,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: store,
           ),
           title: Text(store),
-          subtitle: Text(translations.text(StrKey.ADD_NOTE_STORE)),
+          subtitle: Text(i18n.text(StrKey.ADD_NOTE_STORE)),
           onTap: () => openLink(
                 context,
                 Platform.isAndroid ? Url.playstore : Url.appstore,
@@ -123,9 +123,9 @@ class AboutScreen extends StatelessWidget {
             width: 30.0,
             semanticLabel: "Logo GitHub",
           ),
-          title: Text(translations.text(StrKey.GITHUB_PROJECT)),
+          title: Text(i18n.text(StrKey.GITHUB_PROJECT)),
           subtitle: Text(
-            translations.text(StrKey.GITHUB_PROJECT_DESC),
+            i18n.text(StrKey.GITHUB_PROJECT_DESC),
           ),
           onTap: () => openLink(
                 context,
@@ -140,7 +140,7 @@ class AboutScreen extends StatelessWidget {
             semanticLabel: "Logo Twitter",
           ),
           title: const Text("Twitter"),
-          subtitle: Text(translations.text(StrKey.TWITTER_DESC)),
+          subtitle: Text(i18n.text(StrKey.TWITTER_DESC)),
           onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
         ),
       ],
@@ -158,27 +158,27 @@ class AboutScreen extends StatelessWidget {
   Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
       VoidCallback onLicensesTap) {
     return AboutCard(
-      title: translations.text(StrKey.OTHER),
+      title: i18n.text(StrKey.OTHER),
       lateralPadding: false,
       children: [
         ListTile(
-          title: Text(translations.text(StrKey.CHANGELOG)),
+          title: Text(i18n.text(StrKey.CHANGELOG)),
           subtitle: Text(
-            translations.text(StrKey.CHANGELOG_DESC),
+            i18n.text(StrKey.CHANGELOG_DESC),
           ),
           onTap: onChangeLogTap,
         ),
         ListTile(
           title: Text(
-            translations.text(StrKey.OPENSOURCE_LICENCES),
+            i18n.text(StrKey.OPENSOURCE_LICENCES),
           ),
           subtitle: Text(
-            translations.text(StrKey.OPENSOURCE_LICENCES_DESC),
+            i18n.text(StrKey.OPENSOURCE_LICENCES_DESC),
           ),
           onTap: onLicensesTap,
         ),
         ListTile(
-          title: Text(translations.text(StrKey.VERSION)),
+          title: Text(i18n.text(StrKey.VERSION)),
           subtitle: FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
@@ -198,7 +198,7 @@ class AboutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            translations.text(StrKey.MADE_WITH),
+            i18n.text(StrKey.MADE_WITH),
             style: txtTheme,
           ),
           Padding(
@@ -222,7 +222,7 @@ class AboutScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                translations.text(StrKey.CHANGELOG),
+                i18n.text(StrKey.CHANGELOG),
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 24.0,
@@ -239,7 +239,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: translations.text(StrKey.ABOUT),
+      title: i18n.text(StrKey.ABOUT),
       body: Container(
         child: ListView(
           children: [

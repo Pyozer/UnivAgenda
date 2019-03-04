@@ -115,7 +115,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     if (mounted)
       setState(() {
         _isError = isError;
-        _errorMsg = errorMsgKey != null ? translations.text(errorMsgKey) : null;
+        _errorMsg = errorMsgKey != null ? i18n.text(errorMsgKey) : null;
       });
   }
 
@@ -143,13 +143,13 @@ class SplashScreenState extends BaseState<SplashScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg ?? translations.text(StrKey.NETWORK_ERROR),
+                            _errorMsg ?? i18n.text(StrKey.NETWORK_ERROR),
                             style: theme.textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
                           RaisedButtonColored(
-                            text: translations.text(StrKey.RETRY),
+                            text: i18n.text(StrKey.RETRY),
                             onPressed: _initPreferences,
                           )
                         ],

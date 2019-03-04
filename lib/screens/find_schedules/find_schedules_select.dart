@@ -70,7 +70,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
       cursorColor: color,
       decoration: InputDecoration(
           hintStyle: TextStyle(color: color),
-          hintText: translations.text(StrKey.SEARCH),
+          hintText: i18n.text(StrKey.SEARCH),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0)),
       onChanged: (search) => setState(() => _search = search),
@@ -80,7 +80,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: translations.text(StrKey.FINDSCHEDULES_FILTER_SELECTION),
+      title: i18n.text(StrKey.FINDSCHEDULES_FILTER_SELECTION),
       actions: [
         IconButton(icon: const Icon(OMIcons.search), onPressed: _onSubmit),
       ],

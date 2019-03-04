@@ -13,7 +13,7 @@ class EmptyDay extends StatelessWidget {
       padding: padding ??
           const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Text(
-        translations.text(StrKey.NO_EVENTS),
+        i18n.text(StrKey.NO_EVENTS),
         style: Theme.of(context).textTheme.subhead,
         textAlign: TextAlign.justify,
       ),

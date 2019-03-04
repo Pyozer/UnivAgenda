@@ -96,8 +96,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     await Future.delayed(const Duration(seconds: 1));
     DialogPredefined.showSimpleMessage(
       context,
-      translations.text(StrKey.LOGIN_SUCCESSFUL),
-      translations.text(StrKey.LOGIN_SUCCESSFUL_TEXT),
+      i18n.text(StrKey.LOGIN_SUCCESSFUL),
+      i18n.text(StrKey.LOGIN_SUCCESSFUL_TEXT),
     );
   }
 
@@ -122,7 +122,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       if (!response.isSuccess) {
         _scaffoldKey?.currentState?.removeCurrentSnackBar();
         _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(translations.text(StrKey.NETWORK_ERROR)),
+          content: Text(i18n.text(StrKey.NETWORK_ERROR)),
         ));
         return null;
       }
@@ -276,10 +276,10 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
   Widget _buildNoResult() {
     return NoResult(
-      title: translations.text(StrKey.COURSES_NORESULT),
-      text: translations.text(StrKey.COURSES_NORESULT_TEXT),
+      title: i18n.text(StrKey.COURSES_NORESULT),
+      text: i18n.text(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
-        text: translations.text(StrKey.REFRESH),
+        text: i18n.text(StrKey.REFRESH),
         onPressed: _fetchData,
       ),
     );
@@ -309,7 +309,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.text(StrKey.APP_NAME),
+      title: i18n.text(StrKey.APP_NAME),
       actions: [
         refreshBtn,
         IconButton(icon: Icon(iconView), onPressed: _switchTypeView)

@@ -103,4 +103,4 @@ class GlobalTranslations {
   GlobalTranslations._internal();
 }
 
-GlobalTranslations translations = GlobalTranslations();
+GlobalTranslations i18n = GlobalTranslations();

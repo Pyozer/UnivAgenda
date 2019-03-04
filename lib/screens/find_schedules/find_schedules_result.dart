@@ -78,8 +78,8 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
 
         DialogPredefined.showSimpleMessage(
           context,
-          translations.text(StrKey.ERROR),
-          translations.text(StrKey.NETWORK_ERROR),
+          i18n.text(StrKey.ERROR),
+          i18n.text(StrKey.NETWORK_ERROR),
         );
         return;
       }
@@ -145,14 +145,14 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       widget = const Center(child: const CircularProgressIndicator());
     else if (_searchResult.length == 0)
       widget = NoResult(
-        title: translations.text(StrKey.FINDSCHEDULES_NORESULT),
-        text: translations.text(StrKey.FINDSCHEDULES_NORESULT_TEXT),
+        title: i18n.text(StrKey.FINDSCHEDULES_NORESULT),
+        text: i18n.text(StrKey.FINDSCHEDULES_NORESULT_TEXT),
       );
     else
       widget = _buildListResults();
 
     return AppbarPage(
-      title: translations.text(StrKey.FINDSCHEDULES_RESULTS),
+      title: i18n.text(StrKey.FINDSCHEDULES_RESULTS),
       body: widget,
     );
   }
@@ -167,18 +167,18 @@ class ResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String info = '';
     if (findResult.startAvailable != null) {
-      info = "${translations.text(StrKey.FINDSCHEDULES_FROM)} ";
+      info = "${i18n.text(StrKey.FINDSCHEDULES_FROM)} ";
       info += Date.extractTimeWithDate(findResult.startAvailable);
     }
 
     if (findResult.endAvailable != null) {
-      info += " ${translations.text(StrKey.FINDSCHEDULES_TO)} ";
+      info += " ${i18n.text(StrKey.FINDSCHEDULES_TO)} ";
       info += Date.extractTimeWithDate(findResult.endAvailable);
     }
 
     final text = (info.length > 0)
         ? capitalize(info.trim())
-        : translations.text(StrKey.FINDSCHEDULES_AVAILABLE);
+        : i18n.text(StrKey.FINDSCHEDULES_AVAILABLE);
 
     return Card(
       elevation: 3.0,

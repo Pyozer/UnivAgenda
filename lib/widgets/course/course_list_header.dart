@@ -16,10 +16,10 @@ class CourseListHeader extends StatelessWidget {
   Future<Null> _onHeaderTap(BuildContext context) async {
     bool btnPositivePressed = await DialogPredefined.showTextDialog(
       context,
-      translations.text(StrKey.CHANGE_AGENDA),
-      translations.text(StrKey.CHANGE_AGENDA_TEXT),
-      translations.text(StrKey.CHANGE),
-      translations.text(StrKey.CANCEL),
+      i18n.text(StrKey.CHANGE_AGENDA),
+      i18n.text(StrKey.CHANGE_AGENDA_TEXT),
+      i18n.text(StrKey.CHANGE),
+      i18n.text(StrKey.CANCEL),
     );
 
     if (btnPositivePressed)

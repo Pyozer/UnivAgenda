@@ -79,8 +79,8 @@ class _ListTileColorState extends State<ListTileColor> {
         context,
         widget.titleDialog ?? widget.title,
         colorPicker,
-        translations.text(StrKey.SUBMIT),
-        translations.text(StrKey.CANCEL),
+        i18n.text(StrKey.SUBMIT),
+        i18n.text(StrKey.CANCEL),
         true,
         const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.0));
 

@@ -6,8 +6,12 @@ class LargeRoundedButton extends StatelessWidget {
   final Function onPressed;
   final Widget child;
 
-  const LargeRoundedButton({Key key, this.text, this.onPressed, this.child})
-      : assert(text != null || child != null),
+  const LargeRoundedButton({
+    Key key,
+    this.text,
+    this.onPressed,
+    this.child,
+  })  : assert(text != null || child != null),
         super(key: key);
 
   @override

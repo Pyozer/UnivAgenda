@@ -74,8 +74,8 @@ class _ListTileInputState extends BaseState<ListTileInput> {
         controller: TextEditingController(text: _inputValue),
         decoration: InputDecoration(hintText: widget.hintText),
       ),
-      translations.text(StrKey.SUBMIT),
-      translations.text(StrKey.CANCEL),
+      i18n.text(StrKey.SUBMIT),
+      i18n.text(StrKey.CANCEL),
       true,
     );
 

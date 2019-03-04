@@ -18,27 +18,27 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   void _addNewFilter() async {
     bool isSubmit = await DialogPredefined.showContentDialog(
       context,
-      translations.text(StrKey.ADD_HIDDEN_EVENT),
+      i18n.text(StrKey.ADD_HIDDEN_EVENT),
       TextField(
         controller: _textController,
         maxLines: null,
         keyboardType: TextInputType.text,
         maxLength: 100,
         decoration: InputDecoration.collapsed(
-          hintText: translations.text(StrKey.ADD_HIDDEN_EVENT),
+          hintText: i18n.text(StrKey.ADD_HIDDEN_EVENT),
         ),
       ),
-      translations.text(StrKey.ADD),
-      translations.text(StrKey.CANCEL),
+      i18n.text(StrKey.ADD),
+      i18n.text(StrKey.CANCEL),
     );
 
     if (isSubmit == true) {
       final String filter = _textController.text.trim();
       if (filter.isEmpty) {
         _scaffoldKey.currentState?.showSnackBar(SnackBar(
-          content: Text(translations.text(StrKey.REQUIRE_FIELD)),
+          content: Text(i18n.text(StrKey.REQUIRE_FIELD)),
           action: SnackBarAction(
-            label: translations.text(StrKey.RETRY),
+            label: i18n.text(StrKey.RETRY),
             onPressed: _addNewFilter,
           ),
         ));
@@ -72,7 +72,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   Widget build(BuildContext context) {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.text(StrKey.HIDDEN_EVENT),
+      title: i18n.text(StrKey.HIDDEN_EVENT),
       body: prefs.hiddenEvents.length == 0
           ? Center(
               child: ListView(
@@ -80,8 +80,8 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   NoResult(
-                    title: translations.text(StrKey.NO_HIDDEN_EVENT),
-                    text: translations.text(StrKey.NO_HIDDEN_EVENT_TEXT),
+                    title: i18n.text(StrKey.NO_HIDDEN_EVENT),
+                    text: i18n.text(StrKey.NO_HIDDEN_EVENT_TEXT),
                   ),
                 ],
               ),

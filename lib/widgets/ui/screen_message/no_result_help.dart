@@ -9,8 +9,8 @@ class NoResultHelp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NoResult(
-      title: translations.text(StrKey.HELP_NORESULT),
-      text: translations.text(StrKey.HELP_NORESULT_TEXT),
+      title: i18n.text(StrKey.HELP_NORESULT),
+      text: i18n.text(StrKey.HELP_NORESULT_TEXT),
     );
   }
 }

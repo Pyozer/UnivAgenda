@@ -58,7 +58,7 @@ class CourseRow extends StatelessWidget {
 
     String courseDate = course.dateForDisplay();
     if (course.isStarted())
-      courseDate += " - ${translations.text(StrKey.IN_PROGRESS)}";
+      courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
 
     TextStyle style = TextStyle();
     if (bgColorRow != null)

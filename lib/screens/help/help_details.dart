@@ -26,7 +26,7 @@ class HelpDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: translations.text(StrKey.HELP_FEEDBACK),
+      title: i18n.text(StrKey.HELP_FEEDBACK),
       body: FutureBuilder(
         future: _loadHelpPage(),
         builder: (context, snapshot) {

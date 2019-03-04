@@ -58,7 +58,7 @@ class DialogPredefined {
       ctx,
       title,
       msg,
-      translations.text(StrKey.OK),
+      i18n.text(StrKey.OK),
       null,
     );
   }
@@ -66,9 +66,9 @@ class DialogPredefined {
   static Future<bool> showEndTimeError(BuildContext context) async {
     return await showTextDialog(
       context,
-      translations.text(StrKey.ERROR_END_TIME),
-      translations.text(StrKey.ERROR_END_TIME_TEXT),
-      translations.text(StrKey.OK),
+      i18n.text(StrKey.ERROR_END_TIME),
+      i18n.text(StrKey.ERROR_END_TIME_TEXT),
+      i18n.text(StrKey.OK),
       null,
     );
   }
@@ -76,19 +76,19 @@ class DialogPredefined {
   static Future<bool> showDeleteEventConfirm(BuildContext context) async {
     return await showTextDialog(
       context,
-      translations.text(StrKey.CONFIRM_EVENT_DELETE),
-      translations.text(StrKey.CONFIRM_EVENT_DELETE_TEXT),
-      translations.text(StrKey.YES),
-      translations.text(StrKey.NO),
+      i18n.text(StrKey.CONFIRM_EVENT_DELETE),
+      i18n.text(StrKey.CONFIRM_EVENT_DELETE_TEXT),
+      i18n.text(StrKey.YES),
+      i18n.text(StrKey.NO),
     );
   }
 
   static Future<bool> showICSFormatError(BuildContext context) async {
     return await showTextDialog(
       context,
-      translations.text(StrKey.ERROR),
-      translations.text(StrKey.WRONG_ICS_FORMAT),
-      translations.text(StrKey.OK),
+      i18n.text(StrKey.ERROR),
+      i18n.text(StrKey.WRONG_ICS_FORMAT),
+      i18n.text(StrKey.OK),
       null,
     );
   }
@@ -99,7 +99,7 @@ class DialogPredefined {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return ProgressDialog(
-          title: translations.text(StrKey.LOADING),
+          title: i18n.text(StrKey.LOADING),
           text: msg,
         );
       },

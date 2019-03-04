@@ -16,7 +16,7 @@ void main() async {
   initializeDatabase(await loadDefaultData());
   setLocalLocation(getLocation('Europe/Paris'));
 
-  await translations.init();
+  await i18n.init();
 
   runApp(App());
 }

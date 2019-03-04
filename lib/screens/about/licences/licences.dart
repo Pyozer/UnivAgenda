@@ -122,7 +122,7 @@ class LicencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      title: translations.text(StrKey.OPENSOURCE_LICENCES),
+      title: i18n.text(StrKey.OPENSOURCE_LICENCES),
       body: Container(
         child: ListView(
           children: ListTile.divideTiles(

@@ -25,8 +25,8 @@ class Date {
   static String dateFromNow(DateTime date, [bool shortDate = false]) {
     DateTime dateTimeToday = DateTime.now();
 
-    final today = translations.text(StrKey.TODAY);
-    final tomorrow = translations.text(StrKey.TOMORROW);
+    final today = i18n.text(StrKey.TODAY);
+    final tomorrow = i18n.text(StrKey.TOMORROW);
 
     if (!notSameDay(dateTimeToday, date))
       return today;

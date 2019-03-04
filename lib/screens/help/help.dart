@@ -25,10 +25,7 @@ class HelpScreen extends StatelessWidget {
     List responseJson = json.decode(response.httpResponse.body);
 
     return responseJson
-        .map((itemJson) => HelpItem.fromJson(
-              itemJson,
-              translations.currentLanguage,
-            ))
+        .map((itemJson) => HelpItem.fromJson(itemJson, i18n.currentLanguage))
         .toList();
   }
 
@@ -52,7 +49,7 @@ class HelpScreen extends StatelessWidget {
       await launch(url);
     } else {
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(translations.text(StrKey.NO_EMAIL_APP)),
+        content: Text(i18n.text(StrKey.NO_EMAIL_APP)),
       ));
     }
   }
@@ -61,7 +58,7 @@ class HelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
-      title: translations.text(StrKey.HELP_FEEDBACK),
+      title: i18n.text(StrKey.HELP_FEEDBACK),
       body: Container(
         child: Column(
           children: [
@@ -90,7 +87,7 @@ class HelpScreen extends StatelessWidget {
             ),
             LargeRoundedButton(
               onPressed: () => _sendFeedback(context),
-              text: translations.text(StrKey.SEND_FEEDBACK),
+              text: i18n.text(StrKey.SEND_FEEDBACK),
             ),
           ],
         ),

@@ -12,7 +12,7 @@ class RaisedButtonColored extends StatelessWidget {
     Key key,
     this.text,
     this.child,
-    this.onPressed,
+    @required this.onPressed,
     this.shape,
     this.padding,
   })  : assert(text != null || child != null),
@@ -30,10 +30,8 @@ class RaisedButtonColored extends StatelessWidget {
           ),
       onPressed: onPressed,
       child: text != null
-          ? Text(
-              text.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.w600)
-            )
+          ? Text(text.toUpperCase(),
+              style: const TextStyle(fontWeight: FontWeight.w600))
           : child,
       color: accentColor,
       textColor: color,

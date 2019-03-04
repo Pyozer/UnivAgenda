@@ -31,7 +31,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     // Show progress dialog
     DialogPredefined.showProgressDialog(
       context,
-      translations.text(StrKey.LOADING_RESOURCES),
+      i18n.text(StrKey.LOADING_RESOURCES),
     );
 
     final response = await HttpRequest.get(prefs.university.resourcesFile);
@@ -59,7 +59,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       List<List<String>> allGroupKeys = prefs.getAllGroupKeys(prefs.groupKeys);
       for (int level = 0; level < allGroupKeys.length; level++) {
         settingsGeneralElems.add(ListTileChoices(
-          title: translations.text(
+          title: i18n.text(
             StrKey.ELEMENT,
             {'number': (level + 1).toString()},
           ),
@@ -74,14 +74,14 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     } else {
       settingsGeneralElems = [
         ListTileInput(
-          title: translations.text(StrKey.URL_ICS),
-          hintText: translations.text(StrKey.URL_ICS),
+          title: i18n.text(StrKey.URL_ICS),
+          hintText: i18n.text(StrKey.URL_ICS),
           defaultValue: prefs.urlIcs,
           onChange: (value) async {
             // Check before update prefs, if url is good
             DialogPredefined.showProgressDialog(
               context,
-              translations.text(StrKey.CHECKING_ICS_URL),
+              i18n.text(StrKey.CHECKING_ICS_URL),
             );
 
             final response = await HttpRequest.get(value);
@@ -91,16 +91,16 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             // If request failed, url is bad (or no internet)
             String error;
             if (!response.isSuccess) {
-              error = translations.text(StrKey.FILE_404);
+              error = i18n.text(StrKey.FILE_404);
             } else if (!Ical(response.httpResponse.body).isValidIcal()) {
-              error = translations.text(StrKey.WRONG_ICS_FORMAT);
+              error = i18n.text(StrKey.WRONG_ICS_FORMAT);
             }
 
             // If error, display message
             if (error != null) {
               DialogPredefined.showSimpleMessage(
                 context,
-                translations.text(StrKey.ERROR),
+                i18n.text(StrKey.ERROR),
                 error,
               );
             } else {
@@ -114,7 +114,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
 
     return SettingCard(
-      header: translations.text(StrKey.SETTINGS_GENERAL),
+      header: i18n.text(StrKey.SETTINGS_GENERAL),
       children: settingsGeneralElems,
     );
   }
@@ -122,8 +122,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
   Widget _buildSettingsDisplay() {
     List<Widget> settingsDisplayItems = [
       ListTileNumber(
-        title: translations.text(StrKey.NUMBER_WEEK),
-        subtitle: translations.text(
+        title: i18n.text(StrKey.NUMBER_WEEK),
+        subtitle: i18n.text(
           prefs.numberWeeks > 1
               ? StrKey.NUMBER_WEEK_DESC_PLURAL
               : StrKey.NUMBER_WEEK_DESC_ONE,
@@ -135,8 +135,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         onChange: (value) => prefs.setNumberWeeks(value, true),
       ),
       SwitchListTile(
-        title: ListTileTitle(translations.text(StrKey.DISPLAY_ALL_DAYS)),
-        subtitle: Text(translations.text(StrKey.DISPLAY_ALL_DAYS_DESC)),
+        title: ListTileTitle(i18n.text(StrKey.DISPLAY_ALL_DAYS)),
+        subtitle: Text(i18n.text(StrKey.DISPLAY_ALL_DAYS_DESC)),
         value: prefs.isDisplayAllDays,
         activeColor: theme.accentColor,
         onChanged: (value) => prefs.setDisplayAllDays(value, true),
@@ -145,15 +145,15 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
     settingsDisplayItems.addAll([
       SwitchListTile(
-        title: ListTileTitle(translations.text(StrKey.HIDDEN_EVENT)),
-        subtitle: Text(translations.text(StrKey.FULL_HIDDEN_EVENT_DESC)),
+        title: ListTileTitle(i18n.text(StrKey.HIDDEN_EVENT)),
+        subtitle: Text(i18n.text(StrKey.FULL_HIDDEN_EVENT_DESC)),
         value: prefs.isFullHiddenEvent,
         activeColor: theme.accentColor,
         onChanged: (value) => prefs.setFullHiddenEvent(value, true),
       ),
       ListTile(
-        title: ListTileTitle(translations.text(StrKey.MANAGE_HIDDEN_EVENT)),
-        subtitle: Text(translations.text(StrKey.MANAGE_HIDDEN_EVENT_DESC)),
+        title: ListTileTitle(i18n.text(StrKey.MANAGE_HIDDEN_EVENT)),
+        subtitle: Text(i18n.text(StrKey.MANAGE_HIDDEN_EVENT_DESC)),
         onTap: () {
           Navigator.of(context).push(
             CustomRoute(
@@ -166,33 +166,33 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     ]);
 
     return SettingCard(
-      header: translations.text(StrKey.SETTINGS_DISPLAY),
+      header: i18n.text(StrKey.SETTINGS_DISPLAY),
       children: settingsDisplayItems,
     );
   }
 
   Widget _buildSettingsColors() {
     return SettingCard(
-      header: translations.text(StrKey.SETTINGS_COLORS),
+      header: i18n.text(StrKey.SETTINGS_COLORS),
       children: [
         SwitchListTile(
-          title: ListTileTitle(translations.text(StrKey.DARK_THEME)),
-          subtitle: Text(translations.text(StrKey.DARK_THEME_DESC)),
+          title: ListTileTitle(i18n.text(StrKey.DARK_THEME)),
+          subtitle: Text(i18n.text(StrKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
           activeColor: theme.accentColor,
           onChanged: (value) => prefs.setDarkTheme(value, true),
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.text(StrKey.PRIMARY_COLOR),
-          description: translations.text(StrKey.PRIMARY_COLOR_DESC),
+          title: i18n.text(StrKey.PRIMARY_COLOR),
+          description: i18n.text(StrKey.PRIMARY_COLOR_DESC),
           selectedColor: Color(prefs.theme.primaryColor),
           onColorChange: (color) => prefs.setPrimaryColor(color.value, true),
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.text(StrKey.ACCENT_COLOR),
-          description: translations.text(StrKey.ACCENT_COLOR_DESC),
+          title: i18n.text(StrKey.ACCENT_COLOR),
+          description: i18n.text(StrKey.ACCENT_COLOR_DESC),
           selectedColor: Color(prefs.theme.accentColor),
           onColorChange: (color) => prefs.setAccentColor(color.value, true),
           colors: [
@@ -219,14 +219,14 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         ),
         const ListDivider(),
         ListTileColor(
-          title: translations.text(StrKey.NOTE_COLOR),
-          description: translations.text(StrKey.NOTE_COLOR_DESC),
+          title: i18n.text(StrKey.NOTE_COLOR),
+          description: i18n.text(StrKey.NOTE_COLOR_DESC),
           selectedColor: Color(prefs.theme.noteColor),
           onColorChange: (color) => prefs.setNoteColor(color.value, true),
         ),
         SwitchListTile(
-          title: ListTileTitle(translations.text(StrKey.GENERATE_EVENT_COLOR)),
-          subtitle: Text(translations.text(StrKey.GENERATE_EVENT_COLOR_TEXT)),
+          title: ListTileTitle(i18n.text(StrKey.GENERATE_EVENT_COLOR)),
+          subtitle: Text(i18n.text(StrKey.GENERATE_EVENT_COLOR_TEXT)),
           value: prefs.isGenerateEventColor,
           activeColor: Theme.of(context).accentColor,
           onChanged: (value) => prefs.setGenerateEventColor(value, true),
@@ -248,7 +248,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
                 PopupMenuItem<MenuItem>(
                   value: MenuItem.REFRESH,
-                  child: Text(translations.text(StrKey.REFRESH_AGENDAS)),
+                  child: Text(i18n.text(StrKey.REFRESH_AGENDAS)),
                 ),
               ],
         ),
@@ -256,7 +256,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     }
 
     return AppbarPage(
-      title: translations.text(StrKey.SETTINGS),
+      title: i18n.text(StrKey.SETTINGS),
       actions: actions,
       body: ListView(
         children: [

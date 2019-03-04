@@ -139,8 +139,8 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     List<List<String>> allGroupKeys = prefs.getAllGroupKeys(_roomKeys);
     for (var level = 0; level < 2; level++) {
       final menuTitle = level == 0
-          ? translations.text(StrKey.FINDSCHEDULES_SEARCH_ORIGIN)
-          : translations.text(StrKey.FINDSCHEDULES_FILTER);
+          ? i18n.text(StrKey.FINDSCHEDULES_SEARCH_ORIGIN)
+          : i18n.text(StrKey.FINDSCHEDULES_FILTER);
 
       dropdownChoices.add(
         _buildDropdown(
@@ -158,7 +158,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     }
 
     return AppbarPage(
-      title: translations.text(StrKey.FINDSCHEDULES),
+      title: i18n.text(StrKey.FINDSCHEDULES),
       body: Column(
         children: [
           Expanded(
@@ -172,13 +172,13 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
                     Row(
                       children: [
                         _buildTimePart(
-                          translations.text(StrKey.START_TIME_EVENT),
+                          i18n.text(StrKey.START_TIME_EVENT),
                           _startTime,
                           (startTime) => _onTimeChange(startTime, _endTime),
                         ),
                         const SizedBox(width: 32.0),
                         _buildTimePart(
-                          translations.text(StrKey.END_TIME_EVENT),
+                          i18n.text(StrKey.END_TIME_EVENT),
                           _endTime,
                           (endTime) => _onTimeChange(_startTime, endTime),
                         ),
@@ -195,7 +195,7 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
               children: [
                 Icon(OMIcons.search),
                 const SizedBox(width: 16.0),
-                Text(translations.text(StrKey.SEARCH)),
+                Text(i18n.text(StrKey.SEARCH)),
               ],
             ),
           ),

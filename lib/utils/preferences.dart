@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/calendar_type.Dart';
@@ -374,14 +375,35 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void addCustomEvent(CustomCourse eventToAdd, [state = false]) {
     if (eventToAdd == null) return;
 
+    if (eventToAdd.syncCalendar != null) {
+      final eventToCreate = Event(
+        eventToAdd.syncCalendar.id,
+        eventId: eventToAdd.uid,
+        title: eventToAdd.title,
+        description: eventToAdd.description,
+        start: eventToAdd.dateStart,
+        end: eventToAdd.dateEnd,
+      );
+
+      DeviceCalendarPlugin().createOrUpdateEvent(eventToCreate).then((result) {
+        if (result.isSuccess && result.data != null)
+          eventToAdd.uid = result.data;
+      });
+    }
+
     List<CustomCourse> newEvents = customEvents;
     newEvents.add(eventToAdd);
 
     setCustomEvents(newEvents, state);
   }
 
-  void removeCustomEvent(CustomCourse eventToRemove, [state = false]) {
+  void removeCustomEvent(CustomCourse eventToRemove, [state = false, syncCalendar = true]) {
     if (eventToRemove == null) return;
+
+    if (syncCalendar && eventToRemove.syncCalendar != null) {
+      DeviceCalendarPlugin()
+          .deleteEvent(eventToRemove.syncCalendar.id, eventToRemove.uid);
+    }
 
     List<CustomCourse> newEvents = customEvents;
     newEvents.removeWhere((event) => (event.uid == eventToRemove.uid));
@@ -392,7 +414,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void editCustomEvent(CustomCourse eventEdited, [state = false]) {
     if (eventEdited == null) return;
 
-    removeCustomEvent(eventEdited, false);
+    removeCustomEvent(eventEdited, state, false);
     addCustomEvent(eventEdited, state);
   }
 
