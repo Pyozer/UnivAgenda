@@ -11,13 +11,19 @@ class SimpleAlertDialog extends StatelessWidget {
   final String btnNegative;
   final EdgeInsets contentPadding;
 
-  const SimpleAlertDialog(
-      {Key key, this.title, this.content, this.btnPositive, this.btnNegative, this.contentPadding})
-      : super(key: key);
+  const SimpleAlertDialog({
+    Key key,
+    @required this.title,
+    @required this.content,
+    @required this.btnPositive,
+    this.btnNegative,
+    this.contentPadding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       titlePadding: const EdgeInsets.all(20.0),
       contentPadding: contentPadding ?? kContentPadding,
       title: Text(title, style: boldText),
