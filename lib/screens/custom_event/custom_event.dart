@@ -6,6 +6,7 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
 import 'package:myagenda/widgets/ui/circle_text.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -32,9 +33,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   bool _isRecurrent = false;
   bool _isColor = false;
   CustomCourse _customCourse;
-  bool _syncCalendar = false;
+
   List<Calendar.Calendar> _deviceCalendars = [];
-  Calendar.Calendar _selectedCalendar;
 
   CustomCourse _baseCourse;
 
@@ -51,6 +51,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _customCourse = CustomCourse.copy(widget.course);
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isColor = _customCourse.hasColor();
+      if (_customCourse.syncCalendar != null) _getCalendars();
     } else
       _customCourse =
           CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
@@ -63,13 +64,19 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       if (permissionsGranted.isSuccess && !permissionsGranted.data) {
         permissionsGranted = await calendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          // TODO: Display error message
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(translations.text(StrKey.GET_CALENDARS_FAILED)),
+          ));
           return;
         }
       }
 
       final calendarsResult = await calendarPlugin.retrieveCalendars();
-      setState(() => _deviceCalendars = calendarsResult.data ?? []);
+      setState(() {
+        _deviceCalendars = calendarsResult.data ?? [];
+        if (_customCourse.syncCalendar == null)
+          _customCourse.syncCalendar = _deviceCalendars.first ?? null;
+      });
     } catch (e) {
       print(e.toString());
     }
@@ -91,8 +98,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onSyncCalendar(bool value) {
-    setState(() => _syncCalendar = value);
-    if (value) _getCalendars();
+    if (value)
+      _getCalendars();
+    else
+      setState(() => _customCourse.syncCalendar = null);
   }
 
   void _onDateTap() async {
@@ -170,7 +179,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       DialogPredefined.showEndTimeError(context);
       return;
     }
-    if (_customCourse.dateStart.isBefore(DateTime.now())) {
+    if (_customCourse.dateEnd.isBefore(DateTime.now())) {
       DialogPredefined.showEndTimeError(context);
       return;
     }
@@ -178,14 +187,13 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _showError(translations.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
-
     _customCourse.uid ??= Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
 
-    if (_syncCalendar && _selectedCalendar != null) {
-      final eventToCreate = new Calendar.Event(
-        _selectedCalendar.id,
+    if (_customCourse.syncCalendar != null) {
+      final eventToCreate = Calendar.Event(
+        _customCourse.syncCalendar.id,
         eventId: _customCourse.uid,
         title: _customCourse.title,
         description: _customCourse.description,
@@ -196,7 +204,9 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       final createEventResult = await Calendar.DeviceCalendarPlugin()
           .createOrUpdateEvent(eventToCreate);
       if (!createEventResult.isSuccess) {
-        // Event add failed added
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(translations.text(StrKey.ADD_TO_CALENDAR_FAILED)),
+        ));
       }
     }
 
@@ -396,24 +406,30 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   : const SizedBox.shrink(),
               const Divider(height: 0.0),
               ListTile(
-                onTap: () => _onSyncCalendar(!_syncCalendar),
-                leading: const Icon(OMIcons.colorLens), //TODO: Change icon
+                onTap: () =>
+                    _onSyncCalendar(!(_customCourse.syncCalendar != null)),
+                leading: const Icon(OMIcons.calendarToday),
                 title: Text(translations.text(StrKey.SYNC_CALENDAR)),
                 trailing: Switch(
-                  value: _syncCalendar,
+                  value: _customCourse.syncCalendar != null,
                   activeColor: theme.accentColor,
                   onChanged: _onSyncCalendar,
                 ),
               ),
-              _syncCalendar
-                  // TODO: Create ListTile with choices
-                  ? ListTileColor(
-                      title: translations.text(StrKey.EVENT_COLOR),
-                      description: translations.text(StrKey.EVENT_COLOR_DESC),
-                      selectedColor: _customCourse.color,
-                      onColorChange: (color) {
-                        setState(() => _customCourse.color = color);
+              _customCourse.syncCalendar != null
+                  ? ListTileChoices(
+                      title: translations.text(StrKey.CHOOSE_CALENDAR),
+                      values: _deviceCalendars.map((c) => c.name).toList(),
+                      onChange: (calendar) {
+                        setState(() {
+                          _customCourse.syncCalendar =
+                              _deviceCalendars.firstWhere(
+                            (c) => c.name == calendar,
+                            orElse: () => null,
+                          );
+                        });
                       },
+                      selectedValue: _customCourse.syncCalendar?.name,
                     )
                   : const SizedBox.shrink()
             ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:device_calendar/device_calendar.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/models/note.dart';
@@ -8,6 +9,7 @@ import 'package:myagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   List<WeekDay> weekdaysRepeat;
+  Calendar syncCalendar;
 
   CustomCourse(
     String uid,
@@ -19,6 +21,7 @@ class CustomCourse extends Course {
     List<Note> notes,
     Color color,
     this.weekdaysRepeat,
+    this.syncCalendar,
   }) : super(uid, title, description, location, dateStart, dateEnd,
             notes: notes, color: color) {
     this.weekdaysRepeat ??= [];
@@ -55,6 +58,9 @@ class CustomCourse extends Course {
       course.dateEnd,
       color: course.color,
       weekdaysRepeat: listWeekDays,
+      syncCalendar: json['sync_calendar'] != null
+          ? Calendar.fromJson(json['sync_calendar'])
+          : null,
     );
   }
 
@@ -72,11 +78,12 @@ class CustomCourse extends Course {
     weekdaysRepeat.forEach((weekDay) {
       weekDaysIndex.add(weekDay.value);
     });
-
     if (weekDaysIndex.length > 0)
       jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
     else
       jsonMap['weekdays_repeat'] = "";
+
+    jsonMap['sync_calendar'] = syncCalendar?.toJson() ?? null;
 
     return jsonMap;
   }

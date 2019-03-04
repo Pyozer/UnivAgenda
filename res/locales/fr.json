@@ -222,5 +222,7 @@
   "rename_event": "Renommer l'événement",
 
   "sync_calendar": "Synchroniser avec le calendrier",
-  "choose_calendar": "Quel calendrier ?"
+  "choose_calendar": "Quel calendrier ?",
+  "get_calendars_failed": "Impossible de récupérer la liste de vos calendriers !",
+  "add_to_calendar_failed": "Erreur lors de l'ajout de l'événement à votre agenda {agenda}."
 }

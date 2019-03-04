@@ -228,4 +228,6 @@ class StrKey {
 
   static const SYNC_CALENDAR = "sync_calendar";
   static const CHOOSE_CALENDAR = "choose_calendar";
+  static const GET_CALENDARS_FAILED = "get_calendars_failed";
+  static const ADD_TO_CALENDAR_FAILED = "add_to_calendar_failed";
 }
