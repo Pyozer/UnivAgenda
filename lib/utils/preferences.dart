@@ -7,7 +7,7 @@ import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
-import 'package:myagenda/models/note.dart';
+import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -31,8 +31,10 @@ class _MyInheritedPreferences extends InheritedWidget {
 
 class PreferencesProvider extends StatefulWidget {
   final Widget child;
+  final SharedPreferences prefs;
 
-  const PreferencesProvider({Key key, this.child}) : super(key: key);
+  const PreferencesProvider({Key key, this.child, @required this.prefs})
+      : super(key: key);
 
   @override
   PreferencesProviderState createState() => PreferencesProviderState();
@@ -141,9 +143,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _prefsGroupKeys = checkedGroupKeys, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setStringList(PrefKey.groupKeys, checkedGroupKeys);
-    });
+    widget.prefs.setStringList(PrefKey.groupKeys, checkedGroupKeys);
   }
 
   List<List<String>> getAllGroupKeys(List<String> groupKeys) {
@@ -197,8 +197,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _urlIcs = newUrlIcs, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setString(PrefKey.urlIcs, _urlIcs));
+    widget.prefs.setString(PrefKey.urlIcs, _urlIcs);
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
@@ -213,8 +212,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _numberWeeks = intValue, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setInt(PrefKey.numberWeeks, _numberWeeks));
+    widget.prefs.setInt(PrefKey.numberWeeks, _numberWeeks);
   }
 
   PrefsTheme get theme => _prefsTheme;
@@ -222,12 +220,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setDarkTheme(bool darkTheme, [state = false]) {
     if (theme.darkTheme == darkTheme) return;
 
-    _updatePref(
-        () => _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme,
-        state);
+    _updatePref(() {
+      _prefsTheme.darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
+    }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme));
+    widget.prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme);
   }
 
   setPrimaryColor(int newPrimaryColor, [state = false]) {
@@ -237,8 +234,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) =>
-        prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor));
+    widget.prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor);
   }
 
   setAccentColor(int newAccentColor, [state = false]) {
@@ -248,8 +244,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
     }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor));
+    widget.prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor);
   }
 
   setNoteColor(int newNoteColor, [state = false]) {
@@ -259,16 +254,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
     }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor));
+    widget.prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor);
   }
 
   String get installUID {
     if (_installUID == null) {
       _installUID = Uuid().v1();
 
-      SharedPreferences.getInstance()
-          .then((prefs) => prefs.setString(PrefKey.installUID, _installUID));
+      widget.prefs.setString(PrefKey.installUID, _installUID);
     }
     return _installUID;
   }
@@ -281,8 +274,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _appLaunchCounter = newAppLaunchCounter, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setInt(PrefKey.appLaunchCounter, _appLaunchCounter));
+    widget.prefs.setInt(PrefKey.appLaunchCounter, _appLaunchCounter);
   }
 
   bool get isIntroDone => _isIntroDone ?? PrefKey.defaultIntroDone;
@@ -292,8 +284,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _isIntroDone = newIntroDone, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isIntroDone, _isIntroDone));
+    widget.prefs.setBool(PrefKey.isIntroDone, _isIntroDone);
   }
 
   String get cachedIcal => _cachedIcal ?? null;
@@ -322,13 +313,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _notes = newNotes ?? PrefKey.defaultNotes, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      List<String> notesJSON = [];
-      _notes.forEach((note) {
-        notesJSON.add(json.encode(note.toJson()));
-      });
-      prefs.setStringList(PrefKey.notes, notesJSON);
+    List<String> notesJSON = [];
+    _notes.forEach((note) {
+      notesJSON.add(json.encode(note.toJson()));
     });
+    widget.prefs.setStringList(PrefKey.notes, notesJSON);
   }
 
   void addNote(Note noteToAdd, [state = false]) {
@@ -357,19 +346,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (customEvents == newCustomEvents) return;
 
     newCustomEvents ??= PrefKey.defaultCustomEvents;
-    newCustomEvents
-        .removeWhere((event) => event.isFinish() && !event.isRecurrentEvent());
+    newCustomEvents.removeWhere((e) => e.isFinish() && !e.isRecurrentEvent());
 
     _updatePref(() => _customEvents = newCustomEvents, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      List<String> eventsJSON = [];
-      _customEvents.forEach((event) {
-        if (event != null) eventsJSON.add(json.encode(event.toJson()));
-      });
-
-      prefs.setStringList(PrefKey.customEvent, eventsJSON);
+    List<String> eventsJSON = [];
+    _customEvents.forEach((event) {
+      if (event != null) eventsJSON.add(json.encode(event.toJson()));
     });
+    widget.prefs.setStringList(PrefKey.customEvent, eventsJSON);
   }
 
   void addCustomEvent(CustomCourse eventToAdd, [state = false]) {
@@ -397,7 +382,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCustomEvents(newEvents, state);
   }
 
-  void removeCustomEvent(CustomCourse eventToRemove, [state = false, syncCalendar = true]) {
+  void removeCustomEvent(CustomCourse eventToRemove,
+      [state = false, syncCalendar = true]) {
     if (eventToRemove == null) return;
 
     if (syncCalendar && eventToRemove.syncCalendar != null) {
@@ -423,11 +409,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setUserLogged(bool userLogged, [state = false]) {
     if (isUserLogged == userLogged) return;
 
-    _updatePref(
-        () => _userLogged = userLogged ?? PrefKey.defaultUserLogged, state);
+    _updatePref(() {
+      _userLogged = userLogged ?? PrefKey.defaultUserLogged;
+    }, state);
 
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.setBool(PrefKey.isUserLogged, _userLogged));
+    widget.prefs.setBool(PrefKey.isUserLogged, _userLogged);
   }
 
   CalendarType get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
@@ -439,8 +425,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _calendarType = newCalendarType ?? PrefKey.defaultCalendarType;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) =>
-        prefs.setString(PrefKey.calendarType, _calendarType.toString()));
+    widget.prefs.setString(PrefKey.calendarType, _calendarType.toString());
   }
 
   bool get isDisplayAllDays =>
@@ -453,8 +438,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _isDisplayAllDays = displayAllDays ?? PrefKey.defaultDisplayAllDays;
     }, state);
 
-    SharedPreferences.getInstance().then(
-        (prefs) => prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays));
+    widget.prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays);
   }
 
   List<University> get listUniversity =>
@@ -482,9 +466,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       final univ = findUniversity(newUniversity);
       _updatePref(() => _university = univ ?? _listUniversity[0], state);
 
-      SharedPreferences.getInstance().then((prefs) {
-        prefs.setString(PrefKey.university, _university.university);
-      });
+      widget.prefs.setString(PrefKey.university, _university.university);
     }
   }
 
@@ -513,12 +495,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _resourcesDate = newResDate, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt(
-        PrefKey.resourcesDate,
-        _resourcesDate.millisecondsSinceEpoch,
-      );
-    });
+    widget.prefs.setInt(
+      PrefKey.resourcesDate,
+      _resourcesDate.millisecondsSinceEpoch,
+    );
   }
 
   DateTime get cachedIcalDate =>
@@ -530,12 +510,10 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     _updatePref(() => _cachedIcalDate = newCachedIcalDate, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setInt(
-        PrefKey.cachedIcalDate,
-        _cachedIcalDate.millisecondsSinceEpoch,
-      );
-    });
+    widget.prefs.setInt(
+      PrefKey.cachedIcalDate,
+      _cachedIcalDate.millisecondsSinceEpoch,
+    );
   }
 
   List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
@@ -546,9 +524,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
           newHiddenEvents?.toSet()?.toList() ?? PrefKey.defaultHiddenEvents;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setStringList(PrefKey.hiddenEvent, _hiddenEvents);
-    });
+    widget.prefs.setStringList(PrefKey.hiddenEvent, _hiddenEvents);
   }
 
   void addHiddenEvent(String title, [bool state = false]) {
@@ -569,9 +545,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _renamedEvents = newRenamedEvents ?? PrefKey.defaultRenamedEvent;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(PrefKey.renamedEvent, json.encode(_renamedEvents));
-    });
+    widget.prefs.setString(PrefKey.renamedEvent, json.encode(_renamedEvents));
   }
 
   void addRenamedEvent(String eventTitle, String newTitle,
@@ -598,8 +572,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _isFullHiddenEvent = fullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
     }, state);
 
-    SharedPreferences.getInstance().then((prefs) =>
-        prefs.setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent));
+    widget.prefs.setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent);
   }
 
   disconnectUser([state = false]) {
@@ -620,65 +593,62 @@ class PreferencesProviderState extends State<PreferencesProvider> {
           generateEventColor ?? PrefKey.defaultGenerateEventColor;
     }, state);
 
-    SharedPreferences.getInstance().then(
-      (prefs) =>
-          prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor),
-    );
+    widget.prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
   Future<Null> initFromDisk([state = false]) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     await initResAndGroup();
 
-    final int resourcesDate =
-        prefs.getInt(PrefKey.resourcesDate) ?? PrefKey.defaultResourcesDate;
+    final int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
+        PrefKey.defaultResourcesDate;
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
 
-    final int cachedIcalDate =
-        prefs.getInt(PrefKey.cachedIcalDate) ?? PrefKey.defaultCachedIcalDate;
+    final int cachedIcalDate = widget.prefs.getInt(PrefKey.cachedIcalDate) ??
+        PrefKey.defaultCachedIcalDate;
     setCachedIcalDate(DateTime.fromMillisecondsSinceEpoch(cachedIcalDate));
 
     // Init number of weeks to display
-    setNumberWeeks(prefs.getInt(PrefKey.numberWeeks));
+    setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
 
     // Init theme preferences
-    setCalendarType(calendarTypeFromStr(prefs.getString(PrefKey.calendarType)));
-    setDarkTheme(prefs.getBool(PrefKey.isDarkTheme));
-    setPrimaryColor(prefs.getInt(PrefKey.primaryColor));
-    setAccentColor(prefs.getInt(PrefKey.accentColor));
-    setNoteColor(prefs.getInt(PrefKey.noteColor));
+    setCalendarType(
+        calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)));
+    setDarkTheme(widget.prefs.getBool(PrefKey.isDarkTheme));
+    setPrimaryColor(widget.prefs.getInt(PrefKey.primaryColor));
+    setAccentColor(widget.prefs.getInt(PrefKey.accentColor));
+    setNoteColor(widget.prefs.getInt(PrefKey.noteColor));
 
     // Init other prefs
     setCachedIcal(
         await readFile(PrefKey.cachedIcalFile, PrefKey.defaultCachedIcal));
-    setUserLogged(prefs.getBool(PrefKey.isUserLogged));
-    _installUID = prefs.getString(PrefKey.installUID);
-    setAppLaunchCounter(prefs.getInt(PrefKey.appLaunchCounter));
-    setIntroDone(prefs.getBool(PrefKey.isIntroDone));
-    setDisplayAllDays(prefs.getBool(PrefKey.isDisplayAllDays));
-    setGenerateEventColor(prefs.getBool(PrefKey.isGenerateEventColor));
-    setFullHiddenEvent(prefs.getBool(PrefKey.isFullHiddenEvents));
+    setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
+    _installUID = widget.prefs.getString(PrefKey.installUID);
+    setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
+    setIntroDone(widget.prefs.getBool(PrefKey.isIntroDone));
+    setDisplayAllDays(widget.prefs.getBool(PrefKey.isDisplayAllDays));
+    setGenerateEventColor(widget.prefs.getBool(PrefKey.isGenerateEventColor));
+    setFullHiddenEvent(widget.prefs.getBool(PrefKey.isFullHiddenEvents));
 
     // Init saved notes
     List<Note> actualNotes = [];
-    List<String> notesStr = prefs.getStringList(PrefKey.notes) ?? [];
+    List<String> notesStr = widget.prefs.getStringList(PrefKey.notes) ?? [];
     notesStr.forEach((noteJsonStr) {
       actualNotes.add(Note.fromJsonStr(noteJsonStr));
     });
     setNotes(actualNotes);
 
     // Init hidden courses
-    List<String> hiddenEvents = prefs.getStringList(PrefKey.hiddenEvent) ?? [];
+    List<String> hiddenEvents =
+        widget.prefs.getStringList(PrefKey.hiddenEvent) ?? [];
     setHiddenEvents(hiddenEvents);
     // Renamed events
     Map<String, dynamic> renamedEvents =
-        json.decode(prefs.getString(PrefKey.renamedEvent) ?? "{}");
+        json.decode(widget.prefs.getString(PrefKey.renamedEvent) ?? "{}");
     setRenamedEvents(renamedEvents.cast<String, String>());
 
     List<CustomCourse> actualEvents = [];
     List<String> customEventsStr =
-        prefs.getStringList(PrefKey.customEvent) ?? [];
+        widget.prefs.getStringList(PrefKey.customEvent) ?? [];
     customEventsStr.forEach((eventJsonStr) {
       actualEvents.add(CustomCourse.fromJsonStr(eventJsonStr));
     });
@@ -688,8 +658,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   Future<Null> initResAndGroup() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     // Init list university stored values
     String listUnivStored = await readFile(
       PrefKey.listUniversityFile,
@@ -698,7 +666,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setListUniversityFromJSONString(listUnivStored);
 
     // If user choose custom url ics, not init other group prefs
-    String urlIcs = prefs.getString(PrefKey.urlIcs);
+    String urlIcs = widget.prefs.getString(PrefKey.urlIcs);
     if (urlIcs != null) {
       setUrlIcs(urlIcs);
       return null;
@@ -706,7 +674,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // If list of university is not empty
     if (listUniversity.length > 0) {
-      String storedUniversityName = prefs.getString(PrefKey.university);
+      String storedUniversityName = widget.prefs.getString(PrefKey.university);
 
       // If no university store
       if (storedUniversityName == null || storedUniversityName.length == 0) {
@@ -724,7 +692,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       if (storedResourcesStr.length > 0 &&
           storedResourcesStr != PrefKey.defaultResourcesJson) {
         // Init group preferences
-        final List<String> groupKeys = prefs.getStringList(PrefKey.groupKeys);
+        final List<String> groupKeys =
+            widget.prefs.getStringList(PrefKey.groupKeys);
         // Update
         setResources(storedResourcesStr);
         // Check values and resave group prefs (useful if issue)

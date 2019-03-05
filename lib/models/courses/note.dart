@@ -35,12 +35,7 @@ class Note {
       };
 
   @override
-  String toString() => {
-        'courseUid': courseUid,
-        'text': text,
-        'date_creation': dateCreation.toIso8601String(),
-        'date_end': dateEnd?.toIso8601String() ?? "null",
-      }.toString();
+  String toString() => toJson().toString();
 
   bool isNoteExpired() {
     if (dateEnd == null) return false;

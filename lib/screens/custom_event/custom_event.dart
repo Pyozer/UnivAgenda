@@ -44,7 +44,9 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     _initFirstDate = DateTime.now().add(Duration(minutes: 30));
     _initEndDate = _initFirstDate.add(Duration(hours: 1));
 
-    _baseCourse = CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
+    _baseCourse = CustomCourse.empty();
+    _baseCourse.dateStart = _initFirstDate;
+    _baseCourse.dateEnd = _initEndDate;
 
     // Init view
     if (widget.course != null) {
@@ -52,9 +54,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isColor = _customCourse.hasColor();
       if (_customCourse.syncCalendar != null) _getCalendars();
-    } else
-      _customCourse =
-          CustomCourse(null, "", "", "", _initFirstDate, _initEndDate);
+    } else {
+      _customCourse = CustomCourse.empty();
+      _customCourse.dateStart = _initFirstDate;
+      _customCourse.dateEnd = _initEndDate;
+    }
   }
 
   void _getCalendars() async {

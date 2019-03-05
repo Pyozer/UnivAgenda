@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/note.dart';
+import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 

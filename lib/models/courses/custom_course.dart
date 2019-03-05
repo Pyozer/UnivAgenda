@@ -4,26 +4,34 @@ import 'dart:ui';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
-import 'package:myagenda/models/note.dart';
+import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   List<WeekDay> weekdaysRepeat;
   Calendar syncCalendar;
 
-  CustomCourse(
+  CustomCourse({
     String uid,
     String title,
     String description,
     String location,
     DateTime dateStart,
-    DateTime dateEnd, {
+    DateTime dateEnd,
     List<Note> notes,
     Color color,
     this.weekdaysRepeat,
     this.syncCalendar,
-  }) : super(uid, title, description, location, dateStart, dateEnd,
-            notes: notes, color: color) {
+  }) : super(
+          uid: uid,
+          title: title,
+          description: description,
+          location: location,
+          dateStart: dateStart,
+          dateEnd: dateEnd,
+          notes: notes,
+          color: color,
+        ) {
     this.weekdaysRepeat ??= [];
   }
 
@@ -48,19 +56,20 @@ class CustomCourse extends Course {
         listWeekDays.add(WeekDay.fromValue(weekDay));
       });
     }
+    Calendar calendar = json['sync_calendar'] != null
+        ? Calendar.fromJson(json['sync_calendar'])
+        : null;
 
     return CustomCourse(
-      course.uid,
-      course.title,
-      course.description,
-      course.location,
-      course.dateStart,
-      course.dateEnd,
+      uid: course.uid,
+      title: course.title,
+      description: course.description,
+      location: course.location,
+      dateStart: course.dateStart,
+      dateEnd: course.dateEnd,
       color: course.color,
       weekdaysRepeat: listWeekDays,
-      syncCalendar: json['sync_calendar'] != null
-          ? Calendar.fromJson(json['sync_calendar'])
-          : null,
+      syncCalendar: calendar,
     );
   }
 
@@ -70,6 +79,8 @@ class CustomCourse extends Course {
     copied.notes = notesCopied.map((e) => Note.fromJson(e)).toList();
     return copied;
   }
+
+  factory CustomCourse.empty() => Course.empty();
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
@@ -91,9 +102,7 @@ class CustomCourse extends Course {
   bool isRecurrentEvent() => (weekdaysRepeat?.length ?? 0) > 0;
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
+  String toString() => toJson().toString();
 
   @override
   bool operator ==(Object other) =>
@@ -101,8 +110,10 @@ class CustomCourse extends Course {
       other is CustomCourse &&
           super == (other) &&
           runtimeType == other.runtimeType &&
-          listEqualsNotOrdered(weekdaysRepeat, other.weekdaysRepeat);
+          listEqualsNotOrdered(weekdaysRepeat, other.weekdaysRepeat) &&
+          syncCalendar?.id == other.syncCalendar?.id;
 
   @override
-  int get hashCode => super.hashCode ^ weekdaysRepeat.hashCode;
+  int get hashCode =>
+      super.hashCode ^ weekdaysRepeat.hashCode ^ syncCalendar.hashCode;
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myagenda/app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:myagenda/utils/translations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 
 Future<List<int>> loadDefaultData() async {
@@ -18,5 +19,7 @@ void main() async {
 
   await i18n.init();
 
-  runApp(App());
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(App(prefs: prefs));
 }

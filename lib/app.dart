@@ -19,6 +19,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
@@ -36,6 +37,10 @@ final routes = {
 class App extends StatelessWidget {
   static var analytics = FirebaseAnalytics();
   static var observer = FirebaseAnalyticsObserver(analytics: analytics);
+
+  final SharedPreferences prefs;
+
+  const App({Key key, @required this.prefs}) : super(key: key);
 
   Widget _buildMaterialApp(ThemeData theme) {
     return MaterialApp(
@@ -66,6 +71,7 @@ class App extends StatelessWidget {
       analytics,
       observer,
       child: PreferencesProvider(
+        prefs: prefs,
         child: Builder(
           builder: (context) {
             final themePrefs = PreferencesProvider.of(context).theme;

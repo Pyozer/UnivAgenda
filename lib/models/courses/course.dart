@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:myagenda/models/courses/base_course.dart';
-import 'package:myagenda/models/note.dart';
+import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
 
@@ -18,13 +18,13 @@ class Course extends BaseCourse {
   Color color;
   bool isHidden;
 
-  Course(
+  Course({
     this.uid,
     this.title,
     this.description,
     this.location,
     this.dateStart,
-    this.dateEnd, {
+    this.dateEnd,
     this.notes,
     this.color,
     this.isHidden = false,
@@ -33,17 +33,14 @@ class Course extends BaseCourse {
     this.notes ??= [];
   }
 
-  factory Course.empty() => Course("", "", "", "", null, null);
+  factory Course.empty() =>
+      Course(uid: "", title: "", description: "", location: "");
 
   bool hasNote() => (notes?.length ?? 0) > 0;
 
-  bool isFinish() {
-    return dateEnd.isBefore(DateTime.now());
-  }
+  bool isFinish() => dateEnd.isBefore(DateTime.now());
 
-  bool isStarted() {
-    return dateStart.isBefore(DateTime.now()) && !isFinish();
-  }
+  bool isStarted() => dateStart.isBefore(DateTime.now()) && !isFinish();
 
   int getMinutesBeforeStart() {
     int minutes = dateStart.difference(dateEnd).inMinutes;
@@ -57,13 +54,10 @@ class Course extends BaseCourse {
   bool hasColor() => color != null;
 
   Color getColor(bool isGenerateEventColor) {
-    Color bgColorRow;
-    if (color != null)
-      bgColorRow = color;
-    else if (isExam())
-      bgColorRow = Colors.red[600];
-    else if (isGenerateEventColor) bgColorRow = getColorFromString(getTitle());
-    return bgColorRow;
+    if (color != null) return color;
+    if (isExam()) return Colors.red[600];
+    if (isGenerateEventColor) return getColorFromString(getTitle());
+    return null;
   }
 
   @override
@@ -90,24 +84,24 @@ class Course extends BaseCourse {
     if (json['color'] != null) courseColor = Color(json['color']);
 
     return Course(
-      json['uid'],
-      json['title'],
-      json['description'],
-      json['location'],
-      DateTime.fromMillisecondsSinceEpoch(json['date_start']),
-      DateTime.fromMillisecondsSinceEpoch(json['date_end']),
+      uid: json["uid"],
+      title: json["title"],
+      description: json["description"],
+      location: json["location"],
+      dateStart: DateTime.fromMillisecondsSinceEpoch(json["date_start"]),
+      dateEnd: DateTime.fromMillisecondsSinceEpoch(json["date_end"]),
       color: courseColor,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'title': title,
-        'description': description,
-        'location': location,
-        'date_start': dateStart.millisecondsSinceEpoch,
-        'date_end': dateEnd.millisecondsSinceEpoch,
-        'color': color?.value
+        "uid": uid,
+        "title": title,
+        "description": description,
+        "location": location,
+        "date_start": dateStart.millisecondsSinceEpoch,
+        "date_end": dateEnd.millisecondsSinceEpoch,
+        "color": color?.value,
       };
 
   @override
