@@ -80,7 +80,8 @@ class CustomCourse extends Course {
     return copied;
   }
 
-  factory CustomCourse.empty() => Course.empty();
+  factory CustomCourse.empty() =>
+      CustomCourse(uid: "", title: "", description: "", location: "");
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
