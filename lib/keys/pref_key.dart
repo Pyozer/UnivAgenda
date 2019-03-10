@@ -9,6 +9,7 @@ class PrefKey {
   static const urlIcs = "url_ics";
 
   static const numberWeeks = 'number_weeks';
+  static const numberDaysBefore = 'number_days_before';
 
   static const primaryColor = 'primary_color';
   static const accentColor = 'accent_color';
@@ -33,6 +34,7 @@ class PrefKey {
   static const renamedEvent = 'renamed_events';
 
   static const defaultNumberWeeks = 4;
+  static const defaultNumberDaysBefore = 0;
   static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
   static const defaultAccentColor = 0xFFFF5252;
   static const defaultNoteColor = 0xFFFF5252;

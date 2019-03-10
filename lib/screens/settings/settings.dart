@@ -134,6 +134,19 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         maxValue: 16,
         onChange: (value) => prefs.setNumberWeeks(value, true),
       ),
+      ListTileNumber(
+        title: i18n.text(StrKey.DAYS_BEFORE),
+        subtitle: i18n.text(
+          prefs.numberWeeks > 1
+              ? StrKey.DAYS_BEFORE_DESC_PLURAL
+              : StrKey.DAYS_BEFORE_DESC_ONE,
+          {'nbDays': prefs.numberDaysBefore},
+        ),
+        defaultValue: prefs.numberDaysBefore,
+        minValue: 0,
+        maxValue: 20,
+        onChange: (value) => prefs.setNumberDaysBefore(value, true),
+      ),
       SwitchListTile(
         title: ListTileTitle(i18n.text(StrKey.DISPLAY_ALL_DAYS)),
         subtitle: Text(i18n.text(StrKey.DISPLAY_ALL_DAYS_DESC)),

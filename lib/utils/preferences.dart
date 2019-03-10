@@ -74,6 +74,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Number of weeks to display
   int _numberWeeks;
 
+  /// Number of day to show before current event
+  int _numberDaysBefore;
+
   /// Installation UID
   String _installUID;
 
@@ -121,6 +124,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   /// Generate or not a event color
   bool _isGenerateEventColor;
+
 
   List<String> getAllUniversity() {
     return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
@@ -213,6 +217,21 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     _updatePref(() => _numberWeeks = intValue, state);
 
     widget.prefs.setInt(PrefKey.numberWeeks, _numberWeeks);
+  }
+
+  int get numberDaysBefore => _numberDaysBefore ?? PrefKey.defaultNumberDaysBefore;
+
+  setNumberDaysBefore(int newNumberDaysBefore, [state = false]) {
+    if (numberDaysBefore == newNumberDaysBefore) return;
+
+    int intValue =
+        (newNumberDaysBefore == null || newNumberDaysBefore < 0 || newNumberDaysBefore > 20)
+            ? PrefKey.defaultNumberDaysBefore
+            :  newNumberDaysBefore;
+
+    _updatePref(() => _numberDaysBefore = intValue, state);
+
+    widget.prefs.setInt(PrefKey.numberDaysBefore, _numberDaysBefore);
   }
 
   PrefsTheme get theme => _prefsTheme;
@@ -609,6 +628,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init number of weeks to display
     setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
+    
+    // Init number of days before current date to display
+    setNumberDaysBefore(widget.prefs.getInt(PrefKey.numberDaysBefore));
 
     // Init theme preferences
     setCalendarType(

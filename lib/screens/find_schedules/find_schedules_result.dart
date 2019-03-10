@@ -57,13 +57,12 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       return;
     }
 
-    if (mounted)
-      setState(() => _isLoading = true);
+    if (mounted) setState(() => _isLoading = true);
 
     // Check for every rooms if available
     for (final room in widget.searchResources) {
       String url =
-          IcalAPI.prepareURL(prefs.university.agendaUrl, room.resourceId, 0);
+          IcalAPI.prepareURL(prefs.university.agendaUrl, room.resourceId, 0, 0);
 
       // Get data
       final response = await HttpRequest.get(url);

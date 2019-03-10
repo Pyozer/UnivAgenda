@@ -44,6 +44,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   List<String> _lastGroupKeys;
   String _lastUrlIcs;
   int _lastNumberWeeks = 0;
+  int _lastDaysBefore = 0;
 
   @override
   void initState() {
@@ -61,11 +62,13 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     bool isPrefsDifferents = false;
     if (prefs.urlIcs != _lastUrlIcs ||
         prefs.groupKeys != _lastGroupKeys ||
-        prefs.numberWeeks > _lastNumberWeeks) {
+        prefs.numberWeeks != _lastNumberWeeks ||
+        prefs.numberDaysBefore != _lastDaysBefore) {
       // Update local values
       _lastUrlIcs = prefs.urlIcs;
       _lastGroupKeys = prefs.groupKeys;
       _lastNumberWeeks = prefs.numberWeeks;
+      _lastDaysBefore = prefs.numberDaysBefore;
       isPrefsDifferents = true;
     }
 
@@ -113,6 +116,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           prefs.university.agendaUrl,
           resID,
           prefs.numberWeeks,
+          prefs.numberDaysBefore,
         );
       } else {
         url = prefs.urlIcs;
@@ -213,7 +217,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
 
       if (!course.isHidden || course.isHidden && !isFullHidden) {
         // Check if course is not finish
-        if (!course.isFinish() && course.dateStart.isBefore(maxDate)) {
+        if (course.dateStart.isBefore(maxDate)) {
           // Get all notes of the course
           course = _addNotesToCourse(allNotes, course);
           // Add course to list

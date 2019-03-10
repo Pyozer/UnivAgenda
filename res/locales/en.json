@@ -11,9 +11,12 @@
   "settings_colors": "Colors",
 
   "element": "Element {number}",
-  "number_week": "Number of week",
+  "number_week": "Weeks to display",
   "number_week_desc_one": "{nbWeeks} week",
   "number_week_desc_plural": "{nbWeeks} weeks",
+  "days_before": "Days to display before current date",
+  "days_before_desc_one": "{nbDays} day",
+  "days_before_desc_plural": "{nbDays} days",
   "display_all_days": "Display all days",
   "display_all_days_desc": "Show every day of the week",
   "hidden_event": "Hidden events",
