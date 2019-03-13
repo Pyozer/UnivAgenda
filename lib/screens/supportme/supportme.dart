@@ -52,38 +52,20 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               i18n.text(StrKey.SUPPORTME_TEXT),
-              style: theme.textTheme.subhead,
+              style: theme.textTheme.subhead.copyWith(fontSize: 18.0),
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 24.0),
-            Wrap(
-              alignment: WrapAlignment.spaceEvenly,
-              spacing: 8.0,
-              runSpacing: 8.0,
-              children: [
-                RaisedButtonColored(
-                  text: i18n.text(StrKey.SUPPORTME_PAYPAL),
-                  onPressed: _openPayPal,
-                ),
-                RaisedButtonColored(
-                  text: i18n.text(StrKey.SUPPORTME_UNIDAYS),
-                  onPressed: _openUnidays,
-                ),
-              ],
+            Center(
+              child: RaisedButtonColored(
+                text: i18n.text(StrKey.SUPPORTME_PAYPAL),
+                onPressed: _openPayPal,
+              ),
             ),
-            const SizedBox(height: 32.0),
-            Text(i18n.text(StrKey.SUPPORTME_UNIDAYS_LINK)),
-            TextField(
-              controller: _unidayTextController,
-              maxLines: null,
-              onChanged: (_) {
-                // Force input to have always same value
-                _unidayTextController.text = Url.unidays;
-              },
-            )
           ],
         ),
       ),

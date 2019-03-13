@@ -173,9 +173,7 @@
   "loading_resources": "Calendar resources are loading...",
 
   "supportme_header": "Donation",
-  "supportme_text": "Do you want to reward all the work done to achieve and maintain MyAgenda?\n\nYou can give me a PayPal donation or without paying any pennies, register on Unidays with my referral link.\n\nInfo: Unidays allows unlimited discounts on many sites (Apple, Cdiscount, Fnac, Darty, ASSOS, etc. ..).\n\nThank you.",
-  "supportme_unidays_link": "Unidays link :",
-  "supportme_unidays": "Unidays",
+  "supportme_text": "You love MyAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with PayPal, the amount of your choice.\n\nThank you so much !",
   "supportme_paypal": "Paypal donation",
   "supportme_link_error": "Can not open the {site} website...\nLink: ",
 
