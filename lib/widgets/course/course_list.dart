@@ -164,14 +164,13 @@ class _CourseListState extends State<CourseList> {
     );
 
     final isGenColor = PreferencesProvider.of(context).isGenerateEventColor;
-    final today = DateTime.now();
 
     // Build calendar view
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Calendar(
         monthView: widget.calType == CalendarType.MONTH_VIEW,
-        firstDate: DateTime(today.year, today.month, today.day),
+        firstDate: _lastDatePos.subtract(Duration(days: 365)),
         initialSelectedDate: _lastDatePos,
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
               return Event(
@@ -185,6 +184,9 @@ class _CourseListState extends State<CourseList> {
             builder: (dCtx) => buildDialog(dCtx, date, events),
           );
           setState(() => _lastDatePos = date);
+        },
+        onSelectedRangeChange: (dateA, dateB) {
+          setState(() => _lastDatePos = dateA);
         },
       ),
     );
