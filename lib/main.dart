@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/app.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
@@ -12,13 +12,11 @@ Future<List<int>> loadDefaultData() async {
 }
 
 void main() async {
-  debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-
   initializeDatabase(await loadDefaultData());
-  setLocalLocation(getLocation('Europe/Paris'));
+  String localTimezone = await FlutterNativeTimezone.getLocalTimezone();
+  setLocalLocation(getLocation(localTimezone));
 
   await i18n.init();
-
   final prefs = await SharedPreferences.getInstance();
 
   runApp(App(prefs: prefs));
