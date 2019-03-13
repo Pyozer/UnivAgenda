@@ -125,7 +125,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Generate or not a event color
   bool _isGenerateEventColor;
 
-
   List<String> getAllUniversity() {
     return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
   }
@@ -219,15 +218,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setInt(PrefKey.numberWeeks, _numberWeeks);
   }
 
-  int get numberDaysBefore => _numberDaysBefore ?? PrefKey.defaultNumberDaysBefore;
+  int get numberDaysBefore =>
+      _numberDaysBefore ?? PrefKey.defaultNumberDaysBefore;
 
   setNumberDaysBefore(int newNumberDaysBefore, [state = false]) {
     if (numberDaysBefore == newNumberDaysBefore) return;
 
-    int intValue =
-        (newNumberDaysBefore == null || newNumberDaysBefore < 0 || newNumberDaysBefore > 20)
-            ? PrefKey.defaultNumberDaysBefore
-            :  newNumberDaysBefore;
+    int intValue = (newNumberDaysBefore == null ||
+            newNumberDaysBefore < 0 ||
+            newNumberDaysBefore > 20)
+        ? PrefKey.defaultNumberDaysBefore
+        : newNumberDaysBefore;
 
     _updatePref(() => _numberDaysBefore = intValue, state);
 
@@ -615,7 +616,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
-  Future<Null> initFromDisk([state = false]) async {
+  Future<void> initFromDisk([state = false]) async {
     await initResAndGroup();
 
     final int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
@@ -628,13 +629,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init number of weeks to display
     setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
-    
+
     // Init number of days before current date to display
     setNumberDaysBefore(widget.prefs.getInt(PrefKey.numberDaysBefore));
 
     // Init theme preferences
     setCalendarType(
-        calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)));
+      calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)),
+    );
     setDarkTheme(widget.prefs.getBool(PrefKey.isDarkTheme));
     setPrimaryColor(widget.prefs.getInt(PrefKey.primaryColor));
     setAccentColor(widget.prefs.getInt(PrefKey.accentColor));
@@ -642,7 +644,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init other prefs
     setCachedIcal(
-        await readFile(PrefKey.cachedIcalFile, PrefKey.defaultCachedIcal));
+      await readFile(PrefKey.cachedIcalFile, PrefKey.defaultCachedIcal),
+    );
     setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
     _installUID = widget.prefs.getString(PrefKey.installUID);
     setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
@@ -664,8 +667,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         widget.prefs.getStringList(PrefKey.hiddenEvent) ?? [];
     setHiddenEvents(hiddenEvents);
     // Renamed events
-    Map<String, dynamic> renamedEvents =
-        json.decode(widget.prefs.getString(PrefKey.renamedEvent) ?? "{}");
+    Map<String, dynamic> renamedEvents = json.decode(
+      widget.prefs.getString(PrefKey.renamedEvent) ?? "{}",
+    );
     setRenamedEvents(renamedEvents.cast<String, String>());
 
     List<CustomCourse> actualEvents = [];
@@ -679,7 +683,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCustomEvents(actualEvents, state);
   }
 
-  Future<Null> initResAndGroup() async {
+  Future<void> initResAndGroup() async {
     // Init list university stored values
     String listUnivStored = await readFile(
       PrefKey.listUniversityFile,

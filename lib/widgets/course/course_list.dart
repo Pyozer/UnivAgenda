@@ -82,9 +82,7 @@ class _CourseListState extends State<CourseList> {
 
       tabs.add(Tab(text: Date.dateFromNow(lastDate, true)));
 
-      listTabView.add(
-        _buildListCours(context, courses),
-      );
+      listTabView.add(_buildListCours(context, courses));
     });
 
     final theme = Theme.of(context);
@@ -176,7 +174,10 @@ class _CourseListState extends State<CourseList> {
         firstDate: DateTime(today.year, today.month, today.day),
         initialSelectedDate: _lastDatePos,
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
-              return Event(title: e.title, color: e.getColor(isGenColor));
+              return Event(
+                title: e.isHidden ? null : e.getTitle(),
+                color: e.getColor(isGenColor),
+              );
             }).toList(),
         onDateSelected: (date) {
           showDialog(
@@ -191,7 +192,7 @@ class _CourseListState extends State<CourseList> {
 
   @override
   Widget build(BuildContext context) {
-    var content;
+    Widget content;
     if (widget.calType == CalendarType.VERTICAL)
       content = _buildVertical(context, widget.coursesData);
     else if (widget.calType == CalendarType.HORIZONTAL)

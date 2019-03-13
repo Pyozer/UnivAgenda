@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/calendar_type.Dart';
@@ -34,10 +35,12 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen> {
+class _HomeScreenState extends BaseState<HomeScreen>
+    with AfterLayoutMixin<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool _isLoading = true;
   Map<int, List<BaseCourse>> _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
@@ -47,9 +50,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   int _lastDaysBefore = 0;
 
   @override
-  void initState() {
-    super.initState();
-
+  void afterFirstLayout(BuildContext context) {
     if (widget.isFromLogin) _showDefaultGroupDialog();
   }
 
@@ -96,7 +97,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   }
 
   void _showDefaultGroupDialog() async {
-    await Future.delayed(const Duration(seconds: 1));
     DialogPredefined.showSimpleMessage(
       context,
       i18n.text(StrKey.LOGIN_SUCCESSFUL),
@@ -104,37 +104,38 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
-  Future<Null> _fetchData() async {
+  Future<void> _fetchData() async {
+    if (!mounted) return null;
+
+    setState(() => _isLoading = true);
     _refreshKey?.currentState?.show();
 
-    if (mounted) {
-      String url;
-      if (prefs.urlIcs == null) {
-        final resID = prefs.getGroupResID();
+    String url;
+    if (prefs.urlIcs == null) {
+      final resID = prefs.getGroupResID();
 
-        url = IcalAPI.prepareURL(
-          prefs.university.agendaUrl,
-          resID,
-          prefs.numberWeeks,
-          prefs.numberDaysBefore,
-        );
-      } else {
-        url = prefs.urlIcs;
-      }
-      final response = await HttpRequest.get(url);
-
-      if (!response.isSuccess) {
-        _scaffoldKey?.currentState?.removeCurrentSnackBar();
-        _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(i18n.text(StrKey.NETWORK_ERROR)),
-        ));
-        return null;
-      }
-      final String icalStr = utf8.decode(response.httpResponse.bodyBytes);
-      await _prepareList(icalStr);
-      prefs.setCachedIcal(icalStr);
+      url = IcalAPI.prepareURL(
+        prefs.university.agendaUrl,
+        resID,
+        prefs.numberWeeks,
+        prefs.numberDaysBefore,
+      );
+    } else {
+      url = prefs.urlIcs;
     }
-    return null;
+    final response = await HttpRequest.get(url);
+
+    if (!response.isSuccess) {
+      _scaffoldKey?.currentState?.removeCurrentSnackBar();
+      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text(i18n.text(StrKey.NETWORK_ERROR)),
+      ));
+      return null;
+    }
+    if (mounted) setState(() => _isLoading = false);
+    final String icalStr = utf8.decode(response.httpResponse.bodyBytes);
+    await _prepareList(icalStr);
+    prefs.setCachedIcal(icalStr);
   }
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
@@ -289,18 +290,24 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
+  Widget _buildError() {
+    return NoResult(
+      title: i18n.text(StrKey.ERROR),
+      text: i18n.text(StrKey.ERROR_JSON_PARSE),
+      footer: RaisedButtonColored(
+        text: i18n.text(StrKey.REFRESH),
+        onPressed: _fetchData,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final refreshBtn = IconButton(
-      icon: const Icon(OMIcons.refresh),
-      onPressed: _fetchData,
-    );
-
-    final iconView = getCalendarTypeIcon(_calendarType);
-
-    var content;
-    if (_courses == null) // data not loaded
+    Widget content;
+    if (_isLoading && _courses == null) // data not loaded
       content = const Center(child: CircularProgressIndicator());
+    else if (_courses == null) // Courses fetch error
+      content = _buildError();
     else if (_courses.length == 0) // No course found
       content = _buildNoResult();
     else
@@ -315,19 +322,25 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.APP_NAME),
       actions: [
-        refreshBtn,
-        IconButton(icon: Icon(iconView), onPressed: _switchTypeView)
+        IconButton(
+          icon: const Icon(OMIcons.refresh),
+          onPressed: _fetchData,
+        ),
+        IconButton(
+          icon: Icon(getCalendarTypeIcon(_calendarType)),
+          onPressed: _switchTypeView,
+        )
       ],
       drawer: MainDrawer(),
       useCustomMenuIcon: true,
       fab: _buildFab(context),
       body: RefreshIndicator(
         key: _refreshKey,
-        onRefresh: () async {
+        onRefresh: () {
           analyticsProvider.sendForceRefresh(AnalyticsValue.refreshCourses);
-          return await _fetchData();
+          return _fetchData();
         },
-        child: Container(child: content),
+        child: content,
       ),
     );
   }

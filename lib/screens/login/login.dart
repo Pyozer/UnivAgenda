@@ -168,21 +168,17 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void _showMessage(String msg) {
-    DialogPredefined.showSimpleMessage(
-      context,
-      i18n.text(StrKey.ERROR),
-      msg,
-    );
+    DialogPredefined.showSimpleMessage(context, i18n.text(StrKey.ERROR), msg);
   }
 
   Widget _buildTextField(
-    hint,
-    icon,
-    isObscure,
-    controller,
-    onEditComplete,
-    inputAction, [
-    focusNode,
+    String hint,
+    IconData icon,
+    bool isObscure,
+    TextEditingController controller,
+    VoidCallback onEditComplete,
+    TextInputAction inputAction, [
+    FocusNode focusNode,
   ]) {
     return TextField(
       focusNode: focusNode,
@@ -205,9 +201,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     // Start timout of 30sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
     await Future.delayed(const Duration(seconds: 30));
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
+    if (mounted) setState(() => _isLoading = false);
   }
 
   void _onDataPrivcacy() {
@@ -229,11 +223,6 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final titleApp = Text(
-      i18n.text(StrKey.APP_NAME),
-      style: theme.textTheme.title.copyWith(fontSize: 26.0),
-    );
-
     final urlICsInput = _buildTextField(
       i18n.text(StrKey.URL_ICS),
       OMIcons.event,
@@ -292,7 +281,10 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                   children: [
                     const Logo(size: 100.0),
                     const SizedBox(height: 12.0),
-                    titleApp,
+                    Text(
+                      i18n.text(StrKey.APP_NAME),
+                      style: theme.textTheme.title.copyWith(fontSize: 26.0),
+                    ),
                   ],
                 ),
               ),
@@ -309,12 +301,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                     Card(
                       elevation: 4.0,
                       child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                          child: Column(
-                            children: _isUrlIcs()
-                                ? [urlICsInput]
-                                : [username, const ListDivider(), password],
-                          )),
+                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                        child: Column(
+                          children: _isUrlIcs()
+                              ? [urlICsInput]
+                              : [username, const ListDivider(), password],
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 24.0),
                     _isLoading ? const CircularProgressIndicator() : loginButton

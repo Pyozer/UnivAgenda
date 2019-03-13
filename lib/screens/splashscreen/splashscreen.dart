@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
@@ -15,26 +16,23 @@ class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-class SplashScreenState extends BaseState<SplashScreen> {
-  bool _isError = false;
+class SplashScreenState extends BaseState<SplashScreen>
+    with AfterLayoutMixin<SplashScreen> {
   String _errorMsg;
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 100)).then((_) {
-      _initPreferences();
-    });
+  void afterFirstLayout(BuildContext context) {
+    _initPreferences();
   }
 
   void _initPreferences() async {
-    _setError(false);
+    _setError(null);
     _startTimeout();
 
     final startTime = DateTime.now();
 
     // Load preferences from disk
-    await prefs.initFromDisk();
+    await prefs.initFromDisk(true);
 
     // Update resources if they are empty or older than 6 hours
     int oldRes = startTime.difference(prefs.resourcesDate).inHours.abs();
@@ -45,7 +43,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
       if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
-        _setError(true, StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
+        _setError(StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
         return;
       }
       // Update university list
@@ -57,7 +55,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
 
     // If list university still empty, set error
     if (prefs.listUniversity.length == 0) {
-      _setError(true, StrKey.ERROR_UNIV_LIST_EMPTY);
+      _setError(StrKey.ERROR_UNIV_LIST_EMPTY);
       return;
     }
     // If user was connected but university or ics url are null, disconnect him
@@ -77,7 +75,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
       if (!responseRes.isSuccess && prefs.resources.length == 0) {
-        _setError(true, StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
+        _setError(StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
         return;
       }
 
@@ -90,7 +88,6 @@ class SplashScreenState extends BaseState<SplashScreen> {
     }
 
     analyticsProvider.analytics.setUserId(prefs.installUID);
-    prefs.forceSetState();
 
     final routeDest = (!prefs.isIntroDone)
         ? RouteKey.INTRO
@@ -101,26 +98,19 @@ class SplashScreenState extends BaseState<SplashScreen> {
     final waitTime = diffMs < 0 ? 0 : diffMs;
 
     await Future.delayed(Duration(milliseconds: waitTime));
-    _goToNext(routeDest);
+    if (mounted) Navigator.of(context).pushReplacementNamed(routeDest);
   }
 
   void _startTimeout() async {
     // Start timout of 40sec. If widget still mounted, set error
     // If not mounted anymore, do nothing
     await Future.delayed(Duration(seconds: 40));
-    _setError();
+    _setError(StrKey.NETWORK_ERROR);
   }
 
-  void _setError([bool isError = true, String errorMsgKey]) {
-    if (mounted)
-      setState(() {
-        _isError = isError;
-        _errorMsg = errorMsgKey != null ? i18n.text(errorMsgKey) : null;
-      });
-  }
-
-  void _goToNext(String route) {
-    if (mounted) Navigator.of(context).pushReplacementNamed(route);
+  void _setError([String msgKey]) {
+    if (!mounted) return;
+    setState(() => _errorMsg = msgKey != null ? i18n.text(msgKey) : null);
   }
 
   @override
@@ -138,12 +128,12 @@ class SplashScreenState extends BaseState<SplashScreen> {
             Expanded(
               flex: 4,
               child: Center(
-                child: _isError
+                child: _errorMsg != null
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg ?? i18n.text(StrKey.NETWORK_ERROR),
+                            _errorMsg,
                             style: theme.textTheme.subhead,
                             textAlign: TextAlign.center,
                           ),
@@ -151,7 +141,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
                           RaisedButtonColored(
                             text: i18n.text(StrKey.RETRY),
                             onPressed: _initPreferences,
-                          )
+                          ),
                         ],
                       )
                     : const CircularProgressIndicator(),

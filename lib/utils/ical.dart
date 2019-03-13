@@ -4,23 +4,23 @@ import 'package:timezone/standalone.dart';
 
 const String BEGINVEVENT = "BEGIN:VEVENT";
 const String ENDVEVENT = "END:VEVENT";
-const String DTSTART = "DTSTART:";
-const String DTEND = "DTEND:";
-const String SUMMARY = "SUMMARY:";
-const String DESCRIPTION = "DESCRIPTION:";
-const String LOCATION = "LOCATION:";
-const String UID = "UID:";
-const String SEQUENCE = "SEQUENCE:";
-const String STATUS = "STATUS:";
-const String TRANSP = "TRANSP:";
-const String RRULE = "RRULE:";
-const String DTSTAMP = "DTSTAMP:";
-const String CATEGORIES = "CATEGORIES:";
-const String GEO = "GEO:";
-const String URL = "URL:";
-const String CLASS = "CLASS:";
-const String LASTMODIFIED = "LAST-MODIFIED:";
-const String CREATED = "CREATED:";
+const String DTSTART = "DTSTART";
+const String DTEND = "DTEND";
+const String SUMMARY = "SUMMARY";
+const String DESCRIPTION = "DESCRIPTION";
+const String LOCATION = "LOCATION";
+const String UID = "UID";
+const String SEQUENCE = "SEQUENCE";
+const String STATUS = "STATUS";
+const String TRANSP = "TRANSP";
+const String RRULE = "RRULE";
+const String DTSTAMP = "DTSTAMP";
+const String CATEGORIES = "CATEGORIES";
+const String GEO = "GEO";
+const String URL = "URL";
+const String CLASS = "CLASS";
+const String LASTMODIFIED = "LAST-MODIFIED";
+const String CREATED = "CREATED";
 const String APPLE = "X-APPLE-STRUCTURED-LOCATION;";
 
 const allTags = [
@@ -119,8 +119,11 @@ class Ical {
 
   String _getValue(String line) {
     // Gets the first index where a space occours
-    final index = line.indexOf(":");
-    if (index < 0) return line;
+    int index = line.indexOf(":");
+    if (index < 0) {
+      index = line.indexOf("=");
+      if (index < 0) return line;
+    }
     return line.substring(index + 1).trim(); // Gets the value part
   }
 
