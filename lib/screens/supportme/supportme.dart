@@ -14,21 +14,12 @@ class SupportMeScreen extends StatefulWidget {
 
 class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unidayTextController = TextEditingController(text: Url.unidays);
 
   void _openPayPal() {
     _openLink(
       Url.paypal,
       i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Paypal"}),
       AnalyticsValue.paypal,
-    );
-  }
-
-  void _openUnidays() {
-    _openLink(
-      Url.unidays,
-      i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Unidays"}),
-      AnalyticsValue.unidays,
     );
   }
 
