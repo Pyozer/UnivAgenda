@@ -62,7 +62,7 @@ class CourseRow extends StatelessWidget {
 
     TextStyle style = TextStyle();
     if (bgColorRow != null)
-      style = style.copyWith(color: getColorDependOfBackground(bgColorRow));
+      style = style.copyWith(color: Colors.white);
 
     var subtitle = course.location;
     // Location and description not empty
