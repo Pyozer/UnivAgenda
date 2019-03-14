@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myagenda/app.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
@@ -13,8 +12,7 @@ Future<List<int>> loadDefaultData() async {
 
 void main() async {
   initializeDatabase(await loadDefaultData());
-  String localTimezone = await FlutterNativeTimezone.getLocalTimezone();
-  setLocalLocation(getLocation(localTimezone));
+  setLocalLocation(getLocation("Europe/Paris"));
 
   await i18n.init();
   final prefs = await SharedPreferences.getInstance();

@@ -28,8 +28,7 @@ dependencies:
 
   outline_material_icons: ^0.1.0
   timezone: ^0.5.2
-  flutter_native_timezone: ^1.0.2
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
