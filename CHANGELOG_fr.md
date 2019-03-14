@@ -1,3 +1,10 @@
+## Version 4.1.0
+
+- Ajout de la possibilité de synchroniser un évènement perso avec l'agenda du téléphone
+- Possibilité d'afficher les cours déjà passés
+- Bug jour sélectionné non synchronisé entre la vue calendrier semaine et mois
+- Amélioration du code et mise à jour de la page "Me supporter"
+
 ## Version 4.0.9
 
 - Problème de connexion Université Rennes résolue

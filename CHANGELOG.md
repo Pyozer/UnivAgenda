@@ -1,3 +1,10 @@
+## Version 4.1.0
+
+- Added the ability to synchronize a personal event with the phone's calendar
+- Ability to display past courses
+- Bug day selected not synchronized between week and month calendar view
+- Improvement of the code and update "Support me" page
+  
 ## Version 4.0.9
 
 - Fix University of Rennes login issue
