@@ -28,7 +28,7 @@ class AboutScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
+          const Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Logo(size: 80.0),
           ),
@@ -163,18 +163,12 @@ class AboutScreen extends StatelessWidget {
       children: [
         ListTile(
           title: Text(i18n.text(StrKey.CHANGELOG)),
-          subtitle: Text(
-            i18n.text(StrKey.CHANGELOG_DESC),
-          ),
+          subtitle: Text(i18n.text(StrKey.CHANGELOG_DESC)),
           onTap: onChangeLogTap,
         ),
         ListTile(
-          title: Text(
-            i18n.text(StrKey.OPENSOURCE_LICENCES),
-          ),
-          subtitle: Text(
-            i18n.text(StrKey.OPENSOURCE_LICENCES_DESC),
-          ),
+          title: Text(i18n.text(StrKey.OPENSOURCE_LICENCES)),
+          subtitle: Text(i18n.text(StrKey.OPENSOURCE_LICENCES_DESC)),
           onTap: onLicensesTap,
         ),
         ListTile(
@@ -197,10 +191,7 @@ class AboutScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            i18n.text(StrKey.MADE_WITH),
-            style: txtTheme,
-          ),
+          Text(i18n.text(StrKey.MADE_WITH), style: txtTheme),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: const Icon(OMIcons.favorite, color: Colors.red),

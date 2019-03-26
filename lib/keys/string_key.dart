@@ -15,8 +15,7 @@ class StrKey {
   static const NUMBER_WEEK_DESC_ONE = 'number_week_desc_one';
   static const NUMBER_WEEK_DESC_PLURAL = 'number_week_desc_plural';
   static const DAYS_BEFORE = 'days_before';
-  static const DAYS_BEFORE_DESC_ONE = 'days_before_desc_one';
-  static const DAYS_BEFORE_DESC_PLURAL = 'days_before_desc_plural';
+  static const DAYS_BEFORE_DESC = 'days_before_desc';
   static const DISPLAY_ALL_DAYS = 'display_all_days';
   static const DISPLAY_ALL_DAYS_DESC = 'display_all_days_desc';
   static const HIDDEN_EVENT = 'hidden_event';

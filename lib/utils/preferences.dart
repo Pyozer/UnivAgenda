@@ -12,7 +12,6 @@ import 'package:myagenda/models/preferences/prefs_theme.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 class _MyInheritedPreferences extends InheritedWidget {
   _MyInheritedPreferences({
@@ -74,11 +73,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Number of weeks to display
   int _numberWeeks;
 
-  /// Number of day to show before current event
-  int _numberDaysBefore;
-
-  /// Installation UID
-  String _installUID;
+  /// Show or not courses already passed
+  bool _isPreviousCourses;
 
   /// App launch counter
   int _appLaunchCounter;
@@ -98,8 +94,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Totally hide hidden courses or display as very small
   bool _isFullHiddenEvent;
 
-  /// Last ical loaded
-  String _cachedIcal;
+  /// Last courses loaded
+  List<Course> _cachedCourses;
 
   /// List of notes for events
   List<Note> _notes;
@@ -218,21 +214,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setInt(PrefKey.numberWeeks, _numberWeeks);
   }
 
-  int get numberDaysBefore =>
-      _numberDaysBefore ?? PrefKey.defaultNumberDaysBefore;
+  bool get isPreviousCourses =>
+      _isPreviousCourses ?? PrefKey.defaultIsPreviousCourses;
 
-  setNumberDaysBefore(int newNumberDaysBefore, [state = false]) {
-    if (numberDaysBefore == newNumberDaysBefore) return;
+  setShowPreviousCourses(bool newIsPreviousCourses, [state = false]) {
+    if (isPreviousCourses == newIsPreviousCourses) return;
 
-    int intValue = (newNumberDaysBefore == null ||
-            newNumberDaysBefore < 0 ||
-            newNumberDaysBefore > 20)
-        ? PrefKey.defaultNumberDaysBefore
-        : newNumberDaysBefore;
+    _updatePref(() => _isPreviousCourses = newIsPreviousCourses, state);
 
-    _updatePref(() => _numberDaysBefore = intValue, state);
-
-    widget.prefs.setInt(PrefKey.numberDaysBefore, _numberDaysBefore);
+    widget.prefs.setBool(PrefKey.isPreviousCourses, _isPreviousCourses);
   }
 
   PrefsTheme get theme => _prefsTheme;
@@ -277,15 +267,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor);
   }
 
-  String get installUID {
-    if (_installUID == null) {
-      _installUID = Uuid().v1();
-
-      widget.prefs.setString(PrefKey.installUID, _installUID);
-    }
-    return _installUID;
-  }
-
   int get appLaunchCounter =>
       _appLaunchCounter ?? PrefKey.defaultAppLaunchCounter;
 
@@ -307,26 +288,22 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setBool(PrefKey.isIntroDone, _isIntroDone);
   }
 
-  String get cachedIcal => _cachedIcal ?? null;
+  List<Course> get cachedCourses =>
+      _cachedCourses ?? PrefKey.defaultCachedCourses;
 
-  setCachedIcal(String icalToCache, [state = false]) {
-    if (cachedIcal == icalToCache) return;
+  setCachedCourses(List<Course> coursesToCache, [state = false]) {
+    if (cachedCourses == coursesToCache) return;
 
-    _updatePref(() => _cachedIcal = icalToCache ?? null, state);
+    _updatePref(() => _cachedCourses = coursesToCache, state);
 
-    writeFile(PrefKey.cachedIcalFile, _cachedIcal);
+    writeFile(
+      PrefKey.cachedCoursesFile,
+      json.encode(List.from(coursesToCache.map((x) => x.toJson()))),
+    );
     setCachedIcalDate(); // Set ical last update date to now
   }
 
-  List<Note> get notes {
-    List<CustomCourse> events = customEvents;
-    // Get all notes who have their courseUID in events list or not expired
-    return _notes
-            ?.where((note) =>
-                events.contains(note.courseUid) || !note.isNoteExpired())
-            ?.toList() ??
-        PrefKey.defaultNotes;
-  }
+  List<Note> get notes => _notes ?? PrefKey.defaultNotes;
 
   setNotes(List<Note> newNotes, [state = false]) {
     if (notes == newNotes) return;
@@ -357,10 +334,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   List<CustomCourse> get customEvents =>
-      _customEvents
-          ?.where((event) => !event.isFinish() || event.isRecurrentEvent())
-          ?.toList() ??
-      PrefKey.defaultCustomEvents;
+      _customEvents ?? PrefKey.defaultCustomEvents;
 
   setCustomEvents(List<CustomCourse> newCustomEvents, [state = false]) {
     if (customEvents == newCustomEvents) return;
@@ -599,18 +573,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setUserLogged(false);
     setUrlIcs(null);
     setResources(PrefKey.defaultResourcesJson);
-    setCachedIcal(PrefKey.defaultCachedIcal);
+    setCachedCourses(PrefKey.defaultCachedCourses);
   }
 
   bool get isGenerateEventColor =>
       _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
 
-  setGenerateEventColor(bool generateEventColor, [state = false]) {
-    if (isGenerateEventColor == generateEventColor) return;
+  setGenerateEventColor(bool isEventColor, [state = false]) {
+    if (isGenerateEventColor == isEventColor) return;
 
     _updatePref(() {
-      _isGenerateEventColor =
-          generateEventColor ?? PrefKey.defaultGenerateEventColor;
+      _isGenerateEventColor = isEventColor ?? PrefKey.defaultGenerateEventColor;
     }, state);
 
     widget.prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
@@ -619,19 +592,19 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<void> initFromDisk([state = false]) async {
     await initResAndGroup();
 
-    final int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
+    int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
         PrefKey.defaultResourcesDate;
     setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
 
-    final int cachedIcalDate = widget.prefs.getInt(PrefKey.cachedIcalDate) ??
+    int cachedIcalDate = widget.prefs.getInt(PrefKey.cachedIcalDate) ??
         PrefKey.defaultCachedIcalDate;
     setCachedIcalDate(DateTime.fromMillisecondsSinceEpoch(cachedIcalDate));
 
     // Init number of weeks to display
     setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
 
-    // Init number of days before current date to display
-    setNumberDaysBefore(widget.prefs.getInt(PrefKey.numberDaysBefore));
+    // Init display or not of previous courses
+    setShowPreviousCourses(widget.prefs.getBool(PrefKey.isPreviousCourses));
 
     // Init theme preferences
     setCalendarType(
@@ -643,11 +616,13 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setNoteColor(widget.prefs.getInt(PrefKey.noteColor));
 
     // Init other prefs
-    setCachedIcal(
-      await readFile(PrefKey.cachedIcalFile, PrefKey.defaultCachedIcal),
+    final coursesJson = json.decode(
+      await readFile(PrefKey.cachedCoursesFile, "[]"),
+    );
+    setCachedCourses(
+      List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
     );
     setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
-    _installUID = widget.prefs.getString(PrefKey.installUID);
     setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(widget.prefs.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(widget.prefs.getBool(PrefKey.isDisplayAllDays));
@@ -655,29 +630,26 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setFullHiddenEvent(widget.prefs.getBool(PrefKey.isFullHiddenEvents));
 
     // Init saved notes
-    List<Note> actualNotes = [];
     List<String> notesStr = widget.prefs.getStringList(PrefKey.notes) ?? [];
-    notesStr.forEach((noteJsonStr) {
-      actualNotes.add(Note.fromJsonStr(noteJsonStr));
-    });
+    List<Note> actualNotes = notesStr.map((noteJsonStr) {
+      return Note.fromJsonStr(noteJsonStr);
+    }).toList();
     setNotes(actualNotes);
 
     // Init hidden courses
-    List<String> hiddenEvents =
-        widget.prefs.getStringList(PrefKey.hiddenEvent) ?? [];
-    setHiddenEvents(hiddenEvents);
+    List<String> hiddenEvents = widget.prefs.getStringList(PrefKey.hiddenEvent);
+    setHiddenEvents(hiddenEvents ?? []);
+
     // Renamed events
     Map<String, dynamic> renamedEvents = json.decode(
       widget.prefs.getString(PrefKey.renamedEvent) ?? "{}",
     );
     setRenamedEvents(renamedEvents.cast<String, String>());
 
-    List<CustomCourse> actualEvents = [];
-    List<String> customEventsStr =
-        widget.prefs.getStringList(PrefKey.customEvent) ?? [];
-    customEventsStr.forEach((eventJsonStr) {
-      actualEvents.add(CustomCourse.fromJsonStr(eventJsonStr));
-    });
+    List<String> eventsStr = widget.prefs.getStringList(PrefKey.customEvent);
+    List<CustomCourse> actualEvents = (eventsStr ?? []).map((eventStr) {
+      return CustomCourse.fromJsonStr(eventStr);
+    }).toList();
 
     // Set update state true/false on last to force rebuild
     setCustomEvents(actualEvents, state);
@@ -750,7 +722,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       theme == other.theme &&
       appLaunchCounter == other.appLaunchCounter &&
       isIntroDone == other.isIntroDone &&
-      cachedIcal == other.cachedIcal &&
+      cachedCourses == other.cachedCourses &&
       notes == other.notes &&
       customEvents == other.customEvents &&
       isUserLogged == other.isUserLogged &&
@@ -767,7 +739,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _prefsTheme.hashCode ^
       _appLaunchCounter.hashCode ^
       _isIntroDone.hashCode ^
-      _cachedIcal.hashCode ^
+      _cachedCourses.hashCode ^
       _notes.hashCode ^
       _customEvents.hashCode ^
       _userLogged.hashCode ^

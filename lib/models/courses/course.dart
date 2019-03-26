@@ -79,35 +79,28 @@ class Course extends BaseCourse {
 
   String getTitle() => this.renamedTitle ?? this.title;
 
-  factory Course.fromJson(Map<String, dynamic> json) {
-    Color courseColor;
-    if (json['color'] != null) courseColor = Color(json['color']);
-
-    return Course(
-      uid: json["uid"],
-      title: json["title"],
-      description: json["description"],
-      location: json["location"],
-      dateStart: DateTime.fromMillisecondsSinceEpoch(json["date_start"]),
-      dateEnd: DateTime.fromMillisecondsSinceEpoch(json["date_end"]),
-      color: courseColor,
-    );
-  }
+  factory Course.fromJson(Map<String, dynamic> json) => Course(
+        uid: json["uid"],
+        title: json["title"],
+        description: json["description"],
+        location: json["location"],
+        dateStart: DateTime.parse(json["date_start"]),
+        dateEnd: DateTime.parse(json["date_end"]),
+        color: json['color'] != null ? Color(json['color']) : null,
+      );
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
         "title": title,
         "description": description,
         "location": location,
-        "date_start": dateStart.millisecondsSinceEpoch,
-        "date_end": dateEnd.millisecondsSinceEpoch,
+        "date_start": dateStart.toIso8601String(),
+        "date_end": dateEnd.toIso8601String(),
         "color": color?.value,
       };
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
+  String toString() => toJson().toString();
 
   @override
   bool operator ==(Object other) =>

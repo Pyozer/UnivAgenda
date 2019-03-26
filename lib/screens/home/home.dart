@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/models/calendar_type.Dart';
@@ -13,10 +12,9 @@ import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/course/course_list.dart';
@@ -47,7 +45,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   List<String> _lastGroupKeys;
   String _lastUrlIcs;
   int _lastNumberWeeks = 0;
-  int _lastDaysBefore = 0;
+  bool _lastIsPrevCourses = false;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -64,20 +62,19 @@ class _HomeScreenState extends BaseState<HomeScreen>
     if (prefs.urlIcs != _lastUrlIcs ||
         prefs.groupKeys != _lastGroupKeys ||
         prefs.numberWeeks != _lastNumberWeeks ||
-        prefs.numberDaysBefore != _lastDaysBefore) {
+        prefs.isPreviousCourses != _lastIsPrevCourses) {
       // Update local values
       _lastUrlIcs = prefs.urlIcs;
       _lastGroupKeys = prefs.groupKeys;
       _lastNumberWeeks = prefs.numberWeeks;
-      _lastDaysBefore = prefs.numberDaysBefore;
+      _lastIsPrevCourses = prefs.isPreviousCourses;
       isPrefsDifferents = true;
     }
 
     // Load cached ical
-    if (Ical(prefs.cachedIcal).isValidIcal())
-      _prepareList(prefs.cachedIcal);
-    else
-      _courses = null;
+    try {
+      _prepareList(prefs.cachedCourses);
+    } catch (_) {}
 
     // Update courses if prefs changes or cached ical older than 15min
     if (isPrefsDifferents ||
@@ -105,37 +102,37 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   Future<void> _fetchData() async {
-    if (!mounted) return null;
+    if (!mounted) return;
 
     setState(() => _isLoading = true);
     _refreshKey?.currentState?.show();
 
-    String url;
+    String url = prefs.urlIcs;
     if (prefs.urlIcs == null) {
       final resID = prefs.getGroupResID();
 
-      url = IcalAPI.prepareURL(
+      url = IcalAPI.prepareIcalURL(
         prefs.university.agendaUrl,
         resID,
         prefs.numberWeeks,
-        prefs.numberDaysBefore,
+        prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
       );
-    } else {
-      url = prefs.urlIcs;
     }
-    final response = await HttpRequest.get(url);
 
-    if (!response.isSuccess) {
+    try {
+      final courses = await Api().getCourses(url);
+
+      await _prepareList(courses);
+      prefs.setCachedCourses(courses);
+    } catch (e) {
       _scaffoldKey?.currentState?.removeCurrentSnackBar();
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(i18n.text(StrKey.NETWORK_ERROR)),
       ));
-      return null;
     }
-    if (mounted) setState(() => _isLoading = false);
-    final String icalStr = utf8.decode(response.httpResponse.bodyBytes);
-    await _prepareList(icalStr);
-    prefs.setCachedIcal(icalStr);
+
+    if (!mounted) return;
+    setState(() => _isLoading = false);
   }
 
   Course _addNotesToCourse(List<Note> notes, Course course) {
@@ -175,7 +172,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     return courses;
   }
 
-  Future<void> _prepareList(String icalStr) async {
+  Future<void> _prepareList(List<Course> courseFromIcal) async {
     List<Course> listCourses = [];
     // Get all notes saved (expired notes removed by getNotes())
     List<Note> allNotes = prefs.notes;
@@ -200,29 +197,33 @@ class _HomeScreenState extends BaseState<HomeScreen>
       }
     }
 
-    // Parse string ical to object
-    List<Course> courseFromIcal = await Ical(icalStr).parseToIcal();
-
     if (courseFromIcal == null) {
       DialogPredefined.showICSFormatError(context);
       return;
     }
 
-    final actualDate = DateTime.now();
-    final maxDate = actualDate.add(
-      Duration(days: Date.calcDaysToEndDate(actualDate, prefs.numberWeeks)),
+    final now = DateTime.now();
+    final maxDate = now.add(
+      Duration(days: Date.calcDaysToEndDate(now, prefs.numberWeeks)),
     );
+    final minDate = now.subtract(
+      Duration(days: PrefKey.defaultMaximumPrevDays),
+    );
+    final isPrevCourses = prefs.isPreviousCourses;
 
     for (Course course in courseFromIcal) {
       if (prefs.isCourseHidden(course)) course.isHidden = true;
 
       if (!course.isHidden || course.isHidden && !isFullHidden) {
-        // Check if course is not finish
-        if (course.dateStart.isBefore(maxDate)) {
-          // Get all notes of the course
-          course = _addNotesToCourse(allNotes, course);
-          // Add course to list
-          listCourses.add(course);
+        // Check if course is not finish, or true if display previous courses
+        if (course.dateEnd.isAfter(isPrevCourses ? minDate : now)) {
+          // Check if course start time is before max date
+          if (course.dateStart.isBefore(maxDate)) {
+            // Get all notes of the course
+            course = _addNotesToCourse(allNotes, course);
+            // Add course to list
+            listCourses.add(course);
+          }
         }
       }
     }
@@ -235,7 +236,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
     // Add all weekdays for X week(s) depends on numberWeek pref
     if (prefs.isDisplayAllDays) {
-      DateTime dayDate = Date.dateFromDateTime(actualDate);
+      DateTime dayDate = Date.dateFromDateTime(now);
 
       final int numberDays = Date.calcDaysToEndDate(dayDate, prefs.numberWeeks);
       for (int day = 0; day < numberDays; day++) {

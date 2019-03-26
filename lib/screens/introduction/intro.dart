@@ -45,12 +45,14 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
   }
 
   Widget _wrapImage(Widget image) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        image,
-        const SizedBox(height: 42.0),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          image,
+          const SizedBox(height: 42.0),
+        ],
+      ),
     );
   }
 
@@ -62,49 +64,49 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
       PageViewModel(
         i18n.text(StrKey.INTRO_WELCOME_TITLE),
         i18n.text(StrKey.INTRO_WELCOME_DESC),
-        _wrapImage(Logo(size: kIconSize)),
+        image: _wrapImage(Logo(size: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_LOGIN_TITLE),
         i18n.text(StrKey.INTRO_LOGIN_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_AGENDA_TITLE),
         i18n.text(StrKey.INTRO_AGENDA_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_CUSTOM_TITLE),
         i18n.text(StrKey.INTRO_CUSTOM_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_NOTE_TITLE),
         i18n.text(StrKey.INTRO_NOTE_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_EVENT_TITLE),
         i18n.text(StrKey.INTRO_EVENT_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_OFFLINE_TITLE),
         i18n.text(StrKey.INTRO_OFFLINE_DESC),
-        _wrapImage(Image.asset(Asset.INTRO_INTERNET, height: kIconSize)),
+        image: _wrapImage(Image.asset(Asset.INTRO_INTERNET, height: kIconSize)),
         progressSize: dotSize,
         progressColor: dotActiveColor,
       )

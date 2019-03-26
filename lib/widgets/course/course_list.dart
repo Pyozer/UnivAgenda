@@ -59,7 +59,6 @@ class _CourseListState extends State<CourseList> {
     }
 
     return ListView(
-      shrinkWrap: true,
       children: widgets,
       padding: EdgeInsets.only(
         bottom: classicView ? 36.0 : 2.0,
@@ -76,6 +75,11 @@ class _CourseListState extends State<CourseList> {
 
     // Build horizontal view
     DateTime lastDate;
+
+    final today = Date.dateToInt(DateTime.now());
+    int initialIndex = 0;
+    bool isIndexFound = false;
+
     elements.forEach((date, courses) {
       if (lastDate == null || Date.dateToInt(lastDate) != date)
         lastDate = Date.intToDate(date);
@@ -83,7 +87,16 @@ class _CourseListState extends State<CourseList> {
       tabs.add(Tab(text: Date.dateFromNow(lastDate, true)));
 
       listTabView.add(_buildListCours(context, courses));
+
+      final isMinEvent = date >= today;
+      if (!isMinEvent && !isIndexFound) {
+        initialIndex++;
+      } else if (isMinEvent && !isIndexFound) {
+        isIndexFound = true;
+      }
     });
+
+    if (initialIndex >= elements.length) initialIndex = 0;
 
     final theme = Theme.of(context);
 
@@ -96,7 +109,9 @@ class _CourseListState extends State<CourseList> {
 
     return DefaultTabController(
       length: elements.length,
+      initialIndex: initialIndex,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             color: theme.primaryColor,
@@ -202,6 +217,6 @@ class _CourseListState extends State<CourseList> {
     else
       content = _buildCalendar(context, widget.coursesData);
 
-    return Container(child: content);
+    return content;
   }
 }

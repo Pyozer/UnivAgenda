@@ -77,7 +77,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
       final calendarsResult = await calendarPlugin.retrieveCalendars();
       setState(() {
-        _deviceCalendars = calendarsResult.data ?? [];
+        _deviceCalendars = calendarsResult?.data?.where((c) => !c.isReadOnly)?.toList() ?? [];
         if (_customCourse.syncCalendar == null)
           _customCourse.syncCalendar = _deviceCalendars.first ?? null;
       });

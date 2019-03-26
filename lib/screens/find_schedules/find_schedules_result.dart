@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
@@ -7,10 +5,9 @@ import 'package:myagenda/models/findschedules_result.dart';
 import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -44,50 +41,42 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
   }
 
   void _search() async {
+    if (!mounted) return;
     // All rooms available between times defined
     List<FindSchedulesResult> results = [];
 
     if (widget.searchResources.length == 0) {
-      if (mounted) {
-        setState(() {
-          _searchResult = results;
-          _isLoading = false;
-        });
-      }
+      setState(() {
+        _searchResult = results;
+        _isLoading = false;
+      });
       return;
     }
 
-    if (mounted) setState(() => _isLoading = true);
+    setState(() => _isLoading = true);
 
     // Check for every rooms if available
     for (final room in widget.searchResources) {
-      String url =
-          IcalAPI.prepareURL(prefs.university.agendaUrl, room.resourceId, 0, 0);
-
       // Get data
-      final response = await HttpRequest.get(url);
-
-      if (!response.isSuccess) {
-        if (mounted) {
-          setState(() {
-            _searchResult = [];
-            _isLoading = false;
-          });
-        }
+      List<Course> listCourses = [];
+      try {
+        listCourses = await Api().getCourses(IcalAPI.prepareIcalURL(
+          prefs.university.agendaUrl,
+          room.resourceId,
+          0,
+        ));
+      } catch (e) {
+        if (!mounted) return;
+        setState(() {
+          _searchResult = [];
+          _isLoading = false;
+        });
 
         DialogPredefined.showSimpleMessage(
           context,
           i18n.text(StrKey.ERROR),
           i18n.text(StrKey.NETWORK_ERROR),
         );
-        return;
-      }
-      String icalStr = utf8.decode(response.httpResponse.bodyBytes);
-
-      // Parse string ical to object
-      List<Course> listCourses = await Ical(icalStr).parseToIcal();
-      if (listCourses == null) {
-        DialogPredefined.showICSFormatError(context);
         return;
       }
 
@@ -113,17 +102,15 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       });
 
       // If no course during chosen hours, mean that room is available
-      if (listCourses.length == 0) {
+      if (listCourses.length == 0)
         results.add(FindSchedulesResult(room, startNoCourse, endNoCourse));
-      }
     }
 
-    if (mounted) {
-      setState(() {
-        _searchResult = results;
-        _isLoading = false;
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      _searchResult = results;
+      _isLoading = false;
+    });
   }
 
   Widget _buildListResults() {

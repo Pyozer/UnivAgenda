@@ -1,4 +1,5 @@
 import 'package:myagenda/models/calendar_type.Dart';
+import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/models/preferences/university.dart';
@@ -9,14 +10,13 @@ class PrefKey {
   static const urlIcs = "url_ics";
 
   static const numberWeeks = 'number_weeks';
-  static const numberDaysBefore = 'number_days_before';
+  static const isPreviousCourses = 'is_previous_courses';
 
   static const primaryColor = 'primary_color';
   static const accentColor = 'accent_color';
   static const noteColor = 'note_color';
   static const isDarkTheme = 'is_dark_theme';
 
-  static const installUID = 'install_uid';
   static const appLaunchCounter = 'app_launch_counter';
   static const isIntroDone = 'is_intro_done';
   static const isUserLogged = 'is_user_logged';
@@ -34,7 +34,8 @@ class PrefKey {
   static const renamedEvent = 'renamed_events';
 
   static const defaultNumberWeeks = 4;
-  static const defaultNumberDaysBefore = 0;
+  static const defaultIsPreviousCourses = false;
+  static const defaultMaximumPrevDays = 31;
   static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
   static const defaultAccentColor = 0xFFFF5252;
   static const defaultNoteColor = 0xFFFF5252;
@@ -49,7 +50,7 @@ class PrefKey {
   static const defaultCalendarType = CalendarType.VERTICAL;
 
   static const defaultUrlIcs = null;
-  static const defaultCachedIcal = "";
+  static List<Course> defaultCachedCourses = [];
   static List<University> defaultListUniversity = [];
   static const String defaultListUniversityJson = "[]";
   static Map<String, dynamic> defaultResources = {};
@@ -63,5 +64,5 @@ class PrefKey {
 
   static const String listUniversityFile = 'university.json';
   static const String resourcesFile = 'resources.json';
-  static const String cachedIcalFile = 'cached_ical.ics';
+  static const String cachedCoursesFile = 'cached_courses.ics';
 }

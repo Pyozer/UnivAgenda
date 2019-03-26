@@ -7,7 +7,6 @@ import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/settings/manage_hidden_events.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
@@ -77,37 +76,9 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           title: i18n.text(StrKey.URL_ICS),
           hintText: i18n.text(StrKey.URL_ICS),
           defaultValue: prefs.urlIcs,
-          onChange: (value) async {
-            // Check before update prefs, if url is good
-            DialogPredefined.showProgressDialog(
-              context,
-              i18n.text(StrKey.CHECKING_ICS_URL),
-            );
-
-            final response = await HttpRequest.get(value);
-            // Close progressDialog
-            Navigator.of(context).pop();
-
-            // If request failed, url is bad (or no internet)
-            String error;
-            if (!response.isSuccess) {
-              error = i18n.text(StrKey.FILE_404);
-            } else if (!Ical(response.httpResponse.body).isValidIcal()) {
-              error = i18n.text(StrKey.WRONG_ICS_FORMAT);
-            }
-
-            // If error, display message
-            if (error != null) {
-              DialogPredefined.showSimpleMessage(
-                context,
-                i18n.text(StrKey.ERROR),
-                error,
-              );
-            } else {
-              // If success request, update preferences
-              prefs.setCachedIcal(PrefKey.defaultCachedIcal);
-              prefs.setUrlIcs(value, true);
-            }
+          onChange: (value) {
+            prefs.setCachedCourses(PrefKey.defaultCachedCourses);
+            prefs.setUrlIcs(value, true);
           },
         )
       ];
@@ -134,18 +105,12 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         maxValue: 16,
         onChange: (value) => prefs.setNumberWeeks(value, true),
       ),
-      ListTileNumber(
-        title: i18n.text(StrKey.DAYS_BEFORE),
-        subtitle: i18n.text(
-          prefs.numberWeeks > 1
-              ? StrKey.DAYS_BEFORE_DESC_PLURAL
-              : StrKey.DAYS_BEFORE_DESC_ONE,
-          {'nbDays': prefs.numberDaysBefore},
-        ),
-        defaultValue: prefs.numberDaysBefore,
-        minValue: 0,
-        maxValue: 20,
-        onChange: (value) => prefs.setNumberDaysBefore(value, true),
+      SwitchListTile(
+        title: ListTileTitle(i18n.text(StrKey.DAYS_BEFORE)),
+        subtitle: Text(i18n.text(StrKey.DAYS_BEFORE_DESC)),
+        value: prefs.isPreviousCourses,
+        activeColor: theme.accentColor,
+        onChanged: (value) => prefs.setShowPreviousCourses(value, true),
       ),
       SwitchListTile(
         title: ListTileTitle(i18n.text(StrKey.DISPLAY_ALL_DAYS)),

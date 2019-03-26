@@ -42,6 +42,13 @@
             {
               "client_id": "518938880074-lc3b42663ck35qh77im2ekce481sr75c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "518938880074-h3e92lgm29fm4bbhebbp02gb56auu33g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pyozer.myagenda"
+              }
             }
           ]
         },

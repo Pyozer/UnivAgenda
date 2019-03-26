@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +6,9 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/home/home.dart';
+import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/ical.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -139,22 +138,16 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
       prefs.setUrlIcs(urlIcs);
 
-      final response = await HttpRequest.get(urlIcs);
+      try {
+        final courses = await Api().getCourses(urlIcs);
 
-      if (!mounted) return;
-
-      if (!response.isSuccess) {
+        if (!mounted) return;
+        prefs.setCachedCourses(courses);
+      } catch (e) {
         _setLoading(false);
-        _showMessage(i18n.text(StrKey.FILE_404));
+        _showMessage(e.toString());
         return;
       }
-      String ical = utf8.decode(response.httpResponse.bodyBytes);
-      if (!Ical(ical).isValidIcal()) {
-        _setLoading(false);
-        _showMessage(i18n.text(StrKey.WRONG_ICS_FORMAT));
-        return;
-      }
-      prefs.setCachedIcal(ical);
     }
 
     await prefs.initResAndGroup();
