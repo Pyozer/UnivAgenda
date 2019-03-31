@@ -29,12 +29,11 @@ class CourseList extends StatefulWidget {
 }
 
 class _CourseListState extends State<CourseList> {
-  DateTime _lastDatePos;
+
 
   @override
   void initState() {
     super.initState();
-    _lastDatePos = DateTime.now();
   }
 
   Widget _buildListCours(BuildContext context, List<BaseCourse> courses) {
@@ -185,8 +184,8 @@ class _CourseListState extends State<CourseList> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Calendar(
         monthView: widget.calType == CalendarType.MONTH_VIEW,
-        firstDate: _lastDatePos.subtract(Duration(days: 365)),
-        initialSelectedDate: _lastDatePos,
+        firstDate: DateTime.now().subtract(Duration(days: 365)),
+        initialSelectedDate: DateTime.now(),
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
               return Event(
                 title: e.isHidden ? null : e.getTitle(),
@@ -198,10 +197,6 @@ class _CourseListState extends State<CourseList> {
             context: context,
             builder: (dCtx) => buildDialog(dCtx, date, events),
           );
-          setState(() => _lastDatePos = date);
-        },
-        onSelectedRangeChange: (dateA, dateB) {
-          setState(() => _lastDatePos = dateA);
         },
       ),
     );
