@@ -42,7 +42,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     final timeEnd = Date.extractTime(_course.dateEnd);
     final date = Date.dateFromNow(_course.dateStart);
 
-    var duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
+    final duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
     String durationStr = "";
     if (duration.hour > 0) durationStr += "${duration.hour}h";
     durationStr += "${duration.minute}min";
@@ -57,17 +57,17 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         leading: const Icon(OMIcons.timelapse),
         title: Text(durationStr),
       ),
-      ListTile(
+    ];
+    if (_course.description?.isNotEmpty ?? false)
+      listInfo.add(ListTile(
         leading: const Icon(OMIcons.group),
         title: Text(
           _course.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-      )
-    ];
-
-    if (_course.location != null && _course.location.isNotEmpty)
+      ));
+    if (_course.location?.isNotEmpty ?? false)
       listInfo.add(ListTile(
         leading: const Icon(OMIcons.locationOn),
         title: Text(_course.location),

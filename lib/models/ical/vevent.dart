@@ -30,11 +30,17 @@ class VEvent {
   factory VEvent.fromJson(Map<String, dynamic> json) => VEvent(
         dtstart: DateTime.parse(json["dtstart"]),
         dtend: DateTime.parse(json["dtend"]),
-        dtstamp: DateTime.parse(json["dtstamp"]),
+        dtstamp: json["dtstamp"] != null
+          ? DateTime.parse(json["dtstamp"])
+          : null,
         uid: json["uid"],
-        created: DateTime.parse(json["created"]),
+        created: json["created"] != null
+          ? DateTime.parse(json["created"])
+          : null,
         description: json["description"],
-        lastModified: DateTime.parse(json["last-modified"]),
+        lastModified: json["last-modified"] != null
+            ? DateTime.parse(json["last-modified"])
+            : null,
         location: json["location"],
         sequence: json["sequence"],
         status: json["status"],
@@ -45,11 +51,11 @@ class VEvent {
   Map<String, dynamic> toJson() => {
         "dtstart": dtstart.toIso8601String(),
         "dtend": dtend.toIso8601String(),
-        "dtstamp": dtstamp.toIso8601String(),
+        "dtstamp": dtstamp?.toIso8601String(),
         "uid": uid,
-        "created": created.toIso8601String(),
+        "created": created?.toIso8601String(),
         "description": description,
-        "last-modified": lastModified.toIso8601String(),
+        "last-modified": lastModified?.toIso8601String(),
         "location": location,
         "sequence": sequence,
         "status": status,
