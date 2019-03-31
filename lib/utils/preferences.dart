@@ -24,7 +24,7 @@ class _MyInheritedPreferences extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_MyInheritedPreferences oldWidget) {
-    return (data != oldWidget.data);
+    return true;
   }
 }
 
