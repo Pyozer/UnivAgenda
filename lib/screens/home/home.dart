@@ -183,7 +183,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
     // Add custom courses with their notes to list
     for (final course in customEvents) {
-      if (prefs.isCourseHidden(course)) course.isHidden = true;
+      course.isHidden = prefs.isCourseHidden(course);
 
       if (!course.isHidden || course.isHidden && !isFullHidden) {
         if (course.isRecurrentEvent()) {
@@ -212,7 +212,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     final isPrevCourses = prefs.isPreviousCourses;
 
     for (Course course in courseFromIcal) {
-      if (prefs.isCourseHidden(course)) course.isHidden = true;
+      course.isHidden = prefs.isCourseHidden(course);
 
       if (!course.isHidden || course.isHidden && !isFullHidden) {
         // Check if course is not finish, or true if display previous courses
