@@ -320,7 +320,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   void addNote(Note noteToAdd, [state = false]) {
     if (noteToAdd == null) return;
     List<Note> newNotes = notes;
-    newNotes.add(noteToAdd);
+    newNotes.insert(0, noteToAdd);
     setNotes(newNotes, state);
   }
 
@@ -328,7 +328,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (noteToRemove == null) return;
 
     List<Note> newNotes = notes;
-    newNotes.removeWhere((note) => (note == noteToRemove));
+    newNotes.removeWhere((note) => note == noteToRemove);
 
     setNotes(newNotes, state);
   }

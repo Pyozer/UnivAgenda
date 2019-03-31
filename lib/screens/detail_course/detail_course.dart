@@ -171,18 +171,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     if (form.validate()) {
       form.save();
-
-      DateTime dateEndNote = _course.dateEnd;
-      if (_course is CustomCourse &&
-          (_course as CustomCourse).isRecurrentEvent()) {
-        dateEndNote = null;
-      }
-      final note = Note(
-        courseUid: _course.uid,
-        text: _noteToAdd,
-        dateEnd: dateEndNote,
-      );
-
+      final note = Note(courseUid: _course.uid, text: _noteToAdd);
       _noteToAdd = "";
       setState(() => _course.notes.insert(0, note));
       prefs.addNote(note);

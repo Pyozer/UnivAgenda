@@ -139,11 +139,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
     // Get all note of the course
     final courseNotes =
         notes.where((note) => note.courseUid == course.uid).toList();
-    // Sorts notes by date desc
-    courseNotes.sort((a, b) => b.dateCreation.compareTo(a.dateCreation));
     // Add notes to the course
     course.notes = courseNotes;
-
     return course;
   }
 
