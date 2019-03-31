@@ -185,13 +185,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
       _noteToAdd = "";
       setState(() => _course.notes.insert(0, note));
-      prefs.addNote(note, true);
+      prefs.addNote(note);
     }
   }
 
   void _onMenuChoose(MenuItem choice) async {
-    bool isHide = choice == MenuItem.HIDE;
-    if (isHide || choice == MenuItem.UNHIDE) {
+    if (choice == MenuItem.HIDE || choice == MenuItem.UNHIDE) {
+      bool isHide = choice == MenuItem.HIDE;
       bool isDialogOk = await DialogPredefined.showTextDialog(
         context,
         i18n.text(isHide ? StrKey.HIDE_EVENT : StrKey.UNHIDE_EVENT),
@@ -199,16 +199,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         i18n.text(StrKey.YES),
         i18n.text(StrKey.NO),
       );
-      if (isDialogOk) {
-        if (isHide)
-          prefs.addHiddenEvent(widget.course.title);
-        else
-          prefs.removeHiddenEvent(widget.course.title);
-        setState(() {});
-      }
-    }
-
-    if (choice == MenuItem.EDIT) {
+      if (!isDialogOk) return;
+      if (isHide)
+        prefs.addHiddenEvent(widget.course.title);
+      else
+        prefs.removeHiddenEvent(widget.course.title);
+      setState(() {});
+    } else if (choice == MenuItem.EDIT) {
       CustomCourse editedCourse = await Navigator.of(context).push(
         CustomRoute<CustomCourse>(
           builder: (context) => CustomEventScreen(course: _course),
@@ -219,15 +216,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         setState(() => _course = editedCourse);
         prefs.editCustomEvent(editedCourse, true);
       }
-    }
-    if (choice == MenuItem.DELETE) {
+    } else if (choice == MenuItem.DELETE) {
       bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
       if (isConfirm) {
         prefs.removeCustomEvent(_course, true);
         Navigator.of(context).pop();
       }
-    }
-    if (choice == MenuItem.RENAME) {
+    } else if (choice == MenuItem.RENAME) {
       String rename = await _openRenameDialog(widget.course.getTitle());
       if (rename != null) {
         if (rename.length > 0) {
