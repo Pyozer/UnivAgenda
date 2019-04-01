@@ -84,8 +84,8 @@ class Course extends BaseCourse {
         title: json["title"],
         description: json["description"],
         location: json["location"],
-        dateStart: DateTime.parse(json["date_start"]),
-        dateEnd: DateTime.parse(json["date_end"]),
+        dateStart: DateTime.fromMillisecondsSinceEpoch(json["date_start"]),
+        dateEnd: DateTime.fromMillisecondsSinceEpoch(json["date_end"]),
         color: json['color'] != null ? Color(json['color']) : null,
       );
 
@@ -94,8 +94,8 @@ class Course extends BaseCourse {
         "title": title,
         "description": description,
         "location": location,
-        "date_start": dateStart.toIso8601String(),
-        "date_end": dateEnd.toIso8601String(),
+        "date_start": dateStart.millisecondsSinceEpoch,
+        "date_end": dateEnd.millisecondsSinceEpoch,
         "color": color?.value,
       };
 

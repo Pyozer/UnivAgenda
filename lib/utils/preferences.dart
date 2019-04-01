@@ -648,7 +648,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     List<String> eventsStr = widget.prefs.getStringList(PrefKey.customEvent);
     List<CustomCourse> actualEvents = (eventsStr ?? []).map((eventStr) {
-      return CustomCourse.fromJsonStr(eventStr);
+      Map<String, dynamic> eventJson = json.decode(eventStr);
+      return CustomCourse.fromJson(eventJson);
     }).toList();
 
     // Set update state true/false on last to force rebuild

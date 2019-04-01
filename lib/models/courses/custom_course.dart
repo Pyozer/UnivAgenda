@@ -35,11 +35,6 @@ class CustomCourse extends Course {
     this.weekdaysRepeat ??= [];
   }
 
-  factory CustomCourse.fromJsonStr(String jsonStr) {
-    Map courseMap = json.decode(jsonStr);
-    return CustomCourse.fromJson(courseMap);
-  }
-
   factory CustomCourse.fromJson(Map<String, dynamic> json) {
     Course course = Course.fromJson(json);
 
