@@ -39,7 +39,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isLoading = true;
-  Map<int, List<BaseCourse>> _courses;
+  Map<int, List<Course>> _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
   List<String> _lastGroupKeys;
@@ -229,7 +229,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
 
     // List for all Cours and header
-    Map<int, List<BaseCourse>> listElement = {};
+    Map<int, List<Course>> listElement = {};
 
     // Add all weekdays for X week(s) depends on numberWeek pref
     if (prefs.isDisplayAllDays) {

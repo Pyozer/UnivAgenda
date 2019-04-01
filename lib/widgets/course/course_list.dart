@@ -13,7 +13,7 @@ import 'package:myagenda/widgets/course/course_row_header.dart';
 import 'package:myagenda/widgets/ui/screen_message/empty_day.dart';
 
 class CourseList extends StatefulWidget {
-  final Map<int, List<BaseCourse>> coursesData;
+  final Map<int, List<Course>> coursesData;
   final CalendarType calType;
 
   const CourseList({
@@ -58,24 +58,20 @@ class _CourseListState extends BaseState<CourseList> {
     );
   }
 
-  Widget _buildHorizontal(context, Map<int, List<BaseCourse>> elements) {
+  Widget _buildHorizontal(context, Map<int, List<Course>> elements) {
     if (elements.isEmpty) return const SizedBox.shrink();
 
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
 
     // Build horizontal view
-    DateTime lastDate;
-
     final today = Date.dateToInt(DateTime.now());
     int initialIndex = 0;
     bool isIndexFound = false;
 
     elements.forEach((date, courses) {
-      if (lastDate == null || Date.dateToInt(lastDate) != date)
-        lastDate = Date.intToDate(date);
-
-      tabs.add(Tab(text: Date.dateFromNow(lastDate, true)));
+      if (courses == null || courses.isEmpty) return;
+      tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
 
       listTabView.add(_buildListCours(context, courses));
 
@@ -124,16 +120,19 @@ class _CourseListState extends BaseState<CourseList> {
     );
   }
 
-  Widget _buildVertical(context, Map<int, List<BaseCourse>> elements) {
+  Widget _buildVertical(context, Map<int, List<Course>> elements) {
     // Build vertical view
     final List<BaseCourse> listChildren = [];
-    DateTime lastDate;
     elements.forEach((date, courses) {
-      if (lastDate == null || Date.dateToInt(lastDate) != date)
-        lastDate = Date.intToDate(date);
+      if (courses == null || courses.isEmpty) return;
 
-      listChildren.add(CourseHeader(lastDate));
-      if (courses != null && courses.isNotEmpty) listChildren.addAll(courses);
+      List<Course> filteredCourses =
+          courses.where((c) => c.dateEnd.isAfter(DateTime.now())).toList();
+
+      if (filteredCourses.isEmpty) return;
+
+      listChildren.add(CourseHeader(Date.intToDate(date)));
+      listChildren.addAll(filteredCourses);
     });
 
     return _buildListCours(context, listChildren);
@@ -151,8 +150,7 @@ class _CourseListState extends BaseState<CourseList> {
     );
   }
 
-  List<Course> _getDayEvents(
-      DateTime day, Map<DateTime, List<BaseCourse>> data) {
+  List<Course> _getDayEvents(DateTime day, Map<DateTime, List<Course>> data) {
     DateTime key = data.keys
         .firstWhere((d) => DateUtils.isSameDay(day, d), orElse: () => null);
     if (key != null)
@@ -162,7 +160,7 @@ class _CourseListState extends BaseState<CourseList> {
     return [];
   }
 
-  Widget _buildCalendar(context, Map<int, List<BaseCourse>> elements) {
+  Widget _buildCalendar(context, Map<int, List<Course>> elements) {
     var events = elements.map(
       (intDate, events) => MapEntry(Date.intToDate(intDate), events),
     );
