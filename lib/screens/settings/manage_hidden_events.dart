@@ -73,7 +73,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.HIDDEN_EVENT),
-      body: prefs.hiddenEvents.length == 0
+      body: prefs.hiddenEvents.isEmpty
           ? Center(
               child: ListView(
                 shrinkWrap: true,

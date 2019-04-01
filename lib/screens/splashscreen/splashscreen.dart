@@ -38,11 +38,11 @@ class SplashScreenState extends BaseState<SplashScreen>
     int oldRes = startTime.difference(prefs.resourcesDate).inHours.abs();
 
     // If university list is empty or cache is older than 6 hours
-    if (prefs.listUniversity.length == 0 || oldRes >= 6) {
+    if (prefs.listUniversity.isEmpty || oldRes >= 6) {
       // Request lastest university list
       final responseUniv = await HttpRequest.get(Url.listUniversity);
       // If request failed and there is no list University
-      if (!responseUniv.isSuccess && prefs.listUniversity.length == 0) {
+      if (!responseUniv.isSuccess && prefs.listUniversity.isEmpty) {
         _setError(StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
         return;
       }
@@ -54,7 +54,7 @@ class SplashScreenState extends BaseState<SplashScreen>
     }
 
     // If list university still empty, set error
-    if (prefs.listUniversity.length == 0) {
+    if (prefs.listUniversity.isEmpty) {
       _setError(StrKey.ERROR_UNIV_LIST_EMPTY);
       return;
     }
@@ -71,10 +71,10 @@ class SplashScreenState extends BaseState<SplashScreen>
     if (prefs.isUserLogged &&
         prefs.urlIcs == null &&
         prefs.university != null &&
-        (prefs.resources.length == 0 || oldRes >= 6)) {
+        (prefs.resources.isEmpty || oldRes >= 6)) {
       final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
 
-      if (!responseRes.isSuccess && prefs.resources.length == 0) {
+      if (!responseRes.isSuccess && prefs.resources.isEmpty) {
         _setError(StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
         return;
       }

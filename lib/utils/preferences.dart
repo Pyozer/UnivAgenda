@@ -175,7 +175,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     String key;
     int level = 0;
-    while (!(resources is int) && resources.keys.length > 0) {
+    while (!(resources is int) && resources.keys.isNotEmpty) {
       if (level < groupKeys.length && resources.containsKey(groupKeys[level]))
         key = groupKeys[level];
       else
@@ -237,34 +237,34 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme);
   }
 
-  setPrimaryColor(int newPrimaryColor, [state = false]) {
+  setPrimaryColor(Color newPrimaryColor, [state = false]) {
     if (theme.primaryColor == newPrimaryColor) return;
 
     _updatePref(() {
       _prefsTheme.primaryColor = newPrimaryColor ?? PrefKey.defaultPrimaryColor;
     }, state);
 
-    widget.prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor);
+    widget.prefs.setInt(PrefKey.primaryColor, _prefsTheme.primaryColor.value);
   }
 
-  setAccentColor(int newAccentColor, [state = false]) {
+  setAccentColor(Color newAccentColor, [state = false]) {
     if (theme.accentColor == newAccentColor) return;
 
     _updatePref(() {
       _prefsTheme.accentColor = newAccentColor ?? PrefKey.defaultAccentColor;
     }, state);
 
-    widget.prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor);
+    widget.prefs.setInt(PrefKey.accentColor, _prefsTheme.accentColor.value);
   }
 
-  setNoteColor(int newNoteColor, [state = false]) {
+  setNoteColor(Color newNoteColor, [state = false]) {
     if (theme.noteColor == newNoteColor) return;
 
     _updatePref(() {
       _prefsTheme.noteColor = newNoteColor ?? PrefKey.defaultNoteColor;
     }, state);
 
-    widget.prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor);
+    widget.prefs.setInt(PrefKey.noteColor, _prefsTheme.noteColor.value);
   }
 
   int get appLaunchCounter =>
@@ -456,7 +456,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   setUniversity(String newUniversity, [state = false]) {
     if ((university?.university ?? "") == newUniversity) return;
 
-    if (listUniversity.length > 0) {
+    if (listUniversity.isNotEmpty) {
       final univ = findUniversity(newUniversity);
       _updatePref(() => _university = univ ?? _listUniversity[0], state);
 
@@ -475,7 +475,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }, state);
 
     // Check actual calendar prefs with new resources
-    if (_resources.length > 0) setGroupKeys(groupKeys, state);
+    if (_resources.isNotEmpty) setGroupKeys(groupKeys, state);
     // Update cache file
     writeFile(PrefKey.resourcesFile, newResourcesJson);
   }
@@ -611,9 +611,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)),
     );
     setDarkTheme(widget.prefs.getBool(PrefKey.isDarkTheme));
-    setPrimaryColor(widget.prefs.getInt(PrefKey.primaryColor));
-    setAccentColor(widget.prefs.getInt(PrefKey.accentColor));
-    setNoteColor(widget.prefs.getInt(PrefKey.noteColor));
+
+    final primaryColorValue = widget.prefs.getInt(PrefKey.primaryColor);
+    if (primaryColorValue != null) setPrimaryColor(Color(primaryColorValue));
+
+    final accentColorValue = widget.prefs.getInt(PrefKey.accentColor);
+    if (accentColorValue != null) setAccentColor(Color(accentColorValue));
+
+    final noteColorValue = widget.prefs.getInt(PrefKey.noteColor);
+    if (noteColorValue != null) setNoteColor(Color(noteColorValue));
 
     // Init other prefs
     final coursesJson = json.decode(
@@ -672,11 +678,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     }
 
     // If list of university is not empty
-    if (listUniversity.length > 0) {
+    if (listUniversity.isNotEmpty) {
       String storedUniversityName = widget.prefs.getString(PrefKey.university);
 
       // If no university store
-      if (storedUniversityName == null || storedUniversityName.length == 0) {
+      if (storedUniversityName == null || storedUniversityName.isEmpty) {
         // Take first university of list
         storedUniversityName = listUniversity[0].university;
       }
@@ -688,7 +694,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       storedResourcesStr.trim();
 
       // If local resources aren't empty
-      if (storedResourcesStr.length > 0 &&
+      if (storedResourcesStr.isNotEmpty &&
           storedResourcesStr != PrefKey.defaultResourcesJson) {
         // Init group preferences
         final List<String> groupKeys =

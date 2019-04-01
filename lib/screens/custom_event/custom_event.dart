@@ -187,7 +187,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       DialogPredefined.showEndTimeError(context);
       return;
     }
-    if (_isRecurrent && _customCourse.weekdaysRepeat.length == 0) {
+    if (_isRecurrent && _customCourse.weekdaysRepeat.isEmpty) {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }

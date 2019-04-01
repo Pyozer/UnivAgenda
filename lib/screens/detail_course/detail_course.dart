@@ -214,7 +214,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     } else if (choice == MenuItem.RENAME) {
       String rename = await _openRenameDialog(widget.course.getTitle());
       if (rename != null) {
-        if (rename.length > 0) {
+        if (rename.isNotEmpty) {
           widget.course.renamedTitle = rename;
           prefs.addRenamedEvent(widget.course.title, rename);
         } else {

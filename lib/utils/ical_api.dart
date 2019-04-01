@@ -25,7 +25,7 @@ class IcalAPI {
   }
 
   static Future<List<Course>> icalToCourses(Ical ical) async {
-    if (ical == null || ical.vcalendar.length == 0) return [];
+    if (ical == null || ical.vcalendar.isEmpty) return [];
 
     return ical.vcalendar[0].vevent.map((vevent) {
       return Course(

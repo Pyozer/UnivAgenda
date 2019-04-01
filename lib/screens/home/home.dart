@@ -306,15 +306,10 @@ class _HomeScreenState extends BaseState<HomeScreen>
       content = const Center(child: CircularProgressIndicator());
     else if (_courses == null) // Courses fetch error
       content = _buildError();
-    else if (_courses.length == 0) // No course found
+    else if (_courses.isEmpty) // No course found
       content = _buildNoResult();
     else
-      content = CourseList(
-        coursesData: _courses,
-        calType: prefs.calendarType,
-        numberWeeks: prefs.numberWeeks,
-        noteColor: Color(prefs.theme.noteColor),
-      );
+      content = CourseList(coursesData: _courses, calType: prefs.calendarType);
 
     return AppbarPage(
       scaffoldKey: _scaffoldKey,

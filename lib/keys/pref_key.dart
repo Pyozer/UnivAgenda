@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
@@ -36,9 +37,9 @@ class PrefKey {
   static const defaultNumberWeeks = 4;
   static const defaultIsPreviousCourses = false;
   static const defaultMaximumPrevDays = 31;
-  static const defaultPrimaryColor = 0xFFF44336; // = Colors.red[500]
-  static const defaultAccentColor = 0xFFFF5252;
-  static const defaultNoteColor = 0xFFFF5252;
+  static const defaultPrimaryColor = Colors.red;
+  static const defaultAccentColor = Colors.redAccent;
+  static const defaultNoteColor = Colors.redAccent;
 
   static const defaultDarkTheme = false;
   static const defaultAppLaunchCounter = 0;

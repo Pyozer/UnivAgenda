@@ -45,7 +45,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
     // All rooms available between times defined
     List<FindSchedulesResult> results = [];
 
-    if (widget.searchResources.length == 0) {
+    if (widget.searchResources.isEmpty) {
       setState(() {
         _searchResult = results;
         _isLoading = false;
@@ -102,7 +102,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
       });
 
       // If no course during chosen hours, mean that room is available
-      if (listCourses.length == 0)
+      if (listCourses.isEmpty)
         results.add(FindSchedulesResult(room, startNoCourse, endNoCourse));
     }
 
@@ -129,7 +129,7 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
     Widget widget;
     if (_isLoading)
       widget = const Center(child: const CircularProgressIndicator());
-    else if (_searchResult.length == 0)
+    else if (_searchResult.isEmpty)
       widget = NoResult(
         title: i18n.text(StrKey.FINDSCHEDULES_NORESULT),
         text: i18n.text(StrKey.FINDSCHEDULES_NORESULT_TEXT),
@@ -162,7 +162,7 @@ class ResultCard extends StatelessWidget {
       info += Date.extractTimeWithDate(findResult.endAvailable);
     }
 
-    final text = (info.length > 0)
+    final text = (info.isNotEmpty)
         ? capitalize(info.trim())
         : i18n.text(StrKey.FINDSCHEDULES_AVAILABLE);
 

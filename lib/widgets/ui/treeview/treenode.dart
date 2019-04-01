@@ -21,11 +21,11 @@ class TreeNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = (node.children.length > 0)
+    final textStyle = (node.children.isNotEmpty)
         ? TextStyle(fontWeight: FontWeight.w700)
         : TextStyle(fontWeight: FontWeight.w400);
 
-    final expandBtn = (node.children.length == 0)
+    final expandBtn = (node.children.isEmpty)
         ? const SizedBox(width: 30.0)
         : IconButton(
             icon: Icon(

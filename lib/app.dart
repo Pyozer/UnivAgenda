@@ -79,10 +79,10 @@ class App extends StatelessWidget {
               platform: TargetPlatform.android,
               fontFamily: 'GoogleSans',
               brightness: getBrightness(themePrefs.darkTheme),
-              primaryColor: Color(themePrefs.primaryColor),
-              accentColor: Color(themePrefs.accentColor),
-              toggleableActiveColor: Color(themePrefs.accentColor),
-              textSelectionHandleColor: Color(themePrefs.accentColor),
+              primaryColor: themePrefs.primaryColor,
+              accentColor: themePrefs.accentColor,
+              toggleableActiveColor: themePrefs.accentColor,
+              textSelectionHandleColor: themePrefs.accentColor,
             );
 
             SystemUiOverlayStyle style = theme.brightness == Brightness.dark

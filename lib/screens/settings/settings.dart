@@ -37,7 +37,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
     if (response.isSuccess && mounted) {
       final resourcesGetStr = response.httpResponse.body;
-      if (resourcesGetStr.trim().length > 0) {
+      if (resourcesGetStr.trim().isNotEmpty) {
         prefs.setResourcesDate();
         prefs.setResources(resourcesGetStr, true);
       }
@@ -164,15 +164,15 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         ListTileColor(
           title: i18n.text(StrKey.PRIMARY_COLOR),
           description: i18n.text(StrKey.PRIMARY_COLOR_DESC),
-          selectedColor: Color(prefs.theme.primaryColor),
-          onColorChange: (color) => prefs.setPrimaryColor(color.value, true),
+          selectedColor: prefs.theme.primaryColor,
+          onColorChange: (color) => prefs.setPrimaryColor(color, true),
         ),
         const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.ACCENT_COLOR),
           description: i18n.text(StrKey.ACCENT_COLOR_DESC),
-          selectedColor: Color(prefs.theme.accentColor),
-          onColorChange: (color) => prefs.setAccentColor(color.value, true),
+          selectedColor: prefs.theme.accentColor,
+          onColorChange: (color) => prefs.setAccentColor(color, true),
           colors: [
             Colors.redAccent,
             Colors.pinkAccent,
@@ -199,8 +199,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         ListTileColor(
           title: i18n.text(StrKey.NOTE_COLOR),
           description: i18n.text(StrKey.NOTE_COLOR_DESC),
-          selectedColor: Color(prefs.theme.noteColor),
-          onColorChange: (color) => prefs.setNoteColor(color.value, true),
+          selectedColor: prefs.theme.noteColor,
+          onColorChange: (color) => prefs.setNoteColor(color, true),
         ),
         SwitchListTile(
           title: ListTileTitle(i18n.text(StrKey.GENERATE_EVENT_COLOR)),

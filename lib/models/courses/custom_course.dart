@@ -85,7 +85,7 @@ class CustomCourse extends Course {
     weekdaysRepeat.forEach((weekDay) {
       weekDaysIndex.add(weekDay.value);
     });
-    if (weekDaysIndex.length > 0)
+    if (weekDaysIndex.isNotEmpty)
       jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
     else
       jsonMap['weekdays_repeat'] = "";

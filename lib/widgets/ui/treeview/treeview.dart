@@ -37,7 +37,7 @@ class _TreeViewState extends State<TreeView> {
 
     final search = widget.search?.trim()?.toLowerCase();
     _setAllNodeVisible(_tree);
-    if (search != null && search.length > 0) _filterTree(_tree, search);
+    if (search != null && search.isNotEmpty) _filterTree(_tree, search);
   }
 
   void buildTree(Node origin, Map<String, dynamic> resources) {
@@ -54,7 +54,7 @@ class _TreeViewState extends State<TreeView> {
   _checkAllNodeChild(Node node, bool checked) {
     node.checked = checked;
     node.children.forEach((child) {
-      if (child.children.length == 0)
+      if (child.children.isEmpty)
         _checkNodeCheckBox(child, checked);
       else
         _checkAllNodeChild(child, checked);
@@ -97,7 +97,7 @@ class _TreeViewState extends State<TreeView> {
 
     if (origin.isHidden) return children;
 
-    if (origin.children.length == 0) {
+    if (origin.children.isEmpty) {
       children.add(TreeNode(
         level: level,
         node: origin,

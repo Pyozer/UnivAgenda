@@ -21,7 +21,7 @@ class _RadioListState extends State<RadioList> {
     if (widget.selectedValue != null &&
         widget.values.contains(widget.selectedValue))
       _selectedChoice = widget.selectedValue;
-    else if (widget.selectedValue == null && widget.values.length > 0)
+    else if (widget.selectedValue == null && widget.values.isNotEmpty)
       _selectedChoice = widget.values[0];
   }
 

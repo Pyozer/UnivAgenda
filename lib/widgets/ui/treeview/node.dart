@@ -20,7 +20,7 @@ class Node {
   }
 
   String toString() {
-    if (children.length < 1) return "\"$key\": $value,\n";
+    if (children.isEmpty) return "\"$key\": $value,\n";
 
     var elemsStr = '';
     this.children.forEach((elem) {

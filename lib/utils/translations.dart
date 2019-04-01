@@ -37,7 +37,7 @@ class GlobalTranslations {
         ? '** $key not found'
         : _localizedValues[key];
 
-    if (params != null && params.length > 0) {
+    if (params != null && params.isNotEmpty) {
       for (String paramKey in params.keys)
         text =
             text.replaceAll(RegExp('{$paramKey}'), params[paramKey].toString());

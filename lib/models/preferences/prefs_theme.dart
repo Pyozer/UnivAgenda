@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 class PrefsTheme {
   bool darkTheme;
-  int primaryColor;
-  int accentColor;
-  int noteColor;
+  Color primaryColor;
+  Color accentColor;
+  Color noteColor;
 
   PrefsTheme({
     this.darkTheme,

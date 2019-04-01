@@ -43,7 +43,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
     if (widget.selectedValue != null &&
         widget.values.contains(widget.selectedValue))
       setState(() => _selectedChoice = widget.selectedValue);
-    else if (widget.values.length > 0)
+    else if (widget.values.isNotEmpty)
       setState(() => _selectedChoice = widget.values[0]);
   }
 

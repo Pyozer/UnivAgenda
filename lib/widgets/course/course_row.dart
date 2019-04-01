@@ -17,7 +17,7 @@ class CourseRow extends StatelessWidget {
   CourseRow({
     Key key,
     this.course,
-    this.noteColor = const Color(PrefKey.defaultNoteColor),
+    this.noteColor = PrefKey.defaultNoteColor,
   }) : super(key: key);
 
   void _onCourseTap(BuildContext context) {
@@ -66,7 +66,7 @@ class CourseRow extends StatelessWidget {
 
     var subtitle = course.location;
     // Location and description not empty
-    if (subtitle.length > 0 && course.description.length > 0) subtitle += " - ";
+    if (subtitle.isNotEmpty && course.description.isNotEmpty) subtitle += " - ";
     subtitle += course.description;
 
     return Card(

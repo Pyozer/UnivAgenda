@@ -50,9 +50,9 @@ class AnalyticsProvider extends InheritedWidget {
       name: AnalyticsEvent.userPrefsColors,
       parameters: <String, String>{
         AnalyticsValue.darkTheme: prefs.theme.darkTheme.toString(),
-        AnalyticsValue.primaryColor: Color(prefs.theme.primaryColor).toString(),
-        AnalyticsValue.accentColor: Color(prefs.theme.accentColor).toString(),
-        AnalyticsValue.noteColor: Color(prefs.theme.noteColor).toString(),
+        AnalyticsValue.primaryColor: prefs.theme.primaryColor.toString(),
+        AnalyticsValue.accentColor: prefs.theme.accentColor.toString(),
+        AnalyticsValue.noteColor: prefs.theme.noteColor.toString(),
       },
     );
   }

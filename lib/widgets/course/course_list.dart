@@ -4,6 +4,7 @@ import 'package:flutter_calendar/flutter_calendar.dart';
 import 'package:myagenda/models/calendar_type.Dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
+import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/preferences.dart';
 import 'package:myagenda/widgets/calendar/calendar_event.dart';
@@ -13,41 +14,34 @@ import 'package:myagenda/widgets/ui/screen_message/empty_day.dart';
 
 class CourseList extends StatefulWidget {
   final Map<int, List<BaseCourse>> coursesData;
-  final int numberWeeks;
   final CalendarType calType;
-  final Color noteColor;
 
   const CourseList({
     Key key,
     @required this.coursesData,
-    @required this.numberWeeks,
-    @required this.noteColor,
     this.calType = CalendarType.VERTICAL,
   }) : super(key: key);
 
   _CourseListState createState() => _CourseListState();
 }
 
-class _CourseListState extends State<CourseList> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _CourseListState extends BaseState<CourseList> {
   Widget _buildListCours(BuildContext context, List<BaseCourse> courses) {
     List<Widget> widgets = [];
+
+    final noteColor = prefs.theme.noteColor;
 
     bool classicView = (widget.calType == CalendarType.HORIZONTAL ||
         widget.calType == CalendarType.VERTICAL);
 
-    if (courses != null && courses.length > 0) {
+    if (courses != null && courses.isNotEmpty) {
       courses.forEach((course) {
         if (course == null)
           widgets.add(const EmptyDay());
         else if (course is CourseHeader)
           widgets.add(CourseRowHeader(coursHeader: course));
         else if (course is Course)
-          widgets.add(CourseRow(course: course, noteColor: widget.noteColor));
+          widgets.add(CourseRow(course: course, noteColor: noteColor));
       });
     } else {
       widgets.add(const EmptyDay(
@@ -65,7 +59,7 @@ class _CourseListState extends State<CourseList> {
   }
 
   Widget _buildHorizontal(context, Map<int, List<BaseCourse>> elements) {
-    if (elements.length < 1) return const SizedBox.shrink();
+    if (elements.isEmpty) return const SizedBox.shrink();
 
     List<Widget> listTabView = [];
     List<Widget> tabs = [];
@@ -139,19 +133,17 @@ class _CourseListState extends State<CourseList> {
         lastDate = Date.intToDate(date);
 
       listChildren.add(CourseHeader(lastDate));
-      if (courses != null && courses.length > 0) listChildren.addAll(courses);
+      if (courses != null && courses.isNotEmpty) listChildren.addAll(courses);
     });
 
     return _buildListCours(context, listChildren);
   }
 
-  Widget buildDialog(BuildContext context, DateTime date, Map events) {
+  Widget _buildDialog(BuildContext context, DateTime date, Map events) {
     List<Course> courseEvents = _getDayEvents(date, events);
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: Container(
         constraints: const BoxConstraints(maxHeight: 480),
         child: _buildListCours(context, courseEvents),
@@ -193,7 +185,7 @@ class _CourseListState extends State<CourseList> {
         onDateSelected: (date) {
           showDialog(
             context: context,
-            builder: (dCtx) => buildDialog(dCtx, date, events),
+            builder: (dCtx) => _buildDialog(dCtx, date, events),
           );
         },
       ),
