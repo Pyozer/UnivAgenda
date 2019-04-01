@@ -1,3 +1,12 @@
+## Version 4.2.0
+
+- Problème de politique de l'id utilisateur avec Analytics corrigé
+- Utilisation d'une API pour parser un fichier ics (amélioration du parser)
+- Amélioration du code
+- Correction bug sur la vue du calendrier (vue mois)
+- Ajout d'un paramètre pour afficher ou non les cours terminés
+- Ajout de la synchronisation des événements perso avec le calendrier du téléphone
+
 ## Version 4.1.0
 
 - Ajout de la possibilité de synchroniser un évènement perso avec l'agenda du téléphone

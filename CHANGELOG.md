@@ -1,3 +1,12 @@
+## Version 4.2.0
+
+- Fix Analytics UserId policy
+- Use IcalToJson API to improve ical parser
+- Code improvements
+- Fix month calendar view bug
+- Add setting to show or not previous courses
+- Added the synchronize feature of custom events with the phone calendar
+
 ## Version 4.1.0
 
 - Added the ability to synchronize a personal event with the phone's calendar
