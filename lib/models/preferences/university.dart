@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:myagenda/models/preferences/credentiel_fields.Dart';
 import 'package:myagenda/models/preferences/status_tags.Dart';
+import 'package:myagenda/utils/functions.dart';
 
 class University {
   String university;
@@ -48,4 +51,27 @@ class University {
             credentialFields == null ? null : credentialFields.toJson(),
         "statusTags": statusTags == null ? null : statusTags.toJson(),
       };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is University &&
+          runtimeType == other.runtimeType &&
+          university == other.university &&
+          agendaUrl == other.agendaUrl &&
+          loginUrl == other.loginUrl &&
+          resourcesFile == other.resourcesFile &&
+          listEqualsNotOrdered(loginFields, other.loginFields) &&
+          credentialFields == other.credentialFields &&
+          statusTags == other.statusTags;
+
+  @override
+  int get hashCode =>
+      university.hashCode ^
+      agendaUrl.hashCode ^
+      loginUrl.hashCode ^
+      resourcesFile.hashCode ^
+      hashList(loginFields) ^
+      credentialFields.hashCode ^
+      statusTags.hashCode;
 }

@@ -24,7 +24,7 @@ class _MyInheritedPreferences extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_MyInheritedPreferences oldWidget) {
-    return true;
+    return data != oldWidget.data;
   }
 }
 
@@ -717,35 +717,51 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   @override
   bool operator ==(Object other) =>
       other is PreferencesProviderState &&
-      groupKeys == other.groupKeys &&
-      numberWeeks == other.numberWeeks &&
-      theme == other.theme &&
-      appLaunchCounter == other.appLaunchCounter &&
-      isIntroDone == other.isIntroDone &&
-      cachedCourses == other.cachedCourses &&
-      notes == other.notes &&
-      customEvents == other.customEvents &&
-      isUserLogged == other.isUserLogged &&
-      calendarType == other.calendarType &&
-      listUniversity == other.listUniversity &&
-      cachedIcalDate == other.cachedIcalDate &&
-      resourcesDate == other.resourcesDate &&
-      resources == other.resources;
+      theme != other.theme &&
+      listEqualsNotOrdered(listUniversity, other.listUniversity) &&
+      university != other.university &&
+      listEqualsNotOrdered(groupKeys, other.groupKeys) &&
+      urlIcs != other.urlIcs &&
+      numberWeeks != other.numberWeeks &&
+      isPreviousCourses != other.isPreviousCourses &&
+      appLaunchCounter != other.appLaunchCounter &&
+      isIntroDone != other.isIntroDone &&
+      isUserLogged != other.isUserLogged &&
+      calendarType != other.calendarType &&
+      isDisplayAllDays != other.isDisplayAllDays &&
+      isFullHiddenEvent != other.isFullHiddenEvent &&
+      listEqualsNotOrdered(cachedCourses, other.cachedCourses) &&
+      listEqualsNotOrdered(notes, other.notes) &&
+      listEqualsNotOrdered(customEvents, other.customEvents) &&
+      listEqualsNotOrdered(hiddenEvents, other.hiddenEvents) &&
+      renamedEvents == other.renamedEvents &&
+      resources != other.resources &&
+      resourcesDate != other.resourcesDate &&
+      cachedIcalDate != other.cachedIcalDate &&
+      isGenerateEventColor != other.isGenerateEventColor;
 
   @override
   int get hashCode =>
-      _prefsGroupKeys.hashCode ^
-      _numberWeeks.hashCode ^
-      _prefsTheme.hashCode ^
-      _appLaunchCounter.hashCode ^
-      _isIntroDone.hashCode ^
-      _cachedCourses.hashCode ^
-      _notes.hashCode ^
-      _customEvents.hashCode ^
-      _userLogged.hashCode ^
-      _calendarType.hashCode ^
-      _listUniversity.hashCode ^
-      _resourcesDate.hashCode ^
-      _cachedIcalDate.hashCode ^
-      _resources.hashCode;
+      theme.hashCode ^
+      hashList(listUniversity) ^
+      university.hashCode ^
+      hashList(groupKeys) ^
+      urlIcs.hashCode ^
+      numberWeeks.hashCode ^
+      isPreviousCourses.hashCode ^
+      appLaunchCounter.hashCode ^
+      isIntroDone.hashCode ^
+      isUserLogged.hashCode ^
+      calendarType.hashCode ^
+      isDisplayAllDays.hashCode ^
+      isFullHiddenEvent.hashCode ^
+      hashList(cachedCourses) ^
+      hashList(notes) ^
+      hashList(customEvents) ^
+      hashList(hiddenEvents) ^
+      renamedEvents.hashCode ^
+      resources.hashCode ^
+      resourcesDate.hashCode ^
+      cachedIcalDate.hashCode ^
+      isGenerateEventColor.hashCode;
 }

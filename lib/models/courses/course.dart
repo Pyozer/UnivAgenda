@@ -111,7 +111,6 @@ class Course extends BaseCourse {
           title == other.title &&
           description == other.description &&
           location == other.location &&
-          listEqualsNotOrdered(notes, other.notes) &&
           dateStart == other.dateStart &&
           dateEnd == other.dateEnd &&
           color == other.color;

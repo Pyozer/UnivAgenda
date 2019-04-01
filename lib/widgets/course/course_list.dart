@@ -29,8 +29,6 @@ class CourseList extends StatefulWidget {
 }
 
 class _CourseListState extends State<CourseList> {
-
-
   @override
   void initState() {
     super.initState();
