@@ -7,10 +7,7 @@ class VEvent {
   String description;
   DateTime lastModified;
   String location;
-  String sequence;
-  String status;
   String summary;
-  String transp;
 
   VEvent({
     this.dtstart,
@@ -21,10 +18,7 @@ class VEvent {
     this.description,
     this.lastModified,
     this.location,
-    this.sequence,
-    this.status,
     this.summary,
-    this.transp,
   });
 
   factory VEvent.fromJson(Map<String, dynamic> json) => VEvent(
@@ -38,14 +32,11 @@ class VEvent {
           ? DateTime.parse(json["created"])
           : null,
         description: json["description"],
-        lastModified: json["last-modified"] != null
-            ? DateTime.parse(json["last-modified"])
+        lastModified: json["lastmodified"] != null
+            ? DateTime.parse(json["lastmodified"])
             : null,
         location: json["location"],
-        sequence: json["sequence"],
-        status: json["status"],
         summary: json["summary"],
-        transp: json["transp"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,11 +46,8 @@ class VEvent {
         "uid": uid,
         "created": created?.toIso8601String(),
         "description": description,
-        "last-modified": lastModified?.toIso8601String(),
+        "lastmodified": lastModified?.toIso8601String(),
         "location": location,
-        "sequence": sequence,
-        "status": status,
         "summary": summary,
-        "transp": transp,
       };
 }

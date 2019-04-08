@@ -25,16 +25,16 @@ class IcalAPI {
   }
 
   static Future<List<Course>> icalToCourses(Ical ical) async {
-    if (ical == null || ical.vcalendar.isEmpty) return [];
+    if (ical == null || ical.vevents.isEmpty) return [];
 
-    return ical.vcalendar[0].vevent.map((vevent) {
+    return ical.vevents.map((vevent) {
       return Course(
         uid: vevent.uid,
         dateStart: _applyTimezone(vevent.dtstart),
         dateEnd: _applyTimezone(vevent.dtend),
         description: capitalize(
           vevent.description
-              .replaceAll(RegExp(r'\\n'), ' ')
+              .replaceAll('\n', ' ')
               .split('(Export')[0]
               .replaceAll(RegExp(r'\s\s+'), ' ')
               .replaceAll('\\', ' ')

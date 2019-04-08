@@ -1,22 +1,20 @@
-import 'package:myagenda/models/ical/vcalendar.dart';
+import 'package:myagenda/models/ical/vevent.dart';
 
 class Ical {
-  List<VCalendar> vcalendar;
+  List<VEvent> vevents;
   bool success;
 
-  Ical({this.vcalendar, this.success});
+  Ical({this.vevents, this.success});
 
   factory Ical.fromJson(Map<String, dynamic> json) => Ical(
-        vcalendar: List<VCalendar>.from(
-          (json["vcalendar"] ?? []).map((x) => VCalendar.fromJson(x)),
+        vevents: List<VEvent>.from(
+          (json["data"] ?? []).map((x) => VEvent.fromJson(x)),
         ),
         success: json["success"],
       );
 
   Map<String, dynamic> toJson() => {
-        "vcalendar": List<dynamic>.from(
-          (vcalendar ?? []).map((x) => x.toJson()),
-        ),
+        "vevents": List<dynamic>.from((vevents ?? []).map((x) => x.toJson())),
         "success": success,
       };
 }

@@ -11,10 +11,10 @@ class Api extends BaseApi {
 
   Future<List<Course>> getCourses(String icalUrl) async {
     final response = await doRequest(http.get(
-      "https://ical-to-json.herokuapp.com/convert.json?url=" +
+      "https://myagendaapi.podpak.now.sh/api/icalparse/?url=" +
           Uri.encodeComponent(icalUrl),
     ));
-    
+
     return IcalAPI.icalToCourses(Ical.fromJson(getData(response)));
   }
 }
