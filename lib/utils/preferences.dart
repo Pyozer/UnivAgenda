@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/pref_key.dart';
-import 'package:myagenda/models/calendar_type.Dart';
+import 'package:myagenda/models/calendar_type.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/note.dart';

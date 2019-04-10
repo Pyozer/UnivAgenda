@@ -4,7 +4,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:myagenda/keys/pref_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/analytics.dart';
-import 'package:myagenda/models/calendar_type.Dart';
+import 'package:myagenda/models/calendar_type.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/note.dart';
@@ -126,7 +126,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     } catch (e) {
       _scaffoldKey?.currentState?.removeCurrentSnackBar();
       _scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(i18n.text(StrKey.NETWORK_ERROR)),
+        content: Text(e.toString()),
       ));
     }
 

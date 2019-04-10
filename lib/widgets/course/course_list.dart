@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/date_utils.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
-import 'package:myagenda/models/calendar_type.Dart';
+import 'package:myagenda/models/calendar_type.dart';
 import 'package:myagenda/models/courses/base_course.dart';
 import 'package:myagenda/models/courses/course.dart';
 import 'package:myagenda/screens/base_state.dart';
