@@ -176,7 +176,6 @@ class StrKey {
   static const LOADING = 'loading';
   static const LOADING_RESOURCES = 'loading_resources';
 
-  static const SUPPORTME_HEADER = 'supportme_header';
   static const SUPPORTME_TEXT = 'supportme_text';
   static const SUPPORTME_PAYPAL = 'supportme_paypal';
   static const SUPPORTME_LINK_ERROR = 'supportme_link_error';
@@ -202,8 +201,6 @@ class StrKey {
   static const DATA_PRIVACY_TEXT = "data_privacy_text";
 
   static const URL_ICS = "url_ics";
-  static const FILE_404 = "file_404";
-  static const CHECKING_ICS_URL = "checking_ics_url";
   static const WRONG_ICS_FORMAT = "wrong_ics_format";
 
   static const CUSTOM_EVENT_EXIT_UNSAVED = "custom_event_exit_unsaved";
@@ -229,5 +226,4 @@ class StrKey {
   static const SYNC_CALENDAR = "sync_calendar";
   static const CHOOSE_CALENDAR = "choose_calendar";
   static const GET_CALENDARS_FAILED = "get_calendars_failed";
-  static const ADD_TO_CALENDAR_FAILED = "add_to_calendar_failed";
 }

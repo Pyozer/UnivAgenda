@@ -17,6 +17,7 @@ dependencies:
   html: ^0.14.0
   firebase_core: ^0.3.4
   firebase_analytics: ^2.1.1
+  flutter_crashlytics: ^0.3.0
   package_info: ^0.4.0+3
   after_layout: ^1.0.7
   flutter_calendar:

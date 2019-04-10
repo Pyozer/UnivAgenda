@@ -171,7 +171,6 @@
   "loading": "Chargement...",
   "loading_resources": "Chargement des ressources d'agendas...",
 
-  "supportme_header": "Don",
   "supportme_text": "Tu aimes MyAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec PayPal, du montant de ton choix.\n\nMerci beaucoup !",
   "supportme_paypal": "Don Paypal",
   "supportme_link_error": "Impossible d'ouvrir le site {site}...\nLien: ",
@@ -197,9 +196,7 @@
   "data_privacy_text": "MyAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
 
   "url_ics": "Url du fichier agenda (.ics)",
-  "file_404": "Le fichier .ics n'a pas été trouvé !\nVérifiez l'url saisie.",
   "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",
-  "checking_ics_url": "Vérification de l'url du fichier .ics...",
 
   "custom_event_exit_unsaved": "Êtes-vous sûr ?",
   "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !",
@@ -223,6 +220,5 @@
 
   "sync_calendar": "Synchroniser avec le calendrier",
   "choose_calendar": "Quel calendrier ?",
-  "get_calendars_failed": "Impossible de récupérer la liste de vos calendriers !",
-  "add_to_calendar_failed": "Erreur lors de l'ajout de l'événement à votre agenda {agenda}."
+  "get_calendars_failed": "Impossible de récupérer la liste de vos calendriers !"
 }
