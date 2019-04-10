@@ -1,3 +1,7 @@
+## Version 4.2.1
+
+- Create a special API for MyAgenda to parse icals
+
 ## Version 4.2.0
 
 - Fix Analytics UserId policy

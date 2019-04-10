@@ -1,3 +1,7 @@
+## Version 4.2.1
+
+- Création d'une API pour MyAgenda dans le but de parser les fichiers ical
+
 ## Version 4.2.0
 
 - Problème de politique de l'id utilisateur avec Analytics corrigé
