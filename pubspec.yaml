@@ -1,6 +1,6 @@
 name: myagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 4.2.1
+version: 4.2.2
 
 dependencies:
   flutter:
@@ -14,15 +14,19 @@ dependencies:
   url_launcher: ^5.0.2
   flutter_markdown: ^0.2.0
   uuid: ^2.0.1
-  html: ^0.14.0
+  html: ^0.14.0+1
   firebase_core: ^0.3.4
-  firebase_analytics: ^2.1.1
+  firebase_analytics: ^2.1.1+2
   flutter_crashlytics: ^0.3.0
   package_info: ^0.4.0+3
   after_layout: ^1.0.7
   flutter_calendar:
-    git: git://github.com/Pyozer/flutter_calendar.git
-  device_calendar: ^0.1.1
+    git: git://github.com/Pyozer/flutter_calendar
+  device_calendar:
+    git:
+      url: git://github.com/builttoroam/flutter_plugins/
+      path: device_calendar
+      branch: develop
 
   flutter_material_color_picker: ^0.0.5
   introduction_screen: ^1.0.0
@@ -42,7 +46,7 @@ flutter:
   assets:
     - res/images/
     - res/locales/
-    - res/2018g.tzf
+    - packages/timezone/data/2018i_all.tzf
 
   fonts:
      - family: GoogleSans

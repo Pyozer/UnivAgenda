@@ -9,7 +9,7 @@ import 'package:timezone/timezone.dart';
 import 'package:flutter_crashlytics/flutter_crashlytics.dart';
 
 Future<List<int>> loadDefaultData() async {
-  var byteData = await rootBundle.load('res/2018g.tzf');
+  var byteData = await rootBundle.load('packages/timezone/data/2018i_all.tzf');
   return byteData.buffer.asUint8List();
 }
 
