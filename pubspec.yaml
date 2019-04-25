@@ -27,7 +27,7 @@ dependencies:
       path: device_calendar
       branch: develop
 
-  flutter_material_color_picker: ^0.0.5
+  flutter_material_color_picker: ^1.0.0
   introduction_screen: ^1.0.1
 
   outline_material_icons: ^0.1.0
