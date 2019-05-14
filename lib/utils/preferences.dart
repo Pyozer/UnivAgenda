@@ -306,22 +306,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   List<Note> get notes => _notes ?? PrefKey.defaultNotes;
 
   setNotes(List<Note> newNotes, [state = false]) {
-    if (notes == newNotes) return;
-
     _updatePref(() => _notes = newNotes ?? PrefKey.defaultNotes, state);
 
-    List<String> notesJSON = [];
-    _notes.forEach((note) {
-      notesJSON.add(json.encode(note.toJson()));
-    });
+    final notesJSON = _notes.map((n) => json.encode(n.toJson())).toList();
     widget.prefs.setStringList(PrefKey.notes, notesJSON);
   }
 
   void addNote(Note noteToAdd, [state = false]) {
     if (noteToAdd == null) return;
-    List<Note> newNotes = notes;
-    newNotes.insert(0, noteToAdd);
-    setNotes(newNotes, state);
+    setNotes(notes..insert(0, noteToAdd), state);
   }
 
   void removeNote(Note noteToRemove, [state = false]) {
@@ -637,9 +630,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
     // Init saved notes
     List<String> notesStr = widget.prefs.getStringList(PrefKey.notes) ?? [];
-    List<Note> actualNotes = notesStr.map((noteJsonStr) {
-      return Note.fromJsonStr(noteJsonStr);
-    }).toList();
+    List<Note> actualNotes = notesStr.map((n) => Note.fromJsonStr(n)).toList();
     setNotes(actualNotes);
 
     // Init hidden courses

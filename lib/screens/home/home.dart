@@ -71,10 +71,11 @@ class _HomeScreenState extends BaseState<HomeScreen>
     }
 
     // Load cached ical
-    try {
-      _prepareList(prefs.cachedCourses);
-    } catch (_) {}
-
+    if (_courses == null) {
+      try {
+        _prepareList(prefs.cachedCourses);
+      } catch (_) {}
+    }
     // Update courses if prefs changes or cached ical older than 15min
     if (isPrefsDifferents ||
         prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
@@ -107,7 +108,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     _refreshKey?.currentState?.show();
 
     String url = prefs.urlIcs;
-    if (prefs.urlIcs == null) {
+    if (url == null) {
       final resID = prefs.getGroupResID();
 
       url = IcalAPI.prepareIcalURL(
@@ -130,16 +131,14 @@ class _HomeScreenState extends BaseState<HomeScreen>
       ));
     }
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+    if (mounted) setState(() => _isLoading = false);
   }
 
-  Course _addNotesToCourse(List<Note> notes, Course course) {
+  Course _addNotesToCourse(List<Note> allNotes, Course course) {
     // Get all note of the course
-    final courseNotes =
-        notes.where((note) => note.courseUid == course.uid).toList();
+    final notes = allNotes.where((n) => n.courseUid == course.uid).toList();
     // Add notes to the course
-    course.notes = courseNotes;
+    course.notes = notes;
     return course;
   }
 
@@ -170,7 +169,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   Future<void> _prepareList(List<Course> courseFromIcal) async {
     List<Course> listCourses = [];
-    // Get all notes saved (expired notes removed by getNotes())
+    // Get all notes saved
     List<Note> allNotes = prefs.notes;
     // Get all custom events (except expired)
     List<CustomCourse> customEvents = prefs.customEvents;
@@ -181,7 +180,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     for (final course in customEvents) {
       course.isHidden = prefs.isCourseHidden(course);
 
-      if (!course.isHidden || course.isHidden && !isFullHidden) {
+      if (!course.isHidden || (course.isHidden && !isFullHidden)) {
         if (course.isRecurrentEvent()) {
           List<CustomCourse> customCourses = _generateRepeatedCourses(course);
           customCourses.forEach((customCourse) {
@@ -215,10 +214,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
         if (course.dateEnd.isAfter(isPrevCourses ? minDate : now)) {
           // Check if course start time is before max date
           if (course.dateStart.isBefore(maxDate)) {
-            // Get all notes of the course
-            course = _addNotesToCourse(allNotes, course);
-            // Add course to list
-            listCourses.add(course);
+            // Add course with notes to list
+            listCourses.add(_addNotesToCourse(allNotes, course));
           }
         }
       }
@@ -236,8 +233,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
       final int numberDays = Date.calcDaysToEndDate(dayDate, prefs.numberWeeks);
       for (int day = 0; day < numberDays; day++) {
-        int dateValue = Date.dateToInt(dayDate);
-        listElement[dateValue] = [];
+        listElement[Date.dateToInt(dayDate)] = [];
         dayDate = dayDate.add(const Duration(days: 1));
       }
     }
@@ -249,9 +245,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       listElement[dateValue].add(course);
     }
 
-    if (!mounted) return;
-
-    setState(() => _courses = listElement);
+    if (mounted) setState(() => _courses = listElement);
   }
 
   void _switchTypeView() {
