@@ -1,6 +1,6 @@
 name: myagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 4.2.3+20190426
+version: 4.2.4+20190521
 
 dependencies:
   flutter:
