@@ -260,13 +260,13 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
         title: i18n.text(
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(OMIcons.check),
-            tooltip: i18n.text(StrKey.SAVE),
-            onPressed: () => _onSubmit(context),
-          )
-        ],
+        fab: FloatingActionButton.extended(
+          icon: const Icon(OMIcons.check),
+          label: Text(i18n.text(StrKey.SAVE)),
+          tooltip: i18n.text(StrKey.SAVE),
+          heroTag: "fabBtn",
+          onPressed: () => _onSubmit(context),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -427,11 +427,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
   Future<bool> _onWillPop() async {
     final _originCourse = (widget.course ?? _baseCourse);
-    bool isEquals = (_originCourse == _customCourse &&
-        _isColor == _originCourse.hasColor() &&
-        _isRecurrent == _originCourse.isRecurrentEvent());
 
-    if (!isEquals) {
+    if (_originCourse != _customCourse ||
+        _isColor != _originCourse.hasColor() ||
+        _isRecurrent != _originCourse.isRecurrentEvent()) {
       bool confirmQuit = await DialogPredefined.showTextDialog(
         context,
         i18n.text(StrKey.CUSTOM_EVENT_EXIT_UNSAVED),

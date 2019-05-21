@@ -8,7 +8,6 @@ import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/button/large_rounded_button.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -159,47 +158,36 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
 
     return AppbarPage(
       title: i18n.text(StrKey.FINDSCHEDULES),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: []
-                  ..addAll(dropdownChoices)
-                  ..addAll([
-                    Row(
-                      children: [
-                        _buildTimePart(
-                          i18n.text(StrKey.START_TIME_EVENT),
-                          _startTime,
-                          (startTime) => _onTimeChange(startTime, _endTime),
-                        ),
-                        const SizedBox(width: 32.0),
-                        _buildTimePart(
-                          i18n.text(StrKey.END_TIME_EVENT),
-                          _endTime,
-                          (endTime) => _onTimeChange(_startTime, endTime),
-                        ),
-                      ],
-                    ),
-                  ]),
+      fab: FloatingActionButton.extended(
+        heroTag: "fabBtn",
+        icon: Icon(OMIcons.search),
+        label: Text(i18n.text(StrKey.SEARCH)),
+        onPressed: _onSearchPressed,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: []
+            ..addAll(dropdownChoices)
+            ..addAll([
+              Row(
+                children: [
+                  _buildTimePart(
+                    i18n.text(StrKey.START_TIME_EVENT),
+                    _startTime,
+                    (startTime) => _onTimeChange(startTime, _endTime),
+                  ),
+                  const SizedBox(width: 32.0),
+                  _buildTimePart(
+                    i18n.text(StrKey.END_TIME_EVENT),
+                    _endTime,
+                    (endTime) => _onTimeChange(_startTime, endTime),
+                  ),
+                ],
               ),
-            ),
-          ),
-          LargeRoundedButton(
-            onPressed: _onSearchPressed,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(OMIcons.search),
-                const SizedBox(width: 16.0),
-                Text(i18n.text(StrKey.SEARCH)),
-              ],
-            ),
-          ),
-        ],
+            ]),
+        ),
       ),
     );
   }

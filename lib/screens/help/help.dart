@@ -85,9 +85,12 @@ class HelpScreen extends StatelessWidget {
                 },
               ),
             ),
-            LargeRoundedButton(
-              onPressed: () => _sendFeedback(context),
-              text: i18n.text(StrKey.SEND_FEEDBACK),
+            Hero(
+              tag: "fabBtn",
+              child: LargeRoundedButton(
+                onPressed: () => _sendFeedback(context),
+                text: i18n.text(StrKey.SEND_FEEDBACK),
+              ),
             ),
           ],
         ),

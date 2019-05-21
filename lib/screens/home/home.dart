@@ -263,13 +263,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
     if (customCourse != null) prefs.addCustomEvent(customCourse, true);
   }
 
-  Widget _buildFab(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: _onFabPressed,
-      child: const Icon(OMIcons.add),
-    );
-  }
-
   Widget _buildNoResult() {
     return NoResult(
       title: i18n.text(StrKey.COURSES_NORESULT),
@@ -319,7 +312,11 @@ class _HomeScreenState extends BaseState<HomeScreen>
       ],
       drawer: MainDrawer(),
       useCustomMenuIcon: true,
-      fab: _buildFab(context),
+      fab: FloatingActionButton(
+        heroTag: "fabBtn",
+        onPressed: _onFabPressed,
+        child: const Icon(OMIcons.add),
+      ),
       body: RefreshIndicator(
         key: _refreshKey,
         onRefresh: () {
