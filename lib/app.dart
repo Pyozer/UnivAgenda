@@ -6,8 +6,8 @@ import 'package:myagenda/screens/about/licences/licences.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules.dart';
 import 'package:myagenda/screens/help/help.dart';
 import 'package:myagenda/screens/home/home.dart';
-import 'package:myagenda/screens/introduction/intro.dart';
 import 'package:myagenda/screens/login/login.dart';
+import 'package:myagenda/screens/onboarding/onboarding.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/screens/supportme/supportme.dart';
@@ -29,7 +29,7 @@ final routes = {
   RouteKey.HELP: HelpScreen(),
   RouteKey.ABOUT: AboutScreen(),
   RouteKey.LICENCES: LicencesScreen(),
-  RouteKey.INTRO: IntroductionScreen(),
+  RouteKey.INTRO: OnboardingScreen(),
   RouteKey.LOGIN: LoginScreen(),
   RouteKey.SUPPORTME: SupportMeScreen(),
 };

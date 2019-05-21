@@ -21,14 +21,10 @@ dependencies:
   after_layout: ^1.0.7
   flutter_calendar:
     git: git://github.com/Pyozer/flutter_calendar
-  device_calendar:
-    git:
-      url: git://github.com/builttoroam/flutter_plugins/
-      path: device_calendar
-      branch: develop
+  device_calendar: 0.1.2+1
 
   flutter_material_color_picker: ^1.0.0
-  introduction_screen: ^1.0.2
+  introduction_screen: ^1.0.4
 
   outline_material_icons: ^0.1.0
   timezone: ^0.5.4

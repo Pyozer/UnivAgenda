@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:introduction_screen/introduction_screen.dart' as IntroScreen;
-import 'package:introduction_screen/model/page_decoration.dart';
-import 'package:introduction_screen/model/page_view_model.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
@@ -12,11 +10,11 @@ import 'package:myagenda/widgets/ui/logo.dart';
 
 const double kIconSize = 150.0;
 
-class IntroductionScreen extends StatefulWidget {
-  _IntroductionScreenState createState() => _IntroductionScreenState();
+class OnboardingScreen extends StatefulWidget {
+  _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _IntroductionScreenState extends BaseState<IntroductionScreen> {
+class _OnboardingScreenState extends BaseState<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
@@ -58,72 +56,57 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
   }
 
   List<PageViewModel> _buildPages() {
-    final dotActiveColor = theme.accentColor;
-    final dotSize = const Size.fromRadius(6.5);
+    final pageDecoration = PageDecoration(
+      dotsDecorator: DotsDecorator(
+        size: const Size.fromRadius(6.5),
+        activeSize: const Size.fromRadius(6.5),
+        activeColor: theme.accentColor,
+        color: Colors.grey,
+      ),
+    );
 
     return [
       PageViewModel(
         i18n.text(StrKey.INTRO_WELCOME_TITLE),
         i18n.text(StrKey.INTRO_WELCOME_DESC),
         image: _wrapImage(Logo(size: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_LOGIN_TITLE),
         i18n.text(StrKey.INTRO_LOGIN_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_AGENDA_TITLE),
         i18n.text(StrKey.INTRO_AGENDA_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_CUSTOM_TITLE),
         i18n.text(StrKey.INTRO_CUSTOM_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_NOTE_TITLE),
         i18n.text(StrKey.INTRO_NOTE_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_EVENT_TITLE),
         i18n.text(StrKey.INTRO_EVENT_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       ),
       PageViewModel(
         i18n.text(StrKey.INTRO_OFFLINE_TITLE),
         i18n.text(StrKey.INTRO_OFFLINE_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_INTERNET, height: kIconSize)),
-        decoration: PageDecoration(
-          progressSize: dotSize,
-          progressColor: dotActiveColor,
-        ),
+        decoration: pageDecoration,
       )
     ];
   }
@@ -138,13 +121,15 @@ class _IntroductionScreenState extends BaseState<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroScreen.IntroductionScreen(
+    return IntroductionScreen(
       pages: _buildPages(),
       onDone: _onDone,
       showSkipButton: true,
       skip: Text(i18n.text(StrKey.SKIP)),
       next: const Icon(Icons.arrow_forward),
       done: Text(i18n.text(StrKey.DONE)),
+      skipFlex: 0,
+      nextFlex: 0,
     );
   }
 }

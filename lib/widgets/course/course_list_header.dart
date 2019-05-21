@@ -22,15 +22,20 @@ class CourseListHeader extends StatelessWidget {
       i18n.text(StrKey.CANCEL),
     );
 
-    if (btnPositivePressed)
-      Navigator.of(context).pushNamed(RouteKey.SETTINGS);
+    if (btnPositivePressed) Navigator.of(context).pushNamed(RouteKey.SETTINGS);
   }
 
   @override
   Widget build(BuildContext context) {
     if (text == null) return const SizedBox.shrink();
 
-    final textStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0, color: getColorDependOfBackground(bgColor ?? Theme.of(context).primaryColor));
+    final textStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 16.0,
+      color: getColorDependOfBackground(
+        bgColor ?? Theme.of(context).primaryColor,
+      ),
+    );
 
     return GestureDetector(
       onTap: () => _onHeaderTap(context),

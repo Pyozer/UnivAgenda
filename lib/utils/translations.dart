@@ -63,8 +63,7 @@ class GlobalTranslations {
 
     if (systemLocale == null || systemLocale == "") systemLocale = kDefaultLang;
     Locale newLocal = Locale(systemLocale.split('_')[0]);
-    if (_locale == null || _locale != newLocal)
-      await setNewLanguage(newLocal);
+    if (_locale == null || _locale != newLocal) await setNewLanguage(newLocal);
     return;
   }
 

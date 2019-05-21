@@ -57,12 +57,10 @@ class CourseRow extends StatelessWidget {
       bgColorRow = getColorFromString(course.getTitle());
 
     String courseDate = course.dateForDisplay();
-    if (course.isStarted())
-      courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
+    if (course.isStarted()) courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
 
     TextStyle style = TextStyle();
-    if (bgColorRow != null)
-      style = style.copyWith(color: Colors.white);
+    if (bgColorRow != null) style = style.copyWith(color: Colors.white);
 
     var subtitle = course.location;
     // Location and description not empty
@@ -92,7 +90,7 @@ class CourseRow extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _text(course.getTitle(), style, 15.0, FontWeight.w600),
+                          _text(course.getTitle(), style, 15, FontWeight.w600),
                           const SizedBox(height: 3.0),
                           _text(subtitle, style, 14.0),
                           const SizedBox(height: 5.0),

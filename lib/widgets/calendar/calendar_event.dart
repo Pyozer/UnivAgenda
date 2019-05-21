@@ -15,11 +15,13 @@ class Event extends StatelessWidget {
         color: color ?? Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(3.0),
       ),
-      child: title != null ? Text(
-        title,
-        maxLines: 1,
-        style: const TextStyle(fontSize: 10.0, color: Colors.white),
-      ) : const SizedBox(height: 3),
+      child: title != null
+          ? Text(
+              title,
+              maxLines: 1,
+              style: const TextStyle(fontSize: 10.0, color: Colors.white),
+            )
+          : const SizedBox(height: 3),
     );
   }
 }

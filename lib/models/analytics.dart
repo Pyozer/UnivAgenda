@@ -42,4 +42,3 @@ class AnalyticsAction {
   static final String refresh = "refresh";
   static final String click = "click";
 }
-
