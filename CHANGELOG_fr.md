@@ -1,3 +1,8 @@
+## Version 4.2.2
+
+- Amélioration du code
+- Mise à jour des dépendances
+
 ## Version 4.2.1
 
 - Création d'une API pour MyAgenda dans le but de parser les fichiers ical

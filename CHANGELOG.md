@@ -1,3 +1,8 @@
+## Version 4.2.2
+
+- Code improvements
+- Update dependencies
+
 ## Version 4.2.1
 
 - Create a special API for MyAgenda to parse icals
