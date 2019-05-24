@@ -29,7 +29,7 @@ dependencies:
   outline_material_icons: ^0.1.0
   timezone: ^0.5.4
   flutter_native_timezone: ^1.0.4
-  qr_flutter: ^2.0.0+51
+  qrcode_reader: ^0.4.4
   
 dev_dependencies:
   flutter_launcher_icons: ^0.7.0

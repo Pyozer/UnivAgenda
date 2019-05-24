@@ -50,5 +50,7 @@
 	<false/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Add events created in the app, to device calendar</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera permission is required for barcode scanning.</string>
 </dict>
 </plist>

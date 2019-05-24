@@ -17,6 +17,7 @@ import 'package:myagenda/widgets/ui/list_divider.dart';
 import 'package:myagenda/widgets/ui/dropdown.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:qrcode_reader/qrcode_reader.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -160,6 +161,17 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       );
   }
 
+  void _scanQRCode() async {
+    String icsUrl = await QRCodeReader()
+               .setAutoFocusIntervalInMs(200) // default 5000
+               .setForceAutoFocus(true) // default false
+               .setTorchEnabled(false) // default false
+               .setHandlePermissions(true) // default true
+               .setExecuteAfterPermissionGranted(true) // default true
+               .scan();
+    print(icsUrl);
+  }
+
   void _showMessage(String msg) {
     DialogPredefined.showSimpleMessage(context, i18n.text(StrKey.ERROR), msg);
   }
@@ -297,7 +309,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 0.0),
                         child: Column(
                           children: _isUrlIcs()
-                              ? [urlICsInput]
+                              ? [
+                                  urlICsInput,
+                                  IconButton(
+                                    icon: Icon(Icons.camera),
+                                    onPressed: _scanQRCode,
+                                  ),
+                                ]
                               : [username, const ListDivider(), password],
                         ),
                       ),
