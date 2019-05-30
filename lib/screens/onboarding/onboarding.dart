@@ -58,10 +58,11 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
   List<PageViewModel> _buildPages() {
     final pageDecoration = PageDecoration(
       dotsDecorator: DotsDecorator(
-        size: const Size.fromRadius(6.5),
-        activeSize: const Size.fromRadius(6.5),
+        size: const Size.fromRadius(5),
+        activeSize: const Size.fromRadius(6),
         activeColor: theme.accentColor,
-        color: Colors.grey,
+        color: Colors.black26,
+        spacing: const EdgeInsets.symmetric(horizontal: 3.0)
       ),
     );
 
@@ -102,12 +103,6 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
         image: _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
         decoration: pageDecoration,
       ),
-      PageViewModel(
-        i18n.text(StrKey.INTRO_OFFLINE_TITLE),
-        i18n.text(StrKey.INTRO_OFFLINE_DESC),
-        image: _wrapImage(Image.asset(Asset.INTRO_INTERNET, height: kIconSize)),
-        decoration: pageDecoration,
-      )
     ];
   }
 
