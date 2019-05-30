@@ -116,9 +116,9 @@ class SplashScreenState extends BaseState<SplashScreen>
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
+            const Expanded(
               flex: 6,
-              child: const Center(child: Logo(size: 150.0)),
+              child: Center(child: Logo(size: 150.0)),
             ),
             Expanded(
               flex: 4,

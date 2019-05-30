@@ -223,7 +223,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           onSelected: (MenuItem result) {
             if (result == MenuItem.REFRESH) _forceRefreshResources();
           },
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItem>>[
+          itemBuilder: (_) => <PopupMenuEntry<MenuItem>>[
                 PopupMenuItem<MenuItem>(
                   value: MenuItem.REFRESH,
                   child: Text(i18n.text(StrKey.REFRESH_AGENDAS)),

@@ -163,13 +163,18 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   void _scanQRCode() async {
     String icsUrl = await QRCodeReader()
-               .setAutoFocusIntervalInMs(200) // default 5000
-               .setForceAutoFocus(true) // default false
-               .setTorchEnabled(false) // default false
-               .setHandlePermissions(true) // default true
-               .setExecuteAfterPermissionGranted(true) // default true
-               .scan();
-    print(icsUrl);
+        .setAutoFocusIntervalInMs(200) // default 5000
+        .setForceAutoFocus(true) // default false
+        .setTorchEnabled(false) // default false
+        .setHandlePermissions(true) // default true
+        .setExecuteAfterPermissionGranted(true) // default true
+        .scan();
+    try {
+      Uri.parse(icsUrl); // Check QRCode content
+      _urlIcsController.text = icsUrl;
+    } catch (e) {
+      _showMessage("Le QRCode ne semble pas contenir un lien valide.");
+    }
   }
 
   void _showMessage(String msg) {
@@ -275,7 +280,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
+          padding: const EdgeInsets.all(16.0),
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
@@ -305,19 +310,16 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                     ),
                     Card(
                       elevation: 4.0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                        child: Column(
-                          children: _isUrlIcs()
-                              ? [
-                                  urlICsInput,
-                                  IconButton(
-                                    icon: Icon(Icons.camera),
-                                    onPressed: _scanQRCode,
-                                  ),
-                                ]
-                              : [username, const ListDivider(), password],
-                        ),
+                      child: Column(
+                        children: _isUrlIcs()
+                            ? [
+                                urlICsInput,
+                                IconButton(
+                                  icon: const Icon(Icons.camera_alt),
+                                  onPressed: _scanQRCode,
+                                ),
+                              ]
+                            : [username, const ListDivider(), password],
                       ),
                     ),
                     const SizedBox(height: 24.0),

@@ -99,9 +99,6 @@ class StrKey {
   static const INTRO_EVENT_TITLE = 'intro_event_title';
   static const INTRO_EVENT_DESC = 'intro_event_desc';
 
-  static const INTRO_OFFLINE_TITLE = 'intro_offline_title';
-  static const INTRO_OFFLINE_DESC = 'intro_offline_desc';
-
   static const COURSE_TEST = 'course_test';
   static const COURSE_DETAILS = 'course_details';
 

@@ -27,7 +27,7 @@ abstract class BaseApi {
       if (res.error == null) return res.data;
       error = CustomException("error", res.error);
     } catch (e) {
-      error = CustomException("error", e.toString());
+      error = CustomException("error", i18n.text(StrKey.ERROR_JSON_PARSE));
     }
     throw error ?? CustomException("unknown", i18n.text(StrKey.UNKNOWN_ERROR));
   }

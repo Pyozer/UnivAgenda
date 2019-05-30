@@ -60,7 +60,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
         children: [
           Expanded(child: Text(hiddenEvent)),
           IconButton(
-            icon: Icon(OMIcons.delete),
+            icon: const Icon(OMIcons.delete),
             onPressed: () => prefs.removeHiddenEvent(hiddenEvent, true),
           ),
         ],
@@ -77,7 +77,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
           ? Center(
               child: ListView(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   NoResult(
                     title: i18n.text(StrKey.NO_HIDDEN_EVENT),
