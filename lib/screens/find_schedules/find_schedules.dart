@@ -5,6 +5,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -24,6 +25,12 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   TimeOfDay _endTime;
 
   bool _alreadyLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsProvider.setScreen(widget);
+  }
 
   @override
   void didChangeDependencies() {

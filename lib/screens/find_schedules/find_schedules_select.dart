@@ -6,6 +6,7 @@ import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -34,7 +35,13 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   Map<String, dynamic> _treeValues = {};
   HashSet<Node> _selectedResources = HashSet();
 
-  didChangeDependencies() {
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsProvider.setScreen(widget);
+  }
+
+  void didChangeDependencies() {
     super.didChangeDependencies();
     final selectFirst = widget.groupKeySearch[0];
     final selectSecond = widget.groupKeySearch[1];
@@ -43,7 +50,7 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     _treeValues = prefs.resources[selectFirst][selectSecond];
   }
 
-  _onSubmit() {
+  void _onSubmit() {
     List<Resource> searchResources = [];
     _selectedResources.forEach((node) {
       searchResources.add(Resource(node.key, node.value));

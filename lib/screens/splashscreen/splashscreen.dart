@@ -7,6 +7,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
@@ -16,13 +17,13 @@ class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-class SplashScreenState extends BaseState<SplashScreen>
-    with AfterLayoutMixin<SplashScreen> {
+class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
   String _errorMsg;
 
   @override
   void afterFirstLayout(BuildContext context) {
     _initPreferences();
+    AnalyticsProvider.setScreen(widget);
   }
 
   Future<void> _initPreferences() async {

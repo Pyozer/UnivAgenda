@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/course.dart';
@@ -5,6 +6,7 @@ import 'package:myagenda/models/findschedules_result.dart';
 import 'package:myagenda/models/resource.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/functions.dart';
@@ -28,16 +30,15 @@ class FindSchedulesResults extends StatefulWidget {
   FindSchedulesResultsState createState() => FindSchedulesResultsState();
 }
 
-class FindSchedulesResultsState extends BaseState<FindSchedulesResults> {
+class FindSchedulesResultsState extends BaseState<FindSchedulesResults>
+    with AfterLayoutMixin {
   List<FindSchedulesResult> _searchResult;
   bool _isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero).then((_) {
-      _search();
-    });
+  void afterFirstLayout(BuildContext context) {
+    _search();
+    AnalyticsProvider.setScreen(widget);
   }
 
   void _search() async {

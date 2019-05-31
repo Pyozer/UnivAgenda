@@ -6,6 +6,7 @@ import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/home/home.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
@@ -38,10 +39,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   void initState() {
     super.initState();
     setOnlyPortrait();
+    AnalyticsProvider.setScreen(widget);
   }
 
   @override
-  dispose() {
+  void dispose() {
     _urlIcsController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();

@@ -1,28 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:flutter/material.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/utils/preferences.dart';
 
-class AnalyticsProvider extends InheritedWidget {
-  AnalyticsProvider(
-    this.analytics,
-    this.observer, {
-    Key key,
-    this.child,
-  }) : super(key: key, child: child);
+class AnalyticsProvider {
+  static final FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-
-  final Widget child;
-
-  static AnalyticsProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(AnalyticsProvider)
-        as AnalyticsProvider);
-  }
-
-  void sendUserPrefsGroup(PreferencesProviderState prefs) {
+  static void sendUserPrefsGroup(PreferencesProviderState prefs) {
     // User group prefs
     analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
       AnalyticsValue.groupKeys:
@@ -32,7 +15,7 @@ class AnalyticsProvider extends InheritedWidget {
     });
   }
 
-  void sendUserPrefsDisplay(PreferencesProviderState prefs) {
+  static void sendUserPrefsDisplay(PreferencesProviderState prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsDisplay,
@@ -44,7 +27,7 @@ class AnalyticsProvider extends InheritedWidget {
     );
   }
 
-  void sendUserPrefsColor(PreferencesProviderState prefs) {
+  static void sendUserPrefsColor(PreferencesProviderState prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsColors,
@@ -57,14 +40,14 @@ class AnalyticsProvider extends InheritedWidget {
     );
   }
 
-  void sendForceRefresh(String value) {
+  static void sendForceRefresh(String value) {
     analytics.logEvent(
       name: AnalyticsEvent.refresh,
       parameters: <String, String>{value: AnalyticsAction.refresh},
     );
   }
 
-  void sendDrawerEvent(bool open) {
+  static void sendDrawerEvent(bool open) {
     String action = open ? AnalyticsAction.open : AnalyticsAction.close;
     analytics.logEvent(
       name: AnalyticsEvent.drawer,
@@ -72,13 +55,18 @@ class AnalyticsProvider extends InheritedWidget {
     );
   }
 
-  void sendLinkClicked(String value) {
+  static void sendLinkClicked(String value) {
     analytics.logEvent(
       name: AnalyticsEvent.link,
       parameters: <String, String>{value: AnalyticsAction.click},
     );
   }
 
-  @override
-  bool updateShouldNotify(AnalyticsProvider oldWidget) => false;
+  static void setScreen(dynamic object) {
+    String className = object.runtimeType.toString();
+    analytics.setCurrentScreen(
+      screenName: className,
+      screenClassOverride: className,
+    );
+  }
 }

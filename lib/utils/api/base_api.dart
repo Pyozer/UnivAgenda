@@ -6,6 +6,8 @@ import 'package:myagenda/models/base_response.dart';
 import 'package:myagenda/models/custom_exception.dart';
 import 'package:myagenda/utils/translations.dart';
 
+const API_URL = "https://myagendaapi.herokuapp.com/api";
+
 abstract class BaseApi {
   BaseApi();
 
@@ -18,6 +20,17 @@ abstract class BaseApi {
         i18n.text(StrKey.NETWORK_ERROR),
       );
     }
+  }
+
+  String getAPIUrl(String route, Map<String, dynamic> queryParams) {
+    String url = API_URL + route;
+    if (queryParams.length == 0) return url;
+
+    List<String> params = [];
+    queryParams.forEach((key, value) {
+      params.add("$key=${Uri.encodeComponent(value)}");
+    });
+    return url + "?" + params.join("&");
   }
 
   Map<String, dynamic> getData<T>(http.Response response) {

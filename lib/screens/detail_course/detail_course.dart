@@ -7,6 +7,7 @@ import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -35,6 +36,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   void initState() {
     super.initState();
     _course = widget.course;
+    AnalyticsProvider.setScreen(widget);
   }
 
   List<Widget> _buildInfo() {

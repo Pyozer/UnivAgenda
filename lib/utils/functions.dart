@@ -26,7 +26,7 @@ Future<void> openLink(BuildContext ctx, String href, String analytic) async {
       SnackBar(content: Text('Could not launch $href')),
     );
   if (ctx != null && analytic != null)
-    AnalyticsProvider.of(ctx).sendLinkClicked(analytic);
+    AnalyticsProvider.sendLinkClicked(analytic);
 }
 
 String capitalize(String input) {

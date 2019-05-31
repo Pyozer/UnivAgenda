@@ -5,6 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result_help.dart';
@@ -25,6 +26,8 @@ class HelpDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsProvider.setScreen(this);
+    
     return AppbarPage(
       title: i18n.text(StrKey.HELP_FEEDBACK),
       body: FutureBuilder(

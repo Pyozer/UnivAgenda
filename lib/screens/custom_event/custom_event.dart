@@ -4,6 +4,7 @@ import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
@@ -59,6 +60,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _customCourse.dateStart = _initFirstDate;
       _customCourse.dateEnd = _initEndDate;
     }
+    AnalyticsProvider.setScreen(widget);
   }
 
   void _getCalendars() async {

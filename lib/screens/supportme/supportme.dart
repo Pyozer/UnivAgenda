@@ -4,6 +4,7 @@ import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
@@ -14,6 +15,12 @@ class SupportMeScreen extends StatefulWidget {
 
 class _SupportMeScreenState extends BaseState<SupportMeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsProvider.setScreen(widget);
+  }
 
   void _openPayPal() {
     _openLink(

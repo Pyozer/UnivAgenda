@@ -5,6 +5,7 @@ import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/settings/manage_hidden_events.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -26,7 +27,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends BaseState<SettingsScreen> {
-  _forceRefreshResources() async {
+  @override
+  void initState() { 
+    super.initState();
+    AnalyticsProvider.setScreen(widget);
+  }
+
+  Future<void> _forceRefreshResources() async {
     // Show progress dialog
     DialogPredefined.showProgressDialog(
       context,
@@ -43,7 +50,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       }
     }
     // Send to analytics user force refresh calendar resources
-    analyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
+    AnalyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
     // Close loading dialog
     Navigator.pop(context);
   }

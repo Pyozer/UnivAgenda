@@ -7,6 +7,7 @@ import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/help/help_details.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -56,6 +57,8 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsProvider.setScreen(this);
+    
     return AppbarPage(
       scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.HELP_FEEDBACK),

@@ -11,12 +11,9 @@ import 'package:myagenda/screens/onboarding/onboarding.dart';
 import 'package:myagenda/screens/settings/settings.dart';
 import 'package:myagenda/screens/splashscreen/splashscreen.dart';
 import 'package:myagenda/screens/supportme/supportme.dart';
-import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/preferences.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,67 +32,54 @@ final routes = {
 };
 
 class App extends StatelessWidget {
-  static var analytics = FirebaseAnalytics();
-  static var observer = FirebaseAnalyticsObserver(analytics: analytics);
-
   final SharedPreferences prefs;
 
   const App({Key key, @required this.prefs}) : super(key: key);
 
-  Widget _buildMaterialApp(ThemeData theme) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "MyAgenda",
-      theme: theme,
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: i18n.supportedLocales(),
-      navigatorObservers: [observer],
-      initialRoute: RouteKey.SPLASHSCREEN,
-      onGenerateRoute: (RouteSettings settings) {
-        if (routes.containsKey(settings.name))
-          return CustomRoute(
-            builder: (_) => routes[settings.name],
-            settings: settings,
-          );
-        assert(false);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AnalyticsProvider(
-      analytics,
-      observer,
-      child: PreferencesProvider(
-        prefs: prefs,
-        child: Builder(
-          builder: (context) {
-            final themePrefs = PreferencesProvider.of(context).theme;
-            final theme = ThemeData(
-              platform: TargetPlatform.android,
-              fontFamily: 'GoogleSans',
-              brightness: getBrightness(themePrefs.darkTheme),
-              primaryColor: themePrefs.primaryColor,
-              accentColor: themePrefs.accentColor,
-              toggleableActiveColor: themePrefs.accentColor,
-              textSelectionHandleColor: themePrefs.accentColor,
-            );
+    return PreferencesProvider(
+      prefs: prefs,
+      child: Builder(
+        builder: (context) {
+          final themePrefs = PreferencesProvider.of(context).theme;
+          final theme = ThemeData(
+            platform: TargetPlatform.android,
+            fontFamily: 'GoogleSans',
+            brightness: getBrightness(themePrefs.darkTheme),
+            primaryColor: themePrefs.primaryColor,
+            accentColor: themePrefs.accentColor,
+            toggleableActiveColor: themePrefs.accentColor,
+            textSelectionHandleColor: themePrefs.accentColor,
+          );
 
-            SystemUiOverlayStyle style = theme.brightness == Brightness.dark
-                ? SystemUiOverlayStyle.light
-                : SystemUiOverlayStyle.dark;
+          SystemUiOverlayStyle style = theme.brightness == Brightness.dark
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark;
 
-            SystemChrome.setSystemUIOverlayStyle(style.copyWith(
-              statusBarColor: Colors.transparent,
-            ));
+          SystemChrome.setSystemUIOverlayStyle(style.copyWith(
+            statusBarColor: Colors.transparent,
+          ));
 
-            return _buildMaterialApp(theme);
-          },
-        ),
+          return MaterialApp(
+            title: "MyAgenda",
+            theme: theme,
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: i18n.supportedLocales(),
+            initialRoute: RouteKey.SPLASHSCREEN,
+            onGenerateRoute: (RouteSettings settings) {
+              if (routes.containsKey(settings.name))
+                return CustomRoute(
+                  builder: (_) => routes[settings.name],
+                  settings: settings,
+                );
+              assert(false);
+            },
+          );
+        },
       ),
     );
   }

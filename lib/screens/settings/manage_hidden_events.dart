@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
@@ -14,6 +15,12 @@ class ManageHiddenEvents extends StatefulWidget {
 class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   final TextEditingController _textController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsProvider.setScreen(widget);
+  }
 
   void _addNewFilter() async {
     bool isSubmit = await DialogPredefined.showContentDialog(

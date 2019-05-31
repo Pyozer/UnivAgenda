@@ -7,6 +7,7 @@ import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/models/analytics.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/functions.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/changelog.dart';
@@ -229,6 +230,8 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsProvider.setScreen(this);
+    
     return AppbarPage(
       title: i18n.text(StrKey.ABOUT),
       body: Container(

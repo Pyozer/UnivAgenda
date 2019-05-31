@@ -11,6 +11,7 @@ import 'package:myagenda/models/courses/note.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/custom_event/custom_event.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
 import 'package:myagenda/utils/date.dart';
@@ -49,6 +50,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   @override
   void afterFirstLayout(BuildContext context) {
     if (widget.isFromLogin) _showDefaultGroupDialog();
+    AnalyticsProvider.setScreen(widget);
   }
 
   @override
@@ -88,9 +90,9 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   void _sendAnalyticsEvent() async {
     // User group, display and colors prefs
-    analyticsProvider.sendUserPrefsGroup(prefs);
-    analyticsProvider.sendUserPrefsDisplay(prefs);
-    analyticsProvider.sendUserPrefsColor(prefs);
+    AnalyticsProvider.sendUserPrefsGroup(prefs);
+    AnalyticsProvider.sendUserPrefsDisplay(prefs);
+    AnalyticsProvider.sendUserPrefsColor(prefs);
   }
 
   void _showDefaultGroupDialog() async {
@@ -320,7 +322,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       body: RefreshIndicator(
         key: _refreshKey,
         onRefresh: () {
-          analyticsProvider.sendForceRefresh(AnalyticsValue.refreshCourses);
+          AnalyticsProvider.sendForceRefresh(AnalyticsValue.refreshCourses);
           return _fetchData();
         },
         child: content,

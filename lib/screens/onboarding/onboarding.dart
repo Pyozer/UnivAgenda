@@ -5,6 +5,7 @@ import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
+import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
 
@@ -19,6 +20,7 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
   void initState() {
     super.initState();
     setOnlyPortrait();
+    AnalyticsProvider.setScreen(widget);
   }
 
   @override
