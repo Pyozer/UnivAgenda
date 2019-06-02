@@ -11,7 +11,7 @@ class Api extends BaseApi {
 
   Future<List<Course>> getCourses(String icalUrl) async {
     final response = await doRequest(http.get(
-      getAPIUrl("/icalparse", {'url': icalUrl}),
+      getAPIUrl("/parseical", {'url': icalUrl}),
     ));
 
     return IcalAPI.icalToCourses(Ical.fromJson(getData(response)));

@@ -42,10 +42,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   Map<int, List<Course>> _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
-  List<String> _lastGroupKeys;
-  String _lastUrlIcs;
-  int _lastNumberWeeks = 0;
-  bool _lastIsPrevCourses = false;
+  int _prefsLastHash;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -59,28 +56,17 @@ class _HomeScreenState extends BaseState<HomeScreen>
     // Define type of view
     _calendarType = prefs.calendarType;
 
-    bool isPrefsDifferents = false;
-    if (prefs.urlIcs != _lastUrlIcs ||
-        prefs.groupKeys != _lastGroupKeys ||
-        prefs.numberWeeks != _lastNumberWeeks ||
-        prefs.isPreviousCourses != _lastIsPrevCourses) {
-      // Update local values
-      _lastUrlIcs = prefs.urlIcs;
-      _lastGroupKeys = prefs.groupKeys;
-      _lastNumberWeeks = prefs.numberWeeks;
-      _lastIsPrevCourses = prefs.isPreviousCourses;
-      isPrefsDifferents = true;
-    }
-
     // Load cached ical
-    if (_courses == null) {
+    if (_courses == null && prefs.cachedCourses != null) {
       try {
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
     }
     // Update courses if prefs changes or cached ical older than 15min
-    if (isPrefsDifferents ||
+    int prefsHash = prefs.hashCode;
+    if (prefsHash != _prefsLastHash ||
         prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
+      _prefsLastHash = prefsHash;
       // Load ical from network
       _fetchData();
       // Send analytics to have stats of prefs users
@@ -104,7 +90,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   Future<void> _fetchData() async {
-    if (!mounted) return;
+    if (!mounted && !_isLoading) return;
 
     setState(() => _isLoading = true);
     _refreshKey?.currentState?.show();

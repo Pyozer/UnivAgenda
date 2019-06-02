@@ -63,8 +63,7 @@ class AppbarSubTitle extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             elevation: 0.0,
             child: Padding(
-              padding:
-                  padding ?? const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
+              padding: padding ?? const EdgeInsets.fromLTRB(20, 12, 20, 16),
               child: child,
             ),
           ),

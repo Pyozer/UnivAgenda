@@ -69,7 +69,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
   }
 
   void _setLoading(bool loading) {
-    setState(() => _isLoading = loading);
+    if (mounted) setState(() => _isLoading = loading);
   }
 
   void _onSubmit() async {
