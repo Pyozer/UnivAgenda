@@ -22,9 +22,9 @@ abstract class BaseApi {
     }
   }
 
-  String getAPIUrl(String route, Map<String, dynamic> queryParams) {
+  String getAPIUrl(String route, [Map<String, dynamic> queryParams]) {
     String url = API_URL + route;
-    if (queryParams.length == 0) return url;
+    if ((queryParams?.length ?? 0) == 0) return url;
 
     List<String> params = [];
     queryParams.forEach((key, value) {
@@ -33,15 +33,19 @@ abstract class BaseApi {
     return url + "?" + params.join("&");
   }
 
-  Map<String, dynamic> getData<T>(http.Response response) {
+  T getData<T>(http.Response response) {
     CustomException error;
     try {
-      final res = BaseResponse.fromJson(json.decode(response.body));
+      final res = BaseResponse<T>.fromJson(json.decode(response.body));
       if (res.error == null) return res.data;
       error = CustomException("error", res.error);
     } catch (e) {
       error = CustomException("error", i18n.text(StrKey.ERROR_JSON_PARSE));
     }
     throw error ?? CustomException("unknown", i18n.text(StrKey.UNKNOWN_ERROR));
+  }
+
+  Map<String, dynamic> getDataMap(http.Response response) {
+    return getData<Map<String, dynamic>>(response);
   }
 }

@@ -2,9 +2,6 @@ class Url {
   static const listUniversity =
       "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/agendas/resources.json";
 
-  static const helpList =
-      "https://raw.githubusercontent.com/Pyozer/MyAgenda_Flutter/master/res/help/help_list.json";
-
   static const myWebsite = 'https://pyozer.github.io';
   static const justinWebsite = 'http://phenixos-lab.ddns.net/Perso';
   static const myTwitter = 'https://twitter.com/jc_mousse';
