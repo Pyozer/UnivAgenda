@@ -22,15 +22,15 @@ class DialogPredefined {
           context: context,
           barrierDismissible: dismissable,
           builder: (_) => SimpleAlertDialog(
-                title: title,
-                content: SingleChildScrollView(
-                  padding: contentPadding ?? kContentPadding,
-                  child: content,
-                ),
-                btnNegative: btnNegative,
-                btnPositive: btnPositive,
-                contentPadding: EdgeInsets.zero,
-              ),
+            title: title,
+            content: SingleChildScrollView(
+              padding: contentPadding ?? kContentPadding,
+              child: content,
+            ),
+            btnNegative: btnNegative,
+            btnPositive: btnPositive,
+            contentPadding: EdgeInsets.zero,
+          ),
         ) ??
         false;
   }

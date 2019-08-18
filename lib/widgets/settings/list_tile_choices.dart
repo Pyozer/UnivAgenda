@@ -58,15 +58,15 @@ class _ListTileChoicesState extends State<ListTileChoices> {
       context: context,
       barrierDismissible: true,
       builder: (context) => SimpleDialog(
-            title: Text(widget.titleDialog ?? widget.title),
-            children: [
-              RadioList(
-                values: widget.values,
-                selectedValue: _selectedChoice,
-                onChange: _onRadioListChange,
-              )
-            ],
-          ),
+        title: Text(widget.titleDialog ?? widget.title),
+        children: [
+          RadioList(
+            values: widget.values,
+            selectedValue: _selectedChoice,
+            onChange: _onRadioListChange,
+          )
+        ],
+      ),
     );
   }
 

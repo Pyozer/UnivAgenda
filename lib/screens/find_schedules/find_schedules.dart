@@ -130,10 +130,10 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindSchedulesFilter(
-              groupKeySearch: _roomKeys,
-              startTime: startTime,
-              endTime: endTime,
-            ),
+          groupKeySearch: _roomKeys,
+          startTime: startTime,
+          endTime: endTime,
+        ),
       ),
     );
   }

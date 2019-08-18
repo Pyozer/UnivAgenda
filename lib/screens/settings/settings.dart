@@ -28,7 +28,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends BaseState<SettingsScreen> {
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     AnalyticsProvider.setScreen(widget);
   }
@@ -231,11 +231,11 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
             if (result == MenuItem.REFRESH) _forceRefreshResources();
           },
           itemBuilder: (_) => <PopupMenuEntry<MenuItem>>[
-                PopupMenuItem<MenuItem>(
-                  value: MenuItem.REFRESH,
-                  child: Text(i18n.text(StrKey.REFRESH_AGENDAS)),
-                ),
-              ],
+            PopupMenuItem<MenuItem>(
+              value: MenuItem.REFRESH,
+              child: Text(i18n.text(StrKey.REFRESH_AGENDAS)),
+            ),
+          ],
         ),
       ];
     }

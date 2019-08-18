@@ -59,10 +59,10 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindSchedulesResults(
-              searchResources: searchResources,
-              startTime: widget.startTime,
-              endTime: widget.endTime,
-            ),
+          searchResources: searchResources,
+          startTime: widget.startTime,
+          endTime: widget.endTime,
+        ),
         fullscreenDialog: true,
       ),
     );

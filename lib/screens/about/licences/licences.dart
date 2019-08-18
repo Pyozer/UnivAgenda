@@ -123,7 +123,7 @@ class LicencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AnalyticsProvider.setScreen(this);
-    
+
     return AppbarPage(
       title: i18n.text(StrKey.OPENSOURCE_LICENCES),
       body: Container(
