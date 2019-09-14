@@ -6,8 +6,8 @@ import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/screens/settings/manage_hidden_events.dart';
 import 'package:myagenda/utils/analytics.dart';
+import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/settings/list_tile_choices.dart';
 import 'package:myagenda/widgets/settings/list_tile_color.dart';
@@ -40,15 +40,17 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
       i18n.text(StrKey.LOADING_RESOURCES),
     );
 
-    final response = await HttpRequest.get(prefs.university.resourcesFile);
+    try {
+      final resources = await Api().getUnivResources(
+        prefs.university.resourcesFile,
+      );
 
-    if (response.isSuccess && mounted) {
-      final resourcesGetStr = response.httpResponse.body;
-      if (resourcesGetStr.trim().isNotEmpty) {
-        prefs.setResourcesDate();
-        prefs.setResources(resourcesGetStr, true);
-      }
-    }
+      if (!mounted) return;
+
+      prefs.setResourcesDate();
+      prefs.setResources(resources, true);
+    } catch (e) {}
+
     // Send to analytics user force refresh calendar resources
     AnalyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
     // Close loading dialog

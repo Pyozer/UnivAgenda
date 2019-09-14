@@ -40,7 +40,7 @@ flutter:
   assets:
     - res/images/
     - res/locales/
-    - packages/timezone/data/2019a_all.tzf
+    - packages/timezone/data/2019b_all.tzf
 
   fonts:
      - family: GoogleSans

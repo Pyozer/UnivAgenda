@@ -54,8 +54,7 @@ class PrefKey {
   static List<Course> defaultCachedCourses = [];
   static List<University> defaultListUniversity = [];
   static const String defaultListUniversityJson = "[]";
-  static Map<String, dynamic> defaultResources = {};
-  static const String defaultResourcesJson = "{}";
+  static const Map<String, dynamic> defaultResources = {};
   static const int defaultResourcesDate = 0;
   static const int defaultCachedIcalDate = 0;
   static List<Note> defaultNotes = [];

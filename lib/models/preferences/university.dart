@@ -28,9 +28,9 @@ class University {
         agendaUrl: json["agendaUrl"],
         loginUrl: json["loginUrl"],
         resourcesFile: json["resourcesFile"],
-        loginFields: json["loginFields"] == null
-            ? null
-            : List<String>.from(json["loginFields"].map((x) => x)),
+        loginFields: json["loginFields"] != null
+            ? List<String>.from(json["loginFields"].map((v) => v.toString()))
+            : null,
         credentialFields: json["credentialFields"] == null
             ? null
             : CredentialFields.fromJson(json["credentialFields"]),
@@ -44,12 +44,9 @@ class University {
         "agendaUrl": agendaUrl,
         "loginUrl": loginUrl,
         "resourcesFile": resourcesFile,
-        "loginFields": loginFields == null
-            ? null
-            : List<dynamic>.from(loginFields.map((x) => x)),
-        "credentialFields":
-            credentialFields == null ? null : credentialFields.toJson(),
-        "statusTags": statusTags == null ? null : statusTags.toJson(),
+        "loginFields": loginFields,
+        "credentialFields": credentialFields?.toJson(),
+        "statusTags": statusTags?.toJson(),
       };
 
   @override

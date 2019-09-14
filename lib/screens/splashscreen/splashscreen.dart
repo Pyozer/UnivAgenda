@@ -2,16 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/keys/url.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
 import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/http/http_request.dart';
+import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:myagenda/widgets/ui/logo.dart';
+import 'package:timezone/timezone.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
@@ -26,7 +28,20 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     AnalyticsProvider.setScreen(widget);
   }
 
+  Future<List<int>> loadDefaultData() async {
+    final byteData = await rootBundle.load(
+      'packages/timezone/data/2019b_all.tzf',
+    );
+    return byteData.buffer.asUint8List();
+  }
+
   Future<void> _initPreferences() async {
+    // Init timezone
+    initializeDatabase(await loadDefaultData());
+    setLocalLocation(
+      getLocation(await FlutterNativeTimezone.getLocalTimezone()),
+    );
+
     _setError(null);
     _startTimeout();
 
@@ -41,15 +56,16 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     // If university list is empty or cache is too old
     if (prefs.listUniversity.isEmpty || isListUnivOld) {
       // Request lastest university list
-      final responseUniv = await HttpRequest.get(Url.listUniversity);
-      // If request failed and there is no list University
-      if (!responseUniv.isSuccess && prefs.listUniversity.isEmpty) {
-        return _setError(StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
-      }
-      // Update university list
-      if (responseUniv.httpResponse != null) {
-        prefs.setListUniversityFromJSONString(responseUniv.httpResponse.body);
+      try {
+        final responseUniv = await Api().getResources();
+        // Update university list
+        prefs.setListUniversity(responseUniv);
         prefs.setResourcesDate(now);
+      } catch (e) {
+        print(e);
+        // If request failed and there is no list University
+        if (prefs.listUniversity.isEmpty)
+          return _setError(StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
       }
     }
 
@@ -71,17 +87,17 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
         prefs.urlIcs == null &&
         prefs.university != null &&
         (prefs.resources.isEmpty || isListUnivOld)) {
-      final responseRes = await HttpRequest.get(prefs.university.resourcesFile);
-
-      if (!responseRes.isSuccess && prefs.resources.isEmpty) {
-        return _setError(StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
-      }
-
-      // Update resources with new data get
-      if (responseRes.httpResponse != null) {
-        final resourcesGet = responseRes.httpResponse.body;
-        prefs.setResources(resourcesGet);
+      try {
+        final responseRes = await Api().getUnivResources(
+          prefs.university.resourcesFile,
+        );
+        // Update resources with new data get
+        prefs.setResources(responseRes);
         prefs.setResourcesDate(now);
+      } catch (e) {
+        if (prefs.resources.isEmpty) {
+          return _setError(StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
+        }
       }
     }
 

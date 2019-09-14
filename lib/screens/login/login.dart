@@ -9,7 +9,6 @@ import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -119,23 +118,20 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
 
-      final response = await HttpRequest.get(prefs.university.resourcesFile);
-
-      if (!mounted) return;
-
-      if (!response.isSuccess) {
-        _setLoading(false);
-        _showMessage(i18n.text(StrKey.GET_RES_ERROR));
-        return;
-      }
-
       try {
-        prefs.setResources(response.httpResponse.body);
-      } catch (_) {
-        _setLoading(false);
-        _showMessage(i18n.text(StrKey.ERROR_JSON_PARSE));
-        return;
+        final resources = await Api().getUnivResources(
+          prefs.university.resourcesFile,
+        );
+
+        prefs.setResources(resources);
+      } catch (e) {
+        if (mounted) {
+          _setLoading(false);
+          _showMessage(i18n.text(StrKey.GET_RES_ERROR));
+          return;
+        }
       }
+
       prefs.setResourcesDate();
     } else if (mounted) {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
