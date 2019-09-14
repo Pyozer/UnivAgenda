@@ -10,29 +10,29 @@ dependencies:
 
   http: 0.12.0+2
   shared_preferences: 0.5.3+4
-  path_provider: 1.2.0
-  url_launcher: 5.1.2
+  path_provider: 1.3.0
+  url_launcher: 5.1.3
   flutter_markdown: 0.2.0
   uuid: 2.0.2
   html: 0.14.0+2
-  firebase_analytics: 5.0.0
-  firebase_crashlytics: 0.1.0+2
+  firebase_analytics: 5.0.2
+  firebase_crashlytics: 0.1.0+3
   package_info: 0.4.0+6
   after_layout: 1.0.7+2
   flutter_calendar:
     git: git://github.com/Pyozer/flutter_calendar
-  device_calendar: 0.2.1+1
+  device_calendar: 1.0.0+2
 
-  flutter_material_color_picker: 1.0.3
+  flutter_material_color_picker: 1.0.4
   introduction_screen: 1.0.6
 
   outline_material_icons: ^0.1.0
-  timezone: 0.5.4
+  timezone: 0.5.5
   flutter_native_timezone: 1.0.4
   qrcode_reader: 0.4.4
   
 dev_dependencies:
-  flutter_launcher_icons: 0.7.2+1
+  flutter_launcher_icons: 0.7.3
 
 flutter:
   uses-material-design: true
