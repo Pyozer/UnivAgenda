@@ -120,7 +120,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
       try {
         final resources = await Api().getUnivResources(
-          prefs.university.resourcesFile,
+          prefs.university.id,
         );
 
         prefs.setResources(resources);
@@ -138,7 +138,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       prefs.setUrlIcs(urlIcs);
 
       try {
-        final courses = await Api().getCourses(urlIcs);
+        final courses = await Api().getCoursesCustomIcal(urlIcs);
 
         if (!mounted) return;
         prefs.setCachedCourses(courses);

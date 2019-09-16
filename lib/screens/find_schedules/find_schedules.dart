@@ -175,25 +175,24 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: []
-            ..addAll(dropdownChoices)
-            ..addAll([
-              Row(
-                children: [
-                  _buildTimePart(
-                    i18n.text(StrKey.START_TIME_EVENT),
-                    _startTime,
-                    (startTime) => _onTimeChange(startTime, _endTime),
-                  ),
-                  const SizedBox(width: 32.0),
-                  _buildTimePart(
-                    i18n.text(StrKey.END_TIME_EVENT),
-                    _endTime,
-                    (endTime) => _onTimeChange(_startTime, endTime),
-                  ),
-                ],
-              ),
-            ]),
+          children: [
+            ...dropdownChoices,
+            Row(
+              children: [
+                _buildTimePart(
+                  i18n.text(StrKey.START_TIME_EVENT),
+                  _startTime,
+                  (startTime) => _onTimeChange(startTime, _endTime),
+                ),
+                const SizedBox(width: 32.0),
+                _buildTimePart(
+                  i18n.text(StrKey.END_TIME_EVENT),
+                  _endTime,
+                  (endTime) => _onTimeChange(_startTime, endTime),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

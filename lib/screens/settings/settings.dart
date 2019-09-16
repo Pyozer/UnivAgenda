@@ -42,7 +42,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
     try {
       final resources = await Api().getUnivResources(
-        prefs.university.resourcesFile,
+        prefs.university.id,
       );
 
       if (!mounted) return;
@@ -128,9 +128,6 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         activeColor: theme.accentColor,
         onChanged: (value) => prefs.setDisplayAllDays(value, true),
       ),
-    ];
-
-    settingsDisplayItems.addAll([
       SwitchListTile(
         title: ListTileTitle(i18n.text(StrKey.HIDDEN_EVENT)),
         subtitle: Text(i18n.text(StrKey.FULL_HIDDEN_EVENT_DESC)),
@@ -150,7 +147,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           );
         },
       )
-    ]);
+    ];
 
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_DISPLAY),

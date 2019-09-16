@@ -232,24 +232,20 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       i18n.text(StrKey.SUNDAY).substring(0, 1),
     ];
 
-    List<Widget> weekDayChips = [];
-
-    WeekDay.values.forEach((weekday) {
-      weekDayChips.add(
-        CircleText(
-          onChange: (newSelected) {
-            setState(() {
-              if (newSelected)
-                _customCourse.weekdaysRepeat.add(weekday);
-              else
-                _customCourse.weekdaysRepeat.remove(weekday);
-            });
-          },
-          text: weekDaysText[weekday.value - 1],
-          isSelected: _customCourse.weekdaysRepeat.contains(weekday),
-        ),
+    List<Widget> weekDayChips = WeekDay.values.map((weekday) {
+      return CircleText(
+        onChange: (newSelected) {
+          setState(() {
+            if (newSelected)
+              _customCourse.weekdaysRepeat.add(weekday);
+            else
+              _customCourse.weekdaysRepeat.remove(weekday);
+          });
+        },
+        text: weekDaysText[weekday.value - 1],
+        isSelected: _customCourse.weekdaysRepeat.contains(weekday),
       );
-    });
+    }).toList();
 
     return weekDayChips;
   }
@@ -382,16 +378,15 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   onChanged: _onColorCustom,
                 ),
               ),
-              _isColor
-                  ? ListTileColor(
-                      title: i18n.text(StrKey.EVENT_COLOR),
-                      description: i18n.text(StrKey.EVENT_COLOR_DESC),
-                      selectedColor: _customCourse.color,
-                      onColorChange: (color) {
-                        setState(() => _customCourse.color = color);
-                      },
-                    )
-                  : const SizedBox.shrink(),
+              if (_isColor)
+                ListTileColor(
+                  title: i18n.text(StrKey.EVENT_COLOR),
+                  description: i18n.text(StrKey.EVENT_COLOR_DESC),
+                  selectedColor: _customCourse.color,
+                  onColorChange: (color) {
+                    setState(() => _customCourse.color = color);
+                  },
+                ),
               const Divider(height: 0.0),
               ListTile(
                 onTap: () =>
@@ -404,22 +399,20 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   onChanged: _onSyncCalendar,
                 ),
               ),
-              _customCourse.syncCalendar != null
-                  ? ListTileChoices(
-                      title: i18n.text(StrKey.CHOOSE_CALENDAR),
-                      values: _deviceCalendars.map((c) => c.name).toList(),
-                      onChange: (calendar) {
-                        setState(() {
-                          _customCourse.syncCalendar =
-                              _deviceCalendars.firstWhere(
-                            (c) => c.name == calendar,
-                            orElse: () => null,
-                          );
-                        });
-                      },
-                      selectedValue: _customCourse.syncCalendar?.name,
-                    )
-                  : const SizedBox.shrink()
+              if (_customCourse.syncCalendar != null)
+                ListTileChoices(
+                  title: i18n.text(StrKey.CHOOSE_CALENDAR),
+                  values: _deviceCalendars.map((c) => c.name).toList(),
+                  onChange: (calendar) {
+                    setState(() {
+                      _customCourse.syncCalendar = _deviceCalendars.firstWhere(
+                        (c) => c.name == calendar,
+                        orElse: () => null,
+                      );
+                    });
+                  },
+                  selectedValue: _customCourse.syncCalendar?.name,
+                )
             ],
           ),
         ),

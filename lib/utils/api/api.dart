@@ -7,6 +7,7 @@ import 'package:myagenda/models/help_item.dart';
 import 'package:myagenda/models/ical/ical.dart';
 import 'package:myagenda/models/preferences/university.dart';
 import 'package:myagenda/utils/api/base_api.dart';
+import 'package:myagenda/utils/date.dart';
 import 'package:myagenda/utils/ical_api.dart';
 import 'package:myagenda/utils/translations.dart';
 
@@ -24,18 +25,34 @@ class Api extends BaseApi {
     ));
   }
 
-  Future<Map<String, dynamic>> getUnivResources(String univName) async {
+  Future<Map<String, dynamic>> getUnivResources(String univId) async {
     final response = await doRequest(http.get(
-      getAPIUrl('/resources/$univName'),
+      getAPIUrl('/resources/$univId'),
       headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
     ));
 
     return getDataMap(response);
   }
 
-  Future<List<Course>> getCourses(String icalUrl) async {
+  Future<List<Course>> getCourses(
+    String univId,
+    int resId,
+    IcalPrepareResult dates,
+  ) async {
     final response = await doRequest(http.get(
-      getAPIUrl("/parseical", {'url': icalUrl}),
+      getAPIUrl("/parseIcal/$univId/$resId", {
+        'firstDate': Date.formatDateApi(dates.firstDate),
+        'lastDate': Date.formatDateApi(dates.lastDate),
+      }),
+      headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
+    ));
+
+    return IcalAPI.icalToCourses(Ical.fromJson(getDataMap(response)));
+  }
+
+  Future<List<Course>> getCoursesCustomIcal(String icalUrl) async {
+    final response = await doRequest(http.get(
+      getAPIUrl("/parseCustomIcal", {'url': icalUrl}),
       headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
     ));
 

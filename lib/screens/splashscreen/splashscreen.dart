@@ -89,7 +89,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
         (prefs.resources.isEmpty || isListUnivOld)) {
       try {
         final responseRes = await Api().getUnivResources(
-          prefs.university.resourcesFile,
+          prefs.university.id,
         );
         // Update resources with new data get
         prefs.setResources(responseRes);

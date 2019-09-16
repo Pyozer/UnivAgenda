@@ -95,20 +95,20 @@ class _HomeScreenState extends BaseState<HomeScreen>
     setState(() => _isLoading = true);
     _refreshKey?.currentState?.show();
 
-    String url = prefs.urlIcs;
-    if (url == null) {
-      final resID = prefs.getGroupResID();
-
-      url = IcalAPI.prepareIcalURL(
-        prefs.university.agendaUrl,
-        resID,
-        prefs.numberWeeks,
-        prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
-      );
-    }
-
     try {
-      final courses = await Api().getCourses(url);
+      List<Course> courses = [];
+
+      if (prefs.urlIcs != null) {
+        courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
+      } else {
+        final resID = prefs.getGroupResID();
+
+        final dates = IcalAPI.prepareIcalDates(
+          prefs.numberWeeks,
+          prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
+        );
+        courses = await Api().getCourses(prefs.university.id, resID, dates);
+      }
 
       await _prepareList(courses);
       prefs.setCachedCourses(courses);

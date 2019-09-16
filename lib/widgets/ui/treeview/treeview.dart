@@ -75,14 +75,14 @@ class _TreeViewState extends State<TreeView> {
   }
 
   _checkParentNodeCheckBox(Node node) {
-    var nodeParent = node.parent;
+    Node nodeParent = node.parent;
     while (nodeParent != null) {
       int nbCheck = 0;
       for (Node child in nodeParent.children) {
         if (child.checked == true) nbCheck += 1;
       }
       final nbrChild = nodeParent.children.length;
-      var check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
+      bool check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
       _checkNodeCheckBox(nodeParent, check);
       nodeParent = nodeParent.parent;
     }

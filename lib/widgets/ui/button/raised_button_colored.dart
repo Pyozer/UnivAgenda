@@ -30,13 +30,18 @@ class RaisedButtonColored extends StatelessWidget {
           ),
       onPressed: onPressed,
       child: text != null
-          ? Text(text.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.w600))
+          ? Text(
+              text.toUpperCase(),
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            )
           : child,
       color: accentColor,
       textColor: color,
       padding: padding ??
-          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+          const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 6.0,
+          ),
     );
   }
 }

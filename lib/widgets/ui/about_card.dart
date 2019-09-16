@@ -18,8 +18,7 @@ class AboutCard extends StatelessWidget {
   }) : super(key: key);
 
   List<Widget> _buildChildren(BuildContext context) {
-    final List<Widget> cardContent = [];
-    cardContent.add(
+    return <Widget>[
       Padding(
         padding: lateralPadding
             ? const EdgeInsets.only(bottom: 12.0)
@@ -32,10 +31,8 @@ class AboutCard extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.w700),
         ),
       ),
-    );
-    cardContent.addAll(children ?? []);
-
-    return cardContent;
+      ...children ?? []
+    ];
   }
 
   @override
@@ -44,9 +41,7 @@ class AboutCard extends StatelessWidget {
       elevation: 4.0,
       margin: margin,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(6.0),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(6.0)),
       ),
       child: Container(
         padding: lateralPadding

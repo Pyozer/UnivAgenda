@@ -61,11 +61,11 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults>
       // Get data
       List<Course> listCourses = [];
       try {
-        listCourses = await Api().getCourses(IcalAPI.prepareIcalURL(
+        listCourses = await Api().getCourses(
           prefs.university.agendaUrl,
           room.resourceId,
-          0,
-        ));
+          IcalAPI.prepareIcalDates(0),
+        );
       } catch (e) {
         if (!mounted) return;
         setState(() {
