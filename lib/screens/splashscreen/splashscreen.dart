@@ -36,6 +36,9 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
   }
 
   Future<void> _initPreferences() async {
+    // Init translations
+    await i18n.init();
+    
     // Init timezone
     initializeDatabase(await loadDefaultData());
     setLocalLocation(

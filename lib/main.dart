@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myagenda/app.dart';
-import 'package:myagenda/utils/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
@@ -16,8 +15,6 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Init translations
-  await i18n.init();
   // Init shared preferences
   final prefs = await SharedPreferences.getInstance();
 
