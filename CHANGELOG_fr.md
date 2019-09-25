@@ -2,6 +2,7 @@
 
 - Amélioration de la gestion des data
 - Correction bug "Synchronisation calendrier" sur Android
+- Correction de la manière de sauvegarder la date du cache
 
 ## Version 4.2.2
 

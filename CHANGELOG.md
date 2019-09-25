@@ -2,6 +2,7 @@
 
 - Improve data mangement
 - Fix "Calendar synchronize" on Android
+- Fix last resources/ical date cache saving
 
 ## Version 4.2.2
 
