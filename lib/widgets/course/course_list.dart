@@ -70,7 +70,7 @@ class _CourseListState extends BaseState<CourseList> {
     bool isIndexFound = false;
 
     elements.forEach((date, courses) {
-      if (courses == null || courses.isEmpty) return;
+      if (!prefs.isDisplayAllDays && (courses == null || courses.isEmpty)) return;
       tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
 
       listTabView.add(_buildListCours(context, courses));
@@ -95,7 +95,7 @@ class _CourseListState extends BaseState<CourseList> {
     final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
 
     return DefaultTabController(
-      length: elements.length,
+      length: tabs.length,
       initialIndex: initialIndex,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

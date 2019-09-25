@@ -23,7 +23,7 @@ dependencies:
     git: git://github.com/Pyozer/flutter_calendar
   device_calendar: 1.0.0+2
 
-  flutter_material_color_picker: 1.0.4
+  flutter_material_color_picker: 1.0.5
   introduction_screen: 1.0.6
 
   outline_material_icons: ^0.1.0
