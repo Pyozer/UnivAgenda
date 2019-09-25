@@ -1,3 +1,8 @@
+## Version 4.3.0
+
+- Amélioration de la gestion des data
+- Correction bug "Synchronisation calendrier" sur Android
+
 ## Version 4.2.2
 
 - Amélioration du code

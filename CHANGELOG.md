@@ -1,3 +1,8 @@
+## Version 4.3.0
+
+- Improve data mangement
+- Fix "Calendar synchronize" on Android
+
 ## Version 4.2.2
 
 - Code improvements

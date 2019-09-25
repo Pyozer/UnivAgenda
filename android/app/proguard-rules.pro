@@ -9,4 +9,7 @@
 # Firebase
 -keep class com.google.firebase.** { *; }
 
+# Device calendar
+-keep class com.builttoroam.devicecalendar.** { *; }
+
 -dontwarn android.**
