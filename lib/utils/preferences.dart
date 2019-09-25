@@ -469,33 +469,25 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     writeFile(PrefKey.resourcesFile, json.encode(newResources));
   }
 
-  DateTime get resourcesDate =>
-      _resourcesDate ??
-      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
+  DateTime get resourcesDate => _resourcesDate ?? DateTime(2000);
 
-  setResourcesDate([newResDate, state = false]) {
-    newResDate ??= DateTime.now();
-
+  setResourcesDate([DateTime newResDate, state = false]) {
     _updatePref(() => _resourcesDate = newResDate, state);
 
-    widget.prefs.setInt(
+    widget.prefs.setString(
       PrefKey.resourcesDate,
-      _resourcesDate.millisecondsSinceEpoch,
+      _resourcesDate?.toIso8601String(),
     );
   }
 
-  DateTime get cachedIcalDate =>
-      _cachedIcalDate ??
-      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
+  DateTime get cachedIcalDate => _cachedIcalDate ?? DateTime(2000);
 
-  setCachedIcalDate([newCachedIcalDate, state = false]) {
-    newCachedIcalDate ??= DateTime.now();
-
+  setCachedIcalDate([DateTime newCachedIcalDate, state = false]) {
     _updatePref(() => _cachedIcalDate = newCachedIcalDate, state);
 
-    widget.prefs.setInt(
+    widget.prefs.setString(
       PrefKey.cachedIcalDate,
-      _cachedIcalDate.millisecondsSinceEpoch,
+      _cachedIcalDate?.toIso8601String(),
     );
   }
 
@@ -581,13 +573,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<void> initFromDisk([state = false]) async {
     await initResAndGroup();
 
-    int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
-        PrefKey.defaultResourcesDate;
-    setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
+    String resourcesDate = widget.prefs.getString(PrefKey.resourcesDate);
+    if (resourcesDate != null) setResourcesDate(DateTime.parse(resourcesDate));
 
-    int cachedIcalDate = widget.prefs.getInt(PrefKey.cachedIcalDate) ??
-        PrefKey.defaultCachedIcalDate;
-    setCachedIcalDate(DateTime.fromMillisecondsSinceEpoch(cachedIcalDate));
+    String cachedIcalDate = widget.prefs.getString(PrefKey.cachedIcalDate);
+    if (cachedIcalDate != null)
+      setCachedIcalDate(DateTime.parse(cachedIcalDate));
 
     // Init number of weeks to display
     setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));

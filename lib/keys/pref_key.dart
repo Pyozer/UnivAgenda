@@ -26,8 +26,8 @@ class PrefKey {
   static const isFullHiddenEvents = 'is_full_hidden_event';
 
   static const calendarType = 'calendar_type';
-  static const resourcesDate = 'ressources_date';
-  static const cachedIcalDate = 'cached_ical_date';
+  static const resourcesDate = 'ressources_date_cache';
+  static const cachedIcalDate = 'ical_date_cache';
 
   static const notes = 'notes';
   static const customEvent = 'custom_events';
@@ -55,8 +55,6 @@ class PrefKey {
   static List<University> defaultListUniversity = [];
   static const String defaultListUniversityJson = "[]";
   static const Map<String, dynamic> defaultResources = {};
-  static const int defaultResourcesDate = 0;
-  static const int defaultCachedIcalDate = 0;
   static List<Note> defaultNotes = [];
   static List<CustomCourse> defaultCustomEvents = [];
   static List<String> defaultHiddenEvents = [];
