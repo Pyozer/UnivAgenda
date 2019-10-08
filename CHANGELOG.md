@@ -1,3 +1,9 @@
+## Version 4.3.0
+
+- Improve data mangement
+- Fix "Calendar synchronize" on Android
+- Fix last resources/ical date cache saving
+
 ## Version 4.2.2
 
 - Code improvements
@@ -65,9 +71,9 @@
 ## Version 4.0.4
 
 - Improvement of the TreeView (search slots free)
-  - Added search when choosing resources
-  - Added ability to open / close resource groups
-  - Better visibility of groups
+  - Added search when choosing resources
+  - Added ability to open / close resource groups
+  - Better visibility of groups
 - Improved course display (characters '\', '_' deleted)
 - Bug fixes on the splashscreen
   
