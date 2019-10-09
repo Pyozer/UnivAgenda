@@ -46,7 +46,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   @override
   void afterFirstLayout(BuildContext context) {
-    if (widget.isFromLogin) _showDefaultGroupDialog();
+    if (widget.isFromLogin && prefs.urlIcs == null) _showDefaultGroupDialog();
     AnalyticsProvider.setScreen(widget);
   }
 
