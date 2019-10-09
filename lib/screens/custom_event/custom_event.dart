@@ -194,7 +194,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
-    _customCourse.uid ??= Uuid().v1();
+    if (_customCourse.uid == null || _customCourse.uid.isEmpty)
+      _customCourse.uid = Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
 

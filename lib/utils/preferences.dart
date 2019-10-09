@@ -330,8 +330,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _customEvents ?? PrefKey.defaultCustomEvents;
 
   setCustomEvents(List<CustomCourse> newCustomEvents, [state = false]) {
-    if (customEvents == newCustomEvents) return;
-
     newCustomEvents ??= PrefKey.defaultCustomEvents;
     newCustomEvents.removeWhere((e) => e.isFinish() && !e.isRecurrentEvent());
 
@@ -363,10 +361,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       });
     }
 
-    List<CustomCourse> newEvents = customEvents;
-    newEvents.add(eventToAdd);
-
-    setCustomEvents(newEvents, state);
+    setCustomEvents(customEvents..add(eventToAdd), state);
   }
 
   void removeCustomEvent(CustomCourse eventToRemove,
