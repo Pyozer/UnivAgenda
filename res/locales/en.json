@@ -192,7 +192,7 @@
   "data_privacy": "Data & privacy",
   "data_privacy_text": "MyAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
 
-  "url_ics": "Url of calendar file (.ics)",
+  "url_ics": "Exported calendar url (ics)",
   "wrong_ics_format": "The .ics file has an incorrect format !",
   "custom_event_exit_unsaved": "Are you sure ?",
   "custom_event_exit_unsaved_text": "You have not saved your changes, they will be lost!",

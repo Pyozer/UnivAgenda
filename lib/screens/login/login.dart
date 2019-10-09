@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -313,7 +314,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                             ? [
                                 urlICsInput,
                                 IconButton(
-                                  icon: const Icon(Icons.camera_alt),
+                                  icon: Image.asset(Asset.QRCODE),
                                   onPressed: _scanQRCode,
                                 ),
                               ]
