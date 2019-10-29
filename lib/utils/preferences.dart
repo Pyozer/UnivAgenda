@@ -121,6 +121,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Generate or not a event color
   bool _isGenerateEventColor;
 
+  /// Callback when preferences changes
+  VoidCallback onPrefsChanges;
+
   List<String> getAllUniversity() {
     return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
   }
@@ -597,12 +600,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (noteColorValue != null) setNoteColor(Color(noteColorValue));
 
     // Init other prefs
-    final coursesJson = json.decode(
-      await readFile(PrefKey.cachedCoursesFile, "[]"),
-    );
-    setCachedCourses(
-      List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
-    );
+    try {
+      String cachedCourses = await readFile(PrefKey.cachedCoursesFile, '[]');
+      cachedCourses = cachedCourses.trim();
+      if (!cachedCourses.startsWith('[') || !cachedCourses.endsWith(']')) {
+        cachedCourses = '[]';
+      }
+      final coursesJson = json.decode(cachedCourses);
+      setCachedCourses(
+        List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
+      );
+    } catch (_) {}
     setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
     setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(widget.prefs.getBool(PrefKey.isIntroDone));
@@ -680,10 +688,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   void _updatePref(Function f, bool state) {
-    if (state)
+    if (state) {
       setState(f);
-    else
+      if (onPrefsChanges != null) onPrefsChanges();
+    } else {
       f();
+    }
   }
 
   void forceSetState() {

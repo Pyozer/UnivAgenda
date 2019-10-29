@@ -42,14 +42,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
   Map<int, List<Course>> _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
-  int _prefsLastHash;
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-    if (widget.isFromLogin && prefs.urlIcs == null) _showDefaultGroupDialog();
-    AnalyticsProvider.setScreen(widget);
-  }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -62,16 +54,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
     }
-    // Update courses if prefs changes or cached ical older than 15min
-    int prefsHash = prefs.hashCode;
-    if (prefsHash != _prefsLastHash ||
-        prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
-      _prefsLastHash = prefsHash;
-      // Load ical from network
-      _fetchData();
-      // Send analytics to have stats of prefs users
-      _sendAnalyticsEvent();
-    }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (widget.isFromLogin && prefs.urlIcs == null) _showDefaultGroupDialog();
+    AnalyticsProvider.setScreen(widget);
+    _updateCourses();
+    prefs.onPrefsChanges = _updateCourses;
+  }
+
+  void _updateCourses() {
+    // Load ical from network
+    _fetchData();
+    // Send analytics to have stats of prefs users
+    _sendAnalyticsEvent();
   }
 
   void _sendAnalyticsEvent() async {
