@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -110,7 +111,11 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   }
 
   Future<TimeOfDay> _openTimePicker(TimeOfDay time) async {
-    return await showTimePicker(context: context, initialTime: time);
+    return await showRoundedTimePicker(
+      context: context,
+      initialTime: time,
+      theme: Theme.of(context),
+    );
   }
 
   void _onSearchPressed() {

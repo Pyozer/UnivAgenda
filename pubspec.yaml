@@ -25,6 +25,8 @@ dependencies:
 
   flutter_material_color_picker: 1.0.5
   introduction_screen: 1.0.6
+  flutter_rounded_date_picker:
+    git: git://github.com/Pyozer/flutter_rounded_date_picker
 
   outline_material_icons: ^0.1.0
   timezone: 0.5.5

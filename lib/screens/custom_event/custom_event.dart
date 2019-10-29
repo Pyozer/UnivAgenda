@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
@@ -112,29 +113,37 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onDateTap() async {
-    DateTime dateStart = await showDatePicker(
+    DateTime dateStart = await showRoundedDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
       lastDate: DateTime.now().add(Duration(days: 365 * 30)),
       locale: i18n.locale,
+      theme: Theme.of(context),
     );
 
     if (dateStart != null) {
-      final newStart = Date.changeTime(dateStart, _customCourse.dateStart.hour,
-          _customCourse.dateStart.minute);
+      final newStart = Date.changeTime(
+        dateStart,
+        _customCourse.dateStart.hour,
+        _customCourse.dateStart.minute,
+      );
 
       final newEnd = Date.changeTime(
-          dateStart, _customCourse.dateEnd.hour, _customCourse.dateEnd.minute);
+        dateStart,
+        _customCourse.dateEnd.hour,
+        _customCourse.dateEnd.minute,
+      );
 
       _updateTimes(newStart, newEnd);
     }
   }
 
   void _onStartTimeTap() async {
-    TimeOfDay timeStart = await showTimePicker(
+    TimeOfDay timeStart = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateStart),
+      theme: Theme.of(context),
     );
 
     if (timeStart != null) {
@@ -146,9 +155,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onEndTimeTap() async {
-    TimeOfDay timeEnd = await showTimePicker(
+    TimeOfDay timeEnd = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateEnd),
+      theme: Theme.of(context),
     );
 
     if (timeEnd != null) {
