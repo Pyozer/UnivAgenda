@@ -90,11 +90,10 @@ class _HomeScreenState extends BaseState<HomeScreen>
     if (!mounted && !_isLoading) return;
 
     setState(() => _isLoading = true);
-    _refreshKey?.currentState?.show();
 
     try {
       List<Course> courses = [];
-
+      
       if (prefs.urlIcs != null) {
         courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
       } else {
@@ -254,7 +253,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _fetchData,
+        onPressed: _refreshKey?.currentState?.show,
       ),
     );
   }
@@ -265,7 +264,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.ERROR_JSON_PARSE),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _fetchData,
+        onPressed: _refreshKey?.currentState?.show,
       ),
     );
   }
@@ -288,7 +287,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       actions: [
         IconButton(
           icon: const Icon(OMIcons.refresh),
-          onPressed: _fetchData,
+          onPressed: _refreshKey?.currentState?.show,
         ),
         IconButton(
           icon: Icon(getCalendarTypeIcon(_calendarType)),
