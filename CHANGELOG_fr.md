@@ -1,8 +1,9 @@
 ## Version 4.3.1
 
-- Correction évenements perso non sauvegardés
+- Correction événements perso non sauvegardés
 - Affichage dialog de connexion réussi uniquement si connecté via une Université
 - Amélioration UX page de connexion "Autre"
+- Amélioration du code pour éviter d'avoir des requêtes inutiles
 
 ## Version 4.3.0
 
