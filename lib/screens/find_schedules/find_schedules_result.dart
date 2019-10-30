@@ -15,6 +15,13 @@ import 'package:myagenda/utils/translations.dart';
 import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
 
+class Tuple {
+  final Resource resource;
+  final List<Course> courses;
+
+  Tuple(this.resource, this.courses);
+}
+
 class FindSchedulesResults extends StatefulWidget {
   final List<Resource> searchResources;
   final DateTime startTime;
@@ -56,55 +63,66 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults>
 
     setState(() => _isLoading = true);
 
+    final icalDates = IcalAPI.prepareIcalDates(0);
+
+    List<Tuple> apiRequests = [];
+    try {
+      apiRequests = await Future.wait<Tuple>(
+        widget.searchResources.map((resource) async {
+          return Tuple(
+            resource,
+            await Api().getCourses(
+              prefs.university.id,
+              resource.resourceId,
+              icalDates,
+            ),
+          );
+        }),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _searchResult = [];
+        _isLoading = false;
+      });
+
+      DialogPredefined.showSimpleMessage(
+        context,
+        i18n.text(StrKey.ERROR),
+        i18n.text(StrKey.NETWORK_ERROR),
+      );
+      return;
+    }
+
     // Check for every rooms if available
-    for (final room in widget.searchResources) {
-      // Get data
-      List<Course> listCourses = [];
-      try {
-        listCourses = await Api().getCourses(IcalAPI.prepareIcalURL(
-          prefs.university.agendaUrl,
-          room.resourceId,
-          0,
-        ));
-      } catch (e) {
-        if (!mounted) return;
-        setState(() {
-          _searchResult = [];
-          _isLoading = false;
-        });
-
-        DialogPredefined.showSimpleMessage(
-          context,
-          i18n.text(StrKey.ERROR),
-          i18n.text(StrKey.NETWORK_ERROR),
-        );
-        return;
-      }
-
+    for (final apiResult in apiRequests) {
       // Sort list by date start
-      listCourses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
+      apiResult.courses.sort((a, b) => a.dateStart.compareTo(b.dateStart));
+
+      // Store maxStart and minEnd to display hours of availables
+      DateTime maxStartEmpty;
+      DateTime minEndEmpty;
 
       // Delete all courses outside chosen hours
-      DateTime startNoCourse;
-      DateTime endNoCourse;
-
-      listCourses.removeWhere((course) {
-        bool isBeforeHours = course.dateEnd.isBefore(widget.startTime) ||
+      apiResult.courses.where((course) {
+        bool isBefore = course.dateStart.isBefore(widget.startTime) ||
             course.dateEnd == widget.startTime;
-        bool isAfterHours = course.dateStart.isAfter(widget.endTime) ||
+        bool isAfter = course.dateStart.isAfter(widget.endTime) ||
             course.dateStart == widget.endTime;
 
-        if (isBeforeHours &&
-            (startNoCourse == null || course.dateEnd.isAfter(startNoCourse)))
-          startNoCourse = course.dateEnd;
-        if (isAfterHours && endNoCourse == null) endNoCourse = course.dateStart;
+        if (isBefore && (maxStartEmpty == null || course.dateEnd.isAfter(maxStartEmpty)))
+          maxStartEmpty = course.dateEnd;
+        if (isAfter && minEndEmpty == null) minEndEmpty = course.dateStart;
 
-        return isBeforeHours || isAfterHours;
+        return isBefore || isAfter;
       });
 
       // If no course during chosen hours, mean that room is available
-      if (listCourses.isEmpty)
-        results.add(FindSchedulesResult(room, startNoCourse, endNoCourse));
+      if (apiResult.courses.isEmpty) {
+        results.add(
+          FindSchedulesResult(apiResult.resource, maxStartEmpty, minEndEmpty),
+        );
+      }
     }
 
     if (!mounted) return;
@@ -125,22 +143,22 @@ class FindSchedulesResultsState extends BaseState<FindSchedulesResults>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Widget widget;
+  Widget _buildBody() {
     if (_isLoading)
-      widget = const Center(child: const CircularProgressIndicator());
-    else if (_searchResult.isEmpty)
-      widget = NoResult(
+      return const Center(child: const CircularProgressIndicator());
+    if (_searchResult.isEmpty)
+      return NoResult(
         title: i18n.text(StrKey.FINDSCHEDULES_NORESULT),
         text: i18n.text(StrKey.FINDSCHEDULES_NORESULT_TEXT),
       );
-    else
-      widget = _buildListResults();
+    return _buildListResults();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AppbarPage(
       title: i18n.text(StrKey.FINDSCHEDULES_RESULTS),
-      body: widget,
+      body: _buildBody(),
     );
   }
 }

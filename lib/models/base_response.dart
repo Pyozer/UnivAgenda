@@ -1,6 +1,6 @@
-class BaseResponse {
+class BaseResponse<T> {
   /// Response data (can be null if error)
-  Map<String, dynamic> data;
+  T data;
 
   /// Response error (can be null if no error)
   String error;

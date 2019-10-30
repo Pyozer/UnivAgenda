@@ -121,6 +121,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Generate or not a event color
   bool _isGenerateEventColor;
 
+  /// Callback when preferences changes
+  VoidCallback onPrefsChanges;
+
   List<String> getAllUniversity() {
     return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
   }
@@ -330,8 +333,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       _customEvents ?? PrefKey.defaultCustomEvents;
 
   setCustomEvents(List<CustomCourse> newCustomEvents, [state = false]) {
-    if (customEvents == newCustomEvents) return;
-
     newCustomEvents ??= PrefKey.defaultCustomEvents;
     newCustomEvents.removeWhere((e) => e.isFinish() && !e.isRecurrentEvent());
 
@@ -363,10 +364,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       });
     }
 
-    List<CustomCourse> newEvents = customEvents;
-    newEvents.add(eventToAdd);
-
-    setCustomEvents(newEvents, state);
+    setCustomEvents(customEvents..add(eventToAdd), state);
   }
 
   void removeCustomEvent(CustomCourse eventToRemove,
@@ -431,17 +429,14 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   List<University> get listUniversity =>
       _listUniversity ?? PrefKey.defaultListUniversity;
 
-  setListUniversityFromJSONString(String listUnivJson, [state = false]) {
-    List resJson = json.decode(listUnivJson);
-    List<University> univ = resJson.map((m) => University.fromJson(m)).toList();
-
-    if (listUniversity == univ) return;
+  setListUniversity(List<University> listUniv, [state = false]) {
+    if (listUniversity == listUniv) return;
 
     _updatePref(() {
-      _listUniversity = univ ?? PrefKey.defaultListUniversity;
+      _listUniversity = listUniv ?? PrefKey.defaultListUniversity;
     }, state);
 
-    writeFile(PrefKey.listUniversityFile, listUnivJson);
+    writeFile(PrefKey.listUniversityFile, json.encode(listUniv));
   }
 
   University get university => _university;
@@ -459,8 +454,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
 
-  setResources(String newResourcesJson, [state = false]) {
-    Map<String, dynamic> newResources = json.decode(newResourcesJson);
+  void setResources(Map<String, dynamic> newResources, [state = false]) {
     if (resources == newResources) return;
 
     _updatePref(() {
@@ -470,36 +464,28 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     // Check actual calendar prefs with new resources
     if (_resources.isNotEmpty) setGroupKeys(groupKeys, state);
     // Update cache file
-    writeFile(PrefKey.resourcesFile, newResourcesJson);
+    writeFile(PrefKey.resourcesFile, json.encode(newResources));
   }
 
-  DateTime get resourcesDate =>
-      _resourcesDate ??
-      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
+  DateTime get resourcesDate => _resourcesDate ?? DateTime(2000);
 
-  setResourcesDate([newResDate, state = false]) {
-    newResDate ??= DateTime.now();
-
+  setResourcesDate([DateTime newResDate, state = false]) {
     _updatePref(() => _resourcesDate = newResDate, state);
 
-    widget.prefs.setInt(
+    widget.prefs.setString(
       PrefKey.resourcesDate,
-      _resourcesDate.millisecondsSinceEpoch,
+      _resourcesDate?.toIso8601String(),
     );
   }
 
-  DateTime get cachedIcalDate =>
-      _cachedIcalDate ??
-      DateTime.fromMillisecondsSinceEpoch(PrefKey.defaultCachedIcalDate);
+  DateTime get cachedIcalDate => _cachedIcalDate ?? DateTime(2000);
 
-  setCachedIcalDate([newCachedIcalDate, state = false]) {
-    newCachedIcalDate ??= DateTime.now();
-
+  setCachedIcalDate([DateTime newCachedIcalDate, state = false]) {
     _updatePref(() => _cachedIcalDate = newCachedIcalDate, state);
 
-    widget.prefs.setInt(
+    widget.prefs.setString(
       PrefKey.cachedIcalDate,
-      _cachedIcalDate.millisecondsSinceEpoch,
+      _cachedIcalDate?.toIso8601String(),
     );
   }
 
@@ -565,7 +551,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   disconnectUser([state = false]) {
     setUserLogged(false);
     setUrlIcs(null);
-    setResources(PrefKey.defaultResourcesJson);
+    setResources(PrefKey.defaultResources);
     setCachedCourses(PrefKey.defaultCachedCourses);
   }
 
@@ -585,13 +571,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<void> initFromDisk([state = false]) async {
     await initResAndGroup();
 
-    int resourcesDate = widget.prefs.getInt(PrefKey.resourcesDate) ??
-        PrefKey.defaultResourcesDate;
-    setResourcesDate(DateTime.fromMillisecondsSinceEpoch(resourcesDate));
+    String resourcesDate = widget.prefs.getString(PrefKey.resourcesDate);
+    if (resourcesDate != null) setResourcesDate(DateTime.parse(resourcesDate));
 
-    int cachedIcalDate = widget.prefs.getInt(PrefKey.cachedIcalDate) ??
-        PrefKey.defaultCachedIcalDate;
-    setCachedIcalDate(DateTime.fromMillisecondsSinceEpoch(cachedIcalDate));
+    String cachedIcalDate = widget.prefs.getString(PrefKey.cachedIcalDate);
+    if (cachedIcalDate != null)
+      setCachedIcalDate(DateTime.parse(cachedIcalDate));
 
     // Init number of weeks to display
     setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
@@ -615,12 +600,17 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     if (noteColorValue != null) setNoteColor(Color(noteColorValue));
 
     // Init other prefs
-    final coursesJson = json.decode(
-      await readFile(PrefKey.cachedCoursesFile, "[]"),
-    );
-    setCachedCourses(
-      List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
-    );
+    try {
+      String cachedCourses = await readFile(PrefKey.cachedCoursesFile, '[]');
+      cachedCourses = cachedCourses.trim();
+      if (!cachedCourses.startsWith('[') || !cachedCourses.endsWith(']')) {
+        cachedCourses = '[]';
+      }
+      final coursesJson = json.decode(cachedCourses);
+      setCachedCourses(
+        List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
+      );
+    } catch (_) {}
     setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
     setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
     setIntroDone(widget.prefs.getBool(PrefKey.isIntroDone));
@@ -659,7 +649,8 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       PrefKey.listUniversityFile,
       PrefKey.defaultListUniversityJson,
     );
-    setListUniversityFromJSONString(listUnivStored);
+    List listUnivJson = json.decode(listUnivStored);
+    setListUniversity(listUnivJson.map((m) => University.fromJson(m)).toList());
 
     // If user choose custom url ics, not init other group prefs
     String urlIcs = widget.prefs.getString(PrefKey.urlIcs);
@@ -680,18 +671,15 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       setUniversity(storedUniversityName);
 
       // Parse local resources to Map
-      String storedResourcesStr =
-          await readFile(PrefKey.resourcesFile, PrefKey.defaultResourcesJson);
-      storedResourcesStr.trim();
+      String storedResourcesStr = await readFile(PrefKey.resourcesFile, '{}');
+      storedResourcesStr..trim();
 
       // If local resources aren't empty
-      if (storedResourcesStr.isNotEmpty &&
-          storedResourcesStr != PrefKey.defaultResourcesJson) {
+      if (storedResourcesStr.isNotEmpty) {
         // Init group preferences
-        final List<String> groupKeys =
-            widget.prefs.getStringList(PrefKey.groupKeys);
+        final groupKeys = widget.prefs.getStringList(PrefKey.groupKeys);
         // Update
-        setResources(storedResourcesStr);
+        setResources(json.decode(storedResourcesStr));
         // Check values and resave group prefs (useful if issue)
         setGroupKeys(groupKeys);
       }
@@ -700,10 +688,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   void _updatePref(Function f, bool state) {
-    if (state)
+    if (state) {
       setState(f);
-    else
+      if (onPrefsChanges != null) onPrefsChanges();
+    } else {
       f();
+    }
   }
 
   void forceSetState() {

@@ -17,10 +17,7 @@ class CourseRowHeader extends StatelessWidget {
       ),
       child: Text(
         coursHeader.dateForDisplay(),
-        style: TextStyle(
-          fontWeight: FontWeight.w800,
-          fontSize: 22.0,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 22.0),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),

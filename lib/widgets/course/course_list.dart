@@ -70,7 +70,7 @@ class _CourseListState extends BaseState<CourseList> {
     bool isIndexFound = false;
 
     elements.forEach((date, courses) {
-      if (courses == null || courses.isEmpty) return;
+      if (!prefs.isDisplayAllDays && (courses == null || courses.isEmpty)) return;
       tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
 
       listTabView.add(_buildListCours(context, courses));
@@ -95,7 +95,7 @@ class _CourseListState extends BaseState<CourseList> {
     final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
 
     return DefaultTabController(
-      length: elements.length,
+      length: tabs.length,
       initialIndex: initialIndex,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -151,12 +151,15 @@ class _CourseListState extends BaseState<CourseList> {
   }
 
   List<Course> _getDayEvents(DateTime day, Map<DateTime, List<Course>> data) {
-    DateTime key = data.keys
-        .firstWhere((d) => DateUtils.isSameDay(day, d), orElse: () => null);
+    DateTime key = data.keys.firstWhere(
+      (d) => DateUtils.isSameDay(day, d),
+      orElse: () => null,
+    );
     if (key != null)
-      return data[key].map((e) {
-        if (e is Course) return e;
-      }).toList();
+      return data[key]
+          .map((e) => e is Course ? e : null)
+          .where((c) => c != null)
+          .toList();
     return [];
   }
 
@@ -175,11 +178,11 @@ class _CourseListState extends BaseState<CourseList> {
         firstDate: DateTime.now().subtract(Duration(days: 365)),
         initialSelectedDate: DateTime.now(),
         dayBuilder: (_, date) => _getDayEvents(date, events).map((e) {
-              return Event(
-                title: e.isHidden ? null : e.getTitle(),
-                color: e.getColor(isGenColor),
-              );
-            }).toList(),
+          return Event(
+            title: e.isHidden ? null : e.getTitle(),
+            color: e.getColor(isGenColor),
+          );
+        }).toList(),
         onDateSelected: (date) {
           showDialog(
             context: context,

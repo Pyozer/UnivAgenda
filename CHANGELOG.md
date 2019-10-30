@@ -1,3 +1,16 @@
+## Version 4.3.1
+
+- Fix custom event not saved
+- Display successful login dialog only if connected with an University
+- Improved UX on login page for "Other"
+- Improve code to avoid having useless requests
+
+## Version 4.3.0
+
+- Improve data mangement
+- Fix "Calendar synchronize" on Android
+- Fix last resources/ical date cache saving
+
 ## Version 4.2.2
 
 - Code improvements

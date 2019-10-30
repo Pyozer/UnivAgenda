@@ -42,14 +42,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
   Map<int, List<Course>> _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
-  int _prefsLastHash;
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-    if (widget.isFromLogin) _showDefaultGroupDialog();
-    AnalyticsProvider.setScreen(widget);
-  }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -62,16 +54,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
     }
-    // Update courses if prefs changes or cached ical older than 15min
-    int prefsHash = prefs.hashCode;
-    if (prefsHash != _prefsLastHash ||
-        prefs.cachedIcalDate.difference(DateTime.now()).inMinutes > 15) {
-      _prefsLastHash = prefsHash;
-      // Load ical from network
-      _fetchData();
-      // Send analytics to have stats of prefs users
-      _sendAnalyticsEvent();
-    }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (widget.isFromLogin && prefs.urlIcs == null) _showDefaultGroupDialog();
+    AnalyticsProvider.setScreen(widget);
+    _updateCourses();
+    prefs.onPrefsChanges = _updateCourses;
+  }
+
+  void _updateCourses() {
+    // Load ical from network
+    _fetchData();
+    // Send analytics to have stats of prefs users
+    _sendAnalyticsEvent();
   }
 
   void _sendAnalyticsEvent() async {
@@ -93,22 +90,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
     if (!mounted && !_isLoading) return;
 
     setState(() => _isLoading = true);
-    _refreshKey?.currentState?.show();
-
-    String url = prefs.urlIcs;
-    if (url == null) {
-      final resID = prefs.getGroupResID();
-
-      url = IcalAPI.prepareIcalURL(
-        prefs.university.agendaUrl,
-        resID,
-        prefs.numberWeeks,
-        prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
-      );
-    }
 
     try {
-      final courses = await Api().getCourses(url);
+      List<Course> courses = [];
+      
+      if (prefs.urlIcs != null) {
+        courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
+      } else {
+        final resID = prefs.getGroupResID();
+
+        final dates = IcalAPI.prepareIcalDates(
+          prefs.numberWeeks,
+          prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
+        );
+        courses = await Api().getCourses(prefs.university.id, resID, dates);
+      }
 
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
@@ -257,7 +253,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _fetchData,
+        onPressed: _refreshKey?.currentState?.show,
       ),
     );
   }
@@ -268,7 +264,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.ERROR_JSON_PARSE),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _fetchData,
+        onPressed: _refreshKey?.currentState?.show,
       ),
     );
   }
@@ -291,7 +287,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       actions: [
         IconButton(
           icon: const Icon(OMIcons.refresh),
-          onPressed: _fetchData,
+          onPressed: _refreshKey?.currentState?.show,
         ),
         IconButton(
           icon: Icon(getCalendarTypeIcon(_calendarType)),

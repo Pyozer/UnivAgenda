@@ -77,6 +77,7 @@ class App extends StatelessWidget {
                   settings: settings,
                 );
               assert(false);
+              return null;
             },
           );
         },

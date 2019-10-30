@@ -56,14 +56,13 @@ class MainDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
-          prefs.urlIcs == null
-              ? CourseListHeader(
-                  "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
-                  bgColor: prefs.theme.darkTheme
-                      ? const Color(0xFF484848)
-                      : const Color(0xFFF3F3F3),
-                )
-              : const SizedBox.shrink(),
+          if (prefs.urlIcs == null)
+            CourseListHeader(
+              "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
+              bgColor: prefs.theme.darkTheme
+                  ? const Color(0xFF484848)
+                  : const Color(0xFFF3F3F3),
+            ),
           DrawerElement(
             icon: OMIcons.search,
             title: i18n.text(StrKey.FINDSCHEDULES),

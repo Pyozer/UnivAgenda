@@ -8,18 +8,18 @@ class SettingCard extends StatelessWidget {
 
   List<Widget> _buildCardChildren(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.title
-        .copyWith(fontSize: 15.0, color: theme.accentColor);
+    final titleStyle = theme.textTheme.title.copyWith(
+      fontSize: 15.0,
+      color: theme.accentColor,
+    );
 
-    List<Widget> cardChildren = [
+    return <Widget>[
       Padding(
         padding: const EdgeInsets.only(left: 15.0, top: 16.0, bottom: 8.0),
         child: Text(header.toUpperCase(), style: titleStyle),
-      )
+      ),
+      ...children
     ];
-    cardChildren.addAll(children);
-
-    return cardChildren;
   }
 
   @override

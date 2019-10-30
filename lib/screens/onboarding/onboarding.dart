@@ -64,44 +64,44 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
         activeSize: const Size.fromRadius(6),
         activeColor: theme.accentColor,
         color: Colors.black26,
-        spacing: const EdgeInsets.symmetric(horizontal: 3.0)
+        spacing: const EdgeInsets.symmetric(horizontal: 3.0),
       ),
     );
 
     return [
       PageViewModel(
-        i18n.text(StrKey.INTRO_WELCOME_TITLE),
-        i18n.text(StrKey.INTRO_WELCOME_DESC),
+        title: i18n.text(StrKey.INTRO_WELCOME_TITLE),
+        body: i18n.text(StrKey.INTRO_WELCOME_DESC),
         image: _wrapImage(Logo(size: kIconSize)),
         decoration: pageDecoration,
       ),
       PageViewModel(
-        i18n.text(StrKey.INTRO_LOGIN_TITLE),
-        i18n.text(StrKey.INTRO_LOGIN_DESC),
+        title: i18n.text(StrKey.INTRO_LOGIN_TITLE),
+        body: i18n.text(StrKey.INTRO_LOGIN_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
         decoration: pageDecoration,
       ),
       PageViewModel(
-        i18n.text(StrKey.INTRO_AGENDA_TITLE),
-        i18n.text(StrKey.INTRO_AGENDA_DESC),
+        title: i18n.text(StrKey.INTRO_AGENDA_TITLE),
+        body: i18n.text(StrKey.INTRO_AGENDA_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
         decoration: pageDecoration,
       ),
       PageViewModel(
-        i18n.text(StrKey.INTRO_CUSTOM_TITLE),
-        i18n.text(StrKey.INTRO_CUSTOM_DESC),
+        title: i18n.text(StrKey.INTRO_CUSTOM_TITLE),
+        body: i18n.text(StrKey.INTRO_CUSTOM_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
         decoration: pageDecoration,
       ),
       PageViewModel(
-        i18n.text(StrKey.INTRO_NOTE_TITLE),
-        i18n.text(StrKey.INTRO_NOTE_DESC),
+        title: i18n.text(StrKey.INTRO_NOTE_TITLE),
+        body: i18n.text(StrKey.INTRO_NOTE_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
         decoration: pageDecoration,
       ),
       PageViewModel(
-        i18n.text(StrKey.INTRO_EVENT_TITLE),
-        i18n.text(StrKey.INTRO_EVENT_DESC),
+        title: i18n.text(StrKey.INTRO_EVENT_TITLE),
+        body: i18n.text(StrKey.INTRO_EVENT_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
         decoration: pageDecoration,
       ),

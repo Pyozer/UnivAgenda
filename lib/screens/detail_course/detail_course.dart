@@ -49,7 +49,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (duration.hour > 0) durationStr += "${duration.hour}h";
     durationStr += "${duration.minute}min";
 
-    List<Widget> listInfo = [
+    return <Widget>[
       ListTile(
         leading: const Icon(OMIcons.accessTime),
         title: Text('$timeStart  –  $timeEnd'),
@@ -59,51 +59,47 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         leading: const Icon(OMIcons.timelapse),
         title: Text(durationStr),
       ),
-    ];
-    if (_course.description?.isNotEmpty ?? false)
-      listInfo.add(ListTile(
-        leading: const Icon(OMIcons.group),
-        title: Text(
-          _course.description,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ));
-    if (_course.location?.isNotEmpty ?? false)
-      listInfo.add(ListTile(
-        leading: const Icon(OMIcons.locationOn),
-        title: Text(_course.location),
-      ));
-
-    if (_course.isExam())
-      listInfo.add(ListTile(
-        leading: const Icon(OMIcons.description),
-        title: Text(i18n.text(StrKey.COURSE_TEST)),
-      ));
-
-    if (_course.color != null)
-      listInfo.add(ListTile(
-        leading: const Icon(OMIcons.colorLens),
-        title: Text(i18n.text(StrKey.EVENT_COLOR)),
-        trailing: CircleColor(color: _course.color, circleSize: 28.0),
-      ));
-
-    listInfo.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
-          child: Text(
-            i18n.text(StrKey.NOTES),
-            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
+      if (_course.description?.isNotEmpty ?? false)
+        ListTile(
+          leading: const Icon(OMIcons.group),
+          title: Text(
+            _course.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        AddNoteButton(onPressed: _openAddNote)
-      ],
-    ));
-    listInfo.addAll(_buildListNotes());
-
-    return listInfo;
+      if (_course.location?.isNotEmpty ?? false)
+        ListTile(
+          leading: const Icon(OMIcons.locationOn),
+          title: Text(_course.location),
+        ),
+      if (_course.isExam())
+        ListTile(
+          leading: const Icon(OMIcons.description),
+          title: Text(i18n.text(StrKey.COURSE_TEST)),
+        ),
+      if (_course.color != null)
+        ListTile(
+          leading: const Icon(OMIcons.colorLens),
+          title: Text(i18n.text(StrKey.EVENT_COLOR)),
+          trailing: CircleColor(color: _course.color, circleSize: 28.0),
+        ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
+            child: Text(
+              i18n.text(StrKey.NOTES),
+              style:
+                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
+            ),
+          ),
+          AddNoteButton(onPressed: _openAddNote)
+        ],
+      ),
+      ..._buildListNotes()
+    ];
   }
 
   List<Widget> _buildListNotes() {
@@ -248,14 +244,11 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         i18n.text(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
       ),
       _item(MenuItem.RENAME, OMIcons.title, i18n.text(StrKey.RENAME)),
-    ];
-
-    if (_course is CustomCourse) {
-      actions.addAll([
+      if (_course is CustomCourse) ...[
         _item(MenuItem.EDIT, OMIcons.edit, i18n.text(StrKey.EDIT)),
         _item(MenuItem.DELETE, OMIcons.delete, i18n.text(StrKey.DELETE))
-      ]);
-    }
+      ],
+    ];
 
     return [
       PopupMenuButton<MenuItem>(

@@ -20,4 +20,5 @@ class Asset {
   static const INTRO_THEME = 'res/images/intro_theme.png';
 
   static const SAD_ICON = 'res/images/sad_icon.png';
+  static const QRCODE = 'res/images/qrcode.png';
 }

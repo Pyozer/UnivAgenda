@@ -1,3 +1,16 @@
+## Version 4.3.1
+
+- Correction événements perso non sauvegardés
+- Affichage dialog de connexion réussi uniquement si connecté via une Université
+- Amélioration UX page de connexion "Autre"
+- Amélioration du code pour éviter d'avoir des requêtes inutiles
+
+## Version 4.3.0
+
+- Amélioration de la gestion des data
+- Correction bug "Synchronisation calendrier" sur Android
+- Correction de la manière de sauvegarder la date du cache
+
 ## Version 4.2.2
 
 - Amélioration du code

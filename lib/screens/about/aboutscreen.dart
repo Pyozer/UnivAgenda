@@ -68,10 +68,10 @@ class AboutScreen extends StatelessWidget {
           title: const Text("Jean-Charles Moussé"),
           subtitle: Text(i18n.text(StrKey.DEVELOPER)),
           onTap: () => openLink(
-                context,
-                Url.myWebsite,
-                AnalyticsValue.websiteJC,
-              ),
+            context,
+            Url.myWebsite,
+            AnalyticsValue.websiteJC,
+          ),
         ),
         ListTile(
           leading: CircleImage(
@@ -86,10 +86,10 @@ class AboutScreen extends StatelessWidget {
             "${i18n.text(StrKey.DEVELOPER)}, ${i18n.text(StrKey.RIGHTS)}",
           ),
           onTap: () => openLink(
-                context,
-                Url.justinWebsite,
-                AnalyticsValue.websiteJustin,
-              ),
+            context,
+            Url.justinWebsite,
+            AnalyticsValue.websiteJustin,
+          ),
         )
       ],
     );
@@ -113,10 +113,10 @@ class AboutScreen extends StatelessWidget {
           title: Text(store),
           subtitle: Text(i18n.text(StrKey.ADD_NOTE_STORE)),
           onTap: () => openLink(
-                context,
-                Platform.isAndroid ? Url.playstore : Url.appstore,
-                AnalyticsValue.store,
-              ),
+            context,
+            Platform.isAndroid ? Url.playstore : Url.appstore,
+            AnalyticsValue.store,
+          ),
         ),
         ListTile(
           leading: Image.asset(
@@ -129,10 +129,10 @@ class AboutScreen extends StatelessWidget {
             i18n.text(StrKey.GITHUB_PROJECT_DESC),
           ),
           onTap: () => openLink(
-                context,
-                Url.githubProjet,
-                AnalyticsValue.github,
-              ),
+            context,
+            Url.githubProjet,
+            AnalyticsValue.github,
+          ),
         ),
         ListTile(
           leading: Image.asset(
@@ -231,7 +231,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AnalyticsProvider.setScreen(this);
-    
+
     return AppbarPage(
       title: i18n.text(StrKey.ABOUT),
       body: Container(

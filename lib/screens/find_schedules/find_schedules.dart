@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/appbar_screen.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -110,7 +111,11 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
   }
 
   Future<TimeOfDay> _openTimePicker(TimeOfDay time) async {
-    return await showTimePicker(context: context, initialTime: time);
+    return await showRoundedTimePicker(
+      context: context,
+      initialTime: time,
+      theme: Theme.of(context),
+    );
   }
 
   void _onSearchPressed() {
@@ -130,10 +135,10 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindSchedulesFilter(
-              groupKeySearch: _roomKeys,
-              startTime: startTime,
-              endTime: endTime,
-            ),
+          groupKeySearch: _roomKeys,
+          startTime: startTime,
+          endTime: endTime,
+        ),
       ),
     );
   }
@@ -175,25 +180,24 @@ class _FindSchedulesScreenState extends BaseState<FindSchedulesScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: []
-            ..addAll(dropdownChoices)
-            ..addAll([
-              Row(
-                children: [
-                  _buildTimePart(
-                    i18n.text(StrKey.START_TIME_EVENT),
-                    _startTime,
-                    (startTime) => _onTimeChange(startTime, _endTime),
-                  ),
-                  const SizedBox(width: 32.0),
-                  _buildTimePart(
-                    i18n.text(StrKey.END_TIME_EVENT),
-                    _endTime,
-                    (endTime) => _onTimeChange(_startTime, endTime),
-                  ),
-                ],
-              ),
-            ]),
+          children: [
+            ...dropdownChoices,
+            Row(
+              children: [
+                _buildTimePart(
+                  i18n.text(StrKey.START_TIME_EVENT),
+                  _startTime,
+                  (startTime) => _onTimeChange(startTime, _endTime),
+                ),
+                const SizedBox(width: 32.0),
+                _buildTimePart(
+                  i18n.text(StrKey.END_TIME_EVENT),
+                  _endTime,
+                  (endTime) => _onTimeChange(_startTime, endTime),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

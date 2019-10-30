@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myagenda/keys/assets.dart';
 import 'package:myagenda/keys/route_key.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/screens/base_state.dart';
@@ -9,7 +10,6 @@ import 'package:myagenda/screens/home/home.dart';
 import 'package:myagenda/utils/analytics.dart';
 import 'package:myagenda/utils/api/api.dart';
 import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/http/http_request.dart';
 import 'package:myagenda/utils/login/login_base.dart';
 import 'package:myagenda/utils/login/login_cas.dart';
 import 'package:myagenda/utils/translations.dart';
@@ -119,30 +119,27 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         return;
       }
 
-      final response = await HttpRequest.get(prefs.university.resourcesFile);
-
-      if (!mounted) return;
-
-      if (!response.isSuccess) {
-        _setLoading(false);
-        _showMessage(i18n.text(StrKey.GET_RES_ERROR));
-        return;
-      }
-
       try {
-        prefs.setResources(response.httpResponse.body);
-      } catch (_) {
-        _setLoading(false);
-        _showMessage(i18n.text(StrKey.ERROR_JSON_PARSE));
-        return;
+        final resources = await Api().getUnivResources(
+          prefs.university.id,
+        );
+
+        prefs.setResources(resources);
+      } catch (e) {
+        if (mounted) {
+          _setLoading(false);
+          _showMessage(i18n.text(StrKey.GET_RES_ERROR));
+          return;
+        }
       }
+
       prefs.setResourcesDate();
     } else if (mounted) {
       urlIcs = urlIcs.replaceFirst('webcal', 'http');
       prefs.setUrlIcs(urlIcs);
 
       try {
-        final courses = await Api().getCourses(urlIcs);
+        final courses = await Api().getCoursesCustomIcal(urlIcs);
 
         if (!mounted) return;
         prefs.setCachedCourses(courses);
@@ -317,7 +314,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                             ? [
                                 urlICsInput,
                                 IconButton(
-                                  icon: const Icon(Icons.camera_alt),
+                                  icon: Image.asset(Asset.QRCODE),
                                   onPressed: _scanQRCode,
                                 ),
                               ]

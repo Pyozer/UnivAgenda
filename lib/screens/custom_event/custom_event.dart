@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:myagenda/keys/string_key.dart';
 import 'package:myagenda/models/courses/custom_course.dart';
 import 'package:myagenda/models/courses/weekday.dart';
@@ -112,29 +113,37 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onDateTap() async {
-    DateTime dateStart = await showDatePicker(
+    DateTime dateStart = await showRoundedDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
       lastDate: DateTime.now().add(Duration(days: 365 * 30)),
       locale: i18n.locale,
+      theme: Theme.of(context),
     );
 
     if (dateStart != null) {
-      final newStart = Date.changeTime(dateStart, _customCourse.dateStart.hour,
-          _customCourse.dateStart.minute);
+      final newStart = Date.changeTime(
+        dateStart,
+        _customCourse.dateStart.hour,
+        _customCourse.dateStart.minute,
+      );
 
       final newEnd = Date.changeTime(
-          dateStart, _customCourse.dateEnd.hour, _customCourse.dateEnd.minute);
+        dateStart,
+        _customCourse.dateEnd.hour,
+        _customCourse.dateEnd.minute,
+      );
 
       _updateTimes(newStart, newEnd);
     }
   }
 
   void _onStartTimeTap() async {
-    TimeOfDay timeStart = await showTimePicker(
+    TimeOfDay timeStart = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateStart),
+      theme: Theme.of(context),
     );
 
     if (timeStart != null) {
@@ -146,9 +155,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onEndTimeTap() async {
-    TimeOfDay timeEnd = await showTimePicker(
+    TimeOfDay timeEnd = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateEnd),
+      theme: Theme.of(context),
     );
 
     if (timeEnd != null) {
@@ -194,7 +204,8 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
-    _customCourse.uid ??= Uuid().v1();
+    if (_customCourse.uid == null || _customCourse.uid.isEmpty)
+      _customCourse.uid = Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
 
@@ -232,24 +243,20 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       i18n.text(StrKey.SUNDAY).substring(0, 1),
     ];
 
-    List<Widget> weekDayChips = [];
-
-    WeekDay.values.forEach((weekday) {
-      weekDayChips.add(
-        CircleText(
-          onChange: (newSelected) {
-            setState(() {
-              if (newSelected)
-                _customCourse.weekdaysRepeat.add(weekday);
-              else
-                _customCourse.weekdaysRepeat.remove(weekday);
-            });
-          },
-          text: weekDaysText[weekday.value - 1],
-          isSelected: _customCourse.weekdaysRepeat.contains(weekday),
-        ),
+    List<Widget> weekDayChips = WeekDay.values.map((weekday) {
+      return CircleText(
+        onChange: (newSelected) {
+          setState(() {
+            if (newSelected)
+              _customCourse.weekdaysRepeat.add(weekday);
+            else
+              _customCourse.weekdaysRepeat.remove(weekday);
+          });
+        },
+        text: weekDaysText[weekday.value - 1],
+        isSelected: _customCourse.weekdaysRepeat.contains(weekday),
       );
-    });
+    }).toList();
 
     return weekDayChips;
   }
@@ -382,16 +389,15 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   onChanged: _onColorCustom,
                 ),
               ),
-              _isColor
-                  ? ListTileColor(
-                      title: i18n.text(StrKey.EVENT_COLOR),
-                      description: i18n.text(StrKey.EVENT_COLOR_DESC),
-                      selectedColor: _customCourse.color,
-                      onColorChange: (color) {
-                        setState(() => _customCourse.color = color);
-                      },
-                    )
-                  : const SizedBox.shrink(),
+              if (_isColor)
+                ListTileColor(
+                  title: i18n.text(StrKey.EVENT_COLOR),
+                  description: i18n.text(StrKey.EVENT_COLOR_DESC),
+                  selectedColor: _customCourse.color,
+                  onColorChange: (color) {
+                    setState(() => _customCourse.color = color);
+                  },
+                ),
               const Divider(height: 0.0),
               ListTile(
                 onTap: () =>
@@ -404,22 +410,20 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   onChanged: _onSyncCalendar,
                 ),
               ),
-              _customCourse.syncCalendar != null
-                  ? ListTileChoices(
-                      title: i18n.text(StrKey.CHOOSE_CALENDAR),
-                      values: _deviceCalendars.map((c) => c.name).toList(),
-                      onChange: (calendar) {
-                        setState(() {
-                          _customCourse.syncCalendar =
-                              _deviceCalendars.firstWhere(
-                            (c) => c.name == calendar,
-                            orElse: () => null,
-                          );
-                        });
-                      },
-                      selectedValue: _customCourse.syncCalendar?.name,
-                    )
-                  : const SizedBox.shrink()
+              if (_customCourse.syncCalendar != null)
+                ListTileChoices(
+                  title: i18n.text(StrKey.CHOOSE_CALENDAR),
+                  values: _deviceCalendars.map((c) => c.name).toList(),
+                  onChange: (calendar) {
+                    setState(() {
+                      _customCourse.syncCalendar = _deviceCalendars.firstWhere(
+                        (c) => c.name == calendar,
+                        orElse: () => null,
+                      );
+                    });
+                  },
+                  selectedValue: _customCourse.syncCalendar?.name,
+                )
             ],
           ),
         ),

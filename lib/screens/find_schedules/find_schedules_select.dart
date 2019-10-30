@@ -51,18 +51,15 @@ class FindSchedulesFilterState extends BaseState<FindSchedulesFilter> {
   }
 
   void _onSubmit() {
-    List<Resource> searchResources = [];
-    _selectedResources.forEach((node) {
-      searchResources.add(Resource(node.key, node.value));
-    });
-
     Navigator.of(context).push(
       CustomRoute(
         builder: (context) => FindSchedulesResults(
-              searchResources: searchResources,
-              startTime: widget.startTime,
-              endTime: widget.endTime,
-            ),
+          searchResources: _selectedResources.map((node) {
+            return Resource(node.key, node.value);
+          }).toList(),
+          startTime: widget.startTime,
+          endTime: widget.endTime,
+        ),
         fullscreenDialog: true,
       ),
     );

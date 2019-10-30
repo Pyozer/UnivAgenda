@@ -38,19 +38,13 @@ class CustomCourse extends Course {
   factory CustomCourse.fromJson(Map<String, dynamic> json) {
     Course course = Course.fromJson(json);
 
-    List<WeekDay> listWeekDays = [];
-    if (json['weekdays_repeat'] != null &&
-        json['weekdays_repeat'].trim() != "") {
-      List<int> weekDays = json['weekdays_repeat']
-          .toString()
-          .split(',')
-          .map((value) => int.parse(value))
-          .toList();
-
-      weekDays.forEach((weekDay) {
-        listWeekDays.add(WeekDay.fromValue(weekDay));
-      });
-    }
+    List<WeekDay> listWeekDays = [
+      if ((json['weekdays_repeat'] ?? '').trim() != "")
+        ...json['weekdays_repeat']
+            .toString()
+            .split(',')
+            .map((value) => WeekDay.fromValue(int.parse(value))),
+    ];
     Calendar calendar = json['sync_calendar'] != null
         ? Calendar.fromJson(json['sync_calendar'])
         : null;
@@ -81,10 +75,7 @@ class CustomCourse extends Course {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
 
-    List<int> weekDaysIndex = [];
-    weekdaysRepeat.forEach((weekDay) {
-      weekDaysIndex.add(weekDay.value);
-    });
+    List<int> weekDaysIndex = weekdaysRepeat.map((wd) => wd.value).toList();
     if (weekDaysIndex.isNotEmpty)
       jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
     else

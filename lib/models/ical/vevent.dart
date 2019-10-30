@@ -25,12 +25,12 @@ class VEvent {
         dtstart: DateTime.parse(json["dtstart"]),
         dtend: DateTime.parse(json["dtend"]),
         dtstamp: json["dtstamp"] != null
-          ? DateTime.parse(json["dtstamp"])
-          : null,
+            ? DateTime.parse(json["dtstamp"])
+            : null,
         uid: json["uid"],
         created: json["created"] != null
-          ? DateTime.parse(json["created"])
-          : null,
+            ? DateTime.parse(json["created"])
+            : null,
         description: json["description"],
         lastModified: json["lastmodified"] != null
             ? DateTime.parse(json["lastmodified"])

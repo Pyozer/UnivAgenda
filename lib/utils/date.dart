@@ -93,6 +93,10 @@ class Date {
     return DateTime(year, month, day);
   }
 
+  static String formatDateApi(DateTime date) {
+    return DateFormat("yyyy-MM-dd", 'en').format(date);
+  }
+
   static int calcDaysToEndDate(DateTime startDate, int numberWeeks) {
     return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
   }
