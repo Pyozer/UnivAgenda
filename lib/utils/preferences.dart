@@ -568,7 +568,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
-  Future<void> initFromDisk([state = false]) async {
+  Future<void> initFromDisk(BuildContext context, [state = false]) async {
     await initResAndGroup();
 
     String resourcesDate = widget.prefs.getString(PrefKey.resourcesDate);
@@ -588,7 +588,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     setCalendarType(
       calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)),
     );
-    setDarkTheme(widget.prefs.getBool(PrefKey.isDarkTheme));
+    final isDarkTheme = widget.prefs.getBool(PrefKey.isDarkTheme);
+    final deviceBrightness = MediaQuery.of(context).platformBrightness;
+    setDarkTheme(isDarkTheme ?? deviceBrightness == Brightness.dark);
 
     final primaryColorValue = widget.prefs.getInt(PrefKey.primaryColor);
     if (primaryColorValue != null) setPrimaryColor(Color(primaryColorValue));

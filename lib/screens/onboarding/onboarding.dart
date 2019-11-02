@@ -58,52 +58,26 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
   }
 
   List<PageViewModel> _buildPages() {
-    final pageDecoration = PageDecoration(
-      dotsDecorator: DotsDecorator(
-        size: const Size.fromRadius(5),
-        activeSize: const Size.fromRadius(6),
-        activeColor: theme.accentColor,
-        color: Colors.black26,
-        spacing: const EdgeInsets.symmetric(horizontal: 3.0),
-      ),
-    );
-
     return [
       PageViewModel(
         title: i18n.text(StrKey.INTRO_WELCOME_TITLE),
         body: i18n.text(StrKey.INTRO_WELCOME_DESC),
         image: _wrapImage(Logo(size: kIconSize)),
-        decoration: pageDecoration,
-      ),
-      PageViewModel(
-        title: i18n.text(StrKey.INTRO_LOGIN_TITLE),
-        body: i18n.text(StrKey.INTRO_LOGIN_DESC),
-        image: _wrapImage(Image.asset(Asset.INTRO_LOGIN, height: kIconSize)),
-        decoration: pageDecoration,
-      ),
-      PageViewModel(
-        title: i18n.text(StrKey.INTRO_AGENDA_TITLE),
-        body: i18n.text(StrKey.INTRO_AGENDA_DESC),
-        image: _wrapImage(Image.asset(Asset.INTRO_GROUP, height: kIconSize)),
-        decoration: pageDecoration,
       ),
       PageViewModel(
         title: i18n.text(StrKey.INTRO_CUSTOM_TITLE),
         body: i18n.text(StrKey.INTRO_CUSTOM_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_THEME, height: kIconSize)),
-        decoration: pageDecoration,
       ),
       PageViewModel(
         title: i18n.text(StrKey.INTRO_NOTE_TITLE),
         body: i18n.text(StrKey.INTRO_NOTE_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_NOTE, height: kIconSize)),
-        decoration: pageDecoration,
       ),
       PageViewModel(
         title: i18n.text(StrKey.INTRO_EVENT_TITLE),
         body: i18n.text(StrKey.INTRO_EVENT_DESC),
         image: _wrapImage(Image.asset(Asset.INTRO_EVENT, height: kIconSize)),
-        decoration: pageDecoration,
       ),
     ];
   }
@@ -127,6 +101,16 @@ class _OnboardingScreenState extends BaseState<OnboardingScreen> {
       done: Text(i18n.text(StrKey.DONE)),
       skipFlex: 0,
       nextFlex: 0,
+      dotsDecorator: DotsDecorator(
+        size: const Size.square(10.0),
+        activeSize: const Size(20.0, 10.0),
+        activeColor: theme.accentColor,
+        color: Colors.black26,
+        spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0)
+        )
+      ),
     );
   }
 }

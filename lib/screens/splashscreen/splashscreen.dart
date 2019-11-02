@@ -51,7 +51,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     final now = DateTime.now();
 
     // Load preferences from disk
-    await prefs.initFromDisk(true);
+    await prefs.initFromDisk(context, true);
 
     // If resources are older than 15min they need to be updated
     bool isListUnivOld = now.difference(prefs.resourcesDate).inMinutes > 15;

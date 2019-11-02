@@ -314,7 +314,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                             ? [
                                 urlICsInput,
                                 IconButton(
-                                  icon: Image.asset(Asset.QRCODE),
+                                  icon: Image.asset(
+                                    prefs.theme.darkTheme
+                                        ? Asset.QRCODE_WHITE
+                                        : Asset.QRCODE,
+                                  ),
                                   onPressed: _scanQRCode,
                                 ),
                               ]
