@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/screens/find_schedules/find_schedules_select.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/dropdown.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/screens/find_schedules/find_schedules_select.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/widgets/ui/dropdown.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class FindSchedulesScreen extends StatefulWidget {

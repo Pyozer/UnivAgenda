@@ -1,5 +1,5 @@
 {
-  "app_name": "MyAgenda",
+  "app_name": "UnivAgenda",
 
   "drawer": "Menu de navigation",
 
@@ -57,7 +57,7 @@
   "send_feedback": "Envoyer un feedback",
 
   "what_is_it": "Qu'est ce que c'est ?",
-  "about_what": "MyAgenda est relié à l'agenda de le Mans Université, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sans avoir à aller sur l'ENT. Vous pouvez aussi utiliser un fichier ICAL au lieu d'une université.",
+  "about_what": "UnivAgenda est relié à l'agenda de le Mans Université, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sans avoir à aller sur l'ENT. Vous pouvez aussi utiliser un fichier ICAL au lieu d'une université.",
   "author": "Auteur",
   "developer": "Développeur",
   "rights": "Aide juridique",
@@ -68,7 +68,7 @@
   "twitter_desc": "Pose tes questions sur Twitter.",
   "other": "Autre",
   "changelog": "Changelog",
-  "changelog_desc": "Voir le changelog de MyAgenda",
+  "changelog_desc": "Voir le changelog de UnivAgenda",
   "opensource_licences": "Licences",
   "opensource_licences_desc": "Détails des licences open-sources",
   "version": "Version",
@@ -79,7 +79,7 @@
   "done": "Terminer",
 
   "intro_welcome_title": "Bienvenue !",
-  "intro_welcome_desc": "MyAgenda vous permet d'accéder à votre calendrier de votre université, directement sur votre appareil !",
+  "intro_welcome_desc": "UnivAgenda vous permet d'accéder à votre calendrier de votre université, directement sur votre appareil !",
 
   "intro_customization_title": "Personnalisation",
   "intro_customization_desc": "Choisissez un thème clair ou sombre mais aussi les couleurs de l'application ! Rendez-la unique avec 35 720 combinaisons.",
@@ -114,7 +114,7 @@
   "require_field": "Vous devez remplir le champ de texte.",
 
   "error_end_time": "Heure de fin",
-  "error_end_time_text": "L'heure de fin doit être après l'heure de début. Notez que MyAgenda ne prend pas encore en charge les événements de plusieurs jours.",
+  "error_end_time_text": "L'heure de fin doit être après l'heure de début. Notez que UnivAgenda ne prend pas encore en charge les événements de plusieurs jours.",
 
   "confirm_event_delete": "Supprimer cette événement ?",
   "confirm_event_delete_text": "Si vous supprimer cette événement, vous ne pourrez pas le récupérer.",
@@ -162,7 +162,7 @@
   "loading": "Chargement...",
   "loading_resources": "Chargement des ressources d'agendas...",
 
-  "supportme_text": "Tu aimes MyAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec PayPal, du montant de ton choix.\n\nMerci beaucoup !",
+  "supportme_text": "Tu aimes UnivAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec PayPal, du montant de ton choix.\n\nMerci beaucoup !",
   "supportme_paypal": "Don Paypal",
   "supportme_link_error": "Impossible d'ouvrir le site {site}...\nLien: ",
 
@@ -184,7 +184,7 @@
   "error_json_parse": "Erreur lors du traitement du JSON, contactez-nous pour résoudre le problème !",
 
   "data_privacy": "Données & vie privée",
-  "data_privacy_text": "MyAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
+  "data_privacy_text": "UnivAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
 
   "url_ics": "URL de l'agenda exportée (ics)",
   "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",

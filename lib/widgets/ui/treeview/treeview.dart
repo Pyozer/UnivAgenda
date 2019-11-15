@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/ui/treeview/node.dart';
-import 'package:myagenda/widgets/ui/treeview/treenode.dart';
+import 'package:univagenda/widgets/ui/treeview/node.dart';
+import 'package:univagenda/widgets/ui/treeview/treenode.dart';
 
 class TreeView extends StatefulWidget {
   final Map<String, dynamic> dataSource;

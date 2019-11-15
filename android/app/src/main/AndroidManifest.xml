@@ -7,7 +7,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="MyAgenda"
+        android:label="UnivAgenda"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="true">
         <activity

@@ -1,3 +1,7 @@
+## Version 4.3.2
+
+- MyAgenda devient UnivAgenda !
+
 ## Version 4.3.1
 
 - Correction événements perso non sauvegardés
@@ -18,7 +22,7 @@
 
 ## Version 4.2.1
 
-- Création d'une API pour MyAgenda dans le but de parser les fichiers ical
+- Création d'une API pour UnivAgenda dans le but de parser les fichiers ical
 
 ## Version 4.2.0
 

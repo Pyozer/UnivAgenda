@@ -1,19 +1,19 @@
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/courses/custom_course.dart';
-import 'package:myagenda/models/courses/note.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/screens/custom_event/custom_event.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/course_note/add_note_button.dart';
-import 'package:myagenda/widgets/course_note/course_note.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/courses/custom_course.dart';
+import 'package:univagenda/models/courses/note.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/screens/custom_event/custom_event.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/course_note/add_note_button.dart';
+import 'package:univagenda/widgets/course_note/course_note.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DetailCourse extends StatefulWidget {

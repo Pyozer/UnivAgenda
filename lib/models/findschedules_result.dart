@@ -1,4 +1,4 @@
-import 'package:myagenda/models/resource.dart';
+import 'package:univagenda/models/resource.dart';
 
 class FindSchedulesResult {
   final Resource resource;

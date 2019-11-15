@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/route_key.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/keys/route_key.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class CourseListHeader extends StatelessWidget {
   final String text;

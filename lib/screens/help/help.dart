@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/help_item.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/help/help_details.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/api/api.dart';
-import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/button/large_rounded_button.dart';
-import 'package:myagenda/widgets/ui/screen_message/no_result_help.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/help_item.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/help/help_details.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/api/api.dart';
+import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/button/large_rounded_button.dart';
+import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _sendFeedback(BuildContext context) async {
-    var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback MyAgenda';
+    var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback UnivAgenda';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

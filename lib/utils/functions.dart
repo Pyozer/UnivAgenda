@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/list_colors.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

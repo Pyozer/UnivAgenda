@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:html/parser.dart' show parse;
-import 'package:myagenda/models/preferences/university.dart';
-import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/login/login_base.dart';
+import 'package:univagenda/models/preferences/university.dart';
+import 'package:univagenda/utils/http/http_request.dart';
+import 'package:univagenda/utils/login/login_base.dart';
 
 class LoginCAS extends LoginProcess {
   LoginCAS(University university, String username, String password)

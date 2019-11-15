@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:myagenda/models/preferences/credentiel_fields.Dart';
-import 'package:myagenda/models/preferences/status_tags.Dart';
-import 'package:myagenda/utils/functions.dart';
+import 'package:univagenda/models/preferences/credentiel_fields.Dart';
+import 'package:univagenda/models/preferences/status_tags.Dart';
+import 'package:univagenda/utils/functions.dart';
 
 class University {
   String id;

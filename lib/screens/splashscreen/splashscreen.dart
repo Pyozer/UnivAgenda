@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:myagenda/keys/route_key.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/api/api.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
-import 'package:myagenda/widgets/ui/logo.dart';
+import 'package:univagenda/keys/route_key.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/api/api.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
+import 'package:univagenda/widgets/ui/logo.dart';
 import 'package:timezone/timezone.dart';
 
 class SplashScreen extends StatefulWidget {

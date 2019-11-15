@@ -1,6 +1,6 @@
-name: myagenda
+name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 4.3.1+20191030
+version: 4.3.2+20191115
 
 dependencies:
   flutter:
@@ -9,14 +9,14 @@ dependencies:
     sdk: flutter
 
   http: 0.12.0+2
-  shared_preferences: 0.5.4+3
-  path_provider: 1.4.0
+  shared_preferences: 0.5.4+5
+  path_provider: 1.4.2
   url_launcher: 5.2.5
   flutter_markdown: 0.3.0
-  uuid: 2.0.2
+  uuid: 2.0.4
   html: 0.14.0+3
-  firebase_analytics: 5.0.2
-  firebase_crashlytics: 0.1.0+3
+  firebase_analytics: 5.0.6
+  firebase_crashlytics: 0.1.1+2
   package_info: 0.4.0+10
   after_layout: 1.0.7+2
   flutter_calendar:
@@ -28,7 +28,7 @@ dependencies:
   flutter_rounded_date_picker:
     git: git://github.com/Pyozer/flutter_rounded_date_picker
 
-  outline_material_icons: ^0.1.1
+  outline_material_icons: 0.1.1
   timezone: 0.5.5
   flutter_native_timezone: 1.0.4
   qrcode_reader: 0.4.4

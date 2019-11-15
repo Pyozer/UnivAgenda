@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/models/calendar_type.dart';
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/courses/custom_course.dart';
-import 'package:myagenda/models/courses/note.dart';
-import 'package:myagenda/models/preferences/university.dart';
+import 'package:univagenda/models/calendar_type.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/courses/custom_course.dart';
+import 'package:univagenda/models/courses/note.dart';
+import 'package:univagenda/models/preferences/university.dart';
 
 class PrefKey {
   static const university = 'university';

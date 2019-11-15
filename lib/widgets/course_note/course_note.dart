@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/courses/note.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/courses/note.dart';
+import 'package:univagenda/utils/translations.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 typedef NoteChanged(Note note);

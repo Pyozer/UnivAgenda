@@ -1,17 +1,17 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/resource.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/screens/find_schedules/find_schedules_result.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/treeview/node.dart';
-import 'package:myagenda/widgets/ui/treeview/treeview.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/resource.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/screens/find_schedules/find_schedules_result.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/treeview/node.dart';
+import 'package:univagenda/widgets/ui/treeview/treeview.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class FindSchedulesFilter extends StatefulWidget {

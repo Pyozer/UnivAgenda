@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/help_item.dart';
-import 'package:myagenda/models/ical/ical.dart';
-import 'package:myagenda/models/preferences/university.dart';
-import 'package:myagenda/utils/api/base_api.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/ical_api.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/help_item.dart';
+import 'package:univagenda/models/ical/ical.dart';
+import 'package:univagenda/models/preferences/university.dart';
+import 'package:univagenda/utils/api/base_api.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/ical_api.dart';
+import 'package:univagenda/utils/translations.dart';
 
 class Api extends BaseApi {
   Api() : super();

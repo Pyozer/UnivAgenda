@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/keys/url.dart';
-import 'package:myagenda/models/analytics.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/keys/url.dart';
+import 'package:univagenda/models/analytics.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 
 class SupportMeScreen extends StatefulWidget {
   _SupportMeScreenState createState() => _SupportMeScreenState();

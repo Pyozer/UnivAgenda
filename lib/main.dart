@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/app.dart';
+import 'package:univagenda/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/route_key.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/course/course_list_header.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/logo.dart';
+import 'package:univagenda/keys/route_key.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/course/course_list_header.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {

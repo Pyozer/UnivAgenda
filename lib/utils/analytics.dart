@@ -1,6 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:myagenda/models/analytics.dart';
-import 'package:myagenda/utils/preferences.dart';
+import 'package:univagenda/models/analytics.dart';
+import 'package:univagenda/utils/preferences.dart';
 
 class AnalyticsProvider {
   static final FirebaseAnalytics analytics = FirebaseAnalytics();

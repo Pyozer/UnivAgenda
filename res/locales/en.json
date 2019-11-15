@@ -1,5 +1,5 @@
 {
-  "app_name": "MyAgenda",
+  "app_name": "UnivAgenda",
 
   "drawer": "Navigation menu",
 
@@ -79,7 +79,7 @@
   "done": "Got it",
 
   "intro_welcome_title": "Welcome !",
-  "intro_welcome_desc": "MyAgenda allows you to access to your calendar of your University, directly on your device!",
+  "intro_welcome_desc": "UnivAgenda allows you to access to your calendar of your University, directly on your device!",
 
   "intro_customization_title": "Personalization",
   "intro_customization_desc": "Choose light or dark theme but also the colors of the app! Make it unique with 35 720 combinations.",
@@ -114,7 +114,7 @@
   "require_field": "You must fill the text field.",
 
   "error_end_time": "Error time selected",
-  "error_end_time_text": "The end time must be after the start time. Note that MyAgenda does not yet support multi-day events.",
+  "error_end_time_text": "The end time must be after the start time. Note that UnivAgenda does not yet support multi-day events.",
 
   "confirm_event_delete": "Delete this event ?",
   "confirm_event_delete_text": "By deleting this event, you will can't get it back.",
@@ -162,7 +162,7 @@
   "loading": "Loading...",
   "loading_resources": "Calendar resources are loading...",
 
-  "supportme_text": "You love MyAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with PayPal, the amount of your choice.\n\nThank you so much !",
+  "supportme_text": "You love UnivAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with PayPal, the amount of your choice.\n\nThank you so much !",
   "supportme_paypal": "Paypal donation",
   "supportme_link_error": "Can not open the {site} website...\nLink: ",
 
@@ -184,7 +184,7 @@
   "error_json_parse": "Error processing JSON, contact us to solve the problem!",
 
   "data_privacy": "Data & privacy",
-  "data_privacy_text": "MyAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
+  "data_privacy_text": "UnivAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
 
   "url_ics": "Exported calendar url (ics)",
   "wrong_ics_format": "The .ics file has an incorrect format !",

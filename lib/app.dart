@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myagenda/keys/route_key.dart';
-import 'package:myagenda/screens/about/aboutscreen.dart';
-import 'package:myagenda/screens/about/licences/licences.dart';
-import 'package:myagenda/screens/find_schedules/find_schedules.dart';
-import 'package:myagenda/screens/help/help.dart';
-import 'package:myagenda/screens/home/home.dart';
-import 'package:myagenda/screens/login/login.dart';
-import 'package:myagenda/screens/onboarding/onboarding.dart';
-import 'package:myagenda/screens/settings/settings.dart';
-import 'package:myagenda/screens/splashscreen/splashscreen.dart';
-import 'package:myagenda/screens/supportme/supportme.dart';
-import 'package:myagenda/utils/custom_route.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:univagenda/keys/route_key.dart';
+import 'package:univagenda/screens/about/aboutscreen.dart';
+import 'package:univagenda/screens/about/licences/licences.dart';
+import 'package:univagenda/screens/find_schedules/find_schedules.dart';
+import 'package:univagenda/screens/help/help.dart';
+import 'package:univagenda/screens/home/home.dart';
+import 'package:univagenda/screens/login/login.dart';
+import 'package:univagenda/screens/onboarding/onboarding.dart';
+import 'package:univagenda/screens/settings/settings.dart';
+import 'package:univagenda/screens/splashscreen/splashscreen.dart';
+import 'package:univagenda/screens/supportme/supportme.dart';
+import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +62,7 @@ class App extends StatelessWidget {
           ));
 
           return MaterialApp(
-            title: "MyAgenda",
+            title: "UnivAgenda",
             theme: theme,
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

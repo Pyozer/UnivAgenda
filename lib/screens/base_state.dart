@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   PreferencesProviderState prefs;

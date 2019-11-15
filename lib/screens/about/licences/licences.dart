@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/licence.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/settings/list_tile_title.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/licence.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/settings/list_tile_title.dart';
 
 class LicencesScreen extends StatelessWidget {
   static const git = "https://github.com/";

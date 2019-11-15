@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
+import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 
 class LargeRoundedButton extends StatelessWidget {
   final String text;

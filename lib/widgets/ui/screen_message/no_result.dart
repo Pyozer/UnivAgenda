@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/assets.dart';
+import 'package:univagenda/keys/assets.dart';
 
 class NoResult extends StatelessWidget {
   final Widget header;

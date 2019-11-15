@@ -1,19 +1,19 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/findschedules_result.dart';
-import 'package:myagenda/models/resource.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/api/api.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/ical_api.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:myagenda/widgets/ui/screen_message/no_result.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/findschedules_result.dart';
+import 'package:univagenda/models/resource.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/api/api.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/ical_api.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 
 class Tuple {
   final Resource resource;

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:myagenda/models/preferences/university.dart';
+import 'package:univagenda/models/preferences/university.dart';
 
 enum LoginResultType { LOGIN_SUCCESS, LOGIN_FAIL, NETWORK_ERROR, UNKNOWN_ERROR }
 

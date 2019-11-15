@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/settings/list_tile_title.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/settings/list_tile_title.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class ListTileInput extends StatefulWidget {
   final String title;

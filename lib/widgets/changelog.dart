@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:myagenda/keys/url.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/http/http_request.dart';
-import 'package:myagenda/utils/translations.dart';
+import 'package:univagenda/keys/url.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/http/http_request.dart';
+import 'package:univagenda/utils/translations.dart';
 
 class ChangeLog extends StatelessWidget {
   Future<String> _fetchData(BuildContext context) async {

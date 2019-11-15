@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/ui/button/raised_button_colored.dart';
-import 'package:myagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
+import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class SimpleAlertDialog extends StatelessWidget {
   final String title;

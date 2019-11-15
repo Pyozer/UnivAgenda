@@ -1,19 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:myagenda/keys/assets.dart';
-import 'package:myagenda/keys/route_key.dart';
-import 'package:myagenda/keys/string_key.dart';
-import 'package:myagenda/keys/url.dart';
-import 'package:myagenda/models/analytics.dart';
-import 'package:myagenda/screens/appbar_screen.dart';
-import 'package:myagenda/utils/analytics.dart';
-import 'package:myagenda/utils/functions.dart';
-import 'package:myagenda/utils/translations.dart';
-import 'package:myagenda/widgets/changelog.dart';
-import 'package:myagenda/widgets/images/circle_image.dart';
-import 'package:myagenda/widgets/ui/about_card.dart';
-import 'package:myagenda/widgets/ui/logo.dart';
+import 'package:univagenda/keys/assets.dart';
+import 'package:univagenda/keys/route_key.dart';
+import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/keys/url.dart';
+import 'package:univagenda/models/analytics.dart';
+import 'package:univagenda/screens/appbar_screen.dart';
+import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/changelog.dart';
+import 'package:univagenda/widgets/images/circle_image.dart';
+import 'package:univagenda/widgets/ui/about_card.dart';
+import 'package:univagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:package_info/package_info.dart';
 

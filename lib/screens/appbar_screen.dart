@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/ui/drawer_icon.dart';
+import 'package:univagenda/widgets/ui/drawer_icon.dart';
 
 class AppbarPage extends StatelessWidget {
   final String title;

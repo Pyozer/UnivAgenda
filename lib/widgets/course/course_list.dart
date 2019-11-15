@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/date_utils.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
-import 'package:myagenda/models/calendar_type.dart';
-import 'package:myagenda/models/courses/base_course.dart';
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/screens/base_state.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/preferences.dart';
-import 'package:myagenda/widgets/calendar/calendar_event.dart';
-import 'package:myagenda/widgets/course/course_row.dart';
-import 'package:myagenda/widgets/course/course_row_header.dart';
-import 'package:myagenda/widgets/ui/screen_message/empty_day.dart';
+import 'package:univagenda/models/calendar_type.dart';
+import 'package:univagenda/models/courses/base_course.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/widgets/calendar/calendar_event.dart';
+import 'package:univagenda/widgets/course/course_row.dart';
+import 'package:univagenda/widgets/course/course_row_header.dart';
+import 'package:univagenda/widgets/ui/screen_message/empty_day.dart';
 
 class CourseList extends StatefulWidget {
   final Map<int, List<Course>> coursesData;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myagenda/widgets/ui/custom_checkbox.dart';
-import 'package:myagenda/widgets/ui/treeview/node.dart';
+import 'package:univagenda/widgets/ui/custom_checkbox.dart';
+import 'package:univagenda/widgets/ui/treeview/node.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class TreeNode extends StatelessWidget {

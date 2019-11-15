@@ -1,3 +1,7 @@
+## Version 4.3.2
+
+- MyAgenda is now UnivAgenda !
+
 ## Version 4.3.1
 
 - Fix custom event not saved
@@ -18,7 +22,7 @@
 
 ## Version 4.2.1
 
-- Create a special API for MyAgenda to parse icals
+- Create a special API for UnivAgenda to parse icals
 
 ## Version 4.2.0
 

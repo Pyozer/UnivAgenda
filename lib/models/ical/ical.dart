@@ -1,4 +1,4 @@
-import 'package:myagenda/models/ical/vevent.dart';
+import 'package:univagenda/models/ical/vevent.dart';
 
 class Ical {
   List<VEvent> vevents;

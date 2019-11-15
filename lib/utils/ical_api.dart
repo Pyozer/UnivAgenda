@@ -1,7 +1,7 @@
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/ical/ical.dart';
-import 'package:myagenda/utils/date.dart';
-import 'package:myagenda/utils/functions.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/ical/ical.dart';
+import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/functions.dart';
 import 'package:timezone/standalone.dart';
 
 class IcalPrepareResult {

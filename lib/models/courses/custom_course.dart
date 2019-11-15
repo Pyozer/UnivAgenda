@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:device_calendar/device_calendar.dart';
-import 'package:myagenda/models/courses/course.dart';
-import 'package:myagenda/models/courses/weekday.dart';
-import 'package:myagenda/models/courses/note.dart';
-import 'package:myagenda/utils/functions.dart';
+import 'package:univagenda/models/courses/course.dart';
+import 'package:univagenda/models/courses/weekday.dart';
+import 'package:univagenda/models/courses/note.dart';
+import 'package:univagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   List<WeekDay> weekdaysRepeat;
