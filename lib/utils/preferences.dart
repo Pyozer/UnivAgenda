@@ -39,8 +39,8 @@ class PreferencesProvider extends StatefulWidget {
   PreferencesProviderState createState() => PreferencesProviderState();
 
   static PreferencesProviderState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_MyInheritedPreferences)
-            as _MyInheritedPreferences)
+    return context
+        .dependOnInheritedWidgetOfExactType<_MyInheritedPreferences>()
         .data;
   }
 }

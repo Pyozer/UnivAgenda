@@ -195,8 +195,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       controller: controller,
       textInputAction: inputAction,
       autofocus: false,
-      obscureText: isObscure,
-      maxLines: null,
+      obscureText: isObscure ?? false,
+      maxLines: isObscure == true ? 1 : null,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon, color: theme.accentColor),
