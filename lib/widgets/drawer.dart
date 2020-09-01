@@ -3,7 +3,6 @@ import 'package:univagenda/keys/route_key.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/course/course_list_header.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -30,8 +29,6 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferencesProvider.of(context);
-
     return Drawer(
       semanticLabel: i18n.text(StrKey.DRAWER),
       child: ListView(
@@ -55,19 +52,6 @@ class MainDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
             ),
-          ),
-          if (prefs.urlIcs == null)
-            CourseListHeader(
-              "${prefs.groupKeys[1]} - ${prefs.groupKeys.last}",
-              bgColor: prefs.theme.darkTheme
-                  ? const Color(0xFF484848)
-                  : const Color(0xFFF3F3F3),
-            ),
-          DrawerElement(
-            icon: OMIcons.search,
-            title: i18n.text(StrKey.FINDSCHEDULES),
-            routeDest: RouteKey.FINDSCHEDULES,
-            enabled: prefs.urlIcs == null,
           ),
           DrawerElement(
             icon: OMIcons.info,

@@ -9,7 +9,6 @@ import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -30,7 +29,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
 
   Future<List<int>> loadDefaultData() async {
     final byteData = await rootBundle.load(
-      'packages/timezone/data/2019b_all.tzf',
+      'packages/timezone/data/2020a_all.tzf',
     );
     return byteData.buffer.asUint8List();
   }
@@ -52,57 +51,6 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
 
     // Load preferences from disk
     await prefs.initFromDisk(context, true);
-
-    // If resources are older than 15min they need to be updated
-    bool isListUnivOld = now.difference(prefs.resourcesDate).inMinutes > 15;
-
-    // If university list is empty or cache is too old
-    if (prefs.listUniversity.isEmpty || isListUnivOld) {
-      // Request lastest university list
-      try {
-        final responseUniv = await Api().getResources();
-        // Update university list
-        prefs.setListUniversity(responseUniv);
-        prefs.setResourcesDate(now);
-      } catch (e) {
-        print(e);
-        // If request failed and there is no list University
-        if (prefs.listUniversity.isEmpty)
-          return _setError(StrKey.ERROR_UNIV_LIST_RETRIEVE_FAIL);
-      }
-    }
-
-    // If list university still empty, set error
-    if (prefs.listUniversity.isEmpty) {
-      return _setError(StrKey.ERROR_UNIV_LIST_EMPTY);
-    }
-    // If user was connected but university or ics url are null, disconnect him
-    if (prefs.urlIcs == null && prefs.university == null && prefs.isUserLogged)
-      prefs.setUserLogged(false);
-
-    // If university is null, take the first of list
-    if (prefs.urlIcs == null && prefs.university == null)
-      prefs.setUniversity(prefs.listUniversity[0].university);
-
-    // If user is connected and have an university but no resources
-    // Or same as top but with cache too older
-    if (prefs.isUserLogged &&
-        prefs.urlIcs == null &&
-        prefs.university != null &&
-        (prefs.resources.isEmpty || isListUnivOld)) {
-      try {
-        final responseRes = await Api().getUnivResources(
-          prefs.university.id,
-        );
-        // Update resources with new data get
-        prefs.setResources(responseRes);
-        prefs.setResourcesDate(now);
-      } catch (e) {
-        if (prefs.resources.isEmpty) {
-          return _setError(StrKey.ERROR_RES_LIST_RETRIEVE_FAIL);
-        }
-      }
-    }
 
     final routeDest = (!prefs.isIntroDone)
         ? RouteKey.INTRO
@@ -149,7 +97,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
                         children: [
                           Text(
                             _errorMsg,
-                            style: theme.textTheme.subhead,
+                            style: theme.textTheme.subtitle1,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),

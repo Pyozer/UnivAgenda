@@ -15,7 +15,6 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/ical_api.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course/course_list.dart';
 import 'package:univagenda/widgets/drawer.dart';
@@ -92,20 +91,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     setState(() => _isLoading = true);
 
     try {
-      List<Course> courses = [];
-      
-      if (prefs.urlIcs != null) {
-        courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
-      } else {
-        final resID = prefs.getGroupResID();
-
-        final dates = IcalAPI.prepareIcalDates(
-          prefs.numberWeeks,
-          prefs.isPreviousCourses ? PrefKey.defaultMaximumPrevDays : 0,
-        );
-        courses = await Api().getCourses(prefs.university.id, resID, dates);
-      }
-
+      List<Course> courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
     } catch (e) {

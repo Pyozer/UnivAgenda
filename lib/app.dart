@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:univagenda/keys/route_key.dart';
 import 'package:univagenda/screens/about/aboutscreen.dart';
 import 'package:univagenda/screens/about/licences/licences.dart';
-import 'package:univagenda/screens/find_schedules/find_schedules.dart';
 import 'package:univagenda/screens/help/help.dart';
 import 'package:univagenda/screens/home/home.dart';
 import 'package:univagenda/screens/login/login.dart';
@@ -21,7 +20,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 final routes = {
   RouteKey.SPLASHSCREEN: SplashScreen(),
   RouteKey.HOME: HomeScreen(),
-  RouteKey.FINDSCHEDULES: FindSchedulesScreen(),
   RouteKey.SETTINGS: SettingsScreen(),
   RouteKey.HELP: HelpScreen(),
   RouteKey.ABOUT: AboutScreen(),

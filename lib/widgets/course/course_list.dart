@@ -87,7 +87,7 @@ class _CourseListState extends BaseState<CourseList> {
 
     final theme = Theme.of(context);
 
-    final baseStyle = theme.primaryTextTheme.title;
+    final baseStyle = theme.primaryTextTheme.headline6;
     final unselectedStyle = baseStyle.copyWith(
       fontSize: 17.0,
       color: baseStyle.color.withAlpha(180),

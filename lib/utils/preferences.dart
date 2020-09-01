@@ -9,7 +9,6 @@ import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/models/preferences/prefs_theme.dart';
-import 'package:univagenda/models/preferences/university.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,15 +57,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     noteColor: PrefKey.defaultNoteColor,
   );
 
-  /// List of all university
-  List<University> _listUniversity;
-
-  /// Actual University
-  University _university;
-
-  /// Agenda preferences (list of group keys)
-  List<String> _prefsGroupKeys = [];
-
   /// Url of custom ics file (if user choose "Other" in login page)
   String _urlIcs;
 
@@ -109,12 +99,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// List of renamed courses
   Map<String, String> _renamedEvents;
 
-  /// Resources (contain all agenda with their ID)
-  Map<String, dynamic> _resources;
-
-  /// Last date that the resources has ben updated
-  DateTime _resourcesDate;
-
   /// Last date that the ical cache has ben updated
   DateTime _cachedIcalDate;
 
@@ -123,74 +107,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   /// Callback when preferences changes
   VoidCallback onPrefsChanges;
-
-  List<String> getAllUniversity() {
-    return _listUniversity?.map((univ) => univ.university)?.toList() ?? [];
-  }
-
-  University findUniversity(String university) {
-    return listUniversity.firstWhere(
-      (univ) => univ.university == university,
-      orElse: () => null,
-    );
-  }
-
-  List<String> get groupKeys => _prefsGroupKeys;
-
-  setGroupKeys(List<String> newGroupKeys, [state = false]) {
-    // Check if values are correct together
-    List<String> checkedGroupKeys = checkDataValues(newGroupKeys);
-
-    if (checkedGroupKeys == groupKeys) return;
-
-    _updatePref(() => _prefsGroupKeys = checkedGroupKeys, state);
-
-    widget.prefs.setStringList(PrefKey.groupKeys, checkedGroupKeys);
-  }
-
-  List<List<String>> getAllGroupKeys(List<String> groupKeys) {
-    List<List<String>> allGroupKeys = [];
-
-    dynamic resources = _resources;
-    groupKeys.forEach((key) {
-      if (!(resources is int)) {
-        allGroupKeys.add(resources.keys.toList());
-        resources = resources[key];
-      }
-    });
-    return allGroupKeys;
-  }
-
-  int getGroupResID() {
-    dynamic resources = _resources;
-
-    groupKeys.forEach((key) {
-      resources = resources[key];
-    });
-    return resources as int;
-  }
-
-  List<String> checkDataValues(List<String> groupKeys) {
-    groupKeys ??= [];
-    List<String> checkedGroupKeys = [];
-
-    dynamic resources = _resources;
-
-    String key;
-    int level = 0;
-    while (!(resources is int) && resources.keys.isNotEmpty) {
-      if (level < groupKeys.length && resources.containsKey(groupKeys[level]))
-        key = groupKeys[level];
-      else
-        key = resources.keys.first;
-
-      resources = resources[key];
-      checkedGroupKeys.add(key);
-      level++;
-    }
-
-    return checkedGroupKeys;
-  }
 
   String get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
 
@@ -426,58 +342,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     widget.prefs.setBool(PrefKey.isDisplayAllDays, _isDisplayAllDays);
   }
 
-  List<University> get listUniversity =>
-      _listUniversity ?? PrefKey.defaultListUniversity;
-
-  setListUniversity(List<University> listUniv, [state = false]) {
-    if (listUniversity == listUniv) return;
-
-    _updatePref(() {
-      _listUniversity = listUniv ?? PrefKey.defaultListUniversity;
-    }, state);
-
-    writeFile(PrefKey.listUniversityFile, json.encode(listUniv));
-  }
-
-  University get university => _university;
-
-  setUniversity(String newUniversity, [state = false]) {
-    if ((university?.university ?? "") == newUniversity) return;
-
-    if (listUniversity.isNotEmpty) {
-      final univ = findUniversity(newUniversity);
-      _updatePref(() => _university = univ ?? _listUniversity[0], state);
-
-      widget.prefs.setString(PrefKey.university, _university.university);
-    }
-  }
-
-  Map<String, dynamic> get resources => _resources ?? PrefKey.defaultResources;
-
-  void setResources(Map<String, dynamic> newResources, [state = false]) {
-    if (resources == newResources) return;
-
-    _updatePref(() {
-      _resources = newResources ?? PrefKey.defaultResources;
-    }, state);
-
-    // Check actual calendar prefs with new resources
-    if (_resources.isNotEmpty) setGroupKeys(groupKeys, state);
-    // Update cache file
-    writeFile(PrefKey.resourcesFile, json.encode(newResources));
-  }
-
-  DateTime get resourcesDate => _resourcesDate ?? DateTime(2000);
-
-  setResourcesDate([DateTime newResDate, state = false]) {
-    _updatePref(() => _resourcesDate = newResDate, state);
-
-    widget.prefs.setString(
-      PrefKey.resourcesDate,
-      _resourcesDate?.toIso8601String(),
-    );
-  }
-
   DateTime get cachedIcalDate => _cachedIcalDate ?? DateTime(2000);
 
   setCachedIcalDate([DateTime newCachedIcalDate, state = false]) {
@@ -551,7 +415,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   disconnectUser([state = false]) {
     setUserLogged(false);
     setUrlIcs(null);
-    setResources(PrefKey.defaultResources);
     setCachedCourses(PrefKey.defaultCachedCourses);
   }
 
@@ -570,9 +433,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Future<void> initFromDisk(BuildContext context, [state = false]) async {
     await initResAndGroup();
-
-    String resourcesDate = widget.prefs.getString(PrefKey.resourcesDate);
-    if (resourcesDate != null) setResourcesDate(DateTime.parse(resourcesDate));
 
     String cachedIcalDate = widget.prefs.getString(PrefKey.cachedIcalDate);
     if (cachedIcalDate != null)
@@ -646,47 +506,11 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   }
 
   Future<void> initResAndGroup() async {
-    // Init list university stored values
-    String listUnivStored = await readFile(
-      PrefKey.listUniversityFile,
-      PrefKey.defaultListUniversityJson,
-    );
-    List listUnivJson = json.decode(listUnivStored);
-    setListUniversity(listUnivJson.map((m) => University.fromJson(m)).toList());
-
     // If user choose custom url ics, not init other group prefs
     String urlIcs = widget.prefs.getString(PrefKey.urlIcs);
     if (urlIcs != null) {
       setUrlIcs(urlIcs);
-      return null;
     }
-
-    // If list of university is not empty
-    if (listUniversity.isNotEmpty) {
-      String storedUniversityName = widget.prefs.getString(PrefKey.university);
-
-      // If no university store
-      if (storedUniversityName == null || storedUniversityName.isEmpty) {
-        // Take first university of list
-        storedUniversityName = listUniversity[0].university;
-      }
-      setUniversity(storedUniversityName);
-
-      // Parse local resources to Map
-      String storedResourcesStr = await readFile(PrefKey.resourcesFile, '{}');
-      storedResourcesStr..trim();
-
-      // If local resources aren't empty
-      if (storedResourcesStr.isNotEmpty) {
-        // Init group preferences
-        final groupKeys = widget.prefs.getStringList(PrefKey.groupKeys);
-        // Update
-        setResources(json.decode(storedResourcesStr));
-        // Check values and resave group prefs (useful if issue)
-        setGroupKeys(groupKeys);
-      }
-    }
-    return null;
   }
 
   void _updatePref(Function f, bool state) {
@@ -708,9 +532,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool operator ==(Object other) =>
       other is PreferencesProviderState &&
       theme != other.theme &&
-      listEqualsNotOrdered(listUniversity, other.listUniversity) &&
-      university != other.university &&
-      listEqualsNotOrdered(groupKeys, other.groupKeys) &&
       urlIcs != other.urlIcs &&
       numberWeeks != other.numberWeeks &&
       isPreviousCourses != other.isPreviousCourses &&
@@ -725,17 +546,12 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       listEqualsNotOrdered(customEvents, other.customEvents) &&
       listEqualsNotOrdered(hiddenEvents, other.hiddenEvents) &&
       renamedEvents == other.renamedEvents &&
-      resources != other.resources &&
-      resourcesDate != other.resourcesDate &&
       cachedIcalDate != other.cachedIcalDate &&
       isGenerateEventColor != other.isGenerateEventColor;
 
   @override
   int get hashCode =>
       theme.hashCode ^
-      hashList(listUniversity) ^
-      university.hashCode ^
-      hashList(groupKeys) ^
       urlIcs.hashCode ^
       numberWeeks.hashCode ^
       isPreviousCourses.hashCode ^
@@ -750,8 +566,6 @@ class PreferencesProviderState extends State<PreferencesProvider> {
       hashList(customEvents) ^
       hashList(hiddenEvents) ^
       renamedEvents.hashCode ^
-      resources.hashCode ^
-      resourcesDate.hashCode ^
       cachedIcalDate.hashCode ^
       isGenerateEventColor.hashCode;
 }

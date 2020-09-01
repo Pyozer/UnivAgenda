@@ -17,7 +17,7 @@ class EmptyDay extends StatelessWidget {
           ),
       child: Text(
         i18n.text(StrKey.NO_EVENTS),
-        style: Theme.of(context).textTheme.subhead,
+        style: Theme.of(context).textTheme.subtitle1,
         textAlign: TextAlign.justify,
       ),
     );

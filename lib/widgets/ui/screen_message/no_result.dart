@@ -40,13 +40,13 @@ class NoResult extends StatelessWidget {
             const SizedBox(height: 40.0),
             Text(
               title,
-              style: textTheme.headline.copyWith(fontWeight: FontWeight.w600),
+              style: textTheme.headline5.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24.0),
             Text(
               text,
-              style: textTheme.subhead,
+              style: textTheme.subtitle1,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24.0),

@@ -20,7 +20,7 @@ import 'package:package_info/package_info.dart';
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
-        Theme.of(context).textTheme.headline.copyWith(fontSize: 30.0);
+        Theme.of(context).textTheme.headline5.copyWith(fontSize: 30.0);
     final appName = i18n.text(StrKey.APP_NAME);
 
     return Container(
@@ -45,7 +45,7 @@ class AboutScreen extends StatelessWidget {
       children: [
         Text(
           i18n.text(StrKey.ABOUT_WHAT),
-          style: Theme.of(context).textTheme.body1,
+          style: Theme.of(context).textTheme.bodyText2,
           textAlign: TextAlign.justify,
         )
       ],
@@ -184,7 +184,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
-    final txtTheme = Theme.of(context).textTheme.subhead;
+    final txtTheme = Theme.of(context).textTheme.subtitle1;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12.0),

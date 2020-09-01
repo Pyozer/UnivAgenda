@@ -54,7 +54,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
           children: [
             Text(
               i18n.text(StrKey.SUPPORTME_TEXT),
-              style: theme.textTheme.subhead.copyWith(fontSize: 18.0),
+              style: theme.textTheme.subtitle1.copyWith(fontSize: 18.0),
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 24.0),

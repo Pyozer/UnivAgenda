@@ -8,10 +8,8 @@ class AnalyticsProvider {
   static void sendUserPrefsGroup(PreferencesProviderState prefs) {
     // User group prefs
     analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
-      AnalyticsValue.groupKeys:
-          prefs.urlIcs != null ? "Ical File" : prefs.groupKeys?.join(',') ?? "",
-      AnalyticsValue.university:
-          prefs.urlIcs ?? prefs.university?.university ?? "Unknown",
+      AnalyticsValue.groupKeys: "Ical File",
+      AnalyticsValue.university: prefs.urlIcs ?? "Unknown",
     });
   }
 

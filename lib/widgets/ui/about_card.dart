@@ -27,7 +27,7 @@ class AboutCard extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .title
+              .headline6
               .copyWith(fontWeight: FontWeight.w700),
         ),
       ),

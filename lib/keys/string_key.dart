@@ -3,8 +3,6 @@ class StrKey {
 
   static const DRAWER = 'drawer';
 
-  static const FINDSCHEDULES = 'findschedules';
-
   static const SETTINGS = 'settings';
   static const SETTINGS_GENERAL = 'settings_general';
   static const SETTINGS_DISPLAY = 'settings_display';
@@ -129,16 +127,6 @@ class StrKey {
   static const YES = 'yes';
   static const NO = 'no';
 
-  static const FINDSCHEDULES_FROM = 'findschedules_from';
-  static const FINDSCHEDULES_TO = 'findschedules_to';
-  static const FINDSCHEDULES_SEARCH_ORIGIN = 'findschedules_search_origin';
-  static const FINDSCHEDULES_FILTER = 'findschedules_filter';
-  static const FINDSCHEDULES_AVAILABLE = 'findschedules_available';
-  static const FINDSCHEDULES_NORESULT = 'findschedules_noresult';
-  static const FINDSCHEDULES_NORESULT_TEXT = 'findschedules_noresult_text';
-  static const FINDSCHEDULES_RESULTS = 'findschedules_results';
-  static const FINDSCHEDULES_FILTER_SELECTION = 'findschedules_filter_selection';
-
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
 
@@ -150,11 +138,8 @@ class StrKey {
   static const GET_RES_ERROR = 'get_res_error';
   static const RETRY = 'retry';
 
-  static const LOGIN_USERNAME = 'login_username';
-  static const LOGIN_PASSWORD = 'login_password';
   static const LOGIN_SUBMIT = 'login_submit';
   static const LOGIN_SERVER_ERROR = 'login_server_error';
-  static const LOGIN_CREDENTIAL_ERROR = 'login_credential_error';
   static const LOGIN_SUCCESSFUL = 'login_successfull';
   static const LOGIN_SUCCESSFUL_TEXT = 'login_successfull_text';
 

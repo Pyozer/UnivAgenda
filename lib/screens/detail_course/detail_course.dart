@@ -261,7 +261,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = theme.primaryTextTheme.title.copyWith(fontSize: 17.0);
+    final textStyle = theme.primaryTextTheme.headline6.copyWith(fontSize: 17.0);
 
     return AppbarPage(
       title: i18n.text(StrKey.COURSE_DETAILS),

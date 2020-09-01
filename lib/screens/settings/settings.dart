@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/analytics.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/screens/settings/manage_hidden_events.dart';
 import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/settings/list_tile_input.dart';
 import 'package:univagenda/widgets/settings/list_tile_number.dart';
 import 'package:univagenda/widgets/settings/list_tile_title.dart';
 import 'package:univagenda/widgets/settings/setting_card.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/list_divider.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 
 enum MenuItem { REFRESH }
 
@@ -33,65 +28,20 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     AnalyticsProvider.setScreen(widget);
   }
 
-  Future<void> _forceRefreshResources() async {
-    // Show progress dialog
-    DialogPredefined.showProgressDialog(
-      context,
-      i18n.text(StrKey.LOADING_RESOURCES),
-    );
-
-    try {
-      final resources = await Api().getUnivResources(
-        prefs.university.id,
-      );
-
-      if (!mounted) return;
-
-      prefs.setResourcesDate();
-      prefs.setResources(resources, true);
-    } catch (e) {}
-
-    // Send to analytics user force refresh calendar resources
-    AnalyticsProvider.sendForceRefresh(AnalyticsValue.refreshResources);
-    // Close loading dialog
-    Navigator.pop(context);
-  }
-
   Widget _buildSettingsGeneral() {
-    final groupKeys = prefs.groupKeys;
     List<Widget> settingsGeneralElems;
 
-    if (prefs.urlIcs == null) {
-      settingsGeneralElems = [];
-
-      List<List<String>> allGroupKeys = prefs.getAllGroupKeys(prefs.groupKeys);
-      for (int level = 0; level < allGroupKeys.length; level++) {
-        settingsGeneralElems.add(ListTileChoices(
-          title: i18n.text(
-            StrKey.ELEMENT,
-            {'number': (level + 1).toString()},
-          ),
-          selectedValue: groupKeys[level],
-          values: allGroupKeys[level],
-          onChange: (value) {
-            groupKeys[level] = value;
-            prefs.setGroupKeys(groupKeys, true);
-          },
-        ));
-      }
-    } else {
-      settingsGeneralElems = [
-        ListTileInput(
-          title: i18n.text(StrKey.URL_ICS),
-          hintText: i18n.text(StrKey.URL_ICS),
-          defaultValue: prefs.urlIcs,
-          onChange: (value) {
-            prefs.setCachedCourses(PrefKey.defaultCachedCourses);
-            prefs.setUrlIcs(value, true);
-          },
-        )
-      ];
-    }
+    settingsGeneralElems = [
+      ListTileInput(
+        title: i18n.text(StrKey.URL_ICS),
+        hintText: i18n.text(StrKey.URL_ICS),
+        defaultValue: prefs.urlIcs,
+        onChange: (value) {
+          prefs.setCachedCourses(PrefKey.defaultCachedCourses);
+          prefs.setUrlIcs(value, true);
+        },
+      )
+    ];
 
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_GENERAL),
@@ -221,27 +171,8 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var actions;
-    if (prefs.urlIcs == null) {
-      actions = [
-        PopupMenuButton<MenuItem>(
-          icon: const Icon(OMIcons.moreVert),
-          onSelected: (MenuItem result) {
-            if (result == MenuItem.REFRESH) _forceRefreshResources();
-          },
-          itemBuilder: (_) => <PopupMenuEntry<MenuItem>>[
-            PopupMenuItem<MenuItem>(
-              value: MenuItem.REFRESH,
-              child: Text(i18n.text(StrKey.REFRESH_AGENDAS)),
-            ),
-          ],
-        ),
-      ];
-    }
-
     return AppbarPage(
       title: i18n.text(StrKey.SETTINGS),
-      actions: actions,
       body: ListView(
         children: [
           _buildSettingsGeneral(),
