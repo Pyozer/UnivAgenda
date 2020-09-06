@@ -1,29 +1,24 @@
 # UnivAgenda
 
-Application pour avoir l'agenda de l'**Université du Maine** (Le Mans Université), Université de **Tours** et de **Rennes**. De plus, d'autres Universités peuvent être ajoutés facilement, sur demande. Vous pouvez aussi, mettre à la place, un lien vers un fichier ICAL si votre université n'est pas disponible (pour l'**Efrei / Efreitech** par exemple).
-Elle est disponible pour **Android** sur le PlayStore. Malheureusement au vu du prix d'un compte developpeur Apple, elle n'est pas disponible sur **iOS**.
+Application pour voir son agenda universitaire grâce au lien d'exportation de votre ENT. Peut être utiliser via un lien vers un fichier ICS en générale (pas uniquement d'une université).
+Elle est disponible pour **Android** et **iOS**.
 
-<a href='https://play.google.com/store/apps/details?id=com.pyozer.myagenda&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="75"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.pyozer.myagenda&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="65"/></a>
+
+<a href="https://apps.apple.com/fr/app/univagenda/id1451418056?mt=8" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-gb/badge-lrg.svg?releaseDate=2019-04-28&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
 
 ## Fonctionnement de l'application
 
 UnivAgenda utilise les dernières données provenant de l'**ENT**. En effet, elle récupère un fichier ICS (ical), le traite et l'affiche.
-Ce fichier contient la liste des événements (cours) du groupe que vous avez choisis sur l'application (dans les paramètres).
-
-Si vous choisissez d'utiliser une Université, pour accéder à l'application **vous devez vous connecter** en utilisant vos identifiants Universitaire.
-Sinon, si vous avez choisi "Autre" dans le choix d'Université, il vous suffit de saisir le lien vers le fichier ICAL.
+Ce fichier contient la liste des événements (cours) du groupe que vous avez choisis d'exporter (dans les paramètres).
 
 ## Fonctionnalitées
 
-UnivAgenda intègre une **multitude de fonctionnalités**, comme le choix de votre groupe. Vous pouvez aussi très bien regarder l'emploi du temps d'un de vos camarades, d'un professeur ou même d'une salle.
+UnivAgenda intègre une **multitude de fonctionnalités**.
 
-La possibilité d'ajouter des **événements persos**, comme un rendez-vous avec un professeur, chez le medecin ou autres. Ces événements peuvent avoir une couleur au choix afin de les distinguer dans la liste des cours.
+Ajouter des **événements persos**, comme un rendez-vous avec un professeur, chez le medecin ou autres. Ces événements peuvent avoir une couleur au choix afin de les distinguer dans la liste des cours.
 
-La possibilité d'ajouter/supprimer **une ou plusieurs notes** sur un cours ou événement perso (ex: Un travail à rendre).
-
-La possibilité de **trouver un créneau libre**.
-Par ex: Chercher les salles libres entre 11h00 et 12h30 dans le département Informatique.
-La recherche peut s'effectuer sur les ressources que vous désirez (il suffit de cocher celle qui vous intéressent)
+Ajouter/supprimer **une ou plusieurs notes** sur un cours ou événement perso (ex: Un travail à rendre).
 
 Vous pouvez aussi **personnaliser entièrement l'application** en choisissant la couleur **principale**, la couleur **secondaire** (pour les boutons, switch, etc..) ou encore la couleur de l'**indicateur de présence d'une note** (affiché sur le bord droit d'un cours/événement perso). De plus vous pouvez choisir le **nombre de semaines** à afficher.
 

@@ -52,12 +52,16 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     // Load preferences from disk
     await prefs.initFromDisk(context, true);
 
+    if (prefs.urlIcs?.trim()?.isEmpty ?? true) {
+      prefs.setUserLogged(false);
+    }
+
     final routeDest = (!prefs.isIntroDone)
         ? RouteKey.INTRO
         : (prefs.isUserLogged) ? RouteKey.HOME : RouteKey.LOGIN;
 
     // Wait minimum 1.5 secondes
-    final diffMs = 1500 - DateTime.now().difference(now).inMilliseconds;
+    final diffMs = 1000 - DateTime.now().difference(now).inMilliseconds;
     final waitTime = diffMs < 0 ? 0 : diffMs;
 
     await Future.delayed(Duration(milliseconds: waitTime));

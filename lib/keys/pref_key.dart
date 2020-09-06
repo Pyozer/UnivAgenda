@@ -5,8 +5,6 @@ import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
 
 class PrefKey {
-  // static const university = 'university';
-  // static const groupKeys = 'groupKeys';
   static const urlIcs = "url_ics";
 
   static const numberWeeks = 'number_weeks';
@@ -51,15 +49,10 @@ class PrefKey {
 
   static const defaultUrlIcs = null;
   static List<Course> defaultCachedCourses = [];
-  // static List<University> defaultListUniversity = [];
-  // static const String defaultListUniversityJson = "[]";
-  // static const Map<String, dynamic> defaultResources = {};
   static List<Note> defaultNotes = [];
   static List<CustomCourse> defaultCustomEvents = [];
   static List<String> defaultHiddenEvents = [];
   static Map<String, String> defaultRenamedEvent = {};
 
-  // static const String listUniversityFile = 'university.json';
-  // static const String resourcesFile = 'resources.json';
   static const String cachedCoursesFile = 'cached_courses.ics';
 }

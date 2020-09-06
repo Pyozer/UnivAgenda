@@ -1,3 +1,7 @@
+## Version 4.4.0
+
+- Login and the pre-saved calendars have been deleted, only links are now supported (maintenance concerns)
+
 ## Version 4.3.2
 
 - MyAgenda is now UnivAgenda !

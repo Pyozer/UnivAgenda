@@ -1,3 +1,7 @@
+## Version 4.4.0
+
+- Connexion et agendas pré-enregistrés supprimés, seuls les liens sont désormais supportés (problèmes de maintenance)
+
 ## Version 4.3.2
 
 - MyAgenda devient UnivAgenda !
