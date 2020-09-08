@@ -1,6 +1,6 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 4.4.0+20200906
+version: 4.4.0+20200908
 
 dependencies:
   flutter:
