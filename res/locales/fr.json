@@ -3,8 +3,6 @@
 
   "drawer": "Menu de navigation",
 
-  "findschedules": "Trouver un créneaux",
-
   "settings": "Paramètres",
   "settings_general": "Général",
   "settings_display": "Affichage",
@@ -57,7 +55,7 @@
   "send_feedback": "Envoyer un feedback",
 
   "what_is_it": "Qu'est ce que c'est ?",
-  "about_what": "UnivAgenda est relié à l'agenda de le Mans Université, de Tours et de Rennes. L'application vous permet d'avoir un accès direct à votre emploi du temps sans avoir à aller sur l'ENT. Vous pouvez aussi utiliser un fichier ICAL au lieu d'une université.",
+  "about_what": "UnivAgenda vous permet d'avoir un accès direct à votre emploi du temps sans avoir à aller sur votre ENT.",
   "author": "Auteur",
   "developer": "Développeur",
   "rights": "Aide juridique",
@@ -123,16 +121,7 @@
   "search": "Rechercher",
   "yes": "Oui",
   "no": "Non",
-
-  "findschedules_from": "De",
-  "findschedules_to": "jusqu'à",
-  "findschedules_search_origin": "Base de recherche",
-  "findschedules_filter": "Filtre",
-  "findschedules_available": "Disponible",
-  "findschedules_noresult": "Aucun créneau trouvée",
-  "findschedules_noresult_text": "Aucun créneau n'a été trouvé, essayez de changer les horaires de recherches.",
-  "findschedules_results": "Créneaux libres trouvées",
-  "findschedules_filter_selection": "Où chercher ?",
+  "or": "Ou",
 
   "courses_noresult": "Aucun cours",
   "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
@@ -142,16 +131,7 @@
 
   "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
   "unknown_error": "Erreur inconnue...",
-  "get_res_error": "Erreur lors de la récupération des agendas.",
   "retry": "Réessayer",
-
-  "login_username": "Identifiant ENT",
-  "login_password": "Mot de passe",
-  "login_submit": "Connexion",
-  "login_server_error": "Problème de connexion avec {university} !",
-  "login_credential_error": "Il semblerait que l'identifiant ou le mot de passe soient incorrect !",
-  "login_successfull": "Connexion réussi !",
-  "login_successfull_text": "Un groupe par defaut vous a été attribué.\nVous pouvez changer celui-ci via les paramètres de l'application.",
 
   "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
 
@@ -160,7 +140,6 @@
 
   "in_progress": "En cours",
   "loading": "Chargement...",
-  "loading_resources": "Chargement des ressources d'agendas...",
 
   "supportme_text": "Tu aimes UnivAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec PayPal, du montant de ton choix.\n\nMerci beaucoup !",
   "supportme_paypal": "Don Paypal",
@@ -184,17 +163,13 @@
   "error_json_parse": "Erreur lors du traitement du JSON, contactez-nous pour résoudre le problème !",
 
   "data_privacy": "Données & vie privée",
-  "data_privacy_text": "UnivAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel comme votre identifiant et mot de passe ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
+  "data_privacy_text": "UnivAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
 
   "url_ics": "URL de l'agenda exportée (ics)",
   "wrong_ics_format": "Le fichier .ics fourni n'est pas au bon format !",
 
   "custom_event_exit_unsaved": "Êtes-vous sûr ?",
   "custom_event_exit_unsaved_text": "Vous n'avez pas sauvegardé vos modifications, celles-ci seront perdus !",
-
-  "error_univ_list_empty": "Liste des universités vide... réessayez.",
-  "error_univ_list_retrieve_fail": "Impossible de récupérer la liste des Universités, réessayez.",
-  "error_res_list_retrieve_fail": "Impossible de récupérer les ressources des agendas, réessayez.",
   
   "hide": "Masquer",
   "unhide": "Démasquer",

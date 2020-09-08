@@ -3,8 +3,6 @@
 
   "drawer": "Navigation menu",
 
-  "findschedules": "Find schedules",
-
   "settings": "Settings",
   "settings_general": "General",
   "settings_display": "Display",
@@ -57,7 +55,7 @@
   "send_feedback": "Send feedback",
 
   "what_is_it": "What is it?",
-  "about_what": "This app is linked to the agenda of the University of Le Mans, Tours and Rennes. It allow you to have direct access to your calendar on your device without having to connect to the ENT.",
+  "about_what": "This app allow you to have direct access to your calendar on your device without having to connect to your ENT.",
   "author": "Author",
   "developer": "Developer",
   "rights": "Rights helper",
@@ -123,16 +121,7 @@
   "search": "Search",
   "yes": "Yes",
   "no": "No",
-
-  "findschedules_from": "From",
-  "findschedules_to": "to",
-  "findschedules_search_origin": "Search origin",
-  "findschedules_filter": "Filter",
-  "findschedules_available": "Available",
-  "findschedules_noresult": "No schedules found",
-  "findschedules_noresult_text": "No empty schedules were found, try changing the search times.",
-  "findschedules_results": "Empty schedules found",
-  "findschedules_filter_selection": "Search where ?",
+  "or": "Or",
 
   "courses_noresult": "No course to display",
   "courses_noresult_text": "Try to edit number of weeks in settings.",
@@ -142,16 +131,7 @@
 
   "network_error": "Network error! Check your internet connection.",
   "unknown_error": "Unknown error...",
-  "get_res_error": "Error retrieving calendar resources.",
   "retry": "Retry",
-
-  "login_username": "ENT Username",
-  "login_password": "Password",
-  "login_submit": "Login",
-  "login_server_error": "Trouble connecting with the {university} server!",
-  "login_credential_error": "It looks like the username or password is incorrect!",
-  "login_successfull": "Login successful!",
-  "login_successfull_text": "A default group has been assigned to you.\nYou can change this one in the application settings.",
 
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 
@@ -160,7 +140,6 @@
 
   "in_progress": "In progress",
   "loading": "Loading...",
-  "loading_resources": "Calendar resources are loading...",
 
   "supportme_text": "You love UnivAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with PayPal, the amount of your choice.\n\nThank you so much !",
   "supportme_paypal": "Paypal donation",
@@ -184,16 +163,13 @@
   "error_json_parse": "Error processing JSON, contact us to solve the problem!",
 
   "data_privacy": "Data & privacy",
-  "data_privacy_text": "UnivAgenda uses the services offered by Universities in a transparent way, no confidential data like your username and password are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
+  "data_privacy_text": "UnivAgenda uses the services offered by Universities in a transparent way, no confidential data are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
 
   "url_ics": "Exported calendar url (ics)",
   "wrong_ics_format": "The .ics file has an incorrect format !",
+  
   "custom_event_exit_unsaved": "Are you sure ?",
   "custom_event_exit_unsaved_text": "You have not saved your changes, they will be lost!",
-
-  "error_univ_list_empty": "University list is empty.. retry.",
-  "error_univ_list_retrieve_fail": "Impossible to retrieve university list, retry.",
-  "error_res_list_retrieve_fail": "Impossible to retrieve agenda resources, retry.",
 
   "hide": "Hide",
   "unhide": "Unhide",

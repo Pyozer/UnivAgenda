@@ -24,9 +24,8 @@ import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
-  final bool isFromLogin;
 
-  const HomeScreen({Key key, this.isFromLogin = false}) : super(key: key);
+  const HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -57,7 +56,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   @override
   void afterFirstLayout(BuildContext context) {
-    if (widget.isFromLogin && prefs.urlIcs == null) _showDefaultGroupDialog();
     AnalyticsProvider.setScreen(widget);
     _updateCourses();
     prefs.onPrefsChanges = _updateCourses;
@@ -75,14 +73,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
     AnalyticsProvider.sendUserPrefsGroup(prefs);
     AnalyticsProvider.sendUserPrefsDisplay(prefs);
     AnalyticsProvider.sendUserPrefsColor(prefs);
-  }
-
-  void _showDefaultGroupDialog() async {
-    DialogPredefined.showSimpleMessage(
-      context,
-      i18n.text(StrKey.LOGIN_SUCCESSFUL),
-      i18n.text(StrKey.LOGIN_SUCCESSFUL_TEXT),
-    );
   }
 
   Future<void> _fetchData() async {

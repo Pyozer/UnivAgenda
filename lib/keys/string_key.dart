@@ -126,6 +126,7 @@ class StrKey {
   static const SEARCH = 'search';
   static const YES = 'yes';
   static const NO = 'no';
+  static const OR = 'or';
 
   static const COURSES_NORESULT = 'courses_noresult';
   static const COURSES_NORESULT_TEXT = 'courses_noresult_text';
@@ -135,13 +136,7 @@ class StrKey {
 
   static const NETWORK_ERROR = 'network_error';
   static const UNKNOWN_ERROR = 'unknown_error';
-  static const GET_RES_ERROR = 'get_res_error';
   static const RETRY = 'retry';
-
-  static const LOGIN_SUBMIT = 'login_submit';
-  static const LOGIN_SERVER_ERROR = 'login_server_error';
-  static const LOGIN_SUCCESSFUL = 'login_successfull';
-  static const LOGIN_SUCCESSFUL_TEXT = 'login_successfull_text';
 
   static const NO_EMAIL_APP = 'no_email_app';
 
@@ -150,7 +145,6 @@ class StrKey {
 
   static const IN_PROGRESS = 'in_progress';
   static const LOADING = 'loading';
-  static const LOADING_RESOURCES = 'loading_resources';
 
   static const SUPPORTME_TEXT = 'supportme_text';
   static const SUPPORTME_PAYPAL = 'supportme_paypal';
@@ -181,10 +175,6 @@ class StrKey {
 
   static const CUSTOM_EVENT_EXIT_UNSAVED = "custom_event_exit_unsaved";
   static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = "custom_event_exit_unsaved_text";
-
-  static const ERROR_UNIV_LIST_EMPTY = "error_univ_list_empty";
-  static const ERROR_UNIV_LIST_RETRIEVE_FAIL = "error_univ_list_retrieve_fail";
-  static const ERROR_RES_LIST_RETRIEVE_FAIL = "error_res_list_retrieve_fail";
 
   static const HIDE = "hide";
   static const UNHIDE = "unhide";

@@ -96,7 +96,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     prefs.setUserLogged(true);
     if (mounted)
       Navigator.of(context).pushReplacement(
-        CustomRoute(builder: (_) => HomeScreen(isFromLogin: true)),
+        CustomRoute(builder: (_) => HomeScreen()),
       );
   }
 
@@ -129,6 +129,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
       maxLines: 2,
       minLines: 1,
       decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.subtitle1,
         labelText: i18n.text(StrKey.URL_ICS),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         prefixIcon: Icon(OMIcons.event, color: theme.accentColor),
@@ -158,7 +159,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     final qrCodeButton = FloatingActionButton(
       onPressed: _scanQRCode,
       child: Image.asset(
-        prefs.theme.darkTheme ? Asset.QRCODE_WHITE : Asset.QRCODE,
+        Asset.QRCODE_WHITE,
         width: 24.0,
       ),
       backgroundColor: theme.accentColor,
@@ -208,9 +209,9 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               qrCodeButton,
-                              const SizedBox(width: 28),
-                              Text("Or"),
-                              const SizedBox(width: 28),
+                              const SizedBox(width: 28.0),
+                              Text(i18n.text(StrKey.OR)),
+                              const SizedBox(width: 28.0),
                               loginButton
                             ],
                           ),
