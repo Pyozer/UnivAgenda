@@ -115,7 +115,7 @@ class LicencesScreen extends StatelessWidget {
         title: ListTileTitle(l.library),
         subtitle: Text(l.author),
         trailing: l.license.isNotEmpty ? Text(l.license) : const Text(''),
-        onTap: l.url != null ? () => openLink(context, l.url, l.library) : null,
+        onTap: l.url != null ? () => openLink(context, l.url!, l.library) : null,
       );
     }).toList();
   }

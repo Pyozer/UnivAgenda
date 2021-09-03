@@ -6,7 +6,7 @@ import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 class AddNoteButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const AddNoteButton({Key key, this.onPressed}) : super(key: key);
+  const AddNoteButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

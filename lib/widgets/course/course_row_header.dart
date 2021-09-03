@@ -4,7 +4,8 @@ import 'package:univagenda/models/courses/base_course.dart';
 class CourseRowHeader extends StatelessWidget {
   final CourseHeader coursHeader;
 
-  const CourseRowHeader({Key key, this.coursHeader}) : super(key: key);
+  const CourseRowHeader({Key? key, required this.coursHeader})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -4,12 +4,10 @@ class Note {
   String courseUid;
   String text;
 
-  Note({this.courseUid, this.text})
-      : assert(text != null),
-        assert(courseUid != null);
+  Note({required this.courseUid, required this.text});
 
   factory Note.fromJsonStr(String jsonStr) {
-    Map noteMap = json.decode(jsonStr);
+    Map<String, dynamic> noteMap = json.decode(jsonStr);
     return Note.fromJson(noteMap);
   }
 

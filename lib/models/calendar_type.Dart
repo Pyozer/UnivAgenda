@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 enum CalendarType { HORIZONTAL, VERTICAL, MONTH_VIEW, WEEK_VIEW }
 
-CalendarType calendarTypeFromStr(String calendarType) {
+CalendarType? calendarTypeFromStr(String? calendarType) {
   for (CalendarType element in CalendarType.values) {
     if (element.toString() == calendarType) {
       return element;

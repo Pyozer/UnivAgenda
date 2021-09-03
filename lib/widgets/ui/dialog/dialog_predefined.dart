@@ -14,9 +14,9 @@ class DialogPredefined {
     String title,
     Widget content,
     String btnPositive,
-    String btnNegative, [
+    String? btnNegative, [
     dismissable = true,
-    EdgeInsets contentPadding,
+    EdgeInsets? contentPadding,
   ]) async {
     return await showDialog<bool>(
           context: context,
@@ -40,7 +40,7 @@ class DialogPredefined {
     String title,
     String text,
     String btnPositive,
-    String btnNegative, [
+    String? btnNegative, [
     dismissable = true,
   ]) async {
     return await showContentDialog(
@@ -93,8 +93,8 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showProgressDialog(context, String msg) async {
-    return await showDialog<bool>(
+  static Future<bool?> showProgressDialog(context, String msg) async {
+    return showDialog<bool?>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

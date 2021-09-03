@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar/date_utils.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
+import 'package:collection/collection.dart';
 import 'package:univagenda/models/calendar_type.dart';
 import 'package:univagenda/models/courses/base_course.dart';
 import 'package:univagenda/models/courses/course.dart';
@@ -17,8 +17,8 @@ class CourseList extends StatefulWidget {
   final CalendarType calType;
 
   const CourseList({
-    Key key,
-    @required this.coursesData,
+    Key? key,
+    required this.coursesData,
     this.calType = CalendarType.VERTICAL,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class CourseList extends StatefulWidget {
 }
 
 class _CourseListState extends BaseState<CourseList> {
-  Widget _buildListCours(BuildContext context, List<BaseCourse> courses) {
+  Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses) {
     List<Widget> widgets = [];
 
     final noteColor = prefs.theme.noteColor;
@@ -58,7 +58,7 @@ class _CourseListState extends BaseState<CourseList> {
     );
   }
 
-  Widget _buildHorizontal(context, Map<int, List<Course>> elements) {
+  Widget _buildHorizontal(context, Map<int, List<Course>?> elements) {
     if (elements.isEmpty) return const SizedBox.shrink();
 
     List<Widget> listTabView = [];
@@ -88,9 +88,9 @@ class _CourseListState extends BaseState<CourseList> {
     final theme = Theme.of(context);
 
     final baseStyle = theme.primaryTextTheme.headline6;
-    final unselectedStyle = baseStyle.copyWith(
+    final unselectedStyle = baseStyle!.copyWith(
       fontSize: 17.0,
-      color: baseStyle.color.withAlpha(180),
+      color: baseStyle.color!.withAlpha(180),
     );
     final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
 
@@ -107,7 +107,7 @@ class _CourseListState extends BaseState<CourseList> {
               tabs: tabs,
               labelColor: labelStyle.color,
               labelStyle: labelStyle,
-              unselectedLabelColor: theme.primaryTextTheme.caption.color,
+              unselectedLabelColor: theme.primaryTextTheme.caption!.color,
               unselectedLabelStyle: unselectedStyle,
               indicatorPadding: const EdgeInsets.only(bottom: 0.2),
               indicatorWeight: 2.5,
@@ -120,7 +120,7 @@ class _CourseListState extends BaseState<CourseList> {
     );
   }
 
-  Widget _buildVertical(context, Map<int, List<Course>> elements) {
+  Widget _buildVertical(context, Map<int, List<Course>?> elements) {
     // Build vertical view
     final List<BaseCourse> listChildren = [];
     elements.forEach((date, courses) {
@@ -138,7 +138,7 @@ class _CourseListState extends BaseState<CourseList> {
     return _buildListCours(context, listChildren);
   }
 
-  Widget _buildDialog(BuildContext context, DateTime date, Map events) {
+  Widget _buildDialog(BuildContext context, DateTime date, Map<DateTime, List<Course>> events) {
     List<Course> courseEvents = _getDayEvents(date, events);
 
     return Dialog(
@@ -151,14 +151,11 @@ class _CourseListState extends BaseState<CourseList> {
   }
 
   List<Course> _getDayEvents(DateTime day, Map<DateTime, List<Course>> data) {
-    DateTime key = data.keys.firstWhere(
-      (d) => DateUtils.isSameDay(day, d),
-      orElse: () => null,
-    );
+    DateTime? key = data.keys.firstWhereOrNull((d) => DateUtils.isSameDay(day, d));
     if (key != null)
-      return data[key]
+      return data[key]!
           .map((e) => e is Course ? e : null)
-          .where((c) => c != null)
+          .whereNotNull()
           .toList();
     return [];
   }

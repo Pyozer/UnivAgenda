@@ -32,7 +32,7 @@ final routes = {
 class App extends StatelessWidget {
   final SharedPreferences prefs;
 
-  const App({Key key, @required this.prefs}) : super(key: key);
+  const App({Key? key, required this.prefs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,9 @@ class App extends StatelessWidget {
             primaryColor: themePrefs.primaryColor,
             accentColor: themePrefs.accentColor,
             toggleableActiveColor: themePrefs.accentColor,
-            textSelectionHandleColor: themePrefs.accentColor,
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: themePrefs.accentColor,
+            ),
           );
 
           SystemUiOverlayStyle style = theme.brightness == Brightness.dark
@@ -71,7 +73,7 @@ class App extends StatelessWidget {
             onGenerateRoute: (RouteSettings settings) {
               if (routes.containsKey(settings.name))
                 return CustomRoute(
-                  builder: (_) => routes[settings.name],
+                  builder: (_) => routes[settings.name]!,
                   settings: settings,
                 );
               assert(false);

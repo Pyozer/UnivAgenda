@@ -4,14 +4,14 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
   static const kDurationFade = 150;
 
   CustomRoute({
-    @required WidgetBuilder builder,
-    RouteSettings settings,
+    required WidgetBuilder builder,
+    RouteSettings? settings,
     bool fullscreenDialog: false,
-  })  : assert(builder != null),
-        super(
-            builder: builder,
-            settings: settings,
-            fullscreenDialog: fullscreenDialog);
+  }) : super(
+          builder: builder,
+          settings: settings,
+          fullscreenDialog: fullscreenDialog,
+        );
 
   @override
   Duration get transitionDuration =>
@@ -22,6 +22,7 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
       Animation<double> secondaryAnimation, Widget child) {
     return /*(settings.isInitialRoute)
         ? child
-        : */FadeTransition(opacity: animation, child: child);
+        : */
+        FadeTransition(opacity: animation, child: child);
   }
 }

@@ -8,13 +8,13 @@ class TreeView extends StatefulWidget {
   final Map<String, dynamic> dataSource;
   final String treeTitle;
   final ValueChanged<HashSet<Node>> onCheckedChanged;
-  final String search;
+  final String? search;
 
   const TreeView({
-    Key key,
-    @required this.treeTitle,
-    @required this.dataSource,
-    @required this.onCheckedChanged,
+    Key? key,
+    required this.treeTitle,
+    required this.dataSource,
+    required this.onCheckedChanged,
     this.search,
   }) : super(key: key);
 
@@ -23,7 +23,7 @@ class TreeView extends StatefulWidget {
 }
 
 class _TreeViewState extends State<TreeView> {
-  Node _tree;
+  late Node _tree;
   HashSet<Node> _selectedNodes = HashSet();
 
   void didChangeDependencies() {
@@ -35,7 +35,7 @@ class _TreeViewState extends State<TreeView> {
   void didUpdateWidget(covariant TreeView oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final search = widget.search?.trim()?.toLowerCase();
+    final search = widget.search?.trim().toLowerCase();
     _setAllNodeVisible(_tree);
     if (search != null && search.isNotEmpty) _filterTree(_tree, search);
   }
@@ -61,7 +61,7 @@ class _TreeViewState extends State<TreeView> {
     });
   }
 
-  _checkNodeCheckBox(Node node, bool checked) {
+  _checkNodeCheckBox(Node node, bool? checked) {
     if (node.checked == checked) return;
 
     setState(() => node.checked = checked);
@@ -75,14 +75,18 @@ class _TreeViewState extends State<TreeView> {
   }
 
   _checkParentNodeCheckBox(Node node) {
-    Node nodeParent = node.parent;
+    Node? nodeParent = node.parent;
     while (nodeParent != null) {
       int nbCheck = 0;
       for (Node child in nodeParent.children) {
         if (child.checked == true) nbCheck += 1;
       }
       final nbrChild = nodeParent.children.length;
-      bool check = nbCheck == nbrChild ? true : nbCheck > 0 ? null : false;
+      bool? check = nbCheck == nbrChild
+          ? true
+          : nbCheck > 0
+              ? null
+              : false;
       _checkNodeCheckBox(nodeParent, check);
       nodeParent = nodeParent.parent;
     }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DrawerIcon extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback? onPressed;
 
-  const DrawerIcon({Key key, this.onPressed}) : super(key: key);
+  const DrawerIcon({Key? key, this.onPressed}) : super(key: key);
 
   _buildLine(Color color, double width) {
     return Container(
@@ -18,7 +18,7 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryTextTheme.headline6.color;
+    final color = Theme.of(context).primaryTextTheme.headline6!.color!;
 
     return IconButton(
       onPressed: onPressed,

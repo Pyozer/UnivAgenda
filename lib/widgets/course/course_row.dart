@@ -15,8 +15,8 @@ class CourseRow extends StatelessWidget {
   final Color noteColor;
 
   CourseRow({
-    Key key,
-    this.course,
+    Key? key,
+    required this.course,
     this.noteColor = PrefKey.defaultNoteColor,
   }) : super(key: key);
 
@@ -32,10 +32,11 @@ class CourseRow extends StatelessWidget {
   void _onCustomCourseLong(BuildContext context) async {
     final prefs = PreferencesProvider.of(context);
     bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
-    if (isConfirm) prefs.removeCustomEvent(course, true);
+    if (isConfirm) prefs.removeCustomEvent(course as CustomCourse, true);
   }
 
-  Widget _text(String text, TextStyle style, double size, [FontWeight weight]) {
+  Widget _text(String text, TextStyle style, double size,
+      [FontWeight? weight]) {
     return Text(
       text,
       style: style.copyWith(fontSize: size, fontWeight: weight),
@@ -48,21 +49,21 @@ class CourseRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefs = PreferencesProvider.of(context);
 
-    Color bgColorRow;
-    if (course.color != null)
-      bgColorRow = course.color;
-    else if (course.isExam())
-      bgColorRow = Colors.red[600];
-    else if (prefs.isGenerateEventColor)
+    Color? bgColorRow;
+    if (course.color != null) {
+      bgColorRow = course.color!;
+    } else if (course.isExam()) {
+      bgColorRow = Colors.red[600]!;
+    } else if (prefs.isGenerateEventColor) {
       bgColorRow = getColorFromString(course.getTitle());
-
+    }
     String courseDate = course.dateForDisplay();
     if (course.isStarted()) courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
 
     TextStyle style = TextStyle();
     if (bgColorRow != null) style = style.copyWith(color: Colors.white);
 
-    var subtitle = course.location;
+    String subtitle = course.location ?? '';
     // Location and description not empty
     if (subtitle.isNotEmpty && course.description.isNotEmpty) subtitle += " - ";
     subtitle += course.description;
@@ -74,10 +75,11 @@ class CourseRow extends StatelessWidget {
       child: InkWell(
         onTap: () => _onCourseTap(context),
         onLongPress: () {
-          if (course is CustomCourse)
+          if (course is CustomCourse) {
             _onCustomCourseLong(context);
-          else
+          } else {
             _onCourseTap(context);
+          }
         },
         child: course.isHidden
             ? const SizedBox(height: 7.0)
@@ -112,7 +114,7 @@ class CourseRow extends StatelessWidget {
 class NoteIndicator extends StatelessWidget {
   final Color noteColor;
 
-  const NoteIndicator({Key key, this.noteColor}) : super(key: key);
+  const NoteIndicator({Key? key, required this.noteColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

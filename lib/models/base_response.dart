@@ -1,9 +1,9 @@
 class BaseResponse<T> {
   /// Response data (can be null if error)
-  T data;
+  T? data;
 
   /// Response error (can be null if no error)
-  String error;
+  String? error;
 
   BaseResponse({this.data, this.error});
 

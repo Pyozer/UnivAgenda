@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Event extends StatelessWidget {
-  final String title;
-  final Color color;
+  final String? title;
+  final Color? color;
 
-  const Event({Key key, this.title, @required this.color}) : super(key: key);
+  const Event({Key? key, this.title, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Event extends StatelessWidget {
       ),
       child: title != null
           ? Text(
-              title,
+              title!,
               maxLines: 1,
               style: const TextStyle(fontSize: 10.0, color: Colors.white),
             )

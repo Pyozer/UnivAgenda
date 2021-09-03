@@ -3,9 +3,9 @@ import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/utils/translations.dart';
 
 class EmptyDay extends StatelessWidget {
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
-  const EmptyDay({Key key, this.padding}) : super(key: key);
+  const EmptyDay({Key? key, this.padding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

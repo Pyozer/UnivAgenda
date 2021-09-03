@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:univagenda/widgets/ui/custom_checkbox.dart';
 import 'package:univagenda/widgets/ui/treeview/node.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 
 class TreeNode extends StatelessWidget {
   final int level;
   final Node node;
-  final String title;
+  final String? title;
   final ValueChanged<bool> onChanged;
-  final Function onExpandChanged;
+  final VoidCallback? onExpandChanged;
 
   const TreeNode({
-    Key key,
-    this.level,
-    this.node,
+    Key? key,
+    required this.level,
+    required this.node,
     this.title,
-    this.onChanged,
+    required this.onChanged,
     this.onExpandChanged,
   }) : super(key: key);
 
@@ -38,11 +38,10 @@ class TreeNode extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        if (onChanged != null) {
-          if (node.checked == null)
-            onChanged(false);
-          else
-            onChanged(!node.checked);
+        if (node.checked == null) {
+          onChanged(false);
+        } else {
+          onChanged(!(node.checked!));
         }
       },
       title: Padding(

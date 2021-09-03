@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/utils/preferences.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
-  PreferencesProviderState prefs;
-  ThemeData theme;
+  late PreferencesProviderState prefs;
+  late ThemeData theme;
 
   @override
   void didChangeDependencies() {

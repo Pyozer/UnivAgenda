@@ -51,21 +51,18 @@ class Date {
     return capitalize(dateFormat.format(date));
   }
 
-  static String extractTime(DateTime date) {
+  static String extractTime(DateTime? date) {
     if (date == null) return "";
-
     return DateFormat.Hm().format(date);
   }
 
-  static String extractDate(DateTime date) {
+  static String extractDate(DateTime? date) {
     if (date == null) return "";
-
     return DateFormat.yMMMMd().format(date);
   }
 
-  static String extractTimeWithDate(DateTime dateTime) {
+  static String extractTimeWithDate(DateTime? dateTime) {
     if (dateTime == null) return "";
-
     return DateFormat.jm().format(dateTime) +
         ' (' +
         DateFormat.MMMEd().format(dateTime) +

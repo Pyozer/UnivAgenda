@@ -1,36 +1,34 @@
 class VEvent {
   DateTime dtstart;
   DateTime dtend;
-  DateTime dtstamp;
+  DateTime? dtstamp;
   String uid;
-  DateTime created;
+  DateTime? created;
   String description;
-  DateTime lastModified;
+  DateTime? lastModified;
   String location;
   String summary;
 
   VEvent({
-    this.dtstart,
-    this.dtend,
+    required this.dtstart,
+    required this.dtend,
     this.dtstamp,
-    this.uid,
+    required this.uid,
     this.created,
-    this.description,
+    required this.description,
     this.lastModified,
-    this.location,
-    this.summary,
+    this.location = '',
+    required this.summary,
   });
 
   factory VEvent.fromJson(Map<String, dynamic> json) => VEvent(
         dtstart: DateTime.parse(json["dtstart"]),
         dtend: DateTime.parse(json["dtend"]),
-        dtstamp: json["dtstamp"] != null
-            ? DateTime.parse(json["dtstamp"])
-            : null,
+        dtstamp:
+            json["dtstamp"] != null ? DateTime.parse(json["dtstamp"]) : null,
         uid: json["uid"],
-        created: json["created"] != null
-            ? DateTime.parse(json["created"])
-            : null,
+        created:
+            json["created"] != null ? DateTime.parse(json["created"]) : null,
         description: json["description"],
         lastModified: json["lastmodified"] != null
             ? DateTime.parse(json["lastmodified"])

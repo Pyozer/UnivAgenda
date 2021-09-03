@@ -4,11 +4,11 @@ class SettingCard extends StatelessWidget {
   final String header;
   final List<Widget> children;
 
-  const SettingCard({Key key, @required this.header, @required this.children});
+  const SettingCard({Key? key, required this.header, required this.children});
 
   List<Widget> _buildCardChildren(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline6.copyWith(
+    final titleStyle = theme.textTheme.headline6!.copyWith(
       fontSize: 15.0,
       color: theme.accentColor,
     );

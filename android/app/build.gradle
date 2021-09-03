@@ -23,26 +23,30 @@ if (flutterVersionName == null) {
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keyPropertiesFile = rootProject.file("key.properties")
 
 // Initialize a new Properties() object called keystoreProperties.
-def keystoreProperties = new Properties()
+def keyProperties = new Properties()
 
 // Load your keystore.properties file into the keystoreProperties object.
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+keyProperties.load(new FileInputStream(keyPropertiesFile))
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
     lintOptions {
         disable 'InvalidPackage'
     }
+
     signingConfigs {
         debug {
             keyAlias 'androiddebugkey'
@@ -51,12 +55,13 @@ android {
             storePassword 'android'
         }
         config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile rootProject.file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            keyAlias keyProperties['keyAlias']
+            keyPassword keyProperties['keyPassword']
+            storeFile rootProject.file(keyProperties['storeFile'])
+            storePassword keyProperties['storePassword']
         }
     }
+
     defaultConfig {
         applicationId "com.pyozer.myagenda"
         minSdkVersion 16
@@ -66,6 +71,7 @@ android {
         signingConfig signingConfigs.config
         ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
     }
+
     buildTypes {
         release {
             signingConfig signingConfigs.config
@@ -84,6 +90,3 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-
-apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'

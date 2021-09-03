@@ -14,14 +14,14 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course_note/add_note_button.dart';
 import 'package:univagenda/widgets/course_note/course_note.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
+
+enum MenuItem { EDIT, HIDE, UNHIDE, DELETE, RENAME }
 
 class DetailCourse extends StatefulWidget {
   final Course course;
 
-  const DetailCourse({Key key, @required this.course})
-      : assert(course != null),
-        super(key: key);
+  const DetailCourse({Key? key, required this.course}) : super(key: key);
 
   @override
   _DetailCourseState createState() => _DetailCourseState();
@@ -29,8 +29,8 @@ class DetailCourse extends StatefulWidget {
 
 class _DetailCourseState extends BaseState<DetailCourse> {
   final _formKey = GlobalKey<FormState>();
-  String _noteToAdd;
-  Course _course;
+  late String _noteToAdd;
+  late Course _course;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         leading: const Icon(OMIcons.timelapse),
         title: Text(durationStr),
       ),
-      if (_course.description?.isNotEmpty ?? false)
+      if (_course.description.isNotEmpty)
         ListTile(
           leading: const Icon(OMIcons.group),
           title: Text(
@@ -71,7 +71,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       if (_course.location?.isNotEmpty ?? false)
         ListTile(
           leading: const Icon(OMIcons.locationOn),
-          title: Text(_course.location),
+          title: Text(_course.location!),
         ),
       if (_course.isExam())
         ListTile(
@@ -82,7 +82,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         ListTile(
           leading: const Icon(OMIcons.colorLens),
           title: Text(i18n.text(StrKey.EVENT_COLOR)),
-          trailing: CircleColor(color: _course.color, circleSize: 28.0),
+          trailing: CircleColor(color: _course.color!, circleSize: 28.0),
         ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,9 +124,11 @@ class _DetailCourseState extends BaseState<DetailCourse> {
           hintText: i18n.text(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
         validator: (value) {
-          return value.trim().isEmpty ? i18n.text(StrKey.ADD_NOTE_EMPTY) : null;
+          return (value?.trim().isEmpty ?? true)
+              ? i18n.text(StrKey.ADD_NOTE_EMPTY)
+              : null;
         },
-        onSaved: (val) => _noteToAdd = val.trim(),
+        onSaved: (val) => _noteToAdd = val?.trim() ?? '',
       ),
     );
 
@@ -141,7 +143,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     if (isDialogPositive) _submitAddNote();
   }
 
-  Future<String> _openRenameDialog([String currentValue = ""]) async {
+  Future<String?> _openRenameDialog([String currentValue = ""]) async {
     String inputValue = currentValue;
     final formContent = TextField(
       controller: TextEditingController(text: currentValue),
@@ -154,7 +156,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       onChanged: (value) => inputValue = value,
     );
 
-    bool isDialogPositive = await DialogPredefined.showContentDialog(
+    bool? isDialogPositive = await DialogPredefined.showContentDialog(
       context,
       i18n.text(StrKey.RENAME_EVENT),
       formContent,
@@ -167,8 +169,8 @@ class _DetailCourseState extends BaseState<DetailCourse> {
   void _submitAddNote() {
     final form = _formKey.currentState;
 
-    if (form.validate()) {
-      form.save();
+    if (form?.validate() ?? false) {
+      form!.save();
       final note = Note(courseUid: _course.uid, text: _noteToAdd);
       _noteToAdd = "";
       setState(() => _course.notes.insert(0, note));
@@ -186,16 +188,19 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         i18n.text(StrKey.YES),
         i18n.text(StrKey.NO),
       );
-      if (!isDialogOk) return;
-      if (isHide)
+      if (!isDialogOk) {
+        return;
+      }
+      if (isHide) {
         prefs.addHiddenEvent(widget.course.title);
-      else
+      } else {
         prefs.removeHiddenEvent(widget.course.title);
+      }
       setState(() {});
-    } else if (choice == MenuItem.EDIT) {
-      CustomCourse editedCourse = await Navigator.of(context).push(
+    } else if (choice == MenuItem.EDIT) { // Only for CustomCourse
+      CustomCourse? editedCourse = await Navigator.of(context).push(
         CustomRoute<CustomCourse>(
-          builder: (context) => CustomEventScreen(course: _course),
+          builder: (context) => CustomEventScreen(course: _course as CustomCourse),
           fullscreenDialog: true,
         ),
       );
@@ -203,14 +208,14 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         setState(() => _course = editedCourse);
         prefs.editCustomEvent(editedCourse, true);
       }
-    } else if (choice == MenuItem.DELETE) {
+    } else if (choice == MenuItem.DELETE) { // Only for CustomCourse
       bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
       if (isConfirm) {
-        prefs.removeCustomEvent(_course, true);
+        prefs.removeCustomEvent(_course as CustomCourse, true);
         Navigator.of(context).pop();
       }
     } else if (choice == MenuItem.RENAME) {
-      String rename = await _openRenameDialog(widget.course.getTitle());
+      String? rename = await _openRenameDialog(widget.course.getTitle());
       if (rename != null) {
         if (rename.isNotEmpty) {
           widget.course.renamedTitle = rename;
@@ -255,13 +260,14 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         icon: const Icon(OMIcons.moreVert),
         onSelected: _onMenuChoose,
         itemBuilder: (_) => actions,
-      )
+      ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = theme.primaryTextTheme.headline6.copyWith(fontSize: 17.0);
+    final textStyle =
+        theme.primaryTextTheme.headline6!.copyWith(fontSize: 17.0);
 
     return AppbarPage(
       title: i18n.text(StrKey.COURSE_DETAILS),
@@ -277,5 +283,3 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     );
   }
 }
-
-enum MenuItem { EDIT, HIDE, UNHIDE, DELETE, RENAME }

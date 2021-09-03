@@ -6,14 +6,14 @@ class SimpleAlertDialog extends StatelessWidget {
   final String title;
   final Widget content;
   final String btnPositive;
-  final String btnNegative;
-  final EdgeInsets contentPadding;
+  final String? btnNegative;
+  final EdgeInsets? contentPadding;
 
   const SimpleAlertDialog({
-    Key key,
-    @required this.title,
-    @required this.content,
-    @required this.btnPositive,
+    Key? key,
+    required this.title,
+    required this.content,
+    required this.btnPositive,
     this.btnNegative,
     this.contentPadding,
   }) : super(key: key);
@@ -30,8 +30,8 @@ class SimpleAlertDialog extends StatelessWidget {
       content: content,
       actions: [
         if (btnNegative != null)
-          FlatButton(
-            child: Text(btnNegative.toUpperCase(), style: boldText),
+          TextButton(
+            child: Text(btnNegative!.toUpperCase(), style: boldText),
             onPressed: () => Navigator.of(context).pop(false),
           ),
         Padding(

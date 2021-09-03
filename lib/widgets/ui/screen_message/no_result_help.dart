@@ -4,7 +4,7 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 
 class NoResultHelp extends StatelessWidget {
-  const NoResultHelp({Key key}) : super(key: key);
+  const NoResultHelp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/translations.dart';
@@ -10,30 +9,27 @@ import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 
 class ListTileInput extends StatefulWidget {
   final String title;
-  final String titleDialog;
+  final String? titleDialog;
   final ValueChanged<String> onChange;
-  final String defaultValue;
-  final TextInputType inputType;
-  final String hintText;
+  final String? defaultValue;
+  final String? hintText;
 
   const ListTileInput({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.titleDialog,
-    this.onChange,
+    required this.onChange,
     this.defaultValue,
-    this.inputType,
     this.hintText,
-  })  : assert(title != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _ListTileInputState createState() => _ListTileInputState();
 }
 
 class _ListTileInputState extends BaseState<ListTileInput> {
-  String _inputValue;
-  String _submitInputValue;
+  late String _inputValue;
+  late String _submitInputValue;
 
   @override
   void initState() {

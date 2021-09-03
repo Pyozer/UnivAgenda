@@ -21,11 +21,10 @@ import 'package:univagenda/widgets/drawer.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
-
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -34,10 +33,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen>
     with AfterLayoutMixin<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
-  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isLoading = true;
-  Map<int, List<Course>> _courses;
+  Map<int, List<Course>>? _courses;
   CalendarType _calendarType = CalendarType.HORIZONTAL;
 
   @override
@@ -47,7 +45,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     _calendarType = prefs.calendarType;
 
     // Load cached ical
-    if (_courses == null && prefs.cachedCourses != null) {
+    if (_courses == null && prefs.cachedCourses.isNotEmpty) {
       try {
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
@@ -85,8 +83,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
     } catch (e) {
-      _scaffoldKey?.currentState?.removeCurrentSnackBar();
-      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.toString()),
       ));
     }
@@ -127,7 +125,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
     return courses;
   }
 
-  Future<void> _prepareList(List<Course> courseFromIcal) async {
+  Future<void> _prepareList(List<Course>? courseFromIcal) async {
     List<Course> listCourses = [];
     // Get all notes saved
     List<Note> allNotes = prefs.notes;
@@ -202,7 +200,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       course.renamedTitle = prefs.renamedEvents[course.title];
       int dateValue = Date.dateToInt(course.dateStart);
       if (listElement[dateValue] == null) listElement[dateValue] = [];
-      listElement[dateValue].add(course);
+      listElement[dateValue]!.add(course);
     }
 
     if (mounted) setState(() => _courses = listElement);
@@ -229,7 +227,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.COURSES_NORESULT_TEXT),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _refreshKey?.currentState?.show,
+        onPressed: () => _refreshKey.currentState?.show(),
       ),
     );
   }
@@ -240,7 +238,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       text: i18n.text(StrKey.ERROR_JSON_PARSE),
       footer: RaisedButtonColored(
         text: i18n.text(StrKey.REFRESH),
-        onPressed: _refreshKey?.currentState?.show,
+        onPressed: () => _refreshKey.currentState?.show(),
       ),
     );
   }
@@ -248,22 +246,25 @@ class _HomeScreenState extends BaseState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     Widget content;
-    if (_isLoading && _courses == null) // data not loaded
+    if (_isLoading && _courses == null) {
+      // data not loaded
       content = const Center(child: CircularProgressIndicator());
-    else if (_courses == null) // Courses fetch error
+    } else if (_courses == null) {
+      // Courses fetch error
       content = _buildError();
-    else if (_courses.isEmpty) // No course found
+    } else if (_courses!.isEmpty) {
+      // No course found
       content = _buildNoResult();
-    else
-      content = CourseList(coursesData: _courses, calType: prefs.calendarType);
+    } else {
+      content = CourseList(coursesData: _courses!, calType: prefs.calendarType);
+    }
 
     return AppbarPage(
-      scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.APP_NAME),
       actions: [
         IconButton(
           icon: const Icon(OMIcons.refresh),
-          onPressed: _refreshKey?.currentState?.show,
+          onPressed: _refreshKey.currentState?.show,
         ),
         IconButton(
           icon: Icon(getCalendarTypeIcon(_calendarType)),

@@ -6,7 +6,11 @@ class ProgressDialog extends StatelessWidget {
   final String title;
   final String text;
 
-  const ProgressDialog({Key key, this.title, this.text}) : super(key: key);
+  const ProgressDialog({
+    Key? key,
+    required this.title,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

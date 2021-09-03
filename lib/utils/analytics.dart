@@ -9,7 +9,7 @@ class AnalyticsProvider {
     // User group prefs
     analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
       AnalyticsValue.groupKeys: "Ical File",
-      AnalyticsValue.university: prefs.urlIcs ?? "Unknown",
+      AnalyticsValue.university: prefs.urlIcs,
     });
   }
 

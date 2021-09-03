@@ -13,18 +13,18 @@ const kBigColorSize = 38.0;
 
 class ListTileColor extends StatefulWidget {
   final String title;
-  final String titleDialog;
-  final String description;
+  final String? titleDialog;
+  final String? description;
   final ValueChanged<Color> onColorChange;
-  final Color selectedColor;
-  final List<ColorSwatch> colors;
+  final Color? selectedColor;
+  final List<ColorSwatch>? colors;
 
   const ListTileColor({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.titleDialog,
     this.description,
-    this.onColorChange,
+    required this.onColorChange,
     this.colors,
     this.selectedColor,
   }) : super(key: key);
@@ -34,8 +34,8 @@ class ListTileColor extends StatefulWidget {
 }
 
 class _ListTileColorState extends State<ListTileColor> {
-  Color _inputColor;
-  Color _submitColor;
+  late Color _inputColor;
+  late Color _submitColor;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _ListTileColorState extends State<ListTileColor> {
   void _initSelectedValue() {
     // Specified color OR 1st color of specified colors OR 1st material color
     _inputColor = widget.selectedColor ??
-        ((widget.colors != null) ? widget.colors[0] : null) ??
+        ((widget.colors != null) ? widget.colors![0] : null) ??
         appMaterialColors[0];
     _submitColor = _inputColor;
   }

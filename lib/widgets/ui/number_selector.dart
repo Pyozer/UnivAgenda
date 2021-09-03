@@ -8,16 +8,14 @@ class NumberSelector extends StatefulWidget {
   final int max;
   final ValueChanged<int> onChanged;
   final int initialValue;
-  final Color selectedColor;
 
   const NumberSelector({
-    Key key,
+    Key? key,
     this.min = 0,
-    @required this.max,
-    this.onChanged,
+    required this.max,
+    required this.onChanged,
     this.initialValue = 0,
-    this.selectedColor,
-  })  : assert(max != null && max > min),
+  })  : assert(max > min),
         assert(initialValue >= min && initialValue <= max),
         super(key: key);
 
@@ -25,13 +23,13 @@ class NumberSelector extends StatefulWidget {
 }
 
 class _NumberSelectorState extends State<NumberSelector> {
-  ScrollController _controller;
+  late ScrollController _controller;
   int _selectedValue = 0;
 
   @override
   void initState() {
     super.initState();
-    _selectedValue = widget.initialValue ?? widget.min;
+    _selectedValue = widget.initialValue;
     _controller = ScrollController(
       initialScrollOffset: _calcOffset(_selectedValue),
     );

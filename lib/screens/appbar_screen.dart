@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/widgets/ui/drawer_icon.dart';
 
 class AppbarPage extends StatelessWidget {
-  final String title;
+  final String? title;
   final Widget body;
-  final Widget drawer;
-  final Widget fab;
-  final List<Widget> actions;
+  final Widget? drawer;
+  final Widget? fab;
+  final List<Widget>? actions;
   final bool useCustomMenuIcon;
-  final GlobalKey<ScaffoldState> scaffoldKey;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   const AppbarPage({
-    Key key,
+    Key? key,
     this.title,
-    @required this.body,
+    required this.body,
     this.scaffoldKey,
     this.drawer,
     this.fab,
@@ -31,7 +31,7 @@ class AppbarPage extends StatelessWidget {
       key: scaffoldKey,
       appBar: (title != null)
           ? AppBar(
-              title: Text(title),
+              title: Text(title!),
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
@@ -49,9 +49,9 @@ class AppbarPage extends StatelessWidget {
 
 class AppbarSubTitle extends StatelessWidget {
   final Widget child;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
-  const AppbarSubTitle({Key key, @required this.child, this.padding})
+  const AppbarSubTitle({Key? key, required this.child, this.padding})
       : super(key: key);
 
   @override

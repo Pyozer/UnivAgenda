@@ -13,7 +13,7 @@ import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -189,7 +189,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                     const SizedBox(height: 12.0),
                     Text(
                       i18n.text(StrKey.APP_NAME),
-                      style: theme.textTheme.headline6.copyWith(fontSize: 26.0),
+                      style: theme.textTheme.headline6!.copyWith(fontSize: 26.0),
                     ),
                   ],
                 ),
@@ -222,11 +222,11 @@ class _LoginScreenState extends BaseState<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  FlatButton(
+                  TextButton(
                     child: Text(i18n.text(StrKey.DATA_PRIVACY)),
                     onPressed: _onDataPrivcacy,
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(i18n.text(StrKey.HELP_FEEDBACK)),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(RouteKey.HELP),

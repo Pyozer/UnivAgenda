@@ -19,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
-  String _errorMsg;
+  String? _errorMsg;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -52,7 +52,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     // Load preferences from disk
     await prefs.initFromDisk(context, true);
 
-    if (prefs.urlIcs?.trim()?.isEmpty ?? true) {
+    if (prefs.urlIcs.trim().isEmpty) {
       prefs.setUserLogged(false);
     }
 
@@ -75,7 +75,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
     _setError(StrKey.NETWORK_ERROR);
   }
 
-  void _setError([String msgKey]) {
+  void _setError([String? msgKey]) {
     if (!mounted) return;
     setState(() => _errorMsg = msgKey != null ? i18n.text(msgKey) : null);
   }
@@ -100,7 +100,7 @@ class SplashScreenState extends BaseState<SplashScreen> with AfterLayoutMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _errorMsg,
+                            _errorMsg!,
                             style: theme.textTheme.subtitle1,
                             textAlign: TextAlign.center,
                           ),

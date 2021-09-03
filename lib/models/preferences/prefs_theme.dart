@@ -7,10 +7,10 @@ class PrefsTheme {
   Color noteColor;
 
   PrefsTheme({
-    this.darkTheme,
-    this.primaryColor,
-    this.accentColor,
-    this.noteColor,
+    required this.darkTheme,
+    required this.primaryColor,
+    required this.accentColor,
+    required this.noteColor,
   });
 
   @override

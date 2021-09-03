@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class Dropdown extends StatelessWidget {
   final List<String> items;
   final String value;
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String?>? onChanged;
   final bool isExpanded;
 
   const Dropdown({
-    Key key,
-    this.items,
-    this.value,
+    Key? key,
+    required this.items,
+    required this.value,
     this.onChanged,
     this.isExpanded = true,
   }) : super(key: key);

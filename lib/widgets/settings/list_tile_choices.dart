@@ -6,17 +6,17 @@ import 'package:univagenda/widgets/settings/radio_list.dart';
 
 class ListTileChoices extends StatefulWidget {
   final String title;
-  final String titleDialog;
+  final String? titleDialog;
   final List<String> values;
   final ValueChanged<String> onChange;
-  final String selectedValue;
+  final String? selectedValue;
 
   const ListTileChoices({
-    Key key,
-    @required this.title,
-    @required this.values,
+    Key? key,
+    required this.title,
+    required this.values,
     this.titleDialog,
-    this.onChange,
+    required this.onChange,
     this.selectedValue,
   }) : super(key: key);
 
@@ -42,7 +42,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
   void initSelectedValue() {
     if (widget.selectedValue != null &&
         widget.values.contains(widget.selectedValue))
-      setState(() => _selectedChoice = widget.selectedValue);
+      setState(() => _selectedChoice = widget.selectedValue!);
     else if (widget.values.isNotEmpty)
       setState(() => _selectedChoice = widget.values[0]);
   }

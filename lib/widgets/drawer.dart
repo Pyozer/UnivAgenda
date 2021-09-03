@@ -5,10 +5,10 @@ import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({Key key}) : super(key: key);
+  const MainDrawer({Key? key}) : super(key: key);
 
   void _onDisconnectPressed(BuildContext context) async {
     final prefs = PreferencesProvider.of(context);
@@ -95,14 +95,14 @@ class MainDrawer extends StatelessWidget {
 class DrawerElement extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String routeDest;
-  final Function onTap;
+  final String? routeDest;
+  final Function? onTap;
   final bool enabled;
 
   const DrawerElement(
-      {Key key,
-      @required this.icon,
-      @required this.title,
+      {Key? key,
+      required this.icon,
+      required this.title,
       this.routeDest,
       this.onTap,
       this.enabled = true})
@@ -114,10 +114,11 @@ class DrawerElement extends StatelessWidget {
       leading: Icon(icon),
       title: Text(title),
       onTap: () {
-        if (onTap != null)
-          onTap();
-        else if (routeDest != null)
-          Navigator.of(context).popAndPushNamed(routeDest);
+        if (onTap != null) {
+          onTap!();
+        } else if (routeDest != null) {
+          Navigator.of(context).popAndPushNamed(routeDest!);
+        }
       },
       enabled: enabled,
     );

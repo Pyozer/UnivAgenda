@@ -11,9 +11,7 @@ import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
 class HelpDetailsScreen extends StatelessWidget {
   final HelpItem helpItem;
 
-  const HelpDetailsScreen({Key key, @required this.helpItem})
-      : assert(helpItem != null),
-        super(key: key);
+  const HelpDetailsScreen({Key? key, required this.helpItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class HelpDetailsScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Markdown(
-              data: snapshot.data,
+              data: snapshot.data!,
               styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
             );
           }

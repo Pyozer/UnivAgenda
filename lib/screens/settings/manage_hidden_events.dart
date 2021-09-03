@@ -6,7 +6,7 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class ManageHiddenEvents extends StatefulWidget {
   _ManageHiddenEventsState createState() => _ManageHiddenEventsState();
@@ -14,7 +14,6 @@ class ManageHiddenEvents extends StatefulWidget {
 
 class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   final TextEditingController _textController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
     if (isSubmit == true) {
       final String filter = _textController.text.trim();
       if (filter.isEmpty) {
-        _scaffoldKey.currentState?.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(i18n.text(StrKey.REQUIRE_FIELD)),
           action: SnackBarAction(
             label: i18n.text(StrKey.RETRY),
@@ -78,7 +77,6 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
   @override
   Widget build(BuildContext context) {
     return AppbarPage(
-      scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.HIDDEN_EVENT),
       body: prefs.hiddenEvents.isEmpty
           ? Center(

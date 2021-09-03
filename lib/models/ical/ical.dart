@@ -3,7 +3,7 @@ import 'package:univagenda/models/ical/vevent.dart';
 class Ical {
   List<VEvent> vevents;
 
-  Ical({this.vevents});
+  Ical({this.vevents = const []});
 
   factory Ical.fromJson(Map<String, dynamic> json) => Ical(
         vevents: List<VEvent>.from(
@@ -12,6 +12,6 @@ class Ical {
       );
 
   Map<String, dynamic> toJson() => {
-        "vevents": List<dynamic>.from((vevents ?? []).map((x) => x.toJson())),
+        "vevents": List<dynamic>.from(vevents.map((x) => x.toJson())),
       };
 }

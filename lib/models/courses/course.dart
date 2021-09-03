@@ -10,33 +10,37 @@ class Course extends BaseCourse {
   String uid;
   String title;
   String description;
-  String location;
-  String renamedTitle;
+  String? location;
+  String? renamedTitle;
   List<Note> notes;
   DateTime dateStart;
   DateTime dateEnd;
-  Color color;
+  Color? color;
   bool isHidden;
 
   Course({
-    this.uid,
-    this.title,
-    this.description,
+    required this.uid,
+    required this.title,
+    required this.description,
     this.location,
-    this.dateStart,
-    this.dateEnd,
-    this.notes,
+    required this.dateStart,
+    required this.dateEnd,
+    this.notes = const [],
     this.color,
     this.isHidden = false,
     this.renamedTitle,
-  }) {
-    this.notes ??= [];
-  }
+  });
 
-  factory Course.empty() =>
-      Course(uid: "", title: "", description: "", location: "");
+  factory Course.empty(DateTime dateStart, DateTime dateEnd) => Course(
+        uid: "",
+        title: "",
+        description: "",
+        location: "",
+        dateStart: dateStart,
+        dateEnd: dateEnd,
+      );
 
-  bool hasNote() => (notes?.length ?? 0) > 0;
+  bool hasNote() => notes.length > 0;
 
   bool isFinish() => dateEnd.isBefore(DateTime.now());
 
@@ -53,9 +57,9 @@ class Course extends BaseCourse {
 
   bool hasColor() => color != null;
 
-  Color getColor(bool isGenerateEventColor) {
-    if (color != null) return color;
-    if (isExam()) return Colors.red[600];
+  Color? getColor(bool isGenerateEventColor) {
+    if (color != null) return color!;
+    if (isExam()) return Colors.red[600]!;
     if (isGenerateEventColor) return getColorFromString(getTitle());
     return null;
   }

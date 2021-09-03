@@ -4,11 +4,11 @@ import 'package:univagenda/utils/functions.dart';
 class CircleText extends StatelessWidget {
   final String text;
   final bool isSelected;
-  final ValueChanged<bool> onChange;
+  final ValueChanged<bool>? onChange;
 
   CircleText({
-    Key key,
-    this.text,
+    Key? key,
+    required this.text,
     this.onChange,
     this.isSelected = false,
   }) : super(key: key);
@@ -19,15 +19,15 @@ class CircleText extends StatelessWidget {
 
     Color textColor, bgColor;
     if (isDark) {
-      textColor = isSelected ? Colors.grey[900] : Colors.grey[200];
-      bgColor = isSelected ? Colors.grey[300] : Colors.grey[700];
+      textColor = isSelected ? Colors.grey[900]! : Colors.grey[200]!;
+      bgColor = isSelected ? Colors.grey[300]! : Colors.grey[700]!;
     } else {
-      textColor = isSelected ? Colors.grey[200] : Colors.grey[900];
-      bgColor = isSelected ? Colors.grey[700] : Colors.grey[300];
+      textColor = isSelected ? Colors.grey[200]! : Colors.grey[900]!;
+      bgColor = isSelected ? Colors.grey[700]! : Colors.grey[300]!;
     }
 
     return GestureDetector(
-      onTap: () => onChange != null ? onChange(!isSelected) : null,
+      onTap: () => onChange != null ? onChange!(!isSelected) : null,
       child: CircleAvatar(
         child: Text(text, style: TextStyle(color: textColor)),
         backgroundColor: bgColor,

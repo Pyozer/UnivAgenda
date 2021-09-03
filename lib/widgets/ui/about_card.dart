@@ -5,13 +5,13 @@ const kMargin = EdgeInsets.all(16.0);
 
 class AboutCard extends StatelessWidget {
   final String title;
-  final List<Widget> children;
+  final List<Widget>? children;
   final bool lateralPadding;
   final EdgeInsets margin;
 
   const AboutCard({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.children,
     this.lateralPadding = true,
     this.margin = kMargin,
@@ -27,7 +27,7 @@ class AboutCard extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .headline6
+              .headline6!
               .copyWith(fontWeight: FontWeight.w700),
         ),
       ),

@@ -9,18 +9,18 @@ import 'package:univagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   List<WeekDay> weekdaysRepeat;
-  Calendar syncCalendar;
+  Calendar? syncCalendar;
 
   CustomCourse({
-    String uid,
-    String title,
-    String description,
-    String location,
-    DateTime dateStart,
-    DateTime dateEnd,
-    List<Note> notes,
-    Color color,
-    this.weekdaysRepeat,
+    required String uid,
+    required String title,
+    required String description,
+    String? location,
+    required DateTime dateStart,
+    required DateTime dateEnd,
+    List<Note> notes = const [],
+    Color? color,
+    this.weekdaysRepeat = const [],
     this.syncCalendar,
   }) : super(
           uid: uid,
@@ -31,9 +31,7 @@ class CustomCourse extends Course {
           dateEnd: dateEnd,
           notes: notes,
           color: color,
-        ) {
-    this.weekdaysRepeat ??= [];
-  }
+        );
 
   factory CustomCourse.fromJson(Map<String, dynamic> json) {
     Course course = Course.fromJson(json);
@@ -45,9 +43,6 @@ class CustomCourse extends Course {
             .split(',')
             .map((value) => WeekDay.fromValue(int.parse(value))),
     ];
-    Calendar calendar = json['sync_calendar'] != null
-        ? Calendar.fromJson(json['sync_calendar'])
-        : null;
 
     return CustomCourse(
       uid: course.uid,
@@ -58,7 +53,9 @@ class CustomCourse extends Course {
       dateEnd: course.dateEnd,
       color: course.color,
       weekdaysRepeat: listWeekDays,
-      syncCalendar: calendar,
+      syncCalendar: json['sync_calendar'] != null
+          ? Calendar.fromJson(json['sync_calendar'])
+          : null,
     );
   }
 
@@ -69,8 +66,15 @@ class CustomCourse extends Course {
     return copied;
   }
 
-  factory CustomCourse.empty() =>
-      CustomCourse(uid: "", title: "", description: "", location: "");
+  factory CustomCourse.empty(DateTime dateStart, DateTime dateEnd) =>
+      CustomCourse(
+        uid: "",
+        title: "",
+        description: "",
+        location: "",
+        dateStart: dateStart,
+        dateEnd: dateEnd,
+      );
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
@@ -86,7 +90,7 @@ class CustomCourse extends Course {
     return jsonMap;
   }
 
-  bool isRecurrentEvent() => (weekdaysRepeat?.length ?? 0) > 0;
+  bool isRecurrentEvent() => weekdaysRepeat.length > 0;
 
   @override
   String toString() => toJson().toString();

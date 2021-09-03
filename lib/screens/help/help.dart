@@ -12,14 +12,12 @@ import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends StatelessWidget {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   void _sendFeedback(BuildContext context) async {
     var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback UnivAgenda';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      _scaffoldKey?.currentState?.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(i18n.text(StrKey.NO_EMAIL_APP)),
       ));
     }
@@ -30,7 +28,6 @@ class HelpScreen extends StatelessWidget {
     AnalyticsProvider.setScreen(this);
 
     return AppbarPage(
-      scaffoldKey: _scaffoldKey,
       title: i18n.text(StrKey.HELP_FEEDBACK),
       body: Column(
         children: [
@@ -42,9 +39,9 @@ class HelpScreen extends StatelessWidget {
 
                 if (snapshot.hasData) {
                   return ListView.separated(
-                    itemCount: snapshot.data.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      final item = snapshot.data[index];
+                      final item = snapshot.data![index];
                       return InkWell(
                         child: ListTile(title: Text(item.title)),
                         onTap: () {

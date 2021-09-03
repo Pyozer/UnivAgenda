@@ -12,7 +12,7 @@ class ChangeLog extends StatelessWidget {
     final response = await HttpRequest.get(
       i18n.currentLanguage == "fr" ? Url.changelogFr : Url.changelog,
     );
-    if (response.isSuccess) return response.httpResponse.body;
+    if (response.isSuccess) return response.httpResponse!.body;
     return "## **NETWORK ERROR**";
   }
 
@@ -22,8 +22,9 @@ class ChangeLog extends StatelessWidget {
       future: _fetchData(context),
       builder: (_, snapshot) => (snapshot.hasData)
           ? Markdown(
-              data: snapshot.data,
-              onTapLink: (href) => openLink(null, href, null))
+              data: snapshot.data!,
+              onTapLink: (_, href, __) => openLink(null, href!, null),
+            )
           : const Center(child: CircularProgressIndicator()),
     );
   }

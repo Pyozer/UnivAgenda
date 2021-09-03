@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/weekday.dart';
@@ -12,14 +12,15 @@ import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/ui/circle_text.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
 import 'package:device_calendar/device_calendar.dart' as Calendar;
 
 class CustomEventScreen extends StatefulWidget {
-  final CustomCourse course;
+  final CustomCourse? course;
 
-  const CustomEventScreen({Key key, this.course}) : super(key: key);
+  const CustomEventScreen({Key? key, this.course}) : super(key: key);
 
   @override
   _CustomEventScreenState createState() => _CustomEventScreenState();
@@ -29,16 +30,16 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   final _descNode = FocusNode();
   final _locationNode = FocusNode();
 
-  DateTime _initFirstDate;
-  DateTime _initEndDate;
+  late DateTime _initFirstDate;
+  late DateTime _initEndDate;
 
   bool _isRecurrent = false;
   bool _isColor = false;
-  CustomCourse _customCourse;
+  late CustomCourse _customCourse;
 
   List<Calendar.Calendar> _deviceCalendars = [];
 
-  CustomCourse _baseCourse;
+  late CustomCourse _baseCourse;
 
   @override
   void initState() {
@@ -46,20 +47,16 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     _initFirstDate = DateTime.now().add(Duration(minutes: 30));
     _initEndDate = _initFirstDate.add(Duration(hours: 1));
 
-    _baseCourse = CustomCourse.empty();
-    _baseCourse.dateStart = _initFirstDate;
-    _baseCourse.dateEnd = _initEndDate;
+    _baseCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
 
     // Init view
     if (widget.course != null) {
-      _customCourse = CustomCourse.copy(widget.course);
+      _customCourse = CustomCourse.copy(widget.course!);
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isColor = _customCourse.hasColor();
       if (_customCourse.syncCalendar != null) _getCalendars();
     } else {
-      _customCourse = CustomCourse.empty();
-      _customCourse.dateStart = _initFirstDate;
-      _customCourse.dateEnd = _initEndDate;
+      _customCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
     }
     AnalyticsProvider.setScreen(widget);
   }
@@ -68,10 +65,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
     final calendarPlugin = Calendar.DeviceCalendarPlugin();
     try {
       var permissionsGranted = await calendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+      if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
         permissionsGranted = await calendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          Scaffold.of(context).showSnackBar(SnackBar(
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(i18n.text(StrKey.GET_CALENDARS_FAILED)),
           ));
           return;
@@ -80,10 +77,14 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
       final calendarsResult = await calendarPlugin.retrieveCalendars();
       setState(() {
-        _deviceCalendars =
-            calendarsResult?.data?.where((c) => !c.isReadOnly)?.toList() ?? [];
-        if (_customCourse.syncCalendar == null)
-          _customCourse.syncCalendar = _deviceCalendars.first ?? null;
+        _deviceCalendars = calendarsResult.data
+                ?.where((c) => !(c.isReadOnly ?? false))
+                .toList() ??
+            [];
+        if (_customCourse.syncCalendar == null) {
+          _customCourse.syncCalendar =
+              _deviceCalendars.isNotEmpty ? _deviceCalendars.first : null;
+        }
       });
     } catch (e) {
       print(e.toString());
@@ -113,7 +114,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onDateTap() async {
-    DateTime dateStart = await showRoundedDatePicker(
+    DateTime? dateStart = await showRoundedDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
@@ -140,7 +141,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onStartTimeTap() async {
-    TimeOfDay timeStart = await showRoundedTimePicker(
+    TimeOfDay? timeStart = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateStart),
       theme: Theme.of(context),
@@ -155,7 +156,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onEndTimeTap() async {
-    TimeOfDay timeEnd = await showRoundedTimePicker(
+    TimeOfDay? timeEnd = await showRoundedTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateEnd),
       theme: Theme.of(context),
@@ -188,7 +189,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   void _onSubmit(BuildContext context) async {
     if (_customCourse.title.isEmpty ||
         _customCourse.description.isEmpty ||
-        _customCourse.location.isEmpty) {
+        (_customCourse.location?.isEmpty ?? true)) {
       _showError(i18n.text(StrKey.REQUIRE_FIELD));
       return;
     }
@@ -204,8 +205,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
-    if (_customCourse.uid == null || _customCourse.uid.isEmpty)
-      _customCourse.uid = Uuid().v1();
+    if (_customCourse.uid.isEmpty) _customCourse.uid = Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
 
@@ -413,13 +413,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               if (_customCourse.syncCalendar != null)
                 ListTileChoices(
                   title: i18n.text(StrKey.CHOOSE_CALENDAR),
-                  values: _deviceCalendars.map((c) => c.name).toList(),
+                  values: _deviceCalendars.map((c) => c.name).whereNotNull().toList(),
                   onChange: (calendar) {
                     setState(() {
-                      _customCourse.syncCalendar = _deviceCalendars.firstWhere(
-                        (c) => c.name == calendar,
-                        orElse: () => null,
-                      );
+                      _customCourse.syncCalendar = _deviceCalendars
+                          .firstWhereOrNull((c) => c.name == calendar);
                     });
                   },
                   selectedValue: _customCourse.syncCalendar?.name,

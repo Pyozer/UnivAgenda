@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/utils/functions.dart';
 
 class RaisedButtonColored extends StatelessWidget {
-  final VoidCallback onPressed;
-  final String text;
-  final Widget child;
-  final ShapeBorder shape;
-  final EdgeInsets padding;
+  final VoidCallback? onPressed;
+  final String? text;
+  final Widget? child;
+  final RoundedRectangleBorder? shape;
+  final EdgeInsets? padding;
 
   const RaisedButtonColored({
-    Key key,
+    Key? key,
     this.text,
     this.child,
-    @required this.onPressed,
+    required this.onPressed,
     this.shape,
     this.padding,
   })  : assert(text != null || child != null),
@@ -23,25 +23,29 @@ class RaisedButtonColored extends StatelessWidget {
     final accentColor = Theme.of(context).accentColor;
     final color = getColorDependOfBackground(accentColor);
 
-    return RaisedButton(
-      shape: shape ??
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          ),
-      onPressed: onPressed,
+    return ElevatedButton(
       child: text != null
           ? Text(
-              text.toUpperCase(),
+              text!.toUpperCase(),
               style: const TextStyle(fontWeight: FontWeight.w600),
             )
           : child,
-      color: accentColor,
-      textColor: color,
-      padding: padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 6.0,
-          ),
+      onPressed: onPressed,
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape ??
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        ),
+        backgroundColor: MaterialStateProperty.all(accentColor),
+        textStyle: MaterialStateProperty.all(TextStyle(color: color)),
+        padding: MaterialStateProperty.all(
+          padding ??
+              const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 6.0,
+              ),
+        ),
+      ),
     );
   }
 }

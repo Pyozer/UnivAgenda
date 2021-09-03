@@ -10,24 +10,23 @@ import 'package:univagenda/widgets/ui/number_selector.dart';
 
 class ListTileNumber extends StatefulWidget {
   final String title;
-  final String subtitle;
-  final String titleDialog;
+  final String? subtitle;
+  final String? titleDialog;
   final ValueChanged<int> onChange;
-  final int defaultValue;
+  final int? defaultValue;
   final int minValue;
   final int maxValue;
 
   const ListTileNumber({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.subtitle,
     this.titleDialog,
-    this.onChange,
+    required this.onChange,
     this.defaultValue,
     this.minValue = 0,
-    @required this.maxValue,
-  })  : assert(title != null),
-        assert(maxValue != null && maxValue > minValue),
+    required this.maxValue,
+  })  : assert(maxValue > minValue),
         super(key: key);
 
   @override
@@ -35,8 +34,8 @@ class ListTileNumber extends StatefulWidget {
 }
 
 class _ListTileNumberState extends BaseState<ListTileNumber> {
-  int _inputValue;
-  int _submitInputValue;
+  late int _inputValue;
+  late int _submitInputValue;
 
   @override
   void initState() {

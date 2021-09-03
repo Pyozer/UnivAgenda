@@ -2,27 +2,25 @@ class Node {
   String key;
   dynamic value;
   List<Node> children;
-  Node parent;
-  bool checked;
+  Node? parent;
+  bool? checked;
   bool isExpanded;
   bool isHidden;
 
   Node({
     this.key = "",
     this.value,
-    this.children,
+    this.children = const [],
     this.parent,
-    this.checked = false,
+    this.checked,
     this.isExpanded = false,
     this.isHidden = false,
-  }) {
-    children ??= [];
-  }
+  });
 
   String toString() {
     if (children.isEmpty) return "\"$key\": $value,\n";
 
-    var elemsStr = '';
+    String elemsStr = '';
     this.children.forEach((elem) {
       elemsStr += elem.toString();
     });

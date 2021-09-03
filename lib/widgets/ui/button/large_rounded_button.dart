@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 
 class LargeRoundedButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-  final Widget child;
+  final String? text;
+  final VoidCallback? onPressed;
+  final Widget? child;
 
   const LargeRoundedButton({
-    Key key,
+    Key? key,
     this.text,
     this.onPressed,
     this.child,

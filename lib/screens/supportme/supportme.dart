@@ -34,12 +34,10 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
     try {
       await openLink(context, url, analyticsEvent);
     } catch (_) {
-      _showSnackBar(i18n.text(errorKey) + url);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(i18n.text(errorKey) + url)),
+      );
     }
-  }
-
-  void _showSnackBar(String msg) {
-    _scaffoldKey?.currentState?.showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -54,7 +52,7 @@ class _SupportMeScreenState extends BaseState<SupportMeScreen> {
           children: [
             Text(
               i18n.text(StrKey.SUPPORTME_TEXT),
-              style: theme.textTheme.subtitle1.copyWith(fontSize: 18.0),
+              style: theme.textTheme.subtitle1!.copyWith(fontSize: 18.0),
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 24.0),

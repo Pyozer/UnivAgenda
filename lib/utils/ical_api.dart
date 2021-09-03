@@ -24,7 +24,7 @@ class IcalAPI {
     return IcalPrepareResult(startDate, endDate);
   }
 
-  static Future<List<Course>> icalToCourses(Ical ical) async {
+  static Future<List<Course>> icalToCourses(Ical? ical) async {
     if (ical == null || ical.vevents.isEmpty) return [];
 
     return ical.vevents.map((vevent) {
@@ -49,7 +49,7 @@ class IcalAPI {
     }).toList();
   }
 
-  static DateTime _applyTimezone(DateTime datetime) {
+  static TZDateTime _applyTimezone(DateTime datetime) {
     final d = datetime.toUtc();
     return TZDateTime.utc(
       d.year,

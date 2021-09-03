@@ -4,7 +4,7 @@ import 'package:univagenda/keys/assets.dart';
 class Logo extends StatelessWidget {
   final double size;
 
-  const Logo({Key key, this.size = 100.0}) : super(key: key);
+  const Logo({Key? key, this.size = 100.0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

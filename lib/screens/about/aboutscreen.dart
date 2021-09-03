@@ -14,13 +14,13 @@ import 'package:univagenda/widgets/changelog.dart';
 import 'package:univagenda/widgets/images/circle_image.dart';
 import 'package:univagenda/widgets/ui/about_card.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:package_info/package_info.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
-        Theme.of(context).textTheme.headline5.copyWith(fontSize: 30.0);
+        Theme.of(context).textTheme.headline5!.copyWith(fontSize: 30.0);
     final appName = i18n.text(StrKey.APP_NAME);
 
     return Container(
@@ -148,10 +148,10 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  String getAppInfo(PackageInfo info) {
+  String getAppInfo(PackageInfo? info) {
     if (info == null) return "...";
     String str = info.version;
-    if (info.buildNumber != null && info.buildNumber.isNotEmpty)
+    if (info.buildNumber.isNotEmpty)
       str += " (${info.buildNumber})";
     return str;
   }
@@ -176,7 +176,7 @@ class AboutScreen extends StatelessWidget {
           title: Text(i18n.text(StrKey.VERSION)),
           subtitle: FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
-            builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
+            builder: (_, snapshot) => Text(getAppInfo(snapshot.data!)),
           ),
         )
       ],

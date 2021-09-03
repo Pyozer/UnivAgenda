@@ -1,6 +1,10 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
 version: 4.4.0+20200908
+publish_to: none
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -8,33 +12,36 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  http: 0.12.2
-  shared_preferences: 0.5.10
-  path_provider: 1.6.14
-  url_launcher: 5.5.2
-  flutter_markdown: 0.4.4
-  uuid: 2.2.2
-  html: 0.14.0+3
-  firebase_analytics: 6.0.0
-  firebase_crashlytics: 0.1.4+1
-  package_info: 0.4.3
-  after_layout: 1.0.7+2
+  after_layout: 1.1.0
+  device_calendar: 4.0.1-dev.13167
+  firebase_analytics: 8.3.1
+  firebase_core: 1.6.0
+  firebase_crashlytics: 2.2.1
   flutter_calendar:
     git: git://github.com/Pyozer/flutter_calendar
-  device_calendar: 3.1.0
-
-  flutter_material_color_picker: 1.0.5
-  introduction_screen: 1.0.9
-  flutter_rounded_date_picker:
-    git: git://github.com/Pyozer/flutter_rounded_date_picker
-
-  outline_material_icons: 0.1.1
-  timezone: 0.5.7
-  flutter_native_timezone: 1.0.4
+  flutter_markdown: 0.6.6
+  flutter_material_color_picker: 1.1.0+2
+  flutter_native_timezone: 2.0.0
+  flutter_rounded_date_picker: 2.0.2
+  html: 0.15.0
+  http: 0.13.3
+  introduction_screen: 2.1.0
+  outline_material_icons_tv: 0.1.1-nullsafety
+  package_info: 2.0.2
+  path_provider: 2.0.3
   qrcode_reader: 0.4.4
-  
+  shared_preferences: 2.0.7
+  timezone: 0.8.0
+  url_launcher: 6.0.10
+  uuid: 3.0.4
+
 dev_dependencies:
-  flutter_launcher_icons: 0.7.5
+  flutter_launcher_icons: 0.9.2
+
+dependency_overrides:
+  intl: 0.17.0
+  timezone: 0.8.0
+  flutter_native_timezone: 2.0.0
 
 flutter:
   uses-material-design: true
@@ -42,7 +49,7 @@ flutter:
   assets:
     - res/images/
     - res/locales/
-    - packages/timezone/data/2020a_all.tzf
+    - packages/timezone/data/2020d_all.tzf
 
   fonts:
      - family: GoogleSans
