@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/route_key.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
+import 'package:univagenda/screens/about/aboutscreen.dart';
+import 'package:univagenda/screens/help/help.dart';
+import 'package:univagenda/screens/login/login.dart';
+import 'package:univagenda/screens/onboarding/onboarding.dart';
+import 'package:univagenda/screens/settings/settings.dart';
+import 'package:univagenda/screens/supportme/supportme.dart';
+import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   void _onDisconnectPressed(BuildContext context) async {
-    final prefs = PreferencesProvider.of(context);
+    final prefs = context.read<PrefsProvider>();
 
     bool logoutConfirm = await DialogPredefined.showTextDialog(
         context,
@@ -23,7 +29,7 @@ class MainDrawer extends StatelessWidget {
 
     if (logoutConfirm) {
       prefs.disconnectUser();
-      Navigator.of(context).pushReplacementNamed(RouteKey.LOGIN);
+      navigatorPushReplace(context, LoginScreen());
     }
   }
 
@@ -54,36 +60,35 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           DrawerElement(
-            icon: OMIcons.info,
+            icon: Icons.info_outline,
             title: i18n.text(StrKey.ABOUT),
-            routeDest: RouteKey.ABOUT,
+            routeDest: () => AboutScreen(),
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
             title: i18n.text(StrKey.INTRO),
-            routeDest: RouteKey.INTRO,
+            routeDest: () => OnboardingScreen(),
           ),
           const Divider(),
           DrawerElement(
-            icon: OMIcons.settings,
+            icon: Icons.settings_outlined,
             title: i18n.text(StrKey.SETTINGS),
-            routeDest: RouteKey.SETTINGS,
+            routeDest: () => SettingsScreen(),
           ),
           DrawerElement(
-            icon: OMIcons.liveHelp,
+            icon: Icons.live_help_outlined,
             title: i18n.text(StrKey.HELP_FEEDBACK),
-            routeDest: RouteKey.HELP,
+            routeDest: () => HelpScreen(),
           ),
           DrawerElement(
-            icon: OMIcons.monetizationOn,
+            icon: Icons.monetization_on_outlined,
             title: i18n.text(StrKey.SUPPORTME),
-            routeDest: RouteKey.SUPPORTME,
+            routeDest: () => SupportMeScreen(),
           ),
           const Divider(),
           DrawerElement(
-            icon: OMIcons.exitToApp,
+            icon: Icons.exit_to_app_outlined,
             title: i18n.text(StrKey.LOGOUT),
-            routeDest: RouteKey.LOGIN,
             onTap: () => _onDisconnectPressed(context),
           ),
         ],
@@ -92,21 +97,23 @@ class MainDrawer extends StatelessWidget {
   }
 }
 
+typedef WidgetCallback = Widget Function();
+
 class DrawerElement extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String? routeDest;
+  final WidgetCallback? routeDest;
   final Function? onTap;
   final bool enabled;
 
-  const DrawerElement(
-      {Key? key,
-      required this.icon,
-      required this.title,
-      this.routeDest,
-      this.onTap,
-      this.enabled = true})
-      : super(key: key);
+  const DrawerElement({
+    Key? key,
+    required this.icon,
+    required this.title,
+    this.routeDest,
+    this.onTap,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +124,7 @@ class DrawerElement extends StatelessWidget {
         if (onTap != null) {
           onTap!();
         } else if (routeDest != null) {
-          Navigator.of(context).popAndPushNamed(routeDest!);
+          navigatorPopAndPush(context, routeDest!());
         }
       },
       enabled: enabled,

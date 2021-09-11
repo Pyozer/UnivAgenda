@@ -1,20 +1,20 @@
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/screens/custom_event/custom_event.dart';
 import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course_note/add_note_button.dart';
 import 'package:univagenda/widgets/course_note/course_note.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 enum MenuItem { EDIT, HIDE, UNHIDE, DELETE, RENAME }
 
@@ -27,7 +27,7 @@ class DetailCourse extends StatefulWidget {
   _DetailCourseState createState() => _DetailCourseState();
 }
 
-class _DetailCourseState extends BaseState<DetailCourse> {
+class _DetailCourseState extends State<DetailCourse> {
   final _formKey = GlobalKey<FormState>();
   late String _noteToAdd;
   late Course _course;
@@ -51,17 +51,17 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
     return <Widget>[
       ListTile(
-        leading: const Icon(OMIcons.accessTime),
+        leading: const Icon(Icons.access_time),
         title: Text('$timeStart  –  $timeEnd'),
         subtitle: Text(date),
       ),
       ListTile(
-        leading: const Icon(OMIcons.timelapse),
+        leading: const Icon(Icons.timelapse),
         title: Text(durationStr),
       ),
       if (_course.description.isNotEmpty)
         ListTile(
-          leading: const Icon(OMIcons.group),
+          leading: const Icon(Icons.group_outlined),
           title: Text(
             _course.description,
             maxLines: 2,
@@ -70,17 +70,17 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         ),
       if (_course.location?.isNotEmpty ?? false)
         ListTile(
-          leading: const Icon(OMIcons.locationOn),
+          leading: const Icon(Icons.location_on_outlined),
           title: Text(_course.location!),
         ),
       if (_course.isExam())
         ListTile(
-          leading: const Icon(OMIcons.description),
+          leading: const Icon(Icons.description_outlined),
           title: Text(i18n.text(StrKey.COURSE_TEST)),
         ),
       if (_course.color != null)
         ListTile(
-          leading: const Icon(OMIcons.colorLens),
+          leading: const Icon(Icons.color_lens_outlined),
           title: Text(i18n.text(StrKey.EVENT_COLOR)),
           trailing: CircleColor(color: _course.color!, circleSize: 28.0),
         ),
@@ -110,7 +110,7 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
   void _onNoteDeleted(Note note) {
     setState(() => _course.notes.remove(note));
-    prefs.removeNote(note);
+    context.read<PrefsProvider>().removeNote(note);
   }
 
   void _openAddNote() async {
@@ -174,11 +174,12 @@ class _DetailCourseState extends BaseState<DetailCourse> {
       final note = Note(courseUid: _course.uid, text: _noteToAdd);
       _noteToAdd = "";
       setState(() => _course.notes.insert(0, note));
-      prefs.addNote(note);
+      context.read<PrefsProvider>().addNote(note);
     }
   }
 
   void _onMenuChoose(MenuItem choice) async {
+    final prefs = context.read<PrefsProvider>();
     if (choice == MenuItem.HIDE || choice == MenuItem.UNHIDE) {
       bool isHide = choice == MenuItem.HIDE;
       bool isDialogOk = await DialogPredefined.showTextDialog(
@@ -197,18 +198,20 @@ class _DetailCourseState extends BaseState<DetailCourse> {
         prefs.removeHiddenEvent(widget.course.title);
       }
       setState(() {});
-    } else if (choice == MenuItem.EDIT) { // Only for CustomCourse
-      CustomCourse? editedCourse = await Navigator.of(context).push(
-        CustomRoute<CustomCourse>(
-          builder: (context) => CustomEventScreen(course: _course as CustomCourse),
-          fullscreenDialog: true,
-        ),
+    } else if (choice == MenuItem.EDIT) {
+      // Only for CustomCourse
+      CustomCourse? editedCourse = await navigatorPush(
+        context,
+        CustomEventScreen(course: _course as CustomCourse),
+        fullscreenDialog: true,
       );
+
       if (editedCourse != null) {
         setState(() => _course = editedCourse);
         prefs.editCustomEvent(editedCourse, true);
       }
-    } else if (choice == MenuItem.DELETE) { // Only for CustomCourse
+    } else if (choice == MenuItem.DELETE) {
+      // Only for CustomCourse
       bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
       if (isConfirm) {
         prefs.removeCustomEvent(_course as CustomCourse, true);
@@ -239,25 +242,25 @@ class _DetailCourseState extends BaseState<DetailCourse> {
     );
   }
 
-  List<Widget> _buildAppbarAction() {
-    bool isHidden = prefs.isCourseHidden(widget.course);
-
+  List<Widget> _buildAppbarAction(bool isCourseHidden) {
     List<PopupMenuEntry<MenuItem>> actions = [
       _item(
-        isHidden ? MenuItem.UNHIDE : MenuItem.HIDE,
-        isHidden ? OMIcons.visibility : OMIcons.visibilityOff,
-        i18n.text(isHidden ? StrKey.UNHIDE : StrKey.HIDE),
+        isCourseHidden ? MenuItem.UNHIDE : MenuItem.HIDE,
+        isCourseHidden
+            ? Icons.visibility_outlined
+            : Icons.visibility_off_outlined,
+        i18n.text(isCourseHidden ? StrKey.UNHIDE : StrKey.HIDE),
       ),
-      _item(MenuItem.RENAME, OMIcons.title, i18n.text(StrKey.RENAME)),
+      _item(MenuItem.RENAME, Icons.title, i18n.text(StrKey.RENAME)),
       if (_course is CustomCourse) ...[
-        _item(MenuItem.EDIT, OMIcons.edit, i18n.text(StrKey.EDIT)),
-        _item(MenuItem.DELETE, OMIcons.delete, i18n.text(StrKey.DELETE))
+        _item(MenuItem.EDIT, Icons.edit_outlined, i18n.text(StrKey.EDIT)),
+        _item(MenuItem.DELETE, Icons.delete_outline, i18n.text(StrKey.DELETE))
       ],
     ];
 
     return [
       PopupMenuButton<MenuItem>(
-        icon: const Icon(OMIcons.moreVert),
+        icon: const Icon(Icons.more_vert),
         onSelected: _onMenuChoose,
         itemBuilder: (_) => actions,
       ),
@@ -266,12 +269,13 @@ class _DetailCourseState extends BaseState<DetailCourse> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = context.watch<PrefsProvider>();
     final textStyle =
-        theme.primaryTextTheme.headline6!.copyWith(fontSize: 17.0);
+        Theme.of(context).primaryTextTheme.headline6!.copyWith(fontSize: 17.0);
 
     return AppbarPage(
       title: i18n.text(StrKey.COURSE_DETAILS),
-      actions: _buildAppbarAction(),
+      actions: _buildAppbarAction(prefs.isCourseHidden(widget.course)),
       body: Container(
         child: Column(
           children: [

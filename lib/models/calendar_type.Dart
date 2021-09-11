@@ -1,10 +1,8 @@
-import 'package:flutter/widgets.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-enum CalendarType { HORIZONTAL, VERTICAL, MONTH_VIEW, WEEK_VIEW }
-
-CalendarType? calendarTypeFromStr(String? calendarType) {
-  for (CalendarType element in CalendarType.values) {
+CalendarView? calendarTypeFromStr(String? calendarType) {
+  for (CalendarView element in CalendarView.values) {
     if (element.toString() == calendarType) {
       return element;
     }
@@ -12,20 +10,26 @@ CalendarType? calendarTypeFromStr(String? calendarType) {
   return null;
 }
 
-IconData getCalendarTypeIcon(CalendarType calendarType) {
-  if (calendarType == CalendarType.VERTICAL)
-    return OMIcons.viewWeek;
-  else if (calendarType == CalendarType.WEEK_VIEW)
-    return OMIcons.gridOn;
-  else if (calendarType == CalendarType.MONTH_VIEW) return OMIcons.viewCarousel;
-  return OMIcons.viewDay;
+IconData getCalendarTypeIcon(CalendarView calendarType) {
+  if (calendarType == CalendarView.day) {
+    return Icons.view_week_outlined;
+  } else if (calendarType == CalendarView.week) {
+    return Icons.grid_on_outlined;
+  } else if (calendarType == CalendarView.month) {
+    return Icons.view_carousel_outlined;
+  }
+  return Icons.view_day_outlined;
 }
 
-CalendarType nextCalendarType(CalendarType current) {
-  if (current == CalendarType.HORIZONTAL)
-    return CalendarType.VERTICAL;
-  else if (current == CalendarType.VERTICAL)
-    return CalendarType.WEEK_VIEW;
-  else if (current == CalendarType.WEEK_VIEW) return CalendarType.MONTH_VIEW;
-  return CalendarType.HORIZONTAL;
+CalendarView nextCalendarType(CalendarView current) {
+  if (current == CalendarView.day) {
+    return CalendarView.schedule;
+  }
+  if (current == CalendarView.schedule) {
+    return CalendarView.week;
+  }
+  if (current == CalendarView.week) {
+    return CalendarView.month;
+  }
+  return CalendarView.day;
 }

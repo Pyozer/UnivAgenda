@@ -8,7 +8,7 @@ import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
-  List<WeekDay> weekdaysRepeat;
+  late List<WeekDay> weekdaysRepeat;
   Calendar? syncCalendar;
 
   CustomCourse({
@@ -18,9 +18,9 @@ class CustomCourse extends Course {
     String? location,
     required DateTime dateStart,
     required DateTime dateEnd,
-    List<Note> notes = const [],
+    List<Note>? notes,
     Color? color,
-    this.weekdaysRepeat = const [],
+    List<WeekDay>? weekdaysRepeat,
     this.syncCalendar,
   }) : super(
           uid: uid,
@@ -31,7 +31,9 @@ class CustomCourse extends Course {
           dateEnd: dateEnd,
           notes: notes,
           color: color,
-        );
+        ) {
+    this.weekdaysRepeat = weekdaysRepeat ?? [];
+  }
 
   factory CustomCourse.fromJson(Map<String, dynamic> json) {
     Course course = Course.fromJson(json);
@@ -79,18 +81,19 @@ class CustomCourse extends Course {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
 
-    List<int> weekDaysIndex = weekdaysRepeat.map((wd) => wd.value).toList();
-    if (weekDaysIndex.isNotEmpty)
-      jsonMap['weekdays_repeat'] = weekDaysIndex.join(',');
-    else
+    if (weekdaysRepeat.isNotEmpty) {
+      jsonMap['weekdays_repeat'] =
+          weekdaysRepeat.map((wd) => wd.value).join(',');
+    } else {
       jsonMap['weekdays_repeat'] = "";
+    }
 
     jsonMap['sync_calendar'] = syncCalendar?.toJson() ?? null;
 
     return jsonMap;
   }
 
-  bool isRecurrentEvent() => weekdaysRepeat.length > 0;
+  bool isRecurrentEvent() => weekdaysRepeat.isNotEmpty;
 
   @override
   String toString() => toJson().toString();

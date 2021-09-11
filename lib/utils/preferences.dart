@@ -3,55 +3,28 @@ import 'dart:convert';
 
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:timezone/standalone.dart';
+import 'package:timezone/timezone.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/models/calendar_type.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
+import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/models/preferences/prefs_theme.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
-class _MyInheritedPreferences extends InheritedWidget {
-  _MyInheritedPreferences({
-    Key? key,
-    required Widget child,
-    required this.data,
-  }) : super(key: key, child: child);
+class PrefsProvider with ChangeNotifier {
+  static SharedPreferences? sharedPrefs;
 
-  final PreferencesProviderState data;
-
-  @override
-  bool updateShouldNotify(_MyInheritedPreferences oldWidget) {
-    return data != oldWidget.data;
-  }
-}
-
-class PreferencesProvider extends StatefulWidget {
-  final Widget child;
-  final SharedPreferences prefs;
-
-  const PreferencesProvider(
-      {Key? key, required this.child, required this.prefs})
-      : super(key: key);
-
-  @override
-  PreferencesProviderState createState() => PreferencesProviderState();
-
-  static PreferencesProviderState of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<_MyInheritedPreferences>()!
-        .data;
-  }
-}
-
-class PreferencesProviderState extends State<PreferencesProvider> {
-  @override
-  Widget build(BuildContext context) {
-    return _MyInheritedPreferences(data: this, child: widget.child);
-  }
+  ///
+  /// Singleton Factory
+  ///
+  static final instance = PrefsProvider._internal();
+  PrefsProvider._internal();
 
   PrefsTheme _prefsTheme = PrefsTheme(
     darkTheme: PrefKey.defaultDarkTheme,
@@ -79,7 +52,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   bool? _userLogged;
 
   /// If agenda is in horizontal mode
-  CalendarType? _calendarType;
+  CalendarView? _calendarType;
 
   /// Display all week days even if no event
   bool? _isDisplayAllDays;
@@ -108,10 +81,7 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   /// Generate or not a event color
   bool? _isGenerateEventColor;
 
-  /// Callback when preferences changes
-  VoidCallback? onPrefsChanges;
-
-  String get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
+  String? get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
 
   setUrlIcs(String? newUrlIcs, [state = false]) {
     if (urlIcs == newUrlIcs) return;
@@ -264,15 +234,23 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         eventId: eventToAdd.uid,
         title: eventToAdd.title,
         description: eventToAdd.description,
-        start: TZDateTime.fromMillisecondsSinceEpoch(
-          getLocation('UTC'),
-          eventToAdd.dateStart.toUtc().millisecondsSinceEpoch,
-        ),
-        end: TZDateTime.fromMillisecondsSinceEpoch(
-          getLocation('UTC'),
-          eventToAdd.dateEnd.toUtc().millisecondsSinceEpoch,
-        ),
+        start: TZDateTime.from(eventToAdd.dateStart.toUtc(), UTC),
+        end: TZDateTime.from(eventToAdd.dateEnd.toUtc(), UTC),
         availability: Availability.Free,
+        recurrenceRule: eventToAdd.isRecurrentEvent()
+            ? RecurrenceRule(
+                RecurrenceFrequency.Weekly,
+                daysOfWeek: eventToAdd.weekdaysRepeat.map((e) {
+                  if (e == WeekDay.monday) return DayOfWeek.Monday;
+                  if (e == WeekDay.tuesday) return DayOfWeek.Tuesday;
+                  if (e == WeekDay.wednesday) return DayOfWeek.Wednesday;
+                  if (e == WeekDay.thursday) return DayOfWeek.Thursday;
+                  if (e == WeekDay.friday) return DayOfWeek.Friday;
+                  if (e == WeekDay.saturday) return DayOfWeek.Saturday;
+                  return DayOfWeek.Sunday;
+                }).toList(),
+              )
+            : null,
       );
 
       DeviceCalendarPlugin().createOrUpdateEvent(eventToCreate).then((result) {
@@ -320,9 +298,9 @@ class PreferencesProviderState extends State<PreferencesProvider> {
     _setBool(PrefKey.isUserLogged, _userLogged!);
   }
 
-  CalendarType get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
+  CalendarView get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
 
-  setCalendarType(CalendarType? newCalendarType, [state = false]) {
+  setCalendarType(CalendarView? newCalendarType, [state = false]) {
     if (calendarType == newCalendarType) return;
 
     _updatePref(() {
@@ -427,31 +405,31 @@ class PreferencesProviderState extends State<PreferencesProvider> {
   Future<void> initFromDisk(BuildContext context, [state = false]) async {
     await initResAndGroup();
 
-    String? cachedIcalDate = widget.prefs.getString(PrefKey.cachedIcalDate);
+    String? cachedIcalDate = sharedPrefs?.getString(PrefKey.cachedIcalDate);
     if (cachedIcalDate != null)
       setCachedIcalDate(DateTime.parse(cachedIcalDate));
 
     // Init number of weeks to display
-    setNumberWeeks(widget.prefs.getInt(PrefKey.numberWeeks));
+    setNumberWeeks(sharedPrefs?.getInt(PrefKey.numberWeeks));
 
     // Init display or not of previous courses
-    setShowPreviousCourses(widget.prefs.getBool(PrefKey.isPreviousCourses));
+    setShowPreviousCourses(sharedPrefs?.getBool(PrefKey.isPreviousCourses));
 
     // Init theme preferences
     setCalendarType(
-      calendarTypeFromStr(widget.prefs.getString(PrefKey.calendarType)),
+      calendarTypeFromStr(sharedPrefs?.getString(PrefKey.calendarType)),
     );
-    final isDarkTheme = widget.prefs.getBool(PrefKey.isDarkTheme);
+    final isDarkTheme = sharedPrefs?.getBool(PrefKey.isDarkTheme);
     final deviceBrightness = MediaQuery.of(context).platformBrightness;
     setDarkTheme(isDarkTheme ?? deviceBrightness == Brightness.dark);
 
-    final primaryColorValue = widget.prefs.getInt(PrefKey.primaryColor);
+    final primaryColorValue = sharedPrefs?.getInt(PrefKey.primaryColor);
     if (primaryColorValue != null) setPrimaryColor(Color(primaryColorValue));
 
-    final accentColorValue = widget.prefs.getInt(PrefKey.accentColor);
+    final accentColorValue = sharedPrefs?.getInt(PrefKey.accentColor);
     if (accentColorValue != null) setAccentColor(Color(accentColorValue));
 
-    final noteColorValue = widget.prefs.getInt(PrefKey.noteColor);
+    final noteColorValue = sharedPrefs?.getInt(PrefKey.noteColor);
     if (noteColorValue != null) setNoteColor(Color(noteColorValue));
 
     // Init other prefs
@@ -466,30 +444,30 @@ class PreferencesProviderState extends State<PreferencesProvider> {
         List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
       );
     } catch (_) {}
-    setUserLogged(widget.prefs.getBool(PrefKey.isUserLogged));
-    setAppLaunchCounter(widget.prefs.getInt(PrefKey.appLaunchCounter));
-    setIntroDone(widget.prefs.getBool(PrefKey.isIntroDone));
-    setDisplayAllDays(widget.prefs.getBool(PrefKey.isDisplayAllDays));
-    setGenerateEventColor(widget.prefs.getBool(PrefKey.isGenerateEventColor));
-    setFullHiddenEvent(widget.prefs.getBool(PrefKey.isFullHiddenEvents));
+    setUserLogged(sharedPrefs?.getBool(PrefKey.isUserLogged));
+    setAppLaunchCounter(sharedPrefs?.getInt(PrefKey.appLaunchCounter));
+    setIntroDone(sharedPrefs?.getBool(PrefKey.isIntroDone));
+    setDisplayAllDays(sharedPrefs?.getBool(PrefKey.isDisplayAllDays));
+    setGenerateEventColor(sharedPrefs?.getBool(PrefKey.isGenerateEventColor));
+    setFullHiddenEvent(sharedPrefs?.getBool(PrefKey.isFullHiddenEvents));
 
     // Init saved notes
-    List<String> notesStr = widget.prefs.getStringList(PrefKey.notes) ?? [];
+    List<String> notesStr = sharedPrefs?.getStringList(PrefKey.notes) ?? [];
     List<Note> actualNotes = notesStr.map((n) => Note.fromJsonStr(n)).toList();
     setNotes(actualNotes);
 
     // Init hidden courses
     List<String>? hiddenEvents =
-        widget.prefs.getStringList(PrefKey.hiddenEvent);
+        sharedPrefs?.getStringList(PrefKey.hiddenEvent);
     setHiddenEvents(hiddenEvents ?? []);
 
     // Renamed events
     Map<String, dynamic> renamedEvents = json.decode(
-      widget.prefs.getString(PrefKey.renamedEvent) ?? "{}",
+      sharedPrefs?.getString(PrefKey.renamedEvent) ?? "{}",
     );
     setRenamedEvents(renamedEvents.cast<String, String>());
 
-    List<String>? eventsStr = widget.prefs.getStringList(PrefKey.customEvent);
+    List<String>? eventsStr = sharedPrefs?.getStringList(PrefKey.customEvent);
     List<CustomCourse> actualEvents = (eventsStr ?? []).map((eventStr) {
       Map<String, dynamic> eventJson = json.decode(eventStr);
       return CustomCourse.fromJson(eventJson);
@@ -501,62 +479,52 @@ class PreferencesProviderState extends State<PreferencesProvider> {
 
   Future<void> initResAndGroup() async {
     // If user choose custom url ics, not init other group prefs
-    String? urlIcs = widget.prefs.getString(PrefKey.urlIcs);
+    String? urlIcs = sharedPrefs?.getString(PrefKey.urlIcs);
     if (urlIcs != null) {
       setUrlIcs(urlIcs);
     }
   }
 
-  void _updatePref(VoidCallback f, bool state) {
-    if (state) {
-      setState(f);
-      if (onPrefsChanges != null) onPrefsChanges!();
-    } else {
-      f();
-    }
-  }
-
-  void forceSetState() {
-    setState(() {
-      // nothing, just force to rebuild
-    });
+  void _updatePref(VoidCallback f, [bool state = false]) {
+    f();
+    if (state) notifyListeners();
   }
 
   void _setString(String prefKey, String? value) {
     if (value == null) {
-      widget.prefs.remove(prefKey);
+      sharedPrefs?.remove(prefKey);
     } else {
-      widget.prefs.setString(prefKey, value);
+      sharedPrefs?.setString(prefKey, value);
     }
   }
 
   void _setStringList(String prefKey, List<String>? value) {
     if (value == null) {
-      widget.prefs.remove(prefKey);
+      sharedPrefs?.remove(prefKey);
     } else {
-      widget.prefs.setStringList(prefKey, value);
+      sharedPrefs?.setStringList(prefKey, value);
     }
   }
 
   void _setInt(String prefKey, int? value) {
     if (value == null) {
-      widget.prefs.remove(prefKey);
+      sharedPrefs?.remove(prefKey);
     } else {
-      widget.prefs.setInt(prefKey, value);
+      sharedPrefs?.setInt(prefKey, value);
     }
   }
 
   void _setBool(String prefKey, bool? value) {
     if (value == null) {
-      widget.prefs.remove(prefKey);
+      sharedPrefs?.remove(prefKey);
     } else {
-      widget.prefs.setBool(prefKey, value);
+      sharedPrefs?.setBool(prefKey, value);
     }
   }
 
   @override
   bool operator ==(Object other) =>
-      other is PreferencesProviderState &&
+      other is PrefsProvider &&
       theme != other.theme &&
       urlIcs != other.urlIcs &&
       numberWeeks != other.numberWeeks &&

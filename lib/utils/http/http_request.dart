@@ -22,7 +22,7 @@ class HttpRequest {
     http.Response response;
 
     try {
-      response = await http.get(Uri.dataFromString(url), headers: headers);
+      response = await http.get(Uri.parse(url), headers: headers);
     } catch (_) {
       return HttpResult.fail();
     }
@@ -41,7 +41,7 @@ class HttpRequest {
     http.Response response;
 
     try {
-      response = await http.post(Uri.dataFromString(url), body: body, headers: headers);
+      response = await http.post(Uri.parse(url), body: body, headers: headers);
     } catch (_) {
       return HttpResult.fail();
     }

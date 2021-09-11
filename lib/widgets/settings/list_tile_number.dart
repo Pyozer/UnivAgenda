@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_title.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -33,7 +32,7 @@ class ListTileNumber extends StatefulWidget {
   _ListTileNumberState createState() => _ListTileNumberState();
 }
 
-class _ListTileNumberState extends BaseState<ListTileNumber> {
+class _ListTileNumberState extends State<ListTileNumber> {
   late int _inputValue;
   late int _submitInputValue;
 

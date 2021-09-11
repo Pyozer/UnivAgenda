@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/screens/detail_course/detail_course.dart';
-import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
@@ -21,16 +21,15 @@ class CourseRow extends StatelessWidget {
   }) : super(key: key);
 
   void _onCourseTap(BuildContext context) {
-    Navigator.of(context).push(
-      CustomRoute<Course>(
-        builder: (context) => DetailCourse(course: course),
-        fullscreenDialog: true,
-      ),
+    navigatorPush(
+      context,
+      DetailCourse(course: course),
+      fullscreenDialog: true,
     );
   }
 
   void _onCustomCourseLong(BuildContext context) async {
-    final prefs = PreferencesProvider.of(context);
+    final prefs = context.read<PrefsProvider>();
     bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
     if (isConfirm) prefs.removeCustomEvent(course as CustomCourse, true);
   }
@@ -47,7 +46,7 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = PreferencesProvider.of(context);
+    final prefs = context.watch<PrefsProvider>();
 
     Color? bgColorRow;
     if (course.color != null) {

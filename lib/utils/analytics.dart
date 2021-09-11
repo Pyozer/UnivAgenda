@@ -5,7 +5,7 @@ import 'package:univagenda/utils/preferences.dart';
 class AnalyticsProvider {
   static final FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  static void sendUserPrefsGroup(PreferencesProviderState prefs) {
+  static void sendUserPrefsGroup(PrefsProvider prefs) {
     // User group prefs
     analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
       AnalyticsValue.groupKeys: "Ical File",
@@ -13,7 +13,7 @@ class AnalyticsProvider {
     });
   }
 
-  static void sendUserPrefsDisplay(PreferencesProviderState prefs) {
+  static void sendUserPrefsDisplay(PrefsProvider prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsDisplay,
@@ -25,7 +25,7 @@ class AnalyticsProvider {
     );
   }
 
-  static void sendUserPrefsColor(PreferencesProviderState prefs) {
+  static void sendUserPrefsColor(PrefsProvider prefs) {
     // User display prefs
     analytics.logEvent(
       name: AnalyticsEvent.userPrefsColors,

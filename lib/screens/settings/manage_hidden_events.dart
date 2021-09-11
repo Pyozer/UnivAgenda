@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class ManageHiddenEvents extends StatefulWidget {
   _ManageHiddenEventsState createState() => _ManageHiddenEventsState();
 }
 
-class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
+class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -49,7 +49,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
           ),
         ));
       } else {
-        prefs.addHiddenEvent(filter, true);
+        context.read<PrefsProvider>().addHiddenEvent(filter, true);
       }
     }
   }
@@ -66,8 +66,8 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
         children: [
           Expanded(child: Text(hiddenEvent)),
           IconButton(
-            icon: const Icon(OMIcons.delete),
-            onPressed: () => prefs.removeHiddenEvent(hiddenEvent, true),
+            icon: const Icon(Icons.delete_outline),
+            onPressed: () => context.read<PrefsProvider>().removeHiddenEvent(hiddenEvent, true),
           ),
         ],
       ),
@@ -76,6 +76,8 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = context.watch<PrefsProvider>();
+
     return AppbarPage(
       title: i18n.text(StrKey.HIDDEN_EVENT),
       body: prefs.hiddenEvents.isEmpty
@@ -96,7 +98,7 @@ class _ManageHiddenEventsState extends BaseState<ManageHiddenEvents> {
               itemBuilder: (_, index) => _buildRow(prefs.hiddenEvents[index]),
             ),
       fab: FloatingActionButton(
-        child: const Icon(OMIcons.add),
+        child: const Icon(Icons.add),
         onPressed: _addNewFilter,
         heroTag: "add_filter",
       ),

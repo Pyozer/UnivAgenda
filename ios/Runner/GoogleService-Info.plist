@@ -2,14 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-	<string>ca-app-pub-3940256099942544/2934735716</string>
-	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
 	<string>518938880074-h3e92lgm29fm4bbhebbp02gb56auu33g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.518938880074-h3e92lgm29fm4bbhebbp02gb56auu33g</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>518938880074-lvlca2f1ugge92i9rekt9103qguru2n5.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBxk4RY-4_83jVx1ZKVbQ1Hf389Xx8rjlk</string>
 	<key>GCM_SENDER_ID</key>
@@ -23,11 +21,11 @@
 	<key>STORAGE_BUCKET</key>
 	<string>myagenda-57559.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
@@ -36,7 +34,5 @@
 	<string>1:518938880074:ios:caff68f2e611d095</string>
 	<key>DATABASE_URL</key>
 	<string>https://myagenda-57559.firebaseio.com</string>
-	<key>ADMOB_APP_ID</key>
-	<string>ca-app-pub-4423812191493105~7975305867</string>
 </dict>
 </plist>

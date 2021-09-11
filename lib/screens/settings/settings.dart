@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/screens/settings/manage_hidden_events.dart';
 import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/settings/list_tile_input.dart';
@@ -21,14 +22,14 @@ class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends BaseState<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
     AnalyticsProvider.setScreen(widget);
   }
 
-  Widget _buildSettingsGeneral() {
+  Widget _buildSettingsGeneral(PrefsProvider prefs) {
     List<Widget> settingsGeneralElems;
 
     settingsGeneralElems = [
@@ -49,7 +50,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsDisplay() {
+  Widget _buildSettingsDisplay(PrefsProvider prefs, ThemeData theme) {
     List<Widget> settingsDisplayItems = [
       ListTileNumber(
         title: i18n.text(StrKey.NUMBER_WEEK),
@@ -89,12 +90,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
         title: ListTileTitle(i18n.text(StrKey.MANAGE_HIDDEN_EVENT)),
         subtitle: Text(i18n.text(StrKey.MANAGE_HIDDEN_EVENT_DESC)),
         onTap: () {
-          Navigator.of(context).push(
-            CustomRoute(
-              fullscreenDialog: true,
-              builder: (_) => ManageHiddenEvents(),
-            ),
-          );
+          navigatorPush(context, ManageHiddenEvents(), fullscreenDialog: true);
         },
       )
     ];
@@ -105,7 +101,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsColors() {
+  Widget _buildSettingsColors(PrefsProvider prefs, ThemeData theme) {
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_COLORS),
       children: [
@@ -171,13 +167,16 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = context.watch<PrefsProvider>();
+    final theme = Theme.of(context);
+
     return AppbarPage(
       title: i18n.text(StrKey.SETTINGS),
       body: ListView(
         children: [
-          _buildSettingsGeneral(),
-          _buildSettingsDisplay(),
-          _buildSettingsColors()
+          _buildSettingsGeneral(prefs),
+          _buildSettingsDisplay(prefs, theme),
+          _buildSettingsColors(prefs, theme)
         ],
       ),
     );

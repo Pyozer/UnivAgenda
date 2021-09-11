@@ -8,35 +8,36 @@ class AppbarPage extends StatelessWidget {
   final Widget? fab;
   final List<Widget>? actions;
   final bool useCustomMenuIcon;
-  final GlobalKey<ScaffoldState>? scaffoldKey;
 
   const AppbarPage({
     Key? key,
     this.title,
     required this.body,
-    this.scaffoldKey,
     this.drawer,
     this.fab,
     this.actions,
     this.useCustomMenuIcon = false,
   }) : super(key: key);
 
-  void _openDrawer() {
-    scaffoldKey?.currentState?.openDrawer();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       appBar: (title != null)
           ? AppBar(
               title: Text(title!),
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
-              leading: (useCustomMenuIcon)
-                  ? DrawerIcon(onPressed: _openDrawer)
+              automaticallyImplyLeading: !useCustomMenuIcon,
+              leading: useCustomMenuIcon
+                  ? Builder(
+                      builder: (context) => DrawerIcon(
+                        onPressed: () {
+                          print('YOYOYOYO');
+                          Scaffold.of(context).openDrawer();
+                        },
+                      ),
+                    )
                   : null,
             )
           : null,

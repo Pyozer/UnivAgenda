@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 typedef NoteChanged(Note note);
 
@@ -29,7 +28,7 @@ class CourseNote extends StatelessWidget {
 
     if (onDelete != null)
       elems.add(IconButton(
-        icon: const Icon(OMIcons.delete),
+        icon: const Icon(Icons.delete_outline),
         onPressed: () => onDelete!(note),
         tooltip: i18n.text(StrKey.DELETE),
       ));

@@ -21,30 +21,21 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-// Create a variable called keystorePropertiesFile, and initialize it to your
-// keystore.properties file, in the rootProject folder.
-def keyPropertiesFile = rootProject.file("key.properties")
-
-// Initialize a new Properties() object called keystoreProperties.
-def keyProperties = new Properties()
-
-// Load your keystore.properties file into the keystoreProperties object.
-keyProperties.load(new FileInputStream(keyPropertiesFile))
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    lintOptions {
-        disable 'InvalidPackage'
     }
 
     signingConfigs {
@@ -64,21 +55,16 @@ android {
 
     defaultConfig {
         applicationId "com.pyozer.myagenda"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 18
+        targetSdkVersion 30
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        signingConfig signingConfigs.config
-        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.config
-            minifyEnabled true
-            shrinkResources true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -89,4 +75,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'

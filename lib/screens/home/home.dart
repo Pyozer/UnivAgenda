@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/analytics.dart';
@@ -8,20 +10,19 @@ import 'package:univagenda/models/calendar_type.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/screens/custom_event/custom_event.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course/course_list.dart';
 import 'package:univagenda/widgets/drawer.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,20 +31,19 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen>
+class _HomeScreenState extends State<HomeScreen>
     with AfterLayoutMixin<HomeScreen> {
   var _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   bool _isLoading = true;
   Map<int, List<Course>>? _courses;
-  CalendarType _calendarType = CalendarType.HORIZONTAL;
+  final calendarController = CalendarController();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Define type of view
-    _calendarType = prefs.calendarType;
-
+    final prefs = context.read<PrefsProvider>();
+    calendarController.view = prefs.calendarType;
     // Load cached ical
     if (_courses == null && prefs.cachedCourses.isNotEmpty) {
       try {
@@ -56,7 +56,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
   void afterFirstLayout(BuildContext context) {
     AnalyticsProvider.setScreen(widget);
     _updateCourses();
-    prefs.onPrefsChanges = _updateCourses;
   }
 
   void _updateCourses() {
@@ -67,6 +66,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   void _sendAnalyticsEvent() async {
+    final prefs = context.read<PrefsProvider>();
     // User group, display and colors prefs
     AnalyticsProvider.sendUserPrefsGroup(prefs);
     AnalyticsProvider.sendUserPrefsDisplay(prefs);
@@ -79,7 +79,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
     setState(() => _isLoading = true);
 
     try {
-      List<Course> courses = await Api().getCoursesCustomIcal(prefs.urlIcs);
+      final prefs = context.read<PrefsProvider>();
+      List<Course> courses = await Api().getCoursesCustomIcal(prefs.urlIcs!);
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
     } catch (e) {
@@ -101,6 +102,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   List<CustomCourse> _generateRepeatedCourses(CustomCourse course) {
+    final prefs = context.read<PrefsProvider>();
+
     List<CustomCourse> courses = [];
 
     final int numberDay = DateTime.daysPerWeek * prefs.numberWeeks;
@@ -126,6 +129,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   Future<void> _prepareList(List<Course>? courseFromIcal) async {
+    final prefs = context.read<PrefsProvider>();
+
     List<Course> listCourses = [];
     // Get all notes saved
     List<Note> allNotes = prefs.notes;
@@ -207,18 +212,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
   }
 
   void _switchTypeView() {
-    setState(() => _calendarType = nextCalendarType(_calendarType));
-    prefs.setCalendarType(_calendarType);
+    setState(() {
+      calendarController.view = nextCalendarType(calendarController.view!);
+    });
+    context.read<PrefsProvider>().setCalendarType(calendarController.view);
   }
 
   void _onFabPressed() async {
-    final customCourse = await Navigator.of(context).push(
-      CustomRoute(
-        builder: (context) => CustomEventScreen(),
-        fullscreenDialog: true,
-      ),
+    final customCourse = await navigatorPush(
+      context,
+      CustomEventScreen(),
+      fullscreenDialog: true,
     );
-    if (customCourse != null) prefs.addCustomEvent(customCourse, true);
+    if (customCourse != null) {
+      context.read<PrefsProvider>().addCustomEvent(customCourse, true);
+    }
   }
 
   Widget _buildNoResult() {
@@ -256,18 +264,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
       // No course found
       content = _buildNoResult();
     } else {
-      content = CourseList(coursesData: _courses!, calType: prefs.calendarType);
+      content = CourseList(
+        coursesData: _courses!,
+        calendarController: calendarController,
+      );
     }
 
     return AppbarPage(
       title: i18n.text(StrKey.APP_NAME),
       actions: [
         IconButton(
-          icon: const Icon(OMIcons.refresh),
+          icon: const Icon(Icons.refresh),
           onPressed: _refreshKey.currentState?.show,
         ),
         IconButton(
-          icon: Icon(getCalendarTypeIcon(_calendarType)),
+          icon: Icon(getCalendarTypeIcon(calendarController.view!)),
           onPressed: _switchTypeView,
         )
       ],
@@ -276,7 +287,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
       fab: FloatingActionButton(
         heroTag: "fabBtn",
         onPressed: _onFabPressed,
-        child: const Icon(OMIcons.add),
+        child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
         key: _refreshKey,

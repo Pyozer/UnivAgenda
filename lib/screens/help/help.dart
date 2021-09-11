@@ -5,7 +5,7 @@ import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/screens/help/help_details.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/large_rounded_button.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
@@ -35,6 +35,7 @@ class HelpScreen extends StatelessWidget {
             child: FutureBuilder<List<HelpItem>>(
               future: Api().getHelps(),
               builder: (context, snapshot) {
+                print(snapshot.error);
                 if (snapshot.hasError) return const NoResultHelp();
 
                 if (snapshot.hasData) {
@@ -45,11 +46,10 @@ class HelpScreen extends StatelessWidget {
                       return InkWell(
                         child: ListTile(title: Text(item.title)),
                         onTap: () {
-                          Navigator.of(context).push(
-                            CustomRoute(
-                              builder: (_) => HelpDetailsScreen(helpItem: item),
-                              fullscreenDialog: true,
-                            ),
+                          navigatorPush(
+                            context,
+                            HelpDetailsScreen(helpItem: item),
+                            fullscreenDialog: true,
                           );
                         },
                       );

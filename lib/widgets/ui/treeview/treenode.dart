@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:univagenda/widgets/ui/custom_checkbox.dart';
 import 'package:univagenda/widgets/ui/treeview/node.dart';
 
@@ -30,8 +29,8 @@ class TreeNode extends StatelessWidget {
         : IconButton(
             icon: Icon(
               node.isExpanded
-                  ? OMIcons.keyboardArrowDown
-                  : OMIcons.keyboardArrowRight,
+                  ? Icons.keyboard_arrow_down
+                  : Icons.keyboard_arrow_right,
             ),
             onPressed: onExpandChanged,
           );

@@ -2,26 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/assets.dart';
-import 'package:univagenda/keys/route_key.dart';
 import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/base_state.dart';
+import 'package:univagenda/screens/help/help.dart';
 import 'package:univagenda/screens/home/home.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/custom_route.dart';
+import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends BaseState<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _urlIcsController = TextEditingController();
   bool _isLoading = false;
 
@@ -71,6 +70,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
     }
 
     _setLoading(true);
+    final prefs = context.read<PrefsProvider>();
     prefs.setUserLogged(false);
     _startTimeout();
 
@@ -94,20 +94,13 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
     // Redirect user if no error
     prefs.setUserLogged(true);
-    if (mounted)
-      Navigator.of(context).pushReplacement(
-        CustomRoute(builder: (_) => HomeScreen()),
-      );
+    if (mounted) {
+      navigatorPush(context, HomeScreen());
+    }
   }
 
   void _scanQRCode() async {
-    String icsUrl = await QRCodeReader()
-        .setAutoFocusIntervalInMs(200) // default 5000
-        .setForceAutoFocus(true) // default false
-        .setTorchEnabled(false) // default false
-        .setHandlePermissions(true) // default true
-        .setExecuteAfterPermissionGranted(true) // default true
-        .scan();
+    String icsUrl = 'https://google.com';
     try {
       Uri.parse(icsUrl); // Check QRCode content
       _urlIcsController.text = icsUrl;
@@ -132,7 +125,10 @@ class _LoginScreenState extends BaseState<LoginScreen> {
         labelStyle: Theme.of(context).textTheme.subtitle1,
         labelText: i18n.text(StrKey.URL_ICS),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        prefixIcon: Icon(OMIcons.event, color: theme.accentColor),
+        prefixIcon: Icon(
+          Icons.event_outlined,
+          color: Theme.of(context).accentColor,
+        ),
         contentPadding: const EdgeInsets.fromLTRB(0.0, 18.0, 18.0, 18.0),
         border: InputBorder.none,
       ),
@@ -156,6 +152,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final qrCodeButton = FloatingActionButton(
       onPressed: _scanQRCode,
       child: Image.asset(
@@ -189,7 +187,8 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                     const SizedBox(height: 12.0),
                     Text(
                       i18n.text(StrKey.APP_NAME),
-                      style: theme.textTheme.headline6!.copyWith(fontSize: 26.0),
+                      style:
+                          theme.textTheme.headline6!.copyWith(fontSize: 26.0),
                     ),
                   ],
                 ),
@@ -228,8 +227,7 @@ class _LoginScreenState extends BaseState<LoginScreen> {
                   ),
                   TextButton(
                     child: Text(i18n.text(StrKey.HELP_FEEDBACK)),
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed(RouteKey.HELP),
+                    onPressed: () => navigatorPush(context, HelpScreen()),
                   ),
                 ],
               ),

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_title.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
@@ -27,7 +26,7 @@ class ListTileInput extends StatefulWidget {
   _ListTileInputState createState() => _ListTileInputState();
 }
 
-class _ListTileInputState extends BaseState<ListTileInput> {
+class _ListTileInputState extends State<ListTileInput> {
   late String _inputValue;
   late String _submitInputValue;
 
@@ -69,6 +68,8 @@ class _ListTileInputState extends BaseState<ListTileInput> {
         onChanged: _onInputChange,
         controller: TextEditingController(text: _inputValue),
         decoration: InputDecoration(hintText: widget.hintText),
+        minLines: 1,
+        maxLines: 10,
       ),
       i18n.text(StrKey.SUBMIT),
       i18n.text(StrKey.CANCEL),

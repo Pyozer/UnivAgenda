@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/base_state.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/translations.dart';
@@ -12,7 +10,6 @@ import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/ui/circle_text.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
 import 'package:device_calendar/device_calendar.dart' as Calendar;
@@ -26,7 +23,7 @@ class CustomEventScreen extends StatefulWidget {
   _CustomEventScreenState createState() => _CustomEventScreenState();
 }
 
-class _CustomEventScreenState extends BaseState<CustomEventScreen> {
+class _CustomEventScreenState extends State<CustomEventScreen> {
   final _descNode = FocusNode();
   final _locationNode = FocusNode();
 
@@ -114,13 +111,12 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onDateTap() async {
-    DateTime? dateStart = await showRoundedDatePicker(
+    DateTime? dateStart = await showDatePicker(
       context: context,
       initialDate: _customCourse.dateStart,
       firstDate: Date.dateFromDateTime(_initFirstDate),
       lastDate: DateTime.now().add(Duration(days: 365 * 30)),
       locale: i18n.locale,
-      theme: Theme.of(context),
     );
 
     if (dateStart != null) {
@@ -141,10 +137,9 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onStartTimeTap() async {
-    TimeOfDay? timeStart = await showRoundedTimePicker(
+    TimeOfDay? timeStart = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateStart),
-      theme: Theme.of(context),
     );
 
     if (timeStart != null) {
@@ -156,15 +151,17 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
   }
 
   void _onEndTimeTap() async {
-    TimeOfDay? timeEnd = await showRoundedTimePicker(
+    TimeOfDay? timeEnd = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateEnd),
-      theme: Theme.of(context),
     );
 
     if (timeEnd != null) {
       final newEnd = Date.changeTime(
-          _customCourse.dateStart, timeEnd.hour, timeEnd.minute);
+        _customCourse.dateStart,
+        timeEnd.hour,
+        timeEnd.minute,
+      );
 
       _updateTimes(_customCourse.dateStart, newEnd);
     }
@@ -197,11 +194,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       DialogPredefined.showEndTimeError(context);
       return;
     }
-    if (_customCourse.dateEnd.isBefore(DateTime.now())) {
+    if (!_isRecurrent && _customCourse.dateEnd.isBefore(DateTime.now())) {
       DialogPredefined.showEndTimeError(context);
       return;
     }
-    if (_isRecurrent && _customCourse.weekdaysRepeat.isEmpty) {
+    if (_isRecurrent && !_customCourse.isRecurrentEvent()) {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
@@ -247,10 +244,11 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
       return CircleText(
         onChange: (newSelected) {
           setState(() {
-            if (newSelected)
+            if (newSelected) {
               _customCourse.weekdaysRepeat.add(weekday);
-            else
+            } else {
               _customCourse.weekdaysRepeat.remove(weekday);
+            }
           });
         },
         text: weekDaysText[weekday.value - 1],
@@ -263,6 +261,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppbarPage(
@@ -270,7 +269,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,
         ),
         fab: FloatingActionButton.extended(
-          icon: const Icon(OMIcons.check),
+          icon: const Icon(Icons.check),
           label: Text(i18n.text(StrKey.SAVE)),
           tooltip: i18n.text(StrKey.SAVE),
           heroTag: "fabBtn",
@@ -286,7 +285,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                 },
                 textInputAction: TextInputAction.next,
                 decoration: _buildInputDecoration(
-                  OMIcons.title,
+                  Icons.title,
                   i18n.text(StrKey.TITLE_EVENT),
                 ),
                 onEditingComplete: () =>
@@ -294,15 +293,16 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               ),
               const Divider(height: 0.0),
               TextField(
-                controller:
-                    TextEditingController(text: _customCourse.description),
+                controller: TextEditingController(
+                  text: _customCourse.description,
+                ),
                 focusNode: _descNode,
                 textInputAction: TextInputAction.next,
                 onChanged: (desc) {
                   _customCourse.description = desc;
                 },
                 decoration: _buildInputDecoration(
-                  OMIcons.description,
+                  Icons.description,
                   i18n.text(StrKey.DESC_EVENT),
                 ),
                 maxLines: null,
@@ -319,7 +319,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                   _customCourse.location = loc;
                 },
                 decoration: _buildInputDecoration(
-                  OMIcons.locationOn,
+                  Icons.location_on_outlined,
                   i18n.text(StrKey.LOCATION_EVENT),
                 ),
                 onEditingComplete: _onDateTap,
@@ -327,7 +327,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               const Divider(height: 0.0),
               ListTile(
                 onTap: () => _onRecurrentDate(!_isRecurrent),
-                leading: const Icon(OMIcons.repeat),
+                leading: const Icon(Icons.repeat),
                 title: Text(i18n.text(StrKey.EVENT_REPEAT)),
                 trailing: Switch(
                   value: _isRecurrent,
@@ -346,7 +346,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                     )
                   : ListTile(
                       onTap: _onDateTap,
-                      leading: const Icon(OMIcons.dateRange),
+                      leading: const Icon(Icons.date_range_outlined),
                       title: _buildDateTimeField(
                         i18n.text(StrKey.DATE_EVENT),
                         Date.extractDate(_customCourse.dateStart),
@@ -359,7 +359,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
                     flex: 11,
                     child: ListTile(
                       onTap: _onStartTimeTap,
-                      leading: const Icon(OMIcons.timelapse),
+                      leading: const Icon(Icons.timelapse),
                       title: _buildDateTimeField(
                         i18n.text(StrKey.START_TIME_EVENT),
                         Date.extractTime(_customCourse.dateStart),
@@ -381,7 +381,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               const Divider(height: 0.0),
               ListTile(
                 onTap: () => _onColorCustom(!_isColor),
-                leading: const Icon(OMIcons.colorLens),
+                leading: const Icon(Icons.color_lens_outlined),
                 title: Text(i18n.text(StrKey.EVENT_COLOR)),
                 trailing: Switch(
                   value: _isColor,
@@ -402,7 +402,7 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               ListTile(
                 onTap: () =>
                     _onSyncCalendar(!(_customCourse.syncCalendar != null)),
-                leading: const Icon(OMIcons.calendarToday),
+                leading: const Icon(Icons.calendar_today_outlined),
                 title: Text(i18n.text(StrKey.SYNC_CALENDAR)),
                 trailing: Switch(
                   value: _customCourse.syncCalendar != null,
@@ -413,7 +413,10 @@ class _CustomEventScreenState extends BaseState<CustomEventScreen> {
               if (_customCourse.syncCalendar != null)
                 ListTileChoices(
                   title: i18n.text(StrKey.CHOOSE_CALENDAR),
-                  values: _deviceCalendars.map((c) => c.name).whereNotNull().toList(),
+                  values: _deviceCalendars
+                      .map((c) => c.name)
+                      .whereNotNull()
+                      .toList(),
                   onChange: (calendar) {
                     setState(() {
                       _customCourse.syncCalendar = _deviceCalendars

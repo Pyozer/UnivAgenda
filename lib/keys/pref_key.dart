@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/models/calendar_type.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
@@ -45,9 +45,9 @@ class PrefKey {
   static const defaultDisplayAllDays = false;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;
-  static const defaultCalendarType = CalendarType.VERTICAL;
+  static const defaultCalendarType = CalendarView.schedule;
 
-  static const defaultUrlIcs = null;
+  static const String? defaultUrlIcs = null;
   static List<Course> defaultCachedCourses = [];
   static List<Note> defaultNotes = [];
   static List<CustomCourse> defaultCustomEvents = [];

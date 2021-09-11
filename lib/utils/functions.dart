@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:univagenda/utils/analytics.dart';
+import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,8 +13,11 @@ Brightness getBrightness(bool isDark) =>
 
 bool isDarkTheme(Brightness brightness) => brightness == Brightness.dark;
 
-Color getColorDependOfBackground(Color bgColor,
-    {Color? ifLight, Color? ifDark}) {
+Color getColorDependOfBackground(
+  Color bgColor, {
+  Color? ifLight,
+  Color? ifDark,
+}) {
   return (ThemeData.estimateBrightnessForColor(bgColor) == Brightness.dark)
       ? ifDark ?? Colors.white
       : ifLight ?? Colors.black;
@@ -49,7 +53,7 @@ Color getColorFromString(String string) {
       if (colorSwatch[i] != null) colors.add(colorSwatch[i]!);
     }
 
-  var sum = 0;
+  int sum = 0;
   string.codeUnits.forEach((code) => sum += code);
 
   return colors[sum % appMaterialColors.length];
@@ -59,7 +63,7 @@ Future<String> readFile(String filename, String defaultValue) async {
   try {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
-    return await File('$path/$filename').readAsString();
+    return File('$path/$filename').readAsString();
   } catch (_) {
     return defaultValue;
   }
@@ -81,4 +85,35 @@ bool listEqualsNotOrdered(List? a, List? b) {
   for (var i = 0; i < a.length; i++) if (b.indexOf(a[i]) == -1) return false;
 
   return true;
+}
+
+Future<T?> navigatorPush<T>(
+  BuildContext context,
+  Widget screen, {
+  bool fullscreenDialog = false,
+}) {
+  return Navigator.of(context).push(
+    CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
+  );
+}
+
+Future<T?> navigatorPushReplace<T>(
+  BuildContext context,
+  Widget screen, {
+  bool fullscreenDialog = false,
+}) {
+  return Navigator.of(context).pushReplacement(
+    CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
+  );
+}
+
+Future<T?> navigatorPopAndPush<T>(
+  BuildContext context,
+  Widget screen, {
+  bool fullscreenDialog = false,
+}) {
+  Navigator.of(context).pop();
+  return Navigator.of(context).push(
+    CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
+  );
 }

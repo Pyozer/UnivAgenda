@@ -14,7 +14,8 @@ abstract class BaseApi {
   Future<http.Response> doRequest(Future<http.Response> httpRequest) async {
     try {
       return await httpRequest;
-    } catch (_) {
+    } catch (e) {
+      print(e);
       throw CustomException(
         "error_server_response",
         i18n.text(StrKey.NETWORK_ERROR),
@@ -24,13 +25,13 @@ abstract class BaseApi {
 
   Uri getAPIUrl(String route, [Map<String, dynamic>? queryParams]) {
     String url = API_URL + route;
-    if ((queryParams?.length ?? 0) == 0) return Uri.dataFromString(url);
+    if ((queryParams?.length ?? 0) == 0) return Uri.parse(url);
 
     List<String> params = [];
     queryParams!.forEach((key, value) {
       params.add("$key=${Uri.encodeComponent(value)}");
     });
-    return Uri.dataFromString(url + "?" + params.join("&"));
+    return Uri.parse(url + "?" + params.join("&"));
   }
 
   T getData<T>(http.Response response) {

@@ -12,7 +12,7 @@ class Course extends BaseCourse {
   String description;
   String? location;
   String? renamedTitle;
-  List<Note> notes;
+  late List<Note> notes;
   DateTime dateStart;
   DateTime dateEnd;
   Color? color;
@@ -25,11 +25,13 @@ class Course extends BaseCourse {
     this.location,
     required this.dateStart,
     required this.dateEnd,
-    this.notes = const [],
+    List<Note>? notes,
     this.color,
     this.isHidden = false,
     this.renamedTitle,
-  });
+  }) {
+    this.notes = notes ?? [];
+  }
 
   factory Course.empty(DateTime dateStart, DateTime dateEnd) => Course(
         uid: "",
@@ -40,7 +42,7 @@ class Course extends BaseCourse {
         dateEnd: dateEnd,
       );
 
-  bool hasNote() => notes.length > 0;
+  bool hasNote() => notes.isNotEmpty;
 
   bool isFinish() => dateEnd.isBefore(DateTime.now());
 

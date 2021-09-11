@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:univagenda/keys/assets.dart';
-import 'package:univagenda/keys/route_key.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/keys/url.dart';
 import 'package:univagenda/models/analytics.dart';
+import 'package:univagenda/screens/about/licences/licences.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
@@ -14,7 +14,6 @@ import 'package:univagenda/widgets/changelog.dart';
 import 'package:univagenda/widgets/images/circle_image.dart';
 import 'package:univagenda/widgets/ui/about_card.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 import 'package:package_info/package_info.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -151,8 +150,7 @@ class AboutScreen extends StatelessWidget {
   String getAppInfo(PackageInfo? info) {
     if (info == null) return "...";
     String str = info.version;
-    if (info.buildNumber.isNotEmpty)
-      str += " (${info.buildNumber})";
+    if (info.buildNumber.isNotEmpty) str += " (${info.buildNumber})";
     return str;
   }
 
@@ -195,7 +193,7 @@ class AboutScreen extends StatelessWidget {
           Text(i18n.text(StrKey.MADE_WITH), style: txtTheme),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: const Icon(OMIcons.favorite, color: Colors.red),
+            child: const Icon(Icons.favorite_outline, color: Colors.red),
           ),
         ],
       ),
@@ -244,7 +242,7 @@ class AboutScreen extends StatelessWidget {
             _buildOther(
               context,
               () => _modalBottomSheet(context),
-              () => Navigator.pushNamed(context, RouteKey.LICENCES),
+              () => navigatorPush(context, LicencesScreen()),
             ),
             _buildFooter(context),
           ],
