@@ -4,7 +4,7 @@ class Url {
   static const myTwitter = 'https://twitter.com/jc_mousse';
   static const githubProjet = 'https://github.com/pyozer/UnivAgenda';
 
-  static const paypal = 'https://paypal.me/pools/c/89AGEV3MfE';
+  static const lydia = 'https://lydia-app.com/collect/49887-don-univagenda/fr';
 
   static const playstore =
       "https://play.google.com/store/apps/details?id=com.pyozer.myagenda";

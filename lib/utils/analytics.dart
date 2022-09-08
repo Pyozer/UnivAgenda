@@ -3,11 +3,9 @@ import 'package:univagenda/models/analytics.dart';
 import 'package:univagenda/utils/preferences.dart';
 
 class AnalyticsProvider {
-  static final FirebaseAnalytics analytics = FirebaseAnalytics();
-
   static void sendUserPrefsGroup(PrefsProvider prefs) {
     // User group prefs
-    analytics.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
+    FirebaseAnalytics.instance.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
       AnalyticsValue.groupKeys: "Ical File",
       AnalyticsValue.university: prefs.urlIcs,
     });
@@ -15,7 +13,7 @@ class AnalyticsProvider {
 
   static void sendUserPrefsDisplay(PrefsProvider prefs) {
     // User display prefs
-    analytics.logEvent(
+    FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.userPrefsDisplay,
       parameters: <String, String>{
         AnalyticsValue.numberWeeks: prefs.numberWeeks.toString(),
@@ -27,7 +25,7 @@ class AnalyticsProvider {
 
   static void sendUserPrefsColor(PrefsProvider prefs) {
     // User display prefs
-    analytics.logEvent(
+    FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.userPrefsColors,
       parameters: <String, String>{
         AnalyticsValue.darkTheme: prefs.theme.darkTheme.toString(),
@@ -39,7 +37,7 @@ class AnalyticsProvider {
   }
 
   static void sendForceRefresh(String value) {
-    analytics.logEvent(
+    FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.refresh,
       parameters: <String, String>{value: AnalyticsAction.refresh},
     );
@@ -47,14 +45,14 @@ class AnalyticsProvider {
 
   static void sendDrawerEvent(bool open) {
     String action = open ? AnalyticsAction.open : AnalyticsAction.close;
-    analytics.logEvent(
+    FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.drawer,
       parameters: <String, bool>{action: true},
     );
   }
 
   static void sendLinkClicked(String value) {
-    analytics.logEvent(
+    FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.link,
       parameters: <String, String>{value: AnalyticsAction.click},
     );
@@ -62,7 +60,7 @@ class AnalyticsProvider {
 
   static void setScreen(dynamic object) {
     String className = object.runtimeType.toString();
-    analytics.setCurrentScreen(
+    FirebaseAnalytics.instance.setCurrentScreen(
       screenName: className,
       screenClassOverride: className,
     );

@@ -15,7 +15,6 @@ abstract class BaseApi {
     try {
       return await httpRequest;
     } catch (e) {
-      print(e);
       throw CustomException(
         "error_server_response",
         i18n.text(StrKey.NETWORK_ERROR),

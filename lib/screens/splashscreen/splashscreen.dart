@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest_all.dart';
@@ -55,7 +54,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     final prefs = context.read<PrefsProvider>();
     await prefs.initFromDisk(context, true);
 
-    if (prefs.urlIcs?.trim().isEmpty ?? true) {
+    if (prefs.urlIcs.isEmpty) {
       prefs.setUserLogged(false);
     }
 
@@ -118,7 +117,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
                           ),
                         ],
                       )
-                    : const CircularProgressIndicator(),
+                    : CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,),
               ),
             ),
           ],

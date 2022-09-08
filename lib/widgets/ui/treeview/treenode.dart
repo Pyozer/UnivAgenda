@@ -62,7 +62,7 @@ class TreeNode extends StatelessWidget {
       trailing: CustomCheckbox(
         value: node.checked,
         onChanged: onChanged,
-        activeColor: Theme.of(context).accentColor,
+        activeColor: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

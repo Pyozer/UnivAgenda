@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:univagenda/screens/splashscreen/splashscreen.dart';
-import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,16 +17,26 @@ class App extends StatelessWidget {
       ],
       child: Consumer<PrefsProvider>(
         builder: (context, prefs, _) {
-          final themePrefs = prefs.theme;
           final theme = ThemeData(
             platform: TargetPlatform.android,
             fontFamily: 'GoogleSans',
-            brightness: getBrightness(themePrefs.darkTheme),
-            primaryColor: themePrefs.primaryColor,
-            accentColor: themePrefs.accentColor,
-            toggleableActiveColor: themePrefs.accentColor,
+            brightness: prefs.theme.brightness,
+            primaryColor: prefs.theme.primaryColor,
+            toggleableActiveColor: prefs.theme.accentColor,
             textSelectionTheme: TextSelectionThemeData(
-              cursorColor: themePrefs.accentColor,
+              cursorColor: prefs.theme.accentColor,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  prefs.theme.darkTheme ? Colors.white : Colors.black,
+                ),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
             ),
           );
 
@@ -41,64 +50,19 @@ class App extends StatelessWidget {
 
           return MaterialApp(
             title: "UnivAgenda",
-            theme: theme,
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
+            theme: theme.copyWith(
+              colorScheme: theme.colorScheme.copyWith(
+                primary: prefs.theme.primaryColor,
+                secondary: prefs.theme.accentColor,
+                onSecondary: Colors.white,
+              ),
+            ),
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
             supportedLocales: i18n.supportedLocales(),
             home: SplashScreen(),
           );
         },
       ),
     );
-
-    // return PreferencesProvider(
-    //   prefs: prefs,
-    //   child: Builder(
-    //     builder: (context) {
-    //       final themePrefs = PreferencesProvider.of(context).theme;
-    //       final theme = ThemeData(
-    //         platform: TargetPlatform.android,
-    //         fontFamily: 'GoogleSans',
-    //         brightness: getBrightness(themePrefs.darkTheme),
-    //         primaryColor: themePrefs.primaryColor,
-    //         accentColor: themePrefs.accentColor,
-    //         toggleableActiveColor: themePrefs.accentColor,
-    //         textSelectionTheme: TextSelectionThemeData(
-    //           cursorColor: themePrefs.accentColor,
-    //         ),
-    //       );
-
-    //       SystemUiOverlayStyle style = theme.brightness == Brightness.dark
-    //           ? SystemUiOverlayStyle.light
-    //           : SystemUiOverlayStyle.dark;
-
-    //       SystemChrome.setSystemUIOverlayStyle(style.copyWith(
-    //         statusBarColor: Colors.transparent,
-    //       ));
-
-    //       return MaterialApp(
-    //         title: "UnivAgenda",
-    //         theme: theme,
-    //         localizationsDelegates: [
-    //           GlobalMaterialLocalizations.delegate,
-    //           GlobalWidgetsLocalizations.delegate,
-    //         ],
-    //         supportedLocales: i18n.supportedLocales(),
-    //         initialRoute: RouteKey.SPLASHSCREEN,
-    //         onGenerateRoute: (RouteSettings settings) {
-    //           if (routes.containsKey(settings.name))
-    //             return CustomRoute(
-    //               builder: (_) => routes[settings.name]!,
-    //               settings: settings,
-    //             );
-    //           assert(false);
-    //           return null;
-    //         },
-    //       );
-    //     },
-    //   ),
-    // );
   }
 }

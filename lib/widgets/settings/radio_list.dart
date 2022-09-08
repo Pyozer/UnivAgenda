@@ -41,7 +41,7 @@ class _RadioListState extends State<RadioList> {
         valuesSize,
         (int index) {
           return RadioListTile<String>(
-            activeColor: Theme.of(context).accentColor,
+            activeColor: Theme.of(context).colorScheme.secondary,
             value: widget.values[index],
             groupValue: _selectedChoice,
             title: Text(widget.values[index]),

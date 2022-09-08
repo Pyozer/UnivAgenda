@@ -29,7 +29,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     if (widget.value == true) {
       icon = Icons.check_box;
       nextState = false;
-      color = widget.activeColor ?? Theme.of(context).accentColor;
+      color = widget.activeColor ?? Theme.of(context).colorScheme.secondary;
     } else if (widget.value == null) {
       icon = Icons.indeterminate_check_box;
       nextState = false;

@@ -20,7 +20,7 @@ class RaisedButtonColored extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = Theme.of(context).accentColor;
+    final accentColor = Theme.of(context).colorScheme.secondary;
     final color = getColorDependOfBackground(accentColor);
 
     return ElevatedButton(

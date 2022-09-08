@@ -19,11 +19,11 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     AnalyticsProvider.setScreen(widget);
   }
 
-  void _openPayPal() {
+  void _openLydia() {
     _openLink(
-      Url.paypal,
-      i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Paypal"}),
-      AnalyticsValue.paypal,
+      Url.lydia,
+      i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Lydia"}),
+      AnalyticsValue.lydia,
     );
   }
 
@@ -57,8 +57,8 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
             const SizedBox(height: 24.0),
             Center(
               child: RaisedButtonColored(
-                text: i18n.text(StrKey.SUPPORTME_PAYPAL),
-                onPressed: _openPayPal,
+                text: i18n.text(StrKey.SUPPORTME_LYDIA),
+                onPressed: _openLydia,
               ),
             ),
           ],

@@ -33,7 +33,6 @@ class AppbarPage extends StatelessWidget {
                   ? Builder(
                       builder: (context) => DrawerIcon(
                         onPressed: () {
-                          print('YOYOYOYO');
                           Scaffold.of(context).openDrawer();
                         },
                       ),
@@ -50,9 +49,11 @@ class AppbarPage extends StatelessWidget {
 
 class AppbarSubTitle extends StatelessWidget {
   final Widget child;
+  final Color? color;
   final EdgeInsets? padding;
 
-  const AppbarSubTitle({Key? key, required this.child, this.padding})
+  const AppbarSubTitle(
+      {Key? key, required this.child, this.color, this.padding})
       : super(key: key);
 
   @override
@@ -61,7 +62,7 @@ class AppbarSubTitle extends StatelessWidget {
       children: [
         Expanded(
           child: Material(
-            color: Theme.of(context).primaryColor,
+            color: color,
             elevation: 0.0,
             child: Padding(
               padding: padding ?? const EdgeInsets.fromLTRB(20, 12, 20, 16),

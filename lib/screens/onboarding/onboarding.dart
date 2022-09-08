@@ -96,19 +96,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.watch<PrefsProvider>().theme.darkTheme;
+    final btnStyle = TextStyle(color: isDark ? Colors.white : Colors.black);
+
     return IntroductionScreen(
       pages: _buildPages(),
       onDone: _onDone,
       showSkipButton: true,
-      skip: Text(i18n.text(StrKey.SKIP)),
-      next: const Icon(Icons.arrow_forward),
-      done: Text(i18n.text(StrKey.DONE)),
-      skipFlex: 0,
+      skip: Text(i18n.text(StrKey.SKIP), style: btnStyle),
+      next: Icon(Icons.arrow_forward, color: btnStyle.color),
+      done: Text(i18n.text(StrKey.DONE), style: btnStyle),
+      skipOrBackFlex: 0,
       nextFlex: 0,
       dotsDecorator: DotsDecorator(
         size: const Size.square(10.0),
         activeSize: const Size(20.0, 10.0),
-        activeColor: Theme.of(context).accentColor,
+        activeColor: Theme.of(context).colorScheme.secondary,
         color: Colors.black26,
         spacing: const EdgeInsets.symmetric(horizontal: 3.0),
         activeShape: RoundedRectangleBorder(

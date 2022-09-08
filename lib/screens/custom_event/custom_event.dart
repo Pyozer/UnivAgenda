@@ -84,7 +84,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
         }
       });
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -331,7 +331,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: Text(i18n.text(StrKey.EVENT_REPEAT)),
                 trailing: Switch(
                   value: _isRecurrent,
-                  activeColor: theme.accentColor,
+                  activeColor: theme.colorScheme.secondary,
                   onChanged: _onRecurrentDate,
                 ),
               ),
@@ -385,7 +385,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: Text(i18n.text(StrKey.EVENT_COLOR)),
                 trailing: Switch(
                   value: _isColor,
-                  activeColor: theme.accentColor,
+                  activeColor: theme.colorScheme.secondary,
                   onChanged: _onColorCustom,
                 ),
               ),
@@ -406,7 +406,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: Text(i18n.text(StrKey.SYNC_CALENDAR)),
                 trailing: Switch(
                   value: _customCourse.syncCalendar != null,
-                  activeColor: theme.accentColor,
+                  activeColor: theme.colorScheme.secondary,
                   onChanged: _onSyncCalendar,
                 ),
               ),

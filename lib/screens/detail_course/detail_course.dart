@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
+import 'package:univagenda/models/courses/hidden.dart';
 import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/screens/custom_event/custom_event.dart';
@@ -193,7 +194,7 @@ class _DetailCourseState extends State<DetailCourse> {
         return;
       }
       if (isHide) {
-        prefs.addHiddenEvent(widget.course.title);
+        prefs.addHiddenEvent(Hidden(courseUid: widget.course.uid, title: widget.course.title));
       } else {
         prefs.removeHiddenEvent(widget.course.title);
       }
@@ -270,8 +271,10 @@ class _DetailCourseState extends State<DetailCourse> {
   @override
   Widget build(BuildContext context) {
     final prefs = context.watch<PrefsProvider>();
-    final textStyle =
-        Theme.of(context).primaryTextTheme.headline6!.copyWith(fontSize: 17.0);
+    final textStyle = TextStyle(
+      fontSize: 17.0,
+      color: _course.getTitleColor(prefs.isGenerateEventColor),
+    );
 
     return AppbarPage(
       title: i18n.text(StrKey.COURSE_DETAILS),
@@ -279,7 +282,13 @@ class _DetailCourseState extends State<DetailCourse> {
       body: Container(
         child: Column(
           children: [
-            AppbarSubTitle(child: Text(_course.getTitle(), style: textStyle)),
+            AppbarSubTitle(
+              child: Text(
+                _course.getTitle(),
+                style: textStyle,
+              ),
+              color: _course.getBgColor(prefs.isGenerateEventColor),
+            ),
             Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
           ],
         ),

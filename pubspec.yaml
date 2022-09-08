@@ -1,6 +1,6 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 4.4.0+20200908
+version: 5.0.0+20220909
 publish_to: 'none'
 
 environment:
@@ -12,32 +12,32 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  after_layout: 1.1.0
-  device_calendar: 4.0.1-dev.13167
-  firebase_analytics: 8.3.1
-  firebase_core: 1.6.0
-  firebase_crashlytics: 2.2.1
-  syncfusion_flutter_calendar: 19.2.59
-  flutter_markdown: 0.6.6
+  after_layout: 1.2.0
+  device_calendar: 4.2.0
+  firebase_analytics: 9.3.4
+  firebase_core: 1.22.0
+  firebase_crashlytics: 2.8.10
+  syncfusion_flutter_calendar: 20.2.48
+  flutter_markdown: 0.6.10+5
   flutter_material_color_picker: 1.1.0+2
-  flutter_native_timezone: 1.1.0
+  flutter_native_timezone: 2.0.0
   html: 0.15.0
-  http: 0.13.3
-  introduction_screen: 2.1.0
-  package_info: 2.0.2
-  path_provider: 2.0.3
-  provider: 6.0.0
-  # qrcode:
-  #   git: 
-  #     url: git@github.com:Pyozer/qrcode
-  #     path: qrcode
-  shared_preferences: 2.0.1
-  timezone: 0.7.0
-  url_launcher: 6.0.10
-  uuid: 3.0.4
+  http: 0.13.5
+  image_picker: 0.8.5+3
+  introduction_screen: 3.0.2
+  package_info_plus: 1.4.3+1
+  path_provider: 2.0.11
+  permission_handler: 10.0.0
+  provider: 6.0.3
+  qr_code_scanner: 1.0.1
+  r_scan: 0.1.6+1
+  shared_preferences: 2.0.15
+  timezone: 0.8.0
+  url_launcher: 6.1.5
+  uuid: 3.0.6
 
 dev_dependencies:
-  flutter_launcher_icons: 0.9.2
+  flutter_launcher_icons: 0.10.0
 
 flutter:
   uses-material-design: true

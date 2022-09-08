@@ -70,7 +70,7 @@ class _NumberSelectorState extends State<NumberSelector> {
       textStyle = TextStyle(
         fontSize: 24.0,
         fontWeight: FontWeight.w800,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
       );
     else
       textStyle = TextStyle(fontSize: 20.0);

@@ -42,6 +42,7 @@
   "add_event": "Add event",
   "edit_event": "Edit event",
   
+  "back": "Back",
   "cancel": "Cancel",
   "save": "Save",
   "submit": "Submit",
@@ -141,8 +142,8 @@
   "in_progress": "In progress",
   "loading": "Loading...",
 
-  "supportme_text": "You love UnivAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with PayPal, the amount of your choice.\n\nThank you so much !",
-  "supportme_paypal": "Paypal donation",
+  "supportme_text": "You love UnivAgenda and you want to reward and support all the work done to achieve and maintain the application?\n\nYou can donate with Lydia, the amount of your choice.\n\nThank you so much !",
+  "supportme_lydia": "Lydia donation",
   "supportme_link_error": "Can not open the {site} website...\nLink: ",
 
   "monday": "Monday",

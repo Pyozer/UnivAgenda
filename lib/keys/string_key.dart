@@ -42,6 +42,7 @@ class StrKey {
   static const ADD_EVENT = 'add_event';
   static const EDIT_EVENT = 'edit_event';
 
+  static const BACK = 'back';
   static const CANCEL = 'cancel';
   static const SAVE = 'save';
   static const SUBMIT = 'submit';
@@ -147,7 +148,7 @@ class StrKey {
   static const LOADING = 'loading';
 
   static const SUPPORTME_TEXT = 'supportme_text';
-  static const SUPPORTME_PAYPAL = 'supportme_paypal';
+  static const SUPPORTME_LYDIA = 'supportme_lydia';
   static const SUPPORTME_LINK_ERROR = 'supportme_link_error';
 
   static const MONDAY = 'monday';

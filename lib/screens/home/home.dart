@@ -80,7 +80,14 @@ class _HomeScreenState extends State<HomeScreen>
 
     try {
       final prefs = context.read<PrefsProvider>();
-      List<Course> courses = await Api().getCoursesCustomIcal(prefs.urlIcs!);
+
+      List<Course> courses = [];
+      for (final urlIcs in prefs.urlIcs) {
+        if (Uri.tryParse(urlIcs)?.hasAbsolutePath ?? false) {
+          courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
+        }
+      }
+
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
     } catch (e) {
@@ -107,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen>
     List<CustomCourse> courses = [];
 
     final int numberDay = DateTime.daysPerWeek * prefs.numberWeeks;
-    final Duration addOneDay = Duration(days: 1);
 
     DateTime dayDate = DateTime.now();
     for (int day = 0; day < numberDay; day++) {
@@ -122,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen>
         // Add course to list
         courses.add(courseRepeated);
       }
-      dayDate = dayDate.add(addOneDay);
+      dayDate = dayDate.add(Duration(days: 1));
     }
 
     return courses;
@@ -204,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen>
     for (Course course in listCourses) {
       course.renamedTitle = prefs.renamedEvents[course.title];
       int dateValue = Date.dateToInt(course.dateStart);
-      if (listElement[dateValue] == null) listElement[dateValue] = [];
+      listElement[dateValue] ??= [];
       listElement[dateValue]!.add(course);
     }
 

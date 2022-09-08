@@ -6,12 +6,7 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/custom_route.dart';
 import 'package:univagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-Brightness getBrightness(bool isDark) =>
-    isDark ? Brightness.dark : Brightness.light;
-
-bool isDarkTheme(Brightness brightness) => brightness == Brightness.dark;
+import 'package:url_launcher/url_launcher_string.dart';
 
 Color getColorDependOfBackground(
   Color bgColor, {
@@ -28,8 +23,8 @@ Future<void> openLink(
   String href,
   String? analytic,
 ) async {
-  if (await canLaunch(href)) {
-    await launch(href);
+  if (await canLaunchUrlString(href)) {
+    await launchUrlString(href);
   } else if (context != null) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Could not launch $href')),
@@ -92,7 +87,8 @@ Future<T?> navigatorPush<T>(
   Widget screen, {
   bool fullscreenDialog = false,
 }) {
-  return Navigator.of(context).push(
+  return Navigator.push(
+    context,
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
   );
 }
@@ -102,8 +98,10 @@ Future<T?> navigatorPushReplace<T>(
   Widget screen, {
   bool fullscreenDialog = false,
 }) {
-  return Navigator.of(context).pushReplacement(
+  return Navigator.pushAndRemoveUntil(
+    context,
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
+    (_) => false,
   );
 }
 
@@ -113,7 +111,8 @@ Future<T?> navigatorPopAndPush<T>(
   bool fullscreenDialog = false,
 }) {
   Navigator.of(context).pop();
-  return Navigator.of(context).push(
+  return Navigator.push(
+    context,
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
   );
 }

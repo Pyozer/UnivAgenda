@@ -9,13 +9,13 @@ import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/large_rounded_button.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpScreen extends StatelessWidget {
   void _sendFeedback(BuildContext context) async {
     var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback UnivAgenda';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(i18n.text(StrKey.NO_EMAIL_APP)),
@@ -35,7 +35,6 @@ class HelpScreen extends StatelessWidget {
             child: FutureBuilder<List<HelpItem>>(
               future: Api().getHelps(),
               builder: (context, snapshot) {
-                print(snapshot.error);
                 if (snapshot.hasError) return const NoResultHelp();
 
                 if (snapshot.hasData) {

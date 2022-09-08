@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:univagenda/keys/assets.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/keys/url.dart';
@@ -9,12 +11,12 @@ import 'package:univagenda/screens/about/licences/licences.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
+import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/changelog.dart';
 import 'package:univagenda/widgets/images/circle_image.dart';
 import 'package:univagenda/widgets/ui/about_card.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
-import 'package:package_info/package_info.dart';
 
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
@@ -95,8 +97,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildSocial(BuildContext context) {
-    final isDark = isDarkTheme(Theme.of(context).brightness);
-
+    final isDark = context.watch<PrefsProvider>().theme.darkTheme;
     final store = Platform.isAndroid ? "Play Store" : "App Store";
 
     return AboutCard(
@@ -174,7 +175,7 @@ class AboutScreen extends StatelessWidget {
           title: Text(i18n.text(StrKey.VERSION)),
           subtitle: FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
-            builder: (_, snapshot) => Text(getAppInfo(snapshot.data!)),
+            builder: (_, snapshot) => Text(getAppInfo(snapshot.data)),
           ),
         )
       ],

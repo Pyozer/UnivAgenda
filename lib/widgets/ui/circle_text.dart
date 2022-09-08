@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/utils/functions.dart';
+import 'package:provider/provider.dart';
+import 'package:univagenda/utils/preferences.dart';
 
 class CircleText extends StatelessWidget {
   final String text;
@@ -15,7 +16,7 @@ class CircleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = isDarkTheme(Theme.of(context).brightness);
+    bool isDark = context.watch<PrefsProvider>().theme.darkTheme;
 
     Color textColor, bgColor;
     if (isDark) {

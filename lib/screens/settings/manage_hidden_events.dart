@@ -5,7 +5,6 @@ import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 
 class ManageHiddenEvents extends StatefulWidget {
@@ -19,39 +18,6 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
   void initState() {
     super.initState();
     AnalyticsProvider.setScreen(widget);
-  }
-
-  void _addNewFilter() async {
-    bool isSubmit = await DialogPredefined.showContentDialog(
-      context,
-      i18n.text(StrKey.ADD_HIDDEN_EVENT),
-      TextField(
-        controller: _textController,
-        maxLines: null,
-        keyboardType: TextInputType.text,
-        maxLength: 100,
-        decoration: InputDecoration.collapsed(
-          hintText: i18n.text(StrKey.ADD_HIDDEN_EVENT),
-        ),
-      ),
-      i18n.text(StrKey.ADD),
-      i18n.text(StrKey.CANCEL),
-    );
-
-    if (isSubmit == true) {
-      final String filter = _textController.text.trim();
-      if (filter.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(i18n.text(StrKey.REQUIRE_FIELD)),
-          action: SnackBarAction(
-            label: i18n.text(StrKey.RETRY),
-            onPressed: _addNewFilter,
-          ),
-        ));
-      } else {
-        context.read<PrefsProvider>().addHiddenEvent(filter, true);
-      }
-    }
   }
 
   @override
@@ -95,13 +61,8 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
             )
           : ListView.builder(
               itemCount: prefs.hiddenEvents.length,
-              itemBuilder: (_, index) => _buildRow(prefs.hiddenEvents[index]),
+              itemBuilder: (_, index) => _buildRow(prefs.hiddenEvents[index].title),
             ),
-      fab: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: _addNewFilter,
-        heroTag: "add_filter",
-      ),
     );
   }
 }

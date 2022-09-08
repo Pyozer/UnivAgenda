@@ -26,7 +26,6 @@ class Api extends BaseApi {
       getAPIUrl("/helps"),
       headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
     ));
-    print(response);
 
     return List<HelpItem>.from(getData(response).map(
       (x) => HelpItem.fromJson(x),

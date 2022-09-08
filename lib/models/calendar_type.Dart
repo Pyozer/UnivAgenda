@@ -22,14 +22,14 @@ IconData getCalendarTypeIcon(CalendarView calendarType) {
 }
 
 CalendarView nextCalendarType(CalendarView current) {
-  if (current == CalendarView.day) {
+  if (current == CalendarView.timelineDay) {
     return CalendarView.schedule;
   }
   if (current == CalendarView.schedule) {
-    return CalendarView.week;
-  }
-  if (current == CalendarView.week) {
     return CalendarView.month;
   }
-  return CalendarView.day;
+  if (current == CalendarView.month) {
+    return CalendarView.day;
+  }
+  return CalendarView.timelineDay;
 }

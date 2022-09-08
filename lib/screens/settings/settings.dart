@@ -15,6 +15,8 @@ import 'package:univagenda/widgets/settings/list_tile_title.dart';
 import 'package:univagenda/widgets/settings/setting_card.dart';
 import 'package:univagenda/widgets/ui/list_divider.dart';
 
+import '../../widgets/ui/button/raised_button_colored.dart';
+
 enum MenuItem { REFRESH }
 
 class SettingsScreen extends StatefulWidget {
@@ -30,19 +32,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildSettingsGeneral(PrefsProvider prefs) {
-    List<Widget> settingsGeneralElems;
+    List<Widget> settingsGeneralElems = [];
 
-    settingsGeneralElems = [
-      ListTileInput(
-        title: i18n.text(StrKey.URL_ICS),
+    final urlsIcs = List<String>.from(prefs.urlIcs);
+
+    for (var i = 0; i < urlsIcs.length; i++) {
+      settingsGeneralElems.add(ListTileInput(
+        title: '${i18n.text(StrKey.URL_ICS)} #${i + 1}',
         hintText: i18n.text(StrKey.URL_ICS),
-        defaultValue: prefs.urlIcs,
+        defaultValue: urlsIcs[i],
+        suffix: IconButton(
+          onPressed: () {
+            urlsIcs.removeAt(i);
+            prefs.setUrlIcs(urlsIcs, true);
+          },
+          icon: Icon(Icons.delete_outline),
+        ),
         onChange: (value) {
+          // Clean cached courses
           prefs.setCachedCourses(PrefKey.defaultCachedCourses);
-          prefs.setUrlIcs(value, true);
+          // Update url
+          urlsIcs[i] = value;
+          prefs.setUrlIcs(urlsIcs, true);
         },
-      )
-    ];
+      ));
+    }
+
+    if (settingsGeneralElems.isEmpty) {
+      settingsGeneralElems = [
+        ListTileInput(
+          title: i18n.text(StrKey.URL_ICS),
+          hintText: i18n.text(StrKey.URL_ICS),
+          defaultValue: '',
+          onChange: (value) {
+            // Clean cached courses
+            prefs.setCachedCourses(PrefKey.defaultCachedCourses);
+            // Update url
+            prefs.setUrlIcs([value], true);
+          },
+        )
+      ];
+    }
+
+    // TODO: Add translation
+    settingsGeneralElems.add(
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: RaisedButtonColored(
+            text: 'Ajouter un agenda',
+            onPressed: () {
+              urlsIcs.add('');
+              prefs.setUrlIcs(urlsIcs, true);
+            },
+          ),
+        ),
+      ),
+    );
 
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_GENERAL),
@@ -69,21 +115,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: ListTileTitle(i18n.text(StrKey.DAYS_BEFORE)),
         subtitle: Text(i18n.text(StrKey.DAYS_BEFORE_DESC)),
         value: prefs.isPreviousCourses,
-        activeColor: theme.accentColor,
+        activeColor: theme.colorScheme.secondary,
         onChanged: (value) => prefs.setShowPreviousCourses(value, true),
       ),
       SwitchListTile(
         title: ListTileTitle(i18n.text(StrKey.DISPLAY_ALL_DAYS)),
         subtitle: Text(i18n.text(StrKey.DISPLAY_ALL_DAYS_DESC)),
         value: prefs.isDisplayAllDays,
-        activeColor: theme.accentColor,
+        activeColor: theme.colorScheme.secondary,
         onChanged: (value) => prefs.setDisplayAllDays(value, true),
       ),
       SwitchListTile(
         title: ListTileTitle(i18n.text(StrKey.HIDDEN_EVENT)),
         subtitle: Text(i18n.text(StrKey.FULL_HIDDEN_EVENT_DESC)),
         value: prefs.isFullHiddenEvent,
-        activeColor: theme.accentColor,
+        activeColor: theme.colorScheme.secondary,
         onChanged: (value) => prefs.setFullHiddenEvent(value, true),
       ),
       ListTile(
@@ -109,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: ListTileTitle(i18n.text(StrKey.DARK_THEME)),
           subtitle: Text(i18n.text(StrKey.DARK_THEME_DESC)),
           value: prefs.theme.darkTheme,
-          activeColor: theme.accentColor,
+          activeColor: theme.colorScheme.secondary,
           onChanged: (value) => prefs.setDarkTheme(value, true),
         ),
         const ListDivider(),
@@ -158,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: ListTileTitle(i18n.text(StrKey.GENERATE_EVENT_COLOR)),
           subtitle: Text(i18n.text(StrKey.GENERATE_EVENT_COLOR_TEXT)),
           value: prefs.isGenerateEventColor,
-          activeColor: Theme.of(context).accentColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
           onChanged: (value) => prefs.setGenerateEventColor(value, true),
         ),
       ],

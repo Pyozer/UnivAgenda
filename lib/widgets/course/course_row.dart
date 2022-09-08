@@ -48,19 +48,11 @@ class CourseRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefs = context.watch<PrefsProvider>();
 
-    Color? bgColorRow;
-    if (course.color != null) {
-      bgColorRow = course.color!;
-    } else if (course.isExam()) {
-      bgColorRow = Colors.red[600]!;
-    } else if (prefs.isGenerateEventColor) {
-      bgColorRow = getColorFromString(course.getTitle());
-    }
+    Color? bgColorRow = course.getBgColor(prefs.isGenerateEventColor);
     String courseDate = course.dateForDisplay();
     if (course.isStarted()) courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
 
-    TextStyle style = TextStyle();
-    if (bgColorRow != null) style = style.copyWith(color: Colors.white);
+    final style = TextStyle(color: course.getTitleColor(prefs.isGenerateEventColor));
 
     String subtitle = course.location ?? '';
     // Location and description not empty

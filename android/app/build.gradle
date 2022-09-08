@@ -46,16 +46,16 @@ android {
             storePassword 'android'
         }
         config {
-            keyAlias keyProperties['keyAlias']
-            keyPassword keyProperties['keyPassword']
-            storeFile rootProject.file(keyProperties['storeFile'])
-            storePassword keyProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
 
     defaultConfig {
         applicationId "com.pyozer.myagenda"
-        minSdkVersion 18
+        minSdkVersion 23
         targetSdkVersion 30
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()

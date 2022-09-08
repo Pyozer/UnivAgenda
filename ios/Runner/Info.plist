@@ -51,6 +51,12 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Add events created in the app, to device calendar</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera permission is required for barcode scanning.</string>
+	<string>Camera permission is required for barcode scanning</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Scan QRCode in a picture choosed by the user</string>
+	<key>io.flutter.embedded_views_preview</key>
+    <true/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

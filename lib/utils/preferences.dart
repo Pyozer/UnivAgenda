@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:timezone/standalone.dart';
 import 'package:timezone/timezone.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/models/calendar_type.dart';
@@ -16,6 +15,8 @@ import 'package:univagenda/models/preferences/prefs_theme.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
+
+import '../models/courses/hidden.dart';
 
 class PrefsProvider with ChangeNotifier {
   static SharedPreferences? sharedPrefs;
@@ -33,8 +34,8 @@ class PrefsProvider with ChangeNotifier {
     noteColor: PrefKey.defaultNoteColor,
   );
 
-  /// Url of custom ics file (if user choose "Other" in login page)
-  String? _urlIcs;
+  /// Urls of custom ics file 
+  List<String>? _urlIcs;
 
   /// Number of weeks to display
   int? _numberWeeks;
@@ -70,7 +71,7 @@ class PrefsProvider with ChangeNotifier {
   List<CustomCourse>? _customEvents;
 
   /// List of hidden courses
-  List<String>? _hiddenEvents;
+  List<Hidden>? _hiddenEvents;
 
   /// List of renamed courses
   Map<String, String>? _renamedEvents;
@@ -81,18 +82,18 @@ class PrefsProvider with ChangeNotifier {
   /// Generate or not a event color
   bool? _isGenerateEventColor;
 
-  String? get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
+  List<String> get urlIcs => _urlIcs ?? PrefKey.defaultUrlIcs;
 
-  setUrlIcs(String? newUrlIcs, [state = false]) {
+  void setUrlIcs(List<String> newUrlIcs, [bool state = false]) {
     if (urlIcs == newUrlIcs) return;
 
     _updatePref(() => _urlIcs = newUrlIcs, state);
-    _setString(PrefKey.urlIcs, _urlIcs);
+    _setStringList(PrefKey.urlIcs, _urlIcs);
   }
 
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
-  setNumberWeeks(int? newNumberWeeks, [state = false]) {
+  void setNumberWeeks(int? newNumberWeeks, [bool state = false]) {
     if (numberWeeks == newNumberWeeks) return;
 
     int intValue =
@@ -107,7 +108,7 @@ class PrefsProvider with ChangeNotifier {
   bool get isPreviousCourses =>
       _isPreviousCourses ?? PrefKey.defaultIsPreviousCourses;
 
-  setShowPreviousCourses(bool? newIsPreviousCourses, [state = false]) {
+  void setShowPreviousCourses(bool? newIsPreviousCourses, [bool state = false]) {
     if (isPreviousCourses == newIsPreviousCourses) return;
 
     _updatePref(() => _isPreviousCourses = newIsPreviousCourses, state);
@@ -116,7 +117,7 @@ class PrefsProvider with ChangeNotifier {
 
   PrefsTheme get theme => _prefsTheme;
 
-  setDarkTheme(bool? darkTheme, [state = false]) {
+  void setDarkTheme(bool? darkTheme, [bool state = false]) {
     if (theme.darkTheme == darkTheme) return;
 
     _updatePref(() {
@@ -125,7 +126,7 @@ class PrefsProvider with ChangeNotifier {
     _setBool(PrefKey.isDarkTheme, _prefsTheme.darkTheme);
   }
 
-  setPrimaryColor(Color? newPrimaryColor, [state = false]) {
+  void setPrimaryColor(Color? newPrimaryColor, [bool state = false]) {
     if (theme.primaryColor == newPrimaryColor) return;
 
     _updatePref(() {
@@ -134,7 +135,7 @@ class PrefsProvider with ChangeNotifier {
     _setInt(PrefKey.primaryColor, _prefsTheme.primaryColor.value);
   }
 
-  setAccentColor(Color? newAccentColor, [state = false]) {
+  void setAccentColor(Color? newAccentColor, [bool state = false]) {
     if (theme.accentColor == newAccentColor) return;
 
     _updatePref(() {
@@ -143,7 +144,7 @@ class PrefsProvider with ChangeNotifier {
     _setInt(PrefKey.accentColor, _prefsTheme.accentColor.value);
   }
 
-  setNoteColor(Color? newNoteColor, [state = false]) {
+  void setNoteColor(Color? newNoteColor, [bool state = false]) {
     if (theme.noteColor == newNoteColor) return;
 
     _updatePref(() {
@@ -155,7 +156,7 @@ class PrefsProvider with ChangeNotifier {
   int get appLaunchCounter =>
       _appLaunchCounter ?? PrefKey.defaultAppLaunchCounter;
 
-  setAppLaunchCounter(int? newAppLaunchCounter, [state = false]) {
+  void setAppLaunchCounter(int? newAppLaunchCounter, [bool state = false]) {
     if (newAppLaunchCounter == _appLaunchCounter) return;
 
     _updatePref(() => _appLaunchCounter = newAppLaunchCounter, state);
@@ -164,7 +165,7 @@ class PrefsProvider with ChangeNotifier {
 
   bool get isIntroDone => _isIntroDone ?? PrefKey.defaultIntroDone;
 
-  setIntroDone(bool? newIntroDone, [state = false]) {
+  void setIntroDone(bool? newIntroDone, [bool state = false]) {
     if (newIntroDone == _isIntroDone) return;
 
     _updatePref(() => _isIntroDone = newIntroDone, state);
@@ -174,7 +175,7 @@ class PrefsProvider with ChangeNotifier {
   List<Course> get cachedCourses =>
       _cachedCourses ?? PrefKey.defaultCachedCourses;
 
-  setCachedCourses(List<Course> coursesToCache, [state = false]) {
+  void setCachedCourses(List<Course> coursesToCache, [bool state = false]) {
     if (cachedCourses == coursesToCache) return;
 
     _updatePref(() => _cachedCourses = coursesToCache, state);
@@ -188,19 +189,19 @@ class PrefsProvider with ChangeNotifier {
 
   List<Note> get notes => _notes ?? PrefKey.defaultNotes;
 
-  setNotes(List<Note>? newNotes, [state = false]) {
+  void setNotes(List<Note>? newNotes, [bool state = false]) {
     _updatePref(() => _notes = newNotes ?? PrefKey.defaultNotes, state);
 
     final notesJSON = _notes!.map((n) => json.encode(n.toJson())).toList();
     _setStringList(PrefKey.notes, notesJSON);
   }
 
-  void addNote(Note? noteToAdd, [state = false]) {
+  void addNote(Note? noteToAdd, [bool state = false]) {
     if (noteToAdd == null) return;
     setNotes(notes..insert(0, noteToAdd), state);
   }
 
-  void removeNote(Note? noteToRemove, [state = false]) {
+  void removeNote(Note? noteToRemove, [bool state = false]) {
     if (noteToRemove == null) return;
 
     List<Note> newNotes = notes;
@@ -212,7 +213,7 @@ class PrefsProvider with ChangeNotifier {
   List<CustomCourse> get customEvents =>
       _customEvents ?? PrefKey.defaultCustomEvents;
 
-  setCustomEvents(List<CustomCourse?>? newCustomEvents, [state = false]) {
+  void setCustomEvents(List<CustomCourse?>? newCustomEvents, [bool state = false]) {
     _updatePref(() {
       _customEvents = (newCustomEvents ??= PrefKey.defaultCustomEvents)
           .whereNotNull()
@@ -225,7 +226,7 @@ class PrefsProvider with ChangeNotifier {
     _setStringList(PrefKey.customEvent, eventsJSON);
   }
 
-  void addCustomEvent(CustomCourse? eventToAdd, [state = false]) {
+  void addCustomEvent(CustomCourse? eventToAdd, [bool state = false]) {
     if (eventToAdd == null) return;
 
     if (eventToAdd.syncCalendar != null) {
@@ -280,7 +281,7 @@ class PrefsProvider with ChangeNotifier {
     setCustomEvents(newEvents, state);
   }
 
-  void editCustomEvent(CustomCourse? eventEdited, [state = false]) {
+  void editCustomEvent(CustomCourse? eventEdited, [bool state = false]) {
     if (eventEdited == null) return;
 
     removeCustomEvent(eventEdited, state, false);
@@ -289,7 +290,7 @@ class PrefsProvider with ChangeNotifier {
 
   bool get isUserLogged => _userLogged ?? PrefKey.defaultUserLogged;
 
-  setUserLogged(bool? userLogged, [state = false]) {
+  void setUserLogged(bool? userLogged, [bool state = false]) {
     if (isUserLogged == userLogged) return;
 
     _updatePref(() {
@@ -300,7 +301,7 @@ class PrefsProvider with ChangeNotifier {
 
   CalendarView get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
 
-  setCalendarType(CalendarView? newCalendarType, [state = false]) {
+  void setCalendarType(CalendarView? newCalendarType, [bool state = false]) {
     if (calendarType == newCalendarType) return;
 
     _updatePref(() {
@@ -312,7 +313,7 @@ class PrefsProvider with ChangeNotifier {
   bool get isDisplayAllDays =>
       _isDisplayAllDays ?? PrefKey.defaultDisplayAllDays;
 
-  setDisplayAllDays(bool? displayAllDays, [state = false]) {
+  void setDisplayAllDays(bool? displayAllDays, [bool state = false]) {
     if (isDisplayAllDays == displayAllDays) return;
 
     _updatePref(() {
@@ -323,35 +324,36 @@ class PrefsProvider with ChangeNotifier {
 
   DateTime get cachedIcalDate => _cachedIcalDate ?? DateTime(2000);
 
-  setCachedIcalDate([DateTime? newCachedIcalDate, state = false]) {
+  void setCachedIcalDate([DateTime? newCachedIcalDate, state = false]) {
     _updatePref(() => _cachedIcalDate = newCachedIcalDate, state);
     _setString(PrefKey.cachedIcalDate, _cachedIcalDate?.toIso8601String());
   }
 
-  List<String> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
+  List<Hidden> get hiddenEvents => _hiddenEvents ?? PrefKey.defaultHiddenEvents;
 
-  setHiddenEvents(List<String>? newHiddenEvents, [state = false]) {
+  void setHiddenEvents(List<Hidden>? newHiddenEvents, [bool state = false]) {
     _updatePref(() {
       _hiddenEvents =
           newHiddenEvents?.toSet().toList() ?? PrefKey.defaultHiddenEvents;
     }, state);
-    _setStringList(PrefKey.hiddenEvent, _hiddenEvents);
+    final hiddensJSON = _hiddenEvents!.map((n) => json.encode(n.toJson())).toList();
+    _setStringList(PrefKey.hiddenEvent, hiddensJSON);
   }
 
-  void addHiddenEvent(String title, [bool state = false]) {
-    hiddenEvents.add(title);
+  void addHiddenEvent(Hidden hidden, [bool state = false]) {
+    hiddenEvents.add(hidden);
     setHiddenEvents(hiddenEvents, state);
   }
 
-  void removeHiddenEvent(String title, [bool state = false]) {
-    hiddenEvents.remove(title);
+  void removeHiddenEvent(String uid, [bool state = false]) {
+    hiddenEvents.remove(uid);
     setHiddenEvents(hiddenEvents, state);
   }
 
   Map<String, String> get renamedEvents =>
       _renamedEvents ?? PrefKey.defaultRenamedEvent;
 
-  setRenamedEvents(Map<String, String>? newRenamedEvents, [state = false]) {
+  void setRenamedEvents(Map<String, String>? newRenamedEvents, [bool state = false]) {
     _updatePref(() {
       _renamedEvents = newRenamedEvents ?? PrefKey.defaultRenamedEvent;
     }, state);
@@ -370,12 +372,12 @@ class PrefsProvider with ChangeNotifier {
   }
 
   bool isCourseHidden(Course course) =>
-      hiddenEvents.any((e) => e == course.title);
+      hiddenEvents.any((e) => e.courseUid == course.uid);
 
   bool get isFullHiddenEvent =>
       _isFullHiddenEvent ?? PrefKey.defaultFullHiddenEvent;
 
-  setFullHiddenEvent(bool? fullHiddenEvent, [state = false]) {
+  void setFullHiddenEvent(bool? fullHiddenEvent, [bool state = false]) {
     if (isFullHiddenEvent == fullHiddenEvent) return;
 
     _updatePref(() {
@@ -384,16 +386,16 @@ class PrefsProvider with ChangeNotifier {
     _setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent);
   }
 
-  disconnectUser([state = false]) {
+  void disconnectUser([bool state = false]) {
     setUserLogged(false);
-    setUrlIcs(null);
+    setUrlIcs([]);
     setCachedCourses(PrefKey.defaultCachedCourses);
   }
 
   bool get isGenerateEventColor =>
       _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
 
-  setGenerateEventColor(bool? isEventColor, [state = false]) {
+  void setGenerateEventColor(bool? isEventColor, [bool state = false]) {
     if (isGenerateEventColor == isEventColor) return;
 
     _updatePref(() {
@@ -402,8 +404,8 @@ class PrefsProvider with ChangeNotifier {
     _setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
-  Future<void> initFromDisk(BuildContext context, [state = false]) async {
-    await initResAndGroup();
+  Future<void> initFromDisk(BuildContext context, [bool state = false]) async {
+    await initIcsUrls();
 
     String? cachedIcalDate = sharedPrefs?.getString(PrefKey.cachedIcalDate);
     if (cachedIcalDate != null)
@@ -453,13 +455,13 @@ class PrefsProvider with ChangeNotifier {
 
     // Init saved notes
     List<String> notesStr = sharedPrefs?.getStringList(PrefKey.notes) ?? [];
-    List<Note> actualNotes = notesStr.map((n) => Note.fromJsonStr(n)).toList();
+    List<Note> actualNotes = notesStr.map((n) => Note.fromJson(json.decode(n))).toList();
     setNotes(actualNotes);
 
     // Init hidden courses
-    List<String>? hiddenEvents =
-        sharedPrefs?.getStringList(PrefKey.hiddenEvent);
-    setHiddenEvents(hiddenEvents ?? []);
+    List<String> hiddensStr = sharedPrefs?.getStringList(PrefKey.hiddenEvent) ?? [];
+    List<Hidden> hiddens = hiddensStr.map((n) => Hidden.fromJson(json.decode(n))).toList();
+    setHiddenEvents(hiddens);
 
     // Renamed events
     Map<String, dynamic> renamedEvents = json.decode(
@@ -477,11 +479,18 @@ class PrefsProvider with ChangeNotifier {
     setCustomEvents(actualEvents, state);
   }
 
-  Future<void> initResAndGroup() async {
-    // If user choose custom url ics, not init other group prefs
-    String? urlIcs = sharedPrefs?.getString(PrefKey.urlIcs);
+  Future<void> initIcsUrls() async {
+    // OLD VERSION migration
+    String? urlIcs = sharedPrefs?.getString('url_ics');
     if (urlIcs != null) {
-      setUrlIcs(urlIcs);
+      setUrlIcs([urlIcs]);
+      await sharedPrefs?.remove('url_ics');
+      return;
+    }
+
+    List<String>? allUrlIcs = sharedPrefs?.getStringList(PrefKey.urlIcs);
+    if (allUrlIcs != null) {
+      setUrlIcs(allUrlIcs);
     }
   }
 

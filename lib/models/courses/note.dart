@@ -1,15 +1,8 @@
-import 'dart:convert';
-
 class Note {
   String courseUid;
   String text;
 
   Note({required this.courseUid, required this.text});
-
-  factory Note.fromJsonStr(String jsonStr) {
-    Map<String, dynamic> noteMap = json.decode(jsonStr);
-    return Note.fromJson(noteMap);
-  }
 
   factory Note.fromJson(Map<String, dynamic> json) =>
       Note(courseUid: json['courseUid'], text: json['text']);

@@ -42,6 +42,7 @@
   "add_event": "Ajouter un événement",
   "edit_event": "Modifier l'événement",
 
+  "back": "Retour",
   "cancel": "Annuler",
   "save": "Sauvegarder",
   "submit": "Valider",
@@ -141,8 +142,8 @@
   "in_progress": "En cours",
   "loading": "Chargement...",
 
-  "supportme_text": "Tu aimes UnivAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec PayPal, du montant de ton choix.\n\nMerci beaucoup !",
-  "supportme_paypal": "Don Paypal",
+  "supportme_text": "Tu aimes UnivAgenda et tu voudrai récompenser et soutenir tout le travail fourni pour réaliser et maintenir l'application ?\n\nTu peux me faire un don avec Lydia, du montant de ton choix.\n\nMerci beaucoup !",
+  "supportme_lydia": "Don Lydia",
   "supportme_link_error": "Impossible d'ouvrir le site {site}...\nLien: ",
 
   "monday": "Lundi",

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:univagenda/models/courses/base_course.dart';
 import 'package:univagenda/models/courses/note.dart';
@@ -59,11 +57,19 @@ class Course extends BaseCourse {
 
   bool hasColor() => color != null;
 
-  Color? getColor(bool isGenerateEventColor) {
+  Color? getBgColor(bool isGenerateEventColor) {
     if (color != null) return color!;
     if (isExam()) return Colors.red[600]!;
     if (isGenerateEventColor) return getColorFromString(getTitle());
     return null;
+  }
+
+  Color getTitleColor(bool isGenerateEventColor) {
+    final bgColor = getBgColor(isGenerateEventColor);
+    if (bgColor == null) return Colors.white;
+    final luminance = bgColor.computeLuminance();
+    if (luminance < 0.5) return Colors.white;
+    return Colors.black;
   }
 
   @override

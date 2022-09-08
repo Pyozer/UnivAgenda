@@ -4,8 +4,10 @@ import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
 
+import '../models/courses/hidden.dart';
+
 class PrefKey {
-  static const urlIcs = "url_ics";
+  static const urlIcs = "list_url_ics";
 
   static const numberWeeks = 'number_weeks';
   static const isPreviousCourses = 'is_previous_courses';
@@ -28,7 +30,7 @@ class PrefKey {
 
   static const notes = 'notes';
   static const customEvent = 'custom_events';
-  static const hiddenEvent = 'hidden_events';
+  static const hiddenEvent = 'list_hidden_events';
   static const renamedEvent = 'renamed_events';
 
   static const defaultNumberWeeks = 4;
@@ -47,11 +49,11 @@ class PrefKey {
   static const defaultFullHiddenEvent = false;
   static const defaultCalendarType = CalendarView.schedule;
 
-  static const String? defaultUrlIcs = null;
+  static const List<String> defaultUrlIcs = [];
   static List<Course> defaultCachedCourses = [];
   static List<Note> defaultNotes = [];
   static List<CustomCourse> defaultCustomEvents = [];
-  static List<String> defaultHiddenEvents = [];
+  static List<Hidden> defaultHiddenEvents = [];
   static Map<String, String> defaultRenamedEvent = {};
 
   static const String cachedCoursesFile = 'cached_courses.ics';

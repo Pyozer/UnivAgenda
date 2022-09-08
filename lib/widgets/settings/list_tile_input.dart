@@ -12,6 +12,7 @@ class ListTileInput extends StatefulWidget {
   final ValueChanged<String> onChange;
   final String? defaultValue;
   final String? hintText;
+  final Widget? suffix;
 
   const ListTileInput({
     Key? key,
@@ -20,6 +21,7 @@ class ListTileInput extends StatefulWidget {
     required this.onChange,
     this.defaultValue,
     this.hintText,
+    this.suffix,
   }) : super(key: key);
 
   @override
@@ -87,6 +89,7 @@ class _ListTileInputState extends State<ListTileInput> {
         _submitInputValue.toString(),
         overflow: TextOverflow.ellipsis,
       ),
+      trailing: widget.suffix,
       onTap: _openDialog,
     );
   }
