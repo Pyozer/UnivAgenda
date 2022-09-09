@@ -6,13 +6,10 @@ import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/ui/circle_text.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:uuid/uuid.dart';
-import 'package:collection/collection.dart';
-import 'package:device_calendar/device_calendar.dart' as Calendar;
 
 class CustomEventScreen extends StatefulWidget {
   final CustomCourse? course;
@@ -34,8 +31,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   bool _isColor = false;
   late CustomCourse _customCourse;
 
-  List<Calendar.Calendar> _deviceCalendars = [];
-
   late CustomCourse _baseCourse;
 
   @override
@@ -51,41 +46,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _customCourse = CustomCourse.copy(widget.course!);
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isColor = _customCourse.hasColor();
-      if (_customCourse.syncCalendar != null) _getCalendars();
     } else {
       _customCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
     }
     AnalyticsProvider.setScreen(widget);
-  }
-
-  void _getCalendars() async {
-    final calendarPlugin = Calendar.DeviceCalendarPlugin();
-    try {
-      var permissionsGranted = await calendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
-        permissionsGranted = await calendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(i18n.text(StrKey.GET_CALENDARS_FAILED)),
-          ));
-          return;
-        }
-      }
-
-      final calendarsResult = await calendarPlugin.retrieveCalendars();
-      setState(() {
-        _deviceCalendars = calendarsResult.data
-                ?.where((c) => !(c.isReadOnly ?? false))
-                .toList() ??
-            [];
-        if (_customCourse.syncCalendar == null) {
-          _customCourse.syncCalendar =
-              _deviceCalendars.isNotEmpty ? _deviceCalendars.first : null;
-        }
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
   }
 
   @override
@@ -101,13 +65,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   void _onColorCustom(bool value) {
     setState(() => _isColor = value);
-  }
-
-  void _onSyncCalendar(bool value) {
-    if (value)
-      _getCalendars();
-    else
-      setState(() => _customCourse.syncCalendar = null);
   }
 
   void _onDateTap() async {
@@ -398,33 +355,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                     setState(() => _customCourse.color = color);
                   },
                 ),
-              const Divider(height: 0.0),
-              ListTile(
-                onTap: () =>
-                    _onSyncCalendar(!(_customCourse.syncCalendar != null)),
-                leading: const Icon(Icons.calendar_today_outlined),
-                title: Text(i18n.text(StrKey.SYNC_CALENDAR)),
-                trailing: Switch(
-                  value: _customCourse.syncCalendar != null,
-                  activeColor: theme.colorScheme.secondary,
-                  onChanged: _onSyncCalendar,
-                ),
-              ),
-              if (_customCourse.syncCalendar != null)
-                ListTileChoices(
-                  title: i18n.text(StrKey.CHOOSE_CALENDAR),
-                  values: _deviceCalendars
-                      .map((c) => c.name)
-                      .whereNotNull()
-                      .toList(),
-                  onChange: (calendar) {
-                    setState(() {
-                      _customCourse.syncCalendar = _deviceCalendars
-                          .firstWhereOrNull((c) => c.name == calendar);
-                    });
-                  },
-                  selectedValue: _customCourse.syncCalendar?.name,
-                )
             ],
           ),
         ),

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:device_calendar/device_calendar.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/models/courses/note.dart';
@@ -9,7 +8,6 @@ import 'package:univagenda/utils/functions.dart';
 
 class CustomCourse extends Course {
   late List<WeekDay> weekdaysRepeat;
-  Calendar? syncCalendar;
 
   CustomCourse({
     required String uid,
@@ -21,7 +19,6 @@ class CustomCourse extends Course {
     List<Note>? notes,
     Color? color,
     List<WeekDay>? weekdaysRepeat,
-    this.syncCalendar,
   }) : super(
           uid: uid,
           title: title,
@@ -55,9 +52,6 @@ class CustomCourse extends Course {
       dateEnd: course.dateEnd,
       color: course.color,
       weekdaysRepeat: listWeekDays,
-      syncCalendar: json['sync_calendar'] != null
-          ? Calendar.fromJson(json['sync_calendar'])
-          : null,
     );
   }
 
@@ -88,8 +82,6 @@ class CustomCourse extends Course {
       jsonMap['weekdays_repeat'] = "";
     }
 
-    jsonMap['sync_calendar'] = syncCalendar?.toJson() ?? null;
-
     return jsonMap;
   }
 
@@ -104,10 +96,8 @@ class CustomCourse extends Course {
       other is CustomCourse &&
           super == (other) &&
           runtimeType == other.runtimeType &&
-          listEqualsNotOrdered(weekdaysRepeat, other.weekdaysRepeat) &&
-          syncCalendar?.id == other.syncCalendar?.id;
+          listEqualsNotOrdered(weekdaysRepeat, other.weekdaysRepeat);
 
   @override
-  int get hashCode =>
-      super.hashCode ^ weekdaysRepeat.hashCode ^ syncCalendar.hashCode;
+  int get hashCode => super.hashCode ^ weekdaysRepeat.hashCode;
 }

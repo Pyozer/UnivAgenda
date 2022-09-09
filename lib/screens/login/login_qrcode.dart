@@ -1,8 +1,9 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
+import '../../widgets/ui/qr_scanner_overlay_shape.dart';
 
 class LoginQrCode extends StatefulWidget {
   const LoginQrCode({Key? key}) : super(key: key);
@@ -12,38 +13,20 @@ class LoginQrCode extends StatefulWidget {
 }
 
 class _LoginQrCodeState extends State<LoginQrCode> {
-  final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? _controller;
-  bool _isFlash = false;
+  MobileScannerController cameraController = MobileScannerController(
+    formats: const [BarcodeFormat.qrCode],
+    torchEnabled: false,
+  );
 
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      _controller?.pauseCamera();
-    } else if (Platform.isIOS) {
-      _controller?.resumeCamera();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this._controller = controller;
-    controller.scannedDataStream.listen((scanData) async {
-      await controller.pauseCamera();
-      print(scanData.code);
-      Navigator.pop(context, scanData.code);
-    });
-  }
-
-  void _onFlashBtn() {
-    _controller?.toggleFlash();
-    setState(() => _isFlash = !_isFlash);
+  Widget _buildTorchBtn(bool isFlashOn) {
+    return TextButton.icon(
+      style: TextButton.styleFrom(primary: Colors.white),
+      label: isFlashOn ? Text('Désactiver le flash') : Text('Activer le flash'),
+      icon: isFlashOn
+          ? const Icon(Icons.flash_off_rounded)
+          : const Icon(Icons.flash_on_rounded),
+      onPressed: cameraController.toggleTorch,
+    );
   }
 
   @override
@@ -61,29 +44,44 @@ class _LoginQrCodeState extends State<LoginQrCode> {
       ),
       body: Stack(
         children: [
-          QRView(
-            key: _qrKey,
-            formatsAllowed: const [BarcodeFormat.qrcode],
-            onQRViewCreated: _onQRViewCreated,
-            overlay: QrScannerOverlayShape(
-              borderColor: Colors.red,
-              borderRadius: 10,
-              borderLength: 30,
-              borderWidth: 8,
-              cutOutSize: scanArea,
+          MobileScanner(
+              allowDuplicates: false,
+              controller: cameraController,
+              onDetect: (barcode, args) {
+                if (barcode.rawValue == null) {
+                  debugPrint('Failed to scan Barcode');
+                } else {
+                  final String code = barcode.rawValue!;
+                  debugPrint('Barcode found! $code');
+                  cameraController.stop();
+                  Navigator.of(context).pop(code);
+                }
+              }),
+          Container(
+            decoration: ShapeDecoration(
+              shape: QrScannerOverlayShape(
+                borderColor: Colors.red,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 8,
+                cutOutSize: scanArea,
+              ),
             ),
           ),
           SafeArea(
             minimum: EdgeInsets.only(bottom: 16.0),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: TextButton.icon(
-                style: TextButton.styleFrom(primary: Colors.white),
-                label: Text(_isFlash ? 'Désactiver le flash' : 'Activer le flash'),
-                icon: Icon(_isFlash
-                    ? Icons.flash_off_rounded
-                    : Icons.flash_on_rounded),
-                onPressed: _onFlashBtn,
+              child: ValueListenableBuilder(
+                valueListenable: cameraController.torchState,
+                builder: (context, state, child) {
+                  switch (state as TorchState) {
+                    case TorchState.off:
+                      return _buildTorchBtn(false);
+                    case TorchState.on:
+                      return _buildTorchBtn(true);
+                  }
+                },
               ),
             ),
           ),

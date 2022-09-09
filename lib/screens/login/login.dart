@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!isValidUrl) {
       // TODO: Add translation
       _showMessage(
-        "Le QRCode doit contenir le lien d'exportation de votre agenda.",
+        "Le QRCode doit contenir le lien d'exportation de votre agenda.\n\nVeuillez lire la section Aide pour plus d'informations.",
       );
       return;
     }
@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onEditingComplete: _onSubmit,
       textInputAction: TextInputAction.done,
       autofocus: false,
-      maxLines: 2,
+      maxLines: 5,
       minLines: 1,
       decoration: InputDecoration(
         labelStyle: Theme.of(context).textTheme.subtitle1,
@@ -204,6 +204,12 @@ class _LoginScreenState extends State<LoginScreen> {
         prefixIcon: Icon(
           Icons.event_outlined,
           color: Theme.of(context).colorScheme.secondary,
+        ),
+        suffixIcon: IconButton(
+          onPressed: () {
+            navigatorPush(context, HelpScreen());
+          },
+          icon: const Icon(Icons.help_outline),
         ),
         contentPadding: const EdgeInsets.fromLTRB(0.0, 18.0, 18.0, 18.0),
         border: InputBorder.none,
@@ -315,7 +321,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildContent(bool isDark) {
     if (_isLoading) {
       return Center(
-        child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
+        child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.secondary),
       );
     }
     if (bodyType == BodyType.MAIN) return _buildMainLogin();
@@ -326,6 +333,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<PrefsProvider>().theme.darkTheme;
+    // Use 50 to start UI changes before keyboard fully disappears
+    final isKeyboardHidden = MediaQuery.of(context).viewInsets.bottom < 50;
 
     return Scaffold(
       body: Padding(
@@ -337,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Logo(size: 100.0),
+                  Logo(size: isKeyboardHidden ? 100.0 : 60.0),
                   const SizedBox(height: 12.0),
                   Text(
                     i18n.text(StrKey.APP_NAME),
@@ -350,7 +359,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Expanded(
-              flex: 5,
+              flex: isKeyboardHidden ? 5 : 6,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 transitionBuilder: (Widget child, Animation<double> animation) {
@@ -359,20 +368,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: _buildContent(isDark),
               ),
             ),
-            const SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(
-                  onPressed: _onDataPrivacy,
-                  child: Text(i18n.text(StrKey.DATA_PRIVACY)),
-                ),
-                TextButton(
-                  onPressed: () => navigatorPush(context, HelpScreen()),
-                  child: Text(i18n.text(StrKey.HELP_FEEDBACK)),
-                ),
-              ],
-            ),
+            if (isKeyboardHidden) const SizedBox(height: 10.0),
+            if (isKeyboardHidden)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: _onDataPrivacy,
+                    child: Text(i18n.text(StrKey.DATA_PRIVACY)),
+                  ),
+                  TextButton(
+                    onPressed: () => navigatorPush(context, HelpScreen()),
+                    child: Text(i18n.text(StrKey.HELP_FEEDBACK)),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

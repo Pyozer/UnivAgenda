@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:timezone/timezone.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/models/calendar_type.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/models/preferences/prefs_theme.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -229,37 +226,6 @@ class PrefsProvider with ChangeNotifier {
   void addCustomEvent(CustomCourse? eventToAdd, [bool state = false]) {
     if (eventToAdd == null) return;
 
-    if (eventToAdd.syncCalendar != null) {
-      final eventToCreate = Event(
-        eventToAdd.syncCalendar!.id,
-        eventId: eventToAdd.uid,
-        title: eventToAdd.title,
-        description: eventToAdd.description,
-        start: TZDateTime.from(eventToAdd.dateStart.toUtc(), UTC),
-        end: TZDateTime.from(eventToAdd.dateEnd.toUtc(), UTC),
-        availability: Availability.Free,
-        recurrenceRule: eventToAdd.isRecurrentEvent()
-            ? RecurrenceRule(
-                RecurrenceFrequency.Weekly,
-                daysOfWeek: eventToAdd.weekdaysRepeat.map((e) {
-                  if (e == WeekDay.monday) return DayOfWeek.Monday;
-                  if (e == WeekDay.tuesday) return DayOfWeek.Tuesday;
-                  if (e == WeekDay.wednesday) return DayOfWeek.Wednesday;
-                  if (e == WeekDay.thursday) return DayOfWeek.Thursday;
-                  if (e == WeekDay.friday) return DayOfWeek.Friday;
-                  if (e == WeekDay.saturday) return DayOfWeek.Saturday;
-                  return DayOfWeek.Sunday;
-                }).toList(),
-              )
-            : null,
-      );
-
-      DeviceCalendarPlugin().createOrUpdateEvent(eventToCreate).then((result) {
-        if (result != null && result.isSuccess && result.data != null)
-          eventToAdd.uid = result.data!;
-      });
-    }
-
     setCustomEvents(customEvents..add(eventToAdd), state);
   }
 
@@ -269,11 +235,6 @@ class PrefsProvider with ChangeNotifier {
     syncCalendar = true,
   ]) {
     if (eventToRemove == null) return;
-
-    if (syncCalendar && eventToRemove.syncCalendar != null) {
-      DeviceCalendarPlugin()
-          .deleteEvent(eventToRemove.syncCalendar!.id, eventToRemove.uid);
-    }
 
     List<CustomCourse> newEvents = customEvents;
     newEvents.removeWhere((event) => (event.uid == eventToRemove.uid));
