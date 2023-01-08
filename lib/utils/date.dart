@@ -5,8 +5,8 @@ import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 
 class Date {
-  static bool notSameDay(DateTime a, DateTime b) {
-    return a.year != b.year || a.month != b.month || a.day != b.day;
+  static bool isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   static DateTime dateFromDateTime(DateTime dt) {
@@ -17,35 +17,38 @@ class Date {
     return changeTime(date, time.hour, time.minute, time.second);
   }
 
-  static DateTime changeTime(DateTime dt, int hour, int minute,
-      [int second = 0]) {
+  static DateTime changeTime(
+    DateTime dt,
+    int hour,
+    int minute, [
+    int second = 0,
+  ]) {
     return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
   }
 
   static String dateFromNow(DateTime date, [bool shortDate = false]) {
-    DateTime dateTimeToday = DateTime.now();
+    DateTime today = DateTime.now();
 
-    final today = i18n.text(StrKey.TODAY);
-    final tomorrow = i18n.text(StrKey.TOMORROW);
-
-    if (!notSameDay(dateTimeToday, date))
-      return today;
-    else if ((dateTimeToday.day + 1) == date.day &&
-        dateTimeToday.month == date.month &&
-        dateTimeToday.year == date.year) return tomorrow;
+    if (isSameDay(today, date)) {
+      return i18n.text(StrKey.TODAY);
+    } else if (isSameDay(today.add(Duration(days: 1)), date)) {
+      return i18n.text(StrKey.TOMORROW);
+    }
 
     DateFormat dateFormat;
 
-    if (dateTimeToday.year == date.year) {
-      if (shortDate)
+    if (today.year == date.year) {
+      if (shortDate) {
         dateFormat = DateFormat.MMMEd();
-      else
+      } else {
         dateFormat = DateFormat.MMMMEEEEd();
+      }
     } else {
-      if (shortDate)
+      if (shortDate) {
         dateFormat = DateFormat.yMMMEd();
-      else
+      } else {
         dateFormat = DateFormat.yMMMMEEEEd();
+      }
     }
 
     return capitalize(dateFormat.format(date));
@@ -61,21 +64,13 @@ class Date {
     return DateFormat.yMMMMd().format(date);
   }
 
-  static String extractTimeWithDate(DateTime? dateTime) {
-    if (dateTime == null) return "";
-    return DateFormat.jm().format(dateTime) +
-        ' (' +
-        DateFormat.MMMEd().format(dateTime) +
-        ')';
-  }
-
   static int dateToInt(DateTime dt) {
     int year = dt.year;
-    String month = "${dt.month}";
-    if (month.length == 1) month = "0" + month;
+    String month = dt.month.toString();
+    if (month.length == 1) month = "0$month";
 
-    String day = "${dt.day}";
-    if (day.length == 1) day = "0" + day;
+    String day = dt.day.toString();
+    if (day.length == 1) day = "0$day";
 
     return int.parse("$year$month$day");
   }
@@ -90,12 +85,8 @@ class Date {
     return DateTime(year, month, day);
   }
 
-  static String formatDateApi(DateTime date) {
-    return DateFormat("yyyy-MM-dd", 'en').format(date);
-  }
-
   static int calcDaysToEndDate(DateTime startDate, int numberWeeks) {
-    return (numberWeeks == 0) ? 0 : DateTime.daysPerWeek * numberWeeks;
+    return DateTime.daysPerWeek * numberWeeks;
   }
 
   static TimeOfDay calculateDuration(DateTime startDate, DateTime endDate) {

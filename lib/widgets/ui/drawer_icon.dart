@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/preferences.dart';
 
 class DrawerIcon extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -18,7 +21,15 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.onSurface;
+    final prefs = context.read<PrefsProvider>();
+    Color color = Colors.white;
+
+    if (!prefs.theme.darkTheme) {
+      if (ThemeData.estimateBrightnessForColor(prefs.theme.primaryColor) ==
+          Brightness.light) {
+        color = Colors.black;
+      }
+    }
 
     return IconButton(
       onPressed: onPressed,

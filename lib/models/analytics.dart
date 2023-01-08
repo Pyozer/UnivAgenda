@@ -1,5 +1,5 @@
 class AnalyticsEvent {
-  static final String userPrefsGroup = "user_group";
+  static final String userDataSource = "user_data_source";
   static final String userPrefsDisplay = "user_display";
   static final String userPrefsColors = "user_colors";
 
@@ -12,7 +12,6 @@ class AnalyticsEvent {
 class AnalyticsValue {
   // Prefs groups
   static final String university = "university";
-  static final String groupKeys = "groupKeys";
   // Prefs display
   static final String numberWeeks = "number_weeks";
   static final String displayAllDays = "display_all_day";

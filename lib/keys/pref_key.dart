@@ -35,7 +35,7 @@ class PrefKey {
 
   static const defaultNumberWeeks = 4;
   static const defaultIsPreviousCourses = false;
-  static const defaultMaximumPrevDays = 31;
+  static const defaultMaximumPrevDays = 365;
   static const defaultPrimaryColor = Colors.red;
   static const defaultAccentColor = Colors.redAccent;
   static const defaultNoteColor = Colors.redAccent;

@@ -525,10 +525,10 @@ class PrefsProvider with ChangeNotifier {
       calendarType.hashCode ^
       isDisplayAllDays.hashCode ^
       isFullHiddenEvent.hashCode ^
-      hashList(cachedCourses) ^
-      hashList(notes) ^
-      hashList(customEvents) ^
-      hashList(hiddenEvents) ^
+      Object.hashAll(cachedCourses) ^
+      Object.hashAll(notes) ^
+      Object.hashAll(customEvents) ^
+      Object.hashAll(hiddenEvents) ^
       renamedEvents.hashCode ^
       cachedIcalDate.hashCode ^
       isGenerateEventColor.hashCode;

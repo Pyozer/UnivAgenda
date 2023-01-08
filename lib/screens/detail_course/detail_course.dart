@@ -287,7 +287,7 @@ class _DetailCourseState extends State<DetailCourse> {
                 _course.getTitle(),
                 style: textStyle,
               ),
-              color: _course.getBgColor(prefs.isGenerateEventColor),
+              color: Theme.of(context).colorScheme.primary,
             ),
             Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
           ],

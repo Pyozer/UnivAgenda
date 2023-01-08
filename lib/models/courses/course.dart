@@ -64,9 +64,10 @@ class Course extends BaseCourse {
     return null;
   }
 
-  Color getTitleColor(bool isGenerateEventColor) {
+  Color? getTitleColor(bool isGenerateEventColor) {
     final bgColor = getBgColor(isGenerateEventColor);
-    if (bgColor == null) return Colors.white;
+    if (bgColor == null) return null;
+
     final luminance = bgColor.computeLuminance();
     if (luminance < 0.5) return Colors.white;
     return Colors.black;

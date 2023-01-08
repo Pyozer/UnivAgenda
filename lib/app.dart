@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:univagenda/screens/splashscreen/splashscreen.dart';
 import 'package:univagenda/utils/preferences.dart';
 import 'package:univagenda/utils/translations.dart';
@@ -57,7 +58,10 @@ class App extends StatelessWidget {
                 onSecondary: Colors.white,
               ),
             ),
-            localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            localizationsDelegates: [
+              ...GlobalMaterialLocalizations.delegates,
+              SfGlobalLocalizations.delegate
+            ],
             supportedLocales: i18n.supportedLocales(),
             home: SplashScreen(),
           );

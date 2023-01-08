@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     setState(() => _isLoading = true);
 
-    try {
+    // try {
       final prefs = context.read<PrefsProvider>();
 
       List<Course> courses = [];
@@ -90,12 +90,12 @@ class _HomeScreenState extends State<HomeScreen>
 
       await _prepareList(courses);
       prefs.setCachedCourses(courses);
-    } catch (e) {
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-      ));
-    }
+    // } catch (e) {
+    //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     content: Text(e.toString()),
+    //   ));
+    // }
 
     if (mounted) setState(() => _isLoading = false);
   }

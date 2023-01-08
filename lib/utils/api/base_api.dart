@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/base_response.dart';

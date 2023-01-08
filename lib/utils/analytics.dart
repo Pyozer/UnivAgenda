@@ -5,9 +5,14 @@ import 'package:univagenda/utils/preferences.dart';
 class AnalyticsProvider {
   static void sendUserPrefsGroup(PrefsProvider prefs) {
     // User group prefs
-    FirebaseAnalytics.instance.logEvent(name: AnalyticsEvent.userPrefsGroup, parameters: {
-      AnalyticsValue.groupKeys: "Ical File",
-      AnalyticsValue.university: prefs.urlIcs,
+    prefs.urlIcs.forEach((url) {
+      final host = Uri.tryParse(url)?.host;
+      if (host?.isNotEmpty ?? false) {
+        FirebaseAnalytics.instance.logEvent(
+          name: AnalyticsEvent.userDataSource,
+          parameters: {AnalyticsValue.university: host!},
+        );
+      }
     });
   }
 

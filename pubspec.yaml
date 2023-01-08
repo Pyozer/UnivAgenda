@@ -1,7 +1,7 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
 version: 5.0.0+20220909
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -13,30 +13,32 @@ dependencies:
     sdk: flutter
 
   after_layout: 1.2.0
-  firebase_analytics: 9.3.4
-  firebase_core: 1.22.0
-  firebase_crashlytics: 2.8.10
-  syncfusion_flutter_calendar: 20.2.48
-  flutter_markdown: 0.6.10+5
+  firebase_analytics: 10.1.0
+  firebase_core: 2.4.1
+  firebase_crashlytics: 3.0.9
+  flutter_markdown: 0.6.13
   flutter_material_color_picker: 1.1.0+2
   flutter_native_timezone: 2.0.0
-  html: 0.15.0
+  html: 0.15.1
   http: 0.13.5
-  image_picker: 0.8.5+3
-  introduction_screen: 3.0.2
-  package_info_plus: 1.4.3+1
+  image_picker: 0.8.6
+  introduction_screen: 3.1.2
+  mobile_scanner: 2.1.0
+  package_info_plus: 3.0.2
   path_provider: 2.0.11
-  permission_handler: 10.0.0
-  provider: 6.0.3
-  mobile_scanner: 2.0.0
+  permission_handler: 10.2.0
+  provider: 6.0.5
   r_scan: 0.1.6+1
   shared_preferences: 2.0.15
-  timezone: 0.8.0
-  url_launcher: 6.1.5
-  uuid: 3.0.6
+  syncfusion_flutter_calendar: 20.4.42
+  syncfusion_localizations: 20.4.42
+  timezone: 0.9.0
+  url_launcher: 6.1.7
+  uuid: 3.0.7
+  icalendar_parser: ^1.1.0
 
 dev_dependencies:
-  flutter_launcher_icons: 0.10.0
+  flutter_launcher_icons: 0.11.0
 
 flutter:
   uses-material-design: true
@@ -46,19 +48,19 @@ flutter:
     - res/locales/
 
   fonts:
-     - family: GoogleSans
-       fonts:
-          - asset: res/fonts/GoogleSans-Regular.ttf
-            style: normal
-            weight: 500
+    - family: GoogleSans
+      fonts:
+        - asset: res/fonts/GoogleSans-Regular.ttf
+          style: normal
+          weight: 500
 
-          - asset: res/fonts/GoogleSans-Medium.ttf
-            style: normal
-            weight: 600
+        - asset: res/fonts/GoogleSans-Medium.ttf
+          style: normal
+          weight: 600
 
-          - asset: res/fonts/GoogleSans-Bold.ttf
-            style: normal
-            weight: 700
+        - asset: res/fonts/GoogleSans-Bold.ttf
+          style: normal
+          weight: 700
 
 flutter_icons:
   android: true

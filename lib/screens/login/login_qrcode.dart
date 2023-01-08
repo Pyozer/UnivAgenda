@@ -20,7 +20,7 @@ class _LoginQrCodeState extends State<LoginQrCode> {
 
   Widget _buildTorchBtn(bool isFlashOn) {
     return TextButton.icon(
-      style: TextButton.styleFrom(primary: Colors.white),
+      style: TextButton.styleFrom(foregroundColor: Colors.white),
       label: isFlashOn ? Text('Désactiver le flash') : Text('Activer le flash'),
       icon: isFlashOn
           ? const Icon(Icons.flash_off_rounded)

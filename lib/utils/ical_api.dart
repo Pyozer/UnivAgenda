@@ -1,8 +1,7 @@
+import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/ical/ical.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:timezone/standalone.dart';
 
 class IcalPrepareResult {
   final DateTime firstDate;
@@ -24,40 +23,34 @@ class IcalAPI {
     return IcalPrepareResult(startDate, endDate);
   }
 
-  static Future<List<Course>> icalToCourses(Ical? ical) async {
-    if (ical == null || ical.vevents.isEmpty) return [];
-
-    return ical.vevents.map((vevent) {
+  static Future<List<Course>> icalToCourses(ICalendar? ical) async {
+    if (ical?.data.isEmpty ?? true) {
+      return [];
+    }
+    return ical!.data.where((e) => e['type'] == 'VEVENT').map((vevent) {
       return Course(
-        uid: vevent.uid,
-        dateStart: _applyTimezone(vevent.dtstart),
-        dateEnd: _applyTimezone(vevent.dtend),
+        uid: vevent['uid'],
+        dateStart: DateTime.parse(vevent["dtstart"]['dt']).toLocal(),
+        dateEnd: DateTime.parse(vevent["dtend"]['dt']).toLocal(),
         description: capitalize(
-          vevent.description
-              .replaceAll('\n', ' ')
-              .split('(Export')[0]
-              .replaceAll(RegExp(r'\s\s+'), ' ')
-              .replaceAll('\\', ' ')
-              .replaceAll('_', ' ')
-              .trim(),
+          vevent['description']
+                  ?.replaceAll('\n', ' ')
+                  .split('(Export')[0]
+                  .replaceAll(RegExp(r'\s\s+'), ' ')
+                  .replaceAll('\\', ' ')
+                  .replaceAll('_', ' ')
+                  .trim() ??
+              '',
         ),
         location: capitalize(
-          vevent.location.replaceAll('\\', ' ').replaceAll('_', ' ').trim(),
+          vevent['location']
+                  ?.replaceAll('\\', ' ')
+                  .replaceAll('_', ' ')
+                  .trim() ??
+              '',
         ),
-        title: vevent.summary,
+        title: vevent['summary'] ?? '',
       );
     }).toList();
-  }
-
-  static TZDateTime _applyTimezone(DateTime datetime) {
-    final d = datetime.toUtc();
-    return TZDateTime.utc(
-      d.year,
-      d.month,
-      d.day,
-      d.hour,
-      d.minute,
-      d.second,
-    ).toLocal();
   }
 }
