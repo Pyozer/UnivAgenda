@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:univagenda/screens/splashscreen/splashscreen.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -12,25 +13,28 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<PrefsProvider>.value(
-          value: PrefsProvider.instance,
+        ChangeNotifierProvider<SettingsProvider>.value(
+          value: SettingsProvider.instance,
+        ),
+        ChangeNotifierProvider<ThemeProvider>.value(
+          value: ThemeProvider.instance,
         ),
       ],
-      child: Consumer<PrefsProvider>(
+      child: Consumer<ThemeProvider>(
         builder: (context, prefs, _) {
           final theme = ThemeData(
             platform: TargetPlatform.android,
             fontFamily: 'GoogleSans',
-            brightness: prefs.theme.brightness,
-            primaryColor: prefs.theme.primaryColor,
-            toggleableActiveColor: prefs.theme.accentColor,
+            brightness: prefs.brightness,
+            primaryColor: prefs.primaryColor,
+            toggleableActiveColor: prefs.accentColor,
             textSelectionTheme: TextSelectionThemeData(
-              cursorColor: prefs.theme.accentColor,
+              cursorColor: prefs.accentColor,
             ),
             textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
-                  prefs.theme.darkTheme ? Colors.white : Colors.black,
+                  prefs.darkTheme ? Colors.white : Colors.black,
                 ),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
@@ -53,8 +57,8 @@ class App extends StatelessWidget {
             title: "UnivAgenda",
             theme: theme.copyWith(
               colorScheme: theme.colorScheme.copyWith(
-                primary: prefs.theme.primaryColor,
-                secondary: prefs.theme.accentColor,
+                primary: prefs.primaryColor,
+                secondary: prefs.accentColor,
                 onSecondary: Colors.white,
               ),
             ),

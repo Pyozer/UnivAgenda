@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/preferences.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 
 class DrawerIcon extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -21,11 +20,11 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.read<PrefsProvider>();
+    final theme = context.read<ThemeProvider>();
     Color color = Colors.white;
 
-    if (!prefs.theme.darkTheme) {
-      if (ThemeData.estimateBrightnessForColor(prefs.theme.primaryColor) ==
+    if (!theme.darkTheme) {
+      if (ThemeData.estimateBrightnessForColor(theme.primaryColor) ==
           Brightness.light) {
         color = Colors.black;
       }

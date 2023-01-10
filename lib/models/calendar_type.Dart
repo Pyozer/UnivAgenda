@@ -10,15 +10,33 @@ CalendarView? calendarTypeFromStr(String? calendarType) {
   return null;
 }
 
-IconData getCalendarTypeIcon(CalendarView calendarType) {
-  if (calendarType == CalendarView.day) {
+IconData getCalendarTypeIcon(CalendarView currentType) {
+  print(currentType);
+  final nextType = nextCalendarType(currentType);
+  print(nextType);
+  if (nextType == CalendarView.timelineDay) {
     return Icons.view_week_outlined;
-  } else if (calendarType == CalendarView.week) {
-    return Icons.grid_on_outlined;
-  } else if (calendarType == CalendarView.month) {
-    return Icons.view_carousel_outlined;
+  }
+  if (nextType == CalendarView.schedule) {
+    return Icons.calendar_view_day_outlined;
+  }
+  if (nextType == CalendarView.week) {
+    return Icons.calendar_view_week_outlined;
+  }
+  if (nextType == CalendarView.month) {
+    // Icons.view_day_outlined
+    return Icons.calendar_view_month_outlined;
   }
   return Icons.view_day_outlined;
+
+  // if (calendarType == CalendarView.day) {
+  //   return Icons.view_week_outlined;
+  // } else if (calendarType == CalendarView.week) {
+  //   return Icons.grid_on_outlined;
+  // } else if (calendarType == CalendarView.month) {
+  //   return Icons.view_carousel_outlined;
+  // }
+  // return Icons.view_day_outlined;
 }
 
 CalendarView nextCalendarType(CalendarView current) {
@@ -26,6 +44,9 @@ CalendarView nextCalendarType(CalendarView current) {
     return CalendarView.schedule;
   }
   if (current == CalendarView.schedule) {
+    return CalendarView.week;
+  }
+  if (current == CalendarView.week) {
     return CalendarView.month;
   }
   if (current == CalendarView.month) {

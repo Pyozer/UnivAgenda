@@ -8,7 +8,7 @@ import 'package:univagenda/screens/onboarding/onboarding.dart';
 import 'package:univagenda/screens/settings/settings.dart';
 import 'package:univagenda/screens/supportme/supportme.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -17,7 +17,7 @@ class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   void _onDisconnectPressed(BuildContext context) async {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
 
     bool logoutConfirm = await DialogPredefined.showTextDialog(
         context,

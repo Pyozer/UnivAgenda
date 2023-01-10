@@ -34,7 +34,7 @@ class PrefKey {
   static const renamedEvent = 'renamed_events';
 
   static const defaultNumberWeeks = 4;
-  static const defaultIsPreviousCourses = false;
+  static const defaultIsPreviousCourses = true;
   static const defaultMaximumPrevDays = 365;
   static const defaultPrimaryColor = Colors.red;
   static const defaultAccentColor = Colors.redAccent;

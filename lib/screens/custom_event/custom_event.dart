@@ -141,9 +141,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   }
 
   void _onSubmit(BuildContext context) async {
-    if (_customCourse.title.isEmpty ||
-        _customCourse.description.isEmpty ||
-        (_customCourse.location?.isEmpty ?? true)) {
+    if (_customCourse.title.isEmpty) {
       _showError(i18n.text(StrKey.REQUIRE_FIELD));
       return;
     }

@@ -6,7 +6,8 @@ import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/screens/settings/manage_hidden_events.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/settings/list_tile_input.dart';
@@ -31,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     AnalyticsProvider.setScreen(widget);
   }
 
-  Widget _buildSettingsGeneral(PrefsProvider prefs) {
+  Widget _buildSettingsGeneral(SettingsProvider prefs) {
     List<Widget> settingsGeneralElems = [];
 
     final urlsIcs = List<String>.from(prefs.urlIcs);
@@ -96,7 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsDisplay(PrefsProvider prefs, ThemeData theme) {
+  Widget _buildSettingsDisplay(SettingsProvider prefs, ThemeData theme) {
     List<Widget> settingsDisplayItems = [
       ListTileNumber(
         title: i18n.text(StrKey.NUMBER_WEEK),
@@ -147,30 +148,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsColors(PrefsProvider prefs, ThemeData theme) {
+  Widget _buildSettingsColors(SettingsProvider prefs, ThemeProvider themeProvider, ThemeData theme) {
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_COLORS),
       children: [
         SwitchListTile(
           title: ListTileTitle(i18n.text(StrKey.DARK_THEME)),
           subtitle: Text(i18n.text(StrKey.DARK_THEME_DESC)),
-          value: prefs.theme.darkTheme,
+          value: themeProvider.darkTheme,
           activeColor: theme.colorScheme.secondary,
-          onChanged: (value) => prefs.setDarkTheme(value, true),
+          onChanged: (value) => themeProvider.setDarkTheme(value, true),
         ),
         const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.PRIMARY_COLOR),
           description: i18n.text(StrKey.PRIMARY_COLOR_DESC),
-          selectedColor: prefs.theme.primaryColor,
-          onColorChange: (color) => prefs.setPrimaryColor(color, true),
+          selectedColor: themeProvider.primaryColor,
+          onColorChange: (color) => themeProvider.setPrimaryColor(color, true),
         ),
         const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.ACCENT_COLOR),
           description: i18n.text(StrKey.ACCENT_COLOR_DESC),
-          selectedColor: prefs.theme.accentColor,
-          onColorChange: (color) => prefs.setAccentColor(color, true),
+          selectedColor: themeProvider.accentColor,
+          onColorChange: (color) => themeProvider.setAccentColor(color, true),
           colors: [
             Colors.redAccent,
             Colors.pinkAccent,
@@ -197,8 +198,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTileColor(
           title: i18n.text(StrKey.NOTE_COLOR),
           description: i18n.text(StrKey.NOTE_COLOR_DESC),
-          selectedColor: prefs.theme.noteColor,
-          onColorChange: (color) => prefs.setNoteColor(color, true),
+          selectedColor: themeProvider.noteColor,
+          onColorChange: (color) => themeProvider.setNoteColor(color, true),
         ),
         SwitchListTile(
           title: ListTileTitle(i18n.text(StrKey.GENERATE_EVENT_COLOR)),
@@ -213,7 +214,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsProvider>();
+    final prefs = context.watch<SettingsProvider>();
+    final themeProvider = context.watch<ThemeProvider>();
     final theme = Theme.of(context);
 
     return AppbarPage(
@@ -222,7 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           _buildSettingsGeneral(prefs),
           _buildSettingsDisplay(prefs, theme),
-          _buildSettingsColors(prefs, theme)
+          _buildSettingsColors(prefs, themeProvider, theme)
         ],
       ),
     );

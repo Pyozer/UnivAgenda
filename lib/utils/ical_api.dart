@@ -1,4 +1,5 @@
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'package:timezone/standalone.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/functions.dart';
@@ -27,11 +28,29 @@ class IcalAPI {
     if (ical?.data.isEmpty ?? true) {
       return [];
     }
+
     return ical!.data.where((e) => e['type'] == 'VEVENT').map((vevent) {
+      final start = vevent['dtstart'] as IcsDateTime;
+      final end = vevent['dtend'] as IcsDateTime;
+
+      final dtstart = start.tzid?.isNotEmpty ?? false
+          ? TZDateTime.from(
+              DateTime.parse(start.dt),
+              getLocation(start.tzid!),
+            )
+          : DateTime.parse(start.dt);
+
+      final dtend = end.tzid?.isNotEmpty ?? false
+          ? TZDateTime.from(
+              DateTime.parse(end.dt),
+              getLocation(end.tzid!),
+            )
+          : DateTime.parse(end.dt);
+
       return Course(
         uid: vevent['uid'],
-        dateStart: DateTime.parse(vevent["dtstart"]['dt']).toLocal(),
-        dateEnd: DateTime.parse(vevent["dtend"]['dt']).toLocal(),
+        dateStart: dtstart.toLocal(),
+        dateEnd: dtend.toLocal(),
         description: capitalize(
           vevent['description']
                   ?.replaceAll('\n', ' ')

@@ -8,9 +8,11 @@ import 'package:univagenda/screens/home/home.dart';
 import 'package:univagenda/screens/login/login.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
+
+import '../../utils/preferences/theme.provider.dart';
 
 const double kIconSize = 150.0;
 
@@ -86,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _onDone() {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     prefs.setIntroDone(true);
     navigatorPushReplace(
       context,
@@ -96,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<PrefsProvider>().theme.darkTheme;
+    final isDark = context.watch<ThemeProvider>().darkTheme;
     final btnStyle = TextStyle(color: isDark ? Colors.white : Colors.black);
 
     return IntroductionScreen(

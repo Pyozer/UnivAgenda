@@ -14,7 +14,8 @@ import 'package:univagenda/screens/login/login.dart';
 import 'package:univagenda/screens/onboarding/onboarding.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -48,11 +49,13 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     final now = DateTime.now();
 
     // Init shared preferences
-    PrefsProvider.sharedPrefs = await SharedPreferences.getInstance();
+    SettingsProvider.instance.sharedPrefs = await SharedPreferences.getInstance();
 
     // Load preferences from disk
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     await prefs.initFromDisk(context, true);
+    final themePrefs = context.read<ThemeProvider>();
+    await themePrefs.initFromDisk(context, true);
 
     if (prefs.urlIcs.isEmpty) {
       prefs.setUserLogged(false);

@@ -5,7 +5,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:univagenda/models/courses/base_course.dart';
 import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/widgets/course/course_row.dart';
 import 'package:univagenda/widgets/course/course_row_header.dart';
 import 'package:univagenda/widgets/ui/screen_message/empty_day.dart';
@@ -33,7 +34,8 @@ class _CourseListState extends State<CourseList> {
   Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses) {
     List<Widget> widgets = [];
 
-    final noteColor = context.read<PrefsProvider>().theme.noteColor;
+    // TODO: Watch instead ?
+    final noteColor = context.read<ThemeProvider>().noteColor;
 
     bool classicView =
         widget.calendarController.view == CalendarView.timelineDay;
@@ -65,7 +67,7 @@ class _CourseListState extends State<CourseList> {
 
   Widget _buildHorizontal(
     BuildContext context,
-    PrefsProvider prefs,
+    SettingsProvider prefs,
     Map<int, List<Course>?> elements,
   ) {
     if (elements.isEmpty) return const SizedBox.shrink();
@@ -131,30 +133,6 @@ class _CourseListState extends State<CourseList> {
     );
   }
 
-  // Widget _buildDialog(
-  //   BuildContext context,
-  //   DateTime date,
-  //   Map<DateTime, List<Course>> events,
-  // ) {
-  //   List<Course> courseEvents = _getDayEvents(date, events);
-
-  //   return Dialog(
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-  //     child: Container(
-  //       constraints: const BoxConstraints(maxHeight: 480),
-  //       child: _buildListCours(context, courseEvents),
-  //     ),
-  //   );
-  // }
-
-  // List<Course> _getDayEvents(DateTime day, Map<DateTime, List<Course>> data) {
-  //   DateTime? key =
-  //       data.keys.firstWhereOrNull((d) => DateUtils.isSameDay(day, d));
-  //   if (key == null) return [];
-
-  //   return data[key]!.whereNotNull().toList();
-  // }
-
   Widget _buildCalendar(
     BuildContext context,
     bool isGenColor,
@@ -166,62 +144,57 @@ class _CourseListState extends State<CourseList> {
 
     // Build calendar view
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Builder(
-        builder: (_) => SfCalendar(
-          controller: widget.calendarController,
-          dataSource: MeetingDataSource(
-            events.values.flattened.toList(),
-            isGenColor,
-            Theme.of(context).cardColor,
-          ),
-          monthViewSettings: MonthViewSettings(
-            showAgenda: _currentSelectedDate != null,
-            appointmentDisplayCount: 4,
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            agendaViewHeight: 200,
-            dayFormat: 'EEE',
-          ),
-          appointmentTimeTextFormat: 'Hm',
-          showDatePickerButton: true,
-          showNavigationArrow: true,
-          minDate: DateTime.now()
-              .subtract(Duration(days: PrefKey.defaultMaximumPrevDays)),
-          initialSelectedDate: DateTime.now(),
-          firstDayOfWeek: 1,
-          onTap: (details) {
-            if (details.targetElement == CalendarElement.calendarCell &&
-                widget.calendarController.view == CalendarView.month) {
-              if (_currentSelectedDate != details.date) {
-                setState(() => _currentSelectedDate = details.date);
-              } else {
-                setState(() => _currentSelectedDate = null);
-              }
-            }
-            if (details.targetElement != CalendarElement.appointment) return;
-
-            if (details.appointments?.length == 1) {
-              final appointment = details.appointments![0] as Course;
-              navigatorPush(
-                context,
-                DetailCourse(course: appointment),
-                fullscreenDialog: true,
-              );
-            } // else {
-            //   showDialog(
-            //     context: context,
-            //     builder: (dCtx) => _buildDialog(dCtx, details.date!, events),
-            //   );
-            // }
-          },
+      padding: const EdgeInsets.only(top: 4.0),
+      child: SfCalendar(
+        controller: widget.calendarController,
+        dataSource: MeetingDataSource(
+          events.values.flattened.toList(),
+          isGenColor,
+          Theme.of(context).cardColor,
         ),
+        initialSelectedDate: DateTime.now(),
+        minDate: DateTime.now().subtract(
+          Duration(days: PrefKey.defaultMaximumPrevDays),
+        ),
+        firstDayOfWeek: 1,
+        monthViewSettings: MonthViewSettings(
+          showAgenda: _currentSelectedDate != null,
+          appointmentDisplayCount: 4,
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+          agendaViewHeight: 200,
+          dayFormat: 'EEE',
+        ),
+        appointmentTimeTextFormat: 'Hm',
+        showCurrentTimeIndicator: true,
+        showDatePickerButton: true,
+        showNavigationArrow: true,
+        onTap: (details) {
+          if (details.targetElement == CalendarElement.calendarCell &&
+              widget.calendarController.view == CalendarView.month) {
+            if (_currentSelectedDate != details.date) {
+              setState(() => _currentSelectedDate = details.date);
+            } else {
+              setState(() => _currentSelectedDate = null);
+            }
+          }
+          if (details.targetElement != CalendarElement.appointment) return;
+
+          if (details.appointments?.length == 1) {
+            final appointment = details.appointments![0] as Course;
+            navigatorPush(
+              context,
+              DetailCourse(course: appointment),
+              fullscreenDialog: true,
+            );
+          }
+        },
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsProvider>();
+    final prefs = context.watch<SettingsProvider>();
 
     if (widget.calendarController.view == CalendarView.timelineDay) {
       return _buildHorizontal(context, prefs, widget.coursesData);
@@ -270,8 +243,13 @@ class MeetingDataSource extends CalendarDataSource<Course> {
   }
 
   @override
-  String? getNotes(int index) =>
-      getEvent(index).notes.map((e) => e.text).join((', '));
+  String? getNotes(int index) {
+    final notes = getEvent(index).notes.map((e) => e.text).join((', '));
+    if (notes.isNotEmpty) {
+      print(notes);
+    }
+    return notes;
+  }
 
   @override
   Color getColor(int index) {
@@ -284,9 +262,8 @@ class MeetingDataSource extends CalendarDataSource<Course> {
     if (event.dateStart.hour == 0 &&
         event.dateStart.minute == 0 &&
         event.dateStart.second == 0) {
-      if (event.dateEnd.difference(event.dateStart).inSeconds %
-              (24 * 60 * 60) ==
-          0) {
+      final diff = event.dateEnd.difference(event.dateStart).inSeconds;
+      if (diff % (24 * 60 * 60) == 0) {
         return true;
       }
     }

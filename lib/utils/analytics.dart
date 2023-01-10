@@ -1,9 +1,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:univagenda/models/analytics.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 
 class AnalyticsProvider {
-  static void sendUserPrefsGroup(PrefsProvider prefs) {
+  static void sendUserPrefsGroup(SettingsProvider prefs) {
     // User group prefs
     prefs.urlIcs.forEach((url) {
       final host = Uri.tryParse(url)?.host;
@@ -16,7 +17,7 @@ class AnalyticsProvider {
     });
   }
 
-  static void sendUserPrefsDisplay(PrefsProvider prefs) {
+  static void sendUserPrefsDisplay(SettingsProvider prefs) {
     // User display prefs
     FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.userPrefsDisplay,
@@ -28,15 +29,15 @@ class AnalyticsProvider {
     );
   }
 
-  static void sendUserPrefsColor(PrefsProvider prefs) {
+  static void sendUserPrefsColor(ThemeProvider theme) {
     // User display prefs
     FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.userPrefsColors,
       parameters: <String, String>{
-        AnalyticsValue.darkTheme: prefs.theme.darkTheme.toString(),
-        AnalyticsValue.primaryColor: prefs.theme.primaryColor.toString(),
-        AnalyticsValue.accentColor: prefs.theme.accentColor.toString(),
-        AnalyticsValue.noteColor: prefs.theme.noteColor.toString(),
+        AnalyticsValue.darkTheme: theme.darkTheme.toString(),
+        AnalyticsValue.primaryColor: theme.primaryColor.toString(),
+        AnalyticsValue.accentColor: theme.accentColor.toString(),
+        AnalyticsValue.noteColor: theme.noteColor.toString(),
       },
     );
   }

@@ -11,7 +11,7 @@ import 'package:univagenda/screens/custom_event/custom_event.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course_note/add_note_button.dart';
 import 'package:univagenda/widgets/course_note/course_note.dart';
@@ -65,14 +65,18 @@ class _DetailCourseState extends State<DetailCourse> {
           leading: const Icon(Icons.group_outlined),
           title: Text(
             _course.description,
-            maxLines: 2,
+            maxLines: 8,
             overflow: TextOverflow.ellipsis,
           ),
         ),
       if (_course.location?.isNotEmpty ?? false)
         ListTile(
           leading: const Icon(Icons.location_on_outlined),
-          title: Text(_course.location!),
+          title: Text(
+            _course.location!,
+            maxLines: 8,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       if (_course.isExam())
         ListTile(
@@ -111,7 +115,7 @@ class _DetailCourseState extends State<DetailCourse> {
 
   void _onNoteDeleted(Note note) {
     setState(() => _course.notes.remove(note));
-    context.read<PrefsProvider>().removeNote(note);
+    context.read<SettingsProvider>().removeNote(note);
   }
 
   void _openAddNote() async {
@@ -175,12 +179,12 @@ class _DetailCourseState extends State<DetailCourse> {
       final note = Note(courseUid: _course.uid, text: _noteToAdd);
       _noteToAdd = "";
       setState(() => _course.notes.insert(0, note));
-      context.read<PrefsProvider>().addNote(note);
+      context.read<SettingsProvider>().addNote(note);
     }
   }
 
   void _onMenuChoose(MenuItem choice) async {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     if (choice == MenuItem.HIDE || choice == MenuItem.UNHIDE) {
       bool isHide = choice == MenuItem.HIDE;
       bool isDialogOk = await DialogPredefined.showTextDialog(
@@ -194,7 +198,8 @@ class _DetailCourseState extends State<DetailCourse> {
         return;
       }
       if (isHide) {
-        prefs.addHiddenEvent(Hidden(courseUid: widget.course.uid, title: widget.course.title));
+        prefs.addHiddenEvent(
+            Hidden(courseUid: widget.course.uid, title: widget.course.title));
       } else {
         prefs.removeHiddenEvent(widget.course.title);
       }
@@ -270,7 +275,7 @@ class _DetailCourseState extends State<DetailCourse> {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsProvider>();
+    final prefs = context.watch<SettingsProvider>();
     final textStyle = TextStyle(
       fontSize: 17.0,
       color: _course.getTitleColor(prefs.isGenerateEventColor),
@@ -287,7 +292,6 @@ class _DetailCourseState extends State<DetailCourse> {
                 _course.getTitle(),
                 style: textStyle,
               ),
-              color: Theme.of(context).colorScheme.primary,
             ),
             Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
           ],

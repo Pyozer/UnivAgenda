@@ -16,7 +16,8 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/date.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/course/course_list.dart';
 import 'package:univagenda/widgets/drawer.dart';
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     calendarController.view = prefs.calendarType;
     // Load cached ical
     if (_courses == null && prefs.cachedCourses.isNotEmpty) {
@@ -66,11 +67,12 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _sendAnalyticsEvent() async {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
+    final theme = context.read<ThemeProvider>();
     // User group, display and colors prefs
     AnalyticsProvider.sendUserPrefsGroup(prefs);
     AnalyticsProvider.sendUserPrefsDisplay(prefs);
-    AnalyticsProvider.sendUserPrefsColor(prefs);
+    AnalyticsProvider.sendUserPrefsColor(theme);
   }
 
   Future<void> _fetchData() async {
@@ -79,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen>
     setState(() => _isLoading = true);
 
     // try {
-      final prefs = context.read<PrefsProvider>();
+      final prefs = context.read<SettingsProvider>();
 
       List<Course> courses = [];
       for (final urlIcs in prefs.urlIcs) {
@@ -109,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   List<CustomCourse> _generateRepeatedCourses(CustomCourse course) {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
 
     List<CustomCourse> courses = [];
 
@@ -135,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Future<void> _prepareList(List<Course>? courseFromIcal) async {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
 
     List<Course> listCourses = [];
     // Get all notes saved
@@ -221,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen>
     setState(() {
       calendarController.view = nextCalendarType(calendarController.view!);
     });
-    context.read<PrefsProvider>().setCalendarType(calendarController.view);
+    context.read<SettingsProvider>().setCalendarType(calendarController.view);
   }
 
   void _onFabPressed() async {
@@ -231,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen>
       fullscreenDialog: true,
     );
     if (customCourse != null) {
-      context.read<PrefsProvider>().addCustomEvent(customCourse, true);
+      context.read<SettingsProvider>().addCustomEvent(customCourse, true);
     }
   }
 

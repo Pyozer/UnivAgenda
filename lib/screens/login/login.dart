@@ -15,7 +15,8 @@ import 'package:univagenda/screens/login/login_qrcode.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     _setLoading(true);
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     prefs.setUserLogged(false);
 
     if (mounted) {
@@ -332,7 +333,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<PrefsProvider>().theme.darkTheme;
+    final isDark = context.watch<ThemeProvider>().darkTheme;
     // Use 50 to start UI changes before keyboard fully disappears
     final isKeyboardHidden = MediaQuery.of(context).viewInsets.bottom < 50;
 

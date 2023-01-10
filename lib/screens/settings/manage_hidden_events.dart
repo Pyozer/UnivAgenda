@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 
@@ -33,7 +33,7 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
           Expanded(child: Text(hiddenEvent)),
           IconButton(
             icon: const Icon(Icons.delete_outline),
-            onPressed: () => context.read<PrefsProvider>().removeHiddenEvent(hiddenEvent, true),
+            onPressed: () => context.read<SettingsProvider>().removeHiddenEvent(hiddenEvent, true),
           ),
         ],
       ),
@@ -42,7 +42,7 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsProvider>();
+    final prefs = context.watch<SettingsProvider>();
 
     return AppbarPage(
       title: i18n.text(StrKey.HIDDEN_EVENT),

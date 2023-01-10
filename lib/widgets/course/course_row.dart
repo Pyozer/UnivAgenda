@@ -6,7 +6,7 @@ import 'package:univagenda/models/courses/course.dart';
 import 'package:univagenda/models/courses/custom_course.dart';
 import 'package:univagenda/screens/detail_course/detail_course.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences.dart';
+import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 
@@ -29,7 +29,7 @@ class CourseRow extends StatelessWidget {
   }
 
   void _onCustomCourseLong(BuildContext context) async {
-    final prefs = context.read<PrefsProvider>();
+    final prefs = context.read<SettingsProvider>();
     bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
     if (isConfirm) prefs.removeCustomEvent(course as CustomCourse, true);
   }
@@ -46,7 +46,7 @@ class CourseRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsProvider>();
+    final prefs = context.watch<SettingsProvider>();
 
     Color? bgColorRow = course.getBgColor(prefs.isGenerateEventColor);
     String courseDate = course.dateForDisplay();

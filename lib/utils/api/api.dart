@@ -14,20 +14,9 @@ import '../../models/custom_exception.dart';
 class Api extends BaseApi {
   Api() : super();
 
-  // Future<List<Course>> getCoursesCustomIcal(String icalUrl) async {
-  //   final response = await doRequest(http.get(
-  //     getAPIUrl("/parseCustomIcal", {'url': icalUrl}),
-  //     headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
-  //   ));
-
-  //   return IcalAPI.icalToCourses(Ical.fromJson(getDataMap(response)));
-  // }
-
   Future<List<Course>> getCoursesCustomIcal(String icalUrl) async {
-    final response = await doRequest(http.get(
-      Uri.parse(icalUrl),
-      headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
-    ));
+    final response = await doRequest(http.get(Uri.parse(icalUrl)));
+    // i18n.currentLanguage
 
     if (response.statusCode != 200 || response.body.isEmpty) {
       throw CustomException(
