@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:univagenda/keys/pref_key.dart';
@@ -19,11 +20,17 @@ import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/course/course_list.dart';
 import 'package:univagenda/widgets/drawer.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
+
+import '../../models/courses/base_course.dart';
+import '../../models/courses/course_data_source.dart';
+import '../../widgets/course/course_row.dart';
+import '../../widgets/course/course_row_header.dart';
+import '../../widgets/ui/screen_message/empty_day.dart';
+import '../detail_course/detail_course.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen>
   bool _isLoading = true;
   Map<int, List<Course>>? _courses;
   final calendarController = CalendarController();
+  DateTime? _currentSelectedDate;
 
   @override
   void didChangeDependencies() {
@@ -46,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen>
     final prefs = context.read<SettingsProvider>();
     calendarController.view = prefs.calendarType;
     // Load cached ical
-    if (_courses == null && prefs.cachedCourses.isNotEmpty) {
+    if (prefs.cachedCourses.isNotEmpty) {
       try {
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
@@ -81,17 +89,17 @@ class _HomeScreenState extends State<HomeScreen>
     setState(() => _isLoading = true);
 
     // try {
-      final prefs = context.read<SettingsProvider>();
+    final prefs = context.read<SettingsProvider>();
 
-      List<Course> courses = [];
-      for (final urlIcs in prefs.urlIcs) {
-        if (Uri.tryParse(urlIcs)?.hasAbsolutePath ?? false) {
-          courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
-        }
+    List<Course> courses = [];
+    for (final urlIcs in prefs.urlIcs) {
+      if (Uri.tryParse(urlIcs)?.hasAbsolutePath ?? false) {
+        courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
       }
+    }
 
-      await _prepareList(courses);
-      prefs.setCachedCourses(courses);
+    await _prepareList(courses);
+    prefs.setCachedCourses(courses);
     // } catch (e) {
     //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
     //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -259,8 +267,182 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses) {
+    List<Widget> widgets = [];
+
+    // TODO: Watch instead ?
+    final noteColor = context.read<ThemeProvider>().noteColor;
+
+    bool classicView = calendarController.view == CalendarView.timelineDay;
+
+    if (courses != null && courses.isNotEmpty) {
+      courses.forEach((course) {
+        if (course == null) {
+          widgets.add(const EmptyDay());
+        } else if (course is CourseHeader) {
+          widgets.add(CourseRowHeader(coursHeader: course));
+        } else if (course is Course) {
+          widgets.add(CourseRow(course: course, noteColor: noteColor));
+        }
+      });
+    } else {
+      widgets.add(const EmptyDay(
+        padding: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 16.0),
+      ));
+    }
+
+    return ListView(
+      children: widgets,
+      padding: EdgeInsets.only(
+        bottom: classicView ? 36.0 : 2.0,
+        top: 12.0,
+      ),
+    );
+  }
+
+  Widget _buildHorizontal(
+    BuildContext context,
+    SettingsProvider prefs,
+    Map<int, List<Course>?> elements,
+  ) {
+    if (elements.isEmpty) return const SizedBox.shrink();
+
+    List<Widget> listTabView = [];
+    List<Widget> tabs = [];
+
+    // Build horizontal view
+    final today = Date.dateToInt(DateTime.now());
+    int initialIndex = 0;
+    bool isIndexFound = false;
+
+    elements.forEach((date, courses) {
+      if (!prefs.isDisplayAllDays && (courses == null || courses.isEmpty)) {
+        return;
+      }
+      tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
+
+      listTabView.add(_buildListCours(context, courses));
+
+      final isMinEvent = date >= today;
+      if (!isMinEvent && !isIndexFound) {
+        initialIndex++;
+      } else if (isMinEvent && !isIndexFound) {
+        isIndexFound = true;
+      }
+    });
+
+    if (initialIndex >= elements.length) initialIndex = 0;
+
+    final theme = Theme.of(context);
+
+    final baseStyle = theme.primaryTextTheme.headline6;
+    final unselectedStyle = baseStyle!.copyWith(
+      fontSize: 17.0,
+      color: baseStyle.color!.withAlpha(180),
+    );
+    final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
+
+    return DefaultTabController(
+      length: tabs.length,
+      initialIndex: initialIndex,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            color: theme.colorScheme.surface,
+            child: TabBar(
+              isScrollable: true,
+              tabs: tabs,
+              labelColor: labelStyle.color,
+              labelStyle: labelStyle,
+              unselectedLabelColor: theme.primaryTextTheme.caption!.color,
+              unselectedLabelStyle: unselectedStyle,
+              indicatorPadding: const EdgeInsets.only(bottom: 0.2),
+              indicatorWeight: 2.5,
+              indicatorColor: labelStyle.color,
+            ),
+          ),
+          Expanded(child: TabBarView(children: listTabView)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCalendar(
+    BuildContext context,
+    bool isGenColor,
+    Map<int, List<Course>> elements,
+  ) {
+    final events = elements.map(
+      (intDate, events) => MapEntry(Date.intToDate(intDate), events),
+    );
+
+    // Build calendar view
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: SfCalendar(
+        controller: calendarController,
+        dataSource: CourseDataSource(
+          events.values.flattened.toList(),
+          isGenColor,
+          Theme.of(context).cardColor,
+        ),
+        initialSelectedDate: DateTime.now(),
+        minDate: DateTime.now().subtract(
+          Duration(days: PrefKey.defaultMaximumPrevDays),
+        ),
+        firstDayOfWeek: 1,
+        monthViewSettings: MonthViewSettings(
+          showAgenda: _currentSelectedDate != null,
+          appointmentDisplayCount: 4,
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+          agendaViewHeight: 200,
+          dayFormat: 'EEE',
+        ),
+        appointmentTimeTextFormat: 'Hm',
+        showCurrentTimeIndicator: true,
+        showDatePickerButton: true,
+        showNavigationArrow: true,
+        onTap: (details) {
+          if (details.targetElement == CalendarElement.calendarCell &&
+              calendarController.view == CalendarView.month) {
+            if (_currentSelectedDate != details.date) {
+              setState(() => _currentSelectedDate = details.date);
+            } else {
+              setState(() => _currentSelectedDate = null);
+            }
+          }
+          if (details.targetElement != CalendarElement.appointment) return;
+
+          if (details.appointments?.length == 1) {
+            final appointment = details.appointments![0] as Course;
+            navigatorPush(
+              context,
+              DetailCourse(course: appointment),
+              fullscreenDialog: true,
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildCourses(SettingsProvider prefs) {
+    if (calendarController.view == CalendarView.timelineDay) {
+      return _buildHorizontal(context, prefs, _courses!);
+    }
+    return _buildCalendar(
+      context,
+      prefs.isGenerateEventColor,
+      _courses!,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Force didChangeDependancies to be triggered.
+    final prefs = context.watch<SettingsProvider>();
+
     Widget content;
     if (_isLoading && _courses == null) {
       // data not loaded
@@ -272,10 +454,7 @@ class _HomeScreenState extends State<HomeScreen>
       // No course found
       content = _buildNoResult();
     } else {
-      content = CourseList(
-        coursesData: _courses!,
-        calendarController: calendarController,
-      );
+      content = buildCourses(prefs);
     }
 
     return AppbarPage(

@@ -50,6 +50,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
 
     // Init shared preferences
     SettingsProvider.instance.sharedPrefs = await SharedPreferences.getInstance();
+    ThemeProvider.instance.sharedPrefs = await SharedPreferences.getInstance();
 
     // Load preferences from disk
     final prefs = context.read<SettingsProvider>();

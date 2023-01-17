@@ -11,9 +11,7 @@ CalendarView? calendarTypeFromStr(String? calendarType) {
 }
 
 IconData getCalendarTypeIcon(CalendarView currentType) {
-  print(currentType);
   final nextType = nextCalendarType(currentType);
-  print(nextType);
   if (nextType == CalendarView.timelineDay) {
     return Icons.view_week_outlined;
   }

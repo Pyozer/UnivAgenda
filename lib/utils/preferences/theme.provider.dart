@@ -65,6 +65,7 @@ class ThemeProvider extends BaseProvider {
 
   Future<void> initFromDisk(BuildContext context, [bool state = false]) async {
     final isDarkTheme = sharedPrefs?.getBool(PrefKey.isDarkTheme);
+    print(isDarkTheme);
     final deviceBrightness = MediaQuery.of(context).platformBrightness;
     setDarkTheme(isDarkTheme ?? deviceBrightness == Brightness.dark);
 
@@ -76,6 +77,8 @@ class ThemeProvider extends BaseProvider {
 
     final noteColorValue = sharedPrefs?.getInt(PrefKey.noteColor);
     if (noteColorValue != null) setNoteColor(Color(noteColorValue));
+
+    updatePref(() {}, state);
   }
 
   @override

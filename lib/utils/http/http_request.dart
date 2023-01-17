@@ -32,23 +32,4 @@ class HttpRequest {
 
     return HttpResult.success(response);
   }
-
-  static Future<HttpResult> post(
-    String url, {
-    body,
-    Map<String, String>? headers,
-  }) async {
-    http.Response response;
-
-    try {
-      response = await http.post(Uri.parse(url), body: body, headers: headers);
-    } catch (_) {
-      return HttpResult.fail();
-    }
-
-    if (!successHTTPCode.contains(response.statusCode))
-      return HttpResult.fail();
-
-    return HttpResult.success(response);
-  }
 }

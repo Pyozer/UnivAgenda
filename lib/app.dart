@@ -22,30 +22,9 @@ class App extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, prefs, _) {
-          final theme = ThemeData(
-            platform: TargetPlatform.android,
-            fontFamily: 'GoogleSans',
-            brightness: prefs.brightness,
-            primaryColor: prefs.primaryColor,
-            toggleableActiveColor: prefs.accentColor,
-            textSelectionTheme: TextSelectionThemeData(
-              cursorColor: prefs.accentColor,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(
-                  prefs.darkTheme ? Colors.white : Colors.black,
-                ),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-              ),
-            ),
-          );
+          ThemeMode themeMode = prefs.darkTheme ? ThemeMode.dark : ThemeMode.light;
 
-          SystemUiOverlayStyle style = theme.brightness == Brightness.dark
+          SystemUiOverlayStyle style = prefs.darkTheme
               ? SystemUiOverlayStyle.light
               : SystemUiOverlayStyle.dark;
 
@@ -55,13 +34,69 @@ class App extends StatelessWidget {
 
           return MaterialApp(
             title: "UnivAgenda",
-            theme: theme.copyWith(
-              colorScheme: theme.colorScheme.copyWith(
-                primary: prefs.primaryColor,
-                secondary: prefs.accentColor,
-                onSecondary: Colors.white,
-              ),
-            ),
+            themeMode: themeMode,
+            theme: ThemeData(
+                brightness: Brightness.light,
+                fontFamily: 'GoogleSans',
+                primaryColor: prefs.primaryColor,
+                toggleableActiveColor: prefs.accentColor,
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: prefs.accentColor,
+                ),
+                colorScheme: ColorScheme.light(
+                  primary: prefs.primaryColor,
+                  secondary: prefs.accentColor,
+                  // primaryContainer: CustomColors.affMainBlue2,
+                  // secondaryContainer: CustomColors.affDarkBlue,
+                  // error: CustomColors.affRedError,
+                  // onPrimary: Colors.white,
+                  // surface: Colors.white,
+                ),
+                // errorColor: CustomColors.affRedError,
+                // toggleableActiveColor: CustomColors.affMainBlue,
+                textButtonTheme: TextButtonThemeData(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                      Colors.black,
+                    ),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                )),
+            darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                fontFamily: 'GoogleSans',
+                primaryColor: prefs.primaryColor,
+                toggleableActiveColor: prefs.accentColor,
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: prefs.accentColor,
+                ),
+                colorScheme: ColorScheme.dark(
+                  primary: prefs.primaryColor,
+                  secondary: prefs.accentColor,
+                  // primaryContainer: CustomColors.affMainBlue2,
+                  // secondaryContainer: CustomColors.affDarkBlue,
+                  // error: CustomColors.affRedError,
+                  // onPrimary: Colors.white,
+                  // surface: Colors.white,
+                ),
+                // errorColor: CustomColors.affRedError,
+                // toggleableActiveColor: CustomColors.affMainBlue,
+                textButtonTheme: TextButtonThemeData(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                      Colors.white,
+                    ),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                )),
             localizationsDelegates: [
               ...GlobalMaterialLocalizations.delegates,
               SfGlobalLocalizations.delegate
