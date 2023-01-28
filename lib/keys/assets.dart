@@ -21,6 +21,4 @@ class Asset {
   static const INTRO_THEME = '$IMAGES/intro_theme.png';
 
   static const SAD_ICON = '$IMAGES/sad_icon.png';
-  static const QRCODE = '$IMAGES/qrcode.png';
-  static const QRCODE_WHITE = '$IMAGES/qrcode_white.png';
 }

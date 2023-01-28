@@ -98,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<ThemeProvider>().darkTheme;
+    final isDark = context.isDark;
     final btnStyle = TextStyle(color: isDark ? Colors.white : Colors.black);
 
     return IntroductionScreen(

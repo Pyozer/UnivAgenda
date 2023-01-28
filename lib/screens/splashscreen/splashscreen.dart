@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:univagenda/keys/string_key.dart';
@@ -15,7 +14,6 @@ import 'package:univagenda/screens/onboarding/onboarding.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -34,6 +32,8 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
   }
 
   Future<void> _initPreferences() async {
+    final now = DateTime.now();
+
     // Init translations
     await i18n.init();
 
@@ -46,18 +46,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     _setError(null);
     _startTimeout();
 
-    final now = DateTime.now();
-
-    // Init shared preferences
-    SettingsProvider.instance.sharedPrefs = await SharedPreferences.getInstance();
-    ThemeProvider.instance.sharedPrefs = await SharedPreferences.getInstance();
-
-    // Load preferences from disk
     final prefs = context.read<SettingsProvider>();
-    await prefs.initFromDisk(context, true);
-    final themePrefs = context.read<ThemeProvider>();
-    await themePrefs.initFromDisk(context, true);
-
     if (prefs.urlIcs.isEmpty) {
       prefs.setUserLogged(false);
     }

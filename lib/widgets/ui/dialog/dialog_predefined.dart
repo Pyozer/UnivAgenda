@@ -42,8 +42,8 @@ class DialogPredefined {
     String btnPositive,
     String? btnNegative, [
     dismissable = true,
-  ]) async {
-    return await showContentDialog(
+  ]) {
+    return showContentDialog(
       context,
       title,
       Text(text),
@@ -53,8 +53,8 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showSimpleMessage(ctx, String title, String msg) async {
-    return await showTextDialog(
+  static Future<bool> showSimpleMessage(ctx, String title, String msg) {
+    return showTextDialog(
       ctx,
       title,
       msg,
@@ -63,8 +63,8 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showEndTimeError(BuildContext context) async {
-    return await showTextDialog(
+  static Future<bool> showEndTimeError(BuildContext context) {
+    return showTextDialog(
       context,
       i18n.text(StrKey.ERROR_END_TIME),
       i18n.text(StrKey.ERROR_END_TIME_TEXT),
@@ -73,8 +73,8 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showDeleteEventConfirm(BuildContext context) async {
-    return await showTextDialog(
+  static Future<bool> showDeleteEventConfirm(BuildContext context) {
+    return showTextDialog(
       context,
       i18n.text(StrKey.CONFIRM_EVENT_DELETE),
       i18n.text(StrKey.CONFIRM_EVENT_DELETE_TEXT),
@@ -83,8 +83,8 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool> showICSFormatError(BuildContext context) async {
-    return await showTextDialog(
+  static Future<bool> showICSFormatError(BuildContext context) {
+    return showTextDialog(
       context,
       i18n.text(StrKey.ERROR),
       i18n.text(StrKey.WRONG_ICS_FORMAT),
@@ -93,7 +93,7 @@ class DialogPredefined {
     );
   }
 
-  static Future<bool?> showProgressDialog(context, String msg) async {
+  static Future<bool?> showProgressDialog(context, String msg) {
     return showDialog<bool?>(
       context: context,
       barrierDismissible: false,

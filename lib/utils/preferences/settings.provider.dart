@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:univagenda/keys/pref_key.dart';
 import 'package:univagenda/models/calendar_type.dart';
@@ -317,7 +316,7 @@ class SettingsProvider extends BaseProvider {
     setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
-  Future<void> initFromDisk(BuildContext context, [bool state = false]) async {
+  Future<void> initFromDisk() async {
     await initIcsUrls();
 
     String? cachedIcalDate = sharedPrefs?.getString(PrefKey.cachedIcalDate);
@@ -377,7 +376,7 @@ class SettingsProvider extends BaseProvider {
     }).toList();
 
     // Set update state true/false on last to force rebuild
-    setCustomEvents(actualEvents, state);
+    setCustomEvents(actualEvents);
   }
 
   Future<void> initIcsUrls() async {

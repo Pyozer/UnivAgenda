@@ -5,6 +5,7 @@ import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/date.dart';
+import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/ui/circle_text.dart';
@@ -216,7 +217,8 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: AppbarPage(
@@ -224,7 +226,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,
         ),
         fab: FloatingActionButton.extended(
-          icon: const Icon(Icons.check),
+          icon: Icon(Icons.check),
           label: Text(i18n.text(StrKey.SAVE)),
           tooltip: i18n.text(StrKey.SAVE),
           heroTag: "fabBtn",
@@ -286,7 +288,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: Text(i18n.text(StrKey.EVENT_REPEAT)),
                 trailing: Switch(
                   value: _isRecurrent,
-                  activeColor: theme.colorScheme.secondary,
+                  activeColor: colorScheme.secondary,
                   onChanged: _onRecurrentDate,
                 ),
               ),
@@ -340,7 +342,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 title: Text(i18n.text(StrKey.EVENT_COLOR)),
                 trailing: Switch(
                   value: _isColor,
-                  activeColor: theme.colorScheme.secondary,
+                  activeColor: colorScheme.secondary,
                   onChanged: _onColorCustom,
                 ),
               ),

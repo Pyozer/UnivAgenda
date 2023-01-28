@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:univagenda/keys/assets.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/keys/url.dart';
@@ -11,7 +10,6 @@ import 'package:univagenda/screens/about/licences/licences.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/changelog.dart';
 import 'package:univagenda/widgets/images/circle_image.dart';
@@ -97,7 +95,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildSocial(BuildContext context) {
-    final isDark = context.watch<ThemeProvider>().darkTheme;
+    final isDark = context.isDark;
     final store = Platform.isAndroid ? "Play Store" : "App Store";
 
     return AboutCard(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/utils/functions.dart';
 
 class RaisedButtonColored extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -20,31 +19,12 @@ class RaisedButtonColored extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = Theme.of(context).colorScheme.secondary;
-    final color = getColorDependOfBackground(accentColor);
-
     return ElevatedButton(
-      child: text != null
-          ? Text(
-              text!.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            )
-          : child,
+      child: text != null ? Text(text!.toUpperCase()) : child,
       onPressed: onPressed,
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          shape ??
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        ),
-        backgroundColor: MaterialStateProperty.all(accentColor),
-        textStyle: MaterialStateProperty.all(TextStyle(color: color)),
-        padding: MaterialStateProperty.all(
-          padding ??
-              const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 6.0,
-              ),
-        ),
+      style: ElevatedButton.styleFrom(
+        shape: shape,
+        padding: padding,
       ),
     );
   }

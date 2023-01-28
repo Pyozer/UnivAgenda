@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/widgets/ui/drawer_icon.dart';
 
 class AppbarPage extends StatelessWidget {
@@ -21,6 +23,8 @@ class AppbarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeProvider>();
+
     return Scaffold(
       appBar: (title != null)
           ? AppBar(
@@ -28,6 +32,8 @@ class AppbarPage extends StatelessWidget {
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
+              backgroundColor: theme.primaryColor,
+              backwardsCompatibility: true,
               automaticallyImplyLeading: !useCustomMenuIcon,
               leading: useCustomMenuIcon
                   ? Builder(
@@ -49,12 +55,8 @@ class AppbarPage extends StatelessWidget {
 
 class AppbarSubTitle extends StatelessWidget {
   final Widget child;
-  final Color? color;
-  final EdgeInsets? padding;
 
-  const AppbarSubTitle(
-      {Key? key, required this.child, this.color, this.padding})
-      : super(key: key);
+  const AppbarSubTitle({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +64,10 @@ class AppbarSubTitle extends StatelessWidget {
       children: [
         Expanded(
           child: Material(
-            color: color,
+            color: Theme.of(context).colorScheme.primary,
             elevation: 0.0,
             child: Padding(
-              padding: padding ?? const EdgeInsets.fromLTRB(20, 12, 20, 16),
+              padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
               child: child,
             ),
           ),

@@ -16,7 +16,6 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -223,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
       key: const Key('main'),
       children: [
         FloatingActionButton.extended(
-          icon: Image.asset(Asset.QRCODE_WHITE, width: 24.0),
+          icon: const Icon(Icons.qr_code_rounded),
           // TODO: Add translate
           label: Text('Scanner QRCode ENT'),
           heroTag: null,
@@ -266,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPictureMode(bool isDark) {
+  Widget _buildPictureMode() {
     return Column(
       key: const Key('qrcode'),
       children: [
@@ -297,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildManualMode(bool isDark) {
+  Widget _buildManualMode() {
     return Column(
       key: const Key('manual'),
       children: [
@@ -319,7 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildContent(bool isDark) {
+  Widget _buildContent() {
     if (_isLoading) {
       return Center(
         child: CircularProgressIndicator(
@@ -327,13 +326,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
     if (bodyType == BodyType.MAIN) return _buildMainLogin();
-    if (bodyType == BodyType.QRCODE) return _buildPictureMode(isDark);
-    return _buildManualMode(isDark);
+    if (bodyType == BodyType.QRCODE) return _buildPictureMode();
+    return _buildManualMode();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<ThemeProvider>().darkTheme;
     // Use 50 to start UI changes before keyboard fully disappears
     final isKeyboardHidden = MediaQuery.of(context).viewInsets.bottom < 50;
 
@@ -366,7 +364,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return ScaleTransition(child: child, scale: animation);
                 },
-                child: _buildContent(isDark),
+                child: _buildContent(),
               ),
             ),
             if (isKeyboardHidden) const SizedBox(height: 10.0),

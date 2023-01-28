@@ -47,7 +47,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
 
   @override
   Color getColor(int index) {
-    return getEvent(index).getBgColor(_isGenColor) ?? Colors.lightBlue;
+    return getEvent(index).getBgColor(_isGenColor) ?? _defaultBgColor;
   }
 
   @override

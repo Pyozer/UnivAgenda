@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class BaseProvider extends ChangeNotifier {
   SharedPreferences? sharedPrefs;
 
-  Future<void> initFromDisk(BuildContext context, [bool state = false]);
+  Future<void> initFromDisk();
 
   @protected
   void updatePref(VoidCallback f, [bool state = false]) {

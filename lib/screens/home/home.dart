@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen>
     List<Widget> widgets = [];
 
     // TODO: Watch instead ?
-    final noteColor = context.read<ThemeProvider>().noteColor;
+    final noteColor = context.watch<ThemeProvider>().noteColor;
 
     bool classicView = calendarController.view == CalendarView.timelineDay;
 
@@ -349,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: theme.colorScheme.surface,
+            color: theme.colorScheme.primary,
             child: TabBar(
               isScrollable: true,
               tabs: tabs,
@@ -385,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen>
         dataSource: CourseDataSource(
           events.values.flattened.toList(),
           isGenColor,
-          Theme.of(context).cardColor,
+          Colors.grey[700]!,
         ),
         initialSelectedDate: DateTime.now(),
         minDate: DateTime.now().subtract(
@@ -442,6 +442,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     // Force didChangeDependancies to be triggered.
     final prefs = context.watch<SettingsProvider>();
+    final theme = Theme.of(context);
 
     Widget content;
     if (_isLoading && _courses == null) {

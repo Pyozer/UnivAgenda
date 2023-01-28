@@ -8,6 +8,12 @@ import 'package:univagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+extension BuildContextExt on BuildContext {
+  get isDark {
+    return Theme.of(this).brightness == Brightness.dark;
+  }
+}
+
 Color getColorDependOfBackground(
   Color bgColor, {
   Color? ifLight,

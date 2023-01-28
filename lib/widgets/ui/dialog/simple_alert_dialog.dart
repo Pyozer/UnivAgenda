@@ -20,18 +20,15 @@ class SimpleAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final boldText = Theme.of(context).textTheme.button;
-
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       titlePadding: const EdgeInsets.all(20.0),
       contentPadding: contentPadding ?? kContentPadding,
-      title: Text(title, style: boldText),
+      title: Text(title),
       content: content,
       actions: [
         if (btnNegative != null)
           TextButton(
-            child: Text(btnNegative!.toUpperCase(), style: boldText),
+            child: Text(btnNegative!.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(false),
           ),
         Padding(

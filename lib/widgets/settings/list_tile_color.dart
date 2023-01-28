@@ -78,8 +78,8 @@ class _ListTileColorState extends State<ListTileColor> {
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
       widget.titleDialog ?? widget.title,
-      Container(
-        height: 235,
+      SizedBox(
+        height: 255,
         child: colorPicker,
       ),
       i18n.text(StrKey.SUBMIT),
