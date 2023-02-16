@@ -5,7 +5,6 @@ import 'package:univagenda/models/courses/weekday.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/ui/circle_text.dart';
@@ -37,7 +36,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   @override
   void initState() {
     super.initState();
-    _initFirstDate = DateTime.now().add(Duration(minutes: 30));
+    _initFirstDate = DateTime.now();
     _initEndDate = _initFirstDate.add(Duration(hours: 1));
 
     _baseCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
@@ -68,30 +67,38 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
     setState(() => _isColor = value);
   }
 
-  void _onDateTap() async {
-    DateTime? dateStart = await showDatePicker(
+  Future<DateTime?> _openDatePicker(DateTime initialDateTime) {
+    return showDatePicker(
       context: context,
-      initialDate: _customCourse.dateStart,
+      initialDate: initialDateTime,
       firstDate: Date.dateFromDateTime(_initFirstDate),
       lastDate: DateTime.now().add(Duration(days: 365 * 30)),
       locale: i18n.locale,
     );
+  }
 
-    if (dateStart != null) {
-      final newStart = Date.changeTime(
-        dateStart,
-        _customCourse.dateStart.hour,
-        _customCourse.dateStart.minute,
-      );
+  void _onStartDateTap() async {
+    DateTime? newStart = await _openDatePicker(_customCourse.dateStart);
+    if (newStart == null) return;
 
-      final newEnd = Date.changeTime(
-        dateStart,
-        _customCourse.dateEnd.hour,
-        _customCourse.dateEnd.minute,
-      );
-
-      _updateTimes(newStart, newEnd);
+    newStart = Date.setTimeFromOther(newStart, _customCourse.dateStart);
+    if (newStart.isAfter(_customCourse.dateEnd)) {
+      _customCourse.dateEnd = newStart;
     }
+
+    _updateTimes(newStart, _customCourse.dateEnd);
+  }
+
+  void _onEndDateTap() async {
+    DateTime? newEnd = await _openDatePicker(_customCourse.dateEnd);
+    if (newEnd == null) return;
+
+    newEnd = Date.setTimeFromOther(newEnd, _customCourse.dateEnd);
+    if (newEnd.isBefore(_customCourse.dateStart)) {
+      _customCourse.dateStart = newEnd;
+    }
+
+    _updateTimes(_customCourse.dateStart, newEnd);
   }
 
   void _onStartTimeTap() async {
@@ -99,13 +106,18 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateStart),
     );
+    if (timeStart == null) return;
 
-    if (timeStart != null) {
-      final newStart = Date.changeTime(
-          _customCourse.dateStart, timeStart.hour, timeStart.minute);
-
-      _updateTimes(newStart, _customCourse.dateEnd);
+    final newStart = Date.changeTime(
+      _customCourse.dateStart,
+      timeStart.hour,
+      timeStart.minute,
+    );
+    if (newStart.isAfter(_customCourse.dateEnd)) {
+      _customCourse.dateEnd = newStart;
     }
+
+    _updateTimes(newStart, _customCourse.dateEnd);
   }
 
   void _onEndTimeTap() async {
@@ -113,16 +125,18 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       context: context,
       initialTime: TimeOfDay.fromDateTime(_customCourse.dateEnd),
     );
+    if (timeEnd == null) return;
 
-    if (timeEnd != null) {
-      final newEnd = Date.changeTime(
-        _customCourse.dateStart,
-        timeEnd.hour,
-        timeEnd.minute,
-      );
-
-      _updateTimes(_customCourse.dateStart, newEnd);
+    final newEnd = Date.changeTime(
+      _customCourse.dateEnd,
+      timeEnd.hour,
+      timeEnd.minute,
+    );
+    if (newEnd.isBefore(_customCourse.dateStart)) {
+      _customCourse.dateStart = newEnd;
     }
+
+    _updateTimes(_customCourse.dateStart, newEnd);
   }
 
   void _updateTimes(DateTime start, DateTime end) {
@@ -147,10 +161,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       return;
     }
     if (_customCourse.dateEnd.isBefore(_customCourse.dateStart)) {
-      DialogPredefined.showEndTimeError(context);
-      return;
-    }
-    if (!_isRecurrent && _customCourse.dateEnd.isBefore(DateTime.now())) {
       DialogPredefined.showEndTimeError(context);
       return;
     }
@@ -279,7 +289,6 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                   Icons.location_on_outlined,
                   i18n.text(StrKey.LOCATION_EVENT),
                 ),
-                onEditingComplete: _onDateTap,
               ),
               const Divider(height: 0.0),
               ListTile(
@@ -301,13 +310,28 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                         children: _buildWeekDaySelection(),
                       ),
                     )
-                  : ListTile(
-                      onTap: _onDateTap,
-                      leading: const Icon(Icons.date_range_outlined),
-                      title: _buildDateTimeField(
-                        i18n.text(StrKey.DATE_EVENT),
-                        Date.extractDate(_customCourse.dateStart),
-                      ),
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                            onTap: _onStartDateTap,
+                            leading: const Icon(Icons.date_range_outlined),
+                            title: _buildDateTimeField(
+                              i18n.text(StrKey.DATE_EVENT) + " de début",
+                              Date.extractDate(_customCourse.dateStart),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListTile(
+                            onTap: _onEndDateTap,
+                            title: _buildDateTimeField(
+                              i18n.text(StrKey.DATE_EVENT) + " de fin",
+                              Date.extractDate(_customCourse.dateEnd),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
               const Divider(height: 0.0),
               Row(

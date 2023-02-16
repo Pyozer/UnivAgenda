@@ -18,7 +18,7 @@ class AnalyticsValue {
   static final String headerGroup = "header_group";
   static final String horizontalView = "horizontal_view";
   // Prefs colors
-  static final String darkTheme = "dark_theme";
+  static final String themeMode = "theme_mode";
   static final String primaryColor = "primary_color";
   static final String accentColor = "accent_color";
   static final String noteColor = "note_color";

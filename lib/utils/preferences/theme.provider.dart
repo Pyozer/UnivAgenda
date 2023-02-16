@@ -12,22 +12,31 @@ class ThemeProvider extends BaseProvider {
   static final instance = ThemeProvider._internal();
   ThemeProvider._internal();
 
-  bool _darkTheme = PrefKey.defaultDarkTheme;
+  ThemeMode _themeMode = PrefKey.defaultThemeMode;
   Color _primaryColor = PrefKey.defaultPrimaryColor;
   Color _accentColor = PrefKey.defaultAccentColor;
   Color _noteColor = PrefKey.defaultNoteColor;
 
-  Brightness get brightness => this._darkTheme ? Brightness.dark : Brightness.light;
+  ThemeMode get themeMode => _themeMode;
 
-  bool get darkTheme => _darkTheme;
-
-  void setDarkTheme(bool? darkTheme, [bool state = false]) {
-    if (_darkTheme == darkTheme) return;
+  void setThemeMode(ThemeMode? themeMode, [bool state = false]) {
+    print('old vs new');
+    print(_themeMode);
+    print(themeMode);
+    if (_themeMode == themeMode) return;
 
     updatePref(() {
-      _darkTheme = darkTheme ?? PrefKey.defaultDarkTheme;
+      _themeMode = themeMode ?? PrefKey.defaultThemeMode;
     }, state);
-    setBool(PrefKey.isDarkTheme, darkTheme);
+    setString(PrefKey.themeMode, themeMode?.name);
+  }
+
+  void setThemeModeFromString(String? themeModeStr, [bool state = false]) {
+    ThemeMode themeMode = ThemeMode.values.firstWhere(
+      (t) => t.name == themeModeStr,
+      orElse: () => ThemeMode.system,
+    );
+    setThemeMode(themeMode, state);
   }
 
   Color get primaryColor => _primaryColor;
@@ -64,8 +73,8 @@ class ThemeProvider extends BaseProvider {
   }
 
   Future<void> initFromDisk() async {
-    final isDarkTheme = sharedPrefs?.getBool(PrefKey.isDarkTheme);
-    setDarkTheme(isDarkTheme);
+    final themeMode = sharedPrefs?.getString(PrefKey.themeMode);
+    setThemeModeFromString(themeMode);
 
     final primaryColorValue = sharedPrefs?.getInt(PrefKey.primaryColor);
     if (primaryColorValue != null) setPrimaryColor(Color(primaryColorValue));
@@ -80,14 +89,14 @@ class ThemeProvider extends BaseProvider {
   @override
   bool operator ==(Object other) =>
       other is ThemeProvider &&
-          darkTheme == other.darkTheme &&
-          primaryColor == other.primaryColor &&
-          accentColor == other.accentColor &&
-          noteColor == other.noteColor;
+      themeMode == other.themeMode &&
+      primaryColor == other.primaryColor &&
+      accentColor == other.accentColor &&
+      noteColor == other.noteColor;
 
   @override
   int get hashCode =>
-      darkTheme.hashCode ^
+      themeMode.hashCode ^
       primaryColor.hashCode ^
       accentColor.hashCode ^
       noteColor.hashCode;

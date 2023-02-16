@@ -15,7 +15,7 @@ class PrefKey {
   static const primaryColor = 'primary_color';
   static const accentColor = 'accent_color';
   static const noteColor = 'note_color';
-  static const isDarkTheme = 'is_dark_theme';
+  static const themeMode = 'theme_mode';
 
   static const appLaunchCounter = 'app_launch_counter';
   static const isIntroDone = 'is_intro_done';
@@ -40,7 +40,7 @@ class PrefKey {
   static const defaultAccentColor = Colors.redAccent;
   static const defaultNoteColor = Colors.redAccent;
 
-  static const defaultDarkTheme = false;
+  static const defaultThemeMode = ThemeMode.system;
   static const defaultAppLaunchCounter = 0;
   static const defaultIntroDone = false;
   static const defaultUserLogged = false;

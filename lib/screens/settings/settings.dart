@@ -9,6 +9,7 @@ import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/translations.dart';
+import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 import 'package:univagenda/widgets/settings/list_tile_color.dart';
 import 'package:univagenda/widgets/settings/list_tile_input.dart';
 import 'package:univagenda/widgets/settings/list_tile_number.dart';
@@ -17,8 +18,6 @@ import 'package:univagenda/widgets/settings/setting_card.dart';
 import 'package:univagenda/widgets/ui/list_divider.dart';
 
 import '../../widgets/ui/button/raised_button_colored.dart';
-
-enum MenuItem { REFRESH }
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -35,6 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSettingsGeneral(SettingsProvider prefs) {
     List<Widget> settingsGeneralElems = [];
 
+    // Copy ics url list
     final urlsIcs = List<String>.from(prefs.urlIcs);
 
     for (var i = 0; i < urlsIcs.length; i++) {
@@ -59,37 +59,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ));
     }
 
-    if (settingsGeneralElems.isEmpty) {
-      settingsGeneralElems = [
-        ListTileInput(
-          title: i18n.text(StrKey.URL_ICS),
-          hintText: i18n.text(StrKey.URL_ICS),
-          defaultValue: '',
-          onChange: (value) {
-            // Clean cached courses
-            prefs.setCachedCourses(PrefKey.defaultCachedCourses);
-            // Update url
-            prefs.setUrlIcs([value], true);
-          },
-        )
-      ];
-    }
-
-    // TODO: Add translation
-    settingsGeneralElems.add(
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 6.0),
-          child: RaisedButtonColored(
-            text: 'Ajouter un agenda',
-            onPressed: () {
-              urlsIcs.add('');
-              prefs.setUrlIcs(urlsIcs, true);
-            },
+    // Display add calendar button
+    if (urlsIcs.isEmpty || urlsIcs.every((url) => url.isNotEmpty)) {
+      settingsGeneralElems.add(
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 6.0),
+            child: RaisedButtonColored(
+              text: 'Ajouter un agenda', // TODO: Add translation
+              onPressed: () {
+                urlsIcs.add('');
+                prefs.setUrlIcs(urlsIcs, true);
+              },
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
 
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_GENERAL),
@@ -148,16 +134,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsColors(SettingsProvider prefs, ThemeProvider themeProvider, ThemeData theme) {
+  Widget _buildSettingsColors(
+      SettingsProvider prefs, ThemeProvider themeProvider, ThemeData theme) {
     return SettingCard(
       header: i18n.text(StrKey.SETTINGS_COLORS),
       children: [
-        SwitchListTile(
-          title: ListTileTitle(i18n.text(StrKey.DARK_THEME)),
-          subtitle: Text(i18n.text(StrKey.DARK_THEME_DESC)),
-          value: themeProvider.darkTheme,
-          activeColor: theme.colorScheme.secondary,
-          onChanged: (value) => themeProvider.setDarkTheme(value, true),
+        ListTileChoices(
+          title: 'Thème', // TODO: Add translation
+          selectedValue: themeProvider.themeMode.name,
+          values: [
+            ThemeMode.system.name,
+            ThemeMode.light.name,
+            ThemeMode.dark.name
+          ],
+          buildTitle: (value) {
+            // TODO: Add translation
+            if (value == ThemeMode.system.name) {
+              return 'Thème du système';
+            }
+            if (value == ThemeMode.dark.name) {
+              return i18n.text(StrKey.DARK_THEME);
+            }
+            return 'Thème clair';
+          },
+          onChange: (value) {
+            themeProvider.setThemeModeFromString(value, true);
+          },
         ),
         const ListDivider(),
         ListTileColor(

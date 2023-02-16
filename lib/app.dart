@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:univagenda/screens/splashscreen/splashscreen.dart';
-import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/utils/theme.dart';
@@ -24,12 +23,12 @@ class App extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, prefs, _) {
-          ThemeMode themeMode =
-              prefs.darkTheme ? ThemeMode.dark : ThemeMode.light;
+          final ThemeMode themeMode = prefs.themeMode;
 
-          SystemUiOverlayStyle style = prefs.darkTheme
-              ? SystemUiOverlayStyle.light
-              : SystemUiOverlayStyle.dark;
+          SystemUiOverlayStyle style = SystemUiOverlayStyle.light;
+          if (themeMode == ThemeMode.dark) {
+            style = SystemUiOverlayStyle.dark;
+          }
 
           SystemChrome.setSystemUIOverlayStyle(style.copyWith(
             statusBarColor: Colors.transparent,

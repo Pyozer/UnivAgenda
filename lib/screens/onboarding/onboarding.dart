@@ -12,8 +12,6 @@ import 'package:univagenda/utils/preferences/settings.provider.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
 
-import '../../utils/preferences/theme.provider.dart';
-
 const double kIconSize = 150.0;
 
 class OnboardingScreen extends StatefulWidget {

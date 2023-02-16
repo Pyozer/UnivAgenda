@@ -20,7 +20,7 @@ class SettingsProvider extends BaseProvider {
   static final instance = SettingsProvider._internal();
   SettingsProvider._internal();
 
-  /// Urls of custom ics file 
+  /// Urls of custom ics file
   List<String>? _urlIcs;
 
   /// Number of weeks to display
@@ -94,7 +94,8 @@ class SettingsProvider extends BaseProvider {
   bool get isPreviousCourses =>
       _isPreviousCourses ?? PrefKey.defaultIsPreviousCourses;
 
-  void setShowPreviousCourses(bool? newIsPreviousCourses, [bool state = false]) {
+  void setShowPreviousCourses(bool? newIsPreviousCourses,
+      [bool state = false]) {
     if (isPreviousCourses == newIsPreviousCourses) return;
 
     updatePref(() => _isPreviousCourses = newIsPreviousCourses, state);
@@ -161,7 +162,8 @@ class SettingsProvider extends BaseProvider {
   List<CustomCourse> get customEvents =>
       _customEvents ?? PrefKey.defaultCustomEvents;
 
-  void setCustomEvents(List<CustomCourse?>? newCustomEvents, [bool state = false]) {
+  void setCustomEvents(List<CustomCourse?>? newCustomEvents,
+      [bool state = false]) {
     updatePref(() {
       _customEvents = (newCustomEvents ??= PrefKey.defaultCustomEvents)
           .whereNotNull()
@@ -248,7 +250,8 @@ class SettingsProvider extends BaseProvider {
       _hiddenEvents =
           newHiddenEvents?.toSet().toList() ?? PrefKey.defaultHiddenEvents;
     }, state);
-    final hiddensJSON = _hiddenEvents!.map((n) => json.encode(n.toJson())).toList();
+    final hiddensJSON =
+        _hiddenEvents!.map((n) => json.encode(n.toJson())).toList();
     setStringList(PrefKey.hiddenEvent, hiddensJSON);
   }
 
@@ -265,7 +268,8 @@ class SettingsProvider extends BaseProvider {
   Map<String, String> get renamedEvents =>
       _renamedEvents ?? PrefKey.defaultRenamedEvent;
 
-  void setRenamedEvents(Map<String, String>? newRenamedEvents, [bool state = false]) {
+  void setRenamedEvents(Map<String, String>? newRenamedEvents,
+      [bool state = false]) {
     updatePref(() {
       _renamedEvents = newRenamedEvents ?? PrefKey.defaultRenamedEvent;
     }, state);
@@ -320,8 +324,9 @@ class SettingsProvider extends BaseProvider {
     await initIcsUrls();
 
     String? cachedIcalDate = sharedPrefs?.getString(PrefKey.cachedIcalDate);
-    if (cachedIcalDate != null)
+    if (cachedIcalDate != null) {
       setCachedIcalDate(DateTime.parse(cachedIcalDate));
+    }
 
     // Init number of weeks to display
     setNumberWeeks(sharedPrefs?.getInt(PrefKey.numberWeeks));
@@ -355,12 +360,15 @@ class SettingsProvider extends BaseProvider {
 
     // Init saved notes
     List<String> notesStr = sharedPrefs?.getStringList(PrefKey.notes) ?? [];
-    List<Note> actualNotes = notesStr.map((n) => Note.fromJson(json.decode(n))).toList();
+    List<Note> actualNotes =
+        notesStr.map((n) => Note.fromJson(json.decode(n))).toList();
     setNotes(actualNotes);
 
     // Init hidden courses
-    List<String> hiddensStr = sharedPrefs?.getStringList(PrefKey.hiddenEvent) ?? [];
-    List<Hidden> hiddens = hiddensStr.map((n) => Hidden.fromJson(json.decode(n))).toList();
+    List<String> hiddensStr =
+        sharedPrefs?.getStringList(PrefKey.hiddenEvent) ?? [];
+    List<Hidden> hiddens =
+        hiddensStr.map((n) => Hidden.fromJson(json.decode(n))).toList();
     setHiddenEvents(hiddens);
 
     // Renamed events

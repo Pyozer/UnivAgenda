@@ -399,6 +399,11 @@ class _HomeScreenState extends State<HomeScreen>
           agendaViewHeight: 200,
           dayFormat: 'EEE',
         ),
+        scheduleViewSettings: ScheduleViewSettings(
+          monthHeaderSettings: MonthHeaderSettings(
+            backgroundColor: Theme.of(context).colorScheme.primary
+          )
+        ),
         appointmentTimeTextFormat: 'Hm',
         showCurrentTimeIndicator: true,
         showDatePickerButton: true,
@@ -442,7 +447,6 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     // Force didChangeDependancies to be triggered.
     final prefs = context.watch<SettingsProvider>();
-    final theme = Theme.of(context);
 
     Widget content;
     if (_isLoading && _courses == null) {

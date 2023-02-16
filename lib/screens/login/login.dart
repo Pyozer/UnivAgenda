@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:r_scan/r_scan.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/assets.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/help/help.dart';
 import 'package:univagenda/screens/home/home.dart';

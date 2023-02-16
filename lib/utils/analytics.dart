@@ -34,7 +34,7 @@ class AnalyticsProvider {
     FirebaseAnalytics.instance.logEvent(
       name: AnalyticsEvent.userPrefsColors,
       parameters: <String, String>{
-        AnalyticsValue.darkTheme: theme.darkTheme.toString(),
+        AnalyticsValue.themeMode: theme.themeMode.name,
         AnalyticsValue.primaryColor: theme.primaryColor.toString(),
         AnalyticsValue.accentColor: theme.accentColor.toString(),
         AnalyticsValue.noteColor: theme.noteColor.toString(),

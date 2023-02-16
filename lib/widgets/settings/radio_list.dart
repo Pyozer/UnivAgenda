@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:univagenda/widgets/settings/list_tile_choices.dart';
 
 class RadioList extends StatefulWidget {
   final List<String> values;
   final ValueChanged<String> onChange;
   final String? selectedValue;
+  final TitleGetter buildTitle;
 
   const RadioList({
     Key? key,
     required this.values,
     required this.onChange,
+    required this.buildTitle,
     this.selectedValue,
   }) : super(key: key);
 
@@ -44,7 +47,7 @@ class _RadioListState extends State<RadioList> {
             activeColor: Theme.of(context).colorScheme.secondary,
             value: widget.values[index],
             groupValue: _selectedChoice,
-            title: Text(widget.values[index]),
+            title: Text(widget.buildTitle(widget.values[index])),
             onChanged: (String? value) {
               setState(() => _selectedChoice = value);
               widget.onChange(widget.values[index]);

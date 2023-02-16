@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:univagenda/widgets/settings/list_tile_title.dart';
 import 'package:univagenda/widgets/settings/radio_list.dart';
 
+typedef TitleGetter = String Function(String value);
+
 class ListTileChoices extends StatefulWidget {
   final String title;
   final String? titleDialog;
   final List<String> values;
   final ValueChanged<String> onChange;
+  final TitleGetter buildTitle; 
   final String? selectedValue;
 
   const ListTileChoices({
@@ -17,6 +20,7 @@ class ListTileChoices extends StatefulWidget {
     required this.values,
     this.titleDialog,
     required this.onChange,
+    required this.buildTitle,
     this.selectedValue,
   }) : super(key: key);
 
@@ -64,6 +68,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
             values: widget.values,
             selectedValue: _selectedChoice,
             onChange: _onRadioListChange,
+            buildTitle: widget.buildTitle,
           )
         ],
       ),
@@ -75,7 +80,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
     return ListTile(
       title: ListTileTitle(widget.title),
       subtitle: Text(
-        _selectedChoice,
+        widget.buildTitle(_selectedChoice),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),
