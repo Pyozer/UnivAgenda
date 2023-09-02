@@ -20,8 +20,7 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
-    final color = getColorDependOfBackground(primaryColor);
+    final color = Theme.of(context).appBarTheme.foregroundColor!;
 
     return IconButton(
       onPressed: onPressed,

@@ -6,7 +6,7 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
   CustomRoute({
     required WidgetBuilder builder,
     RouteSettings? settings,
-    bool fullscreenDialog: false,
+    bool fullscreenDialog = false,
   }) : super(
           builder: builder,
           settings: settings,

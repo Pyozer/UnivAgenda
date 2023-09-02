@@ -19,7 +19,7 @@ import 'package:univagenda/widgets/ui/logo.dart';
 class AboutScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
-        Theme.of(context).textTheme.headline5!.copyWith(fontSize: 30.0);
+        Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 30.0);
     final appName = i18n.text(StrKey.APP_NAME);
 
     return Container(
@@ -44,7 +44,7 @@ class AboutScreen extends StatelessWidget {
       children: [
         Text(
           i18n.text(StrKey.ABOUT_WHAT),
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.justify,
         )
       ],
@@ -181,7 +181,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
-    final txtTheme = Theme.of(context).textTheme.subtitle1;
+    final txtTheme = Theme.of(context).textTheme.titleMedium;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12.0),

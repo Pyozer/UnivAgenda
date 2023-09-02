@@ -19,7 +19,7 @@ class CourseNote extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
           child: Text(
             note.text,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.justify,
           ),
         ),

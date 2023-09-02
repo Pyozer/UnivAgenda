@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:r_scan/r_scan.dart';
 import 'package:provider/provider.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/screens/help/help.dart';
@@ -15,6 +14,7 @@ import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/api/api.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/preferences/settings.provider.dart';
+import 'package:univagenda/utils/scan.dart';
 import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
@@ -157,9 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
         source: ImageSource.gallery,
       );
       if (pickedFile != null) {
-        final result =
-            await RScan.scanImageMemory(await pickedFile.readAsBytes());
-        _onDone(result.message ?? '');
+        final result = await analyzeImage(pickedFile.path);
+        _onDone(result ?? '');
       }
     } catch (e) {
       _showMessage(e.toString());
@@ -197,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
       maxLines: 5,
       minLines: 1,
       decoration: InputDecoration(
-        labelStyle: Theme.of(context).textTheme.subtitle1,
+        labelStyle: Theme.of(context).textTheme.titleMedium,
         labelText: i18n.text(StrKey.URL_ICS),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         prefixIcon: Icon(

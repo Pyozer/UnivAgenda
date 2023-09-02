@@ -10,7 +10,7 @@ ThemeData generateTheme({
   return ThemeData(
     brightness: brightness,
     fontFamily: 'GoogleSans',
-    useMaterial3: false,
+    useMaterial3: true,
     primaryColor: primaryColor,
     colorScheme: ColorScheme.fromSeed(
       brightness: brightness,
@@ -32,6 +32,10 @@ ThemeData generateTheme({
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: getColorDependOfBackground(accentColor),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
     ),
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(

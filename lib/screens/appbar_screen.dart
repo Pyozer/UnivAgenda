@@ -23,8 +23,6 @@ class AppbarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.watch<ThemeProvider>();
-
     return Scaffold(
       appBar: (title != null)
           ? AppBar(
@@ -32,8 +30,6 @@ class AppbarPage extends StatelessWidget {
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
-              backgroundColor: theme.primaryColor,
-              backwardsCompatibility: true,
               automaticallyImplyLeading: !useCustomMenuIcon,
               leading: useCustomMenuIcon
                   ? Builder(
@@ -54,21 +50,32 @@ class AppbarPage extends StatelessWidget {
 }
 
 class AppbarSubTitle extends StatelessWidget {
-  final Widget child;
+  final String text;
+  final Color? textColor;
 
-  const AppbarSubTitle({Key? key, required this.child}) : super(key: key);
+  const AppbarSubTitle({Key? key, required this.text, this.textColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final bgColor = appBarTheme.backgroundColor;
+
     return Row(
       children: [
         Expanded(
           child: Material(
-            color: Theme.of(context).colorScheme.primary,
+            color: bgColor,
             elevation: 0.0,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 16.0),
-              child: child,
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 17.0,
+                  color: textColor ?? appBarTheme.foregroundColor,
+                ),
+              ),
             ),
           ),
         ),

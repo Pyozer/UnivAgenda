@@ -16,6 +16,7 @@ class _LoginQrCodeState extends State<LoginQrCode> {
   MobileScannerController cameraController = MobileScannerController(
     formats: const [BarcodeFormat.qrCode],
     torchEnabled: false,
+    detectionSpeed: DetectionSpeed.noDuplicates,
   );
 
   Widget _buildTorchBtn(bool isFlashOn) {
@@ -45,13 +46,12 @@ class _LoginQrCodeState extends State<LoginQrCode> {
       body: Stack(
         children: [
           MobileScanner(
-              allowDuplicates: false,
               controller: cameraController,
-              onDetect: (barcode, args) {
-                if (barcode.rawValue == null) {
+              onDetect: (barcode) {
+                if (barcode.raw == null) {
                   debugPrint('Failed to scan Barcode');
                 } else {
-                  final String code = barcode.rawValue!;
+                  final String code = barcode.raw!;
                   debugPrint('Barcode found! $code');
                   cameraController.stop();
                   Navigator.of(context).pop(code);

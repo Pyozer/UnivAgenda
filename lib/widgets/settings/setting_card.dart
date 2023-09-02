@@ -8,7 +8,7 @@ class SettingCard extends StatelessWidget {
 
   List<Widget> _buildCardChildren(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle = theme.textTheme.headline6!.copyWith(
+    final titleStyle = theme.textTheme.titleLarge!.copyWith(
       fontSize: 15.0,
       color: theme.colorScheme.secondary,
     );

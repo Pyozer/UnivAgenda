@@ -50,7 +50,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
               i18n.text(StrKey.SUPPORTME_TEXT),
               style: Theme.of(context)
                   .textTheme
-                  .subtitle1!
+                  .titleMedium!
                   .copyWith(fontSize: 18.0),
               textAlign: TextAlign.justify,
             ),

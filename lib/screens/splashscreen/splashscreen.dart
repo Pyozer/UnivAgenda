@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:univagenda/keys/string_key.dart';
@@ -40,7 +40,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     // Init timezone
     initializeTimeZones();
     setLocalLocation(
-      getLocation(await FlutterNativeTimezone.getLocalTimezone()),
+      getLocation(await FlutterTimezone.getLocalTimezone()),
     );
 
     _setError(null);
@@ -100,7 +100,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
                         children: [
                           Text(
                             _errorMsg!,
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.titleMedium,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),

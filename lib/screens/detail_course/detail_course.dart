@@ -276,10 +276,6 @@ class _DetailCourseState extends State<DetailCourse> {
   @override
   Widget build(BuildContext context) {
     final prefs = context.watch<SettingsProvider>();
-    final textStyle = TextStyle(
-      fontSize: 17.0,
-      color: _course.getTitleColor(prefs.isGenerateEventColor),
-    );
 
     return AppbarPage(
       title: i18n.text(StrKey.COURSE_DETAILS),
@@ -288,10 +284,8 @@ class _DetailCourseState extends State<DetailCourse> {
         child: Column(
           children: [
             AppbarSubTitle(
-              child: Text(
-                _course.getTitle(),
-                style: textStyle,
-              ),
+              text: _course.getTitle(),
+              textColor: _course.getTitleColor(prefs.isGenerateEventColor),
             ),
             Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
           ],

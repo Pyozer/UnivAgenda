@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     final theme = Theme.of(context);
 
-    final baseStyle = theme.primaryTextTheme.headline6;
+    final baseStyle = theme.primaryTextTheme.titleLarge;
     final unselectedStyle = baseStyle!.copyWith(
       fontSize: 17.0,
       color: baseStyle.color!.withAlpha(180),
@@ -355,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen>
               tabs: tabs,
               labelColor: labelStyle.color,
               labelStyle: labelStyle,
-              unselectedLabelColor: theme.primaryTextTheme.caption!.color,
+              unselectedLabelColor: theme.primaryTextTheme.bodySmall!.color,
               unselectedLabelStyle: unselectedStyle,
               indicatorPadding: const EdgeInsets.only(bottom: 0.2),
               indicatorWeight: 2.5,

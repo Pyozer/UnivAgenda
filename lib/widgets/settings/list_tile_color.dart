@@ -79,13 +79,12 @@ class _ListTileColorState extends State<ListTileColor> {
       context,
       widget.titleDialog ?? widget.title,
       SizedBox(
-        height: 255,
-        child: colorPicker,
+        height: 215,
+        child: Align(alignment: Alignment.topCenter, child: colorPicker),
       ),
       i18n.text(StrKey.SUBMIT),
       i18n.text(StrKey.CANCEL),
       true,
-      EdgeInsets.zero,
     );
 
     if (isDialogPositive) _onSubmit();
