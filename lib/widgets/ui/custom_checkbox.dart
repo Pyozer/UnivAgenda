@@ -16,10 +16,11 @@ class CustomCheckbox extends StatefulWidget {
     required this.onChanged,
   }) : super(key: key);
 
-  _CustomCheckboxState createState() => _CustomCheckboxState();
+  @override
+  CustomCheckboxState createState() => CustomCheckboxState();
 }
 
-class _CustomCheckboxState extends State<CustomCheckbox> {
+class CustomCheckboxState extends State<CustomCheckbox> {
   @override
   Widget build(BuildContext context) {
     IconData icon;

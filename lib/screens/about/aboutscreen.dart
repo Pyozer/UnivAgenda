@@ -17,6 +17,8 @@ import 'package:univagenda/widgets/ui/about_card.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
 
 class AboutScreen extends StatelessWidget {
+  const AboutScreen({Key? key}) : super(key: key);
+
   Widget _buildHeader(BuildContext context) {
     final txtTheme =
         Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 30.0);
@@ -29,7 +31,7 @@ class AboutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: Logo(size: 80.0),
           ),
           Text(appName, style: txtTheme),
@@ -61,10 +63,10 @@ class AboutScreen extends StatelessWidget {
             image: Image.asset(
               Asset.PICTURE_JC,
               width: 45.0,
-              semanticLabel: "Photo Jean-Charles Moussé",
+              semanticLabel: 'Photo Jean-Charles Moussé',
             ),
           ),
-          title: const Text("Jean-Charles Moussé"),
+          title: const Text('Jean-Charles Moussé'),
           subtitle: Text(i18n.text(StrKey.DEVELOPER)),
           onTap: () => openLink(
             context,
@@ -77,12 +79,12 @@ class AboutScreen extends StatelessWidget {
             image: Image.asset(
               Asset.PICTURE_JUSTIN,
               width: 45.0,
-              semanticLabel: "Photo Justin Martin",
+              semanticLabel: 'Photo Justin Martin',
             ),
           ),
-          title: const Text("Justin Martin"),
+          title: const Text('Justin Martin'),
           subtitle: Text(
-            "${i18n.text(StrKey.DEVELOPER)}, ${i18n.text(StrKey.RIGHTS)}",
+            '${i18n.text(StrKey.DEVELOPER)}, ${i18n.text(StrKey.RIGHTS)}',
           ),
           onTap: () => openLink(
             context,
@@ -96,7 +98,7 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildSocial(BuildContext context) {
     final isDark = context.isDark;
-    final store = Platform.isAndroid ? "Play Store" : "App Store";
+    final store = Platform.isAndroid ? 'Play Store' : 'App Store';
 
     return AboutCard(
       title: i18n.text(StrKey.SOCIAL),
@@ -120,7 +122,7 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(
             isDark ? Asset.GITHUB_WHITE : Asset.GITHUB_DARK,
             width: 30.0,
-            semanticLabel: "Logo GitHub",
+            semanticLabel: 'Logo GitHub',
           ),
           title: Text(i18n.text(StrKey.GITHUB_PROJECT)),
           subtitle: Text(
@@ -136,9 +138,9 @@ class AboutScreen extends StatelessWidget {
           leading: Image.asset(
             isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
             width: 30.0,
-            semanticLabel: "Logo Twitter",
+            semanticLabel: 'Logo Twitter',
           ),
-          title: const Text("Twitter"),
+          title: const Text('Twitter'),
           subtitle: Text(i18n.text(StrKey.TWITTER_DESC)),
           onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
         ),
@@ -147,9 +149,9 @@ class AboutScreen extends StatelessWidget {
   }
 
   String getAppInfo(PackageInfo? info) {
-    if (info == null) return "...";
+    if (info == null) return '...';
     String str = info.version;
-    if (info.buildNumber.isNotEmpty) str += " (${info.buildNumber})";
+    if (info.buildNumber.isNotEmpty) str += ' (${info.buildNumber})';
     return str;
   }
 
@@ -190,9 +192,9 @@ class AboutScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(i18n.text(StrKey.MADE_WITH), style: txtTheme),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: const Icon(Icons.favorite_outline, color: Colors.red),
+          const Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.favorite_outline, color: Colors.red),
           ),
         ],
       ),
@@ -218,7 +220,7 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: ChangeLog())
+            const Expanded(child: ChangeLog())
           ],
         );
       },
@@ -231,21 +233,19 @@ class AboutScreen extends StatelessWidget {
 
     return AppbarPage(
       title: i18n.text(StrKey.ABOUT),
-      body: Container(
-        child: ListView(
-          children: [
-            _buildHeader(context),
-            _buildWhatIsIt(context),
-            _buildAuthor(context),
-            _buildSocial(context),
-            _buildOther(
-              context,
-              () => _modalBottomSheet(context),
-              () => navigatorPush(context, LicencesScreen()),
-            ),
-            _buildFooter(context),
-          ],
-        ),
+      body: ListView(
+        children: [
+          _buildHeader(context),
+          _buildWhatIsIt(context),
+          _buildAuthor(context),
+          _buildSocial(context),
+          _buildOther(
+            context,
+            () => _modalBottomSheet(context),
+            () => navigatorPush(context, const LicencesScreen()),
+          ),
+          _buildFooter(context),
+        ],
       ),
     );
   }

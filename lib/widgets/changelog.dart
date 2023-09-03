@@ -8,12 +8,14 @@ import 'package:univagenda/utils/http/http_request.dart';
 import 'package:univagenda/utils/translations.dart';
 
 class ChangeLog extends StatelessWidget {
+  const ChangeLog({Key? key}) : super(key: key);
+
   Future<String> _fetchData(BuildContext context) async {
     final response = await HttpRequest.get(
-      i18n.currentLanguage == "fr" ? Url.changelogFr : Url.changelog,
+      i18n.currentLanguage == 'fr' ? Url.changelogFr : Url.changelog,
     );
     if (response.isSuccess) return response.httpResponse!.body;
-    return "## **NETWORK ERROR**";
+    return '## **NETWORK ERROR**';
   }
 
   @override

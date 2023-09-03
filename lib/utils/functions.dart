@@ -31,7 +31,7 @@ Future<void> openLink(
 ) async {
   if (await canLaunchUrlString(href)) {
     await launchUrlString(href);
-  } else if (context != null) {
+  } else if (context != null && context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Could not launch $href')),
     );
@@ -40,7 +40,7 @@ Future<void> openLink(
 }
 
 String capitalize(String? input) {
-  if (input == null) throw ArgumentError("string: $input");
+  if (input == null) throw ArgumentError('string: $input');
   if (input.isEmpty) return input;
   if (input.length == 1) return input[0].toUpperCase();
 
@@ -49,22 +49,26 @@ String capitalize(String? input) {
 
 Color getColorFromString(String string) {
   List<Color> colors = [];
-  for (ColorSwatch colorSwatch in appMaterialColors)
+  for (ColorSwatch colorSwatch in appMaterialColors) {
     for (int i = 400; i < 800; i += 200) {
-      if (colorSwatch[i] != null) colors.add(colorSwatch[i]!);
+      if (colorSwatch[i] != null) {
+        colors.add(colorSwatch[i]!);
+      }
     }
+  }
 
   int sum = 0;
-  string.codeUnits.forEach((code) => sum += code);
+  for (final code in string.codeUnits) {
+    sum += code;
+  }
 
   return colors[sum % appMaterialColors.length];
 }
 
 Future<String> readFile(String filename, String defaultValue) async {
   try {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    return File('$path/$filename').readAsString();
+    final directory = await getApplicationCacheDirectory();
+    return File('${directory.path}/$filename').readAsString();
   } catch (_) {
     return defaultValue;
   }
@@ -72,9 +76,8 @@ Future<String> readFile(String filename, String defaultValue) async {
 
 Future<void> writeFile(String filename, dynamic content) async {
   try {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    await File('$path/$filename').writeAsString(content);
+    final directory = await getApplicationCacheDirectory();
+    await File('${directory.path}/$filename').writeAsString(content);
   } catch (_) {}
 }
 
@@ -83,7 +86,11 @@ bool listEqualsNotOrdered(List? a, List? b) {
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;
 
-  for (var i = 0; i < a.length; i++) if (b.indexOf(a[i]) == -1) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (!b.contains(a[i])) {
+      return false;
+    }
+  }
 
   return true;
 }

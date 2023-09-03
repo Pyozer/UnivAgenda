@@ -32,10 +32,10 @@ class Course extends BaseCourse {
   }
 
   factory Course.empty(DateTime dateStart, DateTime dateEnd) => Course(
-        uid: "",
-        title: "",
-        description: "",
-        location: "",
+        uid: '',
+        title: '',
+        description: '',
+        location: '',
         dateStart: dateStart,
         dateEnd: dateEnd,
       );
@@ -100,26 +100,26 @@ class Course extends BaseCourse {
         .replaceAll('-  -', '-');
   }
 
-  String getTitle() => this.renamedTitle ?? this.title;
+  String getTitle() => renamedTitle ?? title;
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
-        uid: json["uid"],
-        title: json["title"],
-        description: json["description"],
-        location: json["location"],
-        dateStart: DateTime.fromMillisecondsSinceEpoch(json["date_start"]),
-        dateEnd: DateTime.fromMillisecondsSinceEpoch(json["date_end"]),
+        uid: json['uid'],
+        title: json['title'],
+        description: json['description'],
+        location: json['location'],
+        dateStart: DateTime.fromMillisecondsSinceEpoch(json['date_start']),
+        dateEnd: DateTime.fromMillisecondsSinceEpoch(json['date_end']),
         color: json['color'] != null ? Color(json['color']) : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "uid": uid,
-        "title": title,
-        "description": description,
-        "location": location,
-        "date_start": dateStart.millisecondsSinceEpoch,
-        "date_end": dateEnd.millisecondsSinceEpoch,
-        "color": color?.value,
+        'uid': uid,
+        'title': title,
+        'description': description,
+        'location': location,
+        'date_start': dateStart.millisecondsSinceEpoch,
+        'date_end': dateEnd.millisecondsSinceEpoch,
+        'color': color?.value,
       };
 
   @override

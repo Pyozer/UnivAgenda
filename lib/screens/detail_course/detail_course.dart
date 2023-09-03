@@ -25,10 +25,10 @@ class DetailCourse extends StatefulWidget {
   const DetailCourse({Key? key, required this.course}) : super(key: key);
 
   @override
-  _DetailCourseState createState() => _DetailCourseState();
+  DetailCourseState createState() => DetailCourseState();
 }
 
-class _DetailCourseState extends State<DetailCourse> {
+class DetailCourseState extends State<DetailCourse> {
   final _formKey = GlobalKey<FormState>();
   late String _noteToAdd;
   late Course _course;
@@ -41,24 +41,35 @@ class _DetailCourseState extends State<DetailCourse> {
   }
 
   List<Widget> _buildInfo() {
-    final timeStart = Date.extractTime(_course.dateStart);
-    final timeEnd = Date.extractTime(_course.dateEnd);
-    final date = Date.dateFromNow(_course.dateStart);
-
+    final startTime = Date.extractTime(_course.dateStart);
+    final endTime = Date.extractTime(_course.dateEnd);
+    final startDate = Date.dateFromNow(_course.dateStart);
+    final endDate = Date.dateFromNow(_course.dateEnd);
     final duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
-    String durationStr = "";
-    if (duration.hour > 0) durationStr += "${duration.hour}h";
-    durationStr += "${duration.minute}min";
+
+    List<String> durations = [];
+    // TODO: ADD translation
+    if (duration.hour >= 24) durations.add('${duration.hour ~/ 24}j');
+    if (duration.hour % 24 > 0) durations.add('${duration.hour % 24}h');
+    if (duration.minute > 0) durations.add('${duration.minute}min');
 
     return <Widget>[
-      ListTile(
-        leading: const Icon(Icons.access_time),
-        title: Text('$timeStart  –  $timeEnd'),
-        subtitle: Text(date),
-      ),
+      if (startDate == endDate)
+        ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text('$startTime - $endTime'),
+          subtitle: Text(startDate),
+        ),
+      if (startDate != endDate)
+        ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text('$startDate à $startTime - '),
+          subtitle: Text('$endDate à $endTime'),
+          subtitleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        ),
       ListTile(
         leading: const Icon(Icons.timelapse),
-        title: Text(durationStr),
+        title: Text(durations.join(' ')),
       ),
       if (_course.description.isNotEmpty)
         ListTile(
@@ -150,7 +161,7 @@ class _DetailCourseState extends State<DetailCourse> {
     if (isDialogPositive) _submitAddNote();
   }
 
-  Future<String?> _openRenameDialog([String currentValue = ""]) async {
+  Future<String?> _openRenameDialog([String currentValue = '']) async {
     String inputValue = currentValue;
     final formContent = TextField(
       controller: TextEditingController(text: currentValue),
@@ -179,7 +190,7 @@ class _DetailCourseState extends State<DetailCourse> {
     if (form?.validate() ?? false) {
       form!.save();
       final note = Note(courseUid: _course.uid, text: _noteToAdd);
-      _noteToAdd = "";
+      _noteToAdd = '';
       setState(() => _course.notes.insert(0, note));
       context.read<SettingsProvider>().addNote(note);
     }
@@ -221,7 +232,7 @@ class _DetailCourseState extends State<DetailCourse> {
     } else if (choice == MenuItem.DELETE) {
       // Only for CustomCourse
       bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
-      if (isConfirm) {
+      if (isConfirm && mounted) {
         prefs.removeCustomEvent(_course as CustomCourse, true);
         Navigator.of(context).pop();
       }
@@ -290,20 +301,18 @@ class _DetailCourseState extends State<DetailCourse> {
       child: AppbarPage(
         title: i18n.text(StrKey.COURSE_DETAILS),
         actions: _buildAppbarAction(prefs.isCourseHidden(widget.course)),
-        body: Container(
-          child: Column(
-            children: [
-              AppbarSubTitle(
-                text: _course.getTitle(),
+        body: Column(
+          children: [
+            AppbarSubTitle(
+              text: _course.getTitle(),
+            ),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: _buildInfo(),
               ),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: _buildInfo(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

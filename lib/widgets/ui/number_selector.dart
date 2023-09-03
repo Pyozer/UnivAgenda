@@ -19,10 +19,11 @@ class NumberSelector extends StatefulWidget {
         assert(initialValue >= min && initialValue <= max),
         super(key: key);
 
-  _NumberSelectorState createState() => _NumberSelectorState();
+  @override
+  NumberSelectorState createState() => NumberSelectorState();
 }
 
-class _NumberSelectorState extends State<NumberSelector> {
+class NumberSelectorState extends State<NumberSelector> {
   late ScrollController _controller;
   int _selectedValue = 0;
 
@@ -66,18 +67,19 @@ class _NumberSelectorState extends State<NumberSelector> {
   Widget _buildItem(int value) {
     TextStyle textStyle;
 
-    if (_selectedValue == value)
+    if (_selectedValue == value) {
       textStyle = TextStyle(
         fontSize: 24.0,
         fontWeight: FontWeight.w800,
         color: Theme.of(context).colorScheme.secondary,
       );
-    else
-      textStyle = TextStyle(fontSize: 20.0);
+    } else {
+      textStyle = const TextStyle(fontSize: 20.0);
+    }
 
     return InkWell(
       onTap: () => _onItemSelected(value),
-      child: Container(
+      child: SizedBox(
         height: kItemheight,
         child: Center(
           child: Text(
@@ -91,13 +93,15 @@ class _NumberSelectorState extends State<NumberSelector> {
 
   List<Widget> _generateListItem() {
     List<Widget> items = [];
-    for (int i = widget.min; i <= widget.max; i++) items.add(_buildItem(i));
+    for (int i = widget.min; i <= widget.max; i++) {
+      items.add(_buildItem(i));
+    }
     return items;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: kVisibleHeight,
       width: 0.0,
       child: ListView(

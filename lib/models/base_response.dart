@@ -9,7 +9,7 @@ class BaseResponse<T> {
 
   factory BaseResponse.fromJson(Map<String, dynamic> json) => BaseResponse(
         data: json['data'],
-        error: json["error"],
+        error: json['error'],
       );
 
   Map<String, dynamic> toJson() => {'data': data, 'error': error};

@@ -25,10 +25,10 @@ class ListTileInput extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ListTileInputState createState() => _ListTileInputState();
+  ListTileInputState createState() => ListTileInputState();
 }
 
-class _ListTileInputState extends State<ListTileInput> {
+class ListTileInputState extends State<ListTileInput> {
   late String _inputValue;
   late String _submitInputValue;
 
@@ -38,7 +38,7 @@ class _ListTileInputState extends State<ListTileInput> {
     _initSelectedValue();
   }
 
-  @protected
+  @override
   void didUpdateWidget(covariant ListTileInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initSelectedValue();
@@ -46,7 +46,7 @@ class _ListTileInputState extends State<ListTileInput> {
 
   void _initSelectedValue() {
     setState(() {
-      _inputValue = widget.defaultValue ?? "";
+      _inputValue = widget.defaultValue ?? '';
       _submitInputValue = _inputValue;
     });
   }
@@ -60,7 +60,7 @@ class _ListTileInputState extends State<ListTileInput> {
     setState(() => _submitInputValue = _inputValue);
   }
 
-  Future<Null> _openDialog() async {
+  Future<void> _openDialog() async {
     setState(() => _inputValue = _submitInputValue);
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(

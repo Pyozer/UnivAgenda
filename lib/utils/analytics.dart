@@ -6,7 +6,7 @@ import 'package:univagenda/utils/preferences/theme.provider.dart';
 class AnalyticsProvider {
   static void sendUserPrefsGroup(SettingsProvider prefs) {
     // User group prefs
-    prefs.urlIcs.forEach((url) {
+    for (final url in prefs.urlIcs) {
       final host = Uri.tryParse(url)?.host;
       if (host?.isNotEmpty ?? false) {
         FirebaseAnalytics.instance.logEvent(
@@ -14,7 +14,7 @@ class AnalyticsProvider {
           parameters: {AnalyticsValue.university: host!},
         );
       }
-    });
+    }
   }
 
   static void sendUserPrefsDisplay(SettingsProvider prefs) {

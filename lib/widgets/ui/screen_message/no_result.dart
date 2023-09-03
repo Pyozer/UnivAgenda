@@ -3,7 +3,7 @@ import 'package:univagenda/keys/assets.dart';
 
 class NoResult extends StatelessWidget {
   final Widget? header;
-  final Widget ?footer;
+  final Widget? footer;
   final String title;
   final String text;
   final bool hasHeader;
@@ -40,7 +40,9 @@ class NoResult extends StatelessWidget {
             const SizedBox(height: 40.0),
             Text(
               title,
-              style: textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w600),
+              style: textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24.0),

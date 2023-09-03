@@ -3,7 +3,7 @@ import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/models/courses/note.dart';
 import 'package:univagenda/utils/translations.dart';
 
-typedef NoteChanged(Note note);
+typedef NoteChanged = Function(Note note);
 
 class CourseNote extends StatelessWidget {
   final Note note;
@@ -26,12 +26,13 @@ class CourseNote extends StatelessWidget {
       )
     ];
 
-    if (onDelete != null)
+    if (onDelete != null) {
       elems.add(IconButton(
         icon: const Icon(Icons.delete_outline),
         onPressed: () => onDelete!(note),
         tooltip: i18n.text(StrKey.DELETE),
       ));
+    }
     return elems;
   }
 

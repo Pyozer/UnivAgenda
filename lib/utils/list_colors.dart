@@ -20,7 +20,7 @@ final List<ColorSwatch> appMaterialColors = <ColorSwatch>[
   Colors.brown,
   Colors.grey,
   Colors.blueGrey,
-  ColorSwatch(Colors.black.value, {
+  ColorSwatch(Colors.black.value, const {
     100: Colors.white,
     500: Colors.black,
   }),

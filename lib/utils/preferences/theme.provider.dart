@@ -20,9 +20,6 @@ class ThemeProvider extends BaseProvider {
   ThemeMode get themeMode => _themeMode;
 
   void setThemeMode(ThemeMode? themeMode, [bool state = false]) {
-    print('old vs new');
-    print(_themeMode);
-    print(themeMode);
     if (_themeMode == themeMode) return;
 
     updatePref(() {
@@ -72,6 +69,7 @@ class ThemeProvider extends BaseProvider {
     setInt(PrefKey.noteColor, _noteColor.value);
   }
 
+  @override
   Future<void> initFromDisk() async {
     final themeMode = sharedPrefs?.getString(PrefKey.themeMode);
     setThemeModeFromString(themeMode);

@@ -30,10 +30,10 @@ class ListTileColor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ListTileColorState createState() => _ListTileColorState();
+  ListTileColorState createState() => ListTileColorState();
 }
 
-class _ListTileColorState extends State<ListTileColor> {
+class ListTileColorState extends State<ListTileColor> {
   late Color _inputColor;
   late Color _submitColor;
 
@@ -43,7 +43,7 @@ class _ListTileColorState extends State<ListTileColor> {
     _initSelectedValue();
   }
 
-  @protected
+  @override
   void didUpdateWidget(covariant ListTileColor oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initSelectedValue();
@@ -66,7 +66,7 @@ class _ListTileColorState extends State<ListTileColor> {
     setState(() => _submitColor = _inputColor);
   }
 
-  Future<Null> _openDialog() async {
+  Future<void> _openDialog() async {
     setState(() => _inputColor = _submitColor);
 
     final colorPicker = MaterialColorPicker(
@@ -97,7 +97,7 @@ class _ListTileColorState extends State<ListTileColor> {
 
     return ListTile(
       title: ListTileTitle(widget.title),
-      subtitle: Text(widget.description ?? ""),
+      subtitle: Text(widget.description ?? ''),
       trailing: Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: CircleColor(color: _submitColor, circleSize: sizeColor),

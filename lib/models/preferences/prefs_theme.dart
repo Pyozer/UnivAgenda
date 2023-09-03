@@ -13,7 +13,7 @@ class PrefsTheme {
     required this.noteColor,
   });
 
-  Brightness get brightness => this.darkTheme ? Brightness.dark : Brightness.light;
+  Brightness get brightness => darkTheme ? Brightness.dark : Brightness.light;
 
   @override
   bool operator ==(Object other) =>

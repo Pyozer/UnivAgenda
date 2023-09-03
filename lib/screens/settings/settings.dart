@@ -20,11 +20,13 @@ import 'package:univagenda/widgets/ui/list_divider.dart';
 import '../../widgets/ui/button/raised_button_colored.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
@@ -47,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             urlsIcs.removeAt(i);
             prefs.setUrlIcs(urlsIcs, true);
           },
-          icon: Icon(Icons.delete_outline),
+          icon: const Icon(Icons.delete_outline),
         ),
         onChange: (value) {
           // Clean cached courses
@@ -123,7 +125,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: ListTileTitle(i18n.text(StrKey.MANAGE_HIDDEN_EVENT)),
         subtitle: Text(i18n.text(StrKey.MANAGE_HIDDEN_EVENT_DESC)),
         onTap: () {
-          navigatorPush(context, ManageHiddenEvents(), fullscreenDialog: true);
+          navigatorPush(
+            context,
+            const ManageHiddenEvents(),
+            fullscreenDialog: true,
+          );
         },
       )
     ];
@@ -174,7 +180,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           description: i18n.text(StrKey.ACCENT_COLOR_DESC),
           selectedColor: themeProvider.accentColor,
           onColorChange: (color) => themeProvider.setAccentColor(color, true),
-          colors: [
+          colors: const [
             Colors.redAccent,
             Colors.pinkAccent,
             Colors.purpleAccent,

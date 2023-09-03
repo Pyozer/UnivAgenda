@@ -16,10 +16,10 @@ class RadioList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RadioListState createState() => _RadioListState();
+  RadioListState createState() => RadioListState();
 }
 
-class _RadioListState extends State<RadioList> {
+class RadioListState extends State<RadioList> {
   String? _selectedChoice;
 
   @override

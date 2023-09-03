@@ -9,10 +9,13 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 
 class SupportMeScreen extends StatefulWidget {
-  _SupportMeScreenState createState() => _SupportMeScreenState();
+  const SupportMeScreen({Key? key}) : super(key: key);
+
+  @override
+  SupportMeScreenState createState() => SupportMeScreenState();
 }
 
-class _SupportMeScreenState extends State<SupportMeScreen> {
+class SupportMeScreenState extends State<SupportMeScreen> {
   @override
   void initState() {
     super.initState();
@@ -22,7 +25,7 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
   void _openLydia() {
     _openLink(
       Url.lydia,
-      i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': "Lydia"}),
+      i18n.text(StrKey.SUPPORTME_LINK_ERROR, {'link': 'Lydia'}),
       AnalyticsValue.lydia,
     );
   }
@@ -31,9 +34,11 @@ class _SupportMeScreenState extends State<SupportMeScreen> {
     try {
       await openLink(context, url, analyticsEvent);
     } catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(i18n.text(errorKey) + url)),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(i18n.text(errorKey) + url)),
+        );
+      }
     }
   }
 

@@ -11,7 +11,7 @@ class ListTileChoices extends StatefulWidget {
   final String? titleDialog;
   final List<String> values;
   final ValueChanged<String> onChange;
-  final TitleGetter buildTitle; 
+  final TitleGetter buildTitle;
   final String? selectedValue;
 
   const ListTileChoices({
@@ -25,11 +25,11 @@ class ListTileChoices extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ListTileChoicesState createState() => _ListTileChoicesState();
+  ListTileChoicesState createState() => ListTileChoicesState();
 }
 
-class _ListTileChoicesState extends State<ListTileChoices> {
-  String _selectedChoice = "";
+class ListTileChoicesState extends State<ListTileChoices> {
+  String _selectedChoice = '';
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
     initSelectedValue();
   }
 
-  @protected
+  @override
   void didUpdateWidget(covariant ListTileChoices oldWidget) {
     super.didUpdateWidget(oldWidget);
     initSelectedValue();
@@ -45,10 +45,11 @@ class _ListTileChoicesState extends State<ListTileChoices> {
 
   void initSelectedValue() {
     if (widget.selectedValue != null &&
-        widget.values.contains(widget.selectedValue))
+        widget.values.contains(widget.selectedValue)) {
       setState(() => _selectedChoice = widget.selectedValue!);
-    else if (widget.values.isNotEmpty)
+    } else if (widget.values.isNotEmpty) {
       setState(() => _selectedChoice = widget.values[0]);
+    }
   }
 
   void _onRadioListChange(value) {
@@ -57,7 +58,7 @@ class _ListTileChoicesState extends State<ListTileChoices> {
     widget.onChange(value);
   }
 
-  Future<Null> _openDialog() async {
+  Future<void> _openDialog() async {
     await showDialog(
       context: context,
       barrierDismissible: true,

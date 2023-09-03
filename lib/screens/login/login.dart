@@ -22,11 +22,13 @@ import 'package:univagenda/widgets/ui/logo.dart';
 enum BodyType { MAIN, QRCODE, MANUAL }
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final _urlIcsController = TextEditingController();
   bool _isLoading = false;
   BodyType bodyType = BodyType.MAIN;
@@ -143,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (await Permission.camera.isRestricted) {
       return _showMessage('Permission restricted');
     }
-    if (status.isGranted) {
+    if (status.isGranted && mounted) {
       final result = await navigatorPush<String>(context, const LoginQrCode());
       if (result?.isNotEmpty ?? false) {
         _onDone(result!);
@@ -205,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         suffixIcon: IconButton(
           onPressed: () {
-            navigatorPush(context, HelpScreen());
+            navigatorPush(context, const HelpScreen());
           },
           icon: const Icon(Icons.help_outline),
         ),
@@ -222,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FloatingActionButton.extended(
           icon: const Icon(Icons.qr_code_rounded),
           // TODO: Add translate
-          label: Text('Scanner QRCode ENT'),
+          label: const Text('Scanner QRCode ENT'),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.QRCODE),
         ),
@@ -255,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FloatingActionButton.extended(
           icon: const Icon(Icons.link, size: 24.0),
           // TODO: Add translate
-          label: Text("Saisir l'url manuellement"),
+          label: const Text("Saisir l'url manuellement"),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.MANUAL),
         ),
@@ -267,24 +269,30 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       key: const Key('qrcode'),
       children: [
-        Text(
+        const Text(
           // TODO: Add translation
           'Utiliser le QRCode',
-          style: const TextStyle(fontSize: 20.0),
+          style: TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 32.0),
         FloatingActionButton.extended(
-          icon: Icon(Icons.camera_alt_outlined, size: 24.0),
+          icon: const Icon(
+            Icons.camera_alt_outlined,
+            size: 24.0,
+          ),
           // TODO: Add translation
-          label: Text("Depuis l'appareil photo"),
+          label: const Text("Depuis l'appareil photo"),
           heroTag: null,
           onPressed: _scanQRCode,
         ),
         const SizedBox(height: 32.0),
         FloatingActionButton.extended(
-          icon: const Icon(Icons.photo_size_select_actual_outlined, size: 24.0),
+          icon: const Icon(
+            Icons.photo_size_select_actual_outlined,
+            size: 24.0,
+          ),
           // TODO: Add translation
-          label: Text("Depuis un screenshot"),
+          label: const Text('Depuis un screenshot'),
           heroTag: null,
           onPressed: _scanPicture,
         ),
@@ -360,7 +368,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 transitionBuilder: (Widget child, Animation<double> animation) {
-                  return ScaleTransition(child: child, scale: animation);
+                  return ScaleTransition(scale: animation, child: child);
                 },
                 child: _buildContent(),
               ),
@@ -375,7 +383,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(i18n.text(StrKey.DATA_PRIVACY)),
                   ),
                   TextButton(
-                    onPressed: () => navigatorPush(context, HelpScreen()),
+                    onPressed: () => navigatorPush(context, const HelpScreen()),
                     child: Text(i18n.text(StrKey.HELP_FEEDBACK)),
                   ),
                 ],

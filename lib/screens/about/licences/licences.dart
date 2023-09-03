@@ -8,105 +8,107 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/settings/list_tile_title.dart';
 
 class LicencesScreen extends StatelessWidget {
-  static const git = "https://github.com/";
+  static const git = 'https://github.com/';
 
-  static List<Licence> _libraries = [
+  static const List<Licence> _libraries = [
     Licence(
-      "Cupertino Icons",
-      "Flutter Team",
-      license: "MIT Licence",
-      url: "${git}flutter/cupertino_icons",
+      'Cupertino Icons',
+      'Flutter Team',
+      license: 'MIT Licence',
+      url: '${git}flutter/cupertino_icons',
     ),
     Licence(
-      "Firebase Analytics",
-      "Flutter Team",
-      license: "BSD Licence",
-      url: "${git}flutter/plugins/tree/master/packages/firebase_analytics",
+      'Firebase Analytics',
+      'Flutter Team',
+      license: 'BSD Licence',
+      url: '${git}flutter/plugins/tree/master/packages/firebase_analytics',
     ),
     Licence(
-      "Flutter Calendar",
-      "Eric Windmill / Jean-Charles Moussé",
-      license: "BSD Licence",
-      url: "${git}pyozer/flutter_calendar",
+      'Flutter Calendar',
+      'Eric Windmill / Jean-Charles Moussé',
+      license: 'BSD Licence',
+      url: '${git}pyozer/flutter_calendar',
     ),
     Licence(
-      "Flutter Launcher Icons",
+      'Flutter Launcher Icons',
       "Flutter Community, Franz Silva, Mark O'Sullivan",
-      license: "MIT Licence",
-      url: "${git}fluttercommunity/flutter_launcher_icons",
+      license: 'MIT Licence',
+      url: '${git}fluttercommunity/flutter_launcher_icons',
     ),
     Licence(
-      "Flutter Markdown",
-      "Flutter Authors",
-      url: "${git}flutter/flutter_markdown",
+      'Flutter Markdown',
+      'Flutter Authors',
+      url: '${git}flutter/flutter_markdown',
     ),
     Licence(
-      "Flutter Material Color Picker",
-      "Jean-Charles Moussé",
-      license: "MIT Licence",
-      url: "${git}Pyozer/color_picker",
+      'Flutter Material Color Picker',
+      'Jean-Charles Moussé',
+      license: 'MIT Licence',
+      url: '${git}Pyozer/color_picker',
     ),
     Licence(
-      "HTML",
-      "Dart Team",
-      license: "MIT Licence",
-      url: "${git}dart-lang/html",
+      'HTML',
+      'Dart Team',
+      license: 'MIT Licence',
+      url: '${git}dart-lang/html',
     ),
     Licence(
-      "HTTP",
-      "Dart project authors",
-      license: "BSD 3-Clause Licence",
-      url: "${git}dart-lang/http",
+      'HTTP',
+      'Dart project authors',
+      license: 'BSD 3-Clause Licence',
+      url: '${git}dart-lang/http',
     ),
     Licence(
-      "Introduction Screen",
-      "Jean-Charles Moussé",
-      license: "MIT Licence",
-      url: "${git}Pyozer/introduction_screen",
+      'Introduction Screen',
+      'Jean-Charles Moussé',
+      license: 'MIT Licence',
+      url: '${git}Pyozer/introduction_screen',
     ),
     Licence(
-      "Outline Material Icons",
-      "Lucas Levin",
-      license: "Apache 2.0",
-      url: "${git}lucaslcode/outline_material_icons",
+      'Outline Material Icons',
+      'Lucas Levin',
+      license: 'Apache 2.0',
+      url: '${git}lucaslcode/outline_material_icons',
     ),
     Licence(
-      "Package Info",
-      "Flutter Team",
-      license: "BSD",
-      url: "${git}flutter/plugins/tree/master/packages/package_info",
+      'Package Info',
+      'Flutter Team',
+      license: 'BSD',
+      url: '${git}flutter/plugins/tree/master/packages/package_info',
     ),
     Licence(
-      "Path Provider",
-      "Flutter Team",
-      license: "BSD",
-      url: "${git}flutter/plugins/tree/master/packages/path_provider",
+      'Path Provider',
+      'Flutter Team',
+      license: 'BSD',
+      url: '${git}flutter/plugins/tree/master/packages/path_provider',
     ),
     Licence(
-      "Shared Preferences",
-      "Flutter Team",
-      license: "BSD Licence",
-      url: "${git}flutter/plugins/tree/master/packages/shared_preferences",
+      'Shared Preferences',
+      'Flutter Team',
+      license: 'BSD Licence',
+      url: '${git}flutter/plugins/tree/master/packages/shared_preferences',
     ),
     Licence(
-      "Timezone",
-      "Boris Kaul / Sam Rawlins",
-      license: "BSD Licence",
-      url: "${git}srawlins/timezone",
+      'Timezone',
+      'Boris Kaul / Sam Rawlins',
+      license: 'BSD Licence',
+      url: '${git}srawlins/timezone',
     ),
     Licence(
-      "URL Launcher",
-      "Flutter Team",
-      license: "BSD Licence",
-      url: "${git}flutter/plugins/tree/master/packages/url_launcher",
+      'URL Launcher',
+      'Flutter Team',
+      license: 'BSD Licence',
+      url: '${git}flutter/plugins/tree/master/packages/url_launcher',
     ),
     Licence(
-      "UUID",
-      "Yulian Kuncheff",
-      license: "MIT",
-      url: "${git}Daegalus/dart-uuid",
+      'UUID',
+      'Yulian Kuncheff',
+      license: 'MIT',
+      url: '${git}Daegalus/dart-uuid',
     ),
   ];
+
+  const LicencesScreen({Key? key}) : super(key: key);
 
   List<Widget> _buildList(BuildContext context) {
     _libraries.sort((a, b) => a.library.compareTo(b.library));
@@ -127,13 +129,11 @@ class LicencesScreen extends StatelessWidget {
 
     return AppbarPage(
       title: i18n.text(StrKey.OPENSOURCE_LICENCES),
-      body: Container(
-        child: ListView(
-          children: ListTile.divideTiles(
-            context: context,
-            tiles: _buildList(context),
-          ).toList(growable: false),
-        ),
+      body: ListView(
+        children: ListTile.divideTiles(
+          context: context,
+          tiles: _buildList(context),
+        ).toList(growable: false),
       ),
     );
   }

@@ -19,6 +19,9 @@ import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 import 'package:univagenda/widgets/ui/logo.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
   SplashScreenState createState() => SplashScreenState();
 }
 
@@ -46,25 +49,26 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     _setError(null);
     _startTimeout();
 
+    if (!mounted) return;
     final prefs = context.read<SettingsProvider>();
     if (prefs.urlIcs.isEmpty) {
       prefs.setUserLogged(false);
     }
 
     final routeDest = (!prefs.isIntroDone)
-        ? OnboardingScreen()
+        ? const OnboardingScreen()
         : (prefs.isUserLogged)
-            ? HomeScreen()
-            : LoginScreen();
+            ? const HomeScreen()
+            : const LoginScreen();
 
     // Wait minimum 1.5 secondes
     final diffMs = 1000 - DateTime.now().difference(now).inMilliseconds;
     final waitTime = diffMs < 0 ? 0 : diffMs;
 
     await Future.delayed(Duration(milliseconds: waitTime));
-    if (mounted) {
-      navigatorPushReplace(context, routeDest);
-    }
+
+    if (!mounted) return;
+    navigatorPushReplace(context, routeDest);
   }
 
   void _startTimeout() async {
@@ -110,7 +114,9 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
                           ),
                         ],
                       )
-                    : CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,),
+                    : CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
               ),
             ),
           ],

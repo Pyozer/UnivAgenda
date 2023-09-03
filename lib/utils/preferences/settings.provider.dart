@@ -261,7 +261,7 @@ class SettingsProvider extends BaseProvider {
   }
 
   void removeHiddenEvent(String uid, [bool state = false]) {
-    hiddenEvents.remove(uid);
+    hiddenEvents.removeWhere((event) => event.courseUid == uid);
     setHiddenEvents(hiddenEvents, state);
   }
 
@@ -320,6 +320,7 @@ class SettingsProvider extends BaseProvider {
     setBool(PrefKey.isGenerateEventColor, _isGenerateEventColor);
   }
 
+  @override
   Future<void> initFromDisk() async {
     await initIcsUrls();
 
@@ -373,7 +374,7 @@ class SettingsProvider extends BaseProvider {
 
     // Renamed events
     Map<String, dynamic> renamedEvents = json.decode(
-      sharedPrefs?.getString(PrefKey.renamedEvent) ?? "{}",
+      sharedPrefs?.getString(PrefKey.renamedEvent) ?? '{}',
     );
     setRenamedEvents(renamedEvents.cast<String, String>());
 

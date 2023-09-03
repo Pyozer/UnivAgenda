@@ -13,7 +13,7 @@ class Logo extends StatelessWidget {
       child: Image.asset(
         Asset.LOGO,
         width: size,
-        semanticLabel: "Logo",
+        semanticLabel: 'Logo',
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:univagenda/models/base_response.dart';
 import 'package:univagenda/models/custom_exception.dart';
 import 'package:univagenda/utils/translations.dart';
 
-const API_URL = "https://myagendaapi.herokuapp.com/api";
+const API_URL = 'https://myagendaapi.herokuapp.com/api';
 
 abstract class BaseApi {
   BaseApi();
@@ -16,7 +16,7 @@ abstract class BaseApi {
       return await httpRequest;
     } catch (e) {
       throw CustomException(
-        "error_server_response",
+        'error_server_response',
         i18n.text(StrKey.NETWORK_ERROR),
       );
     }
@@ -28,22 +28,22 @@ abstract class BaseApi {
 
     List<String> params = [];
     queryParams!.forEach((key, value) {
-      params.add("$key=${Uri.encodeComponent(value)}");
+      params.add('$key=${Uri.encodeComponent(value)}');
     });
-    return Uri.parse(url + "?" + params.join("&"));
+    return Uri.parse("$url?${params.join("&")}");
   }
 
   T getData<T>(http.Response response) {
     CustomException error = CustomException(
-      "unknown",
+      'unknown',
       i18n.text(StrKey.UNKNOWN_ERROR),
     );
     try {
       final res = BaseResponse<T>.fromJson(json.decode(response.body));
       if (res.error == null) return res.data!;
-      error = CustomException("error", res.error!);
+      error = CustomException('error', res.error!);
     } catch (e) {
-      error = CustomException("error", i18n.text(StrKey.ERROR_JSON_PARSE));
+      error = CustomException('error', i18n.text(StrKey.ERROR_JSON_PARSE));
     }
     throw error;
   }

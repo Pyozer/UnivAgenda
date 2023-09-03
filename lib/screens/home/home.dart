@@ -36,12 +36,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class HomeScreenState extends State<HomeScreen>
     with AfterLayoutMixin<HomeScreen> {
-  var _refreshKey = GlobalKey<RefreshIndicatorState>();
+  final _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   bool _isLoading = true;
   Map<int, List<Course>>? _courses;
@@ -128,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen>
     DateTime dayDate = DateTime.now();
     for (int day = 0; day < numberDay; day++) {
       // Check if actual day is in weekdays's course list
+      // ignore: iterable_contains_unrelated_type
       if (course.weekdaysRepeat.contains(dayDate.weekday)) {
         CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
         courseRepeated.dateStart = Date.setTimeFromOther(
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen>
         // Add course to list
         courses.add(courseRepeated);
       }
-      dayDate = dayDate.add(Duration(days: 1));
+      dayDate = dayDate.add(const Duration(days: 1));
     }
 
     return courses;
@@ -162,9 +163,9 @@ class _HomeScreenState extends State<HomeScreen>
       if (!course.isHidden || (course.isHidden && !isFullHidden)) {
         if (course.isRecurrentEvent()) {
           List<CustomCourse> customCourses = _generateRepeatedCourses(course);
-          customCourses.forEach((customCourse) {
+          for (final customCourse in customCourses) {
             listCourses.add(_addNotesToCourse(allNotes, customCourse));
-          });
+          }
         } else {
           listCourses.add(_addNotesToCourse(allNotes, course));
         }
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen>
       Duration(days: Date.calcDaysToEndDate(now, prefs.numberWeeks)),
     );
     final minDate = now.subtract(
-      Duration(days: PrefKey.defaultMaximumPrevDays),
+      const Duration(days: PrefKey.defaultMaximumPrevDays),
     );
     final isPrevCourses = prefs.isPreviousCourses;
 
@@ -237,10 +238,10 @@ class _HomeScreenState extends State<HomeScreen>
   void _onFabPressed() async {
     final customCourse = await navigatorPush(
       context,
-      CustomEventScreen(),
+      const CustomEventScreen(),
       fullscreenDialog: true,
     );
-    if (customCourse != null) {
+    if (customCourse != null && mounted) {
       context.read<SettingsProvider>().addCustomEvent(customCourse, true);
     }
   }
@@ -276,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen>
     bool classicView = calendarController.view == CalendarView.timelineDay;
 
     if (courses != null && courses.isNotEmpty) {
-      courses.forEach((course) {
+      for (final course in courses) {
         if (course == null) {
           widgets.add(const EmptyDay());
         } else if (course is CourseHeader) {
@@ -284,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen>
         } else if (course is Course) {
           widgets.add(CourseRow(course: course, noteColor: noteColor));
         }
-      });
+      }
     } else {
       widgets.add(const EmptyDay(
         padding: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 16.0),
@@ -292,11 +293,11 @@ class _HomeScreenState extends State<HomeScreen>
     }
 
     return ListView(
-      children: widgets,
       padding: EdgeInsets.only(
         bottom: classicView ? 36.0 : 2.0,
         top: 12.0,
       ),
+      children: widgets,
     );
   }
 
@@ -389,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         initialSelectedDate: DateTime.now(),
         minDate: DateTime.now().subtract(
-          Duration(days: PrefKey.defaultMaximumPrevDays),
+          const Duration(days: PrefKey.defaultMaximumPrevDays),
         ),
         firstDayOfWeek: 1,
         monthViewSettings: MonthViewSettings(
@@ -474,10 +475,10 @@ class _HomeScreenState extends State<HomeScreen>
           onPressed: _switchTypeView,
         )
       ],
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       useCustomMenuIcon: true,
       fab: FloatingActionButton(
-        heroTag: "fabBtn",
+        heroTag: 'fabBtn',
         onPressed: _onFabPressed,
         child: const Icon(Icons.add),
       ),

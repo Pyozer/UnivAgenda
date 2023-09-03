@@ -4,7 +4,8 @@ class Resource {
 
   Resource(this.name, this.resourceId);
 
+  @override
   String toString() {
-    return "{ name: $name, resId: $resourceId }";
+    return '{ name: $name, resId: $resourceId }';
   }
 }

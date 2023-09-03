@@ -6,11 +6,11 @@ import 'package:univagenda/utils/translations.dart';
 
 extension DateTimeCompare on DateTime {
   bool isSameOrBefore(DateTime other) {
-    return this.isAtSameMomentAs(other) || this.isBefore(other);
+    return isAtSameMomentAs(other) || isBefore(other);
   }
 
   bool isSameOrAfter(DateTime other) {
-    return this.isAtSameMomentAs(other) || this.isAfter(other);
+    return isAtSameMomentAs(other) || isAfter(other);
   }
 }
 
@@ -42,16 +42,15 @@ class Date {
   }
 
   static String dateFromNow(DateTime date, [bool shortDate = false]) {
-    DateTime today = DateTime.now();
+    final today = DateTime.now();
 
     if (isSameDay(today, date)) {
       return i18n.text(StrKey.TODAY);
-    } else if (isSameDay(today.add(Duration(days: 1)), date)) {
+    } else if (isSameDay(today.add(const Duration(days: 1)), date)) {
       return i18n.text(StrKey.TOMORROW);
     }
 
     DateFormat dateFormat;
-
     if (today.year == date.year) {
       if (shortDate) {
         dateFormat = DateFormat.MMMEd();
@@ -70,12 +69,16 @@ class Date {
   }
 
   static String extractTime(DateTime? date) {
-    if (date == null) return "";
+    if (date == null) {
+      return '';
+    }
     return DateFormat.Hm().format(date);
   }
 
   static String extractDate(DateTime? date) {
-    if (date == null) return "";
+    if (date == null) {
+      return '';
+    }
     if (date.year == DateTime.now().year) {
       return DateFormat.MMMEd().format(date);
     }
@@ -85,12 +88,16 @@ class Date {
   static int dateToInt(DateTime dt) {
     int year = dt.year;
     String month = dt.month.toString();
-    if (month.length == 1) month = "0$month";
+    if (month.length == 1) {
+      month = '0$month';
+    }
 
     String day = dt.day.toString();
-    if (day.length == 1) day = "0$day";
+    if (day.length == 1) {
+      day = '0$day';
+    }
 
-    return int.parse("$year$month$day");
+    return int.parse('$year$month$day');
   }
 
   static DateTime intToDate(int dateInt) {
@@ -108,11 +115,11 @@ class Date {
   }
 
   static TimeOfDay calculateDuration(DateTime startDate, DateTime endDate) {
-    var diff =
+    final diff =
         endDate.millisecondsSinceEpoch - startDate.millisecondsSinceEpoch;
 
-    var hours = (diff / 3.6e6).floor();
-    var minutes = ((diff % 3.6e6) / 6e4).floor();
+    final hours = (diff / 3.6e6).floor();
+    final minutes = ((diff % 3.6e6) / 6e4).floor();
 
     return TimeOfDay(hour: hours, minute: minutes);
   }

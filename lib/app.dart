@@ -10,6 +10,8 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -35,7 +37,7 @@ class App extends StatelessWidget {
           ));
 
           return MaterialApp(
-            title: "UnivAgenda",
+            title: 'UnivAgenda',
             themeMode: themeMode,
             theme: generateTheme(
               brightness: Brightness.light,
@@ -47,12 +49,12 @@ class App extends StatelessWidget {
               primaryColor: prefs.primaryColor,
               accentColor: prefs.accentColor,
             ),
-            localizationsDelegates: [
+            localizationsDelegates: const [
               ...GlobalMaterialLocalizations.delegates,
               SfGlobalLocalizations.delegate
             ],
             supportedLocales: i18n.supportedLocales(),
-            home: SplashScreen(),
+            home: const SplashScreen(),
           );
         },
       ),

@@ -20,7 +20,7 @@ class Api extends BaseApi {
 
     if (response.statusCode != 200 || response.body.isEmpty) {
       throw CustomException(
-        "error",
+        'error',
         "Erreur lors de la récupération des cours. Veuillez vérifier l'url utilisée ou contactez nous.",
       );
     }
@@ -31,7 +31,7 @@ class Api extends BaseApi {
 
   Future<List<HelpItem>> getHelps() async {
     final response = await doRequest(http.get(
-      getAPIUrl("/helps"),
+      getAPIUrl('/helps'),
       headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
     ));
 
@@ -42,7 +42,7 @@ class Api extends BaseApi {
 
   Future<String> getHelp(String filename) async {
     final response = await doRequest(http.get(
-      getAPIUrl("/helps/$filename"),
+      getAPIUrl('/helps/$filename'),
       headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
     ));
 

@@ -20,12 +20,12 @@ class RaisedButtonColored extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: text != null ? Text(text!.toUpperCase()) : child,
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         shape: shape,
         padding: padding,
       ),
+      child: text != null ? Text(text!.toUpperCase()) : child,
     );
   }
 }

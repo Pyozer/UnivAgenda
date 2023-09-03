@@ -15,10 +15,13 @@ import 'package:univagenda/widgets/ui/logo.dart';
 const double kIconSize = 150.0;
 
 class OnboardingScreen extends StatefulWidget {
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  const OnboardingScreen({Key? key}) : super(key: key);
+
+  @override
+  OnboardingScreenState createState() => OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
@@ -65,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       PageViewModel(
         title: i18n.text(StrKey.INTRO_WELCOME_TITLE),
         body: i18n.text(StrKey.INTRO_WELCOME_DESC),
-        image: _wrapImage(Logo(size: kIconSize)),
+        image: _wrapImage(const Logo(size: kIconSize)),
       ),
       PageViewModel(
         title: i18n.text(StrKey.INTRO_CUSTOM_TITLE),
@@ -90,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     prefs.setIntroDone(true);
     navigatorPushReplace(
       context,
-      prefs.isUserLogged ? HomeScreen() : LoginScreen(),
+      prefs.isUserLogged ? const HomeScreen() : const LoginScreen(),
     );
   }
 

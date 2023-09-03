@@ -17,10 +17,10 @@ class CustomEventScreen extends StatefulWidget {
   const CustomEventScreen({Key? key, this.course}) : super(key: key);
 
   @override
-  _CustomEventScreenState createState() => _CustomEventScreenState();
+  CustomEventScreenState createState() => CustomEventScreenState();
 }
 
-class _CustomEventScreenState extends State<CustomEventScreen> {
+class CustomEventScreenState extends State<CustomEventScreen> {
   final _descNode = FocusNode();
   final _locationNode = FocusNode();
 
@@ -37,10 +37,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   @override
   void initState() {
     super.initState();
-    final _initFirstDate = DateTime.now();
-    final _initEndDate = _initFirstDate.add(Duration(hours: 1));
+    final initFirstDate = DateTime.now();
+    final initEndDate = initFirstDate.add(const Duration(hours: 1));
 
-    _baseCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
+    _baseCourse = CustomCourse.empty(initFirstDate, initEndDate);
 
     // Init view
     if (widget.course != null) {
@@ -49,7 +49,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _isAllDay = _customCourse.isAllDay();
       _isColor = _customCourse.hasColor();
     } else {
-      _customCourse = CustomCourse.empty(_initFirstDate, _initEndDate);
+      _customCourse = CustomCourse.empty(initFirstDate, initEndDate);
     }
 
     _prevStartTime = TimeOfDay.fromDateTime(_customCourse.dateStart);
@@ -80,7 +80,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
         second: 0,
       );
       _customCourse.dateEnd = Date.changeTime(
-        _customCourse.dateStart,
+        _customCourse.dateEnd,
         hour: 23,
         minute: 59,
         second: 59,
@@ -109,7 +109,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       context: context,
       initialDate: initialDateTime,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365 * 30)),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 30)),
       locale: i18n.locale,
     );
   }
@@ -151,7 +151,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       minute: timeStart.minute,
     );
     if (newStart.isSameOrAfter(_customCourse.dateEnd)) {
-      final prevDuration = _customCourse.dateEnd.difference(_customCourse.dateStart);
+      final prevDuration = _customCourse.dateEnd.difference(
+        _customCourse.dateStart,
+      );
       _customCourse.dateEnd = newStart.add(prevDuration);
     }
 
@@ -171,7 +173,9 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       minute: timeEnd.minute,
     );
     if (newEnd.isSameOrBefore(_customCourse.dateStart)) {
-      final prevDuration = _customCourse.dateEnd.difference(_customCourse.dateStart);
+      final prevDuration = _customCourse.dateEnd.difference(
+        _customCourse.dateStart,
+      );
       _customCourse.dateStart = newEnd.subtract(prevDuration);
     }
 
@@ -180,6 +184,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
 
   void _updateTimes(DateTime start, DateTime end) {
     setState(() {
+      if (!_isAllDay) {
+        _prevStartTime = TimeOfDay.fromDateTime(start);
+        _prevEndTime = TimeOfDay.fromDateTime(end);
+      }
       _customCourse.dateStart = start;
       _customCourse.dateEnd = end;
     });
@@ -209,7 +217,7 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
       _showError(i18n.text(StrKey.ERROR_EVENT_RECURRENT_ZERO));
       return;
     }
-    if (_customCourse.uid.isEmpty) _customCourse.uid = Uuid().v1();
+    if (_customCourse.uid.isEmpty) _customCourse.uid = const Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
 
@@ -277,10 +285,10 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,
         ),
         fab: FloatingActionButton.extended(
-          icon: Icon(Icons.check),
+          icon: const Icon(Icons.check),
           label: Text(i18n.text(StrKey.SAVE)),
           tooltip: i18n.text(StrKey.SAVE),
-          heroTag: "fabBtn",
+          heroTag: 'fabBtn',
           onPressed: () => _onSubmit(context),
         ),
         body: SingleChildScrollView(
@@ -343,84 +351,84 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
                 ),
               ),
               const Divider(height: 0.0),
-              _isRecurrent
-                  ? Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Wrap(
-                        spacing: 5.0,
-                        children: _buildWeekDaySelection(),
+              if (_isRecurrent)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Wrap(
+                    spacing: 5.0,
+                    children: _buildWeekDaySelection(),
+                  ),
+                ),
+              if (!_isRecurrent)
+                Column(
+                  children: [
+                    ListTile(
+                      onTap: () => _onAllDay(!_isAllDay),
+                      leading: const Icon(Icons.access_time),
+                      // TODO: Add translation
+                      title: const Text('Toute la journée'),
+                      trailing: Switch(
+                        value: _isAllDay,
+                        activeColor: colorScheme.secondary,
+                        onChanged: _onAllDay,
                       ),
-                    )
-                  : Column(
+                    ),
+                    Row(
                       children: [
-                        ListTile(
-                          onTap: () => _onAllDay(!_isAllDay),
-                          leading: const Icon(Icons.access_time),
-                          // TODO: Add translation
-                          title: Text('Toute la journée'),
-                          trailing: Switch(
-                            value: _isAllDay,
-                            activeColor: colorScheme.secondary,
-                            onChanged: _onAllDay,
+                        Expanded(
+                          flex: 5,
+                          child: ListTile(
+                            onTap: _onStartDateTap,
+                            leading: const Icon(null),
+                            title: _buildDateTimeField(
+                              // TODO: Refacto translation
+                              '${i18n.text(StrKey.DATE_EVENT)} de début',
+                              Date.extractDate(_customCourse.dateStart),
+                            ),
                           ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: ListTile(
-                                onTap: _onStartDateTap,
-                                //leading: const Icon(Icons.date_range_outlined),
-                                leading: const Icon(null),
-                                title: _buildDateTimeField(
-                                  // TODO: Refacto translation
-                                  i18n.text(StrKey.DATE_EVENT) + " de début",
-                                  Date.extractDate(_customCourse.dateStart),
-                                ),
+                        if (!_isAllDay)
+                          Expanded(
+                            flex: 3,
+                            child: ListTile(
+                              onTap: _onStartTimeTap,
+                              title: _buildDateTimeField(
+                                i18n.text(StrKey.START_TIME_EVENT),
+                                Date.extractTime(_customCourse.dateStart),
                               ),
                             ),
-                            if (!_isAllDay)
-                              Expanded(
-                                flex: 3,
-                                child: ListTile(
-                                  onTap: _onStartTimeTap,
-                                  title: _buildDateTimeField(
-                                    i18n.text(StrKey.START_TIME_EVENT),
-                                    Date.extractTime(_customCourse.dateStart),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: ListTile(
-                                onTap: _onEndDateTap,
-                                leading: const Icon(null),
-                                title: _buildDateTimeField(
-                                  // TODO: Refacto translation
-                                  i18n.text(StrKey.DATE_EVENT) + " de fin",
-                                  Date.extractDate(_customCourse.dateEnd),
-                                ),
-                              ),
-                            ),
-                            if (!_isAllDay)
-                              Expanded(
-                                flex: 3,
-                                child: ListTile(
-                                  onTap: _onEndTimeTap,
-                                  title: _buildDateTimeField(
-                                    i18n.text(StrKey.END_TIME_EVENT),
-                                    Date.extractTime(_customCourse.dateEnd),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
+                          ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: ListTile(
+                            onTap: _onEndDateTap,
+                            leading: const Icon(null),
+                            title: _buildDateTimeField(
+                              // TODO: Refacto translation
+                              '${i18n.text(StrKey.DATE_EVENT)} de fin',
+                              Date.extractDate(_customCourse.dateEnd),
+                            ),
+                          ),
+                        ),
+                        if (!_isAllDay)
+                          Expanded(
+                            flex: 3,
+                            child: ListTile(
+                              onTap: _onEndTimeTap,
+                              title: _buildDateTimeField(
+                                i18n.text(StrKey.END_TIME_EVENT),
+                                Date.extractTime(_customCourse.dateEnd),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               const Divider(height: 0.0),
               ListTile(
                 onTap: () => _onColorCustom(!_isColor),
@@ -449,11 +457,11 @@ class _CustomEventScreenState extends State<CustomEventScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    final _originCourse = (widget.course ?? _baseCourse);
+    final originCourse = (widget.course ?? _baseCourse);
 
-    if (_originCourse != _customCourse ||
-        _isColor != _originCourse.hasColor() ||
-        _isRecurrent != _originCourse.isRecurrentEvent()) {
+    if (originCourse != _customCourse ||
+        _isColor != originCourse.hasColor() ||
+        _isRecurrent != originCourse.isRecurrentEvent()) {
       bool confirmQuit = await DialogPredefined.showTextDialog(
         context,
         i18n.text(StrKey.CUSTOM_EVENT_EXIT_UNSAVED),

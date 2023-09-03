@@ -6,7 +6,7 @@ class CircleText extends StatelessWidget {
   final bool isSelected;
   final ValueChanged<bool>? onChange;
 
-  CircleText({
+  const CircleText({
     Key? key,
     required this.text,
     this.onChange,
@@ -29,9 +29,12 @@ class CircleText extends StatelessWidget {
     return GestureDetector(
       onTap: () => onChange != null ? onChange!(!isSelected) : null,
       child: CircleAvatar(
-        child: Text(text, style: TextStyle(color: textColor)),
         backgroundColor: bgColor,
         radius: 19.0,
+        child: Text(
+          text,
+          style: TextStyle(color: textColor),
+        ),
       ),
     );
   }

@@ -36,7 +36,7 @@ class CustomCourse extends Course {
     Course course = Course.fromJson(json);
 
     List<WeekDay> listWeekDays = [
-      if ((json['weekdays_repeat'] ?? '').trim() != "")
+      if ((json['weekdays_repeat'] ?? '').trim() != '')
         ...json['weekdays_repeat']
             .toString()
             .split(',')
@@ -64,14 +64,15 @@ class CustomCourse extends Course {
 
   factory CustomCourse.empty(DateTime dateStart, DateTime dateEnd) =>
       CustomCourse(
-        uid: "",
-        title: "",
-        description: "",
-        location: "",
+        uid: '',
+        title: '',
+        description: '',
+        location: '',
         dateStart: dateStart,
         dateEnd: dateEnd,
       );
 
+  @override
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = super.toJson();
 
@@ -79,7 +80,7 @@ class CustomCourse extends Course {
       jsonMap['weekdays_repeat'] =
           weekdaysRepeat.map((wd) => wd.value).join(',');
     } else {
-      jsonMap['weekdays_repeat'] = "";
+      jsonMap['weekdays_repeat'] = '';
     }
 
     return jsonMap;

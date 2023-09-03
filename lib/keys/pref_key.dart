@@ -7,7 +7,7 @@ import 'package:univagenda/models/courses/note.dart';
 import '../models/courses/hidden.dart';
 
 class PrefKey {
-  static const urlIcs = "list_url_ics";
+  static const urlIcs = 'list_url_ics';
 
   static const numberWeeks = 'number_weeks';
   static const isPreviousCourses = 'is_previous_courses';

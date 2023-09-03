@@ -8,10 +8,13 @@ import 'package:univagenda/utils/translations.dart';
 import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
 
 class ManageHiddenEvents extends StatefulWidget {
-  _ManageHiddenEventsState createState() => _ManageHiddenEventsState();
+  const ManageHiddenEvents({Key? key}) : super(key: key);
+
+  @override
+  ManageHiddenEventsState createState() => ManageHiddenEventsState();
 }
 
-class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
+class ManageHiddenEventsState extends State<ManageHiddenEvents> {
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -33,7 +36,9 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
           Expanded(child: Text(hiddenEvent)),
           IconButton(
             icon: const Icon(Icons.delete_outline),
-            onPressed: () => context.read<SettingsProvider>().removeHiddenEvent(hiddenEvent, true),
+            onPressed: () => context
+                .read<SettingsProvider>()
+                .removeHiddenEvent(hiddenEvent, true),
           ),
         ],
       ),
@@ -61,7 +66,9 @@ class _ManageHiddenEventsState extends State<ManageHiddenEvents> {
             )
           : ListView.builder(
               itemCount: prefs.hiddenEvents.length,
-              itemBuilder: (_, index) => _buildRow(prefs.hiddenEvents[index].title),
+              itemBuilder: (_, index) => _buildRow(
+                prefs.hiddenEvents[index].title,
+              ),
             ),
     );
   }

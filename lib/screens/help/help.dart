@@ -12,11 +12,13 @@ import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpScreen extends StatelessWidget {
+  const HelpScreen({Key? key}) : super(key: key);
+
   void _sendFeedback(BuildContext context) async {
     var url = 'mailto:jeancharles.msse@gmail.com?subject=Feedback UnivAgenda';
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);
-    } else {
+    } else if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(i18n.text(StrKey.NO_EMAIL_APP)),
       ));
@@ -62,7 +64,7 @@ class HelpScreen extends StatelessWidget {
             ),
           ),
           Hero(
-            tag: "fabBtn",
+            tag: 'fabBtn',
             child: LargeRoundedButton(
               onPressed: () => _sendFeedback(context),
               text: i18n.text(StrKey.SEND_FEEDBACK),

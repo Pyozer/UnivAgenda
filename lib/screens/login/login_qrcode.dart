@@ -9,10 +9,10 @@ class LoginQrCode extends StatefulWidget {
   const LoginQrCode({Key? key}) : super(key: key);
 
   @override
-  _LoginQrCodeState createState() => _LoginQrCodeState();
+  LoginQrCodeState createState() => LoginQrCodeState();
 }
 
-class _LoginQrCodeState extends State<LoginQrCode> {
+class LoginQrCodeState extends State<LoginQrCode> {
   MobileScannerController cameraController = MobileScannerController(
     formats: const [BarcodeFormat.qrCode],
     torchEnabled: false,
@@ -22,7 +22,10 @@ class _LoginQrCodeState extends State<LoginQrCode> {
   Widget _buildTorchBtn(bool isFlashOn) {
     return TextButton.icon(
       style: TextButton.styleFrom(foregroundColor: Colors.white),
-      label: isFlashOn ? Text('Désactiver le flash') : Text('Activer le flash'),
+      // TODO: Add translation
+      label: isFlashOn
+          ? const Text('Désactiver le flash')
+          : const Text('Activer le flash'),
       icon: isFlashOn
           ? const Icon(Icons.flash_off_rounded)
           : const Icon(Icons.flash_on_rounded),
@@ -38,7 +41,8 @@ class _LoginQrCodeState extends State<LoginQrCode> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Scannez votre QRCode'),
+        // TODO: Add translation
+        title: const Text('Scannez votre QRCode'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -69,7 +73,7 @@ class _LoginQrCodeState extends State<LoginQrCode> {
             ),
           ),
           SafeArea(
-            minimum: EdgeInsets.only(bottom: 16.0),
+            minimum: const EdgeInsets.only(bottom: 16.0),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ValueListenableBuilder(

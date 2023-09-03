@@ -162,35 +162,35 @@ class StrKey {
   static const TODAY = 'today';
   static const TOMORROW = 'tomorrow';
 
-  static const NO_EVENTS = "no_events";
+  static const NO_EVENTS = 'no_events';
 
-  static const ERROR = "error";
-  static const ERROR_EVENT_RECURRENT_ZERO = "error_event_recurrent_zero";
-  static const ERROR_JSON_PARSE = "error_json_parse";
+  static const ERROR = 'error';
+  static const ERROR_EVENT_RECURRENT_ZERO = 'error_event_recurrent_zero';
+  static const ERROR_JSON_PARSE = 'error_json_parse';
 
-  static const DATA_PRIVACY = "data_privacy";
-  static const DATA_PRIVACY_TEXT = "data_privacy_text";
+  static const DATA_PRIVACY = 'data_privacy';
+  static const DATA_PRIVACY_TEXT = 'data_privacy_text';
 
-  static const URL_ICS = "url_ics";
-  static const WRONG_ICS_FORMAT = "wrong_ics_format";
+  static const URL_ICS = 'url_ics';
+  static const WRONG_ICS_FORMAT = 'wrong_ics_format';
 
-  static const CUSTOM_EVENT_EXIT_UNSAVED = "custom_event_exit_unsaved";
-  static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = "custom_event_exit_unsaved_text";
+  static const CUSTOM_EVENT_EXIT_UNSAVED = 'custom_event_exit_unsaved';
+  static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = 'custom_event_exit_unsaved_text';
 
-  static const HIDE = "hide";
-  static const UNHIDE = "unhide";
-  static const HIDE_EVENT = "hide_event";
-  static const HIDE_EVENT_TEXT = "hide_event_text";
-  static const UNHIDE_EVENT = "unhide_event";
-  static const UNHIDE_EVENT_TEXT = "unhide_event_text";
-  static const NO_HIDDEN_EVENT = "no_hidden_event";
-  static const NO_HIDDEN_EVENT_TEXT = "no_hidden_event_text";
-  static const ADD_HIDDEN_EVENT = "add_hidden_event";
+  static const HIDE = 'hide';
+  static const UNHIDE = 'unhide';
+  static const HIDE_EVENT = 'hide_event';
+  static const HIDE_EVENT_TEXT = 'hide_event_text';
+  static const UNHIDE_EVENT = 'unhide_event';
+  static const UNHIDE_EVENT_TEXT = 'unhide_event_text';
+  static const NO_HIDDEN_EVENT = 'no_hidden_event';
+  static const NO_HIDDEN_EVENT_TEXT = 'no_hidden_event_text';
+  static const ADD_HIDDEN_EVENT = 'add_hidden_event';
 
-  static const NEW_EVENT_TITLE = "new_event_title";
-  static const RENAME_EVENT = "rename_event";
+  static const NEW_EVENT_TITLE = 'new_event_title';
+  static const RENAME_EVENT = 'rename_event';
 
-  static const SYNC_CALENDAR = "sync_calendar";
-  static const CHOOSE_CALENDAR = "choose_calendar";
-  static const GET_CALENDARS_FAILED = "get_calendars_failed";
+  static const SYNC_CALENDAR = 'sync_calendar';
+  static const CHOOSE_CALENDAR = 'choose_calendar';
+  static const GET_CALENDARS_FAILED = 'get_calendars_failed';
 }

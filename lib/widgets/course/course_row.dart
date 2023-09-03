@@ -14,7 +14,7 @@ class CourseRow extends StatelessWidget {
   final Course course;
   final Color noteColor;
 
-  CourseRow({
+  const CourseRow({
     Key? key,
     required this.course,
     this.noteColor = PrefKey.defaultNoteColor,
@@ -31,11 +31,17 @@ class CourseRow extends StatelessWidget {
   void _onCustomCourseLong(BuildContext context) async {
     final prefs = context.read<SettingsProvider>();
     bool isConfirm = await DialogPredefined.showDeleteEventConfirm(context);
-    if (isConfirm) prefs.removeCustomEvent(course as CustomCourse, true);
+    if (isConfirm) {
+      prefs.removeCustomEvent(course as CustomCourse, true);
+    }
   }
 
-  Widget _text(String text, TextStyle style, double size,
-      [FontWeight? weight]) {
+  Widget _text(
+    String text,
+    TextStyle style,
+    double size, [
+    FontWeight? weight,
+  ]) {
     return Text(
       text,
       style: style.copyWith(fontSize: size, fontWeight: weight),
@@ -50,13 +56,18 @@ class CourseRow extends StatelessWidget {
 
     Color? bgColorRow = course.getBgColor(prefs.isGenerateEventColor);
     String courseDate = course.dateForDisplay();
-    if (course.isStarted()) courseDate += " - ${i18n.text(StrKey.IN_PROGRESS)}";
+    if (course.isStarted()) {
+      courseDate += ' - ${i18n.text(StrKey.IN_PROGRESS)}';
+    }
 
-    final style = TextStyle(color: course.getTitleColor(prefs.isGenerateEventColor));
+    final style =
+        TextStyle(color: course.getTitleColor(prefs.isGenerateEventColor));
 
     String subtitle = course.location ?? '';
     // Location and description not empty
-    if (subtitle.isNotEmpty && course.description.isNotEmpty) subtitle += " - ";
+    if (subtitle.isNotEmpty && course.description.isNotEmpty) {
+      subtitle += ' - ';
+    }
     subtitle += course.description;
 
     return Card(

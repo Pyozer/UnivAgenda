@@ -3,13 +3,13 @@ class WeekDay {
 
   const WeekDay._(this.value);
 
-  static final monday = WeekDay._(DateTime.monday);
-  static final tuesday = WeekDay._(DateTime.tuesday);
-  static final wednesday = WeekDay._(DateTime.wednesday);
-  static final thursday = WeekDay._(DateTime.thursday);
-  static final friday = WeekDay._(DateTime.friday);
-  static final saturday = WeekDay._(DateTime.saturday);
-  static final sunday = WeekDay._(DateTime.sunday);
+  static const monday = WeekDay._(DateTime.monday);
+  static const tuesday = WeekDay._(DateTime.tuesday);
+  static const wednesday = WeekDay._(DateTime.wednesday);
+  static const thursday = WeekDay._(DateTime.thursday);
+  static const friday = WeekDay._(DateTime.friday);
+  static const saturday = WeekDay._(DateTime.saturday);
+  static const sunday = WeekDay._(DateTime.sunday);
 
   static get count => values.length;
 
@@ -17,9 +17,11 @@ class WeekDay {
       [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
 
   factory WeekDay.fromValue(int value) {
-    if (value < 1)
+    if (value < 1) {
       value = 0;
-    else if (value > count) value = count;
+    } else if (value > count) {
+      value = count;
+    }
 
     return values[value - 1];
   }

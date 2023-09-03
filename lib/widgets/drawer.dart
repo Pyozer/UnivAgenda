@@ -27,9 +27,9 @@ class MainDrawer extends StatelessWidget {
         i18n.text(StrKey.NO),
         true);
 
-    if (logoutConfirm) {
+    if (logoutConfirm && context.mounted) {
       prefs.disconnectUser();
-      navigatorPushReplace(context, LoginScreen());
+      navigatorPushReplace(context, const LoginScreen());
     }
   }
 
@@ -44,9 +44,11 @@ class MainDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             margin: EdgeInsets.zero,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Logo(size: 65.0),
-                const Padding(padding: const EdgeInsets.only(top: 13.0)),
+                const Logo(size: 65.0),
+                const Padding(padding: EdgeInsets.only(top: 13.0)),
                 Text(
                   i18n.text(StrKey.APP_NAME),
                   style: const TextStyle(
@@ -55,35 +57,33 @@ class MainDrawer extends StatelessWidget {
                   ),
                 )
               ],
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
           ),
           DrawerElement(
             icon: Icons.info_outline,
             title: i18n.text(StrKey.ABOUT),
-            routeDest: () => AboutScreen(),
+            routeDest: () => const AboutScreen(),
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
             title: i18n.text(StrKey.INTRO),
-            routeDest: () => OnboardingScreen(),
+            routeDest: () => const OnboardingScreen(),
           ),
           const Divider(),
           DrawerElement(
             icon: Icons.settings_outlined,
             title: i18n.text(StrKey.SETTINGS),
-            routeDest: () => SettingsScreen(),
+            routeDest: () => const SettingsScreen(),
           ),
           DrawerElement(
             icon: Icons.live_help_outlined,
             title: i18n.text(StrKey.HELP_FEEDBACK),
-            routeDest: () => HelpScreen(),
+            routeDest: () => const HelpScreen(),
           ),
           DrawerElement(
             icon: Icons.monetization_on_outlined,
             title: i18n.text(StrKey.SUPPORTME),
-            routeDest: () => SupportMeScreen(),
+            routeDest: () => const SupportMeScreen(),
           ),
           const Divider(),
           DrawerElement(

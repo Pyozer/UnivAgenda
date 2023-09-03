@@ -7,8 +7,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
   bool _isGenColor = false;
   late Color _defaultBgColor;
 
-  CourseDataSource(
-      List<Course> source, bool isGenColor, Color defaultBgColor) {
+  CourseDataSource(List<Course> source, bool isGenColor, Color defaultBgColor) {
     appointments = source;
     _isGenColor = isGenColor;
     _defaultBgColor = defaultBgColor;
@@ -26,7 +25,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
   @override
   DateTime getEndTime(int index) {
     if (isAllDay(index)) {
-      return getEvent(index).dateEnd.subtract(Duration(milliseconds: 1));
+      return getEvent(index).dateEnd.subtract(const Duration(milliseconds: 1));
     }
     return getEvent(index).dateEnd;
   }
@@ -38,11 +37,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
 
   @override
   String? getNotes(int index) {
-    final notes = getEvent(index).notes.map((e) => e.text).join((', '));
-    if (notes.isNotEmpty) {
-      print(notes);
-    }
-    return notes;
+    return getEvent(index).notes.map((e) => e.text).join((', '));
   }
 
   @override

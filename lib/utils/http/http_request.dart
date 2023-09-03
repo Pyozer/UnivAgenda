@@ -27,8 +27,9 @@ class HttpRequest {
       return HttpResult.fail();
     }
 
-    if (!successHTTPCode.contains(response.statusCode))
+    if (!successHTTPCode.contains(response.statusCode)) {
       return HttpResult.fail();
+    }
 
     return HttpResult.success(response);
   }

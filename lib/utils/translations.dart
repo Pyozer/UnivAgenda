@@ -26,7 +26,7 @@ class GlobalTranslations {
   /// Returns if language is supported
   ///
   bool isSupported(Locale? locale) =>
-      _supportedLanguages.contains(locale?.languageCode ?? "");
+      _supportedLanguages.contains(locale?.languageCode ?? '');
 
   ///
   /// Returns the translation that corresponds to the [key]
@@ -38,9 +38,12 @@ class GlobalTranslations {
         : _localizedValues![key];
 
     if (params != null && params.isNotEmpty) {
-      for (String paramKey in params.keys)
-        text =
-            text.replaceAll(RegExp('{$paramKey}'), params[paramKey].toString());
+      for (String paramKey in params.keys) {
+        text = text.replaceAll(
+          RegExp('{$paramKey}'),
+          params[paramKey].toString(),
+        );
+      }
     }
     return text;
   }
@@ -53,7 +56,7 @@ class GlobalTranslations {
   ///
   /// Returns the current Locale
   ///
-  Locale get locale => _locale ?? Locale(kDefaultLang);
+  Locale get locale => _locale ?? const Locale(kDefaultLang);
 
   ///
   /// One-time initialization
@@ -76,7 +79,7 @@ class GlobalTranslations {
 
     // Load the language strings
     String jsonContent = await rootBundle.loadString(
-      "res/locales/${_locale!.languageCode}.json",
+      'res/locales/${_locale!.languageCode}.json',
     );
     _localizedValues = json.decode(jsonContent);
 
