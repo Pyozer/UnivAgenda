@@ -64,7 +64,7 @@ flutter:
           style: normal
           weight: 700
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   image_path_android: "res/images/icon_circle.png"
