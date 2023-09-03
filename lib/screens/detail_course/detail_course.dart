@@ -96,11 +96,13 @@ class _DetailCourseState extends State<DetailCourse> {
             padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
             child: Text(
               i18n.text(StrKey.NOTES),
-              style:
-                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          AddNoteButton(onPressed: _openAddNote)
+          AddNoteButton(onPressed: _openAddNote),
         ],
       ),
       ..._buildListNotes()
@@ -119,7 +121,7 @@ class _DetailCourseState extends State<DetailCourse> {
   }
 
   void _openAddNote() async {
-    var formContent = Form(
+    final formContent = Form(
       key: _formKey,
       child: TextFormField(
         maxLength: 350,
@@ -276,19 +278,32 @@ class _DetailCourseState extends State<DetailCourse> {
   @override
   Widget build(BuildContext context) {
     final prefs = context.watch<SettingsProvider>();
+    final theme = Theme.of(context);
 
-    return AppbarPage(
-      title: i18n.text(StrKey.COURSE_DETAILS),
-      actions: _buildAppbarAction(prefs.isCourseHidden(widget.course)),
-      body: Container(
-        child: Column(
-          children: [
-            AppbarSubTitle(
-              text: _course.getTitle(),
-              textColor: _course.getTitleColor(prefs.isGenerateEventColor),
-            ),
-            Expanded(child: ListView(shrinkWrap: true, children: _buildInfo())),
-          ],
+    return Theme(
+      data: theme.copyWith(
+        appBarTheme: theme.appBarTheme.copyWith(
+          backgroundColor: _course.getBgColor(prefs.isGenerateEventColor),
+          foregroundColor: _course.getTitleColor(prefs.isGenerateEventColor),
+        ),
+      ),
+      child: AppbarPage(
+        title: i18n.text(StrKey.COURSE_DETAILS),
+        actions: _buildAppbarAction(prefs.isCourseHidden(widget.course)),
+        body: Container(
+          child: Column(
+            children: [
+              AppbarSubTitle(
+                text: _course.getTitle(),
+              ),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _buildInfo(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

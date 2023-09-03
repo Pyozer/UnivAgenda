@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
 import 'package:univagenda/widgets/ui/drawer_icon.dart';
 
 class AppbarPage extends StatelessWidget {
@@ -51,15 +49,14 @@ class AppbarPage extends StatelessWidget {
 
 class AppbarSubTitle extends StatelessWidget {
   final String text;
-  final Color? textColor;
 
-  const AppbarSubTitle({Key? key, required this.text, this.textColor})
-      : super(key: key);
+  const AppbarSubTitle({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appBarTheme = Theme.of(context).appBarTheme;
-    final bgColor = appBarTheme.backgroundColor;
+    final theme = Theme.of(context);
+    final appBarTheme = theme.appBarTheme;
+    final bgColor = appBarTheme.backgroundColor ?? theme.colorScheme.surface;
 
     return Row(
       children: [
@@ -73,7 +70,7 @@ class AppbarSubTitle extends StatelessWidget {
                 text,
                 style: TextStyle(
                   fontSize: 17.0,
-                  color: textColor ?? appBarTheme.foregroundColor,
+                  color: appBarTheme.foregroundColor,
                 ),
               ),
             ),

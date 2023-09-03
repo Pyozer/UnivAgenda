@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/functions.dart';
-
 class DrawerIcon extends StatelessWidget {
   final VoidCallback? onPressed;
 
@@ -20,7 +18,9 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).appBarTheme.foregroundColor!;
+    final theme = Theme.of(context);
+    final color = theme.appBarTheme.foregroundColor ??
+        theme.colorScheme.onPrimaryContainer;
 
     return IconButton(
       onPressed: onPressed,

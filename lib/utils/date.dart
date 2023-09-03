@@ -4,6 +4,16 @@ import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/utils/functions.dart';
 import 'package:univagenda/utils/translations.dart';
 
+extension DateTimeCompare on DateTime {
+  bool isSameOrBefore(DateTime other) {
+    return this.isAtSameMomentAs(other) || this.isBefore(other);
+  }
+
+  bool isSameOrAfter(DateTime other) {
+    return this.isAtSameMomentAs(other) || this.isAfter(other);
+  }
+}
+
 class Date {
   static bool isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
@@ -14,15 +24,20 @@ class Date {
   }
 
   static DateTime setTimeFromOther(DateTime date, DateTime time) {
-    return changeTime(date, time.hour, time.minute, time.second);
+    return changeTime(
+      date,
+      hour: time.hour,
+      minute: time.minute,
+      second: time.second,
+    );
   }
 
   static DateTime changeTime(
-    DateTime dt,
-    int hour,
-    int minute, [
+    DateTime dt, {
+    required int hour,
+    required int minute,
     int second = 0,
-  ]) {
+  }) {
     return DateTime(dt.year, dt.month, dt.day, hour, minute, second);
   }
 
@@ -61,7 +76,10 @@ class Date {
 
   static String extractDate(DateTime? date) {
     if (date == null) return "";
-    return DateFormat.yMMMMd().format(date);
+    if (date.year == DateTime.now().year) {
+      return DateFormat.MMMEd().format(date);
+    }
+    return DateFormat.yMMMEd().format(date);
   }
 
   static int dateToInt(DateTime dt) {

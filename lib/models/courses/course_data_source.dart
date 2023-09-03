@@ -52,15 +52,6 @@ class CourseDataSource extends CalendarDataSource<Course> {
 
   @override
   bool isAllDay(int index) {
-    final event = getEvent(index);
-    if (event.dateStart.hour == 0 &&
-        event.dateStart.minute == 0 &&
-        event.dateStart.second == 0) {
-      final diff = event.dateEnd.difference(event.dateStart).inSeconds;
-      if (diff % (24 * 60 * 60) == 0) {
-        return true;
-      }
-    }
-    return false;
+    return getEvent(index).isAllDay();
   }
 }

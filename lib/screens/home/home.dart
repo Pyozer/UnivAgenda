@@ -334,13 +334,13 @@ class _HomeScreenState extends State<HomeScreen>
     if (initialIndex >= elements.length) initialIndex = 0;
 
     final theme = Theme.of(context);
+    final bgColor =
+        theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface;
 
-    final baseStyle = theme.primaryTextTheme.titleLarge;
-    final unselectedStyle = baseStyle!.copyWith(
+    final labelStyle = theme.textTheme.titleLarge!.copyWith(
       fontSize: 17.0,
-      color: baseStyle.color!.withAlpha(180),
+      color: getColorDependOfBackground(bgColor),
     );
-    final labelStyle = unselectedStyle.copyWith(color: baseStyle.color);
 
     return DefaultTabController(
       length: tabs.length,
@@ -349,14 +349,14 @@ class _HomeScreenState extends State<HomeScreen>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: theme.colorScheme.primary,
-            child: TabBar(
+            color: bgColor,
+            child: TabBar.secondary(
               isScrollable: true,
               tabs: tabs,
               labelColor: labelStyle.color,
               labelStyle: labelStyle,
-              unselectedLabelColor: theme.primaryTextTheme.bodySmall!.color,
-              unselectedLabelStyle: unselectedStyle,
+              unselectedLabelColor: labelStyle.color,
+              unselectedLabelStyle: labelStyle,
               indicatorPadding: const EdgeInsets.only(bottom: 0.2),
               indicatorWeight: 2.5,
               indicatorColor: labelStyle.color,
@@ -401,8 +401,8 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         scheduleViewSettings: ScheduleViewSettings(
           monthHeaderSettings: MonthHeaderSettings(
-            backgroundColor: Theme.of(context).colorScheme.primary
-          )
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
         ),
         appointmentTimeTextFormat: 'Hm',
         showCurrentTimeIndicator: true,

@@ -7,22 +7,29 @@ ThemeData generateTheme({
   required Color primaryColor,
   required Color accentColor,
 }) {
+  final isDark = brightness == Brightness.dark;
+
   return ThemeData(
     brightness: brightness,
     fontFamily: 'GoogleSans',
     useMaterial3: true,
-    primaryColor: primaryColor,
+    //colorSchemeSeed: accentColor,
     colorScheme: ColorScheme.fromSeed(
       brightness: brightness,
       seedColor: primaryColor,
       primary: primaryColor,
       secondary: accentColor,
+      primaryContainer: primaryColor,
+      outline: accentColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        backgroundColor: accentColor,
-        foregroundColor: getColorDependOfBackground(accentColor),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        backgroundColor: isDark ? null : primaryColor,
+        foregroundColor:
+            isDark ? null : getColorDependOfBackground(primaryColor),
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
@@ -33,10 +40,10 @@ ThemeData generateTheme({
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: getColorDependOfBackground(accentColor),
     ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: primaryColor,
-      foregroundColor: primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
-    ),
+    // appBarTheme: AppBarTheme(
+    //   backgroundColor: primaryColor,
+    //   foregroundColor: getColorDependOfBackground(primaryColor),
+    // ),
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
@@ -47,11 +54,14 @@ ThemeData generateTheme({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        foregroundColor: brightness == Brightness.dark ? Colors.white : Colors.black,
+        foregroundColor: isDark ? Colors.white : Colors.black,
       ),
     ),
     dialogTheme: DialogTheme(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      actionsPadding: const EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
     ),
   );
 }

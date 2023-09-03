@@ -55,6 +55,16 @@ class Course extends BaseCourse {
     return title.contains(RegExp('exam', caseSensitive: false));
   }
 
+  bool isAllDay() {
+    if (dateStart.hour == 0 && dateStart.minute == 0 && dateStart.second == 0) {
+      final diff = dateEnd.difference(dateStart).inSeconds;
+      if (diff % (24 * 60 * 60) == 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool hasColor() => color != null;
 
   Color? getBgColor(bool isGenerateEventColor) {
