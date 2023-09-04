@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/base_response.dart';
-import 'package:univagenda/models/custom_exception.dart';
-import 'package:univagenda/utils/translations.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/base_response.dart';
+import '../../models/custom_exception.dart';
+import '../translations.dart';
 
 const API_URL = 'https://myagendaapi.herokuapp.com/api';
 

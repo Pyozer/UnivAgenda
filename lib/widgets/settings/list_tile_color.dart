@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/utils/list_colors.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/settings/list_tile_title.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+
+import '../../keys/string_key.dart';
+import '../../utils/list_colors.dart';
+import '../../utils/translations.dart';
+import 'list_tile_title.dart';
+import '../ui/dialog/dialog_predefined.dart';
 
 const kSmallColorSize = 30.0;
 const kBigColorSize = 38.0;

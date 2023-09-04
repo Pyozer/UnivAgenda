@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/translations.dart';
+
+import '../keys/string_key.dart';
+import 'functions.dart';
+import 'translations.dart';
 
 extension DateTimeCompare on DateTime {
   bool isSameOrBefore(DateTime other) {

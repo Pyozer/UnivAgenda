@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/models/courses/base_course.dart';
+
+import '../../models/courses/base_course.dart';
 
 class CourseRowHeader extends StatelessWidget {
   final CourseHeader coursHeader;

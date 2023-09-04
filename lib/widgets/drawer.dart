@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/about/aboutscreen.dart';
-import 'package:univagenda/screens/help/help.dart';
-import 'package:univagenda/screens/login/login.dart';
-import 'package:univagenda/screens/onboarding/onboarding.dart';
-import 'package:univagenda/screens/settings/settings.dart';
-import 'package:univagenda/screens/supportme/supportme.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:univagenda/widgets/ui/logo.dart';
+
+import '../keys/string_key.dart';
+import '../screens/about/aboutscreen.dart';
+import '../screens/help/help.dart';
+import '../screens/login/login.dart';
+import '../screens/onboarding/onboarding.dart';
+import '../screens/settings/settings.dart';
+import '../screens/supportme/supportme.dart';
+import '../utils/functions.dart';
+import '../utils/preferences/settings.provider.dart';
+import '../utils/translations.dart';
+import 'ui/dialog/dialog_predefined.dart';
+import 'ui/logo.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/widgets/settings/list_tile_choices.dart';
+
+import 'list_tile_choices.dart';
 
 class RadioList extends StatefulWidget {
   final List<String> values;

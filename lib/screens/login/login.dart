@@ -6,18 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/help/help.dart';
-import 'package:univagenda/screens/home/home.dart';
-import 'package:univagenda/screens/login/login_qrcode.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/scan.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:univagenda/widgets/ui/logo.dart';
+
+import '../../keys/string_key.dart';
+import '../help/help.dart';
+import '../home/home.dart';
+import 'login_qrcode.dart';
+import '../../utils/analytics.dart';
+import '../../utils/api/api.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/scan.dart';
+import '../../utils/translations.dart';
+import '../../widgets/ui/dialog/dialog_predefined.dart';
+import '../../widgets/ui/logo.dart';
 
 enum BodyType { MAIN, QRCODE, MANUAL }
 
@@ -223,7 +224,7 @@ class LoginScreenState extends State<LoginScreen> {
       children: [
         FloatingActionButton.extended(
           icon: const Icon(Icons.qr_code_rounded),
-          // TODO: Add translate
+          // TODO: Add translation
           label: const Text('Scanner QRCode ENT'),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.QRCODE),
@@ -256,7 +257,7 @@ class LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 42.0),
         FloatingActionButton.extended(
           icon: const Icon(Icons.link, size: 24.0),
-          // TODO: Add translate
+          // TODO: Add translation
           label: const Text("Saisir l'url manuellement"),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.MANUAL),

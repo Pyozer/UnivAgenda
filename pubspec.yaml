@@ -1,10 +1,11 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 5.0.0+20230117
+version: 5.0.0+20230904
 publish_to: "none"
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
+  flutter: 3.13.2
 
 dependencies:
   flutter:

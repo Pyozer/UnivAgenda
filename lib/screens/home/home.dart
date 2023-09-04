@@ -4,27 +4,27 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:univagenda/keys/pref_key.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/analytics.dart';
-import 'package:univagenda/models/calendar_type.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/courses/custom_course.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/screens/custom_event/custom_event.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/drawer.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
-import 'package:univagenda/widgets/ui/screen_message/no_result.dart';
-import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
 
+import '../../keys/pref_key.dart';
+import '../../keys/string_key.dart';
+import '../../models/analytics.dart';
+import '../../models/calendar_type.dart';
+import '../../models/courses/course.dart';
+import '../../models/courses/custom_course.dart';
+import '../../models/courses/note.dart';
+import '../custom_event/custom_event.dart';
+import '../appbar_screen.dart';
+import '../../utils/analytics.dart';
+import '../../utils/api/api.dart';
+import '../../utils/date.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/preferences/theme.provider.dart';
+import '../../utils/translations.dart';
+import '../../widgets/drawer.dart';
+import '../../widgets/ui/dialog/dialog_predefined.dart';
+import '../../widgets/ui/screen_message/no_result.dart';
+import '../../widgets/ui/button/raised_button_colored.dart';
 import '../../models/courses/base_course.dart';
 import '../../models/courses/course_data_source.dart';
 import '../../widgets/course/course_row.dart';
@@ -268,11 +268,8 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses) {
+  Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses, Color noteColor) {
     List<Widget> widgets = [];
-
-    // TODO: Watch instead ?
-    final noteColor = context.watch<ThemeProvider>().noteColor;
 
     bool classicView = calendarController.view == CalendarView.timelineDay;
 
@@ -305,6 +302,7 @@ class HomeScreenState extends State<HomeScreen>
     BuildContext context,
     SettingsProvider prefs,
     Map<int, List<Course>?> elements,
+    Color noteColor,
   ) {
     if (elements.isEmpty) return const SizedBox.shrink();
 
@@ -322,7 +320,7 @@ class HomeScreenState extends State<HomeScreen>
       }
       tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
 
-      listTabView.add(_buildListCours(context, courses));
+      listTabView.add(_buildListCours(context, courses, noteColor));
 
       final isMinEvent = date >= today;
       if (!isMinEvent && !isIndexFound) {
@@ -433,9 +431,9 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget buildCourses(SettingsProvider prefs) {
+  Widget buildCourses(SettingsProvider prefs, Color noteColor) {
     if (calendarController.view == CalendarView.timelineDay) {
-      return _buildHorizontal(context, prefs, _courses!);
+      return _buildHorizontal(context, prefs, _courses!, noteColor);
     }
     return _buildCalendar(
       context,
@@ -448,6 +446,7 @@ class HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     // Force didChangeDependancies to be triggered.
     final prefs = context.watch<SettingsProvider>();
+    final noteColor = context.watch<ThemeProvider>().noteColor;
 
     Widget content;
     if (_isLoading && _courses == null) {
@@ -460,7 +459,7 @@ class HomeScreenState extends State<HomeScreen>
       // No course found
       content = _buildNoResult();
     } else {
-      content = buildCourses(prefs);
+      content = buildCourses(prefs, noteColor);
     }
 
     return AppbarPage(

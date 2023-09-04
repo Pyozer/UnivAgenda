@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/dialog/progress_dialog.dart';
-import 'package:univagenda/widgets/ui/dialog/simple_alert_dialog.dart';
+
+import '../../../keys/string_key.dart';
+import '../../../utils/translations.dart';
+import 'progress_dialog.dart';
+import 'simple_alert_dialog.dart';
 
 const kContentPadding = EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 7.0);
 

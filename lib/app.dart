@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
-import 'package:univagenda/screens/splashscreen/splashscreen.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
-import 'package:univagenda/utils/theme.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'screens/splashscreen/splashscreen.dart';
+import 'utils/preferences/settings.provider.dart';
+import 'utils/preferences/theme.provider.dart';
+import 'utils/theme.dart';
+import 'utils/translations.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

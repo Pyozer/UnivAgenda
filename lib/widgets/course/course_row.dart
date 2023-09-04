@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/pref_key.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/courses/custom_course.dart';
-import 'package:univagenda/screens/detail_course/detail_course.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+
+import '../../keys/pref_key.dart';
+import '../../keys/string_key.dart';
+import '../../models/courses/course.dart';
+import '../../models/courses/custom_course.dart';
+import '../../screens/detail_course/detail_course.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/translations.dart';
+import '../ui/dialog/dialog_predefined.dart';
 
 class CourseRow extends StatelessWidget {
   final Course course;

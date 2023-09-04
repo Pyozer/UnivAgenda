@@ -1,8 +1,9 @@
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:timezone/standalone.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/functions.dart';
+
+import '../models/courses/course.dart';
+import 'date.dart';
+import 'functions.dart';
 
 class IcalPrepareResult {
   final DateTime firstDate;

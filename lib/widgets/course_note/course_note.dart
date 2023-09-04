@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/utils/translations.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/courses/note.dart';
+import '../../utils/translations.dart';
 
 typedef NoteChanged = Function(Note note);
 

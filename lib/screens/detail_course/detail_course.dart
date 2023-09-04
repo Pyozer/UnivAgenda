@@ -1,21 +1,22 @@
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/courses/custom_course.dart';
-import 'package:univagenda/models/courses/hidden.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/custom_event/custom_event.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/course_note/add_note_button.dart';
-import 'package:univagenda/widgets/course_note/course_note.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/courses/course.dart';
+import '../../models/courses/custom_course.dart';
+import '../../models/courses/hidden.dart';
+import '../../models/courses/note.dart';
+import '../appbar_screen.dart';
+import '../custom_event/custom_event.dart';
+import '../../utils/analytics.dart';
+import '../../utils/date.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/translations.dart';
+import '../../widgets/course_note/add_note_button.dart';
+import '../../widgets/course_note/course_note.dart';
+import '../../widgets/ui/dialog/dialog_predefined.dart';
 
 enum MenuItem { EDIT, HIDE, UNHIDE, DELETE, RENAME }
 
@@ -48,7 +49,7 @@ class DetailCourseState extends State<DetailCourse> {
     final duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
 
     List<String> durations = [];
-    // TODO: ADD translation
+    // TODO: Add translation
     if (duration.hour >= 24) durations.add('${duration.hour ~/ 24}j');
     if (duration.hour % 24 > 0) durations.add('${duration.hour % 24}h');
     if (duration.minute > 0) durations.add('${duration.minute}min');

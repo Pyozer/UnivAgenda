@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/utils/functions.dart';
+
+import '../../utils/functions.dart';
 
 class CircleText extends StatelessWidget {
   final String text;

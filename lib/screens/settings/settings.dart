@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:univagenda/keys/pref_key.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/settings/manage_hidden_events.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/settings/list_tile_choices.dart';
-import 'package:univagenda/widgets/settings/list_tile_color.dart';
-import 'package:univagenda/widgets/settings/list_tile_input.dart';
-import 'package:univagenda/widgets/settings/list_tile_number.dart';
-import 'package:univagenda/widgets/settings/list_tile_title.dart';
-import 'package:univagenda/widgets/settings/setting_card.dart';
-import 'package:univagenda/widgets/ui/list_divider.dart';
 
+import '../../keys/pref_key.dart';
+import '../../keys/string_key.dart';
+import '../appbar_screen.dart';
+import 'manage_hidden_events.dart';
+import '../../utils/analytics.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/preferences/theme.provider.dart';
+import '../../utils/translations.dart';
+import '../../widgets/settings/list_tile_choices.dart';
+import '../../widgets/settings/list_tile_color.dart';
+import '../../widgets/settings/list_tile_input.dart';
+import '../../widgets/settings/list_tile_number.dart';
+import '../../widgets/settings/list_tile_title.dart';
+import '../../widgets/settings/setting_card.dart';
+import '../../widgets/ui/list_divider.dart';
 import '../../widgets/ui/button/raised_button_colored.dart';
 
 class SettingsScreen extends StatefulWidget {

@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/custom_route.dart';
-import 'package:univagenda/utils/list_colors.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'analytics.dart';
+import 'custom_route.dart';
+import 'list_colors.dart';
 
 extension BuildContextExt on BuildContext {
   get isDark {

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/help_item.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/help_item.dart';
+import '../appbar_screen.dart';
+import '../../utils/analytics.dart';
+import '../../utils/api/api.dart';
+import '../../utils/translations.dart';
+import '../../widgets/ui/screen_message/no_result_help.dart';
 
 class HelpDetailsScreen extends StatelessWidget {
   final HelpItem helpItem;

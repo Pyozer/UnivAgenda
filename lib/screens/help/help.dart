@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/help_item.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/screens/help/help_details.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/api/api.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/button/large_rounded_button.dart';
-import 'package:univagenda/widgets/ui/screen_message/no_result_help.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/help_item.dart';
+import '../appbar_screen.dart';
+import 'help_details.dart';
+import '../../utils/analytics.dart';
+import '../../utils/api/api.dart';
+import '../../utils/functions.dart';
+import '../../utils/translations.dart';
+import '../../widgets/ui/button/large_rounded_button.dart';
+import '../../widgets/ui/screen_message/no_result_help.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);

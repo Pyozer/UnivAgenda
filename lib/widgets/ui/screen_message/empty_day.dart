@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/utils/translations.dart';
+
+import '../../../keys/string_key.dart';
+import '../../../utils/translations.dart';
 
 class EmptyDay extends StatelessWidget {
   final EdgeInsets? padding;

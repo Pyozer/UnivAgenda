@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/models/courses/base_course.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/functions.dart';
+
+import 'base_course.dart';
+import 'note.dart';
+import '../../utils/date.dart';
+import '../../utils/functions.dart';
 
 class Course extends BaseCourse {
   String uid;

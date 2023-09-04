@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:univagenda/keys/pref_key.dart';
-import 'package:univagenda/models/calendar_type.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/courses/custom_course.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/utils/functions.dart';
 import 'package:collection/collection.dart';
-import 'package:univagenda/utils/preferences/base.provider.dart';
 
+import '../../keys/pref_key.dart';
+import '../../models/calendar_type.dart';
+import '../../models/courses/course.dart';
+import '../../models/courses/custom_course.dart';
+import '../../models/courses/note.dart';
+import '../functions.dart';
+import 'base.provider.dart';
 import '../../models/courses/hidden.dart';
 
 class SettingsProvider extends BaseProvider {

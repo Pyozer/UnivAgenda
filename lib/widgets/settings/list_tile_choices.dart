@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:univagenda/widgets/settings/list_tile_title.dart';
-import 'package:univagenda/widgets/settings/radio_list.dart';
+
+import 'list_tile_title.dart';
+import 'radio_list.dart';
 
 typedef TitleGetter = String Function(String value);
 

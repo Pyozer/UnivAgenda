@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/models/courses/custom_course.dart';
-import 'package:univagenda/models/courses/weekday.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/date.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/settings/list_tile_color.dart';
-import 'package:univagenda/widgets/ui/circle_text.dart';
-import 'package:univagenda/widgets/ui/dialog/dialog_predefined.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../keys/string_key.dart';
+import '../../models/courses/custom_course.dart';
+import '../../models/courses/weekday.dart';
+import '../appbar_screen.dart';
+import '../../utils/analytics.dart';
+import '../../utils/date.dart';
+import '../../utils/translations.dart';
+import '../../widgets/settings/list_tile_color.dart';
+import '../../widgets/ui/circle_text.dart';
+import '../../widgets/ui/dialog/dialog_predefined.dart';
 
 class CustomEventScreen extends StatefulWidget {
   final CustomCourse? course;

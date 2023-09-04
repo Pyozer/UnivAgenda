@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:univagenda/keys/url.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/http/http_request.dart';
-import 'package:univagenda/utils/translations.dart';
+
+import '../keys/url.dart';
+import '../utils/functions.dart';
+import '../utils/http/http_request.dart';
+import '../utils/translations.dart';
 
 class ChangeLog extends StatelessWidget {
   const ChangeLog({Key? key}) : super(key: key);

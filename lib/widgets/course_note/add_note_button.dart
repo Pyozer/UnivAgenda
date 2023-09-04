@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/button/raised_button_colored.dart';
+
+import '../../keys/string_key.dart';
+import '../../utils/translations.dart';
+import '../ui/button/raised_button_colored.dart';
 
 class AddNoteButton extends StatelessWidget {
   final VoidCallback onPressed;

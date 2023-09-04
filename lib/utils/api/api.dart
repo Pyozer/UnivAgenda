@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:icalendar_parser/icalendar_parser.dart';
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/help_item.dart';
-import 'package:univagenda/utils/api/base_api.dart';
-import 'package:univagenda/utils/ical_api.dart';
-import 'package:univagenda/utils/translations.dart';
 
+import '../../models/courses/course.dart';
+import '../../models/help_item.dart';
+import 'base_api.dart';
+import '../ical_api.dart';
+import '../translations.dart';
 import '../../models/custom_exception.dart';
 
 class Api extends BaseApi {

@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:univagenda/keys/assets.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/keys/url.dart';
-import 'package:univagenda/models/analytics.dart';
-import 'package:univagenda/screens/appbar_screen.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/changelog.dart';
-import 'package:univagenda/widgets/images/circle_image.dart';
-import 'package:univagenda/widgets/ui/about_card.dart';
-import 'package:univagenda/widgets/ui/logo.dart';
+
+import '../../keys/assets.dart';
+import '../../keys/string_key.dart';
+import '../../keys/url.dart';
+import '../../models/analytics.dart';
+import '../appbar_screen.dart';
+import '../../utils/analytics.dart';
+import '../../utils/functions.dart';
+import '../../utils/translations.dart';
+import '../../widgets/changelog.dart';
+import '../../widgets/images/circle_image.dart';
+import '../../widgets/ui/about_card.dart';
+import '../../widgets/ui/logo.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);

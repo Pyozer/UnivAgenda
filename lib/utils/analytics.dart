@@ -1,7 +1,8 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:univagenda/models/analytics.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/preferences/theme.provider.dart';
+
+import '../models/analytics.dart';
+import 'preferences/settings.provider.dart';
+import 'preferences/theme.provider.dart';
 
 class AnalyticsProvider {
   static void sendUserPrefsGroup(SettingsProvider prefs) {

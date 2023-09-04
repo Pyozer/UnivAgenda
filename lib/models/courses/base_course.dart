@@ -1,4 +1,4 @@
-import 'package:univagenda/utils/date.dart';
+import '../../utils/date.dart';
 
 abstract class BaseCourse {
   String dateForDisplay();

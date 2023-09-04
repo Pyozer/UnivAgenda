@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:univagenda/keys/assets.dart';
-import 'package:univagenda/keys/string_key.dart';
-import 'package:univagenda/screens/home/home.dart';
-import 'package:univagenda/screens/login/login.dart';
-import 'package:univagenda/utils/analytics.dart';
-import 'package:univagenda/utils/functions.dart';
-import 'package:univagenda/utils/preferences/settings.provider.dart';
-import 'package:univagenda/utils/translations.dart';
-import 'package:univagenda/widgets/ui/logo.dart';
+
+import '../../keys/assets.dart';
+import '../../keys/string_key.dart';
+import '../home/home.dart';
+import '../login/login.dart';
+import '../../utils/analytics.dart';
+import '../../utils/functions.dart';
+import '../../utils/preferences/settings.provider.dart';
+import '../../utils/translations.dart';
+import '../../widgets/ui/logo.dart';
 
 const double kIconSize = 150.0;
 

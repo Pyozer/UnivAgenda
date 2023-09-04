@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:univagenda/models/courses/course.dart';
-import 'package:univagenda/models/courses/weekday.dart';
-import 'package:univagenda/models/courses/note.dart';
-import 'package:univagenda/utils/functions.dart';
+import 'course.dart';
+import 'weekday.dart';
+import 'note.dart';
+import '../../utils/functions.dart';
 
 class CustomCourse extends Course {
   late List<WeekDay> weekdaysRepeat;
