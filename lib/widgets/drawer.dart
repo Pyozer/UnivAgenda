@@ -69,12 +69,12 @@ class MainDrawer extends StatelessWidget {
             title: i18n.text(StrKey.INTRO),
             routeDest: () => const OnboardingScreen(),
           ),
-          const Divider(),
           DrawerElement(
             icon: Icons.settings_outlined,
             title: i18n.text(StrKey.SETTINGS),
             routeDest: () => const SettingsScreen(),
           ),
+          const Divider(),
           DrawerElement(
             icon: Icons.live_help_outlined,
             title: i18n.text(StrKey.HELP_FEEDBACK),

@@ -229,6 +229,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     return AppbarPage(
       title: i18n.text(StrKey.SETTINGS),
       body: ListView(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 32.0),
         children: [
           _buildSettingsGeneral(prefs),
           _buildSettingsDisplay(prefs, theme),

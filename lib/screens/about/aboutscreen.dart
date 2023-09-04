@@ -6,7 +6,6 @@ import 'package:univagenda/keys/assets.dart';
 import 'package:univagenda/keys/string_key.dart';
 import 'package:univagenda/keys/url.dart';
 import 'package:univagenda/models/analytics.dart';
-import 'package:univagenda/screens/about/licences/licences.dart';
 import 'package:univagenda/screens/appbar_screen.dart';
 import 'package:univagenda/utils/analytics.dart';
 import 'package:univagenda/utils/functions.dart';
@@ -74,24 +73,6 @@ class AboutScreen extends StatelessWidget {
             AnalyticsValue.websiteJC,
           ),
         ),
-        ListTile(
-          leading: CircleImage(
-            image: Image.asset(
-              Asset.PICTURE_JUSTIN,
-              width: 45.0,
-              semanticLabel: 'Photo Justin Martin',
-            ),
-          ),
-          title: const Text('Justin Martin'),
-          subtitle: Text(
-            '${i18n.text(StrKey.DEVELOPER)}, ${i18n.text(StrKey.RIGHTS)}',
-          ),
-          onTap: () => openLink(
-            context,
-            Url.justinWebsite,
-            AnalyticsValue.websiteJustin,
-          ),
-        )
       ],
     );
   }
@@ -155,8 +136,7 @@ class AboutScreen extends StatelessWidget {
     return str;
   }
 
-  Widget _buildOther(BuildContext context, VoidCallback onChangeLogTap,
-      VoidCallback onLicensesTap) {
+  Widget _buildOther(BuildContext context) {
     return AboutCard(
       title: i18n.text(StrKey.OTHER),
       lateralPadding: false,
@@ -164,12 +144,12 @@ class AboutScreen extends StatelessWidget {
         ListTile(
           title: Text(i18n.text(StrKey.CHANGELOG)),
           subtitle: Text(i18n.text(StrKey.CHANGELOG_DESC)),
-          onTap: onChangeLogTap,
+          onTap: () => _displayChangelog(context),
         ),
         ListTile(
           title: Text(i18n.text(StrKey.OPENSOURCE_LICENCES)),
           subtitle: Text(i18n.text(StrKey.OPENSOURCE_LICENCES_DESC)),
-          onTap: onLicensesTap,
+          onTap: () => showLicensePage(context: context),
         ),
         ListTile(
           title: Text(i18n.text(StrKey.VERSION)),
@@ -202,7 +182,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   //It doesn't need any key , we can easily create it.
-  void _modalBottomSheet(BuildContext context) {
+  void _displayChangelog(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (builder) {
@@ -234,16 +214,13 @@ class AboutScreen extends StatelessWidget {
     return AppbarPage(
       title: i18n.text(StrKey.ABOUT),
       body: ListView(
+        padding: const EdgeInsets.only(bottom: 16.0),
         children: [
           _buildHeader(context),
           _buildWhatIsIt(context),
           _buildAuthor(context),
           _buildSocial(context),
-          _buildOther(
-            context,
-            () => _modalBottomSheet(context),
-            () => navigatorPush(context, const LicencesScreen()),
-          ),
+          _buildOther(context),
           _buildFooter(context),
         ],
       ),

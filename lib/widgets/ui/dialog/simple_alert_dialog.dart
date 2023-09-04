@@ -33,8 +33,8 @@ class SimpleAlertDialog extends StatelessWidget {
           ),
         Padding(
           padding: const EdgeInsets.only(right: 7.0),
-          child: RaisedButtonColored(
-            text: btnPositive.toUpperCase(),
+          child: TextButton(
+            child: Text(btnPositive.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ),

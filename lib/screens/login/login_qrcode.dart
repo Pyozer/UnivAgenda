@@ -52,10 +52,10 @@ class LoginQrCodeState extends State<LoginQrCode> {
           MobileScanner(
               controller: cameraController,
               onDetect: (barcode) {
-                if (barcode.raw == null) {
+                if (barcode.barcodes.isEmpty) {
                   debugPrint('Failed to scan Barcode');
                 } else {
-                  final String code = barcode.raw!;
+                  final code = barcode.barcodes.first.rawValue!;
                   debugPrint('Barcode found! $code');
                   cameraController.stop();
                   Navigator.of(context).pop(code);

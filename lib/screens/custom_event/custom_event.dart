@@ -109,7 +109,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
       context: context,
       initialDate: initialDateTime,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 30)),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
       locale: i18n.locale,
     );
   }
