@@ -29,13 +29,10 @@ class AppbarPage extends StatelessWidget {
               centerTitle: true,
               actions: actions ?? [],
               elevation: 0.0,
-              automaticallyImplyLeading: !useCustomMenuIcon,
               leading: useCustomMenuIcon
                   ? Builder(
                       builder: (context) => DrawerIcon(
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
+                        onPressed: Scaffold.of(context).openDrawer,
                       ),
                     )
                   : null,

@@ -9,9 +9,7 @@ ThemeData generateTheme({
   required Color accentColor,
 }) {
   final isDark = brightness == Brightness.dark;
-
   final palette = CorePalette.of(primaryColor.value);
-  final tintColor = Color(palette.primary.get(15));
 
   return ThemeData(
     brightness: brightness,
@@ -24,7 +22,20 @@ ThemeData generateTheme({
       secondary: accentColor,
       primaryContainer: primaryColor,
       outline: accentColor,
-      surfaceTint: isDark ? null : tintColor,
+      surfaceTint: isDark ? null : Color(palette.primary.get(80))
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: getColorDependOfBackground(primaryColor),
+    ),
+    dialogTheme: DialogTheme(
+      actionsPadding: const EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: getColorDependOfBackground(accentColor),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -32,7 +43,8 @@ ThemeData generateTheme({
           borderRadius: BorderRadius.circular(8.0),
         ),
         backgroundColor: isDark ? null : primaryColor,
-        foregroundColor: isDark ? null : getColorDependOfBackground(primaryColor),
+        foregroundColor:
+            isDark ? null : getColorDependOfBackground(primaryColor),
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
@@ -40,30 +52,18 @@ ThemeData generateTheme({
         ),
       ),
     ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      foregroundColor: getColorDependOfBackground(accentColor),
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: primaryColor,
-      foregroundColor: getColorDependOfBackground(primaryColor),
-    ),
-    // buttonTheme: ButtonThemeData(
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.circular(8.0),
-    //   ),
-    // ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        //foregroundColor: isDark ? Colors.white : Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+    iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(
+          getColorDependOfBackground(primaryColor),
         ),
       ),
     ),
-    dialogTheme: DialogTheme(
-      actionsPadding: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
       ),
     ),
   );

@@ -61,5 +61,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 			<true/>
 		</dict>
-	</dict>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+</dict>
 </plist>

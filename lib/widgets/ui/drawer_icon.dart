@@ -24,6 +24,7 @@ class DrawerIcon extends StatelessWidget {
 
     return IconButton(
       onPressed: onPressed,
+      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
       icon: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

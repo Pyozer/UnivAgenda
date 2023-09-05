@@ -133,17 +133,15 @@ class LoginScreenState extends State<LoginScreen> {
   Future<void> _scanQRCode() async {
     final status = await Permission.camera.request();
     if (status.isDenied || status.isPermanentlyDenied) {
-      if (Platform.isAndroid) {
-        await _showMessage(
-          'Permission refusé, voulez-vous ouvrir les paramètres pour changer ça ?',
-        );
-        openAppSettings();
-      } else if (Platform.isIOS) {
-        await _showMessage('Permission refusé, allez dans les paramètres');
-      }
+      // TODO: Add translation
+      await _showMessage(
+        'Permission refusé, voulez-vous ouvrir les paramètres pour changer ça ?',
+      );
+      openAppSettings();
     }
 
     if (await Permission.camera.isRestricted) {
+      // TODO: Add translation
       return _showMessage('Permission restricted');
     }
     if (status.isGranted && mounted) {
@@ -184,7 +182,9 @@ class LoginScreenState extends State<LoginScreen> {
           onPressed: () => setState(() => bodyType = BodyType.MAIN),
           icon: const Icon(Icons.arrow_back),
           label: Text(i18n.text(StrKey.BACK)),
-          style: TextButton.styleFrom(),
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       ),
     );
@@ -312,10 +312,9 @@ class LoginScreenState extends State<LoginScreen> {
           child: _buildIcsField(),
         ),
         const SizedBox(height: 24.0),
-        FloatingActionButton.extended(
-          icon: const Icon(Icons.send),
+        ElevatedButton.icon(
+          icon: const Icon(Icons.send_rounded),
           label: Text(i18n.text(StrKey.NEXT)),
-          heroTag: null,
           onPressed: _onSubmit,
         ),
         const SizedBox(height: 24.0),
@@ -344,7 +343,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
         child: Column(
           children: [
             Expanded(
