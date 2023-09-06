@@ -49,6 +49,8 @@ class CustomEventScreenState extends State<CustomEventScreen> {
       _isRecurrent = _customCourse.isRecurrentEvent();
       _isAllDay = _customCourse.isAllDay();
       _isColor = _customCourse.hasColor();
+      // If is all day, substract 1 second to end date to get 23:59:59
+      _customCourse.dateEnd = _customCourse.dateEndCalc;
     } else {
       _customCourse = CustomCourse.empty(initFirstDate, initEndDate);
     }
@@ -69,8 +71,8 @@ class CustomEventScreenState extends State<CustomEventScreen> {
     setState(() => _isRecurrent = value);
   }
 
-  void _onAllDay(bool newIsAllDay) {
-    if (!_isAllDay && newIsAllDay) {
+  void _onToggleAllDay(bool newIsAllDay) {
+    if (newIsAllDay) {
       _prevStartTime = TimeOfDay.fromDateTime(_customCourse.dateStart);
       _prevEndTime = TimeOfDay.fromDateTime(_customCourse.dateEnd);
 
@@ -86,7 +88,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
         minute: 59,
         second: 59,
       );
-    } else if (_isAllDay && !newIsAllDay) {
+    } else {
       _customCourse.dateStart = Date.changeTime(
         _customCourse.dateStart,
         hour: _prevStartTime.hour,
@@ -120,10 +122,12 @@ class CustomEventScreenState extends State<CustomEventScreen> {
     if (newStart == null) return;
 
     newStart = Date.setTimeFromOther(newStart, _customCourse.dateStart);
-    if (newStart.isAfter(_customCourse.dateEnd)) {
-      _customCourse.dateEnd = newStart;
+    if (newStart.isSameOrAfter(_customCourse.dateEnd)) {
+      final prevDuration = _customCourse.dateEnd.difference(
+        _customCourse.dateStart,
+      );
+      _customCourse.dateEnd = newStart.add(prevDuration);
     }
-
     _updateTimes(newStart, _customCourse.dateEnd);
   }
 
@@ -132,10 +136,6 @@ class CustomEventScreenState extends State<CustomEventScreen> {
     if (newEnd == null) return;
 
     newEnd = Date.setTimeFromOther(newEnd, _customCourse.dateEnd);
-    if (newEnd.isBefore(_customCourse.dateStart)) {
-      _customCourse.dateStart = newEnd;
-    }
-
     _updateTimes(_customCourse.dateStart, newEnd);
   }
 
@@ -157,7 +157,6 @@ class CustomEventScreenState extends State<CustomEventScreen> {
       );
       _customCourse.dateEnd = newStart.add(prevDuration);
     }
-
     _updateTimes(newStart, _customCourse.dateEnd);
   }
 
@@ -173,13 +172,6 @@ class CustomEventScreenState extends State<CustomEventScreen> {
       hour: timeEnd.hour,
       minute: timeEnd.minute,
     );
-    if (newEnd.isSameOrBefore(_customCourse.dateStart)) {
-      final prevDuration = _customCourse.dateEnd.difference(
-        _customCourse.dateStart,
-      );
-      _customCourse.dateStart = newEnd.subtract(prevDuration);
-    }
-
     _updateTimes(_customCourse.dateStart, newEnd);
   }
 
@@ -205,12 +197,12 @@ class CustomEventScreenState extends State<CustomEventScreen> {
     );
   }
 
-  void _onSubmit(BuildContext context) async {
+  void _onSubmit() async {
     if (_customCourse.title.isEmpty) {
       _showError(i18n.text(StrKey.REQUIRE_FIELD));
       return;
     }
-    if (_customCourse.dateEnd.isBefore(_customCourse.dateStart)) {
+    if (_customCourse.dateEnd.isSameOrBefore(_customCourse.dateStart)) {
       DialogPredefined.showEndTimeError(context);
       return;
     }
@@ -221,6 +213,11 @@ class CustomEventScreenState extends State<CustomEventScreen> {
     if (_customCourse.uid.isEmpty) _customCourse.uid = const Uuid().v1();
     if (!_isRecurrent) _customCourse.weekdaysRepeat = [];
     if (!_isColor) _customCourse.color = null;
+    if (_isAllDay) {
+      _customCourse.dateEnd = _customCourse.dateEnd.add(
+        const Duration(seconds: 1),
+      );
+    }
 
     Navigator.of(context).pop(_customCourse);
   }
@@ -278,6 +275,9 @@ class CustomEventScreenState extends State<CustomEventScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isStartDateError = _customCourse.dateEnd.isSameOrBefore(
+      _customCourse.dateStart,
+    );
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -290,7 +290,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
           label: Text(i18n.text(StrKey.SAVE)),
           tooltip: i18n.text(StrKey.SAVE),
           heroTag: 'fabBtn',
-          onPressed: () => _onSubmit(context),
+          onPressed: _onSubmit,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -364,14 +364,14 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                 Column(
                   children: [
                     ListTile(
-                      onTap: () => _onAllDay(!_isAllDay),
+                      onTap: () => _onToggleAllDay(!_isAllDay),
                       leading: const Icon(Icons.access_time),
                       // TODO: Add translation
                       title: const Text('Toute la journée'),
                       trailing: Switch(
                         value: _isAllDay,
                         activeColor: colorScheme.secondary,
-                        onChanged: _onAllDay,
+                        onChanged: _onToggleAllDay,
                       ),
                     ),
                     Row(
@@ -379,8 +379,16 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                         Expanded(
                           flex: 5,
                           child: ListTile(
+                            tileColor: isStartDateError
+                                ? colorScheme.errorContainer
+                                : null,
                             onTap: _onStartDateTap,
-                            leading: const Icon(null),
+                            leading: isStartDateError
+                                ? Icon(
+                                    Icons.error_outline,
+                                    color: colorScheme.onErrorContainer,
+                                  )
+                                : const Icon(null),
                             title: _buildDateTimeField(
                               // TODO: Refacto translation
                               '${i18n.text(StrKey.DATE_EVENT)} de début',
@@ -392,10 +400,16 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                           Expanded(
                             flex: 3,
                             child: ListTile(
+                              tileColor: isStartDateError
+                                  ? colorScheme.errorContainer
+                                  : null,
                               onTap: _onStartTimeTap,
                               title: _buildDateTimeField(
                                 i18n.text(StrKey.START_TIME_EVENT),
-                                Date.extractTime(_customCourse.dateStart),
+                                Date.extractTime(
+                                  context,
+                                  _customCourse.dateStart,
+                                ),
                               ),
                             ),
                           ),
@@ -422,7 +436,10 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                               onTap: _onEndTimeTap,
                               title: _buildDateTimeField(
                                 i18n.text(StrKey.END_TIME_EVENT),
-                                Date.extractTime(_customCourse.dateEnd),
+                                Date.extractTime(
+                                  context,
+                                  _customCourse.dateEnd,
+                                ),
                               ),
                             ),
                           ),

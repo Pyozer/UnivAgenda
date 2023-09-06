@@ -41,16 +41,18 @@ class Course extends BaseCourse {
         dateEnd: dateEnd,
       );
 
+  DateTime get dateEndCalc {
+    if (isAllDay()) {
+      return dateEnd.subtract(const Duration(milliseconds: 1));
+    }
+    return dateEnd;
+  }
+
   bool hasNote() => notes.isNotEmpty;
 
-  bool isFinish() => dateEnd.isBefore(DateTime.now());
+  bool isFinish() => dateEnd.isSameOrBefore(DateTime.now());
 
-  bool isStarted() => dateStart.isBefore(DateTime.now()) && !isFinish();
-
-  int getMinutesBeforeStart() {
-    int minutes = dateStart.difference(dateEnd).inMinutes;
-    return minutes > 0 ? minutes : 0;
-  }
+  bool isStarted() => dateStart.isSameOrBefore(DateTime.now()) && !isFinish();
 
   bool isExam() {
     return title.contains(RegExp('exam', caseSensitive: false));
@@ -63,6 +65,14 @@ class Course extends BaseCourse {
         return true;
       }
     }
+    return false;
+  }
+
+  bool isAllDayOnlyOneDay() {
+    if (!isAllDay()) return false;
+
+    final diff = dateEnd.difference(dateStart).inSeconds;
+    if (diff == 24 * 60 * 60) return true;
     return false;
   }
 
@@ -85,9 +95,9 @@ class Course extends BaseCourse {
   }
 
   @override
-  String dateForDisplay() {
-    final startTime = Date.extractTime(dateStart);
-    final endTime = Date.extractTime(dateEnd);
+  String displayTime(BuildContext context) {
+    final startTime = Date.extractTime(context, dateStart);
+    final endTime = Date.extractTime(context, dateEnd);
 
     return '$startTime - $endTime';
   }

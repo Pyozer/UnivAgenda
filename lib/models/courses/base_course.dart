@@ -1,18 +1,9 @@
-import '../../utils/date.dart';
-
-abstract class BaseCourse {
-  String dateForDisplay();
-}
+abstract class BaseCourse {}
 
 class CourseHeader extends BaseCourse {
   DateTime date;
 
   CourseHeader(this.date);
-
-  @override
-  String dateForDisplay() {
-    return Date.dateFromNow(date);
-  }
 
   @override
   bool operator ==(Object other) =>

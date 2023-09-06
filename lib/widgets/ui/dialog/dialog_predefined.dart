@@ -65,6 +65,7 @@ class DialogPredefined {
   }
 
   static Future<bool> showEndTimeError(BuildContext context) {
+    // TODO: Text should be end DATEtime, before start DATEtime
     return showTextDialog(
       context,
       i18n.text(StrKey.ERROR_END_TIME),

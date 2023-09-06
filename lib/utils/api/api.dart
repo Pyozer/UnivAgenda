@@ -16,7 +16,6 @@ class Api extends BaseApi {
 
   Future<List<Course>> getCoursesCustomIcal(String icalUrl) async {
     final response = await doRequest(http.get(Uri.parse(icalUrl)));
-    // i18n.currentLanguage
 
     if (response.statusCode != 200 || response.body.isEmpty) {
       throw CustomException(
@@ -25,8 +24,16 @@ class Api extends BaseApi {
       );
     }
 
-    final iCalendar = ICalendar.fromString(response.body);
-    return IcalAPI.icalToCourses(iCalendar);
+    try {
+      final iCalendar = ICalendar.fromString(response.body);
+      return IcalAPI.icalToCourses(iCalendar);
+    } on ICalendarFormatException catch (e) {
+      // TODO: Add translation
+      throw CustomException(
+        'error',
+        'Le format reçu est incorrect.\n\nErreur:\n${e.msg}',
+      );
+    }
   }
 
   Future<List<HelpItem>> getHelps() async {

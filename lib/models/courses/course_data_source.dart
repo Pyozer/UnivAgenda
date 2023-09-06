@@ -24,10 +24,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
 
   @override
   DateTime getEndTime(int index) {
-    if (isAllDay(index)) {
-      return getEvent(index).dateEnd.subtract(const Duration(milliseconds: 1));
-    }
-    return getEvent(index).dateEnd;
+    return getEvent(index).dateEndCalc;
   }
 
   @override

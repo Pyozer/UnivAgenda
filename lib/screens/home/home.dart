@@ -88,24 +88,24 @@ class HomeScreenState extends State<HomeScreen>
 
     setState(() => _isLoading = true);
 
-    // try {
-    final prefs = context.read<SettingsProvider>();
+    try {
+      final prefs = context.read<SettingsProvider>();
 
-    List<Course> courses = [];
-    for (final urlIcs in prefs.urlIcs) {
-      if (Uri.tryParse(urlIcs)?.hasAbsolutePath ?? false) {
+      List<Course> courses = [];
+      for (final urlIcs in prefs.urlIcs) {
         courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
       }
-    }
 
-    await _prepareList(courses);
-    prefs.setCachedCourses(courses);
-    // } catch (e) {
-    //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     content: Text(e.toString()),
-    //   ));
-    // }
+      await _prepareList(courses);
+      prefs.setCachedCourses(courses);
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
 
     if (mounted) setState(() => _isLoading = false);
   }
@@ -268,7 +268,11 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildListCours(BuildContext context, List<BaseCourse?>? courses, Color noteColor) {
+  Widget _buildListCours(
+    BuildContext context,
+    List<BaseCourse?>? courses,
+    Color noteColor,
+  ) {
     List<Widget> widgets = [];
 
     bool classicView = calendarController.view == CalendarView.timelineDay;

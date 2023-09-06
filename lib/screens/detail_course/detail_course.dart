@@ -14,7 +14,6 @@ import '../../utils/date.dart';
 import '../../utils/functions.dart';
 import '../../utils/preferences/settings.provider.dart';
 import '../../utils/translations.dart';
-import '../../widgets/course_note/add_note_button.dart';
 import '../../widgets/course_note/course_note.dart';
 import '../../widgets/ui/dialog/dialog_predefined.dart';
 
@@ -30,8 +29,6 @@ class DetailCourse extends StatefulWidget {
 }
 
 class DetailCourseState extends State<DetailCourse> {
-  final _formKey = GlobalKey<FormState>();
-  late String _noteToAdd;
   late Course _course;
 
   @override
@@ -42,10 +39,10 @@ class DetailCourseState extends State<DetailCourse> {
   }
 
   List<Widget> _buildInfo() {
-    final startTime = Date.extractTime(_course.dateStart);
-    final endTime = Date.extractTime(_course.dateEnd);
     final startDate = Date.dateFromNow(_course.dateStart);
-    final endDate = Date.dateFromNow(_course.dateEnd);
+    final startTime = Date.extractTime(context, _course.dateStart);
+    final endDate = Date.dateFromNow(_course.dateEndCalc);
+    final endTime = Date.extractTime(context, _course.dateEnd);
     final duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
 
     List<String> durations = [];
@@ -54,20 +51,36 @@ class DetailCourseState extends State<DetailCourse> {
     if (duration.hour % 24 > 0) durations.add('${duration.hour % 24}h');
     if (duration.minute > 0) durations.add('${duration.minute}min');
 
-    return <Widget>[
-      if (startDate == endDate)
-        ListTile(
+    Widget buildDate() {
+      if (_course.isAllDayOnlyOneDay()) {
+        return ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text(startDate),
+        );
+      }
+      if (_course.isAllDay()) {
+        return ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text('$startDate - $endDate'),
+        );
+      }
+      if (startDate == endDate) {
+        return ListTile(
           leading: const Icon(Icons.access_time),
           title: Text('$startTime - $endTime'),
           subtitle: Text(startDate),
-        ),
-      if (startDate != endDate)
-        ListTile(
-          leading: const Icon(Icons.access_time),
-          title: Text('$startDate à $startTime - '),
-          subtitle: Text('$endDate à $endTime'),
-          subtitleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        ),
+        );
+      }
+      return ListTile(
+        leading: const Icon(Icons.access_time),
+        title: Text('$startDate à $startTime - '),
+        subtitle: Text('$endDate à $endTime'),
+        subtitleTextStyle: Theme.of(context).textTheme.bodyLarge,
+      );
+    }
+
+    return <Widget>[
+      buildDate(),
       ListTile(
         leading: const Icon(Icons.timelapse),
         title: Text(durations.join(' ')),
@@ -101,30 +114,33 @@ class DetailCourseState extends State<DetailCourse> {
           title: Text(i18n.text(StrKey.EVENT_COLOR)),
           trailing: CircleColor(color: _course.color!, circleSize: 28.0),
         ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 8.0),
-            child: Text(
+      const SizedBox(height: 8.0),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
               i18n.text(StrKey.NOTES),
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-          AddNoteButton(onPressed: _openAddNote),
-        ],
+            ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: Text(i18n.text(StrKey.ADD_NOTE_BTN)),
+              onPressed: () => _openNoteDialog(),
+            ),
+          ],
+        ),
       ),
-      ..._buildListNotes()
+      ..._course.notes.map((note) => CourseNote(
+            note: note,
+            onDelete: _onNoteDeleted,
+            onEdit: _openNoteDialog,
+          ))
     ];
-  }
-
-  List<Widget> _buildListNotes() {
-    return _course.notes
-        .map((note) => CourseNote(note: note, onDelete: _onNoteDeleted))
-        .toList();
   }
 
   void _onNoteDeleted(Note note) {
@@ -132,34 +148,46 @@ class DetailCourseState extends State<DetailCourse> {
     context.read<SettingsProvider>().removeNote(note);
   }
 
-  void _openAddNote() async {
+  void _openNoteDialog([Note? note]) async {
+    final noteController = TextEditingController(text: note?.text ?? '');
+
     final formContent = Form(
-      key: _formKey,
       child: TextFormField(
+        controller: noteController,
         maxLength: 350,
         maxLines: 6,
         keyboardType: TextInputType.multiline,
         decoration: InputDecoration(
           hintText: i18n.text(StrKey.ADD_NOTE_PLACEHOLDER),
         ),
-        validator: (value) {
-          return (value?.trim().isEmpty ?? true)
-              ? i18n.text(StrKey.ADD_NOTE_EMPTY)
-              : null;
-        },
-        onSaved: (val) => _noteToAdd = val?.trim() ?? '',
       ),
     );
 
     bool isDialogPositive = await DialogPredefined.showContentDialog(
       context,
-      i18n.text(StrKey.ADD_NOTE),
+      i18n.text(
+        note == null ? StrKey.ADD_NOTE : StrKey.EDIT_NOTE,
+      ),
       formContent,
-      i18n.text(StrKey.ADD_NOTE_SUBMIT),
+      i18n.text(
+        note == null ? StrKey.ADD_NOTE_SUBMIT : StrKey.EDIT_NOTE_SUBMIT,
+      ),
       i18n.text(StrKey.CANCEL),
     );
 
-    if (isDialogPositive) _submitAddNote();
+    if (!mounted) return;
+    if (!isDialogPositive) return;
+
+    final noteText = noteController.value.text.trim();
+    if (noteText.isEmpty) return;
+
+    if (note != null) {
+      setState(() => note.text = noteText);
+    } else {
+      final newNote = Note(courseUid: _course.uid, text: noteText);
+      setState(() => _course.notes.insert(0, newNote));
+      context.read<SettingsProvider>().addNote(note);
+    }
   }
 
   Future<String?> _openRenameDialog([String currentValue = '']) async {
@@ -183,18 +211,6 @@ class DetailCourseState extends State<DetailCourse> {
       i18n.text(StrKey.CANCEL),
     );
     return isDialogPositive ? inputValue : null;
-  }
-
-  void _submitAddNote() {
-    final form = _formKey.currentState;
-
-    if (form?.validate() ?? false) {
-      form!.save();
-      final note = Note(courseUid: _course.uid, text: _noteToAdd);
-      _noteToAdd = '';
-      setState(() => _course.notes.insert(0, note));
-      context.read<SettingsProvider>().addNote(note);
-    }
   }
 
   void _onMenuChoose(MenuItem choice) async {

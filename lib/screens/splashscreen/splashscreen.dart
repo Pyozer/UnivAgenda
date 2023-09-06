@@ -60,7 +60,7 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
         ? const OnboardingScreen()
         : (prefs.isUserLogged)
             ? const HomeScreen()
-            : const LoginScreen();
+            : const LoginScreen(isFromSettings: false);
 
     // Wait minimum 1.5 secondes
     final diffMs = 1000 - DateTime.now().difference(now).inMilliseconds;

@@ -56,13 +56,14 @@ class CourseRow extends StatelessWidget {
     final prefs = context.watch<SettingsProvider>();
 
     Color? bgColorRow = course.getBgColor(prefs.isGenerateEventColor);
-    String courseDate = course.dateForDisplay();
+    String courseDate = course.displayTime(context);
     if (course.isStarted()) {
       courseDate += ' - ${i18n.text(StrKey.IN_PROGRESS)}';
     }
 
-    final style =
-        TextStyle(color: course.getTitleColor(prefs.isGenerateEventColor));
+    final style = TextStyle(
+      color: course.getTitleColor(prefs.isGenerateEventColor),
+    );
 
     String subtitle = course.location ?? '';
     // Location and description not empty

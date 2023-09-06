@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +22,9 @@ import '../../widgets/ui/logo.dart';
 enum BodyType { MAIN, QRCODE, MANUAL }
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final bool isFromSettings;
+
+  const LoginScreen({Key? key, required this.isFromSettings}) : super(key: key);
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -90,36 +91,44 @@ class LoginScreenState extends State<LoginScreen> {
       );
       return;
     }
+    urlIcs = urlIcs.replaceFirst('webcal', 'http');
+
+    final prefs = context.read<SettingsProvider>();
+    if (prefs.urlIcs.contains(urlIcs)) {
+      // TODO: Add translation
+      _showMessage(
+        "Ce lien a déjà été ajouté. Veuillez ajouter un autre agenda.",
+      );
+      return;
+    }
 
     _setLoading(true);
-    final prefs = context.read<SettingsProvider>();
-    prefs.setUserLogged(false);
+    try {
+      // Testing url, should not return an error
+      final courses = await Api()
+          .getCoursesCustomIcal(urlIcs)
+          .timeout(const Duration(seconds: 25));
 
-    if (mounted) {
-      urlIcs = urlIcs.replaceFirst('webcal', 'http');
-      prefs.setUrlIcs([urlIcs]);
+      if (!mounted) return;
 
-      try {
-        final courses = await Api()
-            .getCoursesCustomIcal(urlIcs)
-            .timeout(const Duration(seconds: 25));
-
-        if (!mounted) return;
+      if (!widget.isFromSettings) {
+        prefs.setUrlIcs([urlIcs]);
+        prefs.setUserLogged(true);
         prefs.setCachedCourses(courses);
 
-        // Redirect user if no error
-        prefs.setUserLogged(true);
         return navigatorPushReplace(context, const HomeScreen());
-      } on TimeoutException catch (_) {
-        // TODO: Add translation
-        _showMessage(
-          'Le lien saisie ou présent dans le QRCode ne semble pas joignable, veuillez réessayez plus tard.',
-        );
-      } catch (e) {
-        _showMessage(e.toString());
       }
-      _setLoading(false);
+
+      return Navigator.of(context).pop(urlIcs);
+    } on TimeoutException catch (_) {
+      // TODO: Add translation
+      _showMessage(
+        'Le lien saisie ou présent dans le QRCode ne semble pas joignable, veuillez réessayez plus tard.',
+      );
+    } catch (e) {
+      _showMessage(e.toString());
     }
+    _setLoading(false);
   }
 
   void _onDataPrivacy() {
@@ -179,7 +188,14 @@ class LoginScreenState extends State<LoginScreen> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: TextButton.icon(
-          onPressed: () => setState(() => bodyType = BodyType.MAIN),
+          onPressed: () {
+            if (bodyType == BodyType.MAIN) {
+              Navigator.of(context).pop();
+            } else {
+              _urlIcsController.clear();
+              setState(() => bodyType = BodyType.MAIN);
+            }
+          },
           icon: const Icon(Icons.arrow_back),
           label: Text(i18n.text(StrKey.BACK)),
           style: TextButton.styleFrom(
@@ -237,7 +253,7 @@ class LoginScreenState extends State<LoginScreen> {
               width: 40.0,
               height: 1.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
@@ -248,7 +264,7 @@ class LoginScreenState extends State<LoginScreen> {
               width: 40.0,
               height: 1.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
@@ -262,6 +278,8 @@ class LoginScreenState extends State<LoginScreen> {
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.MANUAL),
         ),
+        if (widget.isFromSettings) const SizedBox(height: 32.0),
+        if (widget.isFromSettings) _buildBackBtn(),
       ],
     );
   }
@@ -313,8 +331,14 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(height: 24.0),
         ElevatedButton.icon(
-          icon: const Icon(Icons.send_rounded),
-          label: Text(i18n.text(StrKey.NEXT)),
+          icon: widget.isFromSettings
+              ? const Icon(Icons.add_link)
+              : const Icon(Icons.send_rounded),
+          label: Text(
+            widget.isFromSettings
+                ? i18n.text(StrKey.ADD)
+                : i18n.text(StrKey.NEXT),
+          ),
           onPressed: _onSubmit,
         ),
         const SizedBox(height: 24.0),
@@ -373,8 +397,9 @@ class LoginScreenState extends State<LoginScreen> {
                 child: _buildContent(),
               ),
             ),
-            if (isKeyboardHidden) const SizedBox(height: 10.0),
-            if (isKeyboardHidden)
+            if (isKeyboardHidden && !widget.isFromSettings)
+              const SizedBox(height: 10.0),
+            if (isKeyboardHidden && !widget.isFromSettings)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

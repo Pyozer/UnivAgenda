@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../keys/pref_key.dart';
 import '../../keys/string_key.dart';
 import '../appbar_screen.dart';
+import '../login/login.dart';
 import 'manage_hidden_events.dart';
 import '../../utils/analytics.dart';
 import '../../utils/functions.dart';
@@ -69,9 +70,15 @@ class SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.only(bottom: 6.0),
             child: RaisedButtonColored(
               text: 'Ajouter un agenda', // TODO: Add translation
-              onPressed: () {
-                urlsIcs.add('');
-                prefs.setUrlIcs(urlsIcs, true);
+              onPressed: () async {
+                final icsUrl = await navigatorPush(
+                  context,
+                  const LoginScreen(isFromSettings: true),
+                );
+                if (icsUrl != null) {
+                  urlsIcs.add(icsUrl);
+                  prefs.setUrlIcs(urlsIcs, true);
+                }
               },
             ),
           ),

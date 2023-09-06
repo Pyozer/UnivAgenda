@@ -95,9 +95,10 @@
   "notes": "Notes",
   "add_note": "New note",
   "add_note_placeholder": "Enter the note",
-  "add_note_empty": "Note can't be empty.",
   "add_note_submit": "Add Note",
-  "add_note_btn": "+ Note",
+  "add_note_btn": "Note",
+  "edit_note": "Edit note",
+  "edit_note_submit": "Edit",
 
   "event_repeat": "Recurrent event",
   "event_color": "Event color",

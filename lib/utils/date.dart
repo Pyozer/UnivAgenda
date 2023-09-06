@@ -69,11 +69,11 @@ class Date {
     return capitalize(dateFormat.format(date));
   }
 
-  static String extractTime(DateTime? date) {
+  static String extractTime(BuildContext context, DateTime? date) {
     if (date == null) {
       return '';
     }
-    return DateFormat.Hm().format(date);
+    return TimeOfDay.fromDateTime(date).format(context);
   }
 
   static String extractDate(DateTime? date) {

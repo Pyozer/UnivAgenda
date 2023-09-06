@@ -101,8 +101,7 @@ Future<T?> navigatorPush<T>(
   Widget screen, {
   bool fullscreenDialog = false,
 }) {
-  return Navigator.push(
-    context,
+  return Navigator.of(context).push<T>(
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
   );
 }
@@ -112,8 +111,7 @@ Future<T?> navigatorPushReplace<T>(
   Widget screen, {
   bool fullscreenDialog = false,
 }) {
-  return Navigator.pushAndRemoveUntil(
-    context,
+  return Navigator.of(context).pushAndRemoveUntil<T>(
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
     (_) => false,
   );
@@ -125,8 +123,7 @@ Future<T?> navigatorPopAndPush<T>(
   bool fullscreenDialog = false,
 }) {
   Navigator.of(context).pop();
-  return Navigator.push(
-    context,
+  return Navigator.of(context).push<T>(
     CustomRoute<T>(builder: (_) => screen, fullscreenDialog: fullscreenDialog),
   );
 }

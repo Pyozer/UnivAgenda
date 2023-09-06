@@ -30,7 +30,7 @@ class MainDrawer extends StatelessWidget {
 
     if (logoutConfirm && context.mounted) {
       prefs.disconnectUser();
-      navigatorPushReplace(context, const LoginScreen());
+      navigatorPushReplace(context, const LoginScreen(isFromSettings: false));
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/courses/base_course.dart';
+import '../../utils/date.dart';
 
 class CourseRowHeader extends StatelessWidget {
   final CourseHeader coursHeader;
@@ -18,7 +19,7 @@ class CourseRowHeader extends StatelessWidget {
         top: 20.0,
       ),
       child: Text(
-        coursHeader.dateForDisplay(),
+        Date.dateFromNow(coursHeader.date),
         style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 22.0),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,

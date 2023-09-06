@@ -98,9 +98,10 @@ class StrKey {
   static const NOTES = 'notes';
   static const ADD_NOTE = 'add_note';
   static const ADD_NOTE_PLACEHOLDER = 'add_note_placeholder';
-  static const ADD_NOTE_EMPTY = 'add_note_empty';
   static const ADD_NOTE_SUBMIT = 'add_note_submit';
   static const ADD_NOTE_BTN = 'add_note_btn';
+  static const EDIT_NOTE = 'edit_note';
+  static const EDIT_NOTE_SUBMIT = 'edit_note_submit';
 
   static const EVENT_REPEAT = 'event_repeat';
 
