@@ -42,6 +42,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with AfterLayoutMixin<HomeScreen> {
   final _refreshKey = GlobalKey<RefreshIndicatorState>();
+  List<String> _urlIcs = [];
 
   bool _isLoading = true;
   Map<int, List<Course>>? _courses;
@@ -59,18 +60,15 @@ class HomeScreenState extends State<HomeScreen>
         _prepareList(prefs.cachedCourses);
       } catch (_) {}
     }
+
+    if (_urlIcs != prefs.urlIcs) {
+      _urlIcs = prefs.urlIcs;
+      _refreshKey.currentState?.show() ?? _fetchData();
+    }
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
-    AnalyticsProvider.setScreen(widget);
-    _updateCourses();
-  }
-
-  void _updateCourses() {
-    // Load ical from network
-    _fetchData();
-    // Send analytics to have stats of prefs users
     _sendAnalyticsEvent();
   }
 
@@ -78,13 +76,14 @@ class HomeScreenState extends State<HomeScreen>
     final prefs = context.read<SettingsProvider>();
     final theme = context.read<ThemeProvider>();
     // User group, display and colors prefs
+    AnalyticsProvider.setScreen(widget);
     AnalyticsProvider.sendUserPrefsGroup(prefs);
     AnalyticsProvider.sendUserPrefsDisplay(prefs);
     AnalyticsProvider.sendUserPrefsColor(theme);
   }
 
   Future<void> _fetchData() async {
-    if (!mounted && !_isLoading) return;
+    if (!mounted) return;
 
     setState(() => _isLoading = true);
 
@@ -405,12 +404,14 @@ class HomeScreenState extends State<HomeScreen>
         scheduleViewSettings: ScheduleViewSettings(
           monthHeaderSettings: MonthHeaderSettings(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            height: 88
           ),
         ),
         appointmentTimeTextFormat: 'Hm',
         showCurrentTimeIndicator: true,
         showDatePickerButton: true,
         showNavigationArrow: true,
+        showTodayButton: true,
         onTap: (details) {
           if (details.targetElement == CalendarElement.calendarCell &&
               calendarController.view == CalendarView.month) {

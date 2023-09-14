@@ -28,6 +28,11 @@ class CourseDataSource extends CalendarDataSource<Course> {
   }
 
   @override
+  Object? getId(int index) {
+    return getEvent(index).uid;
+  }
+
+  @override
   String getSubject(int index) {
     return getEvent(index).title;
   }

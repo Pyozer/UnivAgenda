@@ -97,7 +97,7 @@ class LoginScreenState extends State<LoginScreen> {
     if (prefs.urlIcs.contains(urlIcs)) {
       // TODO: Add translation
       _showMessage(
-        "Ce lien a déjà été ajouté. Veuillez ajouter un autre agenda.",
+        'Ce lien a déjà été ajouté. Veuillez ajouter un autre agenda.',
       );
       return;
     }

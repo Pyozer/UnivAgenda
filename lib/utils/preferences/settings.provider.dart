@@ -140,7 +140,6 @@ class SettingsProvider extends BaseProvider {
 
   void setNotes(List<Note>? newNotes, [bool state = false]) {
     updatePref(() => _notes = newNotes ?? PrefKey.defaultNotes, state);
-
     final notesJSON = _notes!.map((n) => json.encode(n.toJson())).toList();
     setStringList(PrefKey.notes, notesJSON);
   }

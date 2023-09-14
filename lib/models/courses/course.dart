@@ -94,7 +94,6 @@ class Course extends BaseCourse {
     return Colors.black;
   }
 
-  @override
   String displayTime(BuildContext context) {
     final startTime = Date.extractTime(context, dateStart);
     final endTime = Date.extractTime(context, dateEnd);

@@ -33,7 +33,7 @@ class PrefKey {
   static const hiddenEvent = 'list_hidden_events';
   static const renamedEvent = 'renamed_events';
 
-  static const defaultNumberWeeks = 4;
+  static const defaultNumberWeeks = 8;
   static const defaultIsPreviousCourses = true;
   static const defaultMaximumPrevDays = 365;
   static const defaultPrimaryColor = Colors.red;
@@ -47,7 +47,7 @@ class PrefKey {
   static const defaultDisplayAllDays = false;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;
-  static const defaultCalendarType = CalendarView.schedule;
+  static const defaultCalendarType = CalendarView.timelineDay;
 
   static const List<String> defaultUrlIcs = [];
   static List<Course> defaultCachedCourses = [];

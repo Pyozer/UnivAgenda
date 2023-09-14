@@ -145,7 +145,7 @@ class DetailCourseState extends State<DetailCourse> {
 
   void _onNoteDeleted(Note note) {
     setState(() => _course.notes.remove(note));
-    context.read<SettingsProvider>().removeNote(note);
+    context.read<SettingsProvider>().removeNote(note, true);
   }
 
   void _openNoteDialog([Note? note]) async {
@@ -183,10 +183,11 @@ class DetailCourseState extends State<DetailCourse> {
 
     if (note != null) {
       setState(() => note.text = noteText);
+      context.read<SettingsProvider>().setNotes(_course.notes);
     } else {
       final newNote = Note(courseUid: _course.uid, text: noteText);
       setState(() => _course.notes.insert(0, newNote));
-      context.read<SettingsProvider>().addNote(note);
+      context.read<SettingsProvider>().addNote(newNote, true);
     }
   }
 
