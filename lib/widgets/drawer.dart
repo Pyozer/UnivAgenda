@@ -1,38 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../keys/string_key.dart';
 import '../screens/about/aboutscreen.dart';
 import '../screens/help/help.dart';
-import '../screens/login/login.dart';
 import '../screens/onboarding/onboarding.dart';
 import '../screens/settings/settings.dart';
 import '../screens/supportme/supportme.dart';
 import '../utils/functions.dart';
-import '../utils/preferences/settings.provider.dart';
 import '../utils/translations.dart';
-import 'ui/dialog/dialog_predefined.dart';
 import 'ui/logo.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
-
-  void _onDisconnectPressed(BuildContext context) async {
-    final prefs = context.read<SettingsProvider>();
-
-    bool logoutConfirm = await DialogPredefined.showTextDialog(
-        context,
-        i18n.text(StrKey.LOGOUT),
-        i18n.text(StrKey.LOGOUT_CONFIRM),
-        i18n.text(StrKey.YES),
-        i18n.text(StrKey.NO),
-        true);
-
-    if (logoutConfirm && context.mounted) {
-      prefs.disconnectUser();
-      navigatorPushReplace(context, const LoginScreen(isFromSettings: false));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +64,6 @@ class MainDrawer extends StatelessWidget {
             icon: Icons.monetization_on_outlined,
             title: i18n.text(StrKey.SUPPORTME),
             routeDest: () => const SupportMeScreen(),
-          ),
-          const Divider(),
-          DrawerElement(
-            icon: Icons.exit_to_app_outlined,
-            title: i18n.text(StrKey.LOGOUT),
-            onTap: () => _onDisconnectPressed(context),
           ),
         ],
       ),

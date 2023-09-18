@@ -36,8 +36,6 @@ class StrKey {
   static const INTRO = 'introduction';
   static const HELP_FEEDBACK = 'help_feedback';
   static const SUPPORTME = 'supportme';
-  static const LOGOUT = 'logout';
-  static const LOGOUT_CONFIRM = 'logout_confirm';
 
   static const ADD_EVENT = 'add_event';
   static const EDIT_EVENT = 'edit_event';

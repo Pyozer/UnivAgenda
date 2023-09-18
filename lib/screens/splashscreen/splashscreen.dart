@@ -52,13 +52,10 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
 
     if (!mounted) return;
     final prefs = context.read<SettingsProvider>();
-    if (prefs.urlIcs.isEmpty) {
-      prefs.setUserLogged(false);
-    }
 
     final routeDest = (!prefs.isIntroDone)
         ? const OnboardingScreen()
-        : (prefs.isUserLogged)
+        : (prefs.appLaunchCounter > 0 && prefs.urlIcs.isEmpty)
             ? const HomeScreen()
             : const LoginScreen(isFromSettings: false);
 

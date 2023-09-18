@@ -35,9 +35,6 @@ class SettingsProvider extends BaseProvider {
   /// Is intro already view
   bool? _isIntroDone;
 
-  /// Is the user if logged
-  bool? _userLogged;
-
   /// If agenda is in horizontal mode
   CalendarView? _calendarType;
 
@@ -77,6 +74,10 @@ class SettingsProvider extends BaseProvider {
     setStringList(PrefKey.urlIcs, _urlIcs);
   }
 
+  void addUrlIcs(String newUrlIcs, [bool state = false]) {
+    setUrlIcs([...urlIcs, newUrlIcs], state);
+  }
+
   int get numberWeeks => _numberWeeks ?? PrefKey.defaultNumberWeeks;
 
   void setNumberWeeks(int? newNumberWeeks, [bool state = false]) {
@@ -110,6 +111,10 @@ class SettingsProvider extends BaseProvider {
 
     updatePref(() => _appLaunchCounter = newAppLaunchCounter, state);
     setInt(PrefKey.appLaunchCounter, _appLaunchCounter);
+  }
+
+  void incrementAppLaunchCounter([bool state = false]) {
+    setAppLaunchCounter(appLaunchCounter + 1, state);
   }
 
   bool get isIntroDone => _isIntroDone ?? PrefKey.defaultIntroDone;
@@ -201,17 +206,6 @@ class SettingsProvider extends BaseProvider {
     addCustomEvent(eventEdited, state);
   }
 
-  bool get isUserLogged => _userLogged ?? PrefKey.defaultUserLogged;
-
-  void setUserLogged(bool? userLogged, [bool state = false]) {
-    if (isUserLogged == userLogged) return;
-
-    updatePref(() {
-      _userLogged = userLogged ?? PrefKey.defaultUserLogged;
-    }, state);
-    setBool(PrefKey.isUserLogged, _userLogged!);
-  }
-
   CalendarView get calendarType => _calendarType ?? PrefKey.defaultCalendarType;
 
   void setCalendarType(CalendarView? newCalendarType, [bool state = false]) {
@@ -301,12 +295,6 @@ class SettingsProvider extends BaseProvider {
     setBool(PrefKey.isFullHiddenEvents, _isFullHiddenEvent);
   }
 
-  void disconnectUser([bool state = false]) {
-    setUserLogged(false);
-    setUrlIcs([]);
-    setCachedCourses(PrefKey.defaultCachedCourses);
-  }
-
   bool get isGenerateEventColor =>
       _isGenerateEventColor ?? PrefKey.defaultGenerateEventColor;
 
@@ -351,7 +339,6 @@ class SettingsProvider extends BaseProvider {
         List<Course>.from(coursesJson.map((x) => Course.fromJson(x))),
       );
     } catch (_) {}
-    setUserLogged(sharedPrefs?.getBool(PrefKey.isUserLogged));
     setAppLaunchCounter(sharedPrefs?.getInt(PrefKey.appLaunchCounter));
     setIntroDone(sharedPrefs?.getBool(PrefKey.isIntroDone));
     setDisplayAllDays(sharedPrefs?.getBool(PrefKey.isDisplayAllDays));
@@ -410,7 +397,6 @@ class SettingsProvider extends BaseProvider {
       isPreviousCourses != other.isPreviousCourses &&
       appLaunchCounter != other.appLaunchCounter &&
       isIntroDone != other.isIntroDone &&
-      isUserLogged != other.isUserLogged &&
       calendarType != other.calendarType &&
       isDisplayAllDays != other.isDisplayAllDays &&
       isFullHiddenEvent != other.isFullHiddenEvent &&
@@ -429,7 +415,6 @@ class SettingsProvider extends BaseProvider {
       isPreviousCourses.hashCode ^
       appLaunchCounter.hashCode ^
       isIntroDone.hashCode ^
-      isUserLogged.hashCode ^
       calendarType.hashCode ^
       isDisplayAllDays.hashCode ^
       isFullHiddenEvent.hashCode ^

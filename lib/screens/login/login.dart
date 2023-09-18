@@ -113,7 +113,6 @@ class LoginScreenState extends State<LoginScreen> {
 
       if (!widget.isFromSettings) {
         prefs.setUrlIcs([urlIcs]);
-        prefs.setUserLogged(true);
         prefs.setCachedCourses(courses);
 
         return navigatorPushReplace(context, const HomeScreen());
@@ -278,7 +277,7 @@ class LoginScreenState extends State<LoginScreen> {
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.MANUAL),
         ),
-        if (widget.isFromSettings) const SizedBox(height: 32.0),
+        const SizedBox(height: 32.0),
         if (widget.isFromSettings) _buildBackBtn(),
       ],
     );
@@ -331,14 +330,8 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         const SizedBox(height: 24.0),
         ElevatedButton.icon(
-          icon: widget.isFromSettings
-              ? const Icon(Icons.add_link)
-              : const Icon(Icons.send_rounded),
-          label: Text(
-            widget.isFromSettings
-                ? i18n.text(StrKey.ADD)
-                : i18n.text(StrKey.NEXT),
-          ),
+          icon: const Icon(Icons.add_link),
+          label: Text(i18n.text(StrKey.ADD)),
           onPressed: _onSubmit,
         ),
         const SizedBox(height: 24.0),
@@ -397,9 +390,8 @@ class LoginScreenState extends State<LoginScreen> {
                 child: _buildContent(),
               ),
             ),
-            if (isKeyboardHidden && !widget.isFromSettings)
-              const SizedBox(height: 10.0),
-            if (isKeyboardHidden && !widget.isFromSettings)
+            if (isKeyboardHidden) const SizedBox(height: 10.0),
+            if (isKeyboardHidden)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

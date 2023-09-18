@@ -94,7 +94,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     prefs.setIntroDone(true);
     navigatorPushReplace(
       context,
-      prefs.isUserLogged
+      prefs.appLaunchCounter > 0 && prefs.urlIcs.isEmpty
           ? const HomeScreen()
           : const LoginScreen(isFromSettings: false),
     );

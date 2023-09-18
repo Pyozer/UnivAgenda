@@ -19,7 +19,6 @@ class PrefKey {
 
   static const appLaunchCounter = 'app_launch_counter';
   static const isIntroDone = 'is_intro_done';
-  static const isUserLogged = 'is_user_logged';
   static const isDisplayAllDays = 'is_display_all_days';
   static const isGenerateEventColor = 'is_generate_event_color';
   static const isFullHiddenEvents = 'is_full_hidden_event';
@@ -43,7 +42,6 @@ class PrefKey {
   static const defaultThemeMode = ThemeMode.system;
   static const defaultAppLaunchCounter = 0;
   static const defaultIntroDone = false;
-  static const defaultUserLogged = false;
   static const defaultDisplayAllDays = false;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;

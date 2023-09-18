@@ -31,6 +31,7 @@ import '../../widgets/course/course_row.dart';
 import '../../widgets/course/course_row_header.dart';
 import '../../widgets/ui/screen_message/empty_day.dart';
 import '../detail_course/detail_course.dart';
+import '../login/login.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -73,9 +74,10 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   void _sendAnalyticsEvent() async {
-    final prefs = context.read<SettingsProvider>();
     final theme = context.read<ThemeProvider>();
-    // User group, display and colors prefs
+    final prefs = context.read<SettingsProvider>();
+    prefs.incrementAppLaunchCounter();
+
     AnalyticsProvider.setScreen(widget);
     AnalyticsProvider.sendUserPrefsGroup(prefs);
     AnalyticsProvider.sendUserPrefsDisplay(prefs);
@@ -95,7 +97,7 @@ class HomeScreenState extends State<HomeScreen>
         courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
       }
 
-      await _prepareList(courses);
+      _prepareList(courses);
       prefs.setCachedCourses(courses);
     } catch (e) {
       if (!mounted) return;
@@ -144,7 +146,7 @@ class HomeScreenState extends State<HomeScreen>
     return courses;
   }
 
-  Future<void> _prepareList(List<Course>? courseFromIcal) async {
+  void _prepareList(List<Course>? courseFromIcal) {
     final prefs = context.read<SettingsProvider>();
 
     List<Course> listCourses = [];
@@ -243,6 +245,28 @@ class HomeScreenState extends State<HomeScreen>
     if (customCourse != null && mounted) {
       context.read<SettingsProvider>().addCustomEvent(customCourse, true);
     }
+  }
+
+  Widget _buildNoCalendar() {
+    return NoResult(
+      title: 'Aucun agenda configuré', // TODO: Add translation
+      text:
+          'Ajouter un lien pour pouvoir afficher votre agenda', // TODO: Add translation
+      footer: RaisedButtonColored(
+        text: 'Ajouter un agenda', // TODO: Add translation,
+        onPressed: () async {
+          final icsUrl = await navigatorPush(
+            context,
+            const LoginScreen(isFromSettings: true),
+          );
+          if (!mounted) return;
+
+          if (icsUrl != null) {
+            context.read<SettingsProvider>().addUrlIcs(icsUrl, true);
+          }
+        },
+      ),
+    );
   }
 
   Widget _buildNoResult() {
@@ -404,7 +428,7 @@ class HomeScreenState extends State<HomeScreen>
         scheduleViewSettings: ScheduleViewSettings(
           monthHeaderSettings: MonthHeaderSettings(
             backgroundColor: Theme.of(context).colorScheme.primary,
-            height: 88
+            height: 88,
           ),
         ),
         appointmentTimeTextFormat: 'Hm',
@@ -460,6 +484,8 @@ class HomeScreenState extends State<HomeScreen>
     } else if (_courses == null) {
       // Courses fetch error
       content = _buildError();
+    } else if (prefs.urlIcs.isEmpty && _courses!.isEmpty) {
+      content = _buildNoCalendar();
     } else if (_courses!.isEmpty) {
       // No course found
       content = _buildNoResult();
