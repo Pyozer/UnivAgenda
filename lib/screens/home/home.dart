@@ -249,11 +249,10 @@ class HomeScreenState extends State<HomeScreen>
 
   Widget _buildNoCalendar() {
     return NoResult(
-      title: 'Aucun agenda configuré', // TODO: Add translation
-      text:
-          'Ajouter un lien pour pouvoir afficher votre agenda', // TODO: Add translation
+      title: i18n.text(StrKey.NO_CALENDAR),
+      text: i18n.text(StrKey.NO_CALENDAR_TEXT),
       footer: RaisedButtonColored(
-        text: 'Ajouter un agenda', // TODO: Add translation,
+        text: i18n.text(StrKey.ADD_CALENDAR),
         onPressed: () async {
           final icsUrl = await navigatorPush(
             context,

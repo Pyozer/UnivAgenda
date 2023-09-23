@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:icalendar_parser/icalendar_parser.dart';
 
+import '../../keys/string_key.dart';
 import '../../models/courses/course.dart';
 import '../../models/help_item.dart';
 import 'base_api.dart';
@@ -28,10 +29,9 @@ class Api extends BaseApi {
       final iCalendar = ICalendar.fromString(response.body);
       return IcalAPI.icalToCourses(iCalendar);
     } on ICalendarFormatException catch (e) {
-      // TODO: Add translation
       throw CustomException(
         'error',
-        'Le format reçu est incorrect.\n\nErreur:\n${e.msg}',
+        i18n.text(StrKey.ERROR_ICS_PARSE, {'errorMsg': e.msg}),
       );
     }
   }

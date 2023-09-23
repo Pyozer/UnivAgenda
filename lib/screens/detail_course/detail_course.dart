@@ -46,10 +46,15 @@ class DetailCourseState extends State<DetailCourse> {
     final duration = Date.calculateDuration(_course.dateStart, _course.dateEnd);
 
     List<String> durations = [];
-    // TODO: Add translation
-    if (duration.hour >= 24) durations.add('${duration.hour ~/ 24}j');
-    if (duration.hour % 24 > 0) durations.add('${duration.hour % 24}h');
-    if (duration.minute > 0) durations.add('${duration.minute}min');
+    if (duration.hour >= 24) {
+      durations.add(i18n.text(StrKey.DAY, {'value': duration.hour ~/ 24}));
+    }
+    if (duration.hour % 24 > 0) {
+      durations.add(i18n.text(StrKey.HOUR, {'value': duration.hour % 24}));
+    }
+    if (duration.minute > 0) {
+      durations.add(i18n.text(StrKey.MINUTE, {'value': duration.minute}));
+    }
 
     Widget buildDate() {
       if (_course.isAllDayOnlyOneDay()) {

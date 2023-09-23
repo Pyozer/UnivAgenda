@@ -8,7 +8,7 @@
   "settings_display": "Display",
   "settings_colors": "Colors",
 
-  "element": "Element {number}",
+  "add_calendar": "Add calendar",
   "number_week": "Weeks to display",
   "number_week_desc_one": "{nbWeeks} week",
   "number_week_desc_plural": "{nbWeeks} weeks",
@@ -21,8 +21,10 @@
   "manage_hidden_event": "Manage hidden events",
   "manage_hidden_event_desc": "Delete filter(s) used to hide events",
 
+  "theme": "Theme",
+  "system_theme": "System theme",
+  "light_theme": "Light theme",
   "dark_theme": "Dark theme",
-  "dark_theme_desc": "App background will be darker",
   "primary_color": "Primary color",
   "primary_color_desc": "Choose the appbar color",
   "accent_color": "Secondary color",
@@ -50,7 +52,6 @@
   "rename": "Rename",
   "change": "Change",
   "refresh": "Refresh",
-  "refresh_agendas": "Refresh calendars",
   "send_feedback": "Send feedback",
 
   "what_is_it": "What is it?",
@@ -105,14 +106,16 @@
   "title_event": "Title",
   "desc_event": "Description",
   "location_event": "Location",
-  "date_event": "Date",
+  "date_start_event": "Start date",
+  "date_end_event": "End date",
   "start_time_event": "Start time",
   "end_time_event": "End time",
+  "all_day_event": "All day",
 
   "require_field": "You must fill the text field.",
 
-  "error_end_time": "Error time selected",
-  "error_end_time_text": "The end time must be after the start time. Note that UnivAgenda does not yet support multi-day events.",
+  "error_end_datetime": "Error date time selected",
+  "error_end_datetime_text": "The end date time must be after the start date time.",
 
   "confirm_event_delete": "Delete this event ?",
   "confirm_event_delete_text": "By deleting this event, you will can't get it back.",
@@ -135,9 +138,6 @@
 
   "no_email_app": "No email client :/\nPlease install email app like Gmail.",
 
-  "change_agenda": "Change agenda ?",
-  "change_agenda_text": "Do you want to change your actual agenda ?",
-
   "in_progress": "In progress",
   "loading": "Loading...",
 
@@ -155,13 +155,34 @@
 
   "today": "Today",
   "tomorrow": "Tomorrow",
+  "day": "{value}d",
+  "hour": "{value}h",
+  "minute": "{value}min",
 
   "no_events": "No events.",
 
   "error": "Error",
   "error_event_recurrent_zero": "You select recurrent event but there is no day selected!",
   "error_json_parse": "Error processing JSON, contact us to solve the problem!",
+  "error_ics_parse": "The received format is incorrect.\n\nError:\n{errorMsg}",
 
+  "add_calendar_invalid_qrcode": "The QRCode should contain the export link for your calendar.\n\nPlease read the Help section for more information.",
+  "add_calendar_already_exists": "This calendar has already been added. Please add another one.",
+  "add_calendar_timeout": "The link entered or present in the QRCode does not seem reachable, please try again later.",
+  "add_calendar_scan_refused": "Permission denied, do you want to open settings to change this?",
+  "add_calendar_scan_restricted": "Permission restricted",
+  "add_calendar_scan_button": "Scan ENT QRCode",
+  "add_calendar_manual_link": "Enter the URL manually",
+  "add_calendar_qrcode_title": "Use QRCode",
+  "add_calendar_qrcode_take_photo": "From the camera",
+  "add_calendar_qrcode_from_photo": "From a screenshot",
+  "add_calendar_qrcode_enable_flash": "Enable flash",
+  "add_calendar_qrcode_disable_flash": "Turn off flash",
+  "add_calendar_qrcode_scanning": "Scan your QRCode",
+
+  "no_calendar": "No calendar configured",
+  "no_calendar_text": "Add a link to be able to view your calendar.",
+  
   "data_privacy": "Data & privacy",
   "data_privacy_text": "UnivAgenda uses the services offered by Universities in a transparent way, no confidential data are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
 
@@ -182,9 +203,5 @@
   "add_hidden_event": "Title of the event",
 
   "new_event_title": "New event title (empty to reset)",
-  "rename_event": "Rename the event",
-
-  "sync_calendar": "Synchronize with calendar",
-  "choose_calendar": "Which calendar?",
-  "get_calendars_failed": "Can not retrieve the list of your calendars!"
+  "rename_event": "Rename the event"
 }

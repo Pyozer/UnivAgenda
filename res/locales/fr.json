@@ -8,7 +8,7 @@
   "settings_display": "Affichage",
   "settings_colors": "Couleurs",
 
-  "element": "Élement {number}",
+  "add_calendar": "Ajouter un agenda",
   "number_week": "Semaines à afficher",
   "number_week_desc_one": "{nbWeeks} semaine",
   "number_week_desc_plural": "{nbWeeks} semaines",
@@ -21,8 +21,10 @@
   "manage_hidden_event": "Gérer événéments masqués",
   "manage_hidden_event_desc": "Supprimer filtre(s) servant à masquer",
 
+  "theme": "Thème",
+  "system_theme": "Thème du système",
+  "light_theme": "Thème clair",
   "dark_theme": "Thème sombre",
-  "dark_theme_desc": "Application en mode nuit",
   "primary_color": "Couleur principale",
   "primary_color_desc": "Couleur de la barre navigation",
   "accent_color": "Couleur secondaire",
@@ -50,7 +52,6 @@
   "rename": "Renommer",
   "change": "Changer",
   "refresh": "Rafraichir",
-  "refresh_agendas": "Actualiser les agendas",
   "send_feedback": "Envoyer un feedback",
 
   "what_is_it": "Qu'est ce que c'est ?",
@@ -105,14 +106,16 @@
   "title_event": "Titre",
   "desc_event": "Description",
   "location_event": "Emplacement",
-  "date_event": "Date",
+  "date_start_event": "Date de début",
+  "date_end_event": "Date de fin",
   "start_time_event": "Heure de début",
   "end_time_event": "Heure de fin",
+  "all_day_event": "Toute la journée",
 
   "require_field": "Vous devez remplir le champ de texte.",
 
-  "error_end_time": "Heure de fin",
-  "error_end_time_text": "L'heure de fin doit être après l'heure de début. Notez que UnivAgenda ne prend pas encore en charge les événements de plusieurs jours.",
+  "error_end_datetime": "Date et heure de fin",
+  "error_end_datetime_text": "La date et heure de fin doit être après la date et heure de début.",
 
   "confirm_event_delete": "Supprimer cette événement ?",
   "confirm_event_delete_text": "Si vous supprimer cette événement, vous ne pourrez pas le récupérer.",
@@ -133,10 +136,7 @@
   "unknown_error": "Erreur inconnue...",
   "retry": "Réessayer",
 
-  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un pour pouvoir envoyer un feedback.",
-
-  "change_agenda": "Changer d'agenda ?",
-  "change_agenda_text": "Voulez-vous modifier votre agenda actuel ?",
+  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un (ex: gmail) pour pouvoir envoyer un feedback.",
 
   "in_progress": "En cours",
   "loading": "Chargement...",
@@ -155,12 +155,33 @@
 
   "today": "Aujourd'hui",
   "tomorrow": "Demain",
+  "day": "{value}j",
+  "hour": "{value}h",
+  "minute": "{value}min",
 
   "no_events": "Aucun événement.",
 
   "error": "Erreur",
   "error_event_recurrent_zero": "Vous avez défini l'événement comme récurrent mais aucun jour n'est selectionné !",
   "error_json_parse": "Erreur lors du traitement du JSON, contactez-nous pour résoudre le problème !",
+  "error_ics_parse": "Le format reçu est incorrect.\n\nErreur:\n{errorMsg}",
+
+  "add_calendar_invalid_qrcode": "Le QRCode doit contenir le lien d'exportation de votre agenda.\n\nVeuillez lire la section Aide pour plus d'informations.",
+  "add_calendar_already_exists": "Cet agenda a déjà été ajouté. Veuillez en ajouter un autre.",
+  "add_calendar_timeout": "Le lien saisi ou présent dans le QRCode ne semble pas joignable, veuillez réessayer plus tard.",
+  "add_calendar_scan_refused": "Permission refusée, voulez-vous ouvrir les paramètres pour changer ça ?",
+  "add_calendar_scan_restricted": "Permission restreinte",
+  "add_calendar_scan_button": "Scanner QRCode ENT",
+  "add_calendar_manual_link": "Saisir l'url manuellement",
+  "add_calendar_qrcode_title": "Utiliser le QRCode",
+  "add_calendar_qrcode_take_photo": "Depuis l'appareil photo",
+  "add_calendar_qrcode_from_photo": "Depuis un screenshot",
+  "add_calendar_qrcode_enable_flash": "Activer le flash",
+  "add_calendar_qrcode_disable_flash": "Désactiver le flash",
+  "add_calendar_qrcode_scanning": "Scannez votre QRCode",
+
+  "no_calendar": "Aucun agenda configuré",
+  "no_calendar_text": "Ajouter un lien pour pouvoir afficher votre agenda",
 
   "data_privacy": "Données & vie privée",
   "data_privacy_text": "UnivAgenda utilise de manière transparente les services proposés par les Universités, aucune donnée confidentiel ne sont stockés ou récupérés par quelqu'un.\n\nSeul les données de préférences sont stockés sur votre appareil (tel que l'université, le campus, le groupe, les couleurs choisis, les événements ou encore les notes ajoutés) afin de pouvoir vous les restituer aux prochains lancement de l'application ou en mode hors-ligne.",
@@ -182,9 +203,5 @@
   "add_hidden_event": "Titre de l'événement",
 
   "new_event_title": "Nouveau titre (vide pour remettre à zéro)",
-  "rename_event": "Renommer l'événement",
-
-  "sync_calendar": "Synchroniser avec le calendrier",
-  "choose_calendar": "Quel calendrier ?",
-  "get_calendars_failed": "Impossible de récupérer la liste de vos calendriers !"
+  "rename_event": "Renommer l'événement"
 }

@@ -69,7 +69,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 6.0),
             child: RaisedButtonColored(
-              text: 'Ajouter un agenda', // TODO: Add translation
+              text: i18n.text(StrKey.ADD_CALENDAR),
               onPressed: () async {
                 final icsUrl = await navigatorPush(
                   context,
@@ -153,7 +153,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       header: i18n.text(StrKey.SETTINGS_COLORS),
       children: [
         ListTileChoices(
-          title: 'Thème', // TODO: Add translation
+          title: i18n.text(StrKey.THEME),
           selectedValue: themeProvider.themeMode.name,
           values: [
             ThemeMode.system.name,
@@ -161,14 +161,13 @@ class SettingsScreenState extends State<SettingsScreen> {
             ThemeMode.dark.name
           ],
           buildTitle: (value) {
-            // TODO: Add translation
             if (value == ThemeMode.system.name) {
-              return 'Thème du système';
+              return i18n.text(StrKey.SYSTEM_THEME);
             }
             if (value == ThemeMode.dark.name) {
               return i18n.text(StrKey.DARK_THEME);
             }
-            return 'Thème clair';
+            return i18n.text(StrKey.LIGHT_THEME);
           },
           onChange: (value) {
             themeProvider.setThemeModeFromString(value, true);

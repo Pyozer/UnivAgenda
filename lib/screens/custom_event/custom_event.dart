@@ -366,8 +366,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                     ListTile(
                       onTap: () => _onToggleAllDay(!_isAllDay),
                       leading: const Icon(Icons.access_time),
-                      // TODO: Add translation
-                      title: const Text('Toute la journée'),
+                      title: Text(i18n.text(StrKey.ALL_DAY_EVENT)),
                       trailing: Switch(
                         value: _isAllDay,
                         activeColor: colorScheme.secondary,
@@ -390,8 +389,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                                   )
                                 : const Icon(null),
                             title: _buildDateTimeField(
-                              // TODO: Refacto translation
-                              '${i18n.text(StrKey.DATE_EVENT)} de début',
+                              i18n.text(StrKey.DATE_START_EVENT),
                               Date.extractDate(_customCourse.dateStart),
                             ),
                           ),
@@ -423,8 +421,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                             onTap: _onEndDateTap,
                             leading: const Icon(null),
                             title: _buildDateTimeField(
-                              // TODO: Refacto translation
-                              '${i18n.text(StrKey.DATE_EVENT)} de fin',
+                              i18n.text(StrKey.DATE_END_EVENT),
                               Date.extractDate(_customCourse.dateEnd),
                             ),
                           ),

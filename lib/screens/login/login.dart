@@ -85,20 +85,14 @@ class LoginScreenState extends State<LoginScreen> {
   Future<void> _onDone(String urlIcs) async {
     final isValidUrl = Uri.tryParse(urlIcs)?.hasAbsolutePath ?? false;
     if (!isValidUrl) {
-      // TODO: Add translation
-      _showMessage(
-        "Le QRCode doit contenir le lien d'exportation de votre agenda.\n\nVeuillez lire la section Aide pour plus d'informations.",
-      );
+      _showMessage(i18n.text(StrKey.ADD_CALENDAR_INVALID_QRCODE));
       return;
     }
     urlIcs = urlIcs.replaceFirst('webcal', 'http');
 
     final prefs = context.read<SettingsProvider>();
     if (prefs.urlIcs.contains(urlIcs)) {
-      // TODO: Add translation
-      _showMessage(
-        'Ce lien a déjà été ajouté. Veuillez ajouter un autre agenda.',
-      );
+      _showMessage(i18n.text(StrKey.ADD_CALENDAR_ALREADY_EXISTS));
       return;
     }
 
@@ -120,10 +114,7 @@ class LoginScreenState extends State<LoginScreen> {
 
       return Navigator.of(context).pop(urlIcs);
     } on TimeoutException catch (_) {
-      // TODO: Add translation
-      _showMessage(
-        'Le lien saisie ou présent dans le QRCode ne semble pas joignable, veuillez réessayez plus tard.',
-      );
+      _showMessage(i18n.text(StrKey.ADD_CALENDAR_TIMEOUT));
     } catch (e) {
       _showMessage(e.toString());
     }
@@ -140,17 +131,23 @@ class LoginScreenState extends State<LoginScreen> {
 
   Future<void> _scanQRCode() async {
     final status = await Permission.camera.request();
+    if (!mounted) return;
+
     if (status.isDenied || status.isPermanentlyDenied) {
-      // TODO: Add translation
-      await _showMessage(
-        'Permission refusé, voulez-vous ouvrir les paramètres pour changer ça ?',
+      final openSettings = await DialogPredefined.showTextDialog(
+        context,
+        i18n.text(StrKey.ERROR),
+        i18n.text(StrKey.ADD_CALENDAR_SCAN_REFUSED),
+        i18n.text(StrKey.OK),
+        i18n.text(StrKey.NO),
       );
-      openAppSettings();
+      if (openSettings) {
+        openAppSettings();
+      }
     }
 
     if (await Permission.camera.isRestricted) {
-      // TODO: Add translation
-      return _showMessage('Permission restricted');
+      return _showMessage(i18n.text(StrKey.ADD_CALENDAR_SCAN_RESTRICTED));
     }
     if (status.isGranted && mounted) {
       final result = await navigatorPush<String>(context, const LoginQrCode());
@@ -239,8 +236,7 @@ class LoginScreenState extends State<LoginScreen> {
       children: [
         FloatingActionButton.extended(
           icon: const Icon(Icons.qr_code_rounded),
-          // TODO: Add translation
-          label: const Text('Scanner QRCode ENT'),
+          label: Text(i18n.text(StrKey.ADD_CALENDAR_SCAN_BUTTON)),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.QRCODE),
         ),
@@ -272,8 +268,7 @@ class LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 42.0),
         FloatingActionButton.extended(
           icon: const Icon(Icons.link, size: 24.0),
-          // TODO: Add translation
-          label: const Text("Saisir l'url manuellement"),
+          label: Text(i18n.text(StrKey.ADD_CALENDAR_MANUAL_LINK)),
           heroTag: null,
           onPressed: () => setState(() => bodyType = BodyType.MANUAL),
         ),
@@ -287,10 +282,9 @@ class LoginScreenState extends State<LoginScreen> {
     return Column(
       key: const Key('qrcode'),
       children: [
-        const Text(
-          // TODO: Add translation
-          'Utiliser le QRCode',
-          style: TextStyle(fontSize: 20.0),
+        Text(
+          i18n.text(StrKey.ADD_CALENDAR_QRCODE_TITLE),
+          style: const TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 32.0),
         FloatingActionButton.extended(
@@ -298,8 +292,7 @@ class LoginScreenState extends State<LoginScreen> {
             Icons.camera_alt_outlined,
             size: 24.0,
           ),
-          // TODO: Add translation
-          label: const Text("Depuis l'appareil photo"),
+          label: Text(i18n.text(StrKey.ADD_CALENDAR_QRCODE_TAKE_PHOTO)),
           heroTag: null,
           onPressed: _scanQRCode,
         ),
@@ -309,8 +302,7 @@ class LoginScreenState extends State<LoginScreen> {
             Icons.photo_size_select_actual_outlined,
             size: 24.0,
           ),
-          // TODO: Add translation
-          label: const Text('Depuis un screenshot'),
+          label: Text(i18n.text(StrKey.ADD_CALENDAR_QRCODE_FROM_PHOTO)),
           heroTag: null,
           onPressed: _scanPicture,
         ),

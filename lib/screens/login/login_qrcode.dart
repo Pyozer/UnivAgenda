@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../keys/string_key.dart';
+import '../../utils/translations.dart';
 import '../../widgets/ui/qr_scanner_overlay_shape.dart';
 
 class LoginQrCode extends StatefulWidget {
@@ -22,10 +24,9 @@ class LoginQrCodeState extends State<LoginQrCode> {
   Widget _buildTorchBtn(bool isFlashOn) {
     return TextButton.icon(
       style: TextButton.styleFrom(foregroundColor: Colors.white),
-      // TODO: Add translation
       label: isFlashOn
-          ? const Text('Désactiver le flash')
-          : const Text('Activer le flash'),
+          ? Text(i18n.text(StrKey.ADD_CALENDAR_QRCODE_DISABLE_FLASH))
+          : Text(i18n.text(StrKey.ADD_CALENDAR_QRCODE_ENABLE_FLASH)),
       icon: isFlashOn
           ? const Icon(Icons.flash_off_rounded)
           : const Icon(Icons.flash_on_rounded),
@@ -41,8 +42,7 @@ class LoginQrCodeState extends State<LoginQrCode> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // TODO: Add translation
-        title: const Text('Scannez votre QRCode'),
+        title: Text(i18n.text(StrKey.ADD_CALENDAR_QRCODE_SCANNING)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,

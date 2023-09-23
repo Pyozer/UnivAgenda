@@ -8,7 +8,7 @@ class StrKey {
   static const SETTINGS_DISPLAY = 'settings_display';
   static const SETTINGS_COLORS = 'settings_colors';
 
-  static const ELEMENT = 'element';
+  static const ADD_CALENDAR = 'add_calendar';
   static const NUMBER_WEEK = 'number_week';
   static const NUMBER_WEEK_DESC_ONE = 'number_week_desc_one';
   static const NUMBER_WEEK_DESC_PLURAL = 'number_week_desc_plural';
@@ -21,8 +21,10 @@ class StrKey {
   static const MANAGE_HIDDEN_EVENT = 'manage_hidden_event';
   static const MANAGE_HIDDEN_EVENT_DESC = 'manage_hidden_event_desc';
 
+  static const THEME = 'theme';
+  static const SYSTEM_THEME = 'system_theme';
+  static const LIGHT_THEME = 'light_theme';
   static const DARK_THEME = 'dark_theme';
-  static const DARK_THEME_DESC = 'dark_theme_desc';
   static const PRIMARY_COLOR = 'primary_color';
   static const PRIMARY_COLOR_DESC = 'primary_color_desc';
   static const ACCENT_COLOR = 'accent_color';
@@ -50,7 +52,6 @@ class StrKey {
   static const RENAME = 'rename';
   static const CHANGE = 'change';
   static const REFRESH = 'refresh';
-  static const REFRESH_AGENDAS = 'refresh_agendas';
   static const SEND_FEEDBACK = 'send_feedback';
 
   static const WHAT_IS_IT = 'what_is_it';
@@ -109,15 +110,16 @@ class StrKey {
   static const TITLE_EVENT = 'title_event';
   static const DESC_EVENT = 'desc_event';
   static const LOCATION_EVENT = 'location_event';
-  static const DATE_EVENT = 'date_event';
-
+  static const DATE_START_EVENT = 'date_start_event';
+  static const DATE_END_EVENT = 'date_end_event';
   static const START_TIME_EVENT = 'start_time_event';
   static const END_TIME_EVENT = 'end_time_event';
+  static const ALL_DAY_EVENT = 'all_day_event';
 
   static const REQUIRE_FIELD = 'require_field';
 
-  static const ERROR_END_TIME = 'error_end_time';
-  static const ERROR_END_TIME_TEXT = 'error_end_time_text';
+  static const ERROR_END_DATETIME = 'error_end_datetime';
+  static const ERROR_END_DATETIME_TEXT = 'error_end_datetime_text';
 
   static const CONFIRM_EVENT_DELETE = 'confirm_event_delete';
   static const CONFIRM_EVENT_DELETE_TEXT = 'confirm_event_delete_text';
@@ -140,9 +142,6 @@ class StrKey {
 
   static const NO_EMAIL_APP = 'no_email_app';
 
-  static const CHANGE_AGENDA = 'change_agenda';
-  static const CHANGE_AGENDA_TEXT = 'change_agenda_text';
-
   static const IN_PROGRESS = 'in_progress';
   static const LOADING = 'loading';
 
@@ -160,12 +159,33 @@ class StrKey {
 
   static const TODAY = 'today';
   static const TOMORROW = 'tomorrow';
+  static const DAY = 'day';
+  static const HOUR = 'hour';
+  static const MINUTE = 'minute';
 
   static const NO_EVENTS = 'no_events';
 
   static const ERROR = 'error';
   static const ERROR_EVENT_RECURRENT_ZERO = 'error_event_recurrent_zero';
   static const ERROR_JSON_PARSE = 'error_json_parse';
+  static const ERROR_ICS_PARSE = 'error_ics_parse';
+
+  static const ADD_CALENDAR_INVALID_QRCODE = 'add_calendar_invalid_qrcode';
+  static const ADD_CALENDAR_ALREADY_EXISTS = 'add_calendar_already_exists';
+  static const ADD_CALENDAR_TIMEOUT = 'add_calendar_timeout';
+  static const ADD_CALENDAR_SCAN_REFUSED = 'add_calendar_scan_refused';
+  static const ADD_CALENDAR_SCAN_RESTRICTED = 'add_calendar_scan_restricted';
+  static const ADD_CALENDAR_SCAN_BUTTON = 'add_calendar_scan_button';
+  static const ADD_CALENDAR_MANUAL_LINK = 'add_calendar_manual_link';
+  static const ADD_CALENDAR_QRCODE_TITLE = 'add_calendar_qrcode_title';
+  static const ADD_CALENDAR_QRCODE_TAKE_PHOTO = 'add_calendar_qrcode_take_photo';
+  static const ADD_CALENDAR_QRCODE_FROM_PHOTO = 'add_calendar_qrcode_from_photo';
+  static const ADD_CALENDAR_QRCODE_ENABLE_FLASH = 'add_calendar_qrcode_enable_flash';
+  static const ADD_CALENDAR_QRCODE_DISABLE_FLASH = 'add_calendar_qrcode_disable_flash';
+  static const ADD_CALENDAR_QRCODE_SCANNING = 'add_calendar_qrcode_scanning';
+
+  static const NO_CALENDAR = 'no_calendar';
+  static const NO_CALENDAR_TEXT = 'no_calendar_text';
 
   static const DATA_PRIVACY = 'data_privacy';
   static const DATA_PRIVACY_TEXT = 'data_privacy_text';
@@ -188,8 +208,4 @@ class StrKey {
 
   static const NEW_EVENT_TITLE = 'new_event_title';
   static const RENAME_EVENT = 'rename_event';
-
-  static const SYNC_CALENDAR = 'sync_calendar';
-  static const CHOOSE_CALENDAR = 'choose_calendar';
-  static const GET_CALENDARS_FAILED = 'get_calendars_failed';
 }
