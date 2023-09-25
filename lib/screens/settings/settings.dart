@@ -3,9 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../keys/pref_key.dart';
 import '../../keys/string_key.dart';
-import '../appbar_screen.dart';
-import '../login/login.dart';
-import 'manage_hidden_events.dart';
 import '../../utils/analytics.dart';
 import '../../utils/functions.dart';
 import '../../utils/preferences/settings.provider.dart';
@@ -17,8 +14,10 @@ import '../../widgets/settings/list_tile_input.dart';
 import '../../widgets/settings/list_tile_number.dart';
 import '../../widgets/settings/list_tile_title.dart';
 import '../../widgets/settings/setting_card.dart';
-import '../../widgets/ui/list_divider.dart';
 import '../../widgets/ui/button/raised_button_colored.dart';
+import '../appbar_screen.dart';
+import '../login/login.dart';
+import 'manage_hidden_events.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -173,14 +172,12 @@ class SettingsScreenState extends State<SettingsScreen> {
             themeProvider.setThemeModeFromString(value, true);
           },
         ),
-        const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.PRIMARY_COLOR),
           description: i18n.text(StrKey.PRIMARY_COLOR_DESC),
           selectedColor: themeProvider.primaryColor,
           onColorChange: (color) => themeProvider.setPrimaryColor(color, true),
         ),
-        const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.ACCENT_COLOR),
           description: i18n.text(StrKey.ACCENT_COLOR_DESC),
@@ -208,7 +205,6 @@ class SettingsScreenState extends State<SettingsScreen> {
             Colors.blueGrey
           ],
         ),
-        const ListDivider(),
         ListTileColor(
           title: i18n.text(StrKey.NOTE_COLOR),
           description: i18n.text(StrKey.NOTE_COLOR_DESC),

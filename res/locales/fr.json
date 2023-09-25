@@ -80,7 +80,7 @@
   "intro_welcome_desc": "UnivAgenda vous permet d'accéder à votre calendrier de votre université, directement sur votre appareil !",
 
   "intro_customization_title": "Personnalisation",
-  "intro_customization_desc": "Choisissez un thème clair ou sombre mais aussi les couleurs de l'application ! Rendez-la unique avec 35 720 combinaisons.",
+  "intro_customization_desc": "Choisissez un thème clair ou sombre mais aussi les couleurs de l'application, rendez-la unique !",
 
   "intro_note_title": "Note",
   "intro_note_desc": "Vous pouvez ajouter des notes sur un cours. Un indicateur apparaîtra sur le côté, il est aussi personnalisable dans les paramètres.",
@@ -126,8 +126,8 @@
   "no": "Non",
   "or": "Ou",
 
-  "courses_noresult": "Aucun cours",
-  "courses_noresult_text": "Essayez de modifier le nombre de semaines à afficher.",
+  "courses_noresult": "Aucun évènement",
+  "courses_noresult_text": "Essayez d'augmenter le nombre de semaines à afficher dans les paramètres.",
 
   "help_noresult": "Aucune donnée",
   "help_noresult_text": "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
@@ -136,7 +136,7 @@
   "unknown_error": "Erreur inconnue...",
   "retry": "Réessayer",
 
-  "no_email_app": "Aucun client mail trouvé :/\nInstallez en un (ex: gmail) pour pouvoir envoyer un feedback.",
+  "no_email_app": "Aucun client mail trouvé.\nInstallez en un (ex: gmail) pour pouvoir envoyer un feedback.",
 
   "in_progress": "En cours",
   "loading": "Chargement...",
@@ -163,6 +163,7 @@
 
   "error": "Erreur",
   "error_event_recurrent_zero": "Vous avez défini l'événement comme récurrent mais aucun jour n'est selectionné !",
+  "error_bad_url": "Erreur lors de la récupération de l'agenda. Veuillez vérifier l'url utilisée ou contactez nous.",
   "error_json_parse": "Erreur lors du traitement du JSON, contactez-nous pour résoudre le problème !",
   "error_ics_parse": "Le format reçu est incorrect.\n\nErreur:\n{errorMsg}",
 

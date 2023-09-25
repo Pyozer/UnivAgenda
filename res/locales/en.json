@@ -80,7 +80,7 @@
   "intro_welcome_desc": "UnivAgenda allows you to access to your calendar of your University, directly on your device!",
 
   "intro_customization_title": "Personalization",
-  "intro_customization_desc": "Choose light or dark theme but also the colors of the app! Make it unique with 35 720 combinations.",
+  "intro_customization_desc": "Choose light or dark theme but also the colors of the app, make it unique !",
 
   "intro_note_title": "Note",
   "intro_note_desc": "You can add notes on a course. An indicator will appear on the side, it is also customizable in the settings.",
@@ -126,8 +126,8 @@
   "no": "No",
   "or": "Or",
 
-  "courses_noresult": "No course to display",
-  "courses_noresult_text": "Try to edit number of weeks in settings.",
+  "courses_noresult": "No event to display",
+  "courses_noresult_text": "Try increasing the number of weeks to display in the settings.",
 
   "help_noresult": "No data",
   "help_noresult_text": " Check your internet connection.\nIt's also possible that the server is down.",
@@ -136,7 +136,7 @@
   "unknown_error": "Unknown error...",
   "retry": "Retry",
 
-  "no_email_app": "No email client :/\nPlease install email app like Gmail.",
+  "no_email_app": "No email client.\nPlease install email app like Gmail.",
 
   "in_progress": "In progress",
   "loading": "Loading...",
@@ -163,6 +163,7 @@
 
   "error": "Error",
   "error_event_recurrent_zero": "You select recurrent event but there is no day selected!",
+  "error_bad_url": "Error retrieving the calendar. Please check the URL used or contact us.",
   "error_json_parse": "Error processing JSON, contact us to solve the problem!",
   "error_ics_parse": "The received format is incorrect.\n\nError:\n{errorMsg}",
 

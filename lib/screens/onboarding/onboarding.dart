@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../keys/assets.dart';
 import '../../keys/string_key.dart';
-import '../home/home.dart';
-import '../login/login.dart';
 import '../../utils/analytics.dart';
 import '../../utils/functions.dart';
 import '../../utils/preferences/settings.provider.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/logo.dart';
+import '../home/home.dart';
+import '../login/login.dart';
 
 const double kIconSize = 150.0;
 

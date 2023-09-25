@@ -3,14 +3,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../keys/string_key.dart';
 import '../../models/help_item.dart';
-import '../appbar_screen.dart';
-import 'help_details.dart';
 import '../../utils/analytics.dart';
 import '../../utils/api/api.dart';
 import '../../utils/functions.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/button/large_rounded_button.dart';
 import '../../widgets/ui/screen_message/no_result_help.dart';
+import '../appbar_screen.dart';
+import 'help_details.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);

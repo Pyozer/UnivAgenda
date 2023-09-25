@@ -34,6 +34,7 @@ Future<void> openLink(
     await launchUrlString(href);
   } else if (context != null && context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
+      // TODO: Add translation
       SnackBar(content: Text('Could not launch $href')),
     );
   }

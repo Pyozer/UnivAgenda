@@ -1,15 +1,15 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'app.dart';
+import 'firebase_options.dart';
 import 'utils/preferences/settings.provider.dart';
 import 'utils/preferences/theme.provider.dart';
-import 'firebase_options.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();

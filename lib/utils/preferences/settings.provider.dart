@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:collection/collection.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../keys/pref_key.dart';
 import '../../models/calendar_type.dart';
 import '../../models/courses/course.dart';
 import '../../models/courses/custom_course.dart';
+import '../../models/courses/hidden.dart';
 import '../../models/courses/note.dart';
 import '../functions.dart';
 import 'base.provider.dart';
-import '../../models/courses/hidden.dart';
 
 class SettingsProvider extends BaseProvider {
   ///

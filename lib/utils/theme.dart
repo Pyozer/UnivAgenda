@@ -22,7 +22,7 @@ ThemeData generateTheme({
       secondary: accentColor,
       primaryContainer: primaryColor,
       outline: accentColor,
-      surfaceTint: isDark ? null : Color(palette.primary.get(80))
+      surfaceTint: isDark ? null : Color(palette.primary.get(80)),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,

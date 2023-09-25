@@ -1,23 +1,23 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:timezone/timezone.dart';
+import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart';
+import 'package:timezone/timezone.dart';
 
 import '../../keys/string_key.dart';
-import '../appbar_screen.dart';
-import '../home/home.dart';
-import '../login/login.dart';
-import '../onboarding/onboarding.dart';
 import '../../utils/analytics.dart';
 import '../../utils/functions.dart';
 import '../../utils/preferences/settings.provider.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/button/raised_button_colored.dart';
 import '../../widgets/ui/logo.dart';
+import '../appbar_screen.dart';
+import '../home/home.dart';
+import '../login/login.dart';
+import '../onboarding/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

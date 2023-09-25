@@ -167,6 +167,7 @@ class StrKey {
 
   static const ERROR = 'error';
   static const ERROR_EVENT_RECURRENT_ZERO = 'error_event_recurrent_zero';
+  static const ERROR_BAD_URL = 'error_bad_url';
   static const ERROR_JSON_PARSE = 'error_json_parse';
   static const ERROR_ICS_PARSE = 'error_ics_parse';
 
@@ -178,10 +179,14 @@ class StrKey {
   static const ADD_CALENDAR_SCAN_BUTTON = 'add_calendar_scan_button';
   static const ADD_CALENDAR_MANUAL_LINK = 'add_calendar_manual_link';
   static const ADD_CALENDAR_QRCODE_TITLE = 'add_calendar_qrcode_title';
-  static const ADD_CALENDAR_QRCODE_TAKE_PHOTO = 'add_calendar_qrcode_take_photo';
-  static const ADD_CALENDAR_QRCODE_FROM_PHOTO = 'add_calendar_qrcode_from_photo';
-  static const ADD_CALENDAR_QRCODE_ENABLE_FLASH = 'add_calendar_qrcode_enable_flash';
-  static const ADD_CALENDAR_QRCODE_DISABLE_FLASH = 'add_calendar_qrcode_disable_flash';
+  static const ADD_CALENDAR_QRCODE_TAKE_PHOTO =
+      'add_calendar_qrcode_take_photo';
+  static const ADD_CALENDAR_QRCODE_FROM_PHOTO =
+      'add_calendar_qrcode_from_photo';
+  static const ADD_CALENDAR_QRCODE_ENABLE_FLASH =
+      'add_calendar_qrcode_enable_flash';
+  static const ADD_CALENDAR_QRCODE_DISABLE_FLASH =
+      'add_calendar_qrcode_disable_flash';
   static const ADD_CALENDAR_QRCODE_SCANNING = 'add_calendar_qrcode_scanning';
 
   static const NO_CALENDAR = 'no_calendar';
@@ -194,7 +199,8 @@ class StrKey {
   static const WRONG_ICS_FORMAT = 'wrong_ics_format';
 
   static const CUSTOM_EVENT_EXIT_UNSAVED = 'custom_event_exit_unsaved';
-  static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT = 'custom_event_exit_unsaved_text';
+  static const CUSTOM_EVENT_EXIT_UNSAVED_TEXT =
+      'custom_event_exit_unsaved_text';
 
   static const HIDE = 'hide';
   static const UNHIDE = 'unhide';

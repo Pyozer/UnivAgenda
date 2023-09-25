@@ -6,11 +6,11 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 
 import '../../keys/string_key.dart';
 import '../../models/courses/course.dart';
+import '../../models/custom_exception.dart';
 import '../../models/help_item.dart';
-import 'base_api.dart';
 import '../ical_api.dart';
 import '../translations.dart';
-import '../../models/custom_exception.dart';
+import 'base_api.dart';
 
 class Api extends BaseApi {
   Api() : super();
@@ -19,10 +19,7 @@ class Api extends BaseApi {
     final response = await doRequest(http.get(Uri.parse(icalUrl)));
 
     if (response.statusCode != 200 || response.body.isEmpty) {
-      throw CustomException(
-        'error',
-        "Erreur lors de la récupération des cours. Veuillez vérifier l'url utilisée ou contactez nous.",
-      );
+      throw CustomException('error', i18n.text(StrKey.ERROR_BAD_URL));
     }
 
     try {

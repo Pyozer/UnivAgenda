@@ -3,11 +3,11 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../keys/string_key.dart';
 import '../../models/help_item.dart';
-import '../appbar_screen.dart';
 import '../../utils/analytics.dart';
 import '../../utils/api/api.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/screen_message/no_result_help.dart';
+import '../appbar_screen.dart';
 
 class HelpDetailsScreen extends StatelessWidget {
   final HelpItem helpItem;

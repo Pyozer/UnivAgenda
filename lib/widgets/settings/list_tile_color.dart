@@ -6,8 +6,8 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import '../../keys/string_key.dart';
 import '../../utils/list_colors.dart';
 import '../../utils/translations.dart';
-import 'list_tile_title.dart';
 import '../ui/dialog/dialog_predefined.dart';
+import 'list_tile_title.dart';
 
 const kSmallColorSize = 30.0;
 const kBigColorSize = 38.0;

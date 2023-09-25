@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../keys/string_key.dart';
-import '../appbar_screen.dart';
 import '../../utils/analytics.dart';
 import '../../utils/preferences/settings.provider.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/screen_message/no_result.dart';
+import '../appbar_screen.dart';
 
 class ManageHiddenEvents extends StatefulWidget {
   const ManageHiddenEvents({Key? key}) : super(key: key);

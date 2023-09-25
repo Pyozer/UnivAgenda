@@ -65,8 +65,10 @@ class DefaultFirebaseOptions {
     projectId: 'myagenda-57559',
     databaseURL: 'https://myagenda-57559.firebaseio.com',
     storageBucket: 'myagenda-57559.appspot.com',
-    androidClientId: '518938880074-lvlca2f1ugge92i9rekt9103qguru2n5.apps.googleusercontent.com',
-    iosClientId: '518938880074-h3e92lgm29fm4bbhebbp02gb56auu33g.apps.googleusercontent.com',
+    androidClientId:
+        '518938880074-lvlca2f1ugge92i9rekt9103qguru2n5.apps.googleusercontent.com',
+    iosClientId:
+        '518938880074-h3e92lgm29fm4bbhebbp02gb56auu33g.apps.googleusercontent.com',
     iosBundleId: 'com.pyozer.myagenda',
   );
 }

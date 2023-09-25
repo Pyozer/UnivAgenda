@@ -7,9 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../keys/string_key.dart';
-import '../help/help.dart';
-import '../home/home.dart';
-import 'login_qrcode.dart';
 import '../../utils/analytics.dart';
 import '../../utils/api/api.dart';
 import '../../utils/functions.dart';
@@ -18,6 +15,9 @@ import '../../utils/scan.dart';
 import '../../utils/translations.dart';
 import '../../widgets/ui/dialog/dialog_predefined.dart';
 import '../../widgets/ui/logo.dart';
+import '../help/help.dart';
+import '../home/home.dart';
+import 'login_qrcode.dart';
 
 enum BodyType { MAIN, QRCODE, MANUAL }
 

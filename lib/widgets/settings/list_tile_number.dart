@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../keys/string_key.dart';
 import '../../utils/translations.dart';
-import 'list_tile_title.dart';
 import '../ui/dialog/dialog_predefined.dart';
 import '../ui/number_selector.dart';
+import 'list_tile_title.dart';
 
 class ListTileNumber extends StatefulWidget {
   final String title;
