@@ -42,28 +42,31 @@ class MainDrawer extends StatelessWidget {
           DrawerElement(
             icon: Icons.info_outline,
             title: i18n.text(StrKey.ABOUT),
-            routeDest: () => const AboutScreen(),
+            onTap: () => navigatorPush(context, const AboutScreen()),
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
             title: i18n.text(StrKey.INTRO),
-            routeDest: () => const OnboardingScreen(),
+            onTap: () => navigatorPush(
+              context,
+              const OnboardingScreen(shouldPopOnDone: true),
+            ),
           ),
           DrawerElement(
             icon: Icons.settings_outlined,
             title: i18n.text(StrKey.SETTINGS),
-            routeDest: () => const SettingsScreen(),
+            onTap: () => navigatorPush(context, const SettingsScreen()),
           ),
           const Divider(),
           DrawerElement(
             icon: Icons.live_help_outlined,
             title: i18n.text(StrKey.HELP_FEEDBACK),
-            routeDest: () => const HelpScreen(),
+            onTap: () => navigatorPush(context, const HelpScreen()),
           ),
           DrawerElement(
             icon: Icons.monetization_on_outlined,
             title: i18n.text(StrKey.SUPPORTME),
-            routeDest: () => const SupportMeScreen(),
+            onTap: () => navigatorPush(context, const SupportMeScreen()),
           ),
         ],
       ),
@@ -76,15 +79,13 @@ typedef WidgetCallback = Widget Function();
 class DrawerElement extends StatelessWidget {
   final IconData icon;
   final String title;
-  final WidgetCallback? routeDest;
-  final Function? onTap;
+  final GestureTapCallback? onTap;
   final bool enabled;
 
   const DrawerElement({
     Key? key,
     required this.icon,
     required this.title,
-    this.routeDest,
     this.onTap,
     this.enabled = true,
   }) : super(key: key);
@@ -94,13 +95,7 @@ class DrawerElement extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
-      onTap: () {
-        if (onTap != null) {
-          onTap!();
-        } else if (routeDest != null) {
-          navigatorPopAndPush(context, routeDest!());
-        }
-      },
+      onTap: onTap,
       enabled: enabled,
     );
   }

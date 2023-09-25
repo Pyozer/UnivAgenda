@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../keys/string_key.dart';
+import '../../models/courses/hidden.dart';
 import '../../utils/analytics.dart';
 import '../../utils/preferences/settings.provider.dart';
 import '../../utils/translations.dart';
@@ -30,16 +31,16 @@ class ManageHiddenEventsState extends State<ManageHiddenEvents> {
     super.dispose();
   }
 
-  Widget _buildRow(String hiddenEvent) {
+  Widget _buildRow(Hidden hiddenEvent) {
     return ListTile(
       title: Row(
         children: [
-          Expanded(child: Text(hiddenEvent)),
+          Expanded(child: Text(hiddenEvent.title)),
           IconButton(
             icon: const Icon(Icons.delete_outline),
             onPressed: () => context
                 .read<SettingsProvider>()
-                .removeHiddenEvent(hiddenEvent, true),
+                .removeHiddenEvent(hiddenEvent.courseUid, true),
           ),
         ],
       ),
@@ -67,9 +68,7 @@ class ManageHiddenEventsState extends State<ManageHiddenEvents> {
             )
           : ListView.builder(
               itemCount: prefs.hiddenEvents.length,
-              itemBuilder: (_, index) => _buildRow(
-                prefs.hiddenEvents[index].title,
-              ),
+              itemBuilder: (_, index) => _buildRow(prefs.hiddenEvents[index]),
             ),
     );
   }

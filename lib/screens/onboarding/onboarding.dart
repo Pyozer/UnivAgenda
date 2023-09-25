@@ -16,7 +16,10 @@ import '../login/login.dart';
 const double kIconSize = 150.0;
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  final bool shouldPopOnDone;
+
+  const OnboardingScreen({Key? key, required this.shouldPopOnDone})
+      : super(key: key);
 
   @override
   OnboardingScreenState createState() => OnboardingScreenState();
@@ -92,26 +95,30 @@ class OnboardingScreenState extends State<OnboardingScreen> {
   void _onDone() {
     final prefs = context.read<SettingsProvider>();
     prefs.setIntroDone(true);
-    navigatorPushReplace(
-      context,
-      prefs.appLaunchCounter > 0 && prefs.urlIcs.isEmpty
-          ? const HomeScreen()
-          : const LoginScreen(isFromSettings: false),
-    );
+
+    if (widget.shouldPopOnDone) {
+      Navigator.of(context).pop();
+    } else {
+      navigatorPushReplace(
+        context,
+        prefs.appLaunchCounter == 0 && prefs.urlIcs.isEmpty
+            ? const LoginScreen(isFromSettings: false)
+            : const HomeScreen(),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDark;
-    final btnStyle = TextStyle(color: isDark ? Colors.white : Colors.black);
+    final color = Theme.of(context).colorScheme.onSurface;
 
     return IntroductionScreen(
       pages: _buildPages(),
       onDone: _onDone,
       showSkipButton: true,
-      skip: Text(i18n.text(StrKey.SKIP), style: btnStyle),
-      next: Icon(Icons.arrow_forward, color: btnStyle.color),
-      done: Text(i18n.text(StrKey.DONE), style: btnStyle),
+      skip: Text(i18n.text(StrKey.SKIP), style: TextStyle(color: color)),
+      next: Icon(Icons.arrow_forward, color: color),
+      done: Text(i18n.text(StrKey.DONE), style: TextStyle(color: color)),
       skipOrBackFlex: 0,
       nextFlex: 0,
       dotsDecorator: DotsDecorator(

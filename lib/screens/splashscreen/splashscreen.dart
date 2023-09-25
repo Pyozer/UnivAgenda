@@ -54,10 +54,10 @@ class SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
     final prefs = context.read<SettingsProvider>();
 
     final routeDest = (!prefs.isIntroDone)
-        ? const OnboardingScreen()
-        : (prefs.appLaunchCounter > 0 && prefs.urlIcs.isEmpty)
-            ? const HomeScreen()
-            : const LoginScreen(isFromSettings: false);
+        ? const OnboardingScreen(shouldPopOnDone: false)
+        : (prefs.appLaunchCounter == 0 && prefs.urlIcs.isEmpty)
+            ? const LoginScreen(isFromSettings: false)
+            : const HomeScreen();
 
     // Wait minimum 1.5 secondes
     final diffMs = 1000 - DateTime.now().difference(now).inMilliseconds;
