@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:icalendar_parser/icalendar_parser.dart';
@@ -7,7 +6,8 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 import '../../keys/string_key.dart';
 import '../../models/courses/course.dart';
 import '../../models/custom_exception.dart';
-import '../../models/help_item.dart';
+import '../../models/help/help_item.dart';
+import '../../models/help/help_list.dart';
 import '../ical_api.dart';
 import '../translations.dart';
 import 'base_api.dart';
@@ -33,23 +33,18 @@ class Api extends BaseApi {
     }
   }
 
-  Future<List<HelpItem>> getHelps() async {
+  Future<HelpList> getHelps() async {
     final response = await doRequest(http.get(
-      getAPIUrl('/helps'),
-      headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
+      Uri.parse(
+          'https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/help_list.json'),
     ));
 
-    return List<HelpItem>.from(getData(response).map(
-      (x) => HelpItem.fromJson(x),
-    ));
+    return HelpList.fromJson(getData(response));
   }
 
-  Future<String> getHelp(String filename) async {
-    final response = await doRequest(http.get(
-      getAPIUrl('/helps/$filename'),
-      headers: {HttpHeaders.acceptLanguageHeader: i18n.currentLanguage},
-    ));
+  Future<String> getHelp(HelpItem helpItem) async {
+    final response = await doRequest(http.get(helpItem.fileUrl));
 
-    return getData<String>(response);
+    return getRawData(response);
   }
 }

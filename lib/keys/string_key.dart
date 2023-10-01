@@ -137,7 +137,7 @@ class StrKey {
   static const HELP_NORESULT_TEXT = 'help_noresult_text';
 
   static const NETWORK_ERROR = 'network_error';
-  static const UNKNOWN_ERROR = 'unknown_error';
+  static const API_RESPONSE_ERROR = 'api_response_error';
   static const RETRY = 'retry';
 
   static const NO_EMAIL_APP = 'no_email_app';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../keys/string_key.dart';
-import '../../models/help_item.dart';
+import '../../models/help/help_item.dart';
 import '../../utils/analytics.dart';
 import '../../utils/api/api.dart';
 import '../../utils/translations.dart';
@@ -21,7 +21,7 @@ class HelpDetailsScreen extends StatelessWidget {
     return AppbarPage(
       title: i18n.text(StrKey.HELP_FEEDBACK),
       body: FutureBuilder<String>(
-        future: Api().getHelp(helpItem.filename),
+        future: Api().getHelp(helpItem),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Markdown(

@@ -133,7 +133,7 @@
   "help_noresult_text": "Vérifiez votre connexion internet.\nIl se peut aussi que le serveur soit indisponible.",
 
   "network_error": "Erreur réseau ! Vérifez votre connexion internet.",
-  "unknown_error": "Erreur inconnue...",
+  "api_response_error": "Erreur {statusCode} lors de la récupération des données...",
   "retry": "Réessayer",
 
   "no_email_app": "Aucun client mail trouvé.\nInstallez en un (ex: gmail) pour pouvoir envoyer un feedback.",

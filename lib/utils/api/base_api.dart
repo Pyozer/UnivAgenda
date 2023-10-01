@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../keys/string_key.dart';
-import '../../models/base_response.dart';
 import '../../models/custom_exception.dart';
 import '../translations.dart';
-
-const API_URL = 'https://myagendaapi.herokuapp.com/api';
 
 abstract class BaseApi {
   BaseApi();
@@ -23,33 +20,27 @@ abstract class BaseApi {
     }
   }
 
-  Uri getAPIUrl(String route, [Map<String, dynamic>? queryParams]) {
-    String url = API_URL + route;
-    if ((queryParams?.length ?? 0) == 0) return Uri.parse(url);
-
-    List<String> params = [];
-    queryParams!.forEach((key, value) {
-      params.add('$key=${Uri.encodeComponent(value)}');
-    });
-    return Uri.parse("$url?${params.join("&")}");
-  }
-
-  T getData<T>(http.Response response) {
-    CustomException error = CustomException(
-      'unknown',
-      i18n.text(StrKey.UNKNOWN_ERROR),
-    );
-    try {
-      final res = BaseResponse<T>.fromJson(json.decode(response.body));
-      if (res.error == null) return res.data!;
-      error = CustomException('error', res.error!);
-    } catch (e) {
-      error = CustomException('error', i18n.text(StrKey.ERROR_JSON_PARSE));
+  String getRawData(http.Response response) {
+    if (response.statusCode != 200) {
+      throw CustomException(
+        'error_server_response',
+        i18n.text(
+          StrKey.API_RESPONSE_ERROR,
+          {'statusCode': response.statusCode},
+        ),
+      );
     }
-    throw error;
+
+    return response.body;
   }
 
-  Map<String, dynamic> getDataMap(http.Response response) {
-    return getData<Map<String, dynamic>>(response);
+  dynamic getData(http.Response response) {
+    final rawData = getRawData(response);
+
+    try {
+      return json.decode(rawData);
+    } catch (e) {
+      throw CustomException('error', i18n.text(StrKey.ERROR_JSON_PARSE));
+    }
   }
 }

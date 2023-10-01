@@ -23,15 +23,15 @@ Voici quelques méthodes pour saisir le lien:
 Pour vous aider, voici quelques screenshots pour générer le lien / obtenir le qrcode :
 
 Bouton exporté:
-![Bouton exporter](https://raw.githubusercontent.com/Pyozer/MyAgendaAPI/master/data/help/images/export_btn.png)
+![Bouton exporter](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_btn.png)
 
 
 Popup qui s'affiche, cliquez sur "Générer URL" :
-![Popup d'exportation](https://raw.githubusercontent.com/Pyozer/MyAgendaAPI/master/data/help/images/export_popup.png)
+![Popup d'exportation](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_popup.png)
 
 
 L'url généré avec le QRCode :
-![Url et Qrcode généré](https://raw.githubusercontent.com/Pyozer/MyAgendaAPI/master/data/help/images/export_url.png)
+![Url et Qrcode généré](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_url.png)
 
 
 

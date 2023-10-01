@@ -133,7 +133,7 @@
   "help_noresult_text": " Check your internet connection.\nIt's also possible that the server is down.",
 
   "network_error": "Network error! Check your internet connection.",
-  "unknown_error": "Unknown error...",
+  "api_response_error": "Error {statusCode} when trying to fetch data...",
   "retry": "Retry",
 
   "no_email_app": "No email client.\nPlease install email app like Gmail.",

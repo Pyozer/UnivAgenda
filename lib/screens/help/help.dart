@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../keys/string_key.dart';
-import '../../models/help_item.dart';
+import '../../models/help/help_list.dart';
 import '../../utils/analytics.dart';
 import '../../utils/api/api.dart';
 import '../../utils/functions.dart';
@@ -35,16 +35,20 @@ class HelpScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<HelpItem>>(
+            child: FutureBuilder<HelpList>(
               future: Api().getHelps(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) return const NoResultHelp();
 
                 if (snapshot.hasData) {
+                  final lang = i18n.currentLanguage;
+                  final helpList = snapshot.data!.getHelpListByLang(lang);
+
                   return ListView.separated(
-                    itemCount: snapshot.data!.length,
+                    itemCount: helpList.length,
                     itemBuilder: (context, index) {
-                      final item = snapshot.data![index];
+                      final item = helpList[index];
+
                       return InkWell(
                         child: ListTile(title: Text(item.title)),
                         onTap: () {
