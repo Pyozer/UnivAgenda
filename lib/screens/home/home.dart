@@ -94,7 +94,7 @@ class HomeScreenState extends State<HomeScreen>
 
       List<Course> courses = [];
       for (final urlIcs in prefs.urlIcs) {
-        courses.addAll(await Api().getCoursesCustomIcal(urlIcs));
+        courses.addAll(await Api().getCoursesFromIcal(urlIcs));
       }
 
       _prepareList(courses);
@@ -340,9 +340,13 @@ class HomeScreenState extends State<HomeScreen>
     int initialIndex = 0;
     bool isIndexFound = false;
 
-    elements.forEach((date, courses) {
+    final datesSorted = elements.keys.toList()..sort((a, b) => a.compareTo(b));
+
+    for (final date in datesSorted) {
+      final courses = elements[date];
+
       if (!prefs.isDisplayAllDays && (courses == null || courses.isEmpty)) {
-        return;
+        continue;
       }
       tabs.add(Tab(text: Date.dateFromNow(Date.intToDate(date), true)));
 
@@ -354,7 +358,7 @@ class HomeScreenState extends State<HomeScreen>
       } else if (isMinEvent && !isIndexFound) {
         isIndexFound = true;
       }
-    });
+    }
 
     if (initialIndex >= elements.length) initialIndex = 0;
 

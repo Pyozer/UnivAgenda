@@ -42,7 +42,7 @@ class PrefKey {
   static const defaultThemeMode = ThemeMode.system;
   static const defaultAppLaunchCounter = 0;
   static const defaultIntroDone = false;
-  static const defaultDisplayAllDays = false;
+  static const defaultDisplayAllDays = true;
   static const defaultGenerateEventColor = false;
   static const defaultFullHiddenEvent = false;
   static const defaultCalendarType = CalendarView.timelineDay;
