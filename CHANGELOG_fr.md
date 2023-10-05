@@ -1,3 +1,13 @@
+## Version 5.0.0
+
+- Refonte majeure de l'application !
+- Mise à jour Flutter et de toutes les dépendances 
+- Les événements sont directement récupérés par l'application au lieu d'utiliser notre API (couteux chaque mois)
+- Ne plus passer par l'API permet de corriger le problème de récupération avec certains ENT
+- Amélioration de la vue des événements (vue par mois, semaines, ..)
+- Il est désormais possible d'ajouter plusieurs URL
+- Correction de divers bugs
+
 ## Version 4.4.0
 
 - Connexion et agendas pré-enregistrés supprimés, seuls les liens sont désormais supportés (problèmes de maintenance)

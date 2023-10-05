@@ -2,13 +2,13 @@
     "en": [
         {
             "title": "Where can I find the export link for my calendar?",
-            "file_url": "https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/find_export_link_en.md"
+            "file_url": "https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/find_export/find_export_link_en.md"
         }
     ],
     "fr": [
         {
             "title": "Où trouver le lien d'exportation de mon agenda ?",
-            "file_url": "https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/find_export_link_fr.md"
+            "file_url": "https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/find_export/find_export_link_fr.md"
         }
     ]
 }

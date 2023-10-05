@@ -1,6 +1,6 @@
 name: univagenda
 description: Application pour voir son agenda universitaire à tout moment et facilement.
-version: 5.0.0+20230904
+version: 5.0.0+20231006
 publish_to: "none"
 
 environment:
@@ -15,10 +15,10 @@ dependencies:
 
   after_layout: 1.2.0
   collection: 1.17.2
-  firebase_analytics: 10.5.0
-  firebase_core: 2.16.0
-  firebase_crashlytics: 3.3.6
-  flutter_markdown: 0.6.17+3
+  firebase_analytics: 10.5.1
+  firebase_core: 2.17.0
+  firebase_crashlytics: 3.3.7
+  flutter_markdown: 0.6.18
   flutter_material_color_picker: 1.2.0
   flutter_timezone: 1.0.7
   html: 0.15.4
@@ -26,18 +26,18 @@ dependencies:
   icalendar_parser: 2.0.0
   image_picker: 1.0.4
   intl: 0.18.1
-  introduction_screen: 3.1.11
+  introduction_screen: 3.1.12
   mobile_scanner: 3.4.1
   package_info_plus: 4.1.0
   path_provider: 2.1.1
-  permission_handler: 11.0.0
+  permission_handler: 11.0.1
   provider: 6.0.5
   shared_preferences: 2.2.1
-  syncfusion_flutter_calendar: 23.1.36
-  syncfusion_localizations: 23.1.36
+  syncfusion_flutter_calendar: 23.1.39
+  syncfusion_localizations: 23.1.39
   timezone: 0.9.2
   url_launcher: 6.1.14
-  uuid: 4.0.0
+  uuid: 4.1.0
   material_color_utilities: 0.5.0
 
 dev_dependencies:

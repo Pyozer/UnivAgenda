@@ -15,8 +15,9 @@ import 'base_api.dart';
 class Api extends BaseApi {
   Api() : super();
 
-  Future<List<Course>> getCoursesCustomIcal(String icalUrl) async {
-    final response = await doRequest(http.get(Uri.parse(icalUrl)));
+  Future<List<Course>> getCoursesFromIcal(String icalUrl) async {
+    final response = await doRequest(http.get(Uri.parse(icalUrl)))
+        .timeout(const Duration(seconds: 25));
 
     if (response.statusCode != 200 || response.body.isEmpty) {
       throw CustomException('error', i18n.text(StrKey.ERROR_BAD_URL));
@@ -34,10 +35,9 @@ class Api extends BaseApi {
   }
 
   Future<HelpList> getHelps() async {
-    final response = await doRequest(http.get(
-      Uri.parse(
-          'https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/help_list.json'),
-    ));
+    final response = await doRequest(http.get(Uri.parse(
+      'https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/help_list.json',
+    )));
 
     return HelpList.fromJson(getData(response));
   }

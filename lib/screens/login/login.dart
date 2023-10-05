@@ -99,9 +99,7 @@ class LoginScreenState extends State<LoginScreen> {
     _setLoading(true);
     try {
       // Testing url, should not return an error
-      final courses = await Api()
-          .getCoursesCustomIcal(urlIcs)
-          .timeout(const Duration(seconds: 25));
+      final courses = await Api().getCoursesFromIcal(urlIcs);
 
       if (!mounted) return;
 

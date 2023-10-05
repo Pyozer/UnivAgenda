@@ -23,15 +23,15 @@ Here are some methods to enter the link:
 To help you, here are some screenshots to generate the link / get the qrcode :
 
 Button exported:
-![Export button](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_btn.png)
+![Export button](https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/find_export/images/export_btn.png)
 
 
 Popup that appears, click on "Generate URL" :
-![Export Popup](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_popup.png)
+![Export Popup](https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/find_export/images/export_popup.png)
 
 
 The url generated with the QRCode :
-![Url and generated Qrcode](https://raw.githubusercontent.com/Pyozer/UnivAgenda/dev/help/find_export/images/export_url.png)
+![Url and generated Qrcode](https://raw.githubusercontent.com/Pyozer/UnivAgenda/master/help/find_export/images/export_url.png)
 
 
 

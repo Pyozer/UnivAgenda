@@ -1,3 +1,13 @@
+## Version 5.0.0
+
+- Major overhaul of the application!
+- Update Flutter and all dependencies
+- Events are directly retrieved by the application instead of using our API (expensive every month)
+- No longer going through the API helps correct the recovery problem with certain ENTs
+- Improved view of events (view by month, weeks, etc.)
+- It is now possible to add multiple URLs
+- Fixed various bugs
+
 ## Version 4.4.0
 
 - Login and the pre-saved calendars have been deleted, only links are now supported (maintenance concerns)
