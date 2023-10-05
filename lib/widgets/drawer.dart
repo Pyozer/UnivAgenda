@@ -13,6 +13,11 @@ import 'ui/logo.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
+  void _closeDrawerAndPush(BuildContext context, Widget screen) {
+    Navigator.of(context).pop();
+    navigatorPush(context, screen);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,12 +47,12 @@ class MainDrawer extends StatelessWidget {
           DrawerElement(
             icon: Icons.info_outline,
             title: i18n.text(StrKey.ABOUT),
-            onTap: () => navigatorPush(context, const AboutScreen()),
+            onTap: () => _closeDrawerAndPush(context, const AboutScreen()),
           ),
           DrawerElement(
             icon: Icons.lightbulb_outline,
             title: i18n.text(StrKey.INTRO),
-            onTap: () => navigatorPush(
+            onTap: () => _closeDrawerAndPush(
               context,
               const OnboardingScreen(shouldPopOnDone: true),
             ),
@@ -55,18 +60,18 @@ class MainDrawer extends StatelessWidget {
           DrawerElement(
             icon: Icons.settings_outlined,
             title: i18n.text(StrKey.SETTINGS),
-            onTap: () => navigatorPush(context, const SettingsScreen()),
+            onTap: () => _closeDrawerAndPush(context, const SettingsScreen()),
           ),
           const Divider(),
           DrawerElement(
             icon: Icons.live_help_outlined,
             title: i18n.text(StrKey.HELP_FEEDBACK),
-            onTap: () => navigatorPush(context, const HelpScreen()),
+            onTap: () => _closeDrawerAndPush(context, const HelpScreen()),
           ),
           DrawerElement(
             icon: Icons.monetization_on_outlined,
             title: i18n.text(StrKey.SUPPORTME),
-            onTap: () => navigatorPush(context, const SupportMeScreen()),
+            onTap: () => _closeDrawerAndPush(context, const SupportMeScreen()),
           ),
         ],
       ),
