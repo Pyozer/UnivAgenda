@@ -26,36 +26,52 @@ class App extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, prefs, _) {
-          final ThemeMode themeMode = prefs.themeMode;
+          final lightTheme = generateTheme(
+            brightness: Brightness.light,
+            primaryColor: prefs.primaryColor,
+            accentColor: prefs.accentColor,
+          );
 
-          SystemUiOverlayStyle style = SystemUiOverlayStyle.light;
+          final darkTheme = generateTheme(
+            brightness: Brightness.dark,
+            primaryColor: prefs.primaryColor,
+            accentColor: prefs.accentColor,
+          );
+
+          final platformBrightness = MediaQuery.of(context).platformBrightness;
+          final themeMode = prefs.themeMode;
+
+          bool isDark = false;
           if (themeMode == ThemeMode.dark) {
-            style = SystemUiOverlayStyle.dark;
+            isDark = true;
+          } else if (themeMode == ThemeMode.system &&
+              platformBrightness == Brightness.dark) {
+            isDark = true;
           }
 
-          SystemChrome.setSystemUIOverlayStyle(style.copyWith(
-            statusBarColor: Colors.transparent,
-          ));
+          SystemUiOverlayStyle baseStyle =
+              isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
 
-          return MaterialApp(
-            title: 'UnivAgenda',
-            themeMode: themeMode,
-            theme: generateTheme(
-              brightness: Brightness.light,
-              primaryColor: prefs.primaryColor,
-              accentColor: prefs.accentColor,
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: baseStyle.copyWith(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: isDark
+                  ? darkTheme.colorScheme.surface
+                  : lightTheme.colorScheme.surface,
+              systemNavigationBarDividerColor: Colors.transparent,
             ),
-            darkTheme: generateTheme(
-              brightness: Brightness.dark,
-              primaryColor: prefs.primaryColor,
-              accentColor: prefs.accentColor,
+            child: MaterialApp(
+              title: 'UnivAgenda',
+              themeMode: themeMode,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              localizationsDelegates: const [
+                ...GlobalMaterialLocalizations.delegates,
+                SfGlobalLocalizations.delegate
+              ],
+              supportedLocales: i18n.supportedLocales(),
+              home: const SplashScreen(),
             ),
-            localizationsDelegates: const [
-              ...GlobalMaterialLocalizations.delegates,
-              SfGlobalLocalizations.delegate
-            ],
-            supportedLocales: i18n.supportedLocales(),
-            home: const SplashScreen(),
           );
         },
       ),
