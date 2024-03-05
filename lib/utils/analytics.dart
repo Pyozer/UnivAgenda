@@ -67,9 +67,9 @@ class AnalyticsProvider {
 
   static void setScreen(dynamic object) {
     String className = object.runtimeType.toString();
-    FirebaseAnalytics.instance.setCurrentScreen(
+    FirebaseAnalytics.instance.logScreenView(
       screenName: className,
-      screenClassOverride: className,
+      screenClass: className,
     );
   }
 }

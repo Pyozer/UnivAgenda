@@ -279,8 +279,15 @@ class CustomEventScreenState extends State<CustomEventScreen> {
       _customCourse.dateStart,
     );
 
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        final navigator = Navigator.of(context);
+        final shouldPop = await _onWillPop();
+        if (shouldPop) navigator.pop();
+      },
       child: AppbarPage(
         title: i18n.text(
           widget.course == null ? StrKey.ADD_EVENT : StrKey.EDIT_EVENT,

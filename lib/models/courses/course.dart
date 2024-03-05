@@ -11,11 +11,14 @@ class Course extends BaseCourse {
   String description;
   String? location;
   String? renamedTitle;
-  late List<Note> notes;
+  late List<Note> allNotes;
   DateTime dateStart;
   DateTime dateEnd;
   Color? color;
   bool isHidden;
+
+  // Only for calendar plugin, not really useful
+  String? notes;
 
   Course({
     required this.uid,
@@ -29,7 +32,7 @@ class Course extends BaseCourse {
     this.isHidden = false,
     this.renamedTitle,
   }) {
-    this.notes = notes ?? [];
+    allNotes = notes ?? [];
   }
 
   factory Course.empty(DateTime dateStart, DateTime dateEnd) => Course(
@@ -48,7 +51,7 @@ class Course extends BaseCourse {
     return dateEnd;
   }
 
-  bool hasNote() => notes.isNotEmpty;
+  bool hasNote() => allNotes.isNotEmpty;
 
   bool isFinish() => dateEnd.isSameOrBefore(DateTime.now());
 
@@ -154,7 +157,7 @@ class Course extends BaseCourse {
       title.hashCode ^
       description.hashCode ^
       location.hashCode ^
-      notes.hashCode ^
+      allNotes.hashCode ^
       dateStart.hashCode ^
       dateEnd.hashCode ^
       color.hashCode;

@@ -39,7 +39,7 @@ class CourseDataSource extends CalendarDataSource<Course> {
 
   @override
   String? getNotes(int index) {
-    return getEvent(index).notes.map((e) => e.text).join((', '));
+    return getEvent(index).allNotes.map((e) => e.text).join(', ');
   }
 
   @override

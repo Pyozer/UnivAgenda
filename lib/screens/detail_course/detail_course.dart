@@ -140,7 +140,7 @@ class DetailCourseState extends State<DetailCourse> {
           ],
         ),
       ),
-      ..._course.notes.map((note) => CourseNote(
+      ..._course.allNotes.map((note) => CourseNote(
             note: note,
             onDelete: _onNoteDeleted,
             onEdit: _openNoteDialog,
@@ -149,7 +149,7 @@ class DetailCourseState extends State<DetailCourse> {
   }
 
   void _onNoteDeleted(Note note) {
-    setState(() => _course.notes.remove(note));
+    setState(() => _course.allNotes.remove(note));
     context.read<SettingsProvider>().removeNote(note, true);
   }
 
@@ -188,10 +188,10 @@ class DetailCourseState extends State<DetailCourse> {
 
     if (note != null) {
       setState(() => note.text = noteText);
-      context.read<SettingsProvider>().setNotes(_course.notes);
+      context.read<SettingsProvider>().setNotes(_course.allNotes);
     } else {
       final newNote = Note(courseUid: _course.uid, text: noteText);
-      setState(() => _course.notes.insert(0, newNote));
+      setState(() => _course.allNotes.insert(0, newNote));
       context.read<SettingsProvider>().addNote(newNote, true);
     }
   }

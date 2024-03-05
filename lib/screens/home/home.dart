@@ -115,7 +115,7 @@ class HomeScreenState extends State<HomeScreen>
     // Get all note of the course
     final notes = allNotes.where((n) => n.courseUid == course.uid).toList();
     // Add notes to the course
-    course.notes = notes;
+    course.allNotes = notes;
     return course;
   }
 
@@ -129,7 +129,7 @@ class HomeScreenState extends State<HomeScreen>
     DateTime dayDate = DateTime.now();
     for (int day = 0; day < numberDay; day++) {
       // Check if actual day is in weekdays's course list
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       if (course.weekdaysRepeat.contains(dayDate.weekday)) {
         CustomCourse courseRepeated = CustomCourse.fromJson(course.toJson());
         courseRepeated.dateStart = Date.setTimeFromOther(
@@ -412,7 +412,9 @@ class HomeScreenState extends State<HomeScreen>
       child: SfCalendar(
         controller: calendarController,
         dataSource: CourseDataSource(
-          events.values.flattened.toList(),
+          events.values.flattened
+              .where((element) => !element.isHidden)
+              .toList(),
           isGenColor,
           Colors.grey[700]!,
         ),
@@ -434,7 +436,7 @@ class HomeScreenState extends State<HomeScreen>
             height: 88,
           ),
         ),
-        appointmentTimeTextFormat: 'Hm',
+        appointmentTimeTextFormat: 'HH:mm',
         showCurrentTimeIndicator: true,
         showDatePickerButton: true,
         showNavigationArrow: true,
