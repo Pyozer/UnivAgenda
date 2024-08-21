@@ -54,7 +54,7 @@ ThemeData generateTheme({
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(
           getColorDependOfBackground(primaryColor),
         ),
       ),

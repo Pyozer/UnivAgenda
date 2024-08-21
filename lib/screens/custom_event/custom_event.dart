@@ -281,7 +281,7 @@ class CustomEventScreenState extends State<CustomEventScreen> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         final navigator = Navigator.of(context);

@@ -21,6 +21,18 @@ class LoginQrCodeState extends State<LoginQrCode> {
     detectionSpeed: DetectionSpeed.noDuplicates,
   );
 
+  Widget _buildTorch(TorchState state) {
+    switch (state) {
+      case TorchState.auto:
+      case TorchState.unavailable:
+        return const SizedBox();
+      case TorchState.off:
+        return _buildTorchBtn(false);
+      case TorchState.on:
+        return _buildTorchBtn(true);
+    }
+  }
+
   Widget _buildTorchBtn(bool isFlashOn) {
     return TextButton.icon(
       style: TextButton.styleFrom(foregroundColor: Colors.white),
@@ -77,14 +89,9 @@ class LoginQrCodeState extends State<LoginQrCode> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ValueListenableBuilder(
-                valueListenable: cameraController.torchState,
-                builder: (context, state, child) {
-                  switch (state as TorchState) {
-                    case TorchState.off:
-                      return _buildTorchBtn(false);
-                    case TorchState.on:
-                      return _buildTorchBtn(true);
-                  }
+                valueListenable: cameraController,
+                builder: (context, MobileScannerState state, child) {
+                  return _buildTorch(state.torchState);
                 },
               ),
             ),

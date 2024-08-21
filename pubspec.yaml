@@ -5,7 +5,7 @@ publish_to: "none"
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
-  flutter: 3.19.2
+  flutter: 3.24.1
 
 dependencies:
   flutter:
@@ -15,35 +15,35 @@ dependencies:
 
   after_layout: 1.2.0
   collection: 1.18.0
-  firebase_analytics: 10.8.8
-  firebase_core: 2.26.0
-  firebase_crashlytics: 3.4.17
-  flutter_markdown: 0.6.21
+  firebase_analytics: 11.2.1
+  firebase_core: 3.3.0
+  firebase_crashlytics: 4.0.4
+  flutter_markdown: 0.7.3
   flutter_material_color_picker: 1.2.0
-  flutter_timezone: 1.0.8
+  flutter_timezone: 2.1.0
   html: 0.15.4
-  http: 1.2.0
+  http: 1.2.2
   icalendar_parser: 2.0.0
-  image_picker: 1.0.7
-  intl: 0.18.1
-  introduction_screen: 3.1.12
-  mobile_scanner: 4.0.1
-  package_info_plus: 5.0.1
-  path_provider: 2.1.2
-  permission_handler: 11.3.0
+  image_picker: 1.1.2
+  intl: 0.19.0
+  introduction_screen: 3.1.14
+  mobile_scanner: 5.2.1
+  package_info_plus: 8.0.2
+  path_provider: 2.1.4
+  permission_handler: 11.3.1
   provider: 6.1.2
-  shared_preferences: 2.2.2
-  syncfusion_flutter_calendar: 24.2.9
-  syncfusion_localizations: 24.2.9
-  timezone: 0.9.2
-  url_launcher: 6.2.5
-  uuid: 4.3.3
-  material_color_utilities: 0.8.0
+  shared_preferences: 2.3.2
+  syncfusion_flutter_calendar: 26.2.10
+  syncfusion_localizations: 26.2.10
+  timezone: 0.9.3
+  url_launcher: 6.3.0
+  uuid: 4.4.2
+  material_color_utilities: 0.11.1
 
 dev_dependencies:
-  dependency_validator: 3.2.3
+  dependency_validator: 4.1.0
   flutter_launcher_icons: 0.13.1
-  flutter_lints: 3.0.1
+  flutter_lints: 4.0.0
 
 flutter:
   uses-material-design: true
