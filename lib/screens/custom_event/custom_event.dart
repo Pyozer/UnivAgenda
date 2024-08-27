@@ -367,90 +367,89 @@ class CustomEventScreenState extends State<CustomEventScreen> {
                     children: _buildWeekDaySelection(),
                   ),
                 ),
-              if (!_isRecurrent)
-                Column(
-                  children: [
-                    ListTile(
-                      onTap: () => _onToggleAllDay(!_isAllDay),
-                      leading: const Icon(Icons.access_time),
-                      title: Text(i18n.text(StrKey.ALL_DAY_EVENT)),
-                      trailing: Switch(
-                        value: _isAllDay,
-                        activeColor: colorScheme.secondary,
-                        onChanged: _onToggleAllDay,
-                      ),
+              Column(
+                children: [
+                  ListTile(
+                    onTap: () => _onToggleAllDay(!_isAllDay),
+                    leading: const Icon(Icons.access_time),
+                    title: Text(i18n.text(StrKey.ALL_DAY_EVENT)),
+                    trailing: Switch(
+                      value: _isAllDay,
+                      activeColor: colorScheme.secondary,
+                      onChanged: _onToggleAllDay,
                     ),
-                    Row(
-                      children: [
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: ListTile(
+                          tileColor: isStartDateError
+                              ? colorScheme.errorContainer
+                              : null,
+                          onTap: _onStartDateTap,
+                          leading: isStartDateError
+                              ? Icon(
+                                  Icons.error_outline,
+                                  color: colorScheme.onErrorContainer,
+                                )
+                              : const Icon(null),
+                          title: _buildDateTimeField(
+                            i18n.text(StrKey.DATE_START_EVENT),
+                            Date.extractDate(_customCourse.dateStart),
+                          ),
+                        ),
+                      ),
+                      if (!_isAllDay)
                         Expanded(
-                          flex: 5,
+                          flex: 3,
                           child: ListTile(
                             tileColor: isStartDateError
                                 ? colorScheme.errorContainer
                                 : null,
-                            onTap: _onStartDateTap,
-                            leading: isStartDateError
-                                ? Icon(
-                                    Icons.error_outline,
-                                    color: colorScheme.onErrorContainer,
-                                  )
-                                : const Icon(null),
+                            onTap: _onStartTimeTap,
                             title: _buildDateTimeField(
-                              i18n.text(StrKey.DATE_START_EVENT),
-                              Date.extractDate(_customCourse.dateStart),
-                            ),
-                          ),
-                        ),
-                        if (!_isAllDay)
-                          Expanded(
-                            flex: 3,
-                            child: ListTile(
-                              tileColor: isStartDateError
-                                  ? colorScheme.errorContainer
-                                  : null,
-                              onTap: _onStartTimeTap,
-                              title: _buildDateTimeField(
-                                i18n.text(StrKey.START_TIME_EVENT),
-                                Date.extractTime(
-                                  context,
-                                  _customCourse.dateStart,
-                                ),
+                              i18n.text(StrKey.START_TIME_EVENT),
+                              Date.extractTime(
+                                context,
+                                _customCourse.dateStart,
                               ),
                             ),
                           ),
-                      ],
-                    ),
-                    Row(
-                      children: [
+                        ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: ListTile(
+                          onTap: _onEndDateTap,
+                          leading: const Icon(null),
+                          title: _buildDateTimeField(
+                            i18n.text(StrKey.DATE_END_EVENT),
+                            Date.extractDate(_customCourse.dateEnd),
+                          ),
+                        ),
+                      ),
+                      if (!_isAllDay)
                         Expanded(
-                          flex: 5,
+                          flex: 3,
                           child: ListTile(
-                            onTap: _onEndDateTap,
-                            leading: const Icon(null),
+                            onTap: _onEndTimeTap,
                             title: _buildDateTimeField(
-                              i18n.text(StrKey.DATE_END_EVENT),
-                              Date.extractDate(_customCourse.dateEnd),
-                            ),
-                          ),
-                        ),
-                        if (!_isAllDay)
-                          Expanded(
-                            flex: 3,
-                            child: ListTile(
-                              onTap: _onEndTimeTap,
-                              title: _buildDateTimeField(
-                                i18n.text(StrKey.END_TIME_EVENT),
-                                Date.extractTime(
-                                  context,
-                                  _customCourse.dateEnd,
-                                ),
+                              i18n.text(StrKey.END_TIME_EVENT),
+                              Date.extractTime(
+                                context,
+                                _customCourse.dateEnd,
                               ),
                             ),
                           ),
-                      ],
-                    ),
-                  ],
-                ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
               const Divider(height: 0.0),
               ListTile(
                 onTap: () => _onColorCustom(!_isColor),

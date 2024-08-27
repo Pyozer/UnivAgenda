@@ -124,7 +124,8 @@ class HomeScreenState extends State<HomeScreen>
 
     List<CustomCourse> courses = [];
 
-    final int numberDay = DateTime.daysPerWeek * prefs.numberWeeks;
+    final numberDay = DateTime.daysPerWeek * prefs.numberWeeks;
+    final duration = course.duration;
 
     DateTime dayDate = DateTime.now();
     for (int day = 0; day < numberDay; day++) {
@@ -136,7 +137,7 @@ class HomeScreenState extends State<HomeScreen>
           dayDate,
           course.dateStart,
         );
-        courseRepeated.dateEnd = Date.setTimeFromOther(dayDate, course.dateEnd);
+        courseRepeated.dateEnd = courseRepeated.dateStart.add(duration);
         // Add course to list
         courses.add(courseRepeated);
       }

@@ -189,7 +189,6 @@ class SettingsProvider extends BaseProvider {
   void removeCustomEvent(
     CustomCourse? eventToRemove, [
     state = false,
-    syncCalendar = true,
   ]) {
     if (eventToRemove == null) return;
 
@@ -202,7 +201,7 @@ class SettingsProvider extends BaseProvider {
   void editCustomEvent(CustomCourse? eventEdited, [bool state = false]) {
     if (eventEdited == null) return;
 
-    removeCustomEvent(eventEdited, state, false);
+    removeCustomEvent(eventEdited, state);
     addCustomEvent(eventEdited, state);
   }
 

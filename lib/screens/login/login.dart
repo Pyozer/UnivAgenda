@@ -201,6 +201,8 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildIcsField() {
+    final labelStyle = Theme.of(context).textTheme.titleMedium;
+
     return TextField(
       controller: _urlIcsController,
       onEditingComplete: _onSubmit,
@@ -209,7 +211,7 @@ class LoginScreenState extends State<LoginScreen> {
       maxLines: 5,
       minLines: 1,
       decoration: InputDecoration(
-        labelStyle: Theme.of(context).textTheme.titleMedium,
+        labelStyle: labelStyle,
         labelText: i18n.text(StrKey.URL_ICS),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         prefixIcon: Icon(
@@ -220,7 +222,10 @@ class LoginScreenState extends State<LoginScreen> {
           onPressed: () {
             navigatorPush(context, const HelpScreen());
           },
-          icon: const Icon(Icons.help_outline),
+          icon: Icon(
+            Icons.help_outline,
+            color: labelStyle?.color,
+          ),
         ),
         contentPadding: const EdgeInsets.fromLTRB(0.0, 18.0, 18.0, 18.0),
         border: InputBorder.none,

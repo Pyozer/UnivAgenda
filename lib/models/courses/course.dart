@@ -44,6 +44,8 @@ class Course extends BaseCourse {
         dateEnd: dateEnd,
       );
 
+  Duration get duration => dateEnd.difference(dateStart);
+
   DateTime get dateEndCalc {
     if (isAllDay()) {
       return dateEnd.subtract(const Duration(milliseconds: 1));
@@ -101,7 +103,16 @@ class Course extends BaseCourse {
     final startTime = Date.extractTime(context, dateStart);
     final endTime = Date.extractTime(context, dateEnd);
 
-    return '$startTime - $endTime';
+    if (Date.isSameDay(dateStart, dateEnd)) {
+      return '$startTime - $endTime';
+    }
+
+    final startDate = Date.isSameDay(dateStart, DateTime.now())
+        ? ''
+        : Date.extractDate(dateStart);
+    final endDate = Date.extractDate(dateEnd);
+
+    return '$startDate $startTime - $endDate $endTime'.trim();
   }
 
   String titleClear() {

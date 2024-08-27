@@ -185,7 +185,7 @@
   "no_calendar_text": "Add a link to be able to view your calendar.",
   
   "data_privacy": "Data & privacy",
-  "data_privacy_text": "UnivAgenda uses the services offered by Universities in a transparent way, no confidential data are stored or recovered by someone.\n\nOnly preference data is stored on your device (such as university, campus, group, chosen colors, events or added notes) so you can return them to the next launch of the application or offline mode.",
+  "data_privacy_text": "UnivAgenda retrieves events directly from the added link(s) and does not go through any third-party service. No data is therefore stored online or retrieved by anyone.\n\nUser preference data such as added calendar links, chosen application colors, personalized events or added notes are stored on your device. In order to offer an offline mode, retrieved events are also stored on your device.",
 
   "url_ics": "Exported calendar url (ics)",
   "wrong_ics_format": "The .ics file has an incorrect format !",

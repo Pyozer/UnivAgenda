@@ -236,9 +236,10 @@ class DetailCourseState extends State<DetailCourse> {
       if (isHide) {
         prefs.addHiddenEvent(
           Hidden(courseUid: widget.course.uid, title: widget.course.title),
+          true,
         );
       } else {
-        prefs.removeHiddenEvent(widget.course.uid);
+        prefs.removeHiddenEvent(widget.course.uid, true);
       }
       setState(() {});
     } else if (choice == MenuItem.EDIT) {
