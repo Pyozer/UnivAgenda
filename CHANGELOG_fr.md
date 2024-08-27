@@ -1,9 +1,4 @@
-## FIN DE L'APPLICATION
-
-- A partir du 01/09/24, l'application UnivAgenda cessera de fonctionner
-- Voir la section Aide pour + d'informations
-
-## Version 5.0.0 (pas disponible)
+## Version 5.0.0
 
 - Refonte majeure de l'application !
 - Mise à jour Flutter et de toutes les dépendances 
