@@ -54,7 +54,7 @@ class IcalAPI {
         dateEnd: dtend.toLocal(),
         description: capitalize(
           vevent['description']
-                  ?.replaceAll('\n', ' ')
+                  ?.replaceAll('\\n', ' ')
                   .split('(Export')[0]
                   .replaceAll(RegExp(r'\s\s+'), ' ')
                   .replaceAll('\\', ' ')
