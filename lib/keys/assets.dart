@@ -7,9 +7,6 @@ class Asset {
   static const GITHUB_DARK = '$IMAGES/GitHub-Mark.png';
   static const GITHUB_WHITE = '$IMAGES/GitHub-Mark-Light.png';
 
-  static const TWITTER_BLUE = '$IMAGES/Twitter_Logo_Blue.png';
-  static const TWITTER_WHITE = '$IMAGES/Twitter_Logo_White.png';
-
   static const APPSTORE = '$IMAGES/appstore.png';
   static const PLAYSTORE = '$IMAGES/playstore.png';
 

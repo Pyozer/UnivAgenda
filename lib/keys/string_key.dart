@@ -64,7 +64,6 @@ class StrKey {
   static const ADD_NOTE_STORE = 'add_note_store';
   static const GITHUB_PROJECT = 'github_project';
   static const GITHUB_PROJECT_DESC = 'github_project_desc';
-  static const TWITTER_DESC = 'twitter_desc';
   static const OTHER = 'other';
 
   static const CHANGELOG = 'changelog';

@@ -116,16 +116,6 @@ class AboutScreen extends StatelessWidget {
             AnalyticsValue.github,
           ),
         ),
-        ListTile(
-          leading: Image.asset(
-            isDark ? Asset.TWITTER_WHITE : Asset.TWITTER_BLUE,
-            width: 30.0,
-            semanticLabel: 'Logo Twitter',
-          ),
-          title: const Text('Twitter'),
-          subtitle: Text(i18n.text(StrKey.TWITTER_DESC)),
-          onTap: () => openLink(context, Url.myTwitter, AnalyticsValue.twitter),
-        ),
       ],
     );
   }

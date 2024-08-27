@@ -1,7 +1,6 @@
 class Url {
   static const myWebsite = 'https://pyozer.github.io';
   static const justinWebsite = 'http://phenixos-lab.ddns.net/Perso';
-  static const myTwitter = 'https://twitter.com/jc_mousse';
   static const githubProjet = 'https://github.com/pyozer/UnivAgenda';
 
   static const lydia = 'https://lydia-app.com/collect/49887-don-univagenda/fr';

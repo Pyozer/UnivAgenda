@@ -27,7 +27,6 @@ class AnalyticsValue {
   static const String lydia = 'lydia_link';
   static const String websiteJC = 'website_jc_link';
   static const String websiteJustin = 'website_justin_link';
-  static const String twitter = 'twitter_link';
   static const String github = 'github_link';
   static const String store = 'store_link';
   // Refresh

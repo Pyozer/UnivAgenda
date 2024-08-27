@@ -222,6 +222,8 @@ class HomeScreenState extends State<HomeScreen>
 
     for (Course course in listCourses) {
       course.renamedTitle = prefs.renamedEvents[course.title];
+
+      // TODO: Check to duplicate event on multiple day, each day
       int dateValue = Date.dateToInt(course.dateStart);
       listElement[dateValue] ??= [];
       listElement[dateValue]!.add(course);
