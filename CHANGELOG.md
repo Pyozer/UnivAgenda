@@ -1,4 +1,4 @@
-## Version 5.0.0
+## Version 5.0.0 (only Android)
 
 - Major overhaul of the application!
 - Update Flutter and all dependencies
