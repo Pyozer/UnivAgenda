@@ -54,6 +54,8 @@
 	<string>Scan QRCode in a picture choosed by the user</string>
 	<key>io.flutter.embedded_views_preview</key>
     <true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

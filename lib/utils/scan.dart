@@ -9,19 +9,17 @@ Future<String?> analyzeImage(String path) async {
     autoStart: true,
   );
 
-  final scanCompleter = Completer<String?>();
-  scanController.barcodes.listen((event) {
-    if (event.barcodes.isNotEmpty) {
-      scanCompleter.complete(event.barcodes.first.rawValue);
-    }
-  });
-  scanController.analyzeImage(path).ignore();
+  final result = await scanController.analyzeImage(path).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => null,
+      );
 
-  final result = await scanCompleter.future.timeout(
-    const Duration(seconds: 5),
-    onTimeout: (() => null),
-  );
-  scanController.dispose();
+  String? value;
+  if (result != null && result.barcodes.isNotEmpty) {
+    value = result.barcodes.first.rawValue;
+  }
 
-  return result;
+  await scanController.dispose();
+
+  return value;
 }
